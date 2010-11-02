@@ -67,8 +67,8 @@
 	
 	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(\/|\/' . preg_quote(FILE_INDEX, '/') . '|\/' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/');
 	
-	if(!file_exists(DIR_IMG)) mkdir(DIR_IMG);
-	if(!file_exists(DIR_THUMB)) mkdir(DIR_THUMB);
-	if(!file_exists(DIR_RES)) mkdir(DIR_RES);
+	if(!file_exists(DIR_IMG)) mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.");
+	if(!file_exists(DIR_THUMB)) mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.");
+	if(!file_exists(DIR_RES)) mkdir(DIR_RES) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 	
 ?>
