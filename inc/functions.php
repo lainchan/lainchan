@@ -350,10 +350,10 @@
 		$return['width'] = $tn_width;
 		$return['height'] = $tn_height;
 		
-		$tmp=imagecreatetruecolor($tn_width,$tn_height);
-		imagecopyresampled($tmp,$src,0,0,0,0,$tn_width, $tn_height,$width,$height);
+		$tmp=imagecreatetruecolor($tn_width, $tn_height);
+		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tn_width, $tn_height,$width,$height);
 
-		imagejpeg($tmp,$destination_pic,100);
+		imagepng($tmp, $destination_pic, 100);
 		imagedestroy($src);
 		imagedestroy($tmp);
 		
