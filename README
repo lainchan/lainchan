@@ -1,0 +1,15 @@
+Tinyboard - A lightweight PHP imageboard.
+
+
+=== Installation ===
+* Tinyboard requires a MySQL database and a user to work. Create one.
+* Import 'install.sql' into the database using phpMyAdmin
+   OR
+  mysql -uUSERNAME -pPASSWORD DATABASE < install.sql
+* Edit 'inc/config.php' to suit your installation
+* Make sure that the direcotires used by TinyBoard are writable. Depending on your setup, you may need to chmod the direcotires to 777.
+  The default direcotires are
+	- /res
+	- /src
+	- /thumb
+* Run the script.
