@@ -350,10 +350,14 @@
 		$return['width'] = $tn_width;
 		$return['height'] = $tn_height;
 		
-		$tmp=imagecreatetruecolor($tn_width, $tn_height);
-		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tn_width, $tn_height,$width,$height);
-
-		imagepng($tmp, $destination_pic, 100);
+		$tmp = imagecreatetruecolor($tn_width, $tn_height);
+		imagecolortransparent($tmp, imagecolorallocatealpha($tmp, 0, 0, 0, 0));
+		imagealphablending($tmp, false);
+		imagesavealpha($tmp, true);
+		
+		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tn_width, $tn_height, $width, $height);
+		
+		imagepng($tmp, $destination_pic, 4);
 		imagedestroy($src);
 		imagedestroy($tmp);
 		
