@@ -12,4 +12,5 @@ Tinyboard - A lightweight PHP imageboard.
 	- /res
 	- /src
 	- /thumb
+  You will also need to chmod the root directory so that static HTML files like index.html can be made.
 * Run the script.
