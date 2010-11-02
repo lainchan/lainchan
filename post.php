@@ -27,7 +27,9 @@
 			$post['thread'] = round($_POST['thread']);
 		} else $OP = true;
 		
-		if(!(($OP && $_POST['post'] == BUTTON_NEWTOPIC) || (!$OP && $_POST['post'] == BUTTON_REPLY))) error(ERROR_BOT);
+		if(!(($OP && $_POST['post'] == BUTTON_NEWTOPIC) ||
+		    (!$OP && $_POST['post'] == BUTTON_REPLY)))
+			error(ERROR_BOT);
 		
 		// Check the referrer
 		if($OP) {
@@ -49,7 +51,8 @@
 		
 		// Check for a file
 		if($OP) {
-			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name'])) error(ERROR_NOIMAGE);
+			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']))
+				error(ERROR_NOIMAGE);
 		}
 		
 		$post['name'] = (!empty($_POST['name'])?$_POST['name']:'Anonymous');
@@ -70,7 +73,7 @@
 		} else $noko = false;
 		
 		if($post['has_file']) {
-			$post['extension'] = substr($post['filename'], strrpos($post['filename'], '.') + 1);
+			$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
 			$post['file_id'] = rand(0, 1000000000);
 			$post['file'] = DIR_IMG . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = DIR_THUMB . $post['file_id'] . '.png';
