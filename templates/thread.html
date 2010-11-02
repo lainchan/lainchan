@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" media="screen" href="{index}style.css"/>
+	<title>{board[url]} - {board[name]}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<script type="text/javascript" src="{index}main.js"></script>
+</head>
+<body>
+	<h1>{board[url]} - {board[name]}</h1>
+	<div class="title">{board[title]}</div>
+	<div class="banner">Posting mode: Reply <a class="unimportant" href="{index}">[Return.]</a></div>
+	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
+	<input type="hidden" name="thread" value="{id}" />
+		<table>
+			<tr>
+				<th>
+					Name
+				</th>
+				<td>
+					<input type="text" name="name" size="25" maxlength="25" autocomplete="off" />
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Email
+				</th>
+				<td>
+					<input type="text" name="email" size="25" maxlength="30" autocomplete="off" />
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Subject
+				</th>
+				<td>
+					<input style="float:left;" type="text" name="subject" size="25" maxlength="25" autocomplete="off" />
+					<input style="float:right;" type="submit" name="post" value="{button=New Topic}" />
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Comment
+				</th>
+				<td>
+					<textarea name="body" id="body" rows="5" cols="30"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					File
+				</th>
+				<td>
+					<input type="file" name="file"/>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					Password
+				</th>
+				<td>
+					<input type="password" name="password" size="12" maxlength="18" /> 
+					<span class="unimportant">(For file deletion.)</span>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<hr/>
+	{body}
+	<p class="unimportant" style="text-align:center;">Copyright &copy; 2010 <a href="http://omegadev.org/">OmegaSDG</a></p>
+</body>
+</html>

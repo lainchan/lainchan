@@ -1,0 +1,170 @@
+body {
+	background: #EEF2FF url('/img/fade-blue.png') repeat-x 50% 0%;
+	color: black;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10pt;
+	margin: 0 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+table * {
+	margin: 0;
+}
+a:link, a:visited {
+	text-decoration: underline;
+	color: #34345C;
+}
+a:link:hover, a:visited:hover {
+	color: #ff0000;
+}
+a.post_no {
+	color: black;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+p.intro a.post_no, p.intro a.email {
+	margin: 0;
+}
+p.intro a.email span.name {
+	color: #34345C;
+}
+p.intro a.email:hover span.name {
+	color: #ff0000;
+}
+h2 {
+	color: #AF0A0F;
+	font-size: 11pt;
+	margin: 0px;
+	padding: 0px;
+}
+h1 {
+	font-family: tahoma;
+	letter-spacing: -2px;
+	font-size: 20pt;
+	margin-bottom: 0;
+}
+div.title, h1 {
+	color: #AF0A0F;
+	text-align: center;
+}
+div.title {
+	font-size: 8pt;
+	margin-bottom: 2em;
+}
+form {
+	margin-bottom: 4em;
+}
+form table {
+	margin: auto;
+}
+form table input {
+	height: auto;
+}
+input[type="text"], input[type="password"], textarea {
+	border: 1px solid darkGray;
+	text-indent: 0px;
+	text-shadow: none;
+	text-transform: none;
+	word-spacing: normal;
+}
+form table tr td {
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+form table tr th {
+	text-align: left;
+	padding: 4px;
+}
+form table tr th {
+	background: #98E;
+}
+.unimportant, .unimportant * {
+	font-size: 10px;
+}
+p.fileinfo {
+	display: block;
+	margin: 0px;
+}
+div.banner {
+	background-color: #E04000;
+	font-size: 12pt;
+	font-weight: bold;
+	text-align: center;
+	margin: 1em 0;
+}
+div.banner, div.banner a {
+	color: white;
+}
+div.banner a:hover {
+	color: #EEF2FF;
+	text-decoration: none;
+}
+img {
+	display: block;
+	float: left;
+	margin: 10px 20px;
+	border: none;
+}
+div.post img {
+	padding: 5px;
+	margin: 5px 20px 0 0;
+}
+div.post.op {
+	margin-right: 20px;
+	margin-bottom: 5px;
+}
+p.intro {
+	margin: 0.5em 0;
+	padding: 0;
+	padding-bottom: 0.2em;
+}
+p.intro span.subject {
+	color: #0F0C5D;
+	font-weight: bold;
+}
+p.intro span.name {
+	color: #117743;
+	font-weight: bold;
+}
+p.intro a {
+	margin-left: 8px;
+}
+div.post.reply p {
+	margin: 0.3em 0 0 0;
+}
+div.post.reply p.body {
+	margin-left: 1.8em;
+	margin-top: 0.8em;
+	padding-right: 3em;
+	padding-bottom: 0.3em;
+}
+div.post.reply.highlighted {
+	background: #D6BAD0;
+}
+div.post.reply p.body a {
+	color: #D00;
+}
+div.post.reply {
+	background: #D6DAF0;
+	float: left;
+	margin: 0.2em 40px;
+	padding: 0.2em 0.3em 0.5em 0.6em;
+	border-width: 1px;
+	border-style: none solid solid none;
+	border-color: #B7C5D9;
+}
+span.trip {
+	color: #228854;
+}
+span.quote {
+	color: #789922;
+}
+span.omitted {
+	display: block;
+	margin-top: 1em;
+}
+br.clear {
+	clear: left;
+}
