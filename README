@@ -7,8 +7,8 @@ Tinyboard - A lightweight PHP imageboard.
    OR
   mysql -uUSERNAME -pPASSWORD DATABASE < install.sql
 * Edit 'inc/config.php' to suit your installation
-* Make sure that the direcotires used by TinyBoard are writable. Depending on your setup, you may need to chmod the direcotires to 777.
-  The default direcotires are
+* Make sure that the directories used by TinyBoard are writable. Depending on your setup, you may need to chmod the directories to 777.
+  The default directories are
 	- /res
 	- /src
 	- /thumb
