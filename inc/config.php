@@ -51,7 +51,7 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', '/board/', '/chan/'
-	define('ROOT',			'/~savetheinternet/');
+	define('ROOT',			'/');
 	define('POST_URL',		ROOT . 'post.php');
 	define('FILE_INDEX',	'index.html');
 	define('FILE_PAGE',		'%d.html');
