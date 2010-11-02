@@ -49,6 +49,8 @@
 	define('DIR_THUMB',		'thumb/');
 	define('DIR_RES',		'res/');
 	
+	// The root directory, including the trailing slash, for Tinyboard.
+	// examples: '/', '/board/', '/chan/'
 	define('ROOT',			'/');
 	define('POST_URL',		ROOT . 'index.php');
 	define('FILE_INDEX',	'index.html');
@@ -65,7 +67,7 @@
 	
 	define('ALWAYS_NOKO',		false);
 	
-	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(\/|\/' . preg_quote(FILE_INDEX, '/') . '|\/' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/');
+	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(' . preg_quote(ROOT, '/') . '|' . preg_quote(ROOT, '/') . '' . preg_quote(FILE_INDEX, '/') . '|' . preg_quote(ROOT, '/') . '' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/');
 	
 	if(!file_exists(DIR_IMG)) mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 	if(!file_exists(DIR_THUMB)) mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.");
