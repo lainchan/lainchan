@@ -7,7 +7,6 @@ function highlightReply(id)
 			divs[i].className = divs[i].className.replace(/highlighted/, '');
 	}
 
-	console.log('reply_'+id);
 	if (id)
 		document.getElementById('reply_'+id).className += ' highlighted';
 }
@@ -56,8 +55,6 @@ function init()
 				return false;
 			}
 			
-			console.log(link[i].childNodes[0]);
-			console.log(link[i].onclick);
 		}
 	}
 }
