@@ -73,7 +73,7 @@
 			$post['extension'] = substr($post['filename'], strrpos($post['filename'], '.') + 1);
 			$post['file_id'] = rand(0, 1000000000);
 			$post['file'] = DIR_IMG . $post['file_id'] . '.' . $post['extension'];
-			$post['thumb'] = DIR_THUMB . $post['file_id'] . '.jpg';
+			$post['thumb'] = DIR_THUMB . $post['file_id'] . '.png';
 			if(!in_array($post['extension'], $allowed_ext)) error(ERROR_FILEEXT);
 		}
 		
