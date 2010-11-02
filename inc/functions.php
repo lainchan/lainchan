@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	require 'inc/config.php';
 	require 'inc/functions.php';
 	require 'inc/display.php';
