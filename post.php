@@ -17,9 +17,10 @@
 		function strip_array(&$var) {
 			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
 		}
-		strip_array($_SESSION);
-		strip_array($_GET);
-		strip_array($_POST);
+		
+		$_SESSION = strip_array($_SESSION);
+		$_GET = strip_array($_GET);
+		$_POST = strip_array($_POST);
 	}
 	
 	if(isset($_POST['post'])) {
