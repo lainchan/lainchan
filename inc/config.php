@@ -60,6 +60,7 @@
 	define('REDRAW_IMAGE', true);
 	// Redrawing configuration
 	define('JPEG_QUALITY',	100);
+	define('REDRAW_GIF',	false);
 	
 	
 	define('DIR_IMG',		'src/');

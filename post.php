@@ -142,7 +142,8 @@
 						imagepng($image, $post['file'], 7);
 						break;
 					case 'gif':
-						imagegif($image, $post['file']);
+						if(REDRAW_GIF)
+							imagegif($image, $post['file']);
 						break;
 					case 'bmp':
 						imagebmp($image, $post['file']);
