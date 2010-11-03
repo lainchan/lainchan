@@ -66,6 +66,9 @@
 	
 	// Automatically convert things like "..." to Unicode characters ("�")
 	define('AUTO_UNICODE',	true);
+	// Whether to turn URLs into functional links
+	define('MARKUP_URLS',	true);
+	define('URL_REGEX',		"/(https?|ftp)\:\/\/([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,3})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/");
 	
 	// Allowed file extensions
 	$allowed_ext = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
