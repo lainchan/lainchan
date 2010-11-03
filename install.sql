@@ -28,7 +28,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread` int(11) DEFAULT NULL,
-  `subject` varchar(25) NOT NULL,
+  `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
   `name` varchar(25) NOT NULL,
   `trip` varchar(15) DEFAULT NULL,
