@@ -40,10 +40,14 @@
 	define('ERROR_NOMOVE',	'The server failed to handle your upload.');
 	define('ERROR_FILEEXT',	'Unsupported image format.');
 	define('ERR_INVALIDIMG','Invalid image.');
+	define('ERR_FILSIZE','The file was too large.');
 	
 	// For resizing, max values
 	define('THUMB_WIDTH',	200);
 	define('THUMB_HEIGHT',	200);
+	
+	// Maximum image upload size in bytes
+	define('MAX_FILESIZE',	1048576); // 10MB
 	
 	define('DIR_IMG',		'src/');
 	define('DIR_THUMB',		'thumb/');

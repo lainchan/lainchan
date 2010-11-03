@@ -74,6 +74,9 @@
 		$post['filename'] = $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
 		
+		if($post['has_file'] && $_FILES['file']['size'] > MAX_FILESIZE)
+			error(ERR_FILSIZE);
+		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = utf8tohtml($trip[0]);
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
