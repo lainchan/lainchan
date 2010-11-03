@@ -3,7 +3,8 @@ Tinyboard - A lightweight PHP imageboard.
 
 === Installation ===
 * Tinyboard requires a MySQL database and a user to work. Create one.
-* Import 'install.sql' into the database using phpMyAdmin
+* Import 'install.sql' into the database
+  using phpMyAdmin
    OR
   mysql -uUSERNAME -pPASSWORD DATABASE < install.sql
 * Edit 'inc/config.php' to suit your installation
@@ -13,4 +14,4 @@ Tinyboard - A lightweight PHP imageboard.
 	- /src
 	- /thumb
   You will also need to chmod the root directory so that static HTML files like index.html can be made.
-* Run the script.
+* Run the post.php script.
