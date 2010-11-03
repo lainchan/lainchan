@@ -62,6 +62,8 @@
 	define('JPEG_QUALITY',	100);
 	define('REDRAW_GIF',	false);
 	
+	// Display the aspect ratio in a post's file info
+	define('SHOW_RATIO',	false);
 	
 	define('DIR_IMG',		'src/');
 	define('DIR_THUMB',		'thumb/');

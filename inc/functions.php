@@ -222,6 +222,11 @@
 			return array ( $nameo );
 		}
 	}
+	
+	function fraction($numerator, $denominator, $sep) {
+		$fraction = Array($numerator, $denominator);
+		return "{$fraction[0]}{$sep}{$fraction[1]}";
+	}
 
 	/*********************************************/
 	/* Fonction: imagecreatefrombmp              */
