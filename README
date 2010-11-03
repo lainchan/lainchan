@@ -16,4 +16,4 @@ Tinyboard - A lightweight PHP imageboard.
   You will also need to chmod the root directory so that static HTML files like index.html can be made.
 * Ensure everything is okay by running test.php in a browser. The script will try and help you correct your errors.
 * Run the post.php script. It should create an index.html and redirect you to it if everything is okay.
-* Optional (highly recommended): Delete test.php and perhaps install.php and this README
+* Optional (highly recommended): Delete test.php and perhaps install.sql and this README
