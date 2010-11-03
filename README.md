@@ -14,9 +14,10 @@
 	- ./
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
- 7. Optional (highly recommended): Delete [test.php][t] and perhaps [install.sql][i] and this README
+ 7. Optional (highly recommended): Delete [test.php][t] and perhaps [install.sql][i] and this [README][r]
 
 [t]: http://github.com/savetheinternet/Tinyboard/blob/master/test.php
 [p]: http://github.com/savetheinternet/Tinyboard/blob/master/post.php
 [c]: http://github.com/savetheinternet/Tinyboard/blob/master/inc/config.php
 [i]: http://github.com/savetheinternet/Tinyboard/blob/master/install.sql
+[r]: http://github.com/savetheinternet/Tinyboard/blob/master/README.md
