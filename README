@@ -14,4 +14,5 @@ Tinyboard - A lightweight PHP imageboard.
 	- /src
 	- /thumb
   You will also need to chmod the root directory so that static HTML files like index.html can be made.
+* Ensure everything is okay by running test.php in a browser. The script will try and help you correct your errors.
 * Run the post.php script.
