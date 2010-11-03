@@ -101,7 +101,6 @@
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
 			$body = str_replace('--', '—', $body);
-			$body = str_replace('...', '…', $body);
 		}
 		
 		$body = utf8tohtml($body, true);
