@@ -12,6 +12,16 @@
 	
 	$body = '';
 	
+	// Fix for magic quotes
+	if (get_magic_quotes_gpc()) {
+		function strip_array(&$var) {
+			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
+		}
+		strip_array($_SESSION);
+		strip_array($_GET);
+		strip_array($_POST);
+	}
+	
 	if(isset($_POST['post'])) {
 		if(	!isset($_POST['name']) ||
 			!isset($_POST['email']) ||
