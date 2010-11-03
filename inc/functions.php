@@ -62,7 +62,7 @@
 		
 		$res = mysql_query("SELECT COUNT(`id`) as `num` FROM `posts` WHERE `thread` IS NULL", $sql) or error(mysql_error($sql));
 		$arr = mysql_fetch_array($res);
-		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / (THREADS_PER_PAGE));
+		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / THREADS_PER_PAGE);
 		
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
