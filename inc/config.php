@@ -50,7 +50,7 @@
 	// Maximum image upload size in bytes
 	define('MAX_FILESIZE',	1048576); // 10MB
 	// Maximum image dimensions
-	define('MAX_WIDTH',		1000);
+	define('MAX_WIDTH',		10000);
 	define('MAX_HEIGHT',	MAX_WIDTH);
 	
 	define('DIR_IMG',		'src/');
