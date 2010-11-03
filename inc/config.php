@@ -53,6 +53,15 @@
 	define('MAX_WIDTH',		10000);
 	define('MAX_HEIGHT',	MAX_WIDTH);
 	
+	/**
+		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
+		WARNING: Very beta. Currently strips animated GIFs too :(
+	**/
+	define('REDRAW_IMAGE', true);
+	// Redrawing configuration
+	define('JPEG_QUALITY',	100);
+	
+	
 	define('DIR_IMG',		'src/');
 	define('DIR_THUMB',		'thumb/');
 	define('DIR_RES',		'res/');

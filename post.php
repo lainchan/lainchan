@@ -130,8 +130,32 @@
 			$post['filehash'] = md5_file($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
+			$image = createimage($post['extension'], $post['file']);
+			
+			if(REDRAW_IMAGE) {
+				switch($post['extension']) {
+					case 'jpg':
+					case 'jpeg':
+						imagejpeg($image, $post['file'], JPEG_QUALITY);
+						break;
+					case 'png':
+						imagepng($image, $post['file'], 7);
+						break;
+					case 'gif':
+						imagegif($image, $post['file']);
+						break;
+					case 'bmp':
+						imagebmp($image, $post['file']);
+						break;
+					default:
+						error('Unknwon file extension.');
+				}
+			}
+			
 			// Create a thumbnail
-			$thumb = resize($post['extension'], $post['file'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);		
+			$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);
+			
+			
 			$post['thumbwidth'] = $thumb['width'];
 			$post['thumbheight'] = $thumb['height'];
 		}
