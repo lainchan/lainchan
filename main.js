@@ -6,7 +6,6 @@ function highlightReply(id)
 		if (divs[i].className.indexOf('post') != -1)
 			divs[i].className = divs[i].className.replace(/highlighted/, '');
 	}
-
 	if (id)
 		document.getElementById('reply_'+id).className += ' highlighted';
 }
@@ -39,17 +38,22 @@ function init()
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
 		if(typeof link[i] == "object" && link[i].childNodes[0].src) {
-			
 			link[i].onclick = function() {
 				if(!this.tag) {
 					this.tag = this.childNodes[0].src;
 					this.childNodes[0].src = this.href;
 					this.childNodes[0].style.width = 'auto';
-					this.childNodes[0].style.height='auto';
+					this.childNodes[0].style.height = 'auto';
+					this.childNodes[0].style.opacity = '0.4';
+					this.childNodes[0].style.filter = 'alpha(opacity=40)';
+					this.childNodes[0].onload = function() {
+						this.style.opacity = '1';
+						this.style.filter = '';
+					}
 				} else {
 					this.childNodes[0].src = this.tag;
 					this.childNodes[0].style.width = 'auto';
-					this.childNodes[0].style.height='auto';
+					this.childNodes[0].style.height = 'auto';
 					this.tag = '';
 				}
 				return false;
