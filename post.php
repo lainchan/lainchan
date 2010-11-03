@@ -116,6 +116,7 @@
 			$post['width'] = $size[0];
 			$post['height'] = $size[1];
 			
+			// Check if the image is valid
 			if($post['width'] < 1 || $post['height'] < 1) {
 				unlink($post['file']);
 				error(ERR_INVALIDIMG);
@@ -126,7 +127,10 @@
 				error(ERR_MAXSIZE);
 			}
 			
+			$post['filehash'] = md5_file($post['file']);
 			$post['filesize'] = filesize($post['file']);
+			
+			// Create a thumbnail
 			$thumb = resize($post['extension'], $post['file'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);		
 			$post['thumbwidth'] = $thumb['width'];
 			$post['thumbheight'] = $thumb['height'];
@@ -140,7 +144,7 @@
 		
 		if($OP) {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
 					$post['subject'],
 					$post['email'],
 					$post['name'],
@@ -156,12 +160,13 @@
 					$post['height'],
 					$post['filesize'],
 					$post['filename'],
+					$post['filehash'],
 					$post['password'],
 					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
 				), $sql) or error(mysql_error($sql));
 		} else {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
 					$post['thread'],
 					$post['subject'],
 					$post['email'],
@@ -178,6 +183,7 @@
 					$post['has_file']?$post['height']:null,
 					$post['has_file']?$post['filesize']:null,
 					$post['has_file']?$post['filename']:null,
+					$post['has_file']?$post['filehash']:null,
 					$post['password'],
 					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
 				), $sql) or error(mysql_error($sql));

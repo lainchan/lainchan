@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `fileheight` int(11) DEFAULT NULL,
   `filesize` int(11) DEFAULT NULL,
   `filename` varchar(30) DEFAULT NULL,
+  `filehash` varchar(32) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
   UNIQUE KEY `id` (`id`)
