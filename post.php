@@ -121,6 +121,11 @@
 				error(ERR_INVALIDIMG);
 			}
 			
+			if($post['width'] > MAX_WIDTH || $post['height'] > MAX_HEIGHT) {
+				unlink($post['file']);
+				error(ERR_MAXSIZE);
+			}
+			
 			$post['filesize'] = filesize($post['file']);
 			$thumb = resize($post['extension'], $post['file'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);		
 			$post['thumbwidth'] = $thumb['width'];
