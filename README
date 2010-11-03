@@ -1,7 +1,7 @@
 Tinyboard - A lightweight PHP imageboard.
 
 
-=== Installation ===
+## Installation
 * Tinyboard requires a MySQL database and a user to work. Create one.
 * Import 'install.sql' into the database
   using phpMyAdmin
