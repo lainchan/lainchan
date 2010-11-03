@@ -68,8 +68,6 @@
 	define('AUTO_UNICODE',	true);
 	// Whether to turn URLs into functional links
 	define('MARKUP_URLS',	true);
-	
-	//								scheme					domain							location
 	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'([\w\-]+\.)+[a-zA-Z]{2,6}' .	'(\/([\w\-~\.#\/?=&;:+%]+))?' . '/');
 	
 	// Allowed file extensions
