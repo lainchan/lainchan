@@ -22,9 +22,9 @@
 		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename) {
 			$this->id = $id;
 			$this->thread = $thread;
-			$this->subject = $subject;
+			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
-			$this->name = $name;
+			$this->name = utf8tohtml($name);
 			$this->trip = $trip;
 			$this->body = $body;
 			$this->time = $time;
@@ -68,9 +68,9 @@
 		public $omitted = 0;
 		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename) {
 			$this->id = $id;
-			$this->subject = $subject;
+			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
-			$this->name = $name;
+			$this->name = utf8tohtml($name);
 			$this->trip = $trip;
 			$this->body = $body;
 			$this->time = $time;

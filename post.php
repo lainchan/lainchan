@@ -67,7 +67,7 @@
 		}
 		
 		$post['name'] = (!empty($_POST['name'])?$_POST['name']:'Anonymous');
-		$post['subject'] = utf8tohtml($_POST['subject']);
+		$post['subject'] = $_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
 		$post['password'] = $_POST['password'];
@@ -78,7 +78,7 @@
 			error(ERR_FILSIZE);
 		
 		$trip = generate_tripcode($post['name']);
-		$post['name'] = utf8tohtml($trip[0]);
+		$post['name'] = $trip[0];
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
 		
 		if($post['email'] == 'noko') {
