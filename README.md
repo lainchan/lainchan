@@ -18,7 +18,7 @@ Tinyboard is not currently at a stable state.
 	- ./res
 	- ./src
 	- ./thumb
-	- ./
+	- . (document root)
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
  7. Optional (highly recommended): Delete [test.php][t] and perhaps [install.sql][i] and this [README][r].
