@@ -1,8 +1,8 @@
 <?php
-	require 'inc/config.php';
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/template.php';
+	require 'inc/config.php';
 	require 'inc/user.php';
 	
 	$board = Array(
