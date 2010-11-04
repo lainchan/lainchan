@@ -24,6 +24,58 @@
 		}
 	}
 	
+	function post($post, $OP) {
+		global $sql;
+		if($OP) {
+			mysql_query(
+				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$post['subject'],
+					$post['email'],
+					$post['name'],
+					$post['trip'],
+					$post['body'],
+					time(),
+					time(),
+					$post['thumb'],
+					$post['thumbwidth'],
+					$post['thumbheight'],
+					$post['file'],
+					$post['width'],
+					$post['height'],
+					$post['filesize'],
+					$post['filename'],
+					$post['filehash'],
+					$post['password'],
+					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
+				), $sql) or error(mysql_error($sql));
+			return mysql_insert_id($sql);
+		} else {
+			mysql_query(
+				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$post['thread'],
+					$post['subject'],
+					$post['email'],
+					$post['name'],
+					$post['trip'],
+					$post['body'],
+					time(),
+					time(),
+					$post['has_file']?$post['thumb']:null,
+					$post['has_file']?$post['thumbwidth']:null,
+					$post['has_file']?$post['thumbheight']:null,
+					$post['has_file']?$post['file']:null,
+					$post['has_file']?$post['width']:null,
+					$post['has_file']?$post['height']:null,
+					$post['has_file']?$post['filesize']:null,
+					$post['has_file']?$post['filename']:null,
+					$post['has_file']?$post['filehash']:null,
+					$post['password'],
+					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
+				), $sql) or error(mysql_error($sql));
+			return mysql_insert_id($sql);
+		}
+	}
+	
 	function index($page) {
 		global $sql, $board;
 		

@@ -53,6 +53,10 @@
 	define('MAX_WIDTH',		10000);
 	define('MAX_HEIGHT',	MAX_WIDTH);
 	
+	define('ALLOW_ZIP',		true);
+	define('ZIP_IMAGE',		'src/zip.png');
+	
+	
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 		WARNING: Very beta. Currently strips animated GIFs too :(
@@ -63,7 +67,7 @@
 	define('REDRAW_GIF',	false);
 	
 	// Display the aspect ratio in a post's file info
-	define('SHOW_RATIO',	false);
+	define('SHOW_RATIO',	true);
 	
 	define('DIR_IMG',		'src/');
 	define('DIR_THUMB',		'thumb/');
@@ -92,7 +96,7 @@
 	
 	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(' . preg_quote(ROOT, '/') . '|' . preg_quote(ROOT, '/') . '' . preg_quote(FILE_INDEX, '/') . '|' . preg_quote(ROOT, '/') . '' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/');
 	
-	if(!defined(IS_INSTALLATION)) {
+	if(!defined('IS_INSTALLATION')) {
 		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 		if(!file_exists(DIR_RES)) @mkdir(DIR_RES) or error("Couldn't create " . DIR_IMG . ". Install manually.");
