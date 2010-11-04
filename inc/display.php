@@ -1,6 +1,6 @@
 <?php
 	/*
-		Shit to help with the display.
+		Stuff to help with the display.
 	*/
 	
 	
