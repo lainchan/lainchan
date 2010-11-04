@@ -133,6 +133,8 @@
 				$temp .= substr($body, $previousPosition, $position-$previousPosition) . $cites[1][$index] . $replacement . $cites[3][$index];
 				$previousPosition = $position+strlen($cites[0][$index]);
 			}
+			// The rest
+			$temp .= substr($body, $previousPosition);
 			
 			$body = $temp;
 		}
