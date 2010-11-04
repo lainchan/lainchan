@@ -1,4 +1,13 @@
 <?php
+
+/*
+ *  WARNING: This is a project-wide configuration file shared by all Tinyboard users around the globe.
+ *  If you would like to make instance-specific changes to your own setup, please use instance-config.php.
+ *
+ *  This is the default configuration. You can copy values from here and use them in
+ * 	your instance-config.php
+ *
+ */
 	
 	// Database stuff
 	define('MY_SERVER',		'localhost', true);
