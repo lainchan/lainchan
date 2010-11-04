@@ -81,11 +81,8 @@
 			$size = $_FILES['file']['size'];
 			if($size > MAX_FILESIZE)
 				error(sprintf3(ERR_FILESIZE, array(
-<<<<<<< HEAD
 					'sz'=>commaize($size),
-=======
 					'filesz'=>commaize($size),
->>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
 		
