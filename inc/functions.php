@@ -105,22 +105,37 @@
 		
 		$body = utf8tohtml($body, true);
 		
-		$temp = $body;
-		$previous_length = 0;
-		$previous_match = 1;
-		while(preg_match('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $r, PREG_OFFSET_CAPTURE, $previous_match+$previous_length-1)) {
+		// Cites
+		if(preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
+			$previousPosition = 0;
+			$temp = '';
 			sql_open();
-			
-			$id = $r[2][0];
-			$result = mysql_query(sprintf("SELECT `thread`,`id` FROM `posts` WHERE `id` = '%d'", $id), $sql);
-			if($post = mysql_fetch_array($result)) {
-				$temp = str_replace($r[0][0], $r[1][0].'<a onclick="highlightReply(\''.$r[2][0].'\');" href="' . ROOT . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $id . '">&gt;&gt;' . $r[2][0] . '</a>'.$r[3][0], $temp);
+			for($index=0;$index<count($cites[0]);$index++) {
+				$cite = $cites[2][$index];
+				$whitespace = Array(
+					strlen($cites[1][$index]),
+					strlen($cites[3][$index]),
+				);
+				
+				$result = mysql_query(sprintf("SELECT `thread`,`id` FROM `posts` WHERE `id` = '%d'", $cite), $sql);
+				if($post = mysql_fetch_array($result)) {
+					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
+				} else {
+					$replacement = "&gt;&gt;{$cite}";
+				}
+				mysql_free_result($result);
+				
+				// Find the position of the cite
+				$position = strpos($body, $cites[0][$index]);
+				// Replace the found string with "xxxx[...]". (allows duplicate tags). Keeps whitespace.
+				$body = substr_replace($body, str_repeat('x', strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]), $position + $whitespace[0], strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]);
+				
+				$temp .= substr($body, $previousPosition, $position-$previousPosition) . $cites[1][$index] . $replacement . $cites[3][$index];
+				$previousPosition = $position+strlen($cites[0][$index]);
 			}
-			mysql_free_result($result);
-			$previous_match = strpos($body, $r[0][0]);
-			$previous_length = strlen($r[0][0]);
+			
+			$body = $temp;
 		}
-		$body = $temp;
 		
 		$body = str_replace("\r", '', $body);
 		
