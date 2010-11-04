@@ -3,16 +3,23 @@
 		$replaces = array();
 		foreach($vars as $k => $v) {
 			$replaces[$delim . $k . $delim] = $v;
+<<<<<<< HEAD
 	}
+=======
+		}
+>>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 		return str_replace(array_keys($replaces),
 		                   array_values($replaces), $str);
 	}
 
+<<<<<<< HEAD
 	function commaize($n) {
 		$n = strval($n);
 		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
 	}
 
+=======
+>>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
@@ -569,3 +576,4 @@
 		return chr($n & 255).chr(($n >> 8) & 255);
 	}
 ?>
+

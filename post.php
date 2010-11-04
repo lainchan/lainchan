@@ -2,6 +2,9 @@
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/template.php';
+	if (file_exists('inc/instance-config.php')) {
+		require 'inc/instance-config.php';
+	}
 	require 'inc/config.php';
 	require 'inc/user.php';
 	
@@ -78,7 +81,11 @@
 			$size = $_FILES['file']['size'];
 			if($size > MAX_FILESIZE)
 				error(sprintf3(ERR_FILESIZE, array(
+<<<<<<< HEAD
 					'sz'=>commaize($size),
+=======
+					'filesz'=>commaize($size),
+>>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
 		

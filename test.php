@@ -4,6 +4,9 @@
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/template.php';
+	if (file_exists('inc/instance-config.php')) {
+		require 'inc/instance-config.php';
+	}
 	require 'inc/config.php';
 	require 'inc/user.php';
 	
