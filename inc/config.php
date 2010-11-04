@@ -40,7 +40,7 @@
 	define('ERROR_NOMOVE',	'The server failed to handle your upload.');
 	define('ERROR_FILEEXT',	'Unsupported image format.');
 	define('ERR_INVALIDIMG','Invalid image.');
-	define('ERR_FILSIZE', 'The file was too large.');
+	define('ERR_FILESIZE', 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	define('ERR_MAXSIZE', 'The file was too big.');
 	
 	// For resizing, max values
@@ -48,7 +48,7 @@
 	define('THUMB_HEIGHT',	200);
 	
 	// Maximum image upload size in bytes
-	define('MAX_FILESIZE',	1048576); // 10MB
+	define('MAX_FILESIZE',	10*1024*1024); // 10MB
 	// Maximum image dimensions
 	define('MAX_WIDTH',		10000);
 	define('MAX_HEIGHT',	MAX_WIDTH);

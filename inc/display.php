@@ -15,7 +15,7 @@
 	}
 	
 	function error($message) {
-		die(Element('page.html', Array('index' => ROOT, 'title'=>'Error', 'subtitle'=>'An error has occured.', 'body'=>"<h1>$message</h1><p style=\"text-align:center;\"><a href=\"" . ROOT . FILE_INDEX . "\">Go back</a>.</p>")));
+		die(Element('page.html', Array('index' => ROOT, 'title'=>'Error', 'subtitle'=>'An error has occured.', 'body'=>"<center><h2>$message</h2></center><p style=\"text-align:center;\"><a href=\"" . ROOT . FILE_INDEX . "\">Go back</a>.</p>")));
 	}
 	
 	class Post {

@@ -1,4 +1,18 @@
 <?php
+	function sprintf3($str, $vars, $delim = '%') {
+		$replaces = array();
+		foreach($vars as $k => $v) {
+			$replaces[$delim . $k . $delim] = $v;
+		}
+		return str_replace(array_keys($replaces),
+		                   array_values($replaces), $str);
+	}
+
+	function commaize($n) {
+		$n = strval($n);
+		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
+	}
+
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
