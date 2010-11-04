@@ -1,5 +1,5 @@
 # static html
-\d.html
+*.html
 
 # directories
 res/
