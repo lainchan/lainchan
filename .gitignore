@@ -1,0 +1,10 @@
+# static html
+\d.html
+
+# directories
+res/
+src/
+thumb/
+
+# instance-config
+inc/instance-config.php
