@@ -356,23 +356,37 @@
 	}
 
 	function createimage($type, $source_pic) {
+		$image = false;
 		switch($type) {
 			case 'jpg':
 			case 'jpeg':
-				return imagecreatefromjpeg($source_pic);
+				if(!$image = @imagecreatefromjpeg($source_pic)) {
+					unlink($source_pic);
+					error(ERR_INVALIDIMG);
+				}
 				break;
 			case 'png':
-				return imagecreatefrompng($source_pic);
+				if(!$image = @imagecreatefrompng($source_pic)) {
+					unlink($source_pic);
+					error(ERR_INVALIDIMG);
+				}
 				break;
 			case 'gif':
-				return imagecreatefromgif($source_pic);
+				if(!$image = @imagecreatefromgif($source_pic)) {
+					unlink($source_pic);
+					error(ERR_INVALIDIMG);
+				}
 				break;
 			case 'bmp':
-				return imagecreatefrombmp($source_pic);
+				if(!$image = @imagecreatefrombmp($source_pic)) {
+					unlink($source_pic);
+					error(ERR_INVALIDIMG);
+				}
 				break;
 			default:
 				error('Unknwon file extension.');
 		}
+		return $image;
 	}
 	
 	function resize($src, $width, $height, $destination_pic, $max_width, $max_height) {
@@ -482,10 +496,10 @@
 		}
 	}
 	// imagebmp helpers
-	function int_to_dword($n){
+	function int_to_dword($n) {
 		return chr($n & 255).chr(($n >> 8) & 255).chr(($n >> 16) & 255).chr(($n >> 24) & 255);
 	}
-	function int_to_word($n){
+	function int_to_word($n) {
 		return chr($n & 255).chr(($n >> 8) & 255);
 	}
 ?>
