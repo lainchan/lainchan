@@ -40,7 +40,7 @@
 	define('ERROR_NOMOVE',	'The server failed to handle your upload.');
 	define('ERROR_FILEEXT',	'Unsupported image format.');
 	define('ERR_INVALIDIMG','Invalid image.');
-	define('ERR_FILSIZE', 'The file was too large.');
+	define('ERR_FILESIZE', 'Maximum file size: %maxsz%<br>Your file\'s size: %sz%');
 	define('ERR_MAXSIZE', 'The file was too big.');
 	
 	// For resizing, max values
@@ -48,10 +48,14 @@
 	define('THUMB_HEIGHT',	200);
 	
 	// Maximum image upload size in bytes
-	define('MAX_FILESIZE',	1048576); // 10MB
+	define('MAX_FILESIZE',	6930209); // 10MB
 	// Maximum image dimensions
 	define('MAX_WIDTH',		10000);
 	define('MAX_HEIGHT',	MAX_WIDTH);
+	
+	define('ALLOW_ZIP',		true);
+	define('ZIP_IMAGE',		'src/zip.png');
+	
 	
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
@@ -63,7 +67,7 @@
 	define('REDRAW_GIF',	false);
 	
 	// Display the aspect ratio in a post's file info
-	define('SHOW_RATIO',	false);
+	define('SHOW_RATIO',	true);
 	
 	define('DIR_IMG',		'src/');
 	define('DIR_THUMB',		'thumb/');
@@ -92,7 +96,7 @@
 	
 	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(' . preg_quote(ROOT, '/') . '|' . preg_quote(ROOT, '/') . '' . preg_quote(FILE_INDEX, '/') . '|' . preg_quote(ROOT, '/') . '' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/');
 	
-	if(!defined(IS_INSTALLATION)) {
+	if(!defined('IS_INSTALLATION')) {
 		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.");
 		if(!file_exists(DIR_RES)) @mkdir(DIR_RES) or error("Couldn't create " . DIR_IMG . ". Install manually.");

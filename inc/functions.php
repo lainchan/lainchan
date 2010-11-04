@@ -1,4 +1,18 @@
 <?php
+	function sprintf3($str, $vars, $delim = '%') {
+		$replaces = array();
+		foreach($vars as $k => $v) {
+			$replaces[$delim . $k . $delim] = $v;
+	}
+		return str_replace(array_keys($replaces),
+		                   array_values($replaces), $str);
+	}
+
+	function commaize($n) {
+		$n = strval($n);
+		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
+	}
+
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
@@ -12,6 +26,58 @@
 	function mysql_safe_array(&$array) {
 		foreach($array as &$item) {
 			$item = mysql_real_escape_string($item);
+		}
+	}
+	
+	function post($post, $OP) {
+		global $sql;
+		if($OP) {
+			mysql_query(
+				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$post['subject'],
+					$post['email'],
+					$post['name'],
+					$post['trip'],
+					$post['body'],
+					time(),
+					time(),
+					$post['thumb'],
+					$post['thumbwidth'],
+					$post['thumbheight'],
+					$post['file'],
+					$post['width'],
+					$post['height'],
+					$post['filesize'],
+					$post['filename'],
+					$post['filehash'],
+					$post['password'],
+					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
+				), $sql) or error(mysql_error($sql));
+			return mysql_insert_id($sql);
+		} else {
+			mysql_query(
+				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$post['thread'],
+					$post['subject'],
+					$post['email'],
+					$post['name'],
+					$post['trip'],
+					$post['body'],
+					time(),
+					time(),
+					$post['has_file']?$post['thumb']:null,
+					$post['has_file']?$post['thumbwidth']:null,
+					$post['has_file']?$post['thumbheight']:null,
+					$post['has_file']?$post['file']:null,
+					$post['has_file']?$post['width']:null,
+					$post['has_file']?$post['height']:null,
+					$post['has_file']?$post['filesize']:null,
+					$post['has_file']?$post['filename']:null,
+					$post['has_file']?$post['filehash']:null,
+					$post['password'],
+					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
+				), $sql) or error(mysql_error($sql));
+			return mysql_insert_id($sql);
 		}
 	}
 	
