@@ -66,7 +66,7 @@
 	 * get dumped into the thread as replies.
 	 * Extremely beta and not recommended yet.
 	 */
-	define('ALLOW_ZIP',		true, true);
+	define('ALLOW_ZIP',		false, true);
 	define('ZIP_IMAGE',		'src/zip.png', true);
 
 
