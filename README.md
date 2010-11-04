@@ -21,7 +21,7 @@ Tinyboard is not currently at a stable state.
 	- . (document root)
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
- 7. Optional (highly recommended): Delete [test.php][t] and perhaps [install.sql][i] and this [README][r].
+ 7. Optional (highly recommended): Either delete or chmod as unreadable the following files: [test.php][t], [install.sql][i], and this [README][r].
 
 [t]: http://github.com/savetheinternet/Tinyboard/blob/master/test.php
 [p]: http://github.com/savetheinternet/Tinyboard/blob/master/post.php
