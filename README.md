@@ -12,7 +12,7 @@ Tinyboard is not currently at a stable state.
  2. Import 'install.sql' into the database. There are several ways to do this.
 	- using phpMyAdmin
 	- `mysql -uUSERNAME -pPASSWORD DATABASE < install.sql`
- 3. Edit '[inc/config.php][c]' to suit your installation
+ 3. Create an 'instance-config.php'. It should be a PHP script that redefines some values in '[inc/config.php][c]' to suit your installation.
  4. Make sure that the directories used by Tinyboard are writable. Depending on your setup, you may need to `chmod` the directories to 777.
   The default directories are:
 	- ./res
@@ -43,3 +43,4 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
