@@ -10,10 +10,13 @@
 	
 	/*
 	
-	define('MY_SERVER',		'localhost', true);
-	define('MY_USER',		'', true);
-	define('MY_PASSWORD',	'', true);
-	define('MY_DATABASE',	'', true);
+	// Database stuff
+	define('MY_SERVER',		'localhost');
+	define('MY_USER',		'');
+	define('MY_PASSWORD',	'');
+	define('MY_DATABASE',	'');
+	
+	define('ROOT',			'/');
 	
 //	define('FOO',			'bar');
 	*/
