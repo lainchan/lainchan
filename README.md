@@ -1,7 +1,7 @@
 # Tinyboard - A lightweight PHP imageboard.
 
 ## About
-Tinyboard is an imageboard software package written in PHP. It aims to maintain a stable, fast, clean and user-friendly engine for imageboards. Development for Tinyboard started in October 2010 and the project is being lead by [OmegaSDG][o] ("Omega Software Develop Group").
+Tinyboard is an imageboard software package written in PHP. It aims to maintain a stable, fast, clean and user-friendly engine for imageboards. Development for Tinyboard started in October 2010 and the project is being lead by [OmegaSDG][o] ("Omega Software Develop Group"). You can contact the development team over IRC at irc.n0v4.com #tinyboard.
 
 Tinyboard is not currently at a stable state.
 
