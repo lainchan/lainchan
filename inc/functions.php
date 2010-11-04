@@ -3,23 +3,11 @@
 		$replaces = array();
 		foreach($vars as $k => $v) {
 			$replaces[$delim . $k . $delim] = $v;
-<<<<<<< HEAD
-	}
-=======
 		}
->>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 		return str_replace(array_keys($replaces),
 		                   array_values($replaces), $str);
 	}
 
-<<<<<<< HEAD
-	function commaize($n) {
-		$n = strval($n);
-		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
-	}
-
-=======
->>>>>>> 6cdaed486e6c373b52f639d3e92d7365242f6a89
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
@@ -29,13 +17,13 @@
 		global $sql;
 		@mysql_close($sql);
 	}
-	
+
 	function mysql_safe_array(&$array) {
 		foreach($array as &$item) {
 			$item = mysql_real_escape_string($item);
 		}
 	}
-	
+
 	function post($post, $OP) {
 		global $sql;
 		if($OP) {
@@ -87,19 +75,19 @@
 			return mysql_insert_id($sql);
 		}
 	}
-	
+
 	function index($page) {
 		global $sql, $board;
-		
+
 		$body = '';
 		$offset = round($page*THREADS_PER_PAGE-THREADS_PER_PAGE);
-		
+
 		sql_open();
 		$query = mysql_query('SELECT * FROM `posts` WHERE `thread` IS NULL ORDER BY `bump` DESC LIMIT ' . $offset . ',' . THREADS_PER_PAGE, $sql) or error(mysql_error($sql));
 		if(mysql_num_rows($query) < 1 && $page > 1) return false;
 		while($th = mysql_fetch_array($query)) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename']);
-			
+
 			$newposts = mysql_query(sprintf(
 					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
 					$th['id'],
@@ -121,39 +109,39 @@
 				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename']));
 			}
 			mysql_free_result($newposts);
-			
+
 			$thread->posts = array_reverse($thread->posts);
 			$body .= $thread->build(true);
 		}
 		mysql_free_result($query);
 		return Array('button'=>BUTTON_NEWTOPIC, 'board'=>$board, 'body'=>$body, 'post_url' => POST_URL, 'index' => ROOT);
 	}
-	
+
 	function buildIndex() {
 		global $sql;
 		sql_open();
-		
+
 		$res = mysql_query("SELECT COUNT(`id`) as `num` FROM `posts` WHERE `thread` IS NULL", $sql) or error(mysql_error($sql));
 		$arr = mysql_fetch_array($res);
 		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / THREADS_PER_PAGE);
-		
+
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
 			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . FILE_INDEX : ROOT . sprintf(FILE_PAGE, $x+1));
 		}		
-		
+
 		mysql_free_result($res);
 		unset($arr);
 		unset($count);
-		
+
 		$page = 1;
 		while($page <= MAX_PAGES && $content = index($page)) {
 			$filename = $page==1 ? FILE_INDEX : sprintf(FILE_PAGE, $page);
 			if(file_exists($filename)) $md5 = md5_file($filename);
-			
+
 			$content['pages'] = $pages;
 			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
-			
+
 			if(isset($md5) && $md5 == md5_file($filename)) {
 				break;
 			}
@@ -166,18 +154,18 @@
 			}
 		}
 	}
-	
+
 	function markup(&$body) {
 		global $sql;
-		
+
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
 			$body = str_replace('--', '—', $body);
 		}
-		
+
 		$body = utf8tohtml($body, true);
-		
+
 		// Cites
 		if(preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
 			$previousPosition = 0;
@@ -189,7 +177,7 @@
 					strlen($cites[1][$index]),
 					strlen($cites[3][$index]),
 				);
-				
+
 				$result = mysql_query(sprintf("SELECT `thread`,`id` FROM `posts` WHERE `id` = '%d'", $cite), $sql);
 				if($post = mysql_fetch_array($result)) {
 					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
@@ -197,32 +185,32 @@
 					$replacement = "&gt;&gt;{$cite}";
 				}
 				mysql_free_result($result);
-				
+
 				// Find the position of the cite
 				$position = strpos($body, $cites[0][$index]);
 				// Replace the found string with "xxxx[...]". (allows duplicate tags). Keeps whitespace.
 				$body = substr_replace($body, str_repeat('x', strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]), $position + $whitespace[0], strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]);
-				
+
 				$temp .= substr($body, $previousPosition, $position-$previousPosition) . $cites[1][$index] . $replacement . $cites[3][$index];
 				$previousPosition = $position+strlen($cites[0][$index]);
 			}
 			// The rest
 			$temp .= substr($body, $previousPosition);
-			
+
 			$body = $temp;
 		}
-		
+
 		$body = str_replace("\r", '', $body);
-		
+
 		if(MARKUP_URLS)
 			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
-			
+
 		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
 		$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
 		$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
-	
+
 	function utf8tohtml($utf8, $encodeTags=true) {
 		$result = '';
 		for ($i = 0; $i < strlen($utf8); $i++) {
@@ -261,17 +249,17 @@
 		}
 		return $result;
 	}
-	
+
 	function buildThread($id) {
 		global $sql, $board;
 		$id = round($id);
-		
+
 		$query = mysql_query(sprintf(
 				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
 				$id,
 				$id
 			), $sql) or error(mysql_error($sql));
-		
+
 		while($post = mysql_fetch_array($query)) {
 			if(!isset($thread)) {
 				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], false);
@@ -282,7 +270,7 @@
 		}
 		mysql_free_result($query);
 	}
-	
+
 	// A lot of the bellow of from BBSchan (An old project by savetheinternet)
 	function generate_tripcode ( $name, $length = 10 ) {
 		$name = stripslashes ( $name );
@@ -312,7 +300,7 @@
 			return array ( $nameo );
 		}
 	}
-	
+
 	// Highest common factor
 	function hcf($a, $b){
 		$gcd = 1;
@@ -338,7 +326,7 @@
 		$gcf = hcf($numerator, $denominator);
 		$numerator = $numerator / $gcf;
 		$denominator = $denominator / $gcf;
-		
+
 		return "{$numerator}{$sep}{$denominator}";
 	}
 
@@ -365,13 +353,13 @@
 	   $BMP['decal'] -= floor($BMP['width']*$BMP['bytes_per_pixel']/4);
 	   $BMP['decal'] = 4-(4*$BMP['decal']);
 	   if ($BMP['decal'] == 4) $BMP['decal'] = 0;
-	   
+
 	   $PALETTE = array();
 	   if ($BMP['colors'] < 16777216)
 	   {
 		$PALETTE = unpack('V'.$BMP['colors'], fread($f1,$BMP['colors']*4));
 	   }
-	   
+
 	   $IMG = fread($f1,$BMP['size_bitmap']);
 	   $VIDE = chr(0);
 
@@ -461,7 +449,7 @@
 		}
 		return $image;
 	}
-	
+
 	function resize($src, $width, $height, $destination_pic, $max_width, $max_height) {
 		$return = Array();
 
@@ -478,32 +466,32 @@
 				$tn_width = ceil($y_ratio * $width);
 				$tn_height = $max_height;
 		}
-		
+
 		$return['width'] = $tn_width;
 		$return['height'] = $tn_height;
-		
+
 		$tmp = imagecreatetruecolor($tn_width, $tn_height);
 		imagecolortransparent($tmp, imagecolorallocatealpha($tmp, 0, 0, 0, 0));
 		imagealphablending($tmp, false);
 		imagesavealpha($tmp, true);
-		
+
 		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tn_width, $tn_height, $width, $height);
-		
+
 		imagepng($tmp, $destination_pic, 4);
 		imagedestroy($src);
 		imagedestroy($tmp);
-		
+
 		return $return;
 	}
-	
+
 	function imagebmp(&$img, $filename='') {
 		$widthOrig = imagesx($img);
 		$widthFloor = ((floor($widthOrig/16))*16);
 		$widthCeil = ((ceil($widthOrig/16))*16);
 		$height = imagesy($img);
-		
+
 		$size = ($widthCeil*$height*3)+54;
-		
+
 		// Bitmap File Header
 		$result = 'BM';	 // header (2b)
 		$result .= int_to_dword($size); // size of file (4b)
@@ -521,16 +509,16 @@
 		$result .= int_to_dword(0); // biYPelsPerMeter (4b)
 		$result .= int_to_dword(0); // Number of palettes used (4b)
 		$result .= int_to_dword(0); // Number of important colour (4b)
-		
+
 		// is faster than chr()
 		$arrChr = array();
 		for($i=0; $i<256; $i++){
 		$arrChr[$i] = chr($i);
 		}
-		
+
 		// creates image data
 		$bgfillcolor = array('red'=>0, 'green'=>0, 'blue'=>0);
-		
+
 		// bottom to top - left to right - attention blue green red !!!
 		$y=$height-1;
 		for ($y2=0; $y2<$height; $y2++) {
@@ -558,7 +546,7 @@
 			}
 			$y--;
 		}
-		
+
 		// see imagegif
 		if($filename == '') {
 			echo $result;
@@ -576,4 +564,3 @@
 		return chr($n & 255).chr(($n >> 8) & 255);
 	}
 ?>
-
