@@ -8,11 +8,6 @@
 		                   array_values($replaces), $str);
 	}
 
-	function commaize($n) {
-		$n = strval($n);
-		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
-	}
-
 	function sql_open() {
 		global $sql;
 		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
@@ -517,3 +512,4 @@
 		return chr($n & 255).chr(($n >> 8) & 255);
 	}
 ?>
+

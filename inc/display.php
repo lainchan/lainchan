@@ -14,8 +14,21 @@
 		return round($size, 2).$units[$i];
 	}
 	
+	function commaize($n) {
+		$n = strval($n);
+		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
+	}
+
 	function error($message) {
-		die(Element('page.html', Array('index' => ROOT, 'title'=>'Error', 'subtitle'=>'An error has occured.', 'body'=>"<center><h2>$message</h2></center><p style=\"text-align:center;\"><a href=\"" . ROOT . FILE_INDEX . "\">Go back</a>.</p>")));
+		die(Element('page.html', Array(
+			'index'=>ROOT,
+			'title'=>'Error',
+			'subtitle'=>'An error has occured.',
+			'body'=>"<center>" .
+			        "<h2>$message</h2>" .
+				"<p><a href=\"" . ROOT . FILE_INDEX . "\">Go back</a>.</p>" .
+			        "</center>"
+		)));
 	}
 	
 	class Post {
@@ -181,3 +194,4 @@
 		}
 	};
 ?>
+
