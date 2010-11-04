@@ -62,6 +62,10 @@
 	define('MAX_WIDTH',		10000, true);
 	define('MAX_HEIGHT',	MAX_WIDTH, true);
 
+	/* When you upload a ZIP as a file, all the images inside the archive
+	 * get dumped into the thread as replies.
+	 * Extremely beta and not recommended yet.
+	 */
 	define('ALLOW_ZIP',		true, true);
 	define('ZIP_IMAGE',		'src/zip.png', true);
 
