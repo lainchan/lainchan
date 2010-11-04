@@ -74,8 +74,13 @@
 		$post['filename'] = $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
 		
-		if($post['has_file'] && $_FILES['file']['size'] > MAX_FILESIZE)
-			error(ERR_FILSIZE);
+		if($post['has_file']) {
+			$size = $_FILES['file']['size'];
+			if($size > MAX_FILESIZE)
+				error(sprintf3(ERR_FILESIZE, array(
+					'sz'=>commaize($size),
+					'maxsz'=>commaize(MAX_FILESIZE))));
+		}
 		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
@@ -91,7 +96,8 @@
 			$post['file_id'] = rand(0, 1000000000);
 			$post['file'] = DIR_IMG . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = DIR_THUMB . $post['file_id'] . '.png';
-			if(!in_array($post['extension'], $allowed_ext)) error(ERROR_FILEEXT);
+			$post['zip'] = $OP && $post['has_file'] && ALLOW_ZIP && $post['extension'] == 'zip' ? $post['file'] : false;
+			if(!($post['zip'] || in_array($post['extension'], $allowed_ext))) error(ERROR_FILEEXT);
 		}
 		
 		// Check string lengths
@@ -102,8 +108,6 @@
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error(ERROR_TOOSHORTBODY);
 		if(strlen($post['password']) > 20) error(sprintf(ERROR_TOOLONG, 'password'));
 		
-		
-		
 		markup($post['body']);
 		
 		if($post['has_file']) {
@@ -111,6 +115,11 @@
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
+			
+			if($post['zip']) {
+				$post['file'] = ZIP_IMAGE;
+				$post['extension'] = strtolower(substr($post['file'], strrpos($post['file'], '.') + 1));
+			}
 			
 			$size = @getimagesize($post['file']);
 			$post['width'] = $size[0];
@@ -132,7 +141,7 @@
 			
 			$image = createimage($post['extension'], $post['file']);
 			
-			if(REDRAW_IMAGE) {
+			if(REDRAW_IMAGE && !$post['zip']) {
 				switch($post['extension']) {
 					case 'jpg':
 					case 'jpeg':
@@ -156,7 +165,6 @@
 			// Create a thumbnail
 			$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);
 			
-			
 			$post['thumbwidth'] = $thumb['width'];
 			$post['thumbheight'] = $thumb['height'];
 		}
@@ -167,54 +175,101 @@
 		sql_open();
 		mysql_safe_array($post);
 		
-		if($OP) {
-			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
-					$post['subject'],
-					$post['email'],
-					$post['name'],
-					$post['trip'],
-					$post['body'],
-					time(),
-					time(),
-					$post['thumb'],
-					$post['thumbwidth'],
-					$post['thumbheight'],
-					$post['file'],
-					$post['width'],
-					$post['height'],
-					$post['filesize'],
-					$post['filename'],
-					$post['filehash'],
-					$post['password'],
-					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
-				), $sql) or error(mysql_error($sql));
-		} else {
-			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
-					$post['thread'],
-					$post['subject'],
-					$post['email'],
-					$post['name'],
-					$post['trip'],
-					$post['body'],
-					time(),
-					time(),
-					$post['has_file']?$post['thumb']:null,
-					$post['has_file']?$post['thumbwidth']:null,
-					$post['has_file']?$post['thumbheight']:null,
-					$post['has_file']?$post['file']:null,
-					$post['has_file']?$post['width']:null,
-					$post['has_file']?$post['height']:null,
-					$post['has_file']?$post['filesize']:null,
-					$post['has_file']?$post['filename']:null,
-					$post['has_file']?$post['filehash']:null,
-					$post['password'],
-					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
-				), $sql) or error(mysql_error($sql));
+		$id = post($post, $OP);
+		
+		if($post['zip']) {
+			// Open ZIP
+			$zip = zip_open($post['zip']);
+			// Read files
+			while($entry = zip_read($zip)) {
+				$filename = basename(zip_entry_name($entry));
+				$extension = strtolower(substr($filename, strrpos($filename, '.') + 1));
+				
+				if(in_array($extension, $allowed_ext)) {
+					  if (zip_entry_open($zip, $entry, 'r')) {
+						
+						// Fake post
+						$dump_post = Array(
+							'subject' => $post['subject'],
+							'email' => $post['email'],
+							'name' => $post['name'],
+							'trip' => $post['trip'],
+							'body' => '',
+							'thread' => $id,
+							'password' => '',
+							'has_file' => true,
+							'file_id' => rand(0, 1000000000),
+							'filename' => $filename
+						);
+						
+						$dump_post['file'] = DIR_IMG . $dump_post['file_id'] . '.' . $extension;
+						$dump_post['thumb'] = DIR_THUMB . $dump_post['file_id'] . '.png';
+						
+						// Extract the image from the ZIP
+						$fp = fopen($dump_post['file'], 'w+');
+						fwrite($fp, zip_entry_read($entry, zip_entry_filesize($entry)));
+						fclose($fp);
+						
+						$size = @getimagesize($dump_post['file']);
+						$dump_post['width'] = $size[0];
+						$dump_post['height'] = $size[1];
+						
+						// Check if the image is valid
+						if($dump_post['width'] < 1 || $dump_post['height'] < 1) {
+							unlink($dump_post['file']);
+						} else {
+							if($dump_post['width'] > MAX_WIDTH || $dump_post['height'] > MAX_HEIGHT) {
+								unlink($dump_post['file']);
+								error(ERR_MAXSIZE);
+							} else {
+								$dump_post['filehash'] = md5_file($dump_post['file']);
+								$dump_post['filesize'] = filesize($dump_post['file']);
+								
+								$image = createimage($extension, $dump_post['file']);
+								
+								$success = true;
+								if(REDRAW_IMAGE) {
+									switch($extension) {
+										case 'jpg':
+										case 'jpeg':
+											imagejpeg($image, $dump_post['file'], JPEG_QUALITY);
+											break;
+										case 'png':
+											imagepng($image, $dump_post['file'], 7);
+											break;
+										case 'gif':
+											if(REDRAW_GIF)
+												imagegif($image, $dump_post['file']);
+											break;
+										case 'bmp':
+											imagebmp($image, $dump_post['file']);
+											break;
+										default:
+											$success = false;
+									}
+								}
+						
+						
+								// Create a thumbnail
+								$thumb = resize($image, $dump_post['width'], $dump_post['height'], $dump_post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);
+								
+								$dump_post['thumbwidth'] = $thumb['width'];
+								$dump_post['thumbheight'] = $thumb['height'];
+								
+								// Create the post
+								post($dump_post, false);
+							}
+						}
+						
+						// Close the ZIP
+						zip_entry_close($entry);
+					}
+				}
+			}
+			zip_close($zip);
+			unlink($post['zip']);
 		}
 		
-		$id = mysql_insert_id($sql);
 		buildThread(($OP?$id:$post['thread']));
 		
 		if(!$OP) {
