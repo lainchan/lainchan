@@ -123,6 +123,7 @@
 			if($post['zip']) {
 				// Validate ZIP file
 				if(is_resource($zip = zip_open($post['zip'])))
+					// TODO: Check if it's not empty and has at least one (valid) image
 					zip_close($zip);
 				else
 					error(ERR_INVALIDZIP);
