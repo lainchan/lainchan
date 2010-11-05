@@ -93,7 +93,7 @@
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
-	define('ROOT_FILE',		false);
+	define('ROOT_FILE',		false, true);
 	
 	define('POST_URL',		ROOT . 'post.php', true);
 	define('FILE_INDEX',	'index.html', true);
