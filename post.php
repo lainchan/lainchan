@@ -316,3 +316,4 @@
 		header('Location: ' . ROOT . FILE_INDEX, true, 302);
 	}
 ?>
+
