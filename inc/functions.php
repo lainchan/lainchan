@@ -161,7 +161,12 @@
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
-			$body = str_replace('--', '—', $body);
+
+			// En and em- dashes are rendered exactly the same in
+			// most monospace fonts (they look the same in code
+			// editors).
+			$body = str_replace('--', '–', $body); // en dash
+			$body = str_replace('---', '—', $body); // em dash
 		}
 
 		$body = utf8tohtml($body, true);
@@ -564,3 +569,4 @@
 		return chr($n & 255).chr(($n >> 8) & 255);
 	}
 ?>
+
