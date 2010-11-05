@@ -55,7 +55,8 @@
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
 			// Subject
-			$built .= '<span class="subject">' . $this->subject . '</span>';
+			if(!empty($this->subject))
+				$built .= '<span class="subject">' . $this->subject . '</span> ';
 			// Email
 			if(!empty($this->email))
 				$built .=  '<a class="email" href="mailto:' . $this->email . '">';
