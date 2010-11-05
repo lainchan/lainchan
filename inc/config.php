@@ -51,6 +51,7 @@
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE', 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE', 'The file was too big.', true);
+	define('ERR_INVALIDZIP', 'Invalid archive!', true);
 
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);

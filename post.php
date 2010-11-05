@@ -121,6 +121,12 @@
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
 			
 			if($post['zip']) {
+				// Validate ZIP file
+				if(is_resource($zip = zip_open($post['zip'])))
+					zip_close($zip);
+				else
+					error(ERR_INVALIDZIP);
+				
 				$post['file'] = ZIP_IMAGE;
 				$post['extension'] = strtolower(substr($post['file'], strrpos($post['file'], '.') + 1));
 			}
@@ -191,7 +197,6 @@
 				
 				if(in_array($extension, $allowed_ext)) {
 					  if (zip_entry_open($zip, $entry, 'r')) {
-						
 						// Fake post
 						$dump_post = Array(
 							'subject' => $post['subject'],
