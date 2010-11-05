@@ -121,6 +121,13 @@
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
 			
 			if($post['zip']) {
+				// Validate ZIP file
+				if(is_resource($zip = zip_open($post['zip'])))
+					// TODO: Check if it's not empty and has at least one (valid) image
+					zip_close($zip);
+				else
+					error(ERR_INVALIDZIP);
+				
 				$post['file'] = ZIP_IMAGE;
 				$post['extension'] = strtolower(substr($post['file'], strrpos($post['file'], '.') + 1));
 			}
@@ -173,6 +180,10 @@
 			$post['thumbheight'] = $thumb['height'];
 		}
 		
+		// Remove DIR_* before inserting them into the database.
+		$post['file'] = substr_replace($post['file'], '', 0, strlen(DIR_IMG));
+		$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen(DIR_THUMB));
+		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
 		
 		// MySQLify
@@ -191,7 +202,6 @@
 				
 				if(in_array($extension, $allowed_ext)) {
 					  if (zip_entry_open($zip, $entry, 'r')) {
-						
 						// Fake post
 						$dump_post = Array(
 							'subject' => $post['subject'],
@@ -260,6 +270,10 @@
 								$dump_post['thumbwidth'] = $thumb['width'];
 								$dump_post['thumbheight'] = $thumb['height'];
 								
+								// Remove DIR_* before inserting them into the database.
+								$dump_post['file'] = substr_replace($dump_post['file'], '', 0, strlen(DIR_IMG));
+								$dump_post['thumb'] = substr_replace($dump_post['thumb'], '', 0, strlen(DIR_THUMB));
+								
 								// Create the post
 								post($dump_post, false);
 							}
@@ -297,7 +311,6 @@
 	} else {
 		if(!file_exists(FILE_INDEX)) {
 			buildIndex();
-			sql_close();
 		}
 		
 		header('Location: ' . ROOT . FILE_INDEX, true, 302);

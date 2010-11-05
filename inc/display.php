@@ -81,7 +81,7 @@
 		
 			// File info
 			if(!empty($this->file)) {
-				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . $this->file .'">' . basename($this->file) . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -94,7 +94,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-					'<a href="' . ROOT . $this->file.'"><img src="' . ROOT . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . ROOT . DIR_IMG . $this->file.'"><img src="' . ROOT . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
 			
 			// Body
@@ -131,7 +131,7 @@
 		
 		
 		public function build($index=false) {
-			$built = '<p class="fileinfo">File: <a href="'	. ROOT . $this->file .'">' . basename($this->file) . '</a> <span class="unimportant">(' . 
+			$built = '<p class="fileinfo">File: <a href="'	. ROOT . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 				format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -144,7 +144,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-				'<a href="' . ROOT . $this->file.'"><img src="' . ROOT . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . ROOT . DIR_IMG . $this->file.'"><img src="' . ROOT . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			

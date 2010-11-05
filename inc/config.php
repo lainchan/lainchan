@@ -51,6 +51,7 @@
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE', 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE', 'The file was too big.', true);
+	define('ERR_INVALIDZIP', 'Invalid archive!', true);
 
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);
@@ -62,7 +63,11 @@
 	define('MAX_WIDTH',		10000, true);
 	define('MAX_HEIGHT',	MAX_WIDTH, true);
 
-	define('ALLOW_ZIP',		true, true);
+	/* When you upload a ZIP as a file, all the images inside the archive
+	 * get dumped into the thread as replies.
+	 * Extremely beta and not recommended yet.
+	 */
+	define('ALLOW_ZIP',		false, true);
 	define('ZIP_IMAGE',		'src/zip.png', true);
 
 
@@ -85,6 +90,11 @@
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', '/board/', '/chan/'
 	define('ROOT',			'/', true);
+	
+	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
+	// enter the directory path here. Otherwise, keep it false.
+	define('ROOT_FILE',		false);
+	
 	define('POST_URL',		ROOT . 'post.php', true);
 	define('FILE_INDEX',	'index.html', true);
 	define('FILE_PAGE',		'%d.html', true);
@@ -100,11 +110,14 @@
 
 	define('BUTTON_NEWTOPIC',	'New Topic', true);
 	define('BUTTON_REPLY',		'New Reply', true);
-
+	
 	define('ALWAYS_NOKO',		false, true);
-
+	
 	define('URL_MATCH',		'/^' . (@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . '(' . preg_quote(ROOT, '/') . '|' . preg_quote(ROOT, '/') . '' . preg_quote(FILE_INDEX, '/') . '|' . preg_quote(ROOT, '/') . '' . str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) . ')$/', true);
-
+	
+	if(ROOT_FILE) {
+		chdir(ROOT_FILE);
+	}
 	if(!defined('IS_INSTALLATION')) {
 		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
 		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
