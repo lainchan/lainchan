@@ -4,10 +4,10 @@
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/template.php';
-	if (file_exists('inc/instance-config.php')) {
-		require 'inc/instance-config.php';
+	if (file_exists('inc/instance-instance-config.php')) {
+		require 'inc/instance-instance-config.php';
 	}
-	require 'inc/config.php';
+	require 'inc/instance-config.php';
 	require 'inc/user.php';
 	
 	function image($type) {
@@ -49,11 +49,11 @@
 			$body .= check('Select database.', 'ok');
 		else {
 			$body .= check('Select database.', 'error');
-			$todo[] = 'config.php: Check database configuration.';
+			$todo[] = 'instance-config.php: Check database configuration.';
 		}
 	} else {
 		$body .= check('Connection to server.', 'error');
-		$todo[] = 'config.php: Check database configuration.';
+		$todo[] = 'instance-config.php: Check database configuration.';
 	}
 		
 	// Configuration
@@ -61,7 +61,7 @@
 	$root = dirname($_SERVER['REQUEST_URI']) . '/';
 	if(ROOT != $root) {
 		$body .= check('Correct document root.', 'error');
-		$todo[] = "config.php: Change ROOT to '{$root}'";
+		$todo[] = "instance-config.php: Change ROOT to '{$root}'";
 	} else
 		$body .= check('Correct document root.', 'ok');
 	
