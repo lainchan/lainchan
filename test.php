@@ -27,6 +27,19 @@
 	$todo = Array();
 	$body = '<table style="width:600px;margin:auto;">';
 	
+	$extensions = Array('mysql', 'gd');
+	
+	// Extensions
+	title('Extensions');
+	foreach($extensions as &$ext) {
+		if(extension_loaded($ext)) {
+			$body .= check($ext, 'ok');
+		} else {
+			$body .= check($ext, 'error');
+			$todo[] = 'Install module "' . $ext . '"';
+		}
+	}
+	
 	// Database
 	title('Database');
 	
