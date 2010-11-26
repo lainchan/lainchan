@@ -209,10 +209,13 @@
 
 		if(MARKUP_URLS)
 			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
-
 		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
-		$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
-		$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
+		
+		if(WIKI_MARKUP) {
+			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
+			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
+			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
+		}
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
 

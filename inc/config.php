@@ -101,6 +101,8 @@
 
 	// Automatically convert things like "..." to Unicode characters ("�")
 	define('AUTO_UNICODE',	true, true);
+	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
+	define('WIKI_MARKUP',	true, true);
 	// Whether to turn URLs into functional links
 	define('MARKUP_URLS',	true, true);
 	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'([\w\-]+\.)+[a-zA-Z]{2,6}' .	'(\/([\w\-~\.#\/?=&;:+%]+))?' . '/', true);
