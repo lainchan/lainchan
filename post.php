@@ -15,7 +15,7 @@
 	
 	$body = '';
 	
-	 Fix for magic quotes
+	// Fix for magic quotes
 	if (get_magic_quotes_gpc()) {
 		function strip_array($var) {
 			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
