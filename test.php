@@ -58,7 +58,7 @@
 		
 	// Configuration
 	title('Configuration');
-	$root = dirname($_SERVER['REQUEST_URI']) . '/';
+	$root = dirname($_SERVER['REQUEST_URI']) . (dirname($_SERVER['REQUEST_URI']) == '/' ? '' : '/');
 	if(ROOT != $root) {
 		$body .= check('Correct document root.', 'error');
 		$todo[] = "instance-config.php: Change ROOT to '{$root}'";
