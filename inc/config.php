@@ -99,7 +99,7 @@
 	define('FILE_INDEX',	'index.html', true);
 	define('FILE_PAGE',		'%d.html', true);
 
-	// Automatically convert things like "..." to Unicode characters ("�")
+	// Automatically convert things like "..." to Unicode characters ("…")
 	define('AUTO_UNICODE',	true, true);
 	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
 	define('WIKI_MARKUP',	true, true);
