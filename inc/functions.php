@@ -124,14 +124,16 @@
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename']);
 
 			$newposts = mysql_query(sprintf(
-					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
+					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts` WHERE `board` = '%d' AND `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
+						$board['id'],
 						$th['id'],
 						THREADS_PREVIEW
 				), $sql) or error(mysql_error($sql));
 			if(mysql_num_rows($newposts) == THREADS_PREVIEW) {
 				$count_query = mysql_query(sprintf(
-					"SELECT COUNT(`id`) as `num` FROM `posts` WHERE `thread` = '%s'",
-					$th['id']
+					"SELECT COUNT(`id`) as `num` FROM `posts` WHERE `board` = '%d' AND `thread` = '%s'",
+						$board['id'],
+						$th['id']
 				), $sql) or error(mysql_error($sql));
 				$count = mysql_fetch_array($count_query);
 				$omitted = $count['num'] - THREADS_PREVIEW;
@@ -156,7 +158,10 @@
 		global $sql, $board;
 		sql_open();
 
-		$res = mysql_query("SELECT COUNT(`id`) as `num` FROM `posts` WHERE `thread` IS NULL", $sql) or error(mysql_error($sql));
+		$res = mysql_query(sprintf(
+			"SELECT COUNT(`id`) as `num` FROM `posts` WHERE `board` = '%d' AND `thread` IS NULL",
+				$board['id']
+		), $sql) or error(mysql_error($sql));
 		$arr = mysql_fetch_array($res);
 		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / THREADS_PER_PAGE);
 
@@ -218,7 +223,11 @@
 					strlen($cites[3][$index]),
 				);
 
-				$result = mysql_query(sprintf("SELECT `thread`,`id` FROM `posts` WHERE `id` = '%d'", $cite), $sql);
+				$result = mysql_query(sprintf(
+					"SELECT `thread`,`id` FROM `posts` WHERE `board` = '%d' AND `id` = '%d' LIMIT 1",
+						$board['id'],
+						$cite
+				), $sql) or error(mysql_error($sql));
 				if($post = mysql_fetch_array($result)) {
 					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . $board['dir'] . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
 				} else {
@@ -298,9 +307,10 @@
 		$id = round($id);
 
 		$query = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
-				$id,
-				$id
+				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts` WHERE `board` = '%d' AND ((`thread` IS NULL AND `id` = '%s') OR `thread` = '%s') ORDER BY `thread`,`time`",
+					$board['id'],
+					$id,
+					$id
 			), $sql) or error(mysql_error($sql));
 
 		while($post = mysql_fetch_array($query)) {
