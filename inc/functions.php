@@ -85,15 +85,21 @@
 		$offset = round($page*THREADS_PER_PAGE-THREADS_PER_PAGE);
 
 		sql_open();
-		$query = mysql_query('SELECT * FROM `posts` WHERE `thread` IS NULL ORDER BY `bump` DESC LIMIT ' . $offset . ',' . THREADS_PER_PAGE, $sql) or error(mysql_error($sql));
+		$query = mysql_query(sprintf(
+					"SELECT * FROM `posts` WHERE `thread` IS NULL AND `board` = '%d' ORDER BY `bump` DESC LIMIT %d,%d",
+						$board['id'],
+						$offset,
+						THREADS_PER_PAGE
+					), $sql) or error(mysql_error($sql));
+					
 		if(mysql_num_rows($query) < 1 && $page > 1) return false;
 		while($th = mysql_fetch_array($query)) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename']);
 
 			$newposts = mysql_query(sprintf(
 					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
-					$th['id'],
-					THREADS_PREVIEW
+						$th['id'],
+						THREADS_PREVIEW
 				), $sql) or error(mysql_error($sql));
 			if(mysql_num_rows($newposts) == THREADS_PREVIEW) {
 				$count_query = mysql_query(sprintf(
@@ -120,7 +126,7 @@
 	}
 
 	function buildIndex() {
-		global $sql;
+		global $sql, $board;
 		sql_open();
 
 		$res = mysql_query("SELECT COUNT(`id`) as `num` FROM `posts` WHERE `thread` IS NULL", $sql) or error(mysql_error($sql));
@@ -129,7 +135,7 @@
 
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
-			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . FILE_INDEX : ROOT . sprintf(FILE_PAGE, $x+1));
+			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . $board['dir'] . FILE_INDEX : ROOT . sprintf(FILE_PAGE, $x+1));
 		}		
 
 		mysql_free_result($res);
@@ -138,12 +144,12 @@
 
 		$page = 1;
 		while($page <= MAX_PAGES && $content = index($page)) {
-			$filename = $page==1 ? FILE_INDEX : sprintf(FILE_PAGE, $page);
+			$filename = $board['dir'] . ($page==1 ? FILE_INDEX : sprintf(FILE_PAGE, $page));
 			if(file_exists($filename)) $md5 = md5_file($filename);
 
 			$content['pages'] = $pages;
 			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
-
+			
 			if(isset($md5) && $md5 == md5_file($filename)) {
 				break;
 			}
@@ -187,7 +193,7 @@
 
 				$result = mysql_query(sprintf("SELECT `thread`,`id` FROM `posts` WHERE `id` = '%d'", $cite), $sql);
 				if($post = mysql_fetch_array($result)) {
-					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
+					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . $board['dir'] . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
 				} else {
 					$replacement = "&gt;&gt;{$cite}";
 				}
@@ -276,7 +282,7 @@
 			} else {
 				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename']));
 			}
-			@file_put_contents(DIR_RES . $id . '.html', Element('thread.html', Array('button'=>BUTTON_REPLY, 'board'=>$board, 'body'=>$thread->build(), 'post_url' => POST_URL, 'index' => ROOT, 'id' => $id))) or error("Couldn't write to file.");
+			@file_put_contents($board['dir'] . DIR_RES . $id . '.html', Element('thread.html', Array('button'=>BUTTON_REPLY, 'board'=>$board, 'body'=>$thread->build(), 'post_url' => POST_URL, 'index' => ROOT, 'id' => $id))) or error("Couldn't write to file.");
 		}
 		mysql_free_result($query);
 	}
