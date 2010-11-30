@@ -139,7 +139,6 @@
 					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
 					str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
 			')$/', true);
-	var_dump(URL_MATCH);
 	
 	if(ROOT_FILE) {
 		chdir(ROOT_FILE);
