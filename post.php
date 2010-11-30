@@ -8,20 +8,6 @@
 	require 'inc/template.php';
 	require 'inc/user.php';
 	
-	// For example, we're on /b/
-	$board = Array(
-		'id' => 1,
-		'uri' => 'b',
-		'name' => 'Beta',
-		'title' => 'In development.');
-	$board['dir'] = sprintf(BOARD_PATH, $board['uri']);
-	$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
-	
-	if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
-	if(!file_exists($board['dir'] . DIR_IMG)) mkdir($board['dir'] . DIR_IMG, 0777);
-	if(!file_exists($board['dir'] . DIR_THUMB)) mkdir($board['dir'] . DIR_THUMB, 0777);
-	if(!file_exists($board['dir'] . DIR_RES)) mkdir($board['dir'] . DIR_RES, 0777);
-	
 	$body = '';
 	
 	// Fix for magic quotes
@@ -40,6 +26,7 @@
 			!isset($_POST['email']) ||
 			!isset($_POST['subject']) ||
 			!isset($_POST['body']) ||
+			!isset($_POST['board']) ||
 			!isset($_POST['password'])
 			) error(ERROR_BOT);
 		
@@ -58,8 +45,6 @@
 		if($OP) {
 			if(!isset($_SERVER['HTTP_REFERER']) || !preg_match(URL_MATCH, $_SERVER['HTTP_REFERER'])) error(ERROR_BOT);
 		}
-		
-		
 		
 		// TODO: Since we're now using static HTML files, we can't give them cookies on their first page view
 		// Find another anti-spam method.
@@ -94,6 +79,8 @@
 					'filesz'=>commaize($size),
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
+		
+		if(!openBoard($post['board'])) error(ERROR_NOBOARD);
 		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
@@ -320,11 +307,31 @@
 		
 		exit;
 	} else {
-		if(!file_exists(FILE_INDEX)) {
-			buildIndex();
+		if(!file_exists(HAS_INSTALLED)) {
+			sql_open();
+			
+			// Build all boards
+			$boards_res = mysql_query('SELECT * FROM `boards`', $sql) or error(mysql_error($sql));
+			while($_board = mysql_fetch_array($boards_res)) {
+				setupBoard($_board);
+				buildIndex();
+			}
+			
+			sql_close();
+			touch(HAS_INSTALLED, 0777);
+			
+			die(Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'Success',
+				'body'=>"<center>" .
+						"<h2>Tinyboard is now installed!</h2>" .
+						"</center>"
+			)));
+		} else {
+			// They opened post.php in their browser manually.
+			// Possible TODO: Redirect back to homepage.
+			error(ERROR_NOPOST);
 		}
-		
-		header('Location: ' . ROOT . FILE_INDEX, true, 302);
 	}
 ?>
 
