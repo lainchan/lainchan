@@ -48,10 +48,12 @@
 	define('ERROR_NOIMAGE',	'You must upload an image.', true);
 	define('ERROR_NOMOVE',	'The server failed to handle your upload.', true);
 	define('ERROR_FILEEXT',	'Unsupported image format.', true);
+	define('ERROR_NOBOARD',	'Invalid board!', true);
+	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
-	define('ERR_FILESIZE', 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
-	define('ERR_MAXSIZE', 'The file was too big.', true);
-	define('ERR_INVALIDZIP', 'Invalid archive!', true);
+	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
+	define('ERR_MAXSIZE',	'The file was too big.', true);
+	define('ERR_INVALIDZIP','Invalid archive!', true);
 
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);
@@ -104,6 +106,10 @@
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s/', true);
 	
+	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
+	// This keeps the script from querying the database and causing strain when not needed.
+	define('HAS_INSTALLED',		'.installed', true);
+	
 	// Name of the boards. Typically '/%s/' (/b/, /mu/, etc)
 	// BOARD_ABBREVIATION - BOARD_TITLE
 	define('BOARD_ABBREVIATION', '/%s/', true);
@@ -116,7 +122,7 @@
 	define('MARKUP_URLS',	true, true);
 	// Complex regular expression to catch URLs
 	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'([\w\-]+\.)+[a-zA-Z]{2,6}' .	'(\/([\w\-~\.#\/?=&;:+%]+))?' . '/', true);
-
+	
 	// Allowed file extensions
 	$allowed_ext = Array('jpg', 'jpeg', 'bmp', 'gif', 'png', true);
 
