@@ -102,6 +102,7 @@
 	define('BOARD_PATH', '%s', true);
 	
 	// Name of the boards. Typically '/%s/' (/b/, /mu/, etc)
+	// BOARD_ABBREVIATION - BOARD_TITLE
 	define('BOARD_ABBREVIATION', '/%s/', true);
 
 	// Automatically convert things like "..." to Unicode characters ("…")
