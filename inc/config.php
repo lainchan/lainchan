@@ -101,8 +101,6 @@
 	define('FILE_INDEX',	'index.html', true);
 	define('FILE_PAGE',		'%d.html', true);
 	
-	define('INDEX_FILE',	'index.html', true);
-	
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s/', true);
 	
