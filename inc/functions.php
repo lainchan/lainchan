@@ -25,10 +25,11 @@
 	}
 
 	function post($post, $OP) {
-		global $sql;
+		global $sql, $board;
 		if($OP) {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$board['id'],
 					$post['subject'],
 					$post['email'],
 					$post['name'],
@@ -51,7 +52,8 @@
 			return mysql_insert_id($sql);
 		} else {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					$board['id'],
 					$post['thread'],
 					$post['subject'],
 					$post['email'],
