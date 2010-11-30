@@ -14,6 +14,7 @@
 	<div class="banner">Posting mode: Reply <a class="unimportant" href="{index}{board[dir]}">[Return.]</a></div>
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
 	<input type="hidden" name="thread" value="{id}" />
+	<input type="hidden" name="board" value="{board[uri]}" />
 		<table>
 			<tr>
 				<th>
