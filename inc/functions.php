@@ -43,6 +43,7 @@
 	}
 	
 	function openBoard($uri) {
+		global $sql;
 		$boards_res = mysql_query(sprintf("SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1", mysql_real_escape_string($uri)), $sql) or error(mysql_error($sql));
 		if($_board = mysql_fetch_array($boards_res)) {
 			setupBoard($_board);

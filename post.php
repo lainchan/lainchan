@@ -70,6 +70,7 @@
 		$post['password'] = $_POST['password'];
 		$post['filename'] = $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
+		$post['board'] = $_POST['board'];
 		
 		if($post['has_file']) {
 			$size = $_FILES['file']['size'];
@@ -80,6 +81,7 @@
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
 		
+		sql_open();
 		if(!openBoard($post['board'])) error(ERROR_NOBOARD);
 		
 		$trip = generate_tripcode($post['name']);
@@ -185,7 +187,6 @@
 		// Todo: Validate some more, remove messy code, allow more specific configuration
 		
 		// MySQLify
-		sql_open();
 		mysql_safe_array($post);
 		
 		$id = post($post, $OP);
