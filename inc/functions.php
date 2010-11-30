@@ -23,7 +23,25 @@
 			$item = mysql_real_escape_string($item);
 		}
 	}
-
+	
+	function setupBoard($array) {
+		global $board;
+		
+		$board = Array(
+		'id' => $array['id'],
+		'uri' => $array['uri'],
+		'name' => $array['title'],
+		'title' => $array['subtitle']);
+		
+		$board['dir'] = sprintf(BOARD_PATH, $board['uri']);
+		$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
+		
+		if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
+		if(!file_exists($board['dir'] . DIR_IMG)) @mkdir($board['dir'] . DIR_IMG, 0777) or error("Couldn't create " . DIR_IMG . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . DIR_THUMB)) @mkdir($board['dir'] . DIR_THUMB, 0777) or error("Couldn't create " . DIR_THUMB . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . DIR_RES)) @mkdir($board['dir'] . DIR_RES, 0777) or error("Couldn't create " . DIR_RES . ". Check permissions.", true);
+	}
+	
 	function post($post, $OP) {
 		global $sql, $board;
 		if($OP) {
