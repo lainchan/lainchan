@@ -188,8 +188,10 @@
 		}
 		
 		// Remove DIR_* before inserting them into the database.
-		$post['file'] = substr_replace($post['file'], '', 0, strlen(DIR_IMG));
-		$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen(DIR_THUMB));
+		if($post['has_file']) {
+			$post['file'] = substr_replace($post['file'], '', 0, strlen(DIR_IMG));
+			$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen(DIR_THUMB));
+		}
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
 		
