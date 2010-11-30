@@ -42,6 +42,14 @@
 		if(!file_exists($board['dir'] . DIR_RES)) @mkdir($board['dir'] . DIR_RES, 0777) or error("Couldn't create " . DIR_RES . ". Check permissions.", true);
 	}
 	
+	function openBoard($uri) {
+		$boards_res = mysql_query(sprintf("SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1", mysql_real_escape_string($uri)), $sql) or error(mysql_error($sql));
+		if($_board = mysql_fetch_array($boards_res)) {
+			setupBoard($_board);
+			return true;
+		} else return false;
+	}
+	
 	function post($post, $OP) {
 		global $sql, $board;
 		if($OP) {
