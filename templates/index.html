@@ -13,6 +13,7 @@
 	<div class="title">{board[title]?{board[title]}}</div>
 	
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
+	<input type="hidden" name="board" value="{board[uri]}" />
 		<table>
 			<tr>
 				<th>
