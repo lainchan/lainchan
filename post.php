@@ -201,7 +201,7 @@
 		
 		$id = post($post, $OP);
 		
-		if($post['zip']) {
+		if($post['has_file'] && $post['zip']) {
 			// Open ZIP
 			$zip = zip_open($post['zip']);
 			// Read files
