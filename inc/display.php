@@ -21,6 +21,8 @@
 
 	function error($message) {
 		global $board;
+		
+		if(function_exists('sql_close')) sql_close();
 		die(Element('page.html', Array(
 			'index'=>ROOT,
 			'title'=>'Error',
