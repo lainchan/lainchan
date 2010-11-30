@@ -20,13 +20,14 @@
 	}
 
 	function error($message) {
+		global $board;
 		die(Element('page.html', Array(
 			'index'=>ROOT,
 			'title'=>'Error',
 			'subtitle'=>'An error has occured.',
 			'body'=>"<center>" .
 			        "<h2>$message</h2>" .
-				"<p><a href=\"" . ROOT . FILE_INDEX . "\">Go back</a>.</p>" .
+				"<p><a href=\"" . ROOT . $board['dir'] . FILE_INDEX . "\">Go back</a>.</p>" .
 			        "</center>"
 		)));
 	}
@@ -51,6 +52,8 @@
 			$this->filename = $filename;
 		}
 		public function build($index=false) {
+			global $board;
+			
 			$built =	'<div class="post reply"' . (!$index?' id="reply_' . $this->id . '"':'') . '>' . 
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
@@ -75,14 +78,14 @@
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
 				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-				' href="' . ROOT . DIR_RES . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
+				' href="' . ROOT . $board['dir'] . DIR_RES . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
 				'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?ROOT . DIR_RES . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
 			'</p>';
 		
 			// File info
 			if(!empty($this->file)) {
-				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -95,7 +98,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-					'<a href="' . ROOT . DIR_IMG . $this->file.'"><img src="' . ROOT . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
 			
 			// Body
@@ -132,7 +135,9 @@
 		
 		
 		public function build($index=false) {
-			$built = '<p class="fileinfo">File: <a href="'	. ROOT . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+			global $board;
+			
+			$built = '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 				format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -145,7 +150,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-				'<a href="' . ROOT . DIR_IMG . $this->file.'"><img src="' . ROOT . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
@@ -170,11 +175,11 @@
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
 			($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-			' href="' . ROOT . DIR_RES . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
+			' href="' . ROOT . $board['dir'] . DIR_RES . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
-			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?ROOT . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
+			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?ROOT . $board['dir'] . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
 			// [Reply]
-			($index ? '<a href="' . ROOT . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
+			($index ? '<a href="' . ROOT . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
 			'</p>';
 		
 			// Body
