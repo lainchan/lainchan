@@ -6,8 +6,8 @@
 	if (file_exists('inc/instance-config.php')) {
 		require 'inc/instance-config.php';
 	}
-	require 'inc/template.php';
 	require 'inc/config.php';
+	require 'inc/template.php';
 	require 'inc/user.php';
 	
 	function image($type) {
@@ -103,6 +103,8 @@
 	if(!$count['error']) {
 		$body .= '<p style="text-align:center;">Everything seems okay.</p>';
 	}
+	
+	$body .= '<p style="text-align:center;font-weight:bold;">Disregard me. I haven\'t been patched to work with multiple boards yet.</p>';
 	
 	die(Element('page.html', Array('index' => ROOT, 'title'=>'Tinyboard', 'subtitle'=>'Installation', 'body'=>$body)));
 ?>
