@@ -8,10 +8,13 @@
 	require 'inc/config.php';
 	require 'inc/user.php';
 	
+	// For example, we're on /b/
 	$board = Array(
-		'url' => '/b/',
+		'id' => 1,
+		'uri' => 'b',
 		'name' => 'Beta',
 		'title' => 'In development.');
+	$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
 	
 	$body = '';
 	

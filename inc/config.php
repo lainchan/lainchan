@@ -70,7 +70,6 @@
 	define('ALLOW_ZIP',		false, true);
 	define('ZIP_IMAGE',		'src/zip.png', true);
 
-
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 		WARNING: Very beta. Currently strips animated GIFs too :(
@@ -88,7 +87,7 @@
 	define('DIR_RES',		'res/', true);
 
 	// The root directory, including the trailing slash, for Tinyboard.
-	// examples: '/', '/board/', '/chan/'
+	// examples: '/', 'http://boards.chan.org/', '/chan/'
 	define('ROOT',			'/', true);
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
@@ -101,6 +100,9 @@
 	
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s', true);
+	
+	// Name of the boards. Typically '/%s/' (/b/, /mu/, etc)
+	define('BOARD_ABBREVIATION', '/%s/', true);
 
 	// Automatically convert things like "..." to Unicode characters ("…")
 	define('AUTO_UNICODE',	true, true);
