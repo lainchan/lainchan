@@ -135,7 +135,7 @@
 
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
-			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . $board['dir'] . FILE_INDEX : ROOT . sprintf(FILE_PAGE, $x+1));
+			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . $board['dir'] . FILE_INDEX : ROOT . $board['dir'] . sprintf(FILE_PAGE, $x+1));
 		}		
 
 		mysql_free_result($res);
