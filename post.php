@@ -116,7 +116,7 @@
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
-			if(!move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
+			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
 			
 			if($post['zip']) {
 				// Validate ZIP file
