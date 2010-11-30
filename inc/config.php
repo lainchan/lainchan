@@ -86,6 +86,7 @@
 	define('DIR_THUMB',		'thumb/', true);
 	define('DIR_RES',		'res/', true);
 	
+	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
 	define('DIR_TEMPLATE',	getcwd() . '/templates', true);
 	
 	// The root directory, including the trailing slash, for Tinyboard.
