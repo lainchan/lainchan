@@ -30,7 +30,7 @@
 			!isset($_POST['password'])
 			) error(ERROR_BOT);
 		
-		$post = Array();
+		$post = Array('board' => $_POST['board']);
 		
 		if(isset($_POST['thread'])) {
 			$OP = false;
@@ -57,6 +57,17 @@
 		if(time()-$user['appeared']<LURKTIME) error(ERROR_LURK);
 		*/
 		
+		// Open database connection
+		sql_open();
+		
+		// Check if board exists
+		if(!openBoard($post['board']))
+			error(ERROR_NOBOARD);
+		
+		//Check if thread exists
+		if(!$OP && !threadExists($post['thread']))
+			error(ERROR_NONEXISTANT);
+		
 		// Check for a file
 		if($OP) {
 			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']))
@@ -70,7 +81,6 @@
 		$post['password'] = $_POST['password'];
 		$post['filename'] = $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
-		$post['board'] = $_POST['board'];
 		
 		if($post['has_file']) {
 			$size = $_FILES['file']['size'];
@@ -80,11 +90,6 @@
 					'filesz'=>commaize($size),
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
-		
-		sql_open();
-		if(!openBoard($post['board'])) error(ERROR_NOBOARD);
-		if(!$OP && !threadExists($post['thread']))
-			error(ERROR_NONEXISTANT);
 		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
