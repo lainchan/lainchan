@@ -10,7 +10,8 @@
 </head>
 <body>
 	<h1>{board[url]} - {board[name]}</h1>
-	<div class="title">{board[title]}</div>
+	<div class="title">{board[title]?{board[title]}}</div>
+	
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
 		<table>
 			<tr>
