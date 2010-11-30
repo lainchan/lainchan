@@ -131,8 +131,8 @@
 		chdir(ROOT_FILE);
 	}
 	if(!defined('IS_INSTALLATION')) {
-		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_RES)) @mkdir(DIR_RES) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
+		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
+		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
+		if(!file_exists(DIR_RES)) @mkdir(DIR_RES, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
 	}
 ?>
