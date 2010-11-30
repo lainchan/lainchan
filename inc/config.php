@@ -49,6 +49,7 @@
 	define('ERROR_NOMOVE',	'The server failed to handle your upload.', true);
 	define('ERROR_FILEEXT',	'Unsupported image format.', true);
 	define('ERROR_NOBOARD',	'Invalid board!', true);
+	define('ERROR_NONEXISTANT', 'Thread specified does not exist.', true);
 	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);

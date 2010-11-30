@@ -44,9 +44,25 @@
 	
 	function openBoard($uri) {
 		global $sql;
-		$boards_res = mysql_query(sprintf("SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1", mysql_real_escape_string($uri)), $sql) or error(mysql_error($sql));
+		$boards_res = mysql_query(sprintf(
+			"SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1",
+				mysql_real_escape_string($uri)
+		), $sql) or error(mysql_error($sql));
+		
 		if($_board = mysql_fetch_array($boards_res)) {
 			setupBoard($_board);
+			return true;
+		} else return false;
+	}
+	
+	function threadExists($id) {
+		global $sql;
+		$thread_res = mysql_query(sprintf(
+			"SELECT 1 FROM `posts` WHERE `id` = '%d' AND `thread` IS NULL LIMIT 1",
+				$id
+		), $sql) or error(mysql_error($sql));
+		
+		if(mysql_num_rows($thread_res) > 0) {
 			return true;
 		} else return false;
 	}

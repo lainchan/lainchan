@@ -83,6 +83,8 @@
 		
 		sql_open();
 		if(!openBoard($post['board'])) error(ERROR_NOBOARD);
+		if(!$OP && !threadExists($post['thread']))
+			error(ERROR_NONEXISTANT);
 		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
