@@ -18,7 +18,9 @@
 	$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
 	
 	if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
-	chdir($board['dir']);
+	if(!file_exists($board['dir'] . DIR_IMG)) mkdir($board['dir'] . DIR_IMG, 0777);
+	if(!file_exists($board['dir'] . DIR_THUMB)) mkdir($board['dir'] . DIR_THUMB, 0777);
+	if(!file_exists($board['dir'] . DIR_RES)) mkdir($board['dir'] . DIR_RES, 0777);
 	
 	$body = '';
 	
@@ -105,8 +107,8 @@
 		if($post['has_file']) {
 			$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
 			$post['file_id'] = rand(0, 1000000000);
-			$post['file'] = DIR_IMG . $post['file_id'] . '.' . $post['extension'];
-			$post['thumb'] = DIR_THUMB . $post['file_id'] . '.png';
+			$post['file'] = $board['dir'] . DIR_IMG . $post['file_id'] . '.' . $post['extension'];
+			$post['thumb'] = $board['dir'] . DIR_THUMB . $post['file_id'] . '.png';
 			$post['zip'] = $OP && $post['has_file'] && ALLOW_ZIP && $post['extension'] == 'zip' ? $post['file'] : false;
 			if(!($post['zip'] || in_array($post['extension'], $allowed_ext))) error(ERROR_FILEEXT);
 		}
@@ -125,7 +127,7 @@
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
-			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
+			if(!move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
 			
 			if($post['zip']) {
 				// Validate ZIP file
@@ -189,8 +191,8 @@
 		
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
-			$post['file'] = substr_replace($post['file'], '', 0, strlen(DIR_IMG));
-			$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen(DIR_THUMB));
+			$post['file'] = substr_replace($post['file'], '', 0, strlen($board['dir'] . DIR_IMG));
+			$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . DIR_THUMB));
 		}
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
@@ -225,8 +227,8 @@
 							'filename' => $filename
 						);
 						
-						$dump_post['file'] = DIR_IMG . $dump_post['file_id'] . '.' . $extension;
-						$dump_post['thumb'] = DIR_THUMB . $dump_post['file_id'] . '.png';
+						$dump_post['file'] = $board['dir'] . DIR_IMG . $dump_post['file_id'] . '.' . $extension;
+						$dump_post['thumb'] = $board['dir'] . DIR_THUMB . $dump_post['file_id'] . '.png';
 						
 						// Extract the image from the ZIP
 						$fp = fopen($dump_post['file'], 'w+');
@@ -280,8 +282,8 @@
 								$dump_post['thumbheight'] = $thumb['height'];
 								
 								// Remove DIR_* before inserting them into the database.
-								$dump_post['file'] = substr_replace($dump_post['file'], '', 0, strlen(DIR_IMG));
-								$dump_post['thumb'] = substr_replace($dump_post['thumb'], '', 0, strlen(DIR_THUMB));
+								$dump_post['file'] = substr_replace($dump_post['file'], '', 0, strlen($board['dir'] . DIR_IMG));
+								$dump_post['thumb'] = substr_replace($dump_post['thumb'], '', 0, strlen($board['dir'] . DIR_THUMB));
 								
 								// Create the post
 								post($dump_post, false);
@@ -311,9 +313,9 @@
 		sql_close();
 		
 		if(ALWAYS_NOKO || $noko) {
-			header('Location: ' . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, 302);
+			header('Location: ' . ROOT . $board['dir'] . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, 302);
 		} else {
-			header('Location: ' . ROOT . FILE_INDEX, true, 302);
+			header('Location: ' . ROOT . $board['dir'] . FILE_INDEX, true, 302);
 		}
 		
 		exit;
