@@ -98,6 +98,9 @@
 	define('POST_URL',		ROOT . 'post.php', true);
 	define('FILE_INDEX',	'index.html', true);
 	define('FILE_PAGE',		'%d.html', true);
+	
+	// Multi-board (%s is board abbreviation)
+	define('BOARD_PATH', '%s', true);
 
 	// Automatically convert things like "..." to Unicode characters ("…")
 	define('AUTO_UNICODE',	true, true);
