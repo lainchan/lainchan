@@ -27,7 +27,7 @@
 			'subtitle'=>'An error has occured.',
 			'body'=>"<center>" .
 			        "<h2>$message</h2>" .
-				"<p><a href=\"" . ROOT . $board['dir'] . FILE_INDEX . "\">Go back</a>.</p>" .
+				(isset($board) ? "<p><a href=\"" . ROOT . $board['dir'] . FILE_INDEX . "\">Go back</a>.</p>" : '').
 			        "</center>"
 		)));
 	}
