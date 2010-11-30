@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 02, 2010 at 10:06 PM
+-- Generation Time: Nov 30, 2010 at 08:48 PM
 -- Server version: 5.1.48
 -- PHP Version: 5.3.2
 
@@ -22,11 +22,35 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `boards`
+--
+
+CREATE TABLE IF NOT EXISTS `boards` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `uri` varchar(8) NOT NULL,
+  `title` varchar(20) NOT NULL,
+  `subtitle` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uri` (`uri`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `boards`
+--
+
+INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
+(1, 'b', 'Beta', 'In development.');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `board` smallint(6) NOT NULL,
   `thread` int(11) DEFAULT NULL,
   `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
