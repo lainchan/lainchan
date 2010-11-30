@@ -85,7 +85,9 @@
 	define('DIR_IMG',		'src/', true);
 	define('DIR_THUMB',		'thumb/', true);
 	define('DIR_RES',		'res/', true);
-
+	
+	define('DIR_TEMPLATE',	getcwd() . '/templates', true);
+	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
 	define('ROOT',			'/', true);

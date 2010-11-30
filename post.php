@@ -1,11 +1,11 @@
 <?php
 	require 'inc/functions.php';
 	require 'inc/display.php';
-	require 'inc/template.php';
 	if (file_exists('inc/instance-config.php')) {
 		require 'inc/instance-config.php';
 	}
 	require 'inc/config.php';
+	require 'inc/template.php';
 	require 'inc/user.php';
 	
 	// For example, we're on /b/
@@ -14,7 +14,11 @@
 		'uri' => 'b',
 		'name' => 'Beta',
 		'title' => 'In development.');
+	$board['dir'] = sprintf(BOARD_PATH, $board['uri']);
 	$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
+	
+	if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
+	chdir($board['dir']);
 	
 	$body = '';
 	
