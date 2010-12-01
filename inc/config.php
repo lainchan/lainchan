@@ -30,7 +30,8 @@
 	
 	// Whether or not to lock moderator sessions to the IP address that was logged in with.
 	define('MOD_LOCK_IP',	true,	true);
-
+	// Mod 
+	
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
 
