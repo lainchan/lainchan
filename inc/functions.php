@@ -212,7 +212,7 @@
 	}
 
 	function markup(&$body) {
-		global $sql;
+		global $sql, $board;
 
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
