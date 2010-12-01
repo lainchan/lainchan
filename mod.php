@@ -34,8 +34,7 @@
 			loginForm();
 		}
 	} else {
-		var_dump($_COOKIE);
-		openBoard('b');
+		// The rest is not done yet...
 		echo buildThread(1, true);
 	}
 ?>
