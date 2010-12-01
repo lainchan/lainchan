@@ -7,7 +7,7 @@
 	session_set_cookie_params(0, JAIL_COOKIES?ROOT:'/');
 	
 	// Start the session
-	session_start(COOKIE_EXPIRE);
+	session_start();
 	
 	// Session creation time
 	if(!isset($_SESSION['created'])) $_SESSION['created'] = time();
