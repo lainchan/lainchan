@@ -8,8 +8,6 @@
 	require 'inc/template.php';
 	require 'inc/user.php';
 	
-	$body = '';
-	
 	// Fix for magic quotes
 	if (get_magic_quotes_gpc()) {
 		function strip_array($var) {
