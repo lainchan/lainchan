@@ -339,8 +339,7 @@
 		}
 		mysql_free_result($query);
 	}
-
-	// A lot of the bellow of from BBSchan (An old project by savetheinternet)
+	
 	function generate_tripcode ( $name, $length = 10 ) {
 		$name = stripslashes ( $name );
 		$t = explode('#', $name);
