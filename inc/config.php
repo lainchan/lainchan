@@ -17,12 +17,14 @@
 
 	// The name of the session cookie (PHP's $_SESSION)
 	define('SESS_COOKIE',	'imgboard', true);
-
+	
 	// Used to safely determine when the user was first seen, to prevent floods.
 	// time()
 	define('TIME_COOKIE',	'arrived', true);
 	// HASH_COOKIE contains an MD5 hash of TIME_COOKIE+SALT for verification.
 	define('HASH_COOKIE',	'hash', true);
+	// Where to set the 'path' parameter to ROOT when creating cookies. Recommended.
+	define('JAIL_COOKIES',	true,	true);
 
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
