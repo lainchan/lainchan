@@ -9,6 +9,9 @@ thumb/
 # instance-config
 inc/instance-config.php
 
+# .installed
+.installed
+
 # other stuff
 .DS_Store?
 thumbs.db
