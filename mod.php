@@ -35,7 +35,6 @@
 		}
 	} else {
 		// The rest is not done yet...
-		echo buildThread(1, true);
 	}
 ?>
 
