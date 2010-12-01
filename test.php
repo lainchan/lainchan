@@ -43,19 +43,21 @@
 	// Database
 	title('Database');
 	
-	if($sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD)) {
-		$body .= check('Connection to server.', 'ok');
-		if(@mysql_select_db(MY_DATABASE, $sql))
-			$body .= check('Select database.', 'ok');
-		else {
-			$body .= check('Select database.', 'error');
+	if(extension_loaded('mysql')) {
+		if($sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD)) {
+			$body .= check('Connection to server.', 'ok');
+			if(@mysql_select_db(MY_DATABASE, $sql))
+				$body .= check('Select database.', 'ok');
+			else {
+				$body .= check('Select database.', 'error');
+				$todo[] = 'instance-config.php: Check database configuration.';
+			}
+		} else {
+			$body .= check('Connection to server.', 'error');
 			$todo[] = 'instance-config.php: Check database configuration.';
 		}
-	} else {
-		$body .= check('Connection to server.', 'error');
-		$todo[] = 'instance-config.php: Check database configuration.';
 	}
-		
+	
 	// Configuration
 	title('Configuration');
 	$root = dirname($_SERVER['REQUEST_URI']) . (dirname($_SERVER['REQUEST_URI']) == '/' ? '' : '/');
