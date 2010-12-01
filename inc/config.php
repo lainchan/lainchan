@@ -38,6 +38,9 @@
 	define('THREADS_PER_PAGE',	10, true);
 	define('MAX_PAGES',			5, true);
 	define('THREADS_PREVIEW',	5, true);
+	
+	// For development purposes. Turns 'display_errors' on. Not recommended for production.
+	define('VERBOSE_ERRORS',	true, true);
 
 	// Error messages
 	define('ERROR_LURK',	'Lurk some more before posting.', true);
@@ -149,6 +152,11 @@
 	
 	if(ROOT_FILE) {
 		chdir(ROOT_FILE);
+	}
+	
+	if(VERBOSE_ERRORS) {
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
 	}
 	
 	/*
