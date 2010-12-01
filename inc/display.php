@@ -34,6 +34,20 @@
 		)));
 	}
 	
+	function loginForm($error=false, $username=false) {
+		if(function_exists('sql_close')) sql_close();
+		die(Element('page.html', Array(
+			'index'=>ROOT,
+			'title'=>'Login',
+			'body'=>Element('login.html', Array(
+				'index'=>ROOT,
+				'error'=>$error,
+				'username'=>$username
+				)
+			)
+		)));
+	}
+	
 	class Post {
 		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename) {
 			$this->id = $id;

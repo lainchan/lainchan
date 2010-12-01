@@ -318,7 +318,7 @@
 		return $result;
 	}
 
-	function buildThread($id) {
+	function buildThread($id, $return=false) {
 		global $sql, $board;
 		$id = round($id);
 
@@ -335,7 +335,19 @@
 			} else {
 				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename']));
 			}
-			@file_put_contents($board['dir'] . DIR_RES . $id . '.html', Element('thread.html', Array('button'=>BUTTON_REPLY, 'board'=>$board, 'body'=>$thread->build(), 'post_url' => POST_URL, 'index' => ROOT, 'id' => $id))) or error("Couldn't write to file.");
+			$body = Element('thread.html', Array(
+				'button'=>BUTTON_REPLY,
+				'board'=>$board, 
+				'body'=>$thread->build(),
+				'post_url' => POST_URL,
+				'index' => ROOT,
+				'id' => $id
+			));
+			
+			if($return)
+				return $body;
+			else
+				@file_put_contents($board['dir'] . DIR_RES . $id . '.html', $body) or error("Couldn't write to file.");
 		}
 		mysql_free_result($query);
 	}

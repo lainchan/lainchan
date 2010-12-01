@@ -23,8 +23,13 @@
 	define('TIME_COOKIE',	'arrived', true);
 	// HASH_COOKIE contains an MD5 hash of TIME_COOKIE+SALT for verification.
 	define('HASH_COOKIE',	'hash', true);
+	// Used for moderation login
+	define('MOD_COOKIE',	'mod', true);
 	// Where to set the 'path' parameter to ROOT when creating cookies. Recommended.
 	define('JAIL_COOKIES',	true,	true);
+	
+	// Whether or not to lock moderator sessions to the IP address that was logged in with.
+	define('MOD_LOCK_IP',	true,	true);
 
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
@@ -60,7 +65,12 @@
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE',	'The file was too big.', true);
 	define('ERR_INVALIDZIP','Invalid archive!', true);
-
+	
+	// Moderator errors
+	define('ERROR_INVALID',	'Invalid username and/or password.', true);
+	define('ERROR_INVALIDAFTER', 'Invalid username and/or password. Your user may have been deleted or changed.');
+	define('ERROR_MALFORMED','Invalid/malformed cookies.', true);
+	
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);
 	define('THUMB_HEIGHT',	200, true);
