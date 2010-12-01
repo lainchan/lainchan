@@ -34,6 +34,22 @@
 			loginForm();
 		}
 	} else {
+		$query = $_SERVER['QUERY_STRING'];
+		$regex = Array(
+			'board' => str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/'))
+		);
+		
+		// Dashboard
+		if(preg_match('/^\/?$/', $query)) {
+			
+			
+		// Board index
+		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query)) {
+			
+			
+		} else {
+				error("Page not found.");
+		}
 		// The rest is not done yet...
 	}
 ?>
