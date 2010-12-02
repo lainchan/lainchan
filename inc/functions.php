@@ -56,6 +56,18 @@
 		} else return false;
 	}
 	
+	function listBoards() {
+		global $sql;
+		sql_open();
+		$boards_res = mysql_query("SELECT * FROM `boards`", $sql) or error(mysql_error($sql));
+		
+		$boards = Array();
+		while($_board = mysql_fetch_array($boards_res)) {
+			$boards[] = $_board;
+		}
+		return $boards;
+	}
+	
 	function threadExists($id) {
 		global $sql;
 		$thread_res = mysql_query(sprintf(
