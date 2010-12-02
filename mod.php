@@ -7,6 +7,7 @@
 	require 'inc/config.php';
 	require 'inc/template.php';
 	require 'inc/user.php';
+	require 'inc/mod.php';
 	
 	// If not logged in
 	if(!$mod) {
@@ -45,7 +46,19 @@
 		if(preg_match('/^\/?$/', $query)) {
 			// Dashboard
 			
-		
+			// Body
+			$body = '';
+			
+			$body .= 	'<fieldset><legend>Boards</legend>' . 
+						ulBoards() . 
+						'</fieldset>';
+			
+			die(Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'Dashboard',
+				'body'=>$body
+				)
+			));
 		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query, $matches)) {
 			// Board index
 			
@@ -59,5 +72,8 @@
 			error("Page not found.");
 		}
 	}
+	
+	// Close the connection in-case it's still open
+	sql_close();
 ?>
 
