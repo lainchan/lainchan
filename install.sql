@@ -77,3 +77,24 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- Dumping data for table `posts`
 --
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mods`
+--
+
+CREATE TABLE IF NOT EXISTS `mods` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` char(40) NOT NULL COMMENT 'SHA1',
+  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`,`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `mods`
+--
+
+INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
+(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
