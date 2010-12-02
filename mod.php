@@ -9,7 +9,7 @@
 	require 'inc/user.php';
 	
 	// If not logged in
-	if(!$user) {
+	if(!$mod) {
 		if(isset($_POST['login'])) {
 			// Check if inputs are set and not empty
 			if(	!isset($_POST['username']) ||
@@ -28,6 +28,9 @@
 			// Set cookies
 			setCookies();
 			
+			// Redirect
+			header('Location: ?' . MOD_DEFAULT, true, 302);
+			
 			// Close connection
 			sql_close();
 		} else {
@@ -36,21 +39,25 @@
 	} else {
 		$query = $_SERVER['QUERY_STRING'];
 		$regex = Array(
-			'board' => str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/'))
+			'board' => str_replace('%s', '(\w{1,8})', preg_quote(BOARD_PATH, '/'))
 		);
 		
-		// Dashboard
 		if(preg_match('/^\/?$/', $query)) {
+			// Dashboard
 			
+		
+		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query, $matches)) {
+			// Board index
 			
-		// Board index
-		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query)) {
+			$boardName = $matches[1];
+			// Open board
+			openBoard($boardName);
 			
+			echo Element('index.html', index(1));		
 			
 		} else {
-				error("Page not found.");
+			error("Page not found.");
 		}
-		// The rest is not done yet...
 	}
 ?>
 
