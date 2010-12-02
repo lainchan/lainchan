@@ -119,6 +119,11 @@
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s/', true);
 	
+	// The HTTP status code to use when redirecting.
+	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+	// "302" is recommended.
+	define('REDIRECT_HTTP',	302, true);
+	
 	/* 
 		Mod stuff
 	*/

@@ -44,6 +44,7 @@
 	
 	function openBoard($uri) {
 		global $sql;
+		sql_open();
 		$boards_res = mysql_query(sprintf(
 			"SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1",
 				mysql_real_escape_string($uri)

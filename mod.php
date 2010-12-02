@@ -29,7 +29,7 @@
 			setCookies();
 			
 			// Redirect
-			header('Location: ?' . MOD_DEFAULT, true, 302);
+			header('Location: ?' . MOD_DEFAULT, true, REDIRECT_HTTP);
 			
 			// Close connection
 			sql_close();

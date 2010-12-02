@@ -306,9 +306,9 @@
 		sql_close();
 		
 		if(ALWAYS_NOKO || $noko) {
-			header('Location: ' . ROOT . $board['dir'] . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, 302);
+			header('Location: ' . ROOT . $board['dir'] . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, REDIRECT_HTTP);
 		} else {
-			header('Location: ' . ROOT . $board['dir'] . FILE_INDEX, true, 302);
+			header('Location: ' . ROOT . $board['dir'] . FILE_INDEX, true, REDIRECT_HTTP);
 		}
 		
 		exit;

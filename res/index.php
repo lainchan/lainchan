@@ -1,3 +1,3 @@
 <?php
-	header('Location: ../', true, 302);
+	header('Location: ../', true, REDIRECT_HTTP);
 ?>
