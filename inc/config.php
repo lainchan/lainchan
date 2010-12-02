@@ -67,6 +67,9 @@
 	define('ERROR_INVALID',	'Invalid username and/or password.', true);
 	define('ERROR_INVALIDAFTER', 'Invalid username and/or password. Your user may have been deleted or changed.');
 	define('ERROR_MALFORMED','Invalid/malformed cookies.', true);
+	define('ERROR_MISSEDAFIELD', 'Your browser didn\'t submit an input when it should have.', true);
+	define('ERROR_REQUIRED', 'The %s field is required.', true);
+	define('ERROR_INVALIDFIELD', 'The %s field was invalid.', true);
 	
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);
@@ -132,6 +135,10 @@
 	// The page that is first shown when a moderator logs in. Defaults to the dashboard.
 	define('MOD_DEFAULT',	'/',	true);
 	
+	define('MOD_JANITOR',	0,		true);
+	define('MOD_MOD',		1,		true);
+	define('MOD_ADMIN',		2,		true);
+	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
 	define('HAS_INSTALLED',		'.installed', true);
@@ -139,7 +146,7 @@
 	// Name of the boards. Typically '/%s/' (/b/, /mu/, etc)
 	// BOARD_ABBREVIATION - BOARD_TITLE
 	define('BOARD_ABBREVIATION', '/%s/', true);
-
+	
 	// Automatically convert things like "..." to Unicode characters ("…")
 	define('AUTO_UNICODE',	true, true);
 	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
