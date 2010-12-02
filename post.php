@@ -296,7 +296,8 @@
 		
 		if(!$OP) {
 			mysql_query(
-				sprintf("UPDATE `posts` SET `bump` = '%d' WHERE `id` = '%s' AND `thread` IS NULL",
+				sprintf("UPDATE `posts_%s` SET `bump` = '%d' WHERE `id` = '%s' AND `thread` IS NULL",
+					mysql_real_escape_string($board['uri']),
 					time(),
 					$post['thread']
 				), $sql) or error(mysql_error($sql));

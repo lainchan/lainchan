@@ -69,9 +69,10 @@
 	}
 	
 	function threadExists($id) {
-		global $sql;
+		global $sql, $board;
 		$thread_res = mysql_query(sprintf(
-			"SELECT 1 FROM `posts` WHERE `id` = '%d' AND `thread` IS NULL LIMIT 1",
+			"SELECT 1 FROM `posts_%s` WHERE `id` = '%d' AND `thread` IS NULL LIMIT 1",
+				mysql_real_escape_string($board['uri']),
 				$id
 		), $sql) or error(mysql_error($sql));
 		
@@ -84,8 +85,8 @@
 		global $sql, $board;
 		if($OP) {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
-					$board['id'],
+				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					mysql_real_escape_string($board['uri']),
 					$post['subject'],
 					$post['email'],
 					$post['name'],
@@ -108,8 +109,8 @@
 			return mysql_insert_id($sql);
 		} else {
 			mysql_query(
-				sprintf("INSERT INTO `posts` VALUES ( NULL, '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
-					$board['id'],
+				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+					mysql_real_escape_string($board['uri']),
 					$post['thread'],
 					$post['subject'],
 					$post['email'],
@@ -142,8 +143,8 @@
 
 		sql_open();
 		$query = mysql_query(sprintf(
-					"SELECT * FROM `posts` WHERE `thread` IS NULL AND `board` = '%d' ORDER BY `bump` DESC LIMIT %d,%d",
-						$board['id'],
+					"SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `bump` DESC LIMIT %d,%d",
+						mysql_real_escape_string($board['uri']),
 						$offset,
 						THREADS_PER_PAGE
 					), $sql) or error(mysql_error($sql));
@@ -153,15 +154,15 @@
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename']);
 
 			$newposts = mysql_query(sprintf(
-					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts` WHERE `board` = '%d' AND `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
-						$board['id'],
+					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts_%s` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
+						mysql_real_escape_string($board['uri']),
 						$th['id'],
 						THREADS_PREVIEW
 				), $sql) or error(mysql_error($sql));
 			if(mysql_num_rows($newposts) == THREADS_PREVIEW) {
 				$count_query = mysql_query(sprintf(
-					"SELECT COUNT(`id`) as `num` FROM `posts` WHERE `board` = '%d' AND `thread` = '%s'",
-						$board['id'],
+					"SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = '%s'",
+						mysql_real_escape_string($board['uri']),
 						$th['id']
 				), $sql) or error(mysql_error($sql));
 				$count = mysql_fetch_array($count_query);
@@ -188,8 +189,8 @@
 		sql_open();
 
 		$res = mysql_query(sprintf(
-			"SELECT COUNT(`id`) as `num` FROM `posts` WHERE `board` = '%d' AND `thread` IS NULL",
-				$board['id']
+			"SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL",
+				mysql_real_escape_string($board['uri'])
 		), $sql) or error(mysql_error($sql));
 		$arr = mysql_fetch_array($res);
 		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / THREADS_PER_PAGE);
@@ -253,8 +254,8 @@
 				);
 
 				$result = mysql_query(sprintf(
-					"SELECT `thread`,`id` FROM `posts` WHERE `board` = '%d' AND `id` = '%d' LIMIT 1",
-						$board['id'],
+					"SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = '%d' LIMIT 1",
+						mysql_real_escape_string($board['uri']),
 						$cite
 				), $sql) or error(mysql_error($sql));
 				if($post = mysql_fetch_array($result)) {
@@ -336,8 +337,8 @@
 		$id = round($id);
 
 		$query = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts` WHERE `board` = '%d' AND ((`thread` IS NULL AND `id` = '%s') OR `thread` = '%s') ORDER BY `thread`,`time`",
-					$board['id'],
+				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
+					mysql_real_escape_string($board['uri']),
 					$id,
 					$id
 			), $sql) or error(mysql_error($sql));

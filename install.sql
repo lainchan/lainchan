@@ -45,12 +45,11 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `posts`
+-- Table structure for table `posts_b`
 --
 
-CREATE TABLE IF NOT EXISTS `posts` (
+CREATE TABLE IF NOT EXISTS `posts_b` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `board` smallint(6) NOT NULL,
   `thread` int(11) DEFAULT NULL,
   `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
@@ -74,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `posts`
+-- Dumping data for table `posts_b`
 --
 
 -- --------------------------------------------------------
