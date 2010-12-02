@@ -28,9 +28,6 @@
 	// Where to set the 'path' parameter to ROOT when creating cookies. Recommended.
 	define('JAIL_COOKIES',	true,	true);
 	
-	// Whether or not to lock moderator sessions to the IP address that was logged in with.
-	define('MOD_LOCK_IP',	true,	true);
-
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
 
@@ -121,6 +118,14 @@
 	
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s/', true);
+	
+	/* 
+		Mod stuff
+	*/
+	// Whether or not to lock moderator sessions to the IP address that was logged in with.
+	define('MOD_LOCK_IP',	true,	true);
+	// The page that is first shown when a moderator logs in. Defaults to the dashboard.
+	define('MOD_DEFAULT',	'/',	true);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
