@@ -9,6 +9,9 @@
 	require 'inc/user.php';
 	require 'inc/mod.php';
 	
+	// Fix some encoding issues
+	header('Content-Type: text/html; charset=utf-8', true);
+	
 	// If not logged in
 	if(!$mod) {
 		if(isset($_POST['login'])) {
@@ -52,6 +55,8 @@
 						'</fieldset>';
 			
 			// TODO: Statistics, etc, in the dashboard.
+			
+			$body .= '<fieldset><legend>Configuration</legend>' . highlight_file('inc/instance-config.php', true) . '</fieldset>';
 			
 			echo Element('page.html', Array(
 				'index'=>ROOT,
