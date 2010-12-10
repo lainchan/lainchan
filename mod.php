@@ -136,7 +136,8 @@
 			
 			$boardName = $matches[1];
 			// Open board
-			openBoard($boardName);
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
 			
 			// echo Element('index.html', index(1));
 			
