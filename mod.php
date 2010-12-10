@@ -157,7 +157,10 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			// echo Element('index.html', index(1));
+			$page = index(1);
+			$page['mod'] = true;
+			
+			echo Element('index.html', $page);
 			
 		} else {
 			error("Page not found.");
