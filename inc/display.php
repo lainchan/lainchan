@@ -108,7 +108,7 @@
 		
 			// File info
 			if(!empty($this->file)) {
-				$built .= '<p class="fileinfo">File: <a href="'	. $this->root . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -121,7 +121,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-					'<a href="' . $this->root . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . $this->root . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
 			
 			// Body
@@ -162,7 +162,7 @@
 		public function build($index=false) {
 			global $board, $mod;
 			
-			$built = '<p class="fileinfo">File: <a href="'	. $this->root . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+			$built = '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 				format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -175,7 +175,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-				'<a href="' . $this->root . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . $this->root . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			

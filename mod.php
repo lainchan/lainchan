@@ -157,7 +157,7 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$page = index(1);
+			$page = index(1, true);
 			$page['mod'] = true;
 			
 			echo Element('index.html', $page);
