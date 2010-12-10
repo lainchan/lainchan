@@ -65,6 +65,8 @@
 				)
 			);
 		} elseif(preg_match('/^\/new$/', $query)) {
+			if($mod['type'] != MOD_ADMIN) error(ERROR_NOACCESS);
+			
 			// New board
 			$body = '';
 			
