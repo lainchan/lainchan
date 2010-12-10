@@ -103,7 +103,7 @@
 				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
 				' href="' . $this->root . $board['dir'] . DIR_RES . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
-				'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . DIR_RES . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
+				'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . $board['dir'] . DIR_RES . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
 			'</p>';
 		
 			// File info
