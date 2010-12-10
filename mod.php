@@ -61,7 +61,8 @@
 			echo Element('page.html', Array(
 				'index'=>ROOT,
 				'title'=>'Dashboard',
-				'body'=>$body
+				'body'=>$body,
+				'mod'=>true
 				)
 			);
 		} elseif(preg_match('/^\/new$/', $query)) {
@@ -126,7 +127,8 @@
 			echo Element('page.html', Array(
 				'index'=>ROOT,
 				'title'=>'New board',
-				'body'=>$body
+				'body'=>$body,
+				'mod'=>true
 				)
 			);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query, $matches)) {
@@ -136,7 +138,7 @@
 			// Open board
 			openBoard($boardName);
 			
-			echo Element('index.html', index(1));		
+			// echo Element('index.html', index(1));
 			
 		} else {
 			error("Page not found.");
