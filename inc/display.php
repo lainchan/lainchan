@@ -49,7 +49,7 @@
 	}
 	
 	class Post {
-		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename) {
+		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT) {
 			$this->id = $id;
 			$this->thread = $thread;
 			$this->subject = utf8tohtml($subject);
@@ -66,9 +66,11 @@
 			$this->filey = $filey;
 			$this->filesize = $filesize;
 			$this->filename = $filename;
+			$this->ip = $ip;
+			$this->root = $root;
 		}
 		public function build($index=false) {
-			global $board;
+			global $board, $mod;
 			
 			$built =	'<div class="post reply"' . (!$index?' id="reply_' . $this->id . '"':'') . '>' . 
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
@@ -84,6 +86,11 @@
 			// Trip
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
+			// IP Address
+			if($mod && $mod['type'] >= MOD_SHOW_IP) {
+				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
+			}
+			
 			// End email
 			if(!empty($this->email))
 				$built .= '</a>';
@@ -94,14 +101,14 @@
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
 				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-				' href="' . ROOT . $board['dir'] . DIR_RES . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
+				' href="' . $this->root . $board['dir'] . DIR_RES . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
-				'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?ROOT . DIR_RES . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
+				'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . DIR_RES . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
 			'</p>';
 		
 			// File info
 			if(!empty($this->file)) {
-				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">File: <a href="'	. $this->root . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -114,7 +121,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-					'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . $this->root . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . $this->root . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
 			
 			// Body
@@ -126,7 +133,7 @@
 	
 	class Thread {
 		public $omitted = 0;
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename) {
+		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT) {
 			$this->id = $id;
 			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
@@ -144,6 +151,8 @@
 			$this->filename = $filename;
 			$this->omitted = 0;
 			$this->posts = Array();
+			$this->ip = $ip;
+			$this->root = $root;
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
@@ -151,9 +160,9 @@
 		
 		
 		public function build($index=false) {
-			global $board;
+			global $board, $mod;
 			
-			$built = '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+			$built = '<p class="fileinfo">File: <a href="'	. $this->root . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 				format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -166,7 +175,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . $this->root . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . $this->root . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
@@ -181,6 +190,11 @@
 			// Trip
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
+			// IP Address
+			if($mod && $mod['type'] >= MOD_SHOW_IP) {
+				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
+			}
+			
 			// End email
 			if(!empty($this->email))
 				$built .= '</a>';
@@ -191,11 +205,11 @@
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
 			($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-			' href="' . ROOT . $board['dir'] . DIR_RES . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
+			' href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
-			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?ROOT . $board['dir'] . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
+			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . $board['dir'] . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
 			// [Reply]
-			($index ? '<a href="' . ROOT . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
+			($index ? '<a href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
 			'</p>';
 		
 			// Body
