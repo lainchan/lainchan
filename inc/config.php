@@ -135,6 +135,8 @@
 	define('MOD_LOCK_IP',	true,	true);
 	// The page that is first shown when a moderator logs in. Defaults to the dashboard.
 	define('MOD_DEFAULT',	'/',	true);
+	// Don't even display MySQL password to administrators (in the configuration page)
+	define('MOD_NEVER_REAL_PASSWORD', true, true);
 	
 	// Probably best not to change these:
 	define('MOD_JANITOR',	0,		true);
