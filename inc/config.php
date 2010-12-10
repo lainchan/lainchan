@@ -136,6 +136,7 @@
 	// The page that is first shown when a moderator logs in. Defaults to the dashboard.
 	define('MOD_DEFAULT',	'/',	true);
 	
+	// Probably best not to change these:
 	define('MOD_JANITOR',	0,		true);
 	define('MOD_MOD',		1,		true);
 	define('MOD_ADMIN',		2,		true);
