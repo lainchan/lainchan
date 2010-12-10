@@ -1,7 +1,5 @@
 <?php
-	// 'false' means that the user is not logged in as a moderator
-	$mod = false;
-	
+		
 	// Creates a small random string for validating moderators' cookies
 	function mkhash($length=12) {
 		// The method here isn't really important,

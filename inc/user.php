@@ -1,4 +1,6 @@
 <?php
+	// 'false' means that the user is not logged in as a moderator
+	$mod = false;
 	
 	// Set the session name.
 	session_name(SESS_COOKIE);
