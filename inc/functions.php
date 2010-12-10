@@ -151,10 +151,10 @@
 					
 		if(mysql_num_rows($query) < 1 && $page > 1) return false;
 		while($th = mysql_fetch_array($query)) {
-			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename']);
+			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip']);
 
 			$newposts = mysql_query(sprintf(
-					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename` FROM `posts_%s` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
+					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
 						mysql_real_escape_string($board['uri']),
 						$th['id'],
 						THREADS_PREVIEW
@@ -173,7 +173,7 @@
 				unset($omitted);
 			}
 			while($po = mysql_fetch_array($newposts)) {
-				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename']));
+				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip']));
 			}
 			mysql_free_result($newposts);
 
@@ -337,7 +337,7 @@
 		$id = round($id);
 
 		$query = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
+				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
 					mysql_real_escape_string($board['uri']),
 					$id,
 					$id
@@ -345,9 +345,9 @@
 
 		while($post = mysql_fetch_array($query)) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], false);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip']);
 			} else {
-				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename']));
+				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip']));
 			}
 			$body = Element('thread.html', Array(
 				'button'=>BUTTON_REPLY,
