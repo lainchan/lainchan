@@ -56,11 +56,29 @@
 			
 			// TODO: Statistics, etc, in the dashboard.
 			
-			$body .= '<fieldset><legend>Configuration</legend>' . highlight_file('inc/instance-config.php', true) . '</fieldset>';
-			
 			echo Element('page.html', Array(
 				'index'=>ROOT,
 				'title'=>'Dashboard',
+				'body'=>$body
+				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
+				)
+			);
+		} elseif(preg_match('/^\/config$/', $query)) {
+			if($mod['type'] != MOD_ADMIN) error(ERROR_NOACCESS);
+			
+			// Show instance-config.php
+			
+			$data = highlight_file('inc/instance-config.php', true);
+			if(MOD_NEVER_REAL_PASSWORD) {
+				// Rough and dirty removal of password
+				$data = str_replace(MY_PASSWORD, '*******', $data);
+			}
+			
+			$body = '<fieldset><legend>Configuration</legend>' . $data . '</fieldset>';
+			
+			echo Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'Configuration',
 				'body'=>$body,
 				'mod'=>true
 				)
