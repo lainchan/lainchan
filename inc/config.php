@@ -143,6 +143,9 @@
 	define('MOD_MOD',		1,		true);
 	define('MOD_ADMIN',		2,		true);
 	
+	// What level of administration you need to view IP addresses
+	define('MOD_SHOW_IP', MOD_MOD, true);
+	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
 	define('HAS_INSTALLED',		'.installed', true);
