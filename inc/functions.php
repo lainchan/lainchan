@@ -135,7 +135,7 @@
 		}
 	}
 
-	function index($page, $mod) {
+	function index($page, $mod=false) {
 		global $sql, $board;
 
 		$body = '';
