@@ -143,8 +143,29 @@
 	define('MOD_MOD',		1,		true);
 	define('MOD_ADMIN',		2,		true);
 	
-	// What level of administration you need to view IP addresses
+	// Permissions
+	// What level of administration you need to:
+	
+	// View IP addresses
 	define('MOD_SHOW_IP', MOD_MOD, true);
+	// Delete a post
+	define('MOD_DELETE', MOD_JANITOR, true);
+	// Ban a user for a post
+	define('MOD_BAN', MOD_MOD, true);
+	// Ban and delete (one click; instant)
+	define('MOD_BANDELETE', MOD_BAN, true);
+	// Delete file (and keep post)
+	define('MOD_DELETEFILE', MOD_JANITOR, true);
+	// Delete all posts by IP
+	define('MOD_DELETEBYIP', MOD_BAN, true);
+	
+	// Mod links (full HTML)
+	// Correspond to above permission directives
+	define('MOD_LINK_DELETE', '[D]', true);
+	define('MOD_LINK_BAN', '[B]', true);
+	define('MOD_LINK_BANDELETE', '[B&D]', true);
+	define('MOD_LINK_DELETEFILE', '[F]', true);
+	define('MOD_LINK_DELETEBYIP', '[D+]', true);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.

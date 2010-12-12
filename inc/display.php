@@ -119,9 +119,38 @@
 					$built .= ', ' . $fraction;
 				}
 			// Filename
-				$built .= ', ' . $this->filename . ')</span></p>' . 
+				$built .= ', ' . $this->filename . ')</span></p>' .
+				
 			// Thumbnail
-					'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+			}
+			
+			if($mod) {
+				// Mod controls (on posts)
+				$built .= '<p style="float:right;margin:0;padding:0;font-size:80%;">';
+				
+				// Delete
+				if($mod['type'] >= MOD_DELETE)
+					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
+				
+				// Delete all posts by IP
+				if($mod['type'] >= MOD_DELETEBYIP)
+					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
+				
+				// Ban
+				if($mod['type'] >= MOD_BAN)
+					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
+				
+				// Ban & Delete
+				if($mod['type'] >= MOD_BANDELETE)
+					$built .= ' <a title="Ban & Delete" href="?/b/ban&delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
+				
+				// Delete file (keep post)
+				if($mod['type'] >= MOD_DELETEFILE)
+					$built .= ' <a title="Remove file" href="?/b/file/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
+				
+				
+				$built .= '</p>';
 			}
 			
 			// Body
