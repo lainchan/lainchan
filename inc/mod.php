@@ -140,4 +140,41 @@
 				'</fieldset>';
 	}
 	
+	// Delete a post (reply or thread)
+	function deletePost($id) {
+		global $board, $sql;
+		
+		// Select post and replies (if thread) in one query
+		$post_res = mysql_query(sprintf(
+				"SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = '%d' OR `thread` = '%d'",
+					mysql_real_escape_string($board['uri']),
+					$id,
+					$id
+			), $sql) or error(mysql_error($sql));
+		
+		// Delete posts and maybe replies
+		while($post = mysql_fetch_array($post_res)) {
+			
+			if(!$post['thread']) {
+				// Delete thread HTML page
+				@unlink($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $post['id']));
+			}
+			
+			if($post['thumb']) {
+				// Delete thumbnail
+				@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
+			}
+			if($post['file']) {
+				// Delete file
+				@unlink($board['dir'] . DIR_IMG . $post['file']);
+			}
+			
+			// Delete post
+			mysql_query(sprintf(
+				"DELETE FROM `posts_%s` WHERE `id` = '%d'",
+					mysql_real_escape_string($board['uri']),
+					$post['id']
+			), $sql) or error(mysql_error($sql));
+		}
+	}
 ?>
