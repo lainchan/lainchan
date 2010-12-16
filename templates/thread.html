@@ -10,8 +10,7 @@
 </head>
 <body>
 	<h1>{board[url]} - {board[name]}</h1>
-	<div class="title">{board[title]?{board[title]}}</div>
-	{mod?<a href="?/" style="text-align:center;display:block;">Return to dashboard</a>}
+	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
 	<div class="banner">Posting mode: Reply <a class="unimportant" href="{index}{board[dir]}">[Return.]</a></div>
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
