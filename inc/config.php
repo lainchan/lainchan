@@ -71,6 +71,7 @@
 	define('ERROR_REQUIRED', 'The %s field is required.', true);
 	define('ERROR_INVALIDFIELD', 'The %s field was invalid.', true);
 	define('ERROR_NOACCESS', 'You don\'t have permission to do that.', true);
+	define('ERROR_INVALIDPOST', 'That post doesn\'t exist…', true);
 	
 	// For resizing, max values
 	define('THUMB_WIDTH',	200, true);
@@ -158,6 +159,8 @@
 	define('MOD_DELETEFILE', MOD_JANITOR, true);
 	// Delete all posts by IP
 	define('MOD_DELETEBYIP', MOD_BAN, true);
+	// Sticky a thread
+	define('MOD_STICKY', MOD_MOD, true);
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives
@@ -166,6 +169,7 @@
 	define('MOD_LINK_BANDELETE', '[B&D]', true);
 	define('MOD_LINK_DELETEFILE', '[F]', true);
 	define('MOD_LINK_DELETEBYIP', '[D+]', true);
+	define('MOD_LINK_STICKY', '[Sticky]', true);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
