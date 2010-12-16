@@ -192,9 +192,10 @@
 			
 			// Delete post
 			deletePost($post);
-			
 			// Rebuild board
 			buildIndex();
+			// Redirect to board
+			header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} else {
 			error("Page not found.");
 		}
