@@ -166,7 +166,9 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], true);
+			if(!$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], true)) {
+				error(ERROR_404);
+			}
 			$page['pages'] = getPages(true);
 			$page['mod'] = true;
 			
@@ -204,7 +206,7 @@
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 			
 		} else {
-			error("Page not found.");
+			error(ERROR_404);
 		}
 	}
 	
