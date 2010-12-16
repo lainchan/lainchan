@@ -157,15 +157,17 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/' . $regex['board'] . '(' . $regex['index'] . ')?$/', $query, $matches)) {
+		} elseif(preg_match('/^\/' . $regex['board'] . '(' . $regex['index'] . '|' . $regex['page'] . ')?$/', $query, $matches)) {
 			// Board index
 			
 			$boardName = $matches[1];
+			
 			// Open board
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$page = index(1, true);
+			$page = index($matches[2] == FILE_INDEX ? 1 : $matches[2], true);
+			$page['pages'] = getPages(true);
 			$page['mod'] = true;
 			
 			echo Element('index.html', $page);
