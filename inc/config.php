@@ -65,7 +65,7 @@
 	
 	// Moderator errors
 	define('ERROR_INVALID',	'Invalid username and/or password.', true);
-	define('ERROR_INVALIDAFTER', 'Invalid username and/or password. Your user may have been deleted or changed.');
+	define('ERROR_INVALIDAFTER', 'Invalid username and/or password. Your user may have been deleted or changed.', true);
 	define('ERROR_MALFORMED','Invalid/malformed cookies.', true);
 	define('ERROR_MISSEDAFIELD', 'Your browser didn\'t submit an input when it should have.', true);
 	define('ERROR_REQUIRED', 'The %s field is required.', true);
