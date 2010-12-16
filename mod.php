@@ -88,13 +88,42 @@
 			
 			// Show instance-config.php
 			
-			$data = highlight_file('inc/instance-config.php', true);
-			if(MOD_NEVER_REAL_PASSWORD) {
-				// Rough and dirty removal of password
-				$data = str_replace(MY_PASSWORD, '*******', $data);
+			//$data = highlight_file('inc/instance-config.php', true);
+			//if(MOD_NEVER_REAL_PASSWORD) {
+			//	// Rough and dirty removal of password
+			//	$data = str_replace(MY_PASSWORD, '*******', $data);
+			//}
+			
+			$constants = get_defined_constants(true);
+			$constants = $constants['user'];
+			
+			$data = '';
+			foreach($constants as $name => $value) {
+				if(MOD_NEVER_REAL_PASSWORD && $name == 'MY_PASSWORD')
+					$value = '********';
+				else {
+					// For some reason PHP is only giving me the first defined value (the default), so use constant()
+					$value = constant($name);
+					if(gettype($value) == 'boolean') {
+						$value = $value ? '<span style="color:green;">On</span>' : '<span style="color:red;">Off</span>';
+					} elseif(gettype($value) == 'string') {
+						$value = '<span style="color:maroon;">' . utf8tohtml($value) . '</span>';
+					} elseif(gettype($value) == 'integer') {
+						$value = '<span style="color:black;">' . $value . '</span>';
+					}
+				}
+				
+				$data .= 
+					'<tr><th style="text-align:left;">' . 
+						$name .
+					'</th><td>' .
+						substr($value, 0, 120) .
+					'' .
+						(strlen($value) > 120 ? '…' : '') .
+					'</td></tr>';
 			}
 			
-			$body = '<fieldset><legend>Configuration</legend>' . $data . '</fieldset>';
+			$body = '<fieldset><legend>Configuration</legend><table>' . $data . '</table></fieldset>';
 			
 			echo Element('page.html', Array(
 				'index'=>ROOT,
