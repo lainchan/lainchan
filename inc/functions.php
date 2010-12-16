@@ -332,12 +332,12 @@
 		return $result;
 	}
 
-	function buildThread($id, $return=false) {
+	function buildThread($id, $return=false, $mod=false) {
 		global $sql, $board;
 		$id = round($id);
-
+		
 		$query = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%s') OR `thread` = '%s' ORDER BY `thread`,`time`",
+				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%d') OR `thread` = '%d' ORDER BY `thread`,`time`",
 					mysql_real_escape_string($board['uri']),
 					$id,
 					$id
@@ -345,10 +345,11 @@
 
 		while($post = mysql_fetch_array($query)) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip']);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT);
 			} else {
-				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip']));
+				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT));
 			}
+		}
 			$body = Element('thread.html', Array(
 				'button'=>BUTTON_REPLY,
 				'board'=>$board, 
@@ -358,11 +359,10 @@
 				'id' => $id
 			));
 			
-			if($return)
-				return $body;
-			else
-				@file_put_contents($board['dir'] . DIR_RES . $id . '.html', $body) or error("Couldn't write to file.");
-		}
+		if($return)
+			return $body;
+		else
+			@file_put_contents($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $id), $body) or error("Couldn't write to file.");
 		mysql_free_result($query);
 	}
 	
