@@ -11,7 +11,7 @@
 	require 'inc/user.php';
 	
 	function image($type) {
-		return "<img src=\"src/{$type}.png\" style=\"margin:0px;width:16px;height:16px;\" />";
+		return "<img src=\"static/{$type}.png\" style=\"margin:0px;width:16px;height:16px;\" />";
 	}
 	function check($title, $test) {
 		global $body, $count;
