@@ -89,7 +89,7 @@
 	 * Extremely beta and not recommended yet.
 	 */
 	define('ALLOW_ZIP',		false, true);
-	define('ZIP_IMAGE',		'src/zip.png', true);
+	define('ZIP_IMAGE',		'static/zip.png', true);
 
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
