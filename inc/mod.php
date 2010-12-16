@@ -152,6 +152,10 @@
 					$id
 			), $sql) or error(mysql_error($sql));
 		
+		if(mysql_num_rows($post_res) < 1) {
+			error(ERROR_INVALIDPOST);
+		}
+		
 		// Delete posts and maybe replies
 		while($post = mysql_fetch_array($post_res)) {
 			
