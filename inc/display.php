@@ -74,7 +74,7 @@
 			
 			// Ban & Delete
 			if($mod['type'] >= MOD_BANDELETE)
-				$built .= ' <a title="Ban & Delete" href="?/b/ban&delete/' . $id . '">' . MOD_LINK_BANDELETE . '</a>';
+				$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $id . '">' . MOD_LINK_BANDELETE . '</a>';
 			
 			// Delete file (keep post)
 			if(!$thread && $mod['type'] >= MOD_DELETEFILE)
