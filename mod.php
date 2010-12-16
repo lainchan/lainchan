@@ -194,8 +194,13 @@
 			deletePost($post);
 			// Rebuild board
 			buildIndex();
-			// Redirect to board
-			header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+			
+			// Redirect
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			else
+				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+			
 		} else {
 			error("Page not found.");
 		}
