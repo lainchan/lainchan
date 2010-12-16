@@ -361,7 +361,8 @@
 				'post_url' => POST_URL,
 				'index' => ROOT,
 				'id' => $id,
-				'mod' => $mod
+				'mod' => $mod,
+				'return' => ($mod ? '?' . $board['url'] . FILE_INDEX : ROOT . $board['uri'] . '/' . FILE_INDEX)
 			));
 			
 		if($return)
