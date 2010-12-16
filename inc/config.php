@@ -152,6 +152,7 @@
 	// Permissions
 	// What level of administration you need to:
 	
+	/* Post Controls */
 	// View IP addresses
 	define('MOD_SHOW_IP', MOD_MOD, true);
 	// Delete a post
@@ -167,6 +168,12 @@
 	// Sticky a thread
 	define('MOD_STICKY', MOD_MOD, true);
 	
+	/* Administration */
+	// Display the contents of instant-config.php
+	define('MOD_SHOW_CONFIG', MOD_ADMIN, true);
+	// Create a new board
+	define('MOD_NEWBOARD', MOD_ADMIN, true);
+	
 	// Mod links (full HTML)
 	// Correspond to above permission directives
 	define('MOD_LINK_DELETE', '[D]', true);
@@ -175,6 +182,7 @@
 	define('MOD_LINK_DELETEFILE', '[F]', true);
 	define('MOD_LINK_DELETEBYIP', '[D+]', true);
 	define('MOD_LINK_STICKY', '[Sticky]', true);
+	define('MOD_LINK_DESTICKY', '[-Sticky]', true);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.

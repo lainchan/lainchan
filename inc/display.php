@@ -48,50 +48,6 @@
 		)));
 	}
 	
-	function postControls($id, $thread=false) {
-		global $mod;
-		
-		$built = '';
-		if($mod) {
-			// Mod controls (on posts)
-			if($thread) {
-				$built .= '<span class="controls op">';
-			} else {
-				$built .= '<span class="controls">';
-			}
-			
-			// Delete
-			if($mod['type'] >= MOD_DELETE)
-				$built .= ' <a title="Delete" href="?/b/delete/' . $id . '">' . MOD_LINK_DELETE . '</a>';
-			
-			// Delete all posts by IP
-			if($mod['type'] >= MOD_DELETEBYIP)
-				$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $id . '">' . MOD_LINK_DELETEBYIP . '</a>';
-			
-			// Ban
-			if($mod['type'] >= MOD_BAN)
-				$built .= ' <a title="Ban" href="?/b/ban/' . $id . '">' . MOD_LINK_BAN . '</a>';
-			
-			// Ban & Delete
-			if($mod['type'] >= MOD_BANDELETE)
-				$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $id . '">' . MOD_LINK_BANDELETE . '</a>';
-			
-			// Delete file (keep post)
-			if(!$thread && $mod['type'] >= MOD_DELETEFILE)
-				$built .= ' <a title="Remove file" href="?/b/file/' . $id . '">' . MOD_LINK_DELETEFILE . '</a>';
-			
-			if($thread) {
-				// Delete file (keep post)
-				if($mod['type'] >= MOD_STICKY)
-					$built .= ' <a title="Make thread sticky" href="?/b/sticky/' . $id . '">' . MOD_LINK_STICKY . '</a>';
-				
-			}
-			
-			$built .= '</span>';
-		}
-		return $built;
-	}
-	
 	class Post {
 		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT) {
 			$this->id = $id;
@@ -113,6 +69,39 @@
 			$this->ip = $ip;
 			$this->root = $root;
 		}
+		public function postControls() {
+			global $mod;
+			
+			$built = '';
+			if($mod) {
+				// Mod controls (on posts)
+				$built .= '<span class="controls">';
+				
+				// Delete
+				if($mod['type'] >= MOD_DELETE)
+					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
+				
+				// Delete all posts by IP
+				if($mod['type'] >= MOD_DELETEBYIP)
+					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
+				
+				// Ban
+				if($mod['type'] >= MOD_BAN)
+					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
+				
+				// Ban & Delete
+				if($mod['type'] >= MOD_BANDELETE)
+					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
+				
+				// Delete file (keep post)
+				if($mod['type'] >= MOD_DELETEFILE)
+					$built .= ' <a title="Remove file" href="?/b/file/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
+				
+				$built .= '</span>';
+			}
+			return $built;
+		}
+		
 		public function build($index=false) {
 			global $board, $mod;
 			
@@ -169,7 +158,7 @@
 				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
 			
-			$built .= postControls($this->id);
+			$built .= $this->postControls();
 			
 			// Body
 			$built .= '<p class="body">' . $this->body . '</p></div><br class="clear"/>';
@@ -204,6 +193,41 @@
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
+		}
+		public function postControls() {
+			global $mod;
+			
+			$built = '';
+			if($mod) {
+				// Mod controls (on posts)
+				$built .= '<span class="controls op">';
+				
+				// Delete
+				if($mod['type'] >= MOD_DELETE)
+					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
+				
+				// Delete all posts by IP
+				if($mod['type'] >= MOD_DELETEBYIP)
+					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
+				
+				// Ban
+				if($mod['type'] >= MOD_BAN)
+					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
+				
+				// Ban & Delete
+				if($mod['type'] >= MOD_BANDELETE)
+					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
+				
+				// Delete file (keep post)
+				if($mod['type'] >= MOD_STICKY)
+					if($this->sticky)
+						$built .= ' <a title="Make thread not sticky" href="?/b/unsticky/' . $this->id . '">' . MOD_LINK_DESTICKY . '</a>';
+					else
+						$built .= ' <a title="Make thread sticky" href="?/b/sticky/' . $this->id . '">' . MOD_LINK_STICKY . '</a>';
+				
+				$built .= '</span>';
+			}
+			return $built;
 		}
 		
 		public function build($index=false) {
@@ -261,7 +285,7 @@
 			($index ? '<a href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
 			
 			// Mod controls
-			postControls($this->id, true) .
+			$this->postControls() .
 			'</p>';
 			
 			// Body

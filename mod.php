@@ -56,13 +56,25 @@
 		
 		if(preg_match('/^\/?$/', $query)) {
 			// Dashboard
-			$body = '';
+			$fieldset = Array(
+				'Boards' => '',
+				'Administration' => ''
+			);
 			
-			$body .= 	'<fieldset><legend>Boards</legend>' . 
-						ulBoards() . 
-						'</fieldset>';
+			// Boards
+			$fieldset['Boards'] .= ulBoards();
+			
+			if($mod['type'] >= MOD_SHOW_CONFIG) {
+				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
+			}
 			
 			// TODO: Statistics, etc, in the dashboard.
+			
+			$body = '';
+			foreach($fieldset as $title => $data) {
+				if($data)
+					$body .= "<fieldset><legend>{$title}</legend><ul>{$data}</ul></fieldset>";
+			}
 			
 			echo Element('page.html', Array(
 				'index'=>ROOT,
@@ -72,7 +84,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/config$/', $query)) {
-			if($mod['type'] != MOD_ADMIN) error(ERROR_NOACCESS);
+			if($mod['type'] < MOD_SHOW_CONFIG) error(ERROR_NOACCESS);
 			
 			// Show instance-config.php
 			
@@ -92,7 +104,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/new$/', $query)) {
-			if($mod['type'] != MOD_ADMIN) error(ERROR_NOACCESS);
+			if($mod['type'] < MOD_NEWBOARD) error(ERROR_NOACCESS);
 			
 			// New board
 			$body = '';
@@ -186,6 +198,7 @@
 			
 			echo $page;
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
 			// Delete post
 			
 			$boardName = $matches[1];

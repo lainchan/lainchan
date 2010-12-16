@@ -85,11 +85,11 @@
 	}
 	
 	// Generates a <ul> element with a list of linked
-	// boards and their subtitles.
+	// boards and their subtitles. (without the <ul> opening and ending tags)
 	function ulBoards() {
 		global $mod;
 		
-		$body = '<ul>';
+		$body = '';
 		
 		// List of boards
 		$boards = listBoards();
@@ -106,10 +106,10 @@
 				'</li>';
 		}
 		
-		if($mod['type'] == MOD_ADMIN) {
+		if($mod['type'] >= MOD_NEWBOARD) {
 			$body .= '<li style="margin-top:15px;"><a href="?/new"><strong>Create new board</strong></a></li>';
 		}
-		return $body . '</ul>';
+		return $body;
 	}
 	
 	function form_newBoard() {
