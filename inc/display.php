@@ -180,7 +180,7 @@
 	
 	class Thread {
 		public $omitted = 0;
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT) {
+		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $root=ROOT) {
 			$this->id = $id;
 			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
@@ -199,12 +199,12 @@
 			$this->omitted = 0;
 			$this->posts = Array();
 			$this->ip = $ip;
+			$this->sticky = $sticky;
 			$this->root = $root;
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
 		}
-		
 		
 		public function build($index=false) {
 			global $board, $mod;
@@ -255,8 +255,11 @@
 			' href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
 			// JavaScript cite
 			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . $board['dir'] . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
+			// Sticky
+			($this->sticky ? '<img class="icon" title="Sticky" src="' . IMAGE_STICKY . '" />' : '') .
 			// [Reply]
 			($index ? '<a href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
+			
 			// Mod controls
 			postControls($this->id, true) .
 			'</p>';

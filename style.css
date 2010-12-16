@@ -111,6 +111,12 @@ div.post img {
 	padding: 5px;
 	margin: 5px 20px 0 0;
 }
+div.post img.icon {
+	display: inline;
+	float: none;
+	margin: 0 5px;
+	padding: 0;
+}
 div.post.op {
 	margin-right: 20px;
 	margin-bottom: 5px;
