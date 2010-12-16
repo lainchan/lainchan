@@ -42,8 +42,16 @@
 		}
 	} else {
 		$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+		
+		// A sort of "cache"
+		// Stops calling preg_quote and str_replace when not needed; only does it once
 		$regex = Array(
-			'board' => str_replace('%s', '(\w{1,8})', preg_quote(BOARD_PATH, '/'))
+			'board' => str_replace('%s', '(\w{1,8})', preg_quote(BOARD_PATH, '/')),
+			'page' => str_replace('%d', '(\d+)', preg_quote(FILE_PAGE, '/')),
+			'img' => preg_quote(DIR_IMG, '/'),
+			'thumb' => preg_quote(DIR_THUMB, '/'),
+			'res' => preg_quote(DIR_RES, '/'),
+			'index' => preg_quote(FILE_INDEX, '/')
 		);
 		
 		if(preg_match('/^\/?$/', $query)) {
@@ -149,7 +157,7 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/' . $regex['board'] . '(' . preg_quote(FILE_INDEX, '/') . ')?$/', $query, $matches)) {
+		} elseif(preg_match('/^\/' . $regex['board'] . '(' . $regex['index'] . ')?$/', $query, $matches)) {
 			// Board index
 			
 			$boardName = $matches[1];
@@ -161,7 +169,32 @@
 			$page['mod'] = true;
 			
 			echo Element('index.html', $page);
+		} elseif(preg_match('/^\/' . $regex['board'] . $regex['res'] . $regex['page'] . '$/', $query, $matches)) {
+			// View thread
 			
+			$boardName = $matches[1];
+			$thread = $matches[2];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			$page = buildThread($thread, true, true);
+			
+			echo $page;
+		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
+			// Delete post
+			
+			$boardName = $matches[1];
+			$post = $matches[2];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			// Delete post
+			deletePost($post);
+			
+			// Rebuild board
+			buildIndex();
 		} else {
 			error("Page not found.");
 		}
