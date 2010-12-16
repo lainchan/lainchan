@@ -166,7 +166,7 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$page = index($matches[2] == FILE_INDEX ? 1 : $matches[2], true);
+			$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], true);
 			$page['pages'] = getPages(true);
 			$page['mod'] = true;
 			
