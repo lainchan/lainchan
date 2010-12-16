@@ -85,7 +85,7 @@
 		global $sql, $board;
 		if($OP) {
 			mysql_query(
-				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '0')",
 					mysql_real_escape_string($board['uri']),
 					$post['subject'],
 					$post['email'],
@@ -109,7 +109,7 @@
 			return mysql_insert_id($sql);
 		} else {
 			mysql_query(
-				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s' )",
+				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '0')",
 					mysql_real_escape_string($board['uri']),
 					$post['thread'],
 					$post['subject'],
@@ -143,7 +143,7 @@
 
 		sql_open();
 		$query = mysql_query(sprintf(
-					"SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `bump` DESC LIMIT %d,%d",
+					"SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT %d,%d",
 						mysql_real_escape_string($board['uri']),
 						$offset,
 						THREADS_PER_PAGE
@@ -183,11 +183,10 @@
 		mysql_free_result($query);
 		return Array('button'=>BUTTON_NEWTOPIC, 'board'=>$board, 'body'=>$body, 'post_url' => POST_URL, 'index' => ROOT);
 	}
-
-	function buildIndex() {
+	
+	function getPages($mod=false) {
 		global $sql, $board;
-		sql_open();
-
+		
 		$res = mysql_query(sprintf(
 			"SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL",
 				mysql_real_escape_string($board['uri'])
@@ -197,12 +196,17 @@
 
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
-			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ROOT . $board['dir'] . FILE_INDEX : ROOT . $board['dir'] . sprintf(FILE_PAGE, $x+1));
-		}		
+			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ($mod ? '?/' : ROOT) . $board['dir'] . FILE_INDEX : ($mod ? '?/' : ROOT) . $board['dir'] . sprintf(FILE_PAGE, $x+1));
+		}
+		
+		return $pages;
+	}
 
-		mysql_free_result($res);
-		unset($arr);
-		unset($count);
+	function buildIndex() {
+		global $sql, $board;
+		sql_open();
+		
+		$pages = getPages();
 
 		$page = 1;
 		while($page <= MAX_PAGES && $content = index($page)) {
@@ -356,7 +360,8 @@
 				'body'=>$thread->build(),
 				'post_url' => POST_URL,
 				'index' => ROOT,
-				'id' => $id
+				'id' => $id,
+				'mod' => $mod
 			));
 			
 		if($return)

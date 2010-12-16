@@ -19,5 +19,6 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `filehash` varchar(32) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
+  `sticky` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
