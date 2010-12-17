@@ -7,7 +7,14 @@
 		try {
 			return $pdo = new PDO(DB_TYPE . ':host=' . DB_SERVER . ';dbname=' . DB_DATABASE, DB_USER, DB_PASSWORD);
 		} catch(PDOException $e) {
-			error('Database error.');
+			$message = $e->getMessage();
+			
+			// Remove any sensitive information
+			$message = str_replace(DB_USER, '<em>hidden</em>', $message);
+			$message = str_replace(DB_PASSWORD, '<em>hidden</em>', $message);
+			
+			// Print error
+			error('Database error: ' . $message);
 		}
 	}
 	
