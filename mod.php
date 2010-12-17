@@ -100,7 +100,7 @@
 			
 			$data = '';
 			foreach($constants as $name => $value) {
-				if(MOD_NEVER_REAL_PASSWORD && $name == 'MY_PASSWORD')
+				if(MOD_NEVER_REAL_PASSWORD && $name == 'DB_PASSWORD')
 					$value = '<em>hidden</em>';
 				else {
 					// For some reason PHP is only giving me the first defined value (the default), so use constant()
