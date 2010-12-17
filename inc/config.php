@@ -220,16 +220,13 @@
 	define('ALWAYS_NOKO',		false, true);
 	
 	define('URL_MATCH',		'/^' .
-			(@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] .
+			(@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . preg_quote(ROOT, '/') .
 			'(' .
-					preg_quote(ROOT, '/') .
 					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
 				'|' .
-					preg_quote(ROOT, '/') .
 					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
 					preg_quote(FILE_INDEX, '/') .
 				'|' .
-					preg_quote(ROOT, '/') .
 					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
 					str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
 			')$/', true);
