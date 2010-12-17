@@ -94,7 +94,7 @@
 					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
 				// Delete file (keep post)
-				if($mod['type'] >= MOD_DELETEFILE)
+				if(!empty($this->file) && $mod['type'] >= MOD_DELETEFILE)
 					$built .= ' <a title="Remove file" href="?/b/file/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
 				
 				$built .= '</span>';
