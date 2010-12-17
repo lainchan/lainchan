@@ -100,15 +100,24 @@
 			$data = '';
 			foreach($constants as $name => $value) {
 				if(MOD_NEVER_REAL_PASSWORD && $name == 'MY_PASSWORD')
-					$value = '********';
+					$value = '<em>hidden</em>';
 				else {
 					// For some reason PHP is only giving me the first defined value (the default), so use constant()
 					$value = constant($name);
 					if(gettype($value) == 'boolean') {
 						$value = $value ? '<span style="color:green;">On</span>' : '<span style="color:red;">Off</span>';
 					} elseif(gettype($value) == 'string') {
-						$value = '<span style="color:maroon;">' . utf8tohtml($value) . '</span>';
+						$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '…' : '')) . '</span>';
 					} elseif(gettype($value) == 'integer') {
+						// Show permissions in a cleaner way
+						if(preg_match('/^MOD_/', $name) && $name != 'MOD_JANITOR' &&  $name != 'MOD_MOD' &&  $name != 'MOD_ADMIN') {
+							if($value == MOD_JANITOR)
+								$value = 'Janitor';
+							elseif($value == MOD_MOD)
+								$value = 'Mod';
+							elseif($value == MOD_ADMIN)
+								$value = 'Admin';
+						}
 						$value = '<span style="color:black;">' . $value . '</span>';
 					}
 				}
@@ -117,9 +126,7 @@
 					'<tr><th style="text-align:left;">' . 
 						$name .
 					'</th><td>' .
-						substr($value, 0, 120) .
-					'' .
-						(strlen($value) > 120 ? '…' : '') .
+						$value .
 					'</td></tr>';
 			}
 			
