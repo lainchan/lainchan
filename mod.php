@@ -108,7 +108,10 @@
 					if(gettype($value) == 'boolean') {
 						$value = $value ? '<span style="color:green;">On</span>' : '<span style="color:red;">Off</span>';
 					} elseif(gettype($value) == 'string') {
-						$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '…' : '')) . '</span>';
+						if(empty($value))
+							$value = '<em>empty</em>';
+						else
+							$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '…' : '')) . '</span>';
 					} elseif(gettype($value) == 'integer') {
 						// Show permissions in a cleaner way
 						if(preg_match('/^MOD_/', $name) && $name != 'MOD_JANITOR' &&  $name != 'MOD_MOD' &&  $name != 'MOD_ADMIN') {
