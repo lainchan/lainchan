@@ -17,13 +17,12 @@
 			$password = sha1($password);
 		}
 		
-		$res = mysql_query(sprintf(
-			"SELECT `id`,`type` FROM `mods` WHERE `username` = '%s' AND `password` = '%s' LIMIT 1",
-				mysql_real_escape_string($username),
-				$password
-		), $sql) or error(mysql_error($sql));
+		$query = prepare("SELECT `id`,`type` FROM `mods` WHERE `username` = :username AND `password` = :password LIMIT 1");
+		$query->bindValue(':username', $username);
+		$query->bindValue(':password', $password);
+		$query->execute();
 		
-		if($user = mysql_fetch_array($res)) {
+		if($user = $query->fetch()) {
 			return $mod = Array(
 				'id' => $user['id'],
 				'type' => $user['type'],
@@ -142,22 +141,19 @@
 	
 	// Delete a post (reply or thread)
 	function deletePost($id) {
-		global $board, $sql;
+		global $board;
 		
 		// Select post and replies (if thread) in one query
-		$post_res = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = '%d' OR `thread` = '%d'",
-					mysql_real_escape_string($board['uri']),
-					$id,
-					$id
-			), $sql) or error(mysql_error($sql));
+		$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
 		
-		if(mysql_num_rows($post_res) < 1) {
+		if($query->rowCount() < 1) {
 			error(ERROR_INVALIDPOST);
 		}
 		
 		// Delete posts and maybe replies
-		while($post = mysql_fetch_array($post_res)) {
+		while($post = $query->fetch()) {
 			if(!$post['thread']) {
 				// Delete thread HTML page
 				@unlink($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $post['id']));
@@ -172,11 +168,8 @@
 			}
 		}
 		
-		mysql_query(sprintf(
-			"DELETE FROM `posts_%s` WHERE `id` = '%d' OR `thread` = '%d'",
-				mysql_real_escape_string($board['uri']),
-				$id,
-				$id
-		), $sql) or error(mysql_error($sql));
+		$query = prepare(sprintf("DELETE FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
 	}
 ?>

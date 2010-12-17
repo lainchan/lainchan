@@ -6,6 +6,7 @@
 	}
 	require 'inc/config.php';
 	require 'inc/template.php';
+	require 'inc/database.php';
 	require 'inc/user.php';
 	
 	// Fix for magic quotes
@@ -191,9 +192,6 @@
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
 		
-		// MySQLify
-		mysql_safe_array($post);
-		
 		$id = post($post, $OP);
 		
 		if($post['has_file'] && $post['zip']) {
@@ -295,12 +293,7 @@
 		buildThread(($OP?$id:$post['thread']));
 		
 		if(!$OP) {
-			mysql_query(
-				sprintf("UPDATE `posts_%s` SET `bump` = '%d' WHERE `id` = '%s' AND `thread` IS NULL",
-					mysql_real_escape_string($board['uri']),
-					time(),
-					$post['thread']
-				), $sql) or error(mysql_error($sql));
+			bumpThread($post['thread']);
 		}
 		
 		buildIndex();
@@ -318,8 +311,8 @@
 			sql_open();
 			
 			// Build all boards
-			$boards_res = mysql_query('SELECT * FROM `boards`', $sql) or error(mysql_error($sql));
-			while($_board = mysql_fetch_array($boards_res)) {
+			$boards = listBoards();
+			foreach($boards as &$_board) {
 				setupBoard($_board);
 				buildIndex();
 			}

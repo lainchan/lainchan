@@ -7,22 +7,6 @@
 		return str_replace(array_keys($replaces),
 		                   array_values($replaces), $str);
 	}
-
-	function sql_open() {
-		global $sql;
-		$sql = @mysql_connect(MY_SERVER, MY_USER, MY_PASSWORD) or error('Database error.');
-		@mysql_select_db(MY_DATABASE, $sql) or error('Database error.');
-	}
-	function sql_close() {
-		global $sql;
-		@mysql_close($sql);
-	}
-
-	function mysql_safe_array(&$array) {
-		foreach($array as &$item) {
-			$item = mysql_real_escape_string($item);
-		}
-	}
 	
 	function setupBoard($array) {
 		global $board;
@@ -45,94 +29,91 @@
 	function openBoard($uri) {
 		global $sql;
 		sql_open();
-		$boards_res = mysql_query(sprintf(
-			"SELECT * FROM `boards` WHERE `uri` = '%s' LIMIT 1",
-				mysql_real_escape_string($uri)
-		), $sql) or error(mysql_error($sql));
 		
-		if($_board = mysql_fetch_array($boards_res)) {
-			setupBoard($_board);
+		$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
+		$query->bindValue(':uri', $uri);
+		$query->execute() or error(db_error($query));
+		
+		if($board = $query->fetch()) {
+			setupBoard($board);
 			return true;
 		} else return false;
 	}
 	
 	function listBoards() {
-		global $sql;
-		sql_open();
-		$boards_res = mysql_query("SELECT * FROM `boards`", $sql) or error(mysql_error($sql));
-		
-		$boards = Array();
-		while($_board = mysql_fetch_array($boards_res)) {
-			$boards[] = $_board;
-		}
+		$query = query("SELECT * FROM `boards`") or error(db_error());
+		$boards = $query->fetchAll();
 		return $boards;
 	}
 	
 	function threadExists($id) {
-		global $sql, $board;
-		$thread_res = mysql_query(sprintf(
-			"SELECT 1 FROM `posts_%s` WHERE `id` = '%d' AND `thread` IS NULL LIMIT 1",
-				mysql_real_escape_string($board['uri']),
-				$id
-		), $sql) or error(mysql_error($sql));
+		global $board;
 		
-		if(mysql_num_rows($thread_res) > 0) {
+		$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+		$query->bindParam(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error());
+		
+		if($query->rowCount()) {
 			return true;
 		} else return false;
 	}
 	
 	function post($post, $OP) {
-		global $sql, $board;
+		global $pdo, $board;
+		
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky)", $board['uri']));
+		
+		// Basic stuff
+		$query->bindValue(':subject', $post['subject']);
+		$query->bindValue(':email', $post['email']);
+		$query->bindValue(':name', $post['name']);
+		$query->bindValue(':trip', $post['trip']);
+		$query->bindValue(':body', $post['body']);
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':password', $post['password']);		
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		
 		if($OP) {
-			mysql_query(
-				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, NULL, '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '0')",
-					mysql_real_escape_string($board['uri']),
-					$post['subject'],
-					$post['email'],
-					$post['name'],
-					$post['trip'],
-					$post['body'],
-					time(),
-					time(),
-					$post['thumb'],
-					$post['thumbwidth'],
-					$post['thumbheight'],
-					$post['file'],
-					$post['width'],
-					$post['height'],
-					$post['filesize'],
-					$post['filename'],
-					$post['filehash'],
-					$post['password'],
-					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
-				), $sql) or error(mysql_error($sql));
-			return mysql_insert_id($sql);
+			// No parent thread, image
+			$query->bindValue(':thread', null, PDO::PARAM_NULL);
 		} else {
-			mysql_query(
-				sprintf("INSERT INTO `posts_%s` VALUES ( NULL, '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%s', '%s', '%s', '%s', '0')",
-					mysql_real_escape_string($board['uri']),
-					$post['thread'],
-					$post['subject'],
-					$post['email'],
-					$post['name'],
-					$post['trip'],
-					$post['body'],
-					time(),
-					time(),
-					$post['has_file']?$post['thumb']:null,
-					$post['has_file']?$post['thumbwidth']:null,
-					$post['has_file']?$post['thumbheight']:null,
-					$post['has_file']?$post['file']:null,
-					$post['has_file']?$post['width']:null,
-					$post['has_file']?$post['height']:null,
-					$post['has_file']?$post['filesize']:null,
-					$post['has_file']?$post['filename']:null,
-					$post['has_file']?$post['filehash']:null,
-					$post['password'],
-					mysql_real_escape_string($_SERVER['REMOTE_ADDR'])
-				), $sql) or error(mysql_error($sql));
-			return mysql_insert_id($sql);
+			$query->bindValue(':thread', $post['thread'], PDO::PARAM_INT);
 		}
+		
+		if($post['has_file']) {
+			$query->bindValue(':thumb', $post['thumb']);
+			$query->bindValue(':thumbwidth', $post['thumbwidth'], PDO::PARAM_INT);
+			$query->bindValue(':thumbheight', $post['thumbheight'], PDO::PARAM_INT);
+			$query->bindValue(':file', $post['file']);
+			$query->bindValue(':width', $post['width'], PDO::PARAM_INT);
+			$query->bindValue(':height', $post['height'], PDO::PARAM_INT);
+			$query->bindValue(':filesize', $post['filesize'], PDO::PARAM_INT);
+			$query->bindValue(':filename', $post['filesize']);
+			$query->bindValue(':filehash', $post['filesize']);
+		} else {
+			$query->bindValue(':thumb', null, PDO::PARAM_NULL);
+			$query->bindValue(':thumbwidth', null, PDO::PARAM_NULL);
+			$query->bindValue(':thumbheight', null, PDO::PARAM_NULL);
+			$query->bindValue(':file', null, PDO::PARAM_NULL);
+			$query->bindValue(':width', null, PDO::PARAM_NULL);
+			$query->bindValue(':height', null, PDO::PARAM_NULL);
+			$query->bindValue(':filesize', null, PDO::PARAM_NULL);
+			$query->bindValue(':filename', null, PDO::PARAM_NULL);
+			$query->bindValue(':filehash', null, PDO::PARAM_NULL);
+		}
+		
+		$query->execute() or error(db_error($query));
+		
+		return $pdo->lastInsertId();
+	}
+	
+	function bumpThread($id) {
+		global $board;
+		$query = prepare(sprintf("UPDATE `posts_%s` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
 	}
 
 	function index($page, $mod=false) {
@@ -142,57 +123,52 @@
 		$offset = round($page*THREADS_PER_PAGE-THREADS_PER_PAGE);
 
 		sql_open();
-		$query = mysql_query(sprintf(
-					"SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT %d,%d",
-						mysql_real_escape_string($board['uri']),
-						$offset,
-						THREADS_PER_PAGE
-					), $sql) or error(mysql_error($sql));
-					
-		if(mysql_num_rows($query) < 1 && $page > 1) return false;
-		while($th = mysql_fetch_array($query)) {
+		
+		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT ?,?", $board['uri']));
+		$query->bindValue(1, $offset, PDO::PARAM_INT);
+		$query->bindValue(2, THREADS_PER_PAGE, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if($query->rowcount() < 1 && $page > 1) return false;
+		while($th = $query->fetch()) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $mod ? '?/' : ROOT);
 
-			$newposts = mysql_query(sprintf(
-					"SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = '%s' ORDER BY `time` DESC LIMIT %d",
-						mysql_real_escape_string($board['uri']),
-						$th['id'],
-						THREADS_PREVIEW
-				), $sql) or error(mysql_error($sql));
-			if(mysql_num_rows($newposts) == THREADS_PREVIEW) {
-				$count_query = mysql_query(sprintf(
-					"SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = '%s'",
-						mysql_real_escape_string($board['uri']),
-						$th['id']
-				), $sql) or error(mysql_error($sql));
-				$count = mysql_fetch_array($count_query);
+			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `time` DESC LIMIT ?", $board['uri']));
+			$posts->bindValue(1, $th['id']);
+			$posts->bindValue(2, THREADS_PREVIEW, PDO::PARAM_INT);
+			$posts->execute() or error(db_error($posts));
+			
+			if($posts->rowCount() == THREADS_PREVIEW) {
+				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = ?", $board['uri']));
+				$count->bindValue(1, $th['id']);
+				$count->execute() or error(db_error($count));
+				
+				$count = $count->fetch();
 				$omitted = $count['num'] - THREADS_PREVIEW;
 				$thread->omitted = $omitted;
-				mysql_free_result($count_query);
 				unset($count);
 				unset($omitted);
 			}
-			while($po = mysql_fetch_array($newposts)) {
+			
+			while($po = $posts->fetch()) {
 				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $mod ? '?/' : ROOT));
 			}
-			mysql_free_result($newposts);
 
 			$thread->posts = array_reverse($thread->posts);
 			$body .= $thread->build(true);
 		}
-		mysql_free_result($query);
+		
 		return Array('button'=>BUTTON_NEWTOPIC, 'board'=>$board, 'body'=>$body, 'post_url' => POST_URL, 'index' => ROOT);
 	}
 	
 	function getPages($mod=false) {
 		global $sql, $board;
 		
-		$res = mysql_query(sprintf(
-			"SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL",
-				mysql_real_escape_string($board['uri'])
-		), $sql) or error(mysql_error($sql));
-		$arr = mysql_fetch_array($res);
-		$count = floor((THREADS_PER_PAGE + $arr['num'] - 1) / THREADS_PER_PAGE);
+		// Count threads
+		$query = query(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+		
+		$count = current($query->fetch());
+		$count = floor((THREADS_PER_PAGE + $count - 1) / THREADS_PER_PAGE);
 
 		$pages = Array();
 		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
@@ -256,18 +232,15 @@
 					strlen($cites[1][$index]),
 					strlen($cites[3][$index]),
 				);
-
-				$result = mysql_query(sprintf(
-					"SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = '%d' LIMIT 1",
-						mysql_real_escape_string($board['uri']),
-						$cite
-				), $sql) or error(mysql_error($sql));
-				if($post = mysql_fetch_array($result)) {
+				$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+				$query->bindValue(':id', $cite);
+				$query->execute() or error(db_error($query));
+				
+				if($post = $query->fetch()) {
 					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . $board['dir'] . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
 				} else {
 					$replacement = "&gt;&gt;{$cite}";
 				}
-				mysql_free_result($result);
 
 				// Find the position of the cite
 				$position = strpos($body, $cites[0][$index]);
@@ -337,39 +310,39 @@
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
-		global $sql, $board;
+		global $board;
 		$id = round($id);
 		
-		$query = mysql_query(sprintf(
-				"SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip`,`sticky` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = '%d') OR `thread` = '%d' ORDER BY `thread`,`time`",
-					mysql_real_escape_string($board['uri']),
-					$id,
-					$id
-			), $sql) or error(mysql_error($sql));
-
-		while($post = mysql_fetch_array($query)) {
+		$query = prepare(sprintf("SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip`,`sticky` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		while($post = $query->fetch()) {
 			if(!isset($thread)) {
 				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $mod ? '?/' : ROOT);
 			} else {
 				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT));
 			}
 		}
-			$body = Element('thread.html', Array(
-				'button'=>BUTTON_REPLY,
-				'board'=>$board, 
-				'body'=>$thread->build(),
-				'post_url' => POST_URL,
-				'index' => ROOT,
-				'id' => $id,
-				'mod' => $mod,
-				'return' => ($mod ? '?' . $board['url'] . FILE_INDEX : ROOT . $board['uri'] . '/' . FILE_INDEX)
-			));
+		
+		// Check if any posts were found
+		if(!isset($thread)) error(ERROR_NONEXISTANT);
+		
+		$body = Element('thread.html', Array(
+			'button'=>BUTTON_REPLY,
+			'board'=>$board, 
+			'body'=>$thread->build(),
+			'post_url' => POST_URL,
+			'index' => ROOT,
+			'id' => $id,
+			'mod' => $mod,
+			'return' => ($mod ? '?' . $board['url'] . FILE_INDEX : ROOT . $board['uri'] . '/' . FILE_INDEX)
+		));
 			
 		if($return)
 			return $body;
 		else
 			@file_put_contents($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $id), $body) or error("Couldn't write to file.");
-		mysql_free_result($query);
 	}
 	
 	function generate_tripcode ( $name, $length = 10 ) {

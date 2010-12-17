@@ -6,6 +6,7 @@
 	}
 	require 'inc/config.php';
 	require 'inc/template.php';
+	require 'inc/database.php';
 	require 'inc/user.php';
 	require 'inc/mod.php';
 	
@@ -175,20 +176,21 @@
 				if(!preg_match('/^\w+$/', $b['uri']))
 					error(sprintf(ERROR_INVALIDFIELD, 'URI'));
 				
-				mysql_query(sprintf(
-					"INSERT INTO `boards` VALUES (NULL, '%s', '%s', " .
-							(empty($b['subtitle']) ? 'NULL' :  "'%s'" ) .
-					")",
-						mysql_real_escape_string($b['uri']),
-						mysql_real_escape_string($b['title']),
-						mysql_real_escape_string($b['subtitle'])
-				), $sql) or error(mysql_error($sql));
+				$query = prepare("INSERT INTO `boards` VALUES (NULL, :uri, :title, :subtitle)");
+				$query->bindValue(':uri', $b['uri']);
+				$query->bindValue(':title', $b['title']);
+				if(!empty($b['subtitle'])) {
+					$query->bindValue(':subtitle', $b['subtitle']);
+				} else {
+					$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
+				}
+				$query->execute() or error(db_error($query));
 				
 				// Open the board
 				openBoard($b['uri']) or error("Couldn't open board after creation.");
 				
 				// Create the posts table
-				mysql_query(Element('posts.sql', Array('board' => $board['uri'])), $sql) or error(mysql_error($sql));
+				query(Element('posts.sql', Array('board' => $board['uri']))) or error(db_error());
 				
 				// Build the board
 				buildIndex();

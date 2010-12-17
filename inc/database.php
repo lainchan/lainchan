@@ -1,0 +1,39 @@
+<?php
+	
+	function sql_open() {
+		global $pdo;
+		if($pdo) return true;
+		
+		try {
+			return $pdo = new PDO(DB_TYPE . ':host=' . DB_SERVER . ';dbname=' . DB_DATABASE, DB_USER, DB_PASSWORD);
+		} catch(PDOException $e) {
+			error('Database error.');
+		}
+	}
+	
+	function sql_close() {
+		global $pdo;
+		$pdo = NULL;
+	}
+	
+	function prepare($query) {
+		global $pdo;
+		return $pdo->prepare($query);
+	}
+	
+	function query($query) {
+		global $pdo;
+		return $pdo->query($query);
+	}
+	
+	function db_error($PDOStatement=null) {
+		global $pdo;
+		if(isset($PDOStatement)) {
+			$err = $PDOStatement->errorInfo();
+			return $err[2];
+		} else {
+			$err = $pdo->errorInfo();
+			return $err[2];
+		}
+	}
+?>

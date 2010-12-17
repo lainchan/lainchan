@@ -10,10 +10,16 @@
  */
 
 	// Database stuff
-	define('MY_SERVER',		'localhost', true);
-	define('MY_USER',		'', true);
-	define('MY_PASSWORD',	'', true);
-	define('MY_DATABASE',	'', true);
+	
+	// "mysql", "mysqli", "pgsql", "mssql"
+	define('DB_TYPE',		'mysql', true);
+	// Hostname or IP address
+	define('DB_SERVER',		'localhost', true);
+	// Login
+	define('DB_USER',		'', true);
+	define('DB_PASSWORD',	'', true);
+	// TinyBoard database
+	define('DB_DATABASE',	'', true);
 
 	// The name of the session cookie (PHP's $_SESSION)
 	define('SESS_COOKIE',	'imgboard', true);
