@@ -39,7 +39,7 @@
 	
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
-
+	// Make this something long and random for security
 	define('SALT',			'wefaw98YHEWUFuo', true);
 
 	// How many seconds before you can post, after the first visit
