@@ -11,7 +11,7 @@
 
 	// Database stuff
 	
-	// "mysql", "mysqli", "pgsql", "mssql"
+	// "mysql", "pgsql", etc
 	define('DB_TYPE',		'mysql', true);
 	// Hostname or IP address
 	define('DB_SERVER',		'localhost', true);
