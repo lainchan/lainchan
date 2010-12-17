@@ -220,16 +220,19 @@
 	define('ALWAYS_NOKO',		false, true);
 	
 	define('URL_MATCH',		'/^' .
-			(@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] . preg_quote(ROOT, '/') .
-			'(' .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-				'|' .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-					preg_quote(FILE_INDEX, '/') .
-				'|' .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-					str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
-			')$/', true);
+		(preg_match(URL_REGEX, ROOT) ? '' :
+			(@$_SERVER['HTTPS']?'https':'http') .
+			':\/\/'.$_SERVER['HTTP_HOST']) .
+			preg_quote(ROOT, '/') .
+		'(' .
+				str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
+			'|' .
+				str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
+				preg_quote(FILE_INDEX, '/') .
+			'|' .
+				str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
+				str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
+		')$/i', true);
 	
 	if(ROOT_FILE) {
 		chdir(ROOT_FILE);
