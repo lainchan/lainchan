@@ -11,7 +11,8 @@
 
 	// Database stuff
 	
-	// "mysql", "pgsql", etc
+	// SQL driver ("mysql", "pgsql", "sqlite", "dblib", etc)
+	// http://www.php.net/manual/en/pdo.drivers.php
 	define('DB_TYPE',		'mysql', true);
 	// Hostname or IP address
 	define('DB_SERVER',		'localhost', true);
@@ -20,6 +21,8 @@
 	define('DB_PASSWORD',	'', true);
 	// TinyBoard database
 	define('DB_DATABASE',	'', true);
+	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
+	define('DB_DSN', '', true);
 
 	// The name of the session cookie (PHP's $_SESSION)
 	define('SESS_COOKIE',	'imgboard', true);
