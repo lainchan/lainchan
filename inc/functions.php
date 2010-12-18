@@ -50,7 +50,7 @@
 		global $board;
 		
 		$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
-		$query->bindParam(':id', $id, PDO::PARAM_INT);
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error());
 		
 		if($query->rowCount()) {
