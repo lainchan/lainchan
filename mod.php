@@ -8,6 +8,12 @@
 	require 'inc/template.php';
 	require 'inc/database.php';
 	require 'inc/user.php';
+	
+	sql_open();
+	
+	// Check if banned
+	checkBan();
+			
 	require 'inc/mod.php';
 	
 	// Fix some encoding issues
@@ -23,8 +29,6 @@
 				empty($_POST['password'])
 				) loginForm(ERROR_INVALID, $_POST['username']);
 			
-			// Open connection
-			sql_open();
 			
 			if(!login($_POST['username'], $_POST['password']))
 				loginForm(ERROR_INVALID, $_POST['username']);
@@ -315,7 +319,7 @@
 				if(empty($_POST['ip']))
 					error(sprintf(ERROR_REQUIRED, 'IP address'));
 				
-				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :expires, :reason)");
+				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason)");
 				
 				// 1yr2hrs30mins
 				// 1y2h30m
@@ -353,6 +357,8 @@
 				
 				$query->bindValue(':ip', $_POST['ip'], PDO::PARAM_STR);
 				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+				$query->bindValue(':set', time(), PDO::PARAM_INT);
+				
 				if(isset($_POST['reason'])) {
 					$query->bindValue(':reason', $_POST['reason'], PDO::PARAM_STR);
 				} else {
