@@ -139,6 +139,19 @@
 				'</fieldset>';
 	}
 	
+	// Remove file from post
+	function deleteFile($id) {
+		global $board;
+		
+		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if($query->rowCount() < 1) {
+			error(ERROR_INVALIDPOST);
+		}
+	}
+	
 	// Delete a post (reply or thread)
 	function deletePost($id) {
 		global $board;
@@ -157,6 +170,9 @@
 			if(!$post['thread']) {
 				// Delete thread HTML page
 				@unlink($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $post['id']));
+			} elseif($query->rowCount() == 1) {
+				// Rebuild thread
+				$rebuild = $post['thread'];
 			}
 			if($post['thumb']) {
 				// Delete thumbnail
@@ -171,5 +187,9 @@
 		$query = prepare(sprintf("DELETE FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
+		
+		if(isset($rebuild)) {
+			buildThread($rebuild);
+		}
 	}
 ?>
