@@ -109,6 +109,7 @@ INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
 CREATE TABLE IF NOT EXISTS  `bans` (
   `ip` varchar( 15 ) NOT NULL ,
   `mod` int NOT NULL COMMENT  'which mod made the ban',
+  `set` int NOT NULL,
   `expires` int NULL,
   `reason` text NULL
 ) ENGINE = InnoDB;
