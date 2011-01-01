@@ -159,7 +159,12 @@
 		// Delete file
 		@unlink($board['dir'] . DIR_IMG . $post['file']);
 		
+		// Update database
+		$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = 'deleted' WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
 		
+		buildThread($post['thread']);
 	}
 	
 	// Delete a post (reply or thread)

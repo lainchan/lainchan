@@ -219,7 +219,7 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			if(!$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], true)) {
+			if(!$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], $mod)) {
 				error(ERROR_404);
 			}
 			$page['pages'] = getPages(true);
@@ -235,9 +235,31 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$page = buildThread($thread, true, true);
+			$page = buildThread($thread, true, $mod);
 			
 			echo $page;
+		} elseif(preg_match('/^\/' . $regex['board'] . 'deletefile\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_DELETEFILE) error(ERROR_NOACCESS);
+			// Delete file from post
+			
+			$boardName = $matches[1];
+			$post = $matches[2];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			// Delete post
+			deleteFile($post);
+			// Rebuild board
+			buildIndex();
+			
+			
+			// Redirect
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			else
+				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+			
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
 			// Delete post

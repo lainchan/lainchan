@@ -49,7 +49,7 @@
 	}
 	
 	class Post {
-		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT) {
+		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=ROOT, $mod=false) {
 			$this->id = $id;
 			$this->thread = $thread;
 			$this->subject = utf8tohtml($subject);
@@ -68,34 +68,33 @@
 			$this->filename = $filename;
 			$this->ip = $ip;
 			$this->root = $root;
+			$this->mod = $mod;
 		}
 		public function postControls() {
-			global $mod;
-			
 			$built = '';
-			if($mod) {
+			if($this->mod) {
 				// Mod controls (on posts)
 				$built .= '<span class="controls">';
 				
 				// Delete
-				if($mod['type'] >= MOD_DELETE)
+				if($this->mod['type'] >= MOD_DELETE)
 					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
 				
 				// Delete all posts by IP
-				if($mod['type'] >= MOD_DELETEBYIP)
+				if($this->mod['type'] >= MOD_DELETEBYIP)
 					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
 				
 				// Ban
-				if($mod['type'] >= MOD_BAN)
+				if($this->mod['type'] >= MOD_BAN)
 					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
 				
 				// Ban & Delete
-				if($mod['type'] >= MOD_BANDELETE)
+				if($this->mod['type'] >= MOD_BANDELETE)
 					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
 				// Delete file (keep post)
-				if(!empty($this->file) && $mod['type'] >= MOD_DELETEFILE)
-					$built .= ' <a title="Remove file" href="?/b/file/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
+				if(!empty($this->file) && $this->mod['type'] >= MOD_DELETEFILE)
+					$built .= ' <a title="Remove file" href="?/b/deletefile/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
 				
 				$built .= '</span>';
 			}
@@ -103,7 +102,7 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $mod;
+			global $board;
 			
 			$built =	'<div class="post reply"' . (!$index?' id="reply_' . $this->id . '"':'') . '>' . 
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
@@ -120,7 +119,7 @@
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
 			// IP Address
-			if($mod && $mod['type'] >= MOD_SHOW_IP) {
+			if($this->mod && $this->mod['type'] >= MOD_SHOW_IP) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
 			
@@ -140,7 +139,7 @@
 			'</p>';
 		
 			// File info
-			if(!empty($this->file)) {
+			if(!empty($this->file) && $this->file != 'deleted') {
 				$built .= '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
@@ -156,6 +155,8 @@
 				
 			// Thumbnail
 				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+			} elseif($this->file == 'deleted') {
+				$built .= '<img src="' . ROOT . DELETED_IMAGE . '" />';
 			}
 			
 			$built .= $this->postControls();
@@ -169,7 +170,7 @@
 	
 	class Thread {
 		public $omitted = 0;
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $root=ROOT) {
+		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $root=ROOT, $mod=false) {
 			$this->id = $id;
 			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
@@ -190,36 +191,35 @@
 			$this->ip = $ip;
 			$this->sticky = $sticky;
 			$this->root = $root;
+			$this->mod = $mod;
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
 		}
-		public function postControls() {
-			global $mod;
-			
+		public function postControls() {			
 			$built = '';
-			if($mod) {
+			if($this->mod) {
 				// Mod controls (on posts)
 				$built .= '<span class="controls op">';
 				
 				// Delete
-				if($mod['type'] >= MOD_DELETE)
+				if($this->mod['type'] >= MOD_DELETE)
 					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
 				
 				// Delete all posts by IP
-				if($mod['type'] >= MOD_DELETEBYIP)
+				if($this->mod['type'] >= MOD_DELETEBYIP)
 					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
 				
 				// Ban
-				if($mod['type'] >= MOD_BAN)
+				if($this->mod['type'] >= MOD_BAN)
 					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
 				
 				// Ban & Delete
-				if($mod['type'] >= MOD_BANDELETE)
+				if($this->mod['type'] >= MOD_BANDELETE)
 					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
 				// Delete file (keep post)
-				if($mod['type'] >= MOD_STICKY)
+				if($this->mod['type'] >= MOD_STICKY)
 					if($this->sticky)
 						$built .= ' <a title="Make thread not sticky" href="?/b/unsticky/' . $this->id . '">' . MOD_LINK_DESTICKY . '</a>';
 					else
@@ -231,7 +231,7 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $mod;
+			global $board;
 			
 			$built = '<p class="fileinfo">File: <a href="'	. ROOT . $board['dir'] . DIR_IMG . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
@@ -262,7 +262,7 @@
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
 			// IP Address
-			if($mod && $mod['type'] >= MOD_SHOW_IP) {
+			if($this->mod && $this->mod['type'] >= MOD_SHOW_IP) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
 			

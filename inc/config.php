@@ -99,6 +99,8 @@
 	 */
 	define('ALLOW_ZIP',		false, true);
 	define('ZIP_IMAGE',		'static/zip.png', true);
+	
+	define('DELETED_IMAGE', 'static/deleted.png', true);
 
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
@@ -131,6 +133,7 @@
 	define('POST_URL',		ROOT . 'post.php', true);
 	define('FILE_INDEX',	'index.html', true);
 	define('FILE_PAGE',		'%d.html', true);
+	define('FILE_MOD',		'mod.php', true);
 	
 	// Multi-board (%s is board abbreviation)
 	define('BOARD_PATH', '%s/', true);
@@ -232,6 +235,9 @@
 			'|' .
 				str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
 				str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
+			'|' .
+				preg_quote(FILE_MOD, '/') .
+			'\?\/.+' .
 		')$/i', true);
 	
 	if(ROOT_FILE) {
