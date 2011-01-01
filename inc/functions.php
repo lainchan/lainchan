@@ -77,6 +77,14 @@
 		$query->execute() or error(db_error($query));
 		
 		if($ban = $query->fetch()) {
+			if($ban['expires'] && $ban['expires'] < time()) {
+				// Ban expired
+				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip AND `expires` = :expires LIMIT 1");
+				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+				$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				return;
+			}
 			$body = '<div class="ban">
 		<h2>You are banned! ;_;</h2>
 		<p>You have been banned ' .
@@ -94,7 +102,7 @@
 				'expires on <strong>' .
 					formatDate($ban['expires']) .
 				'</strong>, which is ' . until($ban['expires']) . ' from now'
-			: '<em>does not expire</em>' ) .
+			: '<em>will not expire</em>' ) .
 		'.</p>
 		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
 	</div>';
