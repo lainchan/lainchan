@@ -98,3 +98,17 @@ CREATE TABLE IF NOT EXISTS `mods` (
 
 INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
 (1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bans`
+--
+
+CREATE TABLE IF NOT EXISTS  `bans` (
+  `ip` varchar( 15 ) NOT NULL ,
+  `mod` int NOT NULL COMMENT  'which mod made the ban',
+  `expires` int NOT NULL,
+  `reason` text NULL
+) ENGINE = InnoDB;
