@@ -280,7 +280,102 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+		} elseif(preg_match('/^\/' . $regex['board'] . 'ban\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			// Ban by post
 			
+			$boardName = $matches[1];
+			$post = $matches[2];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			// Delete post
+			//deletePost($post);
+			// Rebuild board
+			//buildIndex();
+			
+			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if($query->rowCount() < 1) {
+				error(ERROR_INVALIDPOST);
+			}
+		
+			$post = $query->fetch();
+			
+			if(isset($_POST['new_ban'])) {
+				if(	!isset($_POST['ip']) ||
+					!isset($_POST['reason']) ||
+					!isset($_POST['length'])
+				)	error(ERROR_MISSEDAFIELD);
+				
+				// Check required fields
+				if(empty($_POST['ip']))
+					error(sprintf(ERROR_REQUIRED, 'IP address'));
+				
+				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :expires, :reason)");
+				
+				// 1yr2hrs30mins
+				// 1y2h30m
+				if(preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?m?i?n?u?t?e?s?)?\s?+((\d+)\s?s?e?c?o?n?d?s?)?$/', $_POST['length'], $m)) {
+					$expire = 0;
+					if(isset($m[2])) {
+						// Years
+						$expire += $m[2]*60*60*24*7*52;
+					}
+					if(isset($m[4])) {
+						// Weeks
+						$expire += $m[4]*60*60*24*7;
+					}
+					if(isset($m[6])) {
+						// Days
+						$expire += $m[6]*60*60*24;
+					}
+					if(isset($m[8])) {
+						// Hours
+						$expire += $m[8]*60*60;
+					}
+					if(isset($m[10])) {
+						// Minutes
+						$expire += $m[10]*60;
+					}
+					if(isset($m[12])) {
+						// Seconds
+						$expire += $m[12];
+					}
+					$query->bindValue(':expires', time()+$expire, PDO::PARAM_INT);
+				} else {
+					// Never expire
+					$query->bindValue(':expires', null, PDO::PARAM_NULL);
+				}
+				
+				$query->bindValue(':ip', $_POST['ip'], PDO::PARAM_STR);
+				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+				if(isset($_POST['reason'])) {
+					$query->bindValue(':reason', $_POST['reason'], PDO::PARAM_STR);
+				} else {
+					$query->bindValue(':reason', null, PDO::PARAM_NULL);
+				}
+				$query->execute() or error(db_error($query));
+				
+				// Redirect
+				if(isset($_POST['continue']))
+					header('Location: ' . $_POST['continue'], true, REDIRECT_HTTP);
+				else
+					header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);				
+			}
+			
+			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
+			
+			echo Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'New ban',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
 		} else {
 			error(ERROR_404);
 		}

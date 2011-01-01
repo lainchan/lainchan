@@ -111,24 +111,57 @@
 		return $body;
 	}
 	
+	function form_newBan($ip=null, $reason='', $continue=false) {
+		return '<fieldset><legend>New ban</legend>' . 
+					'<form action="" method="post">' . 
+						($continue ? '<input type="hidden" name="continue" value="' . htmlentities($continue) . '" />' : '') .
+						'<table>' .
+						'<tr>' . 
+							'<th><label for="ip">IP</label></th>' .
+							'<td><input type="text" name="ip" id="ip" size="15" maxlength="15" ' . 
+								(isset($ip) ?
+									'value="' . htmlentities($ip) . '" ' : ''
+								) .
+							'/></td>' .
+						'</tr>' . 
+						'<tr>' . 
+							'<th><label for="reason">Reason</label></th>' .
+							'<td><textarea name="reason" id="reason" rows="5" cols="30">' .
+								htmlentities($reason) .
+							'</textarea></td>' .
+						'</tr>' . 
+						'<tr>' . 
+							'<th><label for="length">Length</label></th>' .
+							'<td><input type="text" name="length" id="length" size="20" maxlength="40" />' .
+							' <span class="unimportant">(eg. "2d1h30m" or "2 days")</span></td>' .
+						'</tr>' . 
+						'<tr>' . 
+							'<td></td>' . 
+							'<td><input name="new_ban" type="submit" value="New Ban" /></td>' . 
+						'</tr>' . 
+						'</table>' .
+					'</form>' .
+				'</fieldset>';
+	}
+	
 	function form_newBoard() {
 		return '<fieldset><legend>New board</legend>' . 
 					'<form action="?/new" method="post">' . 
 						'<table>' .
 						'<tr>' . 
-							'<th><label for="board">URI:</label></th>' .
+							'<th><label for="board">URI</label></th>' .
 							'<td><input type="text" name="uri" id="board" size="3" maxlength="8" />' .
-							' <span class="unimportant">(eg. "b"; "mu")</span>' .
+							' <span class="unimportant">(eg. "b"; "mu")</span></td>' .
 						'</tr>' . 
 						'<tr>' . 
-							'<th><label for="title">Title:</label></th>' .
+							'<th><label for="title">Title</label></th>' .
 							'<td><input type="text" name="title" id="title" size="15" maxlength="20" />' .
-							' <span class="unimportant">(eg. "Random")</span>' .
+							' <span class="unimportant">(eg. "Random")</span></td>' .
 						'</tr>' . 
 						'<tr>' . 
-							'<th><label for="subtitle">Subtitle:</label></th>' .
+							'<th><label for="subtitle">Subtitle</label></th>' .
 							'<td><input type="text" name="subtitle" id="subtitle" size="20" maxlength="40" />' .
-							' <span class="unimportant">(optional)</span>' .
+							' <span class="unimportant">(optional)</span></td>' .
 						'</tr>' . 
 						'<tr>' . 
 							'<td></td>' . 
