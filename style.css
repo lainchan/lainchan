@@ -187,3 +187,24 @@ span.controls.op {
 span.controls a {
 	margin: 0;
 }
+div.ban {
+	background: white;
+	border: 1px solid #98E;
+	max-width: 700px;
+	margin: 30px auto;
+}
+div.ban p, div.ban h2 {
+	padding: 3px 7px;
+}
+div.ban h2 {
+	background: #98E;
+	color: black;
+	font-size: 12pt;
+}
+div.ban p {
+	font-size: 12px;
+	margin-bottom: 12px;
+}
+div.ban p.reason {
+	font-weight: bold;
+}
