@@ -10,7 +10,7 @@
 	}
 	
 	function login($username, $password, $makehash=true) {
-		global $sql, $mod;
+		global $mod;
 		
 		// SHA1 password
 		if($makehash) {
