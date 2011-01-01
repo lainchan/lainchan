@@ -220,6 +220,10 @@
 	define('BUTTON_NEWTOPIC',	'New Topic', true);
 	define('BUTTON_REPLY',		'New Reply', true);
 	
+	// The string passed to date() for post times
+	// http://php.net/manual/en/function.date.php
+	define('POST_DATE',			'm/d/y (D) H:i:s', true);
+	
 	define('ALWAYS_NOKO',		false, true);
 	
 	define('URL_MATCH',		'/^' .

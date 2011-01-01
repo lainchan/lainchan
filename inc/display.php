@@ -128,7 +128,7 @@
 				$built .= '</a>';
 			
 			// Date/time
-			$built .= ' ' . date('m/d/y (D) H:i:s', $this->time);
+			$built .= ' ' . date(POST_DATE, $this->time);
 			
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
@@ -271,7 +271,7 @@
 				$built .= '</a>';
 			
 			// Date/time
-			$built .= ' ' . date('m/d/y (D) H:i:s', $this->time);
+			$built .= ' ' . date(POST_DATE, $this->time);
 			
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
