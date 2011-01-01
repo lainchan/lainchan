@@ -143,13 +143,23 @@
 	function deleteFile($id) {
 		global $board;
 		
-		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL", $board['uri']));
+		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		if($query->rowCount() < 1) {
 			error(ERROR_INVALIDPOST);
 		}
+		
+		$post = $query->fetch();
+		
+		// Delete thumbnail
+		@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
+		
+		// Delete file
+		@unlink($board['dir'] . DIR_IMG . $post['file']);
+		
+		
 	}
 	
 	// Delete a post (reply or thread)
