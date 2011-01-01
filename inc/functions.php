@@ -27,7 +27,6 @@
 	}
 	
 	function openBoard($uri) {
-		global $sql;
 		sql_open();
 		
 		$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
@@ -44,6 +43,71 @@
 		$query = query("SELECT * FROM `boards`") or error(db_error());
 		$boards = $query->fetchAll();
 		return $boards;
+	}
+	
+	function until($timestamp) {
+		$difference = $timestamp - time();
+		if($difference < 60) {
+			return $difference . ' second' . ($difference != 1 ? 's' : '');
+		} elseif($difference < 60*60) {
+			return ($num = round($difference/(60))) . ' minute' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24) {
+			return ($num = round($difference/(60*60))) . ' hour' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24*7) {
+			return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24*7*52) {
+			return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
+		} else {
+			return ($num = round($difference/(60*60*24*7*52))) . ' year' . ($num != 1 ? 's' : '');
+		}
+	}
+	
+	function formatDate($timestamp) {
+		return date('jS F, Y', $timestamp);
+	}
+	
+	function checkBan() {
+		if(!isset($_SERVER['REMOTE_ADDR'])) {
+			// Server misconfiguration
+			return;
+		}
+		
+		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip LIMIT 1");
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->execute() or error(db_error($query));
+		
+		if($ban = $query->fetch()) {
+			$body = '<div class="ban">
+		<h2>You are banned! ;_;</h2>
+		<p>You have been banned ' .
+			($ban['reason'] ? 'for the following reason:' : 'for an unspecified reason.') .
+		'</p>' .
+			($ban['reason'] ?
+				'<p class="reason">' .
+					$ban['reason'] .
+				'</p>'
+			: '') .
+		'<p>Your ban was filed on <strong>' .
+			formatDate($ban['set']) .
+		'</strong>, and ' . 
+			($ban['expires'] ?
+				'expires on <strong>' .
+					formatDate($ban['expires']) .
+				'</strong>, which is ' . until($ban['expires']) . ' from now'
+			: '<em>does not expire</em>' ) .
+		'.</p>
+		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
+	</div>';
+			
+			// Show banned page and exit
+			die(Element('page.html', Array(
+					'index' => ROOT,
+					'title' => 'Banned',
+					'subtitle' => 'You are banned!',
+					'body' => $body
+				)
+			));
+		}
 	}
 	
 	function threadExists($id) {
@@ -117,7 +181,7 @@
 	}
 
 	function index($page, $mod=false) {
-		global $sql, $board;
+		global $board;
 
 		$body = '';
 		$offset = round($page*THREADS_PER_PAGE-THREADS_PER_PAGE);
@@ -162,7 +226,7 @@
 	}
 	
 	function getPages($mod=false) {
-		global $sql, $board;
+		global $board;
 		
 		// Count threads
 		$query = query(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
@@ -179,7 +243,7 @@
 	}
 
 	function buildIndex() {
-		global $sql, $board;
+		global $board;
 		sql_open();
 		
 		$pages = getPages();
@@ -206,7 +270,7 @@
 	}
 
 	function markup(&$body) {
-		global $sql, $board;
+		global $board;
 
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);

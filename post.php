@@ -59,6 +59,9 @@
 		// Open database connection
 		sql_open();
 		
+		// Check if banned
+		checkBan();
+		
 		// Check if board exists
 		if(!openBoard($post['board']))
 			error(ERROR_NOBOARD);
