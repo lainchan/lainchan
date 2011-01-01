@@ -252,14 +252,4 @@
 		error_reporting(E_ALL);
 		ini_set('display_errors', 1);
 	}
-	
-	/*
-	Multi-board support removes any use for this.
-	
-	if(!defined('IS_INSTALLATION')) {
-		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_RES)) @mkdir(DIR_RES, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-	}
-	*/
 ?>
