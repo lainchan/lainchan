@@ -156,7 +156,7 @@
 			// Thumbnail
 				'<a href="' . ROOT . $board['dir'] . DIR_IMG . $this->file.'"><img src="' . ROOT . $board['dir'] . DIR_THUMB . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			} elseif($this->file == 'deleted') {
-				$built .= '<img src="' . ROOT . DELETED_IMAGE . '" />';
+				$built .= '<img src="' . DELETED_IMAGE . '" />';
 			}
 			
 			$built .= $this->postControls();
