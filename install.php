@@ -32,7 +32,12 @@ $default_values = array(
 		array(
 			'name' => 'DB_TYPE',
 			'html' => 'dropdown',
-			'values' => array('mysql'=>'MySQL'),
+			'values' => array(
+				'mysql' => 'MySQL',
+				'dblib' => 'FreeTDS / Microsoft SQL Server / Sybase',
+				'pgsql' => 'PostgreSQL',
+				'sqlite' => 'SQLite'
+				),
 			'comment' => 'Database engine:'
 		),
 		array(
@@ -243,6 +248,7 @@ $sql = array(
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
   `sticky` int(1) NOT NULL,
+  `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;',
 		'CREATE TABLE IF NOT EXISTS `mods` (
@@ -290,7 +296,7 @@ if (isset($_POST['submit'])) {
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/instance-config.php';
-	require 'inc/config.php';
+	//require 'inc/config.php';
 	require 'inc/template.php';
 	require 'inc/database.php';
 	

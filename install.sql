@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
   `sticky` int(1) NOT NULL,
+  `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
