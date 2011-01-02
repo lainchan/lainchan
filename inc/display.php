@@ -219,12 +219,13 @@
 				if($this->mod['type'] >= MOD_BANDELETE)
 					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
-				// Delete file (keep post)
+				// Stickies
 				if($this->mod['type'] >= MOD_STICKY)
 					if($this->sticky)
 						$built .= ' <a title="Make thread not sticky" href="?/b/unsticky/' . $this->id . '">' . MOD_LINK_DESTICKY . '</a>';
 					else
 						$built .= ' <a title="Make thread sticky" href="?/b/sticky/' . $this->id . '">' . MOD_LINK_STICKY . '</a>';
+				
 				
 				$built .= '</span>';
 			}
