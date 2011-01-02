@@ -263,7 +263,6 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
-			
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
 			// Delete post
@@ -284,6 +283,36 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			// Ban by post
+			
+			$boardName = $matches[1];
+			$post = $matches[3];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			$query = prepare(sprintf("UPDATE `posts_%s` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			
+			if($matches[2] == 'un') {
+				$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+			} else {
+				$query->bindValue(':sticky', 1, PDO::PARAM_INT);
+			}
+			
+			$query->execute() or error(db_error($query));
+			
+			buildIndex();
+			buildThread($post);
+			
+			
+			// Redirect
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			else
+				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
 			// Ban by post
@@ -293,11 +322,6 @@
 			// Open board
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
-			
-			// Delete post
-			//deletePost($post);
-			// Rebuild board
-			//buildIndex();
 			
 			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
