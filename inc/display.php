@@ -228,7 +228,7 @@
 				
 				// Lock
 				if($this->mod['type'] >= MOD_LOCK)
-					if($this->sticky)
+					if($this->locked)
 						$built .= ' <a title="Lock thread" href="?/b/unlock/' . $this->id . '">' . MOD_LINK_UNLOCK . '</a>';
 					else
 						$built .= ' <a title="Unlock thread" href="?/b/lock/' . $this->id . '">' . MOD_LINK_LOCK . '</a>';
