@@ -66,6 +66,7 @@
 	define('ERROR_FILEEXT',	'Unsupported image format.', true);
 	define('ERROR_NOBOARD',	'Invalid board!', true);
 	define('ERROR_NONEXISTANT', 'Thread specified does not exist.', true);
+	define('ERROR_LOCKED',	'Thread locked. You may not reply at this time.', true);
 	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
@@ -186,6 +187,8 @@
 	define('MOD_DELETEBYIP', MOD_BAN, true);
 	// Sticky a thread
 	define('MOD_STICKY', MOD_MOD, true);
+	// Lock a thread
+	define('MOD_LOCK', MOD_MOD, true);
 	
 	/* Administration */
 	// Display the contents of instant-config.php

@@ -118,6 +118,21 @@
 		}
 	}
 	
+	function threadLocked($id) {
+		global $board;
+		
+		$query = prepare(sprintf("SELECT `locked` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error());
+		
+		if(!$post = $query->fetch()) {
+			// Non-existant, so it can't be locked...
+			return false;
+		}
+		
+		return (bool) $post['locked'];
+	}
+	
 	function threadExists($id) {
 		global $board;
 		

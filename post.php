@@ -70,6 +70,9 @@
 		if(!$OP && !threadExists($post['thread']))
 			error(ERROR_NONEXISTANT);
 		
+		if(!$OP && threadLocked($post['thread']))
+			error(ERROR_LOCKED);
+		
 		// Check for a file
 		if($OP) {
 			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']))
