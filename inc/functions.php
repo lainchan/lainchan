@@ -144,7 +144,12 @@
 		$query->bindValue(':time', time(), PDO::PARAM_INT);
 		$query->bindValue(':password', $post['password']);		
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		
+		if($post['mod'] && $post['sticky']) {
+			$query->bindValue(':sticky', 1, PDO::PARAM_INT);
+		} else {
+			$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		}
 		
 		if($OP) {
 			// No parent thread, image

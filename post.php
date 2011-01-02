@@ -91,6 +91,9 @@
 				// Liar. You're not a mod.
 				error(ERROR_NOTAMOD);
 			}
+			
+			$post['sticky'] = isset($_POST['sticky']);
+			$post['locked'] = isset($_POST['lock']);
 		}
 		
 		if($post['has_file']) {
@@ -311,10 +314,13 @@
 		buildIndex();
 		sql_close();
 		
+	
+		$root = $post['mod'] ? ROOT . FILE_MOD . '?/' : ROOT;
+		
 		if(ALWAYS_NOKO || $noko) {
-			header('Location: ' . ROOT . $board['dir'] . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, REDIRECT_HTTP);
+			header('Location: ' . $root . $board['dir'] . DIR_RES . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, REDIRECT_HTTP);
 		} else {
-			header('Location: ' . ROOT . $board['dir'] . FILE_INDEX, true, REDIRECT_HTTP);
+			header('Location: ' . $root . $board['dir'] . FILE_INDEX, true, REDIRECT_HTTP);
 		}
 		
 		exit;
