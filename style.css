@@ -80,6 +80,18 @@ form table tr th {
 form table tr th {
 	background: #98E;
 }
+form table tr td div {
+	text-align: cetner;
+	float: left;
+	padding-left: 3px;
+}
+form table tr td div input {
+	display: block;
+	margin: 2px auto 0 auto;
+}
+form table tr td div label {
+	font-size: 10px;
+}
 .unimportant, .unimportant * {
 	font-size: 10px;
 }
