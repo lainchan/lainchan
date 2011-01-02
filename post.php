@@ -69,10 +69,7 @@
 		//Check if thread exists
 		if(!$OP && !threadExists($post['thread']))
 			error(ERROR_NONEXISTANT);
-		
-		if(!$OP && threadLocked($post['thread']))
-			error(ERROR_LOCKED);
-		
+			
 		// Check for a file
 		if($OP) {
 			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']))
@@ -100,6 +97,14 @@
 			
 			if($post['sticky'] && $mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
 			if($post['locked'] && $mod['type'] < MOD_LOCK) error(ERROR_NOACCESS);
+		}
+		
+		// Check if thread is locked
+		// but allow mods to post
+		if(!$OP && threadLocked($post['thread'])) {
+			if(!$mod || $mod['type'] < MOD_POSTINLOCKED) {
+				error(ERROR_LOCKED);
+			}
 		}
 		
 		if($post['has_file']) {

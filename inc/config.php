@@ -189,6 +189,8 @@
 	define('MOD_STICKY', MOD_MOD, true);
 	// Lock a thread
 	define('MOD_LOCK', MOD_MOD, true);
+	// Post in a locked thread
+	define('MOD_POSTINLOCKED', MOD_MOD, true);
 	
 	/* Administration */
 	// Display the contents of instant-config.php
