@@ -285,7 +285,7 @@
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
-			// Ban by post
+			// Add/remove sticky
 			
 			$boardName = $matches[1];
 			$post = $matches[3];
@@ -300,6 +300,36 @@
 				$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 			} else {
 				$query->bindValue(':sticky', 1, PDO::PARAM_INT);
+			}
+			
+			$query->execute() or error(db_error($query));
+			
+			buildIndex();
+			buildThread($post);
+			
+			
+			// Redirect
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			else
+				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?lock\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_LOCK) error(ERROR_NOACCESS);
+			// Lock/Unlock
+			
+			$boardName = $matches[1];
+			$post = $matches[3];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			$query = prepare(sprintf("UPDATE `posts_%s` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			
+			if($matches[2] == 'un') {
+				$query->bindValue(':locked', 0, PDO::PARAM_INT);
+			} else {
+				$query->bindValue(':locked', 1, PDO::PARAM_INT);
 			}
 			
 			$query->execute() or error(db_error($query));
