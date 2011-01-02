@@ -55,10 +55,10 @@
 			return ($num = round($difference/(60*60))) . ' hour' . ($num != 1 ? 's' : '');
 		} elseif($difference < 60*60*24*7) {
 			return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
-		} elseif($difference < 60*60*24*7*52) {
+		} elseif($difference < 60*60*24*365) {
 			return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
 		} else {
-			return ($num = round($difference/(60*60*24*7*52))) . ' year' . ($num != 1 ? 's' : '');
+			return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
 		}
 	}
 	
@@ -99,11 +99,38 @@
 			formatDate($ban['set']) .
 		'</strong>, and ' . 
 			($ban['expires'] ?
-				'expires ' . until($ban['expires']) . ' from now, which is on <strong>' .
+				'expires <span id="until">' . until($ban['expires']) . '</span> from now, which is on <strong><span id="enddate">' .
 					formatDate($ban['expires']) .
-				'</strong>'
+				'</span></strong>
+				<script>
+					// return date("jS F, Y", $timestamp);
+					var secondsLeft = ' . ($ban['expires'] - time()) . '
+					var end = new Date().getTime() + secondsLeft*1000;
+					function updateExpiresTime() {
+						document.getElementById("until").innerHTML = until(end);
+					}
+					function until(end) {
+						var now = new Date().getTime();
+						var diff = Math.round((end - now) / 1000); // in seconds
+						if (diff < 60) {
+							return diff + " second" + (diff == 1 ? "" : "s");
+						} else if (diff < 60*60) {
+							return (num = Math.round(diff/(60))) + " minute" + (num == 1 ? "" : "s");
+						} else if (diff < 60*60*24) {
+							return (num = Math.round(diff/(60*60))) + " hour" + (num == 1 ? "" : "s");
+						} else if (diff < 60*60*24*7) {
+							return (num = Math.round(diff/(60*60*24))) + " day" + (num == 1 ? "" : "s");
+						} else if (diff < 60*60*24*365) {
+							return (num = Math.round(diff/(60*60*24*7))) + " week" + (num == 1 ? "" : "s");
+						} else {
+							return (num = Math.round(diff/(60*60*365))) + " year" + (num == 1 ? "" : "s");
+						}
+					}
+					updateExpiresTime();
+					setInterval(updateExpiresTime, 1000);
+				</script>'
 			: '<em>will not expire</em>' ) .
-		'.</p>
+		'</p>
 		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
 	</div>';
 			
