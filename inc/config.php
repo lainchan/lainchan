@@ -92,7 +92,7 @@
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
 	// sha1_file, md5_file, etc.
-	define('FILE_HASH',		'md5_file', true);
+	define('FILE_HASH',		'sha1_file', true);
 
 	// Maximum image upload size in bytes
 	define('MAX_FILESIZE',	10*1024*1024, true); // 10MB
