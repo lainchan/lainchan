@@ -99,9 +99,9 @@
 			formatDate($ban['set']) .
 		'</strong>, and ' . 
 			($ban['expires'] ?
-				'expires on <strong>' .
+				'expires ' . until($ban['expires']) . ' from now, which is on <strong>' .
 					formatDate($ban['expires']) .
-				'</strong>, which is ' . until($ban['expires']) . ' from now'
+				'</strong>'
 			: '<em>will not expire</em>' ) .
 		'.</p>
 		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>

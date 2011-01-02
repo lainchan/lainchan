@@ -207,7 +207,8 @@
 	define('MOD_LINK_DELETEBYIP', '[D+]', true);
 	define('MOD_LINK_STICKY', '[Sticky]', true);
 	define('MOD_LINK_DESTICKY', '[-Sticky]', true);
-	
+	define('MOD_LINK_LOCK', '[Lock]', true);
+	define('MOD_LINK_UNLOCK', '[-Lock]', true);
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
 	define('HAS_INSTALLED',		'.installed', true);
