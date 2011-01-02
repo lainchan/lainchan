@@ -284,7 +284,10 @@
 
 	function markup(&$body) {
 		global $board;
-
+		
+		if(MARKUP_URLS)
+			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
+		
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
@@ -321,22 +324,24 @@
 
 				// Find the position of the cite
 				$position = strpos($body, $cites[0][$index]);
+				
+				
+				
 				// Replace the found string with "xxxx[...]". (allows duplicate tags). Keeps whitespace.
 				$body = substr_replace($body, str_repeat('x', strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]), $position + $whitespace[0], strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]);
-
+				
 				$temp .= substr($body, $previousPosition, $position-$previousPosition) . $cites[1][$index] . $replacement . $cites[3][$index];
 				$previousPosition = $position+strlen($cites[0][$index]);
 			}
+			
 			// The rest
 			$temp .= substr($body, $previousPosition);
-
+				
 			$body = $temp;
 		}
 
 		$body = str_replace("\r", '', $body);
-
-		if(MARKUP_URLS)
-			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
+		
 		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
 		
 		if(WIKI_MARKUP) {
