@@ -212,7 +212,7 @@
 	// Whether to turn URLs into functional links
 	define('MARKUP_URLS',	true, true);
 	// Complex regular expression to catch URLs
-	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' .	'(\/([\w\-~\.#\/?=&;:+%]+))?' . '/', true);
+	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' .	'(\/([\w\-~\.#\/?=&;:+%]+)?)?' . '/', true);
 	
 	// Allowed file extensions
 	$allowed_ext = Array('jpg', 'jpeg', 'bmp', 'gif', 'png', true);
