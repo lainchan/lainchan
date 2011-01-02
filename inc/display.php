@@ -170,7 +170,7 @@
 	
 	class Thread {
 		public $omitted = 0;
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $root=ROOT, $mod=false) {
+		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=ROOT, $mod=false) {
 			$this->id = $id;
 			$this->subject = utf8tohtml($subject);
 			$this->email = $email;
@@ -190,6 +190,7 @@
 			$this->posts = Array();
 			$this->ip = $ip;
 			$this->sticky = $sticky;
+			$this->locked = $locked;
 			$this->root = $root;
 			$this->mod = $mod;
 		}
@@ -281,6 +282,8 @@
 			'<a class="post_no"' . ($index?'':'onclick="citeReply(' . $this->id . ');"') . 'href="' . ($index?$this->root . $board['dir'] . DIR_RES . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
 			// Sticky
 			($this->sticky ? '<img class="icon" title="Sticky" src="' . IMAGE_STICKY . '" />' : '') .
+			// Locked
+			($this->locked ? '<img class="icon" title="Locked" src="' . IMAGE_LOCKED . '" />' : '') .
 			// [Reply]
 			($index ? '<a href="' . $this->root . $board['dir'] . DIR_RES . $this->id . '.html">[Reply]</a>' : '') .
 			

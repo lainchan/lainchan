@@ -127,6 +127,7 @@
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
 	define('IMAGE_STICKY',	ROOT . DIR_STATIC . 'sticky.gif', true);
+	define('IMAGE_LOCKED',	ROOT . DIR_STATIC . 'locked.gif', true);
 	define('DELETED_IMAGE', ROOT . DIR_STATIC . 'deleted.png', true);
 	define('ZIP_IMAGE',		ROOT . DIR_STATIC . 'zip.png', true);
 	
