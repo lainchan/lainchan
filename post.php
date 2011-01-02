@@ -101,10 +101,9 @@
 		
 		// Check if thread is locked
 		// but allow mods to post
-		if(!$OP && threadLocked($post['thread'])) {
-			if(!$mod || $mod['type'] < MOD_POSTINLOCKED) {
+		if(!$OP && (!$mod || $mod['type'] < MOD_POSTINLOCKED)) {
+			if(threadLocked($post['thread']))
 				error(ERROR_LOCKED);
-			}
 		}
 		
 		if($post['has_file']) {
