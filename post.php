@@ -92,8 +92,8 @@
 				error(ERROR_NOTAMOD);
 			}
 			
-			$post['sticky'] = isset($_POST['sticky']);
-			$post['locked'] = isset($_POST['lock']);
+			$post['sticky'] = $OP && isset($_POST['sticky']);
+			$post['locked'] = $OP && isset($_POST['lock']);
 		}
 		
 		if($post['has_file']) {
