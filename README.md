@@ -8,7 +8,8 @@ Tinyboard is not currently at a stable state.
 [o]: http://omegadev.org/
 
 ## Installation
- 1. Tinyboard requires a MySQL database and a user to work. Create one.
+An automated installation script will be completed soon.
+ 1. Tinyboard requires an SQL database and a user to work. Create one.
  2. Import 'install.sql' into the database. There are several ways to do this.
 	- using phpMyAdmin
 	- `mysql -uUSERNAME -pPASSWORD DATABASE < install.sql`
