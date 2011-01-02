@@ -8,9 +8,6 @@ Tinyboard is not currently at a stable state.
 [o]: http://omegadev.org/
 
 ## Installation
-An automated installation script will be completed soon.
-
-
  1. Tinyboard requires an SQL database and a user to work. Create one.
  2. Import 'install.sql' into the database. There are several ways to do this.
 	- using phpMyAdmin
@@ -20,6 +17,8 @@ An automated installation script will be completed soon.
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
  7. Optional (highly recommended): Either delete or chmod as unreadable the following files: [test.php][t], [install.sql][i], and this [README][r].
+ 
+An automated installation script will be completed soon.
 
 [t]: http://github.com/savetheinternet/Tinyboard/blob/master/test.php
 [p]: http://github.com/savetheinternet/Tinyboard/blob/master/post.php
