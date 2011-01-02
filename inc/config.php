@@ -97,11 +97,8 @@
 	 * get dumped into the thread as replies.
 	 * Extremely beta and not recommended yet.
 	 */
-	define('ALLOW_ZIP',		false, true);
-	define('ZIP_IMAGE',		'static/zip.png', true);
+	define('ALLOW_ZIP',		false, true);	
 	
-	define('DELETED_IMAGE', 'static/deleted.png', true);
-
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 		WARNING: Very beta. Currently strips animated GIFs too :(
@@ -126,6 +123,12 @@
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
 	define('ROOT',			'/', true);
 	
+	// Static images
+	// These can be URLs OR base64 (data URI scheme)
+	define('IMAGE_STICKY',	ROOT . DIR_STATIC . 'sticky.gif', true);
+	define('DELETED_IMAGE', ROOT . DIR_STATIC . 'deleted.png', true);
+	define('ZIP_IMAGE',		ROOT . DIR_STATIC . 'zip.png', true);
+	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
 	define('ROOT_FILE',		false, true);
@@ -142,10 +145,6 @@
 	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	// "302" is recommended.
 	define('REDIRECT_HTTP',	302, true);
-	
-	// Static images
-	// These can be URLs OR base64 (data URI scheme)
-	define('IMAGE_STICKY', ROOT . DIR_STATIC . 'sticky.gif', true);
 	
 	/* 
 		Mod stuff
