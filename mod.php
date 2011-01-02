@@ -284,7 +284,7 @@
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			if($mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
 			// Ban by post
 			
 			$boardName = $matches[1];
