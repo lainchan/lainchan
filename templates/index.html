@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" media="screen" href="{index}style.css"/>
@@ -15,6 +15,7 @@
 	
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
 	<input type="hidden" name="board" value="{board[uri]}" />
+	{mod?<input type="hidden" name="mod" value="1" />}
 		<table>
 			<tr>
 				<th>
@@ -57,6 +58,23 @@
 					<input type="file" name="file"/>
 				</td>
 			</tr>
+			{mod?
+			<tr>
+				<th>
+					Flags
+				</th>
+				<td>
+					<div>
+						<label for="sticky">Sticky</label>
+						<input title="Sticky" type="checkbox" name="sticky" id="sticky"><br/>
+					</div>
+					<div>
+						<label for="lock">Lock</label><br/>
+						<input title="Lock" type="checkbox" name="lock" id="lock">
+					</div>
+				</td>
+			</tr>
+			}
 			<tr>
 				<th>
 					Password
