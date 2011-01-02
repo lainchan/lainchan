@@ -226,6 +226,13 @@
 					else
 						$built .= ' <a title="Make thread sticky" href="?/b/sticky/' . $this->id . '">' . MOD_LINK_STICKY . '</a>';
 				
+				// Lock
+				if($this->mod['type'] >= MOD_LOCK)
+					if($this->sticky)
+						$built .= ' <a title="Lock thread" href="?/b/unlock/' . $this->id . '">' . MOD_LINK_UNLOCK . '</a>';
+					else
+						$built .= ' <a title="Unlock thread" href="?/b/lock/' . $this->id . '">' . MOD_LINK_LOCK . '</a>';
+				
 				
 				$built .= '</span>';
 			}
