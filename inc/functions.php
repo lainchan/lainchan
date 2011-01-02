@@ -285,9 +285,11 @@
 	function markup(&$body) {
 		global $board;
 		
+		$body = utf8tohtml($body, true);
+		
 		if(MARKUP_URLS)
 			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
-		
+			
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
@@ -298,8 +300,6 @@
 			$body = str_replace('---', '—', $body); // em dash
 			$body = str_replace('--', '–', $body); // en dash
 		}
-
-		$body = utf8tohtml($body, true);
 
 		// Cites
 		if(preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
