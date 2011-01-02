@@ -133,7 +133,7 @@
 	function post($post, $OP) {
 		global $pdo, $board;
 		
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky)", $board['uri']));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked)", $board['uri']));
 		
 		// Basic stuff
 		$query->bindValue(':subject', $post['subject']);
@@ -149,6 +149,12 @@
 			$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 		} else {
 			$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		}
+		
+		if($post['mod'] && $post['locked']) {
+			$query->bindValue(':locked', 1, PDO::PARAM_INT);
+		} else {
+			$query->bindValue(':locked', 0, PDO::PARAM_INT);
 		}
 		
 		if($OP) {
