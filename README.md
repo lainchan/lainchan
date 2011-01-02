@@ -14,12 +14,7 @@ An automated installation script will be completed soon.
 	- using phpMyAdmin
 	- `mysql -uUSERNAME -pPASSWORD DATABASE < install.sql`
  3. Edit 'instance-config.php' to suit your installation. You should copy some values from '[inc/config.php][c]' to redefine them in the instance-config.
- 4. Make sure that the directories used by Tinyboard are writable. Depending on your setup, you may need to `chmod` the directories to 777.
-  The default directories are:
-	- ./res
-	- ./src
-	- ./thumb
-	- . (document root)
+ 4. Make sure that the Tinyboard directory is writable. Depending on your setup, you may need to `chmod` "." to 777, with `chmod 777 .`
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
  7. Optional (highly recommended): Either delete or chmod as unreadable the following files: [test.php][t], [install.sql][i], and this [README][r].
