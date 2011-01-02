@@ -94,6 +94,9 @@
 			
 			$post['sticky'] = $OP && isset($_POST['sticky']);
 			$post['locked'] = $OP && isset($_POST['lock']);
+			
+			if($post['sticky'] && $mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
+			if($post['locked'] && $mod['type'] < MOD_LOCK) error(ERROR_NOACCESS);
 		}
 		
 		if($post['has_file']) {
