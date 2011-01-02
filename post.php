@@ -166,7 +166,8 @@
 				error(ERR_MAXSIZE);
 			}
 			
-			$post['filehash'] = md5_file($post['file']);
+			$hash_function = FILE_HASH;
+			$post['filehash'] = $hash_function($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
 			$image = createimage($post['extension'], $post['file']);
