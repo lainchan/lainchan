@@ -183,6 +183,9 @@
 				if(!preg_match('/^\w+$/', $b['uri']))
 					error(sprintf(ERROR_INVALIDFIELD, 'URI'));
 				
+				if(openBoard($b['uri']))
+					error(sprintf(ERROR_BOARDEXISTS, sprintf(BOARD_ABBREVIATION, $b['uri'])));
+				
 				$query = prepare("INSERT INTO `boards` VALUES (NULL, :uri, :title, :subtitle)");
 				$query->bindValue(':uri', $b['uri']);
 				$query->bindValue(':title', $b['title']);
@@ -378,7 +381,7 @@
 				// 1yr2hrs30mins
 				// 1y2h30m
 				$expire = 0;
-				if(preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', $_POST['length'], $m)) {
+				if(preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', $_POST['length'], $m)) {
 					if(isset($m[2])) {
 						// Years
 						$expire += $m[2]*60*60*24*365;

@@ -81,6 +81,7 @@
 	define('ERROR_MISSEDAFIELD', 'Your browser didn\'t submit an input when it should have.', true);
 	define('ERROR_REQUIRED', 'The %s field is required.', true);
 	define('ERROR_INVALIDFIELD', 'The %s field was invalid.', true);
+	define('ERROR_BOARDEXISTS', 'There is already a %s board.', true);
 	define('ERROR_NOACCESS', 'You don\'t have permission to do that.', true);
 	define('ERROR_INVALIDPOST', 'That post doesn\'t exist…', true);
 	define('ERROR_404', 'Page not found.', true);
