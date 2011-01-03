@@ -202,7 +202,7 @@
 	// Correspond to above permission directives
 	define('MOD_LINK_DELETE', '[D]', true);
 	define('MOD_LINK_BAN', '[B]', true);
-	define('MOD_LINK_BANDELETE', '[B&D]', true);
+	define('MOD_LINK_BANDELETE', '[B&amp;D]', true);
 	define('MOD_LINK_DELETEFILE', '[F]', true);
 	define('MOD_LINK_DELETEBYIP', '[D+]', true);
 	define('MOD_LINK_STICKY', '[Sticky]', true);
