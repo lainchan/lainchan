@@ -97,22 +97,27 @@
 			: '') .
 		'<p>Your ban was filed on <strong>' .
 			formatDate($ban['set']) .
-		'</strong>, and ' . 
+		'</strong>, and <span id="expires">' . 
 			($ban['expires'] ?
-				'expires <span id="until">' . until($ban['expires']) . '</span> from now, which is on <strong><span id="enddate">' .
+				'expires <span id="countdown">' . until($ban['expires']) . '</span> from now, which is on <strong>' .
 					formatDate($ban['expires']) .
-				'</span></strong>
+				'</strong>
 				<script>
 					// return date("jS F, Y", $timestamp);
 					var secondsLeft = ' . ($ban['expires'] - time()) . '
 					var end = new Date().getTime() + secondsLeft*1000;
 					function updateExpiresTime() {
-						document.getElementById("until").innerHTML = until(end);
+						countdown.firstChild.nodeValue = until(end);
 					}
 					function until(end) {
 						var now = new Date().getTime();
 						var diff = Math.round((end - now) / 1000); // in seconds
-						if (diff < 60) {
+						if (diff < 0) {
+							document.getElementById("expires").innerHTML = "has since expired. Refresh the page to continue.";
+							//location.reload(true);
+							clearInterval(int);
+							return "";
+						} else if (diff < 60) {
 							return diff + " second" + (diff == 1 ? "" : "s");
 						} else if (diff < 60*60) {
 							return (num = Math.round(diff/(60))) + " minute" + (num == 1 ? "" : "s");
@@ -126,11 +131,13 @@
 							return (num = Math.round(diff/(60*60*365))) + " year" + (num == 1 ? "" : "s");
 						}
 					}
+					var countdown = document.getElementById("countdown");
+					
 					updateExpiresTime();
-					setInterval(updateExpiresTime, 1000);
+					var int = setInterval(updateExpiresTime, 1000);
 				</script>'
-			: '<em>will not expire</em>' ) .
-		'</p>
+			: '<em>will not expire</em>.' ) .
+		'</span></p>
 		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
 	</div>';
 			
