@@ -183,8 +183,10 @@
 				if(!preg_match('/^\w+$/', $b['uri']))
 					error(sprintf(ERROR_INVALIDFIELD, 'URI'));
 				
-				if(openBoard($b['uri']))
+				if(openBoard($b['uri'])) {
+					unset($board);
 					error(sprintf(ERROR_BOARDEXISTS, sprintf(BOARD_ABBREVIATION, $b['uri'])));
+				}
 				
 				$query = prepare("INSERT INTO `boards` VALUES (NULL, :uri, :title, :subtitle)");
 				$query->bindValue(':uri', $b['uri']);
