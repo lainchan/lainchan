@@ -20,7 +20,7 @@
 	}
 
 	function error($message) {
-		global $board;
+		global $board, $mod;
 		
 		if(function_exists('sql_close')) sql_close();
 		die(Element('page.html', Array(
@@ -29,7 +29,10 @@
 			'subtitle'=>'An error has occured.',
 			'body'=>"<center>" .
 			        "<h2>$message</h2>" .
-				(isset($board) ? "<p><a href=\"" . ROOT . $board['dir'] . FILE_INDEX . "\">Go back</a>.</p>" : '').
+				(isset($board) ? 
+					"<p><a href=\"" . ROOT .
+						($mod ? FILE_MOD . '?/' : '') .
+						$board['dir'] . FILE_INDEX . "\">Go back</a>.</p>" : '').
 			        "</center>"
 		)));
 	}
