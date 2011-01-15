@@ -5,7 +5,7 @@
 		if($pdo) return true;
 		
 		$dsn = DB_TYPE . ':host=' . DB_SERVER . ';dbname=' . DB_DATABASE;
-		if(!empty(DB_DSN))
+		if((bool)DB_DSN) // empty() doesn't work on constants
 			$dsn .= ';' . DB_DSN;
 		try {
 			return $pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
