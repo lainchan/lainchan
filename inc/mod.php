@@ -111,10 +111,12 @@
 		return $body;
 	}
 	
-	function form_newBan($ip=null, $reason='', $continue=false) {
+	function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $board=false) {
 		return '<fieldset><legend>New ban</legend>' . 
-					'<form action="" method="post">' . 
+					'<form action="?/ban" method="post">' . 
 						($continue ? '<input type="hidden" name="continue" value="' . htmlentities($continue) . '" />' : '') .
+						($delete ? '<input type="hidden" name="delete" value="' . htmlentities($delete) . '" />' : '') .
+						($board ? '<input type="hidden" name="board" value="' . htmlentities($board) . '" />' : '') .
 						'<table>' .
 						'<tr>' . 
 							'<th><label for="ip">IP</label></th>' .

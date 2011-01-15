@@ -348,26 +348,8 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
-		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
-			// Ban by post
-			
-			$boardName = $matches[1];
-			$delete = isset($matches[2]) && $matches[2] == '&delete';
-			$post = $matches[3];
-			// Open board
-			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
-			
-			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
-			$query->bindValue(':id', $post, PDO::PARAM_INT);
-			$query->execute() or error(db_error($query));
-			
-			if($query->rowCount() < 1) {
-				error(ERROR_INVALIDPOST);
-			}
-		
-			$post = $query->fetch();
+		} elseif(preg_match('/^\/ban$/', $query)) {
+			// Ban page
 			
 			if(isset($_POST['new_ban'])) {
 				if(	!isset($_POST['ip']) ||
@@ -429,8 +411,10 @@
 				$query->execute() or error(db_error($query));
 				
 				// Delete too
-				if($delete)
-					deletePost($post['id']);
+				if($mod['type'] >= MOD_DELETE && isset($_POST['delete']) && isset($_POST['board'])) {
+					openBoard($_POST['board']);
+					deletePost(round($_POST['delete']));
+				}
 				
 				// Redirect
 				if(isset($_POST['continue']))
@@ -438,8 +422,28 @@
 				else
 					header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);				
 			}
+		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
+			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			// Ban by post
 			
-			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
+			$boardName = $matches[1];
+			$delete = isset($matches[2]) && $matches[2] == '&delete';
+			$post = $matches[3];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if($query->rowCount() < 1) {
+				error(ERROR_INVALIDPOST);
+			}
+		
+			$post = $query->fetch();
+			
+			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $delete ? $post['id'] : false, $delete ? $boardName : false);
 			
 			echo Element('page.html', Array(
 				'index'=>ROOT,
