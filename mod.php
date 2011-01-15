@@ -348,12 +348,13 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
-		} elseif(preg_match('/^\/' . $regex['board'] . 'ban\/(\d+)$/', $query, $matches)) {
+		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
 			// Ban by post
 			
 			$boardName = $matches[1];
-			$post = $matches[2];
+			$delete = isset($matches[2]) && $matches[2] == '&delete';
+			$post = $matches[3];
 			// Open board
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
@@ -426,6 +427,10 @@
 					$query->bindValue(':reason', null, PDO::PARAM_NULL);
 				}
 				$query->execute() or error(db_error($query));
+				
+				// Delete too
+				if($delete)
+					deletePost($post['id']);
 				
 				// Redirect
 				if(isset($_POST['continue']))
