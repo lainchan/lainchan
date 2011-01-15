@@ -164,6 +164,12 @@
 	define('MOD_DEFAULT',	'/',	true);
 	// Don't even display MySQL password to administrators (in the configuration page)
 	define('MOD_NEVER_REAL_PASSWORD', true, true);
+	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
+	define('MOD_DNS_LOOKUP', true, true);
+	// Show ban form on the IP summary page
+	define('MOD_IP_BANFORM', true, true);
+	// How many recent posts, per board, to show in the IP summary page
+	define('MOD_IP_RECENTPOSTS', 5, true);
 	
 	// Probably best not to change these:
 	define('MOD_JANITOR',	0,		true);

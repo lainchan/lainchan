@@ -448,6 +448,46 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+)$/', $query, $matches)) {
+			// View information on an IP address
+			
+			$ip = $matches[1];
+			$host = MOD_DNS_LOOKUP ? gethostbyaddr($ip) : false;
+			
+			$body = '';
+			$boards = listBoards();
+			foreach($boards as &$_board) {
+				openBoard($_board['uri']);
+				
+				$temp = '';
+				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` LIMIT :limit", $_board['uri']));
+				$query->bindValue(':ip', $ip);
+				$query->bindValue(':limit', MOD_IP_RECENTPOSTS, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				while($post = $query->fetch()) {
+					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT, $mod);
+					$temp .= $po->build();
+				}
+				if(!empty($temp))
+					$body .= '<fieldset><legend>Last ' . $query->rowCount() . ' posts on <a href="?/' .
+							sprintf(BOARD_PATH, $_board['uri']) . FILE_INDEX .
+						'">' .
+						sprintf(BOARD_ABBREVIATION, $_board['uri']) . ' - ' . $_board['title'] .
+						'</a></legend>' . $temp . '</fieldset>';
+			}
+			
+			if(MOD_IP_BANFORM)
+				$body .= form_newBan($ip, null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
+			
+			echo Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'IP: ' . $ip,
+				'subtitle' => $host,
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
 		} else {
 			error(ERROR_404);
 		}
