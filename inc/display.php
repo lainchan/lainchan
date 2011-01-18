@@ -74,6 +74,8 @@
 			$this->mod = $mod;
 		}
 		public function postControls() {
+			global $board;
+			
 			$built = '';
 			if($this->mod) {
 				// Mod controls (on posts)
@@ -81,23 +83,23 @@
 				
 				// Delete
 				if($this->mod['type'] >= MOD_DELETE)
-					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
+					$built .= ' <a title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= MOD_DELETEBYIP)
-					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
+					$built .= ' <a title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
 				
 				// Ban
 				if($this->mod['type'] >= MOD_BAN)
-					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
+					$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
 				
 				// Ban & Delete
 				if($this->mod['type'] >= MOD_BANDELETE)
-					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
+					$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
 				// Delete file (keep post)
 				if(!empty($this->file) && $this->mod['type'] >= MOD_DELETEFILE)
-					$built .= ' <a title="Remove file" href="?/b/deletefile/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
+					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . MOD_LINK_DELETEFILE . '</a>';
 				
 				$built .= '</span>';
 			}
@@ -200,7 +202,9 @@
 		public function add(Post $post) {
 			$this->posts[] = $post;
 		}
-		public function postControls() {			
+		public function postControls() {
+			global $board;
+			
 			$built = '';
 			if($this->mod) {
 				// Mod controls (on posts)
@@ -208,33 +212,33 @@
 				
 				// Delete
 				if($this->mod['type'] >= MOD_DELETE)
-					$built .= ' <a title="Delete" href="?/b/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
+					$built .= ' <a title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . MOD_LINK_DELETE . '</a>';
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= MOD_DELETEBYIP)
-					$built .= ' <a title="Delete all posts by IP" href="?/b/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
+					$built .= ' <a title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . MOD_LINK_DELETEBYIP . '</a>';
 				
 				// Ban
 				if($this->mod['type'] >= MOD_BAN)
-					$built .= ' <a title="Ban" href="?/b/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
+					$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . MOD_LINK_BAN . '</a>';
 				
 				// Ban & Delete
 				if($this->mod['type'] >= MOD_BANDELETE)
-					$built .= ' <a title="Ban & Delete" href="?/b/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
+					$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . MOD_LINK_BANDELETE . '</a>';
 				
 				// Stickies
 				if($this->mod['type'] >= MOD_STICKY)
 					if($this->sticky)
-						$built .= ' <a title="Make thread not sticky" href="?/b/unsticky/' . $this->id . '">' . MOD_LINK_DESTICKY . '</a>';
+						$built .= ' <a title="Make thread not sticky" href="?/' . $board['uri'] . '/unsticky/' . $this->id . '">' . MOD_LINK_DESTICKY . '</a>';
 					else
-						$built .= ' <a title="Make thread sticky" href="?/b/sticky/' . $this->id . '">' . MOD_LINK_STICKY . '</a>';
+						$built .= ' <a title="Make thread sticky" href="?/' . $board['uri'] . '/sticky/' . $this->id . '">' . MOD_LINK_STICKY . '</a>';
 				
 				// Lock
 				if($this->mod['type'] >= MOD_LOCK)
 					if($this->locked)
-						$built .= ' <a title="Lock thread" href="?/b/unlock/' . $this->id . '">' . MOD_LINK_UNLOCK . '</a>';
+						$built .= ' <a title="Lock thread" href="?/' . $board['uri'] . '/unlock/' . $this->id . '">' . MOD_LINK_UNLOCK . '</a>';
 					else
-						$built .= ' <a title="Unlock thread" href="?/b/lock/' . $this->id . '">' . MOD_LINK_LOCK . '</a>';
+						$built .= ' <a title="Unlock thread" href="?/' . $board['uri'] . '/lock/' . $this->id . '">' . MOD_LINK_LOCK . '</a>';
 				
 				
 				$built .= '</span>';
