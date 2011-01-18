@@ -261,7 +261,62 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 	}
-
+	
+	// Delete a post (reply or thread)
+	function deletePost($id) {
+		global $board;
+		
+		// Select post and replies (if thread) in one query
+		$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if($query->rowCount() < 1) {
+			error(ERROR_INVALIDPOST);
+		}
+		
+		// Delete posts and maybe replies
+		while($post = $query->fetch()) {
+			if(!$post['thread']) {
+				// Delete thread HTML page
+				@unlink($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $post['id']));
+			} elseif($query->rowCount() == 1) {
+				// Rebuild thread
+				$rebuild = $post['thread'];
+			}
+			if($post['thumb']) {
+				// Delete thumbnail
+				@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
+			}
+			if($post['file']) {
+				// Delete file
+				@unlink($board['dir'] . DIR_IMG . $post['file']);
+			}
+		}
+		
+		$query = prepare(sprintf("DELETE FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if(isset($rebuild)) {
+			buildThread($rebuild);
+		}
+	}
+	
+	function clean() {
+		global $board;
+		$offset = round(MAX_PAGES*THREADS_PER_PAGE);
+		
+		// I too wish there was an easier way of doing this...
+		$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri']));
+		$query->bindValue(':offset', $offset, PDO::PARAM_INT);
+		
+		$query->execute() or error(db_error($query));
+		while($post = $query->fetch()) {
+			deletePost($post['id']);
+		}
+	}
+	
 	function index($page, $mod=false) {
 		global $board;
 
@@ -323,7 +378,41 @@
 		
 		return $pages;
 	}
+	
+	function makerobot($body) {
+		$body = strtolower($body);
+		
+		// Leave only letters
+		$body = preg_replace('/[^a-z]/i', '', $body);
+		// Remove repeating characters
+		if(ROBOT_STRIP_REPEATING)
+			$body = preg_replace('/(.)\\1+/', '$1', $body);
+		
+		return sha1($body);
+	}
+	
+	function checkRobot($body) {
+		/* CREATE TABLE `robot` (
+`hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
+) ENGINE = INNODB; */
 
+		$body = makerobot($body);
+		$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
+		$query->bindValue(':hash', $body);
+		$query->execute() or error(db_error($query));
+
+		if($query->fetch()) {
+			return true;
+		} else {
+			// Insert new hash
+			
+			$query = prepare("INSERT INTO `robot` VALUES (:hash)");
+			$query->bindValue(':hash', $body);
+			$query->execute() or error(db_error($query));
+			return false;
+		}
+	}
+	
 	function buildIndex() {
 		global $board;
 		sql_open();
@@ -417,6 +506,7 @@
 			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
 			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
 			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
+			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
 		}
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}

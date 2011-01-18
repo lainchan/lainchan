@@ -76,6 +76,7 @@
 	define('ERROR_LOCKED',	'Thread locked. You may not reply at this time.', true);
 	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
 	define('ERROR_FLOOD', 'Flood detected; Post discared.', true);
+	define('ERROR_UNORIGINAL', 'Unoriginal content!', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE',	'The file was too big.', true);
@@ -163,6 +164,12 @@
 	// "302" is recommended.
 	define('REDIRECT_HTTP',	302, true);
 	
+	// Robot stuff
+	// Strip repeating characters when making hashes
+	define('ROBOT_ENABLE', true, true);
+	define('ROBOT_STRIP_REPEATING', true, true);
+	
+	
 	/* 
 		Mod stuff
 	*/
@@ -206,6 +213,8 @@
 	define('MOD_LOCK', MOD_MOD, true);
 	// Post in a locked thread
 	define('MOD_POSTINLOCKED', MOD_MOD, true);
+	// Post bypass unoriginal content check
+	define('MOD_POSTUNORIGINAL', MOD_MOD, true);
 	
 	/* Administration */
 	// Display the contents of instant-config.php

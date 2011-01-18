@@ -147,6 +147,9 @@
 		if(checkFlood($post))
 			error(ERROR_FLOOD);
 		
+		if(!($mod && $mod['type'] >= MOD_POSTUNORIGINAL) && ROBOT_ENABLE && checkRobot($post['body']))
+			error(ERROR_UNORIGINAL);
+		
 		if($post['has_file']) {
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
@@ -221,7 +224,6 @@
 		}
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
-		
 		$id = post($post, $OP);
 		
 		if($post['has_file'] && $post['zip']) {
@@ -322,9 +324,12 @@
 		
 		buildThread(($OP?$id:$post['thread']));
 		
-		if(!$OP) {
+		if(!$OP && $post['email'] != 'sage') {
 			bumpThread($post['thread']);
 		}
+		
+		if($OP)
+			clean();
 		
 		buildIndex();
 		sql_close();

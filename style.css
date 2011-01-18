@@ -199,6 +199,10 @@ span.controls.op {
 span.controls a {
 	margin: 0;
 }
+div#wrap {
+	width: 900px;
+	margin:0 auto;
+}
 div.ban {
 	background: white;
 	border: 1px solid #98E;
@@ -219,4 +223,10 @@ div.ban p {
 }
 div.ban p.reason {
 	font-weight: bold;
+}
+span.spoiler {
+	background: black;
+}
+span.spoiler:hover {
+	color: white;
 }
