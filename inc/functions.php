@@ -45,6 +45,20 @@
 		return $boards;
 	}
 	
+	function checkFlood($post) {
+		global $board;
+		
+		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->bindValue(':body', $post['body'], PDO::PARAM_INT);
+		$query->bindValue(':floodtime', time()-FLOOD_TIME, PDO::PARAM_INT);
+		$query->bindValue(':floodsameiptime', time()-FLOOD_TIME_IP_SAME, PDO::PARAM_INT);
+		$query->bindValue(':floodsametime', time()-FLOOD_TIME_SAME, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		return (bool)$query->fetch();
+	}
+	
 	function until($timestamp) {
 		$difference = $timestamp - time();
 		if($difference < 60) {

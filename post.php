@@ -143,6 +143,10 @@
 		
 		markup($post['body']);
 		
+		// Check for a flood
+		if(checkFlood($post))
+			error(ERROR_FLOOD);
+		
 		if($post['has_file']) {
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';

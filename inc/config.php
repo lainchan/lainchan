@@ -44,12 +44,19 @@
 
 	// How many seconds before you can post, after the first visit
 	define('LURKTIME',		30, true);
+	
+	// How many seconds between each post
+	define('FLOOD_TIME',	4, true);
+	// How many seconds between each post with exactly the same content and same IP
+	define('FLOOD_TIME_IP_SAME',	120, true);
+	// Same as above but different IP address
+	define('FLOOD_TIME_SAME',	30, true);
 
 	// Max body length
 	define('MAX_BODY',		1800, true);
 
 	define('THREADS_PER_PAGE',	10, true);
-	define('MAX_PAGES',			5, true);
+	define('MAX_PAGES',			10, true);
 	define('THREADS_PREVIEW',	5, true);
 	
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
@@ -68,10 +75,11 @@
 	define('ERROR_NONEXISTANT', 'Thread specified does not exist.', true);
 	define('ERROR_LOCKED',	'Thread locked. You may not reply at this time.', true);
 	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
+	define('ERROR_FLOOD', 'Flood detected; Post discared.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE',	'The file was too big.', true);
-	define('ERR_INVALIDZIP','Invalid archive!', true);
+	define('ERR_INVALIDZIP', 'Invalid archive!', true);
 	
 	// Moderator errors
 	define('ERROR_INVALID',	'Invalid username and/or password.', true);
