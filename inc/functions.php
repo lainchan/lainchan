@@ -439,14 +439,43 @@
 			}
 		}
 	}
+	
+	function isDNSBL() {
+		$dns_black_lists = file('./dnsbl.txt', FILE_IGNORE_NEW_LINES);
+		
+		// Reverse the IP
+		$rev_ip = implode(array_reverse(explode('.', $_SERVER['REMOTE_ADDR'])), '.');
+		$response = array();
+		foreach ($dns_black_lists as $dns_black_list) {
+			$response = (gethostbynamel($rev_ip . '.' . $dns_black_list));
+			if(!empty($response))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	function isTor() {
+		return gethostbyname(
+				ReverseIPOctets($_SERVER['REMOTE_ADDR']) . '.' . $_SERVER['SERVER_PORT'] . '.' . ReverseIPOctets($_SERVER['SERVER_ADDR']) . '.ip-port.exitlist.torproject.org'
+			) == '127.0.0.2';
+	}
+			
+	function ReverseIPOctets($inputip) {
+		$ipoc = explode('.', $inputip);
+		return $ipoc[3] . '.' . $ipoc[2] . '.' . $ipoc[1] . '.' . $ipoc[0];
+	}
 
 	function markup(&$body) {
 		global $board;
 		
 		$body = utf8tohtml($body, true);
 		
-		if(MARKUP_URLS)
-			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body);
+		if(MARKUP_URLS) {
+			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body, -1, $num_links);
+			if($num_links > MAX_LINKS)
+				error(ERROR_TOOMANYLINKS);
+		}
 			
 		if(AUTO_UNICODE) {
 			$body = str_replace('...', '…', $body);
@@ -602,7 +631,7 @@
 			$salt = strtr ( $salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef' );
 			if ( isset ( $t[2] ) ) {
 				// secure
-				$trip = '!!' . substr ( crypt ( $trip, '@#$%^&*()' ), ( -1 * $length ) );
+				$trip = '!!' . substr ( crypt ( $trip, SECURE_TRIP_SALT ), ( -1 * $length ) );
 			} else {
 				// insecure
 				$trip = '!' . substr ( crypt ( $trip, $salt ), ( -1 * $length ) );

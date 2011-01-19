@@ -41,7 +41,8 @@
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
 	// Make this something long and random for security
 	define('SALT',			'wefaw98YHEWUFuo', true);
-
+	define('SECURE_TRIP_SALT', '@#$&^@#)$(*&@!_$(&329-8347', true);
+	
 	// How many seconds before you can post, after the first visit
 	define('LURKTIME',		30, true);
 	
@@ -51,6 +52,8 @@
 	define('FLOOD_TIME_IP_SAME',	120, true);
 	// Same as above but different IP address
 	define('FLOOD_TIME_SAME',	30, true);
+	// Do you need a body for your non-OP posts?
+	define('FORCE_BODY',	true, true);
 
 	// Max body length
 	define('MAX_BODY',		1800, true);
@@ -77,6 +80,9 @@
 	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
 	define('ERROR_FLOOD', 'Flood detected; Post discared.', true);
 	define('ERROR_UNORIGINAL', 'Unoriginal content!', true);
+	define('ERROR_MUTED', 'Unoriginal content! You have been muted for %d seconds.', true);
+	define('ERROR_TOR', 'Hmm… That looks like a Tor exit node.', true);
+	define('ERROR_TOOMANYLINKS', 'Too many links; flood detected.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE',	'The file was too big.', true);
@@ -103,7 +109,11 @@
 	// Function name for hashing
 	// sha1_file, md5_file, etc.
 	define('FILE_HASH',		'sha1_file', true);
-
+	
+	define('BLOCK_TOR',		true, true);
+	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
+	define('MAX_LINKS',		7, true);
+	
 	// Maximum image upload size in bytes
 	define('MAX_FILESIZE',	10*1024*1024, true); // 10MB
 	// Maximum image dimensions
@@ -167,8 +177,13 @@
 	// Robot stuff
 	// Strip repeating characters when making hashes
 	define('ROBOT_ENABLE', true, true);
+	define('ROBOT_BOARD', 'r9k', true);
 	define('ROBOT_STRIP_REPEATING', true, true);
-	
+	// Enable mutes
+	define('ROBOT_MUTE', true, true);
+	define('ROBOT_MUTE_MIN', 60, true);
+	define('ROBOT_MUTE_MAX', 120, true);
+	define('ROBOT_MUTE_DESCRIPTION', 'You have been muted for unoriginal content.', true);
 	
 	/* 
 		Mod stuff

@@ -62,6 +62,9 @@
 		// Check if banned
 		checkBan();
 		
+		if(BLOCK_TOR && isTor())
+			error(ERROR_TOR);
+			
 		// Check if board exists
 		if(!openBoard($post['board']))
 			error(ERROR_NOBOARD);
@@ -84,6 +87,9 @@
 		$post['filename'] = $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
+		
+		if(empty($post['body']) && FORCE_BODY)
+			error(ERROR_TOOSHORTBODY);
 		
 		if($post['mod']) {
 			require 'inc/mod.php';
@@ -115,6 +121,15 @@
 					'maxsz'=>commaize(MAX_FILESIZE))));
 		}
 		
+		if($mod && $mod['type'] >= MOD_MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
+			if(($mod['type'] == MOD_MOD && $match[3] == 'Mod') || $mod['type'] >= MOD_ADMIN) {
+				$post['mod_tag'] = $match[3];
+				$post['name'] = !empty($match[2])?$match[2]:'Anonymous';
+			}
+		} else {
+			$post['mod_tag'] = false;
+		}
+		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
@@ -134,21 +149,40 @@
 		}
 		
 		// Check string lengths
-		if(strlen($post['name']) > 25) error(sprintf(ERROR_TOOLONG, 'name'));
+		if(strlen($post['name']) > 25) error(sprintf(ERROR_TOOLONG, 'name'));			
 		if(strlen($post['email']) > 30) error(sprintf(ERROR_TOOLONG, 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf(ERROR_TOOLONG, 'subject'));
 		if(strlen($post['body']) > MAX_BODY) error(ERROR_TOOLONGBODY);
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error(ERROR_TOOSHORTBODY);
 		if(strlen($post['password']) > 20) error(sprintf(ERROR_TOOLONG, 'password'));
 		
+		if($post['mod_tag'])
+			$post['trip'] .= ' <a class="nametag">## ' . $post['mod_tag'] . '</a>';
+		
+		if(!($mod && $mod['type'] >= MOD_POSTUNORIGINAL) && ROBOT_ENABLE && $board['uri'] == ROBOT_BOARD && checkRobot($post['body'])) {
+			if(ROBOT_MUTE) {
+				$mutetime = ROBOT_MUTE_MIN+rand()%(ROBOT_MUTE_MAX-ROBOT_MUTE_MIN);
+				
+				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason)");
+				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+				$query->bindValue(':mod', -1, PDO::PARAM_INT);
+				$query->bindValue(':set', time(), PDO::PARAM_INT);
+				$query->bindValue(':expires', time()+$mutetime, PDO::PARAM_INT);
+				$query->bindValue(':reason', ROBOT_MUTE_DESCRIPTION);
+				$query->execute() or error(db_error($query));
+				
+				error(sprintf(ERROR_MUTED, $mutetime));
+			} else {
+				error(ERROR_UNORIGINAL);
+			}
+		}
+		
 		markup($post['body']);
 		
 		// Check for a flood
-		if(checkFlood($post))
+		if(checkFlood($post)) {
 			error(ERROR_FLOOD);
-		
-		if(!($mod && $mod['type'] >= MOD_POSTUNORIGINAL) && ROBOT_ENABLE && checkRobot($post['body']))
-			error(ERROR_UNORIGINAL);
+		}
 		
 		if($post['has_file']) {
 			// Just trim the filename if it's too long
@@ -206,6 +240,7 @@
 						imagebmp($image, $post['file']);
 						break;
 					default:
+						unlink($post['file']);
 						error('Unknwon file extension.');
 				}
 			}

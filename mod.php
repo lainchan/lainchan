@@ -464,7 +464,7 @@
 				openBoard($_board['uri']);
 				
 				$temp = '';
-				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` LIMIT :limit", $_board['uri']));
+				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` DESC LIMIT :limit", $_board['uri']));
 				$query->bindValue(':ip', $ip);
 				$query->bindValue(':limit', MOD_IP_RECENTPOSTS, PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
