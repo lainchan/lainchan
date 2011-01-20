@@ -1,7 +1,4 @@
-<?php
-	file_put_contents('test.log', "\n\nNEW POST\n", FILE_APPEND);
-	file_put_contents('test.log', print_r($_FILES, true), FILE_APPEND);
-	
+<?php	
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	if (file_exists('inc/instance-config.php')) {
@@ -175,13 +172,10 @@
 		}
 		
 		if($post['has_file']) {
-			file_put_contents('test.log', "There is a file, I'm about to move it!\n", FILE_APPEND);
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error(ERROR_NOMOVE);
-			
-			file_put_contents('test.log', "Moved it successfully (to {$post['file']}), I think!\n", FILE_APPEND);
 			
 			if($post['zip']) {
 				// Validate ZIP file
@@ -195,13 +189,9 @@
 				$post['extension'] = strtolower(substr($post['file'], strrpos($post['file'], '.') + 1));
 			}
 			
-			file_put_contents('test.log', "Getting image size of {$post['file']}\n", FILE_APPEND);
-			
 			$size = @getimagesize($post['file']);
 			$post['width'] = $size[0];
 			$post['height'] = $size[1];
-			
-			file_put_contents('test.log', "GOT IT! {$post['width']}x{$post['height']}\n", FILE_APPEND);
 			
 			// Check if the image is valid
 			if($post['width'] < 1 || $post['height'] < 1) {
@@ -214,17 +204,11 @@
 				error(ERR_MAXSIZE);
 			}
 			
-			file_put_contents('test.log', "Making a hash\n", FILE_APPEND);
-			
 			$hash_function = FILE_HASH;
 			$post['filehash'] = $hash_function($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
-			file_put_contents('test.log', "Got a hash ({$post['filehash']})! Loading image...\n", FILE_APPEND);
-			
 			$image = createimage($post['extension'], $post['file']);
-			
-			file_put_contents('test.log', "Image loaded!\n", FILE_APPEND);
 			
 			if(REDRAW_IMAGE && !$post['zip']) {
 				switch($post['extension']) {
@@ -248,11 +232,8 @@
 				}
 			}
 			
-			file_put_contents('test.log', "Resizing...\n", FILE_APPEND);
 			// Create a thumbnail
 			$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], THUMB_WIDTH, THUMB_HEIGHT);
-			
-			file_put_contents('test.log', "Resized!\n", FILE_APPEND);
 			
 			$post['thumbwidth'] = $thumb['width'];
 			$post['thumbheight'] = $thumb['height'];
@@ -271,8 +252,6 @@
 			$post['file'] = substr_replace($post['file'], '', 0, strlen($board['dir'] . DIR_IMG));
 			$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . DIR_THUMB));
 		}
-		
-		file_put_contents('test.log', "Posting...!\n", FILE_APPEND);
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
 		$id = post($post, $OP);
