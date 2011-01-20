@@ -5,7 +5,7 @@ Tinyboard is an imageboard software package written in PHP. It aims to maintain 
 
 Tinyboard is not currently at a stable state.
 
-[o]: http://omegadev.org/
+[o]: http://omegasdg.com/
 
 ## Requirements
  1. PHP >= 5.2.0
