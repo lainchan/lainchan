@@ -234,3 +234,13 @@ span.spoiler {
 span.spoiler:hover {
 	color: white;
 }
+div.styles {
+	float: right;
+	padding-bottom: 20px;
+}
+div.styles a {
+	margin: 0 10px;
+}
+div.styles a.selected {
+	text-decoration: none;
+}
