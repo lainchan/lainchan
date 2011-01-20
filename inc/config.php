@@ -81,6 +81,7 @@
 	define('ERROR_FLOOD', 'Flood detected; Post discared.', true);
 	define('ERROR_UNORIGINAL', 'Unoriginal content!', true);
 	define('ERROR_MUTED', 'Unoriginal content! You have been muted for %d seconds.', true);
+	define('ERROR_YOUAREMUTED', 'You are muted! Expires in %d seconds.', true);
 	define('ERROR_TOR', 'Hmm… That looks like a Tor exit node.', true);
 	define('ERROR_TOOMANYLINKS', 'Too many links; flood detected.', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
@@ -101,9 +102,12 @@
 	define('ERROR_INVALIDPOST', 'That post doesn\'t exist…', true);
 	define('ERROR_404', 'Page not found.', true);
 	
+	// Reply limit (deletes thread when this is reached)
+	define('REPLY_LIMIT',	250, true);
+	
 	// For resizing, max values
-	define('THUMB_WIDTH',	200, true);
-	define('THUMB_HEIGHT',	200, true);
+	define('THUMB_WIDTH',	250, true);
+	define('THUMB_HEIGHT',	250, true);
 	
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
@@ -112,7 +116,7 @@
 	
 	define('BLOCK_TOR',		true, true);
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
-	define('MAX_LINKS',		7, true);
+	define('MAX_LINKS',		15, true);
 	
 	// Maximum image upload size in bytes
 	define('MAX_FILESIZE',	10*1024*1024, true); // 10MB
@@ -181,8 +185,8 @@
 	define('ROBOT_STRIP_REPEATING', true, true);
 	// Enable mutes
 	define('ROBOT_MUTE', true, true);
-	define('ROBOT_MUTE_MIN', 60, true);
-	define('ROBOT_MUTE_MAX', 120, true);
+	define('ROBOT_MUTE_HOUR', 50, true); // How many mutes X hours ago to include in the algorithm
+	define('ROBOT_MUTE_MULTIPLIER', 2, true);
 	define('ROBOT_MUTE_DESCRIPTION', 'You have been muted for unoriginal content.', true);
 	
 	/* 
