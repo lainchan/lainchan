@@ -348,6 +348,23 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
 			else
 				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
+			// Delete all posts by an IP
+			
+			$boardName = $matches[1];
+			$post = $matches[2];
+			// Open board
+			if(!openBoard($boardName))
+				error(ERROR_NOBOARD);
+			
+			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = :ip", $board['uri']));
+			$query->bindValue(':ip', $ip);
+			$query->execute() or error(db_error($query));
+			
+			//if(isset($_SERVER['HTTP_REFERER']))
+			//	header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			//else
+			//	header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} elseif(preg_match('/^\/ban$/', $query)) {
 			// Ban page
 			
