@@ -7,6 +7,11 @@ Tinyboard is not currently at a stable state.
 
 [o]: http://omegadev.org/
 
+## Requirements
+ 1. PHP >= 5.2.0
+ 2. php-gd
+ 3. php-pdo with appropriate driver for your database
+
 ## Installation
  1. Tinyboard requires an SQL database and a user to work. Create one.
  2. Import 'install.sql' into the database. There are several ways to do this.
