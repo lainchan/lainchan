@@ -107,6 +107,7 @@ INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
 -- Table structure for table `bans`
 --
 
+
 CREATE TABLE IF NOT EXISTS  `bans` (
   `ip` varchar( 15 ) NOT NULL ,
   `mod` int NOT NULL COMMENT  'which mod made the ban',
@@ -114,3 +115,14 @@ CREATE TABLE IF NOT EXISTS  `bans` (
   `expires` int NULL,
   `reason` text NULL
 ) ENGINE = InnoDB;
+
+
+CREATE TABLE `robot` (
+`hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
+) ENGINE = INNODB; */
+
+
+CREATE TABLE `mutes` (
+`ip` VARCHAR( 15 ) NOT NULL ,
+`time` INT NOT NULL
+) ENGINE = MYISAM ;
