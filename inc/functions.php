@@ -40,7 +40,7 @@
 	}
 	
 	function listBoards() {
-		$query = query("SELECT * FROM `boards`") or error(db_error());
+		$query = query("SELECT * FROM `boards` ORDER BY `uri`") or error(db_error());
 		$boards = $query->fetchAll();
 		return $boards;
 	}
@@ -395,6 +395,10 @@
 		/* CREATE TABLE `robot` (
 `hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
 ) ENGINE = INNODB; */
+		/* CREATE TABLE `mutes` (
+`ip` VARCHAR( 15 ) NOT NULL ,
+`time` INT NOT NULL
+) ENGINE = MYISAM ; */
 
 		$body = makerobot($body);
 		$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
@@ -410,6 +414,61 @@
 			$query->bindValue(':hash', $body);
 			$query->execute() or error(db_error($query));
 			return false;
+		}
+	}
+	
+	function numPosts($id) {
+		global $board;
+		$query = prepare(sprintf("SELECT COUNT(*) as `count` FROM `posts_%s` WHERE `thread` = :thread", $board['uri']));
+		$query->bindValue(':thread', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		$result = $query->fetch();
+		return $result['count'];
+	}
+	
+	function muteTime() {
+		// Find number of mutes in the past X hours
+		$query = prepare("SELECT COUNT(*) as `count` FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
+		$query->bindValue(':time', time()-(ROBOT_MUTE_HOUR*3600), PDO::PARAM_INT);
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->execute() or error(db_error($query));
+		
+		$result = $query->fetch();
+		if($result['count'] == 0) return 0;
+		return pow(ROBOT_MUTE_MULTIPLIER, $result['count']);
+	}
+	
+	function mute() {
+		// Insert mute
+		$query = prepare("INSERT INTO `mutes` VALUES (:ip, :time)");
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->execute() or error(db_error($query));
+		
+		return muteTime();
+	}
+	
+	function checkMute() {
+		$mutetime = muteTime();
+		if($mutetime > 0) {
+			// Find last mute time
+			$query = prepare("SELECT `time` FROM `mutes` WHERE `ip` = :ip ORDER BY `time` DESC LIMIT 1");
+			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->execute() or error(db_error($query));
+			
+			if(!$mute = $query->fetch()) {
+				// What!? He's muted but he's not muted...
+				return;
+			}
+			
+			if($mute['time'] + $mutetime > time()) {
+				// Not expired yet
+				error(sprintf(ERROR_YOUAREMUTED, $mute['time'] + $mutetime - time()));
+			} else {
+				// Already expired	
+				return;
+			}
 		}
 	}
 	
@@ -764,7 +823,7 @@
 		switch($type) {
 			case 'jpg':
 			case 'jpeg':
-				if(!$image = @imagecreatefromjpeg($source_pic)) {
+				if(!$image = imagecreatefromjpeg($source_pic)) {
 					unlink($source_pic);
 					error(ERR_INVALIDIMG);
 				}
