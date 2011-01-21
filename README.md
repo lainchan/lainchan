@@ -32,7 +32,7 @@ An automated installation script will be completed soon.
 [r]: http://github.com/savetheinternet/Tinyboard/blob/master/README.md
 
 ## License
-Copyright (c) 2010 by Omega Software Development Group
+Copyright (c) 2010-2011 by Omega Software Development Group
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above copyright
