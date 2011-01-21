@@ -20,7 +20,70 @@
 		$_POST = strip_array($_POST);
 	}
 	
-	if(isset($_POST['post'])) {
+	if(isset($_POST['delete'])) {
+		// Delete
+		
+		if(	!isset($_POST['board']) ||
+			!isset($_POST['password'])
+			)
+			error(ERROR_BOT);
+		
+		$password = $_POST['password'];
+		
+		if(empty($password))
+			error(ERROR_INVALIDPASSWORD);
+		
+		$delete = Array();
+		foreach($_POST as $post => $value) {
+			if(preg_match('/^delete_(\d+)$/', $post, $m)) {
+				$delete[] = (int)$m[1];
+			}
+		}
+		
+		sql_open();
+		
+		// Check if banned
+		checkBan();
+		
+		if(BLOCK_TOR && isTor())
+			error(ERROR_TOR);
+			
+		// Check if board exists
+		if(!openBoard($_POST['board']))
+			error(ERROR_NOBOARD);
+		
+		if(empty($delete))
+			error(ERROR_NODELETE);
+			
+		foreach($delete as &$id) {
+			$query = prepare(sprintf("SELECT `password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query->bindValue(':id', $id, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if($post = $query->fetch()) {
+				if(!empty($password) && $post['password'] != $password)
+					error(ERROR_INVALIDPASSWORD);
+					
+				if(isset($_POST['file'])) {
+					// Delete just the file
+					deleteFile($id);
+				} else {
+					// Delete entire post
+					deletePost($id);
+				}
+			}
+		}
+		
+		buildIndex();
+		
+		sql_close();
+		
+		$is_mod = isset($_POST['mod']) && $_POST['mod'];
+		$root = $is_mod ? ROOT . FILE_MOD . '?/' : ROOT;
+		
+		header('Location: ' . $root . $board['dir'] . FILE_INDEX, true, REDIRECT_HTTP);
+		
+	} elseif(isset($_POST['post'])) {
 		if(	!isset($_POST['name']) ||
 			!isset($_POST['email']) ||
 			!isset($_POST['subject']) ||

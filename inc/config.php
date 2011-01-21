@@ -84,6 +84,8 @@
 	define('ERROR_YOUAREMUTED', 'You are muted! Expires in %d seconds.', true);
 	define('ERROR_TOR', 'Hmm… That looks like a Tor exit node.', true);
 	define('ERROR_TOOMANYLINKS', 'Too many links; flood detected.', true);
+	define('ERROR_NODELETE', 'You didn\'t select anything to delete.', true);
+	define('ERROR_INVALIDPASSWORD', 'Wrong password…', true);
 	define('ERR_INVALIDIMG','Invalid image.', true);
 	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
 	define('ERR_MAXSIZE',	'The file was too big.', true);
