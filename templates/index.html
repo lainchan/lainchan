@@ -86,7 +86,18 @@
 		</table>
 	</form>
 	<hr/>
+	<form action="{post_url}" method="post">
+	<input type="hidden" name="delete" value="1" />
+	<input type="hidden" name="board" value="{board[uri]}" />
+	{mod?<input type="hidden" name="mod" value="1" />}
 	{body}
+	<div class="delete">
+		Delete Post [<input title="Delete file only" type="checkbox" name="file" id="delete_file"/>
+		 <label for="delete_file">File</label>] Password
+			<input type="password" name="password" size="12" maxlength="18" />
+			<input type="submit" value="Delete" />
+	</div>
+	</form>
 	Pages: {pages:
 		[<a href="{pages[link]}">{pages[num]}</a>]{!%last? }
 	}
