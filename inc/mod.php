@@ -173,40 +173,5 @@
 					'</form>' .
 				'</fieldset>';
 	}
-	
-	// Remove file from post
-	function deleteFile($id) {
-		global $board;
-		
-		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL LIMIT 1", $board['uri']));
-		$query->bindValue(':id', $id, PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
-		
-		if($query->rowCount() < 1) {
-			error(ERROR_INVALIDPOST);
-		}
-		
-		$post = $query->fetch();
-		
-		$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id OR `thread` = :id", $board['uri']));
-		if($post['file'] == 'deleted') {
-			// Already deleted; remove file fully
-			$query->bindValue(':file', null, PDO::PARAM_NULL);
-		} else {
-			// Delete thumbnail
-			@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
-			
-			// Delete file
-			@unlink($board['dir'] . DIR_IMG . $post['file']);
-			
-			// Set file to 'deleted'
-			$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
-		}
-		// Update database
-		
-		$query->bindValue(':id', $id, PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
-		
-		buildThread($post['thread']);
-	}
+
 ?>

@@ -14,9 +14,21 @@ function focusId(id)
 	document.getElementById(id).focus();
 	init();
 }
+
+function generatePassword() {
+	pass = '';
+	chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+	for(i=0;i<8;i++) {
+		rnd = Math.floor(Math.random() * chars.length);
+		pass += chars.substring(rnd,rnd + 1);
+	}
+	return pass;
+}
+
 function dopost(form) {
-	localStorage.name = form.name.value;
-	localStorage.email = form.email.value;
+	localStorage.name = form.name.value.replace(/ ##.+$/, '');
+	if(form.email.value != 'sage')
+		localStorage.email = form.email.value;
 	
 	return form.body.value != "" || (typeof form.thread != "undefined" && form.file.value != "");
 }
@@ -64,6 +76,13 @@ function init()
 			style.className = 'selected';
 		newElement.appendChild(style);
 	}	
+	
+	if(!localStorage.password)
+		localStorage.password = generatePassword();
+	elements = document.getElementsByName('password');
+	for(x=0;x<elements.length;x++) {
+		elements[x].value = localStorage.password;
+	}
 	
 	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
 	

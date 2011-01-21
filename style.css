@@ -113,6 +113,10 @@ div.banner a:hover {
 	color: #EEF2FF;
 	text-decoration: none;
 }
+img.banner {
+	float: none;
+	margin: 4px auto 0 auto;
+}
 img {
 	display: block;
 	float: left;
@@ -138,6 +142,10 @@ p.intro {
 	padding: 0;
 	padding-bottom: 0.2em;
 }
+input.delete {
+	float: left;
+	margin: 1px 6px 0 0;
+}
 p.intro span.subject {
 	color: #0F0C5D;
 	font-weight: bold;
@@ -152,6 +160,9 @@ p.intro a.nametag {
 }
 p.intro a {
 	margin-left: 8px;
+}
+div.delete {
+	float: right;
 }
 div.post.reply p {
 	margin: 0.3em 0 0 0;

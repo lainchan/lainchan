@@ -110,7 +110,9 @@
 			global $board;
 			
 			$built =	'<div class="post reply"' . (!$index?' id="reply_' . $this->id . '"':'') . '>' . 
-						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
+						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>' . 
+			// Delete
+				'<input type="checkbox" class="delete" name="delete_' . $this->id . '" id="delete_' . $this->id . '" /><label for="delete_' . $this->id . '">';
 			
 			// Subject
 			if(!empty($this->subject))
@@ -134,6 +136,9 @@
 			
 			// Date/time
 			$built .= ' ' . date(POST_DATE, $this->time);
+			
+			// End delete
+			$built .= '</label>';
 			
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
@@ -266,6 +271,9 @@
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
+			// Delete
+			$built .= '<input type="checkbox" class="delete" name="delete_' . $this->id . '" id="delete_' . $this->id . '" /><label for="delete_' . $this->id . '">';
+				
 			// Subject
 			if(!empty($this->subject))
 				$built .= '<span class="subject">' . $this->subject . '</span> ';
@@ -288,6 +296,9 @@
 			
 			// Date/time
 			$built .= ' ' . date(POST_DATE, $this->time);
+			
+			// End delete
+			$built .= '</label>';
 			
 			$built .= ' <a class="post_no"' . 
 			// JavaScript highlight
