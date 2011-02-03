@@ -39,6 +39,8 @@
 	
 	// How long should the cookies last (in seconds)
 	define('COOKIE_EXPIRE',	15778463, true); //6 months
+	// How long should moderators should remain logged in (0=browser session) (in seconds)
+	define('MOD_EXPIRE', 15778463, true);
 	// Make this something long and random for security
 	define('SALT',			'wefaw98YHEWUFuo', true);
 	define('SECURE_TRIP_SALT', '@#$&^@#)$(*&@!_$(&329-8347', true);
@@ -47,7 +49,7 @@
 	define('LURKTIME',		30, true);
 	
 	// How many seconds between each post
-	define('FLOOD_TIME',	4, true);
+	define('FLOOD_TIME',	10, true);
 	// How many seconds between each post with exactly the same content and same IP
 	define('FLOOD_TIME_IP_SAME',	120, true);
 	// Same as above but different IP address
@@ -108,8 +110,8 @@
 	define('REPLY_LIMIT',	250, true);
 	
 	// For resizing, max values
-	define('THUMB_WIDTH',	250, true);
-	define('THUMB_HEIGHT',	250, true);
+	define('THUMB_WIDTH',	225, true);
+	define('THUMB_HEIGHT',	225, true);
 	
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
@@ -118,7 +120,7 @@
 	
 	define('BLOCK_TOR',		true, true);
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
-	define('MAX_LINKS',		15, true);
+	define('MAX_LINKS',		20, true);
 	
 	// Maximum image upload size in bytes
 	define('MAX_FILESIZE',	10*1024*1024, true); // 10MB
@@ -236,6 +238,8 @@
 	define('MOD_POSTINLOCKED', MOD_MOD, true);
 	// Post bypass unoriginal content check
 	define('MOD_POSTUNORIGINAL', MOD_MOD, true);
+	// Raw HTML posting
+	define('MOD_RAWHTML', MOD_MOD, true);
 	
 	/* Administration */
 	// Display the contents of instant-config.php

@@ -99,9 +99,9 @@
 			$post['thread'] = round($_POST['thread']);
 		} else $OP = true;
 		
-		if(!(($OP && $_POST['post'] == BUTTON_NEWTOPIC) ||
-		    (!$OP && $_POST['post'] == BUTTON_REPLY)))
-			error(ERROR_BOT);
+		//if(!(($OP && $_POST['post'] == BUTTON_NEWTOPIC) ||
+		//    (!$OP && $_POST['post'] == BUTTON_REPLY)))
+		//	error(ERROR_BOT);
 		
 		// Check the referrer
 		if($OP) {
@@ -151,7 +151,7 @@
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
 		$post['password'] = $_POST['password'];
-		$post['filename'] = $_FILES['file']['name'];
+		$post['filename'] = get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		
@@ -167,9 +167,11 @@
 			
 			$post['sticky'] = $OP && isset($_POST['sticky']);
 			$post['locked'] = $OP && isset($_POST['lock']);
+			$post['raw'] = isset($_POST['raw']);
 			
 			if($post['sticky'] && $mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
 			if($post['locked'] && $mod['type'] < MOD_LOCK) error(ERROR_NOACCESS);
+			if($post['raw'] && $mod['type'] < MOD_RAWHTML) error(ERROR_NOACCESS);
 		}
 		
 		// Check if thread is locked
@@ -208,7 +210,7 @@
 		
 		if($post['has_file']) {
 			$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
-			$post['file_id'] = rand(0, 1000000000);
+			$post['file_id'] = time() . rand(100, 999);
 			$post['file'] = $board['dir'] . DIR_IMG . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = $board['dir'] . DIR_THUMB . $post['file_id'] . '.png';
 			$post['zip'] = $OP && $post['has_file'] && ALLOW_ZIP && $post['extension'] == 'zip' ? $post['file'] : false;
@@ -216,7 +218,7 @@
 		}
 		
 		// Check string lengths
-		if(strlen($post['name']) > 25) error(sprintf(ERROR_TOOLONG, 'name'));			
+		if(strlen($post['name']) > 50) error(sprintf(ERROR_TOOLONG, 'name'));			
 		if(strlen($post['email']) > 30) error(sprintf(ERROR_TOOLONG, 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf(ERROR_TOOLONG, 'subject'));
 		if(strlen($post['body']) > MAX_BODY) error(ERROR_TOOLONGBODY);
@@ -227,7 +229,9 @@
 			$post['trip'] .= ' <a class="nametag">## ' . $post['mod_tag'] . '</a>';
 		
 		$post['body_nomarkup'] = $post['body'];
-		markup($post['body']);
+		
+		if(!($mod && $post['raw']))
+			markup($post['body']);
 		
 		// Check for a flood
 		if(checkFlood($post)) {
@@ -415,14 +419,10 @@
 			unlink($post['zip']);
 		}
 		
-		if(numPosts($OP?$id:$post['thread']) > REPLY_LIMIT) {
-			deletePost($OP?$id:$post['thread']);
-		} else {
-			buildThread(($OP?$id:$post['thread']));
-			
-			if(!$OP && $post['email'] != 'sage') {
-				bumpThread($post['thread']);
-			}
+		buildThread(($OP?$id:$post['thread']));
+		
+		if(!$OP && strtolower($post['email']) != 'sage' && (REPLY_LIMIT == 0 || numPosts($post['thread']) < REPLY_LIMIT)) {
+			bumpThread($post['thread']);
 		}
 		
 		if($OP)
@@ -431,7 +431,6 @@
 		buildIndex();
 		sql_close();
 		
-	
 		$root = $post['mod'] ? ROOT . FILE_MOD . '?/' : ROOT;
 		
 		if(ALWAYS_NOKO || $noko) {
