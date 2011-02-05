@@ -357,14 +357,21 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = :ip", $board['uri']));
-			$query->bindValue(':ip', $ip);
+			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = (SELECT `ip` FROM `posts_%s` WHERE `id` = :id)", $board['uri'], $board['uri']));
+			$query->bindValue(':id', $post);
 			$query->execute() or error(db_error($query));
 			
-			//if(isset($_SERVER['HTTP_REFERER']))
-			//	header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
-			//else
-			//	header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+			if($query->rowCount() < 1)
+				error(ERROR_INVALIDPOST);
+			
+			while($post = $query->fetch()) {
+				deletePost($post['id'], false);
+			}
+			
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+			else
+				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
 		} elseif(preg_match('/^\/ban$/', $query)) {
 			// Ban page
 			
