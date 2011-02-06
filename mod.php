@@ -79,7 +79,7 @@
 			// Boards
 			$fieldset['Boards'] .= ulBoards();
 			
-			if($mod['type'] >= MOD_SHOW_CONFIG) {
+			if($mod['type'] >= MOD_VIEW_BANLIST) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
 			if($mod['type'] >= MOD_SHOW_CONFIG) {
