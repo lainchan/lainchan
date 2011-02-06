@@ -244,6 +244,15 @@
 	/* Administration */
 	// Display the contents of instant-config.php
 	define('MOD_SHOW_CONFIG', MOD_ADMIN, true);
+	// View list of bans
+	define('MOD_VIEW_BANLIST', MOD_MOD, true);
+	// View the username of the mod who made a ban
+	define('MOD_VIEW_BANSTAFF', MOD_MOD, true);
+	// If the moderator doesn't fit the MOD_VIEW_BANSTAFF (previous) permission,
+	// show him just a "?" instead. Otherwise, it will be "Mod" or "Admin"
+	define('MOD_VIEW_BANQUESTIONMARK', false, true);
+	// Show expired bans in the ban list (they are kept in cache until the culprit returns)
+	define('MOD_VIEW_BANEXPIRED', true, true);
 	// Create a new board
 	define('MOD_NEWBOARD', MOD_ADMIN, true);
 	

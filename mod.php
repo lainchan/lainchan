@@ -19,6 +19,16 @@
 	// Fix some encoding issues
 	header('Content-Type: text/html; charset=utf-8', true);
 	
+	if (get_magic_quotes_gpc()) {
+		function strip_array($var) {
+			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
+		}
+		
+		$_SESSION = strip_array($_SESSION);
+		$_GET = strip_array($_GET);
+		$_POST = strip_array($_POST);
+	}
+	
 	// If not logged in
 	if(!$mod) {
 		if(isset($_POST['login'])) {
@@ -70,6 +80,9 @@
 			$fieldset['Boards'] .= ulBoards();
 			
 			if($mod['type'] >= MOD_SHOW_CONFIG) {
+				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
+			}
+			if($mod['type'] >= MOD_SHOW_CONFIG) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
 			
@@ -88,6 +101,90 @@
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
+		} elseif(preg_match('/^\/bans$/', $query)) {
+			if($mod['type'] < MOD_VIEW_BANLIST) error(ERROR_NOACCESS);
+			
+			if(MOD_VIEW_BANEXPIRED) {
+				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY `expires` < :time, `set` DESC");
+				$query->bindValue(':time', time(), PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+			} else {
+				// Filter out expired bans
+				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
+				$query->bindValue(':time', time(), PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+			}
+			
+			if($query->rowCount() < 1) {
+				$body = '(There are no active bans.)';
+			} else {
+				$body = '<form action="" method="post">';
+				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Set</th><th>Expires</th><th>Staff</th><th>Actions</th></tr>';
+				
+				while($ban = $query->fetch()) {
+					$body .=
+						'<tr' .
+							(MOD_VIEW_BANEXPIRED && $ban['expires'] != 0 && $ban['expires'] < time() ?
+								' style="text-decoration:line-through"'
+							:'') .
+						'>' .
+					
+					'<td style="white-space: nowrap">' .
+					
+					// Checkbox
+					'<input type="checkbox" name="ban_' . $ban['ip'] . '" id="ban_' . $ban['ip'] . '" /> ' .
+					
+					// IP address
+					'<a href="?/IP/' .
+						$ban['ip'] .
+					'">'. $ban['ip'] . '</a></td>' .
+					
+					// Reason
+					'<td>' . $ban['reason'] . '</td>' .
+					
+					// Set
+					'<td style="white-space: nowrap">' . date(POST_DATE, $ban['set']) . '</td>' .
+					
+					// Expires
+					'<td style="white-space: nowrap">' . 
+						($ban['expires'] == 0 ?
+							'<em>Never</em>'
+						:
+							date(POST_DATE, $ban['expires'])
+						) .
+					'</td>' .
+					
+					// Staff
+					'<td>' .
+						($mod['type'] < MOD_VIEW_BANSTAFF ?
+							(MOD_VIEW_BANQUESTIONMARK ?
+								'?'
+							:
+								($ban['type'] == MOD_JANITOR ? 'Janitor' :
+								($ban['type'] == MOD_MOD ? 'Mod' :
+								($ban['type'] == MOD_ADMIN ? 'Admin' :
+								'?')))
+							)
+						:
+							$ban['username']
+						) .
+					'</td>' .
+					
+					'<td></td>' .
+					
+					'</tr>';
+				}
+				
+				$body .= '</table></form>';
+			}
+			
+			echo Element('page.html', Array(
+				'index'=>ROOT,
+				'title'=>'Ban list',
+				'body'=>$body,
+				'mod'=>true
+			)
+		);
 		} elseif(preg_match('/^\/config$/', $query)) {
 			if($mod['type'] < MOD_SHOW_CONFIG) error(ERROR_NOACCESS);
 			
