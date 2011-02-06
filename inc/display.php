@@ -72,6 +72,15 @@
 			$this->ip = $ip;
 			$this->root = $root;
 			$this->mod = $mod;
+			
+			if($this->mod)
+				// Fix internal links
+				// Very complicated regex
+				$this->body = preg_replace(
+					'/<a(([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*href="' . preg_quote(ROOT, '/') . '(' . sprintf(preg_quote(BOARD_PATH, '/'), '\w+') . ')/',
+					'<a href="?/$3',
+					$this->body
+				);
 		}
 		public function postControls() {
 			global $board;
@@ -203,6 +212,15 @@
 			$this->locked = $locked;
 			$this->root = $root;
 			$this->mod = $mod;
+			
+			if($this->mod)
+				// Fix internal links
+				// Very complicated regex
+				$this->body = preg_replace(
+					'/<a(([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*href="' . preg_quote(ROOT, '/') . '(' . sprintf(preg_quote(BOARD_PATH, '/'), '\w+') . ')/',
+					'<a href="?/$3',
+					$this->body
+				);
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
