@@ -6,8 +6,11 @@ function highlightReply(id)
 		if (divs[i].className.indexOf('post') != -1)
 			divs[i].className = divs[i].className.replace(/highlighted/, '');
 	}
-	if (id)
-		document.getElementById('reply_'+id).className += ' highlighted';
+	if (id) {
+		post = document.getElementById('reply_'+id);
+		if(post)
+			post.className += ' highlighted';
+	}
 }
 function focusId(id)
 {

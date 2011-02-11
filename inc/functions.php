@@ -299,7 +299,7 @@
 	}
 	
 	// Delete a post (reply or thread)
-	function deletePost($id) {
+	function deletePost($id, $error_if_doesnt_exist=true) {
 		global $board;
 		
 		// Select post and replies (if thread) in one query
@@ -308,7 +308,9 @@
 		$query->execute() or error(db_error($query));
 		
 		if($query->rowCount() < 1) {
-			error(ERROR_INVALIDPOST);
+			if($error_if_doesnt_exist)
+				error(ERROR_INVALIDPOST);
+			else return false;
 		}
 		
 		// Delete posts and maybe replies
@@ -337,6 +339,8 @@
 		if(isset($rebuild)) {
 			buildThread($rebuild);
 		}
+		
+		return true;
 	}
 	
 	function clean() {
@@ -370,7 +374,7 @@
 		while($th = $query->fetch()) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $mod ? '?/' : ROOT, $mod);
 
-			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `time` DESC LIMIT ?", $board['uri']));
+			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
 			$posts->bindValue(1, $th['id']);
 			$posts->bindValue(2, THREADS_PREVIEW, PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
@@ -859,7 +863,7 @@
 		switch($type) {
 			case 'jpg':
 			case 'jpeg':
-				if(!$image = imagecreatefromjpeg($source_pic)) {
+				if(!$image = @imagecreatefromjpeg($source_pic)) {
 					unlink($source_pic);
 					error(ERR_INVALIDIMG);
 				}

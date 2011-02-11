@@ -43,6 +43,8 @@
 			if(!login($_POST['username'], $_POST['password']))
 				loginForm(ERROR_INVALID, $_POST['username']);
 			
+			modLog("Logged in.");
+			
 			// Login successful
 			// Set cookies
 			setCookies();
@@ -295,6 +297,9 @@
 				}
 				$query->execute() or error(db_error($query));
 				
+				// Record the action
+				modLog("Created a new board: {$b['title']}");
+				
 				// Open the board
 				openBoard($b['uri']) or error("Couldn't open board after creation.");
 				
@@ -356,6 +361,10 @@
 			
 			// Delete post
 			deleteFile($post);
+			
+			// Record the action
+			modLog("Removed file from post #{$post}");
+			
 			// Rebuild board
 			buildIndex();
 			
@@ -377,6 +386,10 @@
 			
 			// Delete post
 			deletePost($post);
+			
+			// Record the action
+			modLog("Deleted post #{$post}");
+			
 			// Rebuild board
 			buildIndex();
 			
@@ -399,8 +412,12 @@
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
 			
 			if($matches[2] == 'un') {
+				// Record the action
+				modLog("Unstickied post #{$post}");
 				$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 			} else {
+				// Record the action
+				modLog("Stickied post #{$post}");
 				$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 			}
 			
@@ -429,8 +446,12 @@
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
 			
 			if($matches[2] == 'un') {
+				// Record the action
+				modLog("Unlocked post #{$post}");
 				$query->bindValue(':locked', 0, PDO::PARAM_INT);
 			} else {
+				// Record the action
+				modLog("Locked post #{$post}");
 				$query->bindValue(':locked', 1, PDO::PARAM_INT);
 			}
 			
@@ -454,8 +475,20 @@
 			if(!openBoard($boardName))
 				error(ERROR_NOBOARD);
 			
-			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = (SELECT `ip` FROM `posts_%s` WHERE `id` = :id)", $board['uri'], $board['uri']));
+			$query = prepare(sprintf("SELECT `ip` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $post);
+			$query->execute() or error(db_error($query));
+			
+			if(!$post = $query->fetch())
+				error(ERROR_INVALIDPOST);
+			
+			$ip = $post['ip'];
+			
+			// Record the action
+			modLog("Deleted all posts by IP address: #{$ip}");
+			
+			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = :ip", $board['uri']));
+			$query->bindValue(':ip', $ip);
 			$query->execute() or error(db_error($query));
 			
 			if($query->rowCount() < 1)
@@ -529,6 +562,10 @@
 				} else {
 					$query->bindValue(':reason', null, PDO::PARAM_NULL);
 				}
+				
+				// Record the action
+				modLog("Created a ban for {$_POST['ip']} with reason {$_POST['reason']}");
+				
 				$query->execute() or error(db_error($query));
 				
 				// Delete too

@@ -20,7 +20,7 @@
 		$query = prepare("SELECT `id`,`type` FROM `mods` WHERE `username` = :username AND `password` = :password LIMIT 1");
 		$query->bindValue(':username', $username);
 		$query->bindValue(':password', $password);
-		$query->execute();
+		$query->execute() or error(db_error($query));
 		
 		if($user = $query->fetch()) {
 			return $mod = Array(
@@ -54,6 +54,16 @@
 		
 		// Unset the session
 		unset($_SESSION['mod']);
+	}
+	
+	function modLog($action) {
+		global $mod;
+		$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :time, :text)");
+		$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':text', $action);
+		$query->execute() or error(db_error($query));
 	}
 	
 	if(isset($_COOKIE['mod']) && isset($_SESSION['mod']) && is_array($_SESSION['mod'])) {

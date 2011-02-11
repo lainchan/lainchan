@@ -221,7 +221,7 @@
 		if(strlen($post['name']) > 50) error(sprintf(ERROR_TOOLONG, 'name'));			
 		if(strlen($post['email']) > 30) error(sprintf(ERROR_TOOLONG, 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf(ERROR_TOOLONG, 'subject'));
-		if(strlen($post['body']) > MAX_BODY) error(ERROR_TOOLONGBODY);
+		if(!$mod && strlen($post['body']) > MAX_BODY) error(ERROR_TOOLONGBODY);
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error(ERROR_TOOSHORTBODY);
 		if(strlen($post['password']) > 20) error(sprintf(ERROR_TOOLONG, 'password'));
 		
