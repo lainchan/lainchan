@@ -126,3 +126,10 @@ CREATE TABLE `mutes` (
 `ip` VARCHAR( 15 ) NOT NULL ,
 `time` INT NOT NULL
 ) ENGINE = MYISAM ;
+
+CREATE TABLE `modlogs` (
+`mod` INT NOT NULL ,
+`ip` VARCHAR( 15 ) NOT NULL ,
+`time` INT NOT NULL ,
+`text` TEXT NOT NULL
+) ENGINE = INNODB;
