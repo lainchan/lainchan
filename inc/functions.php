@@ -9,7 +9,7 @@
 	}
 	
 	function setupBoard($array) {
-		global $board;
+		global $board, $config;
 		
 		$board = Array(
 		'id' => $array['id'],
@@ -17,13 +17,13 @@
 		'name' => $array['title'],
 		'title' => $array['subtitle']);
 		
-		$board['dir'] = sprintf(BOARD_PATH, $board['uri']);
-		$board['url'] = sprintf(BOARD_ABBREVIATION, $board['uri']);
+		$board['dir'] = sprintf($config['board_path'], $board['uri']);
+		$board['url'] = sprintf($config['board_abbreviation'], $board['uri']);
 		
 		if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
-		if(!file_exists($board['dir'] . DIR_IMG)) @mkdir($board['dir'] . DIR_IMG, 0777) or error("Couldn't create " . DIR_IMG . ". Check permissions.", true);
-		if(!file_exists($board['dir'] . DIR_THUMB)) @mkdir($board['dir'] . DIR_THUMB, 0777) or error("Couldn't create " . DIR_THUMB . ". Check permissions.", true);
-		if(!file_exists($board['dir'] . DIR_RES)) @mkdir($board['dir'] . DIR_RES, 0777) or error("Couldn't create " . DIR_RES . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['img'])) @mkdir($board['dir'] . $config['dir']['img'], 0777) or error("Couldn't create " . $config['dir']['img'] . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['thumb'])) @mkdir($board['dir'] . $config['dir']['thumb'], 0777) or error("Couldn't create " . $config['dir']['thumb'] . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['res'])) @mkdir($board['dir'] . $config['dir']['res'], 0777) or error("Couldn't create " . $config['dir']['res'] . ". Check permissions.", true);
 	}
 	
 	function openBoard($uri) {
@@ -46,14 +46,14 @@
 	}
 	
 	function checkFlood($post) {
-		global $board;
+		global $board, $config;
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':body', $post['body'], PDO::PARAM_INT);
-		$query->bindValue(':floodtime', time()-FLOOD_TIME, PDO::PARAM_INT);
-		$query->bindValue(':floodsameiptime', time()-FLOOD_TIME_IP_SAME, PDO::PARAM_INT);
-		$query->bindValue(':floodsametime', time()-FLOOD_TIME_SAME, PDO::PARAM_INT);
+		$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
+		$query->bindValue(':floodsameiptime', time()-$config['flood_time_ip'], PDO::PARAM_INT);
+		$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		return (bool)$query->fetch();
@@ -81,6 +81,8 @@
 	}
 	
 	function checkBan() {
+		global $config;
+		
 		if(!isset($_SERVER['REMOTE_ADDR'])) {
 			// Server misconfiguration
 			return;
@@ -157,7 +159,7 @@
 			
 			// Show banned page and exit
 			die(Element('page.html', Array(
-					'index' => ROOT,
+					'index' => $config['root'],
 					'title' => 'Banned',
 					'subtitle' => 'You are banned!',
 					'body' => $body
@@ -264,14 +266,14 @@
 	
 	// Remove file from post
 	function deleteFile($id, $remove_entirely_if_already=true) {
-		global $board;
+		global $board, $config;
 		
 		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		if($query->rowCount() < 1) {
-			error(ERROR_INVALIDPOST);
+			error($config['error']['invalidpost']);
 		}
 		
 		$post = $query->fetch();
@@ -282,10 +284,10 @@
 			$query->bindValue(':file', null, PDO::PARAM_NULL);
 		} else {
 			// Delete thumbnail
-			@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
+			@unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
 			
 			// Delete file
-			@unlink($board['dir'] . DIR_IMG . $post['file']);
+			@unlink($board['dir'] . $config['dir']['img'] . $post['file']);
 			
 			// Set file to 'deleted'
 			$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
@@ -300,7 +302,7 @@
 	
 	// Delete a post (reply or thread)
 	function deletePost($id, $error_if_doesnt_exist=true) {
-		global $board;
+		global $board, $config;
 		
 		// Select post and replies (if thread) in one query
 		$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
@@ -309,7 +311,7 @@
 		
 		if($query->rowCount() < 1) {
 			if($error_if_doesnt_exist)
-				error(ERROR_INVALIDPOST);
+				error($config['error']['invalidpost']);
 			else return false;
 		}
 		
@@ -317,18 +319,18 @@
 		while($post = $query->fetch()) {
 			if(!$post['thread']) {
 				// Delete thread HTML page
-				@unlink($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $post['id']));
+				@unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
 			} elseif($query->rowCount() == 1) {
 				// Rebuild thread
 				$rebuild = $post['thread'];
 			}
 			if($post['thumb']) {
 				// Delete thumbnail
-				@unlink($board['dir'] . DIR_THUMB . $post['thumb']);
+				@unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
 			}
 			if($post['file']) {
 				// Delete file
-				@unlink($board['dir'] . DIR_IMG . $post['file']);
+				@unlink($board['dir'] . $config['dir']['img'] . $post['file']);
 			}
 		}
 		
@@ -344,8 +346,8 @@
 	}
 	
 	function clean() {
-		global $board;
-		$offset = round(MAX_PAGES*THREADS_PER_PAGE);
+		global $board, $config;
+		$offset = round($config['max_pages']*$config['threads_per_page']);
 		
 		// I too wish there was an easier way of doing this...
 		$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri']));
@@ -358,74 +360,75 @@
 	}
 	
 	function index($page, $mod=false) {
-		global $board;
+		global $board, $config;
 
 		$body = '';
-		$offset = round($page*THREADS_PER_PAGE-THREADS_PER_PAGE);
+		$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
 
 		sql_open();
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT ?,?", $board['uri']));
 		$query->bindValue(1, $offset, PDO::PARAM_INT);
-		$query->bindValue(2, THREADS_PER_PAGE, PDO::PARAM_INT);
+		$query->bindValue(2, $config['threads_per_page'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		if($query->rowcount() < 1 && $page > 1) return false;
 		while($th = $query->fetch()) {
-			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $mod ? '?/' : ROOT, $mod);
+			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $mod ? '?/' : $config['root'], $mod);
 
 			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
 			$posts->bindValue(1, $th['id']);
-			$posts->bindValue(2, THREADS_PREVIEW, PDO::PARAM_INT);
+			$posts->bindValue(2, $config['threads_preview'], PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
 			
-			if($posts->rowCount() == THREADS_PREVIEW) {
+			if($posts->rowCount() == $config['threads_preview']) {
 				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = ?", $board['uri']));
 				$count->bindValue(1, $th['id']);
 				$count->execute() or error(db_error($count));
 				
 				$count = $count->fetch();
-				$omitted = $count['num'] - THREADS_PREVIEW;
+				$omitted = $count['num'] - $config['threads_preview'];
 				$thread->omitted = $omitted;
 				unset($count);
 				unset($omitted);
 			}
 			
 			while($po = $posts->fetch()) {
-				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $mod ? '?/' : ROOT, $mod));
+				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $mod ? '?/' : $config['root'], $mod));
 			}
 
 			$thread->posts = array_reverse($thread->posts);
 			$body .= $thread->build(true);
 		}
 		
-		return Array('button'=>BUTTON_NEWTOPIC, 'board'=>$board, 'body'=>$body, 'post_url' => POST_URL, 'index' => ROOT);
+		return Array('button'=>$config['button_newtopic'], 'board'=>$board, 'body'=>$body, 'post_url' => $config['post_url'], 'index' => $config['root']);
 	}
 	
 	function getPages($mod=false) {
-		global $board;
+		global $board, $config;
 		
 		// Count threads
 		$query = query(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 		
 		$count = current($query->fetch());
-		$count = floor((THREADS_PER_PAGE + $count - 1) / THREADS_PER_PAGE);
+		$count = floor(($config['threads_per_page'] + $count - 1) / $config['threads_per_page']);
 
 		$pages = Array();
-		for($x=0;$x<$count && $x<MAX_PAGES;$x++) {
-			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ($mod ? '?/' : ROOT) . $board['dir'] . FILE_INDEX : ($mod ? '?/' : ROOT) . $board['dir'] . sprintf(FILE_PAGE, $x+1));
+		for($x=0;$x<$count && $x<$config['max_pages'];$x++) {
+			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ($mod ? '?/' : $config['root']) . $board['dir'] . $config['file_index'] : ($mod ? '?/' : $config['root']) . $board['dir'] . sprintf($config['file_page'], $x+1));
 		}
 		
 		return $pages;
 	}
 	
 	function makerobot($body) {
+		global $config;
 		$body = strtolower($body);
 		
 		// Leave only letters
 		$body = preg_replace('/[^a-z]/i', '', $body);
 		// Remove repeating characters
-		if(ROBOT_STRIP_REPEATING)
+		if($config['robot_strip_repeating'])
 			$body = preg_replace('/(.)\\1+/', '$1', $body);
 		
 		return sha1($body);
@@ -468,6 +471,7 @@
 	}
 	
 	function muteTime() {
+		global $config;
 		// Find number of mutes in the past X hours
 		$query = prepare("SELECT COUNT(*) as `count` FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
 		$query->bindValue(':time', time()-(ROBOT_MUTE_HOUR*3600), PDO::PARAM_INT);
@@ -476,7 +480,7 @@
 		
 		$result = $query->fetch();
 		if($result['count'] == 0) return 0;
-		return pow(ROBOT_MUTE_MULTIPLIER, $result['count']);
+		return pow($config['robot_mute_multiplier'], $result['count']);
 	}
 	
 	function mute() {
@@ -504,7 +508,7 @@
 			
 			if($mute['time'] + $mutetime > time()) {
 				// Not expired yet
-				error(sprintf(ERROR_YOUAREMUTED, $mute['time'] + $mutetime - time()));
+				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
 			} else {
 				// Already expired	
 				return;
@@ -513,14 +517,14 @@
 	}
 	
 	function buildIndex() {
-		global $board;
+		global $board, $config;
 		sql_open();
 		
 		$pages = getPages();
 
 		$page = 1;
-		while($page <= MAX_PAGES && $content = index($page)) {
-			$filename = $board['dir'] . ($page==1 ? FILE_INDEX : sprintf(FILE_PAGE, $page));
+		while($page <= $config['max_pages'] && $content = index($page)) {
+			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			if(file_exists($filename)) $md5 = md5_file($filename);
 
 			$content['pages'] = $pages;
@@ -531,9 +535,9 @@
 			}
 			$page++;
 		}
-		if($page < MAX_PAGES) {
-			for(;$page<=MAX_PAGES;$page++) {
-				$filename = $page==1 ? FILE_INDEX : sprintf(FILE_PAGE, $page);
+		if($page < $config['max_pages']) {
+			for(;$page<=$config['max_pages'];$page++) {
+				$filename = $page==1 ? $config['file_index'] : sprintf($config['file_page'], $page);
 				@unlink($filename);
 			}
 		}
@@ -566,17 +570,17 @@
 	}
 
 	function markup(&$body) {
-		global $board;
+		global $board, $config;
 		
 		$body = utf8tohtml($body, true);
 		
-		if(MARKUP_URLS) {
-			$body = preg_replace(URL_REGEX, "<a href=\"$0\">$0</a>", $body, -1, $num_links);
-			if($num_links > MAX_LINKS)
-				error(ERROR_TOOMANYLINKS);
+		if($config['markup_urls']) {
+			$body = preg_replace($config['url_regex'], "<a href=\"$0\">$0</a>", $body, -1, $num_links);
+			if($num_links > $config['max_links'])
+				error($config['error']['toomanylinks']);
 		}
 			
-		if(AUTO_UNICODE) {
+		if($config['auto_unicode']) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
 
@@ -603,7 +607,7 @@
 				$query->execute() or error(db_error($query));
 				
 				if($post = $query->fetch()) {
-					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . ROOT . $board['dir'] . DIR_RES . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
+					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . $config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
 				} else {
 					$replacement = "&gt;&gt;{$cite}";
 				}
@@ -630,7 +634,7 @@
 		
 		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
 		
-		if(WIKI_MARKUP) {
+		if($config['wiki_markup']) {
 			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
 			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
 			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
@@ -679,7 +683,7 @@
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
-		global $board;
+		global $board, $config;
 		$id = round($id);
 		
 		$query = prepare(sprintf("SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip`,`sticky`,`locked` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
@@ -688,33 +692,34 @@
 		
 		while($post = $query->fetch()) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $mod ? '?/' : ROOT, $mod);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $mod ? '?/' : $config['root'], $mod);
 			} else {
-				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT, $mod));
+				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod));
 			}
 		}
 		
 		// Check if any posts were found
-		if(!isset($thread)) error(ERROR_NONEXISTANT);
+		if(!isset($thread)) error($config['error']['nonexistant']);
 		
 		$body = Element('thread.html', Array(
-			'button'=>BUTTON_REPLY,
+			'button'=>$config['button_reply'],
 			'board'=>$board, 
 			'body'=>$thread->build(),
-			'post_url' => POST_URL,
-			'index' => ROOT,
+			'post_url' => $config['post_url'],
+			'index' => $config['root'],
 			'id' => $id,
 			'mod' => $mod,
-			'return' => ($mod ? '?' . $board['url'] . FILE_INDEX : ROOT . $board['uri'] . '/' . FILE_INDEX)
+			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
 			
 		if($return)
 			return $body;
 		else
-			@file_put_contents($board['dir'] . DIR_RES . sprintf(FILE_PAGE, $id), $body) or error("Couldn't write to file.");
+			@file_put_contents($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body) or error("Couldn't write to file.");
 	}
 	
 	function generate_tripcode ( $name, $length = 10 ) {
+		global $config;
 		$name = stripslashes ( $name );
 		$t = explode('#', $name);
 		$nameo = $t[0];
@@ -730,7 +735,7 @@
 			$salt = strtr ( $salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef' );
 			if ( isset ( $t[2] ) ) {
 				// secure
-				$trip = '!!' . substr ( crypt ( $trip, SECURE_TRIP_SALT ), ( -1 * $length ) );
+				$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
 			} else {
 				// insecure
 				$trip = '!' . substr ( crypt ( $trip, $salt ), ( -1 * $length ) );
@@ -865,25 +870,25 @@
 			case 'jpeg':
 				if(!$image = @imagecreatefromjpeg($source_pic)) {
 					unlink($source_pic);
-					error(ERR_INVALIDIMG);
+					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'png':
 				if(!$image = @imagecreatefrompng($source_pic)) {
 					unlink($source_pic);
-					error(ERR_INVALIDIMG);
+					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'gif':
 				if(!$image = @imagecreatefromgif($source_pic)) {
 					unlink($source_pic);
-					error(ERR_INVALIDIMG);
+					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'bmp':
 				if(!$image = @imagecreatefrombmp($source_pic)) {
 					unlink($source_pic);
-					error(ERR_INVALIDIMG);
+					error($config['error']['invalidimg']);
 				}
 				break;
 			default:

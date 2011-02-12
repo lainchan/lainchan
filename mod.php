@@ -1,10 +1,10 @@
 <?php
 	require 'inc/functions.php';
 	require 'inc/display.php';
+	require 'inc/config.php';
 	if (file_exists('inc/instance-config.php')) {
 		require 'inc/instance-config.php';
 	}
-	require 'inc/config.php';
 	require 'inc/template.php';
 	require 'inc/database.php';
 	require 'inc/user.php';
@@ -37,11 +37,11 @@
 				!isset($_POST['password']) ||
 				empty($_POST['username']) ||
 				empty($_POST['password'])
-				) loginForm(ERROR_INVALID, $_POST['username']);
+				) loginForm($config['error']['invalid'], $_POST['username']);
 			
 			
 			if(!login($_POST['username'], $_POST['password']))
-				loginForm(ERROR_INVALID, $_POST['username']);
+				loginForm($config['error']['invalid'], $_POST['username']);
 			
 			modLog("Logged in.");
 			
@@ -50,7 +50,7 @@
 			setCookies();
 			
 			// Redirect
-			header('Location: ?' . MOD_DEFAULT, true, REDIRECT_HTTP);
+			header('Location: ?' . $config['mod']['default'], true, $config['redirect_http']);
 			
 			// Close connection
 			sql_close();
@@ -63,12 +63,12 @@
 		// A sort of "cache"
 		// Stops calling preg_quote and str_replace when not needed; only does it once
 		$regex = Array(
-			'board' => str_replace('%s', '(\w{1,8})', preg_quote(BOARD_PATH, '/')),
-			'page' => str_replace('%d', '(\d+)', preg_quote(FILE_PAGE, '/')),
-			'img' => preg_quote(DIR_IMG, '/'),
-			'thumb' => preg_quote(DIR_THUMB, '/'),
-			'res' => preg_quote(DIR_RES, '/'),
-			'index' => preg_quote(FILE_INDEX, '/')
+			'board' => str_replace('%s', '(\w{1,8})', preg_quote($config['board_path'], '/')),
+			'page' => str_replace('%d', '(\d+)', preg_quote($config['file_page'], '/')),
+			'img' => preg_quote($config['dir']['img'], '/'),
+			'thumb' => preg_quote($config['dir']['thumb'], '/'),
+			'res' => preg_quote($config['dir']['res'], '/'),
+			'index' => preg_quote($config['file_index'], '/')
 		);
 		
 		if(preg_match('/^\/?$/', $query)) {
@@ -81,10 +81,10 @@
 			// Boards
 			$fieldset['Boards'] .= ulBoards();
 			
-			if($mod['type'] >= MOD_VIEW_BANLIST) {
+			if($mod['type'] >= $config['mod']['view_banlist']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
-			if($mod['type'] >= MOD_SHOW_CONFIG) {
+			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
 			
@@ -97,16 +97,16 @@
 			}
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'Dashboard',
 				'body'=>$body
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
 		} elseif(preg_match('/^\/bans$/', $query)) {
-			if($mod['type'] < MOD_VIEW_BANLIST) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			
-			if(MOD_VIEW_BANEXPIRED) {
+			if($config['mod']['view_banexpired']) {
 				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY `expires` < :time, `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
@@ -126,7 +126,7 @@
 				while($ban = $query->fetch()) {
 					$body .=
 						'<tr' .
-							(MOD_VIEW_BANEXPIRED && $ban['expires'] != 0 && $ban['expires'] < time() ?
+							($config['mod']['view_banexpired'] && $ban['expires'] != 0 && $ban['expires'] < time() ?
 								' style="text-decoration:line-through"'
 							:'') .
 						'>' .
@@ -145,26 +145,26 @@
 					'<td>' . $ban['reason'] . '</td>' .
 					
 					// Set
-					'<td style="white-space: nowrap">' . date(POST_DATE, $ban['set']) . '</td>' .
+					'<td style="white-space: nowrap">' . date($config['post_date'], $ban['set']) . '</td>' .
 					
 					// Expires
 					'<td style="white-space: nowrap">' . 
 						($ban['expires'] == 0 ?
 							'<em>Never</em>'
 						:
-							date(POST_DATE, $ban['expires'])
+							date($config['post_date'], $ban['expires'])
 						) .
 					'</td>' .
 					
 					// Staff
 					'<td>' .
-						($mod['type'] < MOD_VIEW_BANSTAFF ?
-							(MOD_VIEW_BANQUESTIONMARK ?
+						($mod['type'] < $config['mod']['view_banstaff'] ?
+							($config['mod']['view_banquestionmark'] ?
 								'?'
 							:
-								($ban['type'] == MOD_JANITOR ? 'Janitor' :
-								($ban['type'] == MOD_MOD ? 'Mod' :
-								($ban['type'] == MOD_ADMIN ? 'Admin' :
+								($ban['type'] == JANITOR ? 'Janitor' :
+								($ban['type'] == MOD ? 'Mod' :
+								($ban['type'] == ADMIN ? 'Admin' :
 								'?')))
 							)
 						:
@@ -181,14 +181,14 @@
 			}
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'Ban list',
 				'body'=>$body,
 				'mod'=>true
 			)
 		);
 		} elseif(preg_match('/^\/config$/', $query)) {
-			if($mod['type'] < MOD_SHOW_CONFIG) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['show_config']) error($config['error']['noaccess']);
 			
 			// Show instance-config.php
 			
@@ -240,14 +240,14 @@
 			$body = '<fieldset><legend>Configuration</legend><table>' . $data . '</table></fieldset>';
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'Configuration',
 				'body'=>$body,
 				'mod'=>true
 				)
 			);
 		} elseif(preg_match('/^\/new$/', $query)) {
-			if($mod['type'] < MOD_NEWBOARD) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['newboard']) error($config['error']['noaccess']);
 			
 			// New board
 			$body = '';
@@ -257,7 +257,7 @@
 				if(	!isset($_POST['uri']) ||
 					!isset($_POST['title']) ||
 					!isset($_POST['subtitle'])
-				)	error(ERROR_MISSEDAFIELD);
+				)	error($config['error']['missedafield']);
 				
 				$b = Array(
 					'uri' => $_POST['uri'],
@@ -267,24 +267,24 @@
 				
 				// Check required fields
 				if(empty($b['uri']))
-					error(sprintf(ERROR_REQUIRED, 'URI'));
+					error(sprintf($config['error']['required'], 'URI'));
 				if(empty($b['title']))
-					error(sprintf(ERROR_REQUIRED, 'title'));
+					error(sprintf($config['error']['required'], 'title'));
 				
 				// Check string lengths
 				if(strlen($b['uri']) > 8)
-					error(sprintf(ERROR_TOOLONG, 'URI'));
+					error(sprintf($config['error']['toolong'], 'URI'));
 				if(strlen($b['title']) > 20)
-					error(sprintf(ERROR_TOOLONG, 'title'));
+					error(sprintf($config['error']['toolong'], 'title'));
 				if(strlen($b['subtitle']) > 40)
-					error(sprintf(ERROR_TOOLONG, 'subtitle'));
+					error(sprintf($config['error']['toolong'], 'subtitle'));
 				
 				if(!preg_match('/^\w+$/', $b['uri']))
-					error(sprintf(ERROR_INVALIDFIELD, 'URI'));
+					error(sprintf($config['error']['invalidfield'], 'URI'));
 				
 				if(openBoard($b['uri'])) {
 					unset($board);
-					error(sprintf(ERROR_BOARDEXISTS, sprintf(BOARD_ABBREVIATION, $b['uri'])));
+					error(sprintf($config['error']['boardexists'], sprintf($config['board_abbreviation'], $b['uri'])));
 				}
 				
 				$query = prepare("INSERT INTO `boards` VALUES (NULL, :uri, :title, :subtitle)");
@@ -315,7 +315,7 @@
 			// TODO: Statistics, etc, in the dashboard.
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'New board',
 				'body'=>$body,
 				'mod'=>true
@@ -328,10 +328,10 @@
 			
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
-			if(!$page = index(empty($matches[2]) || $matches[2] == FILE_INDEX ? 1 : $matches[2], $mod)) {
-				error(ERROR_404);
+			if(!$page = index(empty($matches[2]) || $matches[2] == $config['file_index'] ? 1 : $matches[2], $mod)) {
+				error($config['error']['404']);
 			}
 			$page['pages'] = getPages(true);
 			$page['mod'] = true;
@@ -344,20 +344,20 @@
 			$thread = $matches[2];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			$page = buildThread($thread, true, $mod);
 			
 			echo $page;
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletefile\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_DELETEFILE) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['deletefile']) error($config['error']['noaccess']);
 			// Delete file from post
 			
 			$boardName = $matches[1];
 			$post = $matches[2];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			// Delete post
 			deleteFile($post);
@@ -371,18 +371,18 @@
 			
 			// Redirect
 			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
-				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
 			// Delete post
 			
 			$boardName = $matches[1];
 			$post = $matches[2];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			// Delete post
 			deletePost($post);
@@ -395,18 +395,18 @@
 			
 			// Redirect
 			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
-				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_STICKY) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['sticky']) error($config['error']['noaccess']);
 			// Add/remove sticky
 			
 			$boardName = $matches[1];
 			$post = $matches[3];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			$query = prepare(sprintf("UPDATE `posts_%s` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
@@ -429,18 +429,18 @@
 			
 			// Redirect
 			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
-				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?lock\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_LOCK) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['lock']) error($config['error']['noaccess']);
 			// Lock/Unlock
 			
 			$boardName = $matches[1];
 			$post = $matches[3];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			$query = prepare(sprintf("UPDATE `posts_%s` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
@@ -463,9 +463,9 @@
 			
 			// Redirect
 			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
-				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
 			// Delete all posts by an IP
 			
@@ -473,14 +473,14 @@
 			$post = $matches[2];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			$query = prepare(sprintf("SELECT `ip` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $post);
 			$query->execute() or error(db_error($query));
 			
 			if(!$post = $query->fetch())
-				error(ERROR_INVALIDPOST);
+				error($config['error']['invalidpost']);
 			
 			$ip = $post['ip'];
 			
@@ -492,16 +492,16 @@
 			$query->execute() or error(db_error($query));
 			
 			if($query->rowCount() < 1)
-				error(ERROR_INVALIDPOST);
+				error($config['error']['invalidpost']);
 			
 			while($post = $query->fetch()) {
 				deletePost($post['id'], false);
 			}
 			
 			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, REDIRECT_HTTP);
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
-				header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/ban$/', $query)) {
 			// Ban page
 			
@@ -509,11 +509,11 @@
 				if(	!isset($_POST['ip']) ||
 					!isset($_POST['reason']) ||
 					!isset($_POST['length'])
-				)	error(ERROR_MISSEDAFIELD);
+				)	error($config['error']['missedafield']);
 				
 				// Check required fields
 				if(empty($_POST['ip']))
-					error(sprintf(ERROR_REQUIRED, 'IP address'));
+					error(sprintf($config['error']['required'], 'IP address'));
 				
 				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason)");
 				
@@ -569,19 +569,19 @@
 				$query->execute() or error(db_error($query));
 				
 				// Delete too
-				if($mod['type'] >= MOD_DELETE && isset($_POST['delete']) && isset($_POST['board'])) {
+				if($mod['type'] >= $config['mod']['delete'] && isset($_POST['delete']) && isset($_POST['board'])) {
 					openBoard($_POST['board']);
 					deletePost(round($_POST['delete']));
 				}
 				
 				// Redirect
 				if(isset($_POST['continue']))
-					header('Location: ' . $_POST['continue'], true, REDIRECT_HTTP);
+					header('Location: ' . $_POST['continue'], true, $config['redirect_http']);
 				else
-					header('Location: ?/' . sprintf(BOARD_PATH, $boardName) . FILE_INDEX, true, REDIRECT_HTTP);				
+					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);				
 			}
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < MOD_DELETE) error(ERROR_NOACCESS);
+			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
 			// Ban by post
 			
 			$boardName = $matches[1];
@@ -589,14 +589,14 @@
 			$post = $matches[3];
 			// Open board
 			if(!openBoard($boardName))
-				error(ERROR_NOBOARD);
+				error($config['error']['noboard']);
 			
 			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			if($query->rowCount() < 1) {
-				error(ERROR_INVALIDPOST);
+				error($config['error']['invalidpost']);
 			}
 		
 			$post = $query->fetch();
@@ -604,7 +604,7 @@
 			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $delete ? $post['id'] : false, $delete ? $boardName : false);
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'New ban',
 				'body'=>$body,
 				'mod'=>true
@@ -614,7 +614,7 @@
 			// View information on an IP address
 			
 			$ip = $matches[1];
-			$host = MOD_DNS_LOOKUP ? gethostbyaddr($ip) : false;
+			$host = $config['mod']['dns_lookup'] ? gethostbyaddr($ip) : false;
 			
 			$body = '';
 			$boards = listBoards();
@@ -624,26 +624,26 @@
 				$temp = '';
 				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` DESC LIMIT :limit", $_board['uri']));
 				$query->bindValue(':ip', $ip);
-				$query->bindValue(':limit', MOD_IP_RECENTPOSTS, PDO::PARAM_INT);
+				$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
 				while($post = $query->fetch()) {
-					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : ROOT, $mod);
+					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod);
 					$temp .= $po->build();
 				}
 				if(!empty($temp))
 					$body .= '<fieldset><legend>Last ' . $query->rowCount() . ' posts on <a href="?/' .
-							sprintf(BOARD_PATH, $_board['uri']) . FILE_INDEX .
+							sprintf($config['board_path'], $_board['uri']) . $config['file_index'] .
 						'">' .
-						sprintf(BOARD_ABBREVIATION, $_board['uri']) . ' - ' . $_board['title'] .
+						sprintf($config['board_abbreviation'], $_board['uri']) . ' - ' . $_board['title'] .
 						'</a></legend>' . $temp . '</fieldset>';
 			}
 			
-			if(MOD_IP_BANFORM)
+			if($config['mod']['ip_banform'])
 				$body .= form_newBan($ip, null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
 			
 			echo Element('page.html', Array(
-				'index'=>ROOT,
+				'index'=>$config['root'],
 				'title'=>'IP: ' . $ip,
 				'subtitle' => $host,
 				'body'=>$body,
@@ -651,7 +651,7 @@
 				)
 			);
 		} else {
-			error(ERROR_404);
+			error($config['error']['404']);
 		}
 	}
 	

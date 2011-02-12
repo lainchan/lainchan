@@ -3,10 +3,10 @@
 	$mod = false;
 	
 	// Set the session name.
-	session_name(SESS_COOKIE);
+	session_name($config['cookies']['session']);
 	
 	// Set session parameters
-	session_set_cookie_params(0, JAIL_COOKIES?ROOT:'/');
+	session_set_cookie_params(0, $config['cookies']['jail']?$config['root']:'/');
 	
 	// Start the session
 	session_start();
@@ -14,13 +14,13 @@
 	// Session creation time
 	if(!isset($_SESSION['created'])) $_SESSION['created'] = time();
 	
-	if(!isset($_COOKIE[HASH_COOKIE]) || !isset($_COOKIE[TIME_COOKIE]) || $_COOKIE[HASH_COOKIE] != md5($_COOKIE[TIME_COOKIE].SALT)) {
+	if(!isset($_COOKIE[$config['cookies']['hash']]) || !isset($_COOKIE[$config['cookies']['time']]) || $_COOKIE[$config['cookies']['hash']] != md5($_COOKIE[$config['cookies']['time']] . $config['cookies']['salt'])) {
 		$time = time();
-		setcookie(TIME_COOKIE, $time, time()+COOKIE_EXPIRE, JAIL_COOKIES?ROOT:'/', null, false, true);
-		setcookie(HASH_COOKIE, md5($time.SALT), $time+COOKIE_EXPIRE, JAIL_COOKIES?ROOT:'/', null, false, true);
+		setcookie($config['cookies']['time'], $time, time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
+		setcookie($config['cookies']['hash'], md5($time . $config['cookies']['salt']), $time+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
 		$user = Array('valid' => false, 'appeared' => $time);
 	} else {
-		$user = Array('valid' => true, 'appeared' => $_COOKIE[TIME_COOKIE]);
+		$user = Array('valid' => true, 'appeared' => $_COOKIE[$config['cookies']['time']]);
 	}
 	
 ?>

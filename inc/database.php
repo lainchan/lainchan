@@ -1,20 +1,20 @@
 <?php
 	
 	function sql_open() {
-		global $pdo;
+		global $pdo, $config;
 		if($pdo) return true;
 		
-		$dsn = DB_TYPE . ':host=' . DB_SERVER . ';dbname=' . DB_DATABASE;
-		if((bool)DB_DSN) // empty() doesn't work on constants
-			$dsn .= ';' . DB_DSN;
+		$dsn = $config['db']['type'] . ':host=' . $config['db']['server'] . ';dbname=' . $config['db']['database'];
+		if(!empty($config['db']['dsn']))
+			$dsn .= ';' . $config['db']['dsn'];
 		try {
-			return $pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
+			return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password']);
 		} catch(PDOException $e) {
 			$message = $e->getMessage();
 			
 			// Remove any sensitive information
-			$message = str_replace(DB_USER, '<em>hidden</em>', $message);
-			$message = str_replace(DB_PASSWORD, '<em>hidden</em>', $message);
+			$message = str_replace($config['db']['user'], '<em>hidden</em>', $message);
+			$message = str_replace($config['db']['password'], '<em>hidden</em>', $message);
 			
 			// Print error
 			error('Database error: ' . $message);
