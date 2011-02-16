@@ -8,6 +8,9 @@
 		if (file_exists('inc/instance-config.php')) {
 			require 'instance-config.php';
 		}
+		if(isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
+			require $board['dir'] . '/config.php';
+		}
 		
 		if(!isset($config['post_url']))
 			$config['post_url'] = $config['root'] . $config['file_post'];
@@ -73,6 +76,8 @@
 		
 		$board['dir'] = sprintf($config['board_path'], $board['uri']);
 		$board['url'] = sprintf($config['board_abbreviation'], $board['uri']);
+		
+		loadConfig();
 		
 		if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
 		if(!file_exists($board['dir'] . $config['dir']['img'])) @mkdir($board['dir'] . $config['dir']['img'], 0777) or error("Couldn't create " . $config['dir']['img'] . ". Check permissions.", true);

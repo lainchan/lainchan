@@ -7,6 +7,10 @@
  *  This is the default configuration. You can copy values from here and use them in
  * 	your instance-config.php
  *
+ *  You can also create per-board configuration files. Once a board is created, locate its directory and
+ *	create a new file named config.php (eg. b/config.php). Like instance-config.php, you can copy values
+ *  from here and use them in your per-board configuration files.
+ *
  */
 	
 	$config = Array(
