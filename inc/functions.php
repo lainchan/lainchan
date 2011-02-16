@@ -10,7 +10,7 @@
 		}
 		
 		if(!isset($config['post_url']))
-			$config['post_url']		= $config['root'] . $config['file_post'];
+			$config['post_url'] = $config['root'] . $config['file_post'];
 		
 		if(!isset($config['url_match']))
 			$config['url_match'] = '/^' .
@@ -32,16 +32,16 @@
 				')$/i';
 		
 		if(!isset($config['dir']['static']))
-			$config['dir']['static']	= $config['root'] . 'static/';
+			$config['dir']['static'] = $config['root'] . 'static/';
 		
 		if(!isset($config['image_sticky']))
-			$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
+			$config['image_sticky'] = $config['dir']['static'] . 'sticky.gif';
 		if(!isset($config['image_locked']))
-			$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
+			$config['image_locked'] = $config['dir']['static'] . 'locked.gif';
 		if(!isset($config['image_deleted']))
-			$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
+			$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 		if(!isset($config['image_zip']))
-			$config['image_zip']		= $config['dir']['static'] . 'zip.png';
+			$config['image_zip'] = $config['dir']['static'] . 'zip.png';
 	}
 	
 	function sprintf3($str, $vars, $delim = '%') {
