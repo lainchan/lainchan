@@ -255,3 +255,19 @@ div.styles a {
 div.styles a.selected {
 	text-decoration: none;
 }
+table.test {
+	width: 100%;
+}
+table.test td, table.test th {
+	text-align: left;
+	padding: 5px;
+}
+table.test tr.h th {
+	background: #98E;
+}
+table.test td img {
+	margin: 0;
+}
+fieldset label {
+	display: block;
+}
