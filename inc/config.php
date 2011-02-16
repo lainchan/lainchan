@@ -173,6 +173,7 @@
 	$config['file_index']	= 'index.html';
 	$config['file_page']	= '%d.html';
 	$config['file_mod']		= 'mod.php';
+	$config['file_post']	= 'post.php';
 	
 	// Multi-board (%s is board abbreviation)
 	$config['board_path']	= '%s/';

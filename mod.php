@@ -1,10 +1,6 @@
 <?php
 	require 'inc/functions.php';
 	require 'inc/display.php';
-	require 'inc/config.php';
-	if (file_exists('inc/instance-config.php')) {
-		require 'inc/instance-config.php';
-	}
 	require 'inc/template.php';
 	require 'inc/database.php';
 	require 'inc/user.php';
