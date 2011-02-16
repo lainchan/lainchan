@@ -248,7 +248,7 @@
 	// Post in a locked thread
 	$config['mod']['postinlocked'] = MOD;
 	// Post bypass unoriginal content check
-	$config['mod']['postunoriginal'] = MOD;
+	$config['mod']['postunoriginal'] = ADMIN;
 	// Raw HTML posting
 	$config['mod']['rawhtml'] = MOD;
 	
