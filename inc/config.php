@@ -215,9 +215,11 @@
 	$config['mod']['ip_recentposts'] = 5;
 	
 	// Probably best not to change these:
-	define('JANITOR',	0,		true);
-	define('MOD',		1,		true);
-	define('ADMIN',		2,		true);
+	if(!defined('JANITOR')) {
+		define('JANITOR',	0,		true);
+		define('MOD',		1,		true);
+		define('ADMIN',		2,		true);
+	}
 	
 	// Permissions
 	// What level of administration you need to:
