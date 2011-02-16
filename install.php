@@ -11,6 +11,13 @@
 		'body' => ''
 	);
 	
+	if(file_exists($config['has_installed'])) {
+		$page['title'] = 'Pre-installation test';
+		
+		$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
+		die(Element('page.html', $page));
+	}
+	
 	if($step == 0) {
 		// Agreeement
 		$page['body'] = '
@@ -319,6 +326,11 @@
 		
 		$page['title'] = 'Installation complete';
 		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
+		
+		if(!@unlink(__FILE__)) {
+			$page['body'] = '<p style="text-align:center">I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p>';
+		}
+		
 		echo Element('page.html', $page);
 	}
 ?>
