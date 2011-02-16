@@ -182,7 +182,7 @@ div.post.reply p.body a {
 div.post.reply {
 	background: #D6DAF0;
 	float: left;
-	margin: 0.2em 40px;
+	margin: 0.2em 16px;
 	padding: 0.2em 0.3em 0.5em 0.6em;
 	border-width: 1px;
 	border-style: none solid solid none;
@@ -285,4 +285,9 @@ div.pages a.selected {
 }
 div.pages a:link {
 	text-decoration: none;
+}
+hr {
+	border: none;
+	border-top: 1px solid #B7C5D9;
+	height: 0px;
 }
