@@ -135,7 +135,7 @@
 	// Maximum image upload size in bytes
 	$config['max_filesize']	= 10*1024*1024; // 10MB
 	// Maximum image dimensions
-	$config['max_width']	= 1000;
+	$config['max_width']	= 10000;
 	$config['max_height']	= $config['max_width']; // 1:1
 	
 	/**
