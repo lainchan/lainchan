@@ -44,7 +44,7 @@
 		$_SESSION['mod'] = $mod;
 		
 		// Lock sessions to IP addresses
-		if($mod['lock_ip'])
+		if($config['mod']['lock_ip'])
 			$_SESSION['mod']['ip'] = $_SERVER['REMOTE_ADDR'];
 	}
 	
