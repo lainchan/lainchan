@@ -25,6 +25,8 @@
 		$_POST = strip_array($_POST);
 	}
 	
+	$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+	
 	// If not logged in
 	if(!$mod) {
 		if(isset($_POST['login'])) {
@@ -33,11 +35,11 @@
 				!isset($_POST['password']) ||
 				empty($_POST['username']) ||
 				empty($_POST['password'])
-				) loginForm($config['error']['invalid'], $_POST['username']);
+				) loginForm($config['error']['invalid'], $_POST['username'], '?' . $query);
 			
 			
 			if(!login($_POST['username'], $_POST['password']))
-				loginForm($config['error']['invalid'], $_POST['username']);
+				loginForm($config['error']['invalid'], $_POST['username'], '?' . $query);
 			
 			modLog("Logged in.");
 			
@@ -46,16 +48,17 @@
 			setCookies();
 			
 			// Redirect
-			header('Location: ?' . $config['mod']['default'], true, $config['redirect_http']);
+			if(isset($_POST['redirect']))
+				header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
+			else
+				header('Location: ?' . $config['mod']['default'], true, $config['redirect_http']);
 			
 			// Close connection
 			sql_close();
 		} else {
-			loginForm();
+			loginForm(false, false, '?' . $query);
 		}
 	} else {
-		$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-		
 		// A sort of "cache"
 		// Stops calling preg_quote and str_replace when not needed; only does it once
 		$regex = Array(

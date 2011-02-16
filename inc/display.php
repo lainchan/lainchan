@@ -37,7 +37,7 @@
 		)));
 	}
 	
-	function loginForm($error=false, $username=false) {
+	function loginForm($error=false, $username=false, $redirect=false) {
 		global $config;
 		
 		if(function_exists('sql_close')) sql_close();
@@ -47,7 +47,8 @@
 			'body'=>Element('login.html', Array(
 				'index'=>$config['root'],
 				'error'=>$error,
-				'username'=>$username
+				'username'=>$username,
+				'redirect'=>$redirect
 				)
 			)
 		)));
