@@ -1,23 +1,36 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.4
+-- version 3.3.9
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Nov 30, 2010 at 08:48 PM
+-- Host: 127.0.0.1
+-- Generation Time: Feb 16, 2011 at 04:52 PM
 -- Server version: 5.1.48
 -- PHP Version: 5.3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
 -- Database: `imgboard`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bans`
+--
+
+CREATE TABLE IF NOT EXISTS `bans` (
+  `ip` varchar(15) NOT NULL,
+  `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
+  `set` int(11) NOT NULL,
+  `expires` int(11) DEFAULT NULL,
+  `reason` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bans`
+--
+
 
 -- --------------------------------------------------------
 
@@ -33,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uri` (`uri`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `boards`
@@ -45,12 +58,67 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `modlogs`
+--
+
+CREATE TABLE IF NOT EXISTS `modlogs` (
+  `mod` int(11) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `time` int(11) NOT NULL,
+  `text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `modlogs`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mods`
+--
+
+CREATE TABLE IF NOT EXISTS `mods` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` char(40) NOT NULL COMMENT 'SHA1',
+  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`,`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `mods`
+--
+
+INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
+(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mutes`
+--
+
+CREATE TABLE IF NOT EXISTS `mutes` (
+  `ip` varchar(15) NOT NULL,
+  `time` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `mutes`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts_b`
 --
 
 CREATE TABLE IF NOT EXISTS `posts_b` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `board` smallint(6) NOT NULL,
   `thread` int(11) DEFAULT NULL,
   `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
@@ -79,58 +147,18 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
 -- Dumping data for table `posts_b`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `mods`
---
-
-CREATE TABLE IF NOT EXISTS `mods` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `password` char(40) NOT NULL COMMENT 'SHA1',
-  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `mods`
---
-
-INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
-(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
-
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bans`
+-- Table structure for table `robot`
 --
 
+CREATE TABLE IF NOT EXISTS `robot` (
+  `hash` varchar(40) NOT NULL COMMENT 'SHA1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS  `bans` (
-  `ip` varchar( 15 ) NOT NULL ,
-  `mod` int NOT NULL COMMENT  'which mod made the ban',
-  `set` int NOT NULL,
-  `expires` int NULL,
-  `reason` text NULL
-) ENGINE = InnoDB;
+--
+-- Dumping data for table `robot`
+--
 
-
-CREATE TABLE `robot` (
-`hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
-) ENGINE = INNODB; */
-
-
-CREATE TABLE `mutes` (
-`ip` VARCHAR( 15 ) NOT NULL ,
-`time` INT NOT NULL
-) ENGINE = MYISAM ;
-
-CREATE TABLE `modlogs` (
-`mod` INT NOT NULL ,
-`ip` VARCHAR( 15 ) NOT NULL ,
-`time` INT NOT NULL ,
-`text` TEXT NOT NULL
-) ENGINE = INNODB;
