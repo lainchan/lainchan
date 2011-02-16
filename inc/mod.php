@@ -34,23 +34,23 @@
 	}
 	
 	function setCookies() {
-		global $mod;
+		global $mod, $config;
 		if(!$mod) error('setCookies() was called for a non-moderator!');
 		
-		// MOD_COOKIE contains username:hash
-		setcookie(MOD_COOKIE, $mod['username'] . ':' . $mod['hash'], time()+COOKIE_EXPIRE, JAIL_COOKIES?ROOT:'/', null, false, true);
+		// $config['cookies']['mod'] contains username:hash
+		setcookie($config['cookies']['mod'], $mod['username'] . ':' . $mod['hash'], time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
 		
 		// Put $mod in the session
 		$_SESSION['mod'] = $mod;
 		
 		// Lock sessions to IP addresses
-		if(MOD_LOCK_IP)
+		if($mod['lock_ip'])
 			$_SESSION['mod']['ip'] = $_SERVER['REMOTE_ADDR'];
 	}
 	
 	function destroyCookies() {
 		// Delete the cookies
-		setcookie(MOD_COOKIE, 'deleted', time()-COOKIE_EXPIRE, JAIL_COOKIES?ROOT:'/', null, false, true);
+		setcookie($config['cookies']['mod'], 'deleted', time()-$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
 		
 		// Unset the session
 		unset($_SESSION['mod']);
@@ -71,7 +71,7 @@
 		$cookie = explode(':', $_COOKIE['mod']);
 		if(count($cookie) != 2) {
 			destroyCookies();
-			error(ERROR_MALFORMED);
+			error($config['error']['malformed']);
 		}
 		
 		// Validate session
@@ -79,7 +79,7 @@
 			$cookie[1] != $_SESSION['mod']['hash']) {
 			// Malformed cookies
 			destroyCookies();
-			error(ERROR_MALFORMED);
+			error($config['error']['malformed']);
 		}
 		
 		// Open connection
@@ -88,7 +88,7 @@
 		// Check username/password
 		if(!login($_SESSION['mod']['username'], $_SESSION['mod']['password'], false)) {
 			destroyCookies();
-			error(ERROR_INVALIDAFTER);
+			error($config['error']['invalidafter']);
 		}
 		
 	}
@@ -96,7 +96,7 @@
 	// Generates a <ul> element with a list of linked
 	// boards and their subtitles. (without the <ul> opening and ending tags)
 	function ulBoards() {
-		global $mod;
+		global $mod, $config;
 		
 		$body = '';
 		
@@ -106,16 +106,16 @@
 		foreach($boards as &$b) {
 			$body .= '<li>' . 
 				'<a href="?/' .
-						sprintf(BOARD_PATH, $b['uri']) . FILE_INDEX .
+						sprintf($config['board_path'], $b['uri']) . $config['file_index'] .
 						'">' .
-					sprintf(BOARD_ABBREVIATION, $b['uri']) .
+					sprintf($config['board_abbreviation'], $b['uri']) .
 					'</a> - ' .
 					$b['title'] .
 					(isset($b['subtitle']) ? '<span class="unimportant"> — ' . $b['subtitle'] . '</span>' : '') . 
 				'</li>';
 		}
 		
-		if($mod['type'] >= MOD_NEWBOARD) {
+		if($mod['type'] >= $config['mod']['newboard']) {
 			$body .= '<li style="margin-top:15px;"><a href="?/new"><strong>Create new board</strong></a></li>';
 		}
 		return $body;
