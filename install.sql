@@ -45,10 +45,10 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `posts`
+-- Table structure for table `posts_b`
 --
 
-CREATE TABLE IF NOT EXISTS `posts` (
+CREATE TABLE IF NOT EXISTS `posts_b` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `board` smallint(6) NOT NULL,
   `thread` int(11) DEFAULT NULL,
@@ -70,10 +70,67 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `filehash` varchar(32) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(15) NOT NULL,
+  `sticky` int(1) NOT NULL,
+  `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `posts`
+-- Dumping data for table `posts_b`
 --
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mods`
+--
+
+CREATE TABLE IF NOT EXISTS `mods` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` char(40) NOT NULL COMMENT 'SHA1',
+  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`,`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `mods`
+--
+
+INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
+(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bans`
+--
+
+
+CREATE TABLE IF NOT EXISTS  `bans` (
+  `ip` varchar( 15 ) NOT NULL ,
+  `mod` int NOT NULL COMMENT  'which mod made the ban',
+  `set` int NOT NULL,
+  `expires` int NULL,
+  `reason` text NULL
+) ENGINE = InnoDB;
+
+
+CREATE TABLE `robot` (
+`hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
+) ENGINE = INNODB; */
+
+
+CREATE TABLE `mutes` (
+`ip` VARCHAR( 15 ) NOT NULL ,
+`time` INT NOT NULL
+) ENGINE = MYISAM ;
+
+CREATE TABLE `modlogs` (
+`mod` INT NOT NULL ,
+`ip` VARCHAR( 15 ) NOT NULL ,
+`time` INT NOT NULL ,
+`text` TEXT NOT NULL
+) ENGINE = INNODB;

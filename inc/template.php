@@ -8,7 +8,7 @@
 	// Standard configuration	
 	//
 	// Folder where the template files are kept
-	$templateDir = DIR_TEMPLATE;
+	$templateDir = $config['dir']['template'];
 	//
 	// Enable global things like %gentime, etc.
 	$templateGlobals = true;

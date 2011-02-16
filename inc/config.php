@@ -8,177 +8,326 @@
  * 	your instance-config.php
  *
  */
-
+	
+	$config = Array(
+		'db' => Array(),
+		'cookies' => Array(),
+		'error' => Array(),
+		'dir' => Array(),
+		'mod' => Array()
+	);
 	// Database stuff
-	define('MY_SERVER',		'localhost', true);
-	define('MY_USER',		'', true);
-	define('MY_PASSWORD',	'', true);
-	define('MY_DATABASE',	'', true);
+	
+	
+	// SQL driver ("mysql", "pgsql", "sqlite", "dblib", etc)
+	// http://www.php.net/manual/en/pdo.drivers.php
+	$config['db']['type']		= 'mysql';
+	// Hostname or IP address
+	$config['db']['server']		= 'localhost';
+	// Login
+	$config['db']['user']		= '';
+	$config['db']['password']	= '';
+	// Tinyboard database
+	$config['db']['database']	= '';
+	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
+	$config['db']['dsn']		= '';
 
 	// The name of the session cookie (PHP's $_SESSION)
-	define('SESS_COOKIE',	'imgboard', true);
+	$config['cookies']['session']= 'imgboard';
 	
-	// Used to safely determine when the user was first seen, to prevent floods.
-	// time()
-	define('TIME_COOKIE',	'arrived', true);
-	// HASH_COOKIE contains an MD5 hash of TIME_COOKIE+SALT for verification.
-	define('HASH_COOKIE',	'hash', true);
+	// Used to safely determine when the user was first seen, to prevent floods. Contains a UNIX timestamp.
+	$config['cookies']['time']	= 'arrived';
+	// Contains an MD5 hash of $config['cookies']['time'] for verification.
+	$config['cookies']['hash']	= 'hash';
 	// Used for moderation login
-	define('MOD_COOKIE',	'mod', true);
-	// Where to set the 'path' parameter to ROOT when creating cookies. Recommended.
-	define('JAIL_COOKIES',	true,	true);
-	
-	// Whether or not to lock moderator sessions to the IP address that was logged in with.
-	define('MOD_LOCK_IP',	true,	true);
-	// Mod 
-	
+	$config['cookies']['mod']	= 'mod';
+	// Where to set the 'path' parameter to $config['root'] when creating cookies. Recommended.
+	$config['cookies']['jail']	= true;
 	// How long should the cookies last (in seconds)
-	define('COOKIE_EXPIRE',	15778463, true); //6 months
-
-	define('SALT',			'wefaw98YHEWUFuo', true);
-
+	$config['cookies']['expire']= 15778463; //6 months
+	// Make this something long and random for security
+	$config['cookies']['salt']	= 'wefaw98YHEWUFuo';
+	// How long should moderators should remain logged in (0=browser session) (in seconds)
+	$config['mod']['expire']	= 15778463; //6 months
+	// Used to salt secure tripcodes (##trip)
+	$config['secure_trip_salt']	= '@#$&^@#)$(*&@!_$(&329-8347';
+	
 	// How many seconds before you can post, after the first visit
-	define('LURKTIME',		30, true);
+	$config['lurktime']			= 30;
+	// How many seconds between each post
+	$config['flood_time']		= 10;
+	// How many seconds between each post with exactly the same content and same IP
+	$config['flood_time_ip']	= 120;
+	// Same as above but different IP address
+	$config['flood_time_same']	= 30;
+	// Do you need a body for your non-OP posts?
+	$config['force_body']		= true;
 
 	// Max body length
-	define('MAX_BODY',		1800, true);
-
-	define('THREADS_PER_PAGE',	10, true);
-	define('MAX_PAGES',			5, true);
-	define('THREADS_PREVIEW',	5, true);
+	$config['max_body']			= 1800;
+	
+	$config['threads_per_page']	= 10;
+	$config['max_pages']		= 10;
+	$config['threads_preview']	= 5;
 	
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
-	define('VERBOSE_ERRORS',	true, true);
+	$config['verbose_errors']	= true;
 
 	// Error messages
-	define('ERROR_LURK',	'Lurk some more before posting.', true);
-	define('ERROR_BOT',		'You look like a bot.', true);
-	define('ERROR_TOOLONG',	'The %s field was too long.', true);
-	define('ERROR_TOOLONGBODY', 'The body was too long.', true);
-	define('ERROR_TOOSHORTBODY', 'The body was too short or empty.', true);
-	define('ERROR_NOIMAGE',	'You must upload an image.', true);
-	define('ERROR_NOMOVE',	'The server failed to handle your upload.', true);
-	define('ERROR_FILEEXT',	'Unsupported image format.', true);
-	define('ERROR_NOBOARD',	'Invalid board!', true);
-	define('ERROR_NONEXISTANT', 'Thread specified does not exist.', true);
-	define('ERROR_NOPOST',	'You didn\'t make a post.', true);
-	define('ERR_INVALIDIMG','Invalid image.', true);
-	define('ERR_FILESIZE',	'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes', true);
-	define('ERR_MAXSIZE',	'The file was too big.', true);
-	define('ERR_INVALIDZIP','Invalid archive!', true);
+	$config['error']['lurk']			= 'Lurk some more before posting.';
+	$config['error']['bot']				= 'You look like a bot.';
+	$config['error']['toolong']			= 'The %s field was too long.';
+	$config['error']['toolong_body']	= 'The body was too long.';
+	$config['error']['tooshort_body']	= 'The body was too short or empty.';
+	$config['error']['noimage']			= 'You must upload an image.';
+	$config['error']['nomove']			= 'The server failed to handle your upload.';
+	$config['error']['fileext']			= 'Unsupported image format.';
+	$config['error']['noboard']			= 'Invalid board!';
+	$config['error']['nonexistant']		= 'Thread specified does not exist.';
+	$config['error']['locked']			= 'Thread locked. You may not reply at this time.';
+	$config['error']['nopost']			= 'You didn\'t make a post.';
+	$config['error']['flood']			= 'Flood detected; Post discared.';
+	$config['error']['unoriginal']		= 'Unoriginal content!';
+	$config['error']['muted']			= 'Unoriginal content! You have been muted for %d seconds.';
+	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
+	$config['error']['tor']				= 'Hmm… That looks like a Tor exit node.';
+	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
+	$config['error']['nodelete']		= 'You didn\'t select anything to delete.';
+	$config['error']['invalidpassword']	= 'Wrong password…';
+	$config['error']['invalidimg']		= 'Invalid image.';
+	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
+	$config['error']['maxsize']			= 'The file was too big.';
+	$config['error']['invalidzip']		= 'Invalid archive!';
 	
 	// Moderator errors
-	define('ERROR_INVALID',	'Invalid username and/or password.', true);
-	define('ERROR_INVALIDAFTER', 'Invalid username and/or password. Your user may have been deleted or changed.');
-	define('ERROR_MALFORMED','Invalid/malformed cookies.', true);
+	$config['error']['invalid']			= 'Invalid username and/or password.';
+	$config['error']['notamod']			= 'You are not a mod…';
+	$config['error']['invalidafter']	= 'Invalid username and/or password. Your user may have been deleted or changed.';
+	$config['error']['malformed']		= 'Invalid/malformed cookies.';
+	$config['error']['missedafield']	= 'Your browser didn\'t submit an input when it should have.';
+	$config['error']['required']		= 'The %s field is required.';
+	$config['error']['invalidfield']	= 'The %s field was invalid.';
+	$config['error']['boardexists']		= 'There is already a %s board.';
+	$config['error']['noaccess']		= 'You don\'t have permission to do that.';
+	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
+	$config['error']['404']				= 'Page not found.';
+	
+	// Reply limit (deletes thread when this is reached)
+	$config['reply_limit']	= 250;
 	
 	// For resizing, max values
-	define('THUMB_WIDTH',	200, true);
-	define('THUMB_HEIGHT',	200, true);
-
+	$config['thumb_width']	= 255;
+	$config['thumb_height']	= 255;
+	
+	// Store image hash in the database for r9k-like boards implementation soon
+	// Function name for hashing
+	// sha1_file, md5_file, etc.
+	$config['file_hash']	= 'sha1_file';
+	
+	$config['block_tor']	= true;
+	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
+	$config['max_links']	= 20;
+	
 	// Maximum image upload size in bytes
-	define('MAX_FILESIZE',	10*1024*1024, true); // 10MB
+	$config['max_filesize']	= 10*1024*1024; // 10MB
 	// Maximum image dimensions
-	define('MAX_WIDTH',		10000, true);
-	define('MAX_HEIGHT',	MAX_WIDTH, true);
-
-	/* When you upload a ZIP as a file, all the images inside the archive
-	 * get dumped into the thread as replies.
-	 * Extremely beta and not recommended yet.
-	 */
-	define('ALLOW_ZIP',		false, true);
-	define('ZIP_IMAGE',		'src/zip.png', true);
-
+	$config['max_width']	= 1000;
+	$config['max_height']	= $config['max_width']; // 1:1
+	
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
-		WARNING: Very beta. Currently strips animated GIFs too :(
+		WARNING: Currently strips animated GIFs too :(
 	**/
-	define('REDRAW_IMAGE', false, true);
+	$config['redraw_image']	= false;
 	// Redrawing configuration
-	define('JPEG_QUALITY',	100, true);
-	define('REDRAW_GIF',	false, true);
-
-	// Display the aspect ratio in a post's file info
-	define('SHOW_RATIO',	true, true);
-
-	define('DIR_IMG',		'src/', true);
-	define('DIR_THUMB',		'thumb/', true);
-	define('DIR_RES',		'res/', true);
+	$config['jpeg_quality']	= 100;
+	// Temporary fix for the animation-stripping bug
+	$config['redraw_gifs']	= false;
 	
-	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
-	define('DIR_TEMPLATE',	getcwd() . '/templates', true);
+	// Display the aspect ratio in a post's file info
+	$config['show_ratio']	= true;
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	define('ROOT',			'/', true);
+	$config['root']		= '/';
+	
+	$config['dir']['img']	= 'src/';
+	$config['dir']['thumb']	= 'thumb/';
+	$config['dir']['res']	= 'res/';
+	// For load balancing, having a seperate server (and domain/subdomain) for serving static content is possible.
+	// This can either be a directory or a URL (eg. http://static.example.org/)
+	$config['dir']['static']	= $config['root'] . 'static/';
+	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
+	$config['dir']['template']	= getcwd() . '/templates';
+	// Static images
+	// These can be URLs OR base64 (data URI scheme)
+	$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
+	$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
+	$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
+	$config['image_zip']		= $config['dir']['static'] . 'zip.png';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
-	define('ROOT_FILE',		false, true);
+	$config['root_file']	= false;
 	
-	define('POST_URL',		ROOT . 'post.php', true);
-	define('FILE_INDEX',	'index.html', true);
-	define('FILE_PAGE',		'%d.html', true);
+	$config['file_index']	= 'index.html';
+	$config['file_page']	= '%d.html';
+	$config['file_mod']		= 'mod.php';
 	
 	// Multi-board (%s is board abbreviation)
-	define('BOARD_PATH', '%s/', true);
+	$config['board_path']	= '%s/';
+	
+	// The HTTP status code to use when redirecting.
+	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+	// "302" is recommended.
+	$config['redirect_http']	= 302;
+	
+	// TODO: Put this in per-board instance-config instead
+	// Robot stuff
+	// Strip repeating characters when making hashes
+	$config['robot_enable']				= false;
+	$config['robot_strip_repeating']	= true;
+	
+	// Enable mutes
+	// Tinyboard uses ROBOT9000's original 2^x implementation
+	$config['robot_mute']		= true;
+	// How many mutes x hours ago to include in the algorithm
+	$config['robot_mute_hour']	= 50;
+	// If you want to alter the algorithm a bit. Default value is 2. n^x
+	$config['robot_mute_multiplier']	= 2;
+	$config['robot_mute_descritpion']	= 'You have been muted for unoriginal content.';
+	
+	/* 
+		Mod stuff
+	*/
+	// Whether or not to lock moderator sessions to the IP address that was logged in with.
+	$config['mod']['lock_ip'] = true;
+	// The page that is first shown when a moderator logs in. Defaults to the dashboard.
+	$config['mod']['default'] = '/';
+	// Don't even display MySQL password to administrators (in the configuration page).
+	$config['mod']['never_reveal_password'] = true;
+	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
+	$config['mod']['dns_lookup'] = true;
+	// Show ban form on the IP summary page
+	$config['mod']['ip_banform'] = true;
+	// How many recent posts, per board, to show in the IP summary page
+	$config['mod']['ip_recentposts'] = 5;
+	
+	// Probably best not to change these:
+	define('JANITOR',	0,		true);
+	define('MOD',		1,		true);
+	define('ADMIN',		2,		true);
+	
+	// Permissions
+	// What level of administration you need to:
+	
+	/* Post Controls */
+	// View IP addresses
+	$config['mod']['show_ip'] = MOD;
+	// Delete a post
+	$config['mod']['delete'] = JANITOR;
+	// Ban a user for a post
+	$config['mod']['ban'] = MOD;
+	// Ban and delete (one click; instant)
+	$config['mod']['bandelete'] = MOD;
+	// Delete file (and keep post)
+	$config['mod']['deletefile'] = JANITOR;
+	// Delete all posts by IP
+	$config['mod']['deletebyip'] = MOD;
+	// Sticky a thread
+	$config['mod']['sticky'] = MOD;
+	// Lock a thread
+	$config['mod']['lock'] = MOD;
+	// Post in a locked thread
+	$config['mod']['postinlocked'] = MOD;
+	// Post bypass unoriginal content check
+	$config['mod']['postunoriginal'] = MOD;
+	// Raw HTML posting
+	$config['mod']['rawhtml'] = MOD;
+	
+	/* Administration */
+	// Display the contents of instance-config.php
+	$config['mod']['show_config'] = ADMIN;
+	// View list of bans
+	$config['mod']['view_banlist'] = MOD;
+	// View the username of the mod who made a ban
+	$config['mod']['view_banstaff'] = MOD;
+	// If the moderator doesn't fit the $config['mod']['view_banstaff''] (previous) permission,
+	// show him just a "?" instead. Otherwise, it will be "Mod" or "Admin"
+	$config['mod']['view_banquestionmark'] = false;
+	// Show expired bans in the ban list (they are kept in cache until the culprit returns)
+	$config['mod']['view_banexpired'] = true;
+	// Create a new board
+	$config['mod']['newboard'] = ADMIN;
+	
+	// Mod links (full HTML)
+	// Correspond to above permission directives
+	$config['mod']['link_delete'] = '[D]';
+	$config['mod']['link_ban'] = '[B]';
+	$config['mod']['link_bandelete'] = '[B&amp;D]';
+	$config['mod']['link_deletefile'] = '[F]';
+	$config['mod']['link_deletebyip'] = '[D+]';
+	$config['mod']['link_sticky'] = '[Sticky]';
+	$config['mod']['link_desticky'] = '[-Sticky]';
+	$config['mod']['link_lock'] = '[Lock]';
+	$config['mod']['link_unlock'] = '[-Lock]';
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
-	define('HAS_INSTALLED',		'.installed', true);
+	$config['has_installed'] = '.installed';
 	
-	// Name of the boards. Typically '/%s/' (/b/, /mu/, etc)
-	// BOARD_ABBREVIATION - BOARD_TITLE
-	define('BOARD_ABBREVIATION', '/%s/', true);
-
+	// Name of the boards. Usually '/%s/' (/b/, /mu/, etc)
+	// $config['board_abbreviation'] - BOARD_TITLE
+	$config['board_abbreviation'] = '/%s/';
+	
 	// Automatically convert things like "..." to Unicode characters ("…")
-	define('AUTO_UNICODE',	true, true);
+	$config['auto_unicode']	= true;
 	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
-	define('WIKI_MARKUP',	true, true);
+	$config['wiki_markup']	= true;
 	// Whether to turn URLs into functional links
-	define('MARKUP_URLS',	true, true);
+	$config['markup_urls']	= true;
 	// Complex regular expression to catch URLs
-	define('URL_REGEX',		'/' .	'(https?|ftp):\/\/' .	'([\w\-]+\.)+[a-zA-Z]{2,6}' .	'(\/([\w\-~\.#\/?=&;:+%]+))?' . '/', true);
+	$config['url_regex']	= '/' .	'(https?|ftp):\/\/' .	'(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' .	'(\/([\w\-~\.#\/?=&;:+%]+)?)?' . '/';
 	
 	// Allowed file extensions
-	$allowed_ext = Array('jpg', 'jpeg', 'bmp', 'gif', 'png', true);
-
-	define('BUTTON_NEWTOPIC',	'New Topic', true);
-	define('BUTTON_REPLY',		'New Reply', true);
+	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
 	
-	define('ALWAYS_NOKO',		false, true);
+	// The names on the post buttons. (On most imageboards, these are both "Post".)
+	$config['button_newtopic']	= 'New Topic';
+	$config['button_reply']		= 'New Reply';
 	
-	define('URL_MATCH',		'/^' .
-			(@$_SERVER['HTTPS']?'https':'http').':\/\/'.$_SERVER['HTTP_HOST'] .
-			'(' .
-					preg_quote(ROOT, '/') .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-				'|' .
-					preg_quote(ROOT, '/') .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-					preg_quote(FILE_INDEX, '/') .
-				'|' .
-					preg_quote(ROOT, '/') .
-					str_replace('%s', '\w{1,8}', preg_quote(BOARD_PATH, '/')) .
-					str_replace('%d', '\d+', preg_quote(FILE_PAGE, '/')) .
-			')$/', true);
+	// The string passed to date() for post times
+	// http://php.net/manual/en/function.date.php
+	$config['post_date'] = 'm/d/y (D) H:i:s';
 	
-	if(ROOT_FILE) {
-		chdir(ROOT_FILE);
+	// Always act as if they had typed "noko" in the email field no mattter what
+	$config['always_noko'] = false;
+	
+	$config['url_match'] = '/^' .
+		(preg_match($config['url_regex'], $config['root']) ? '' :
+			(@$_SERVER['HTTPS']?'https':'http') .
+			':\/\/'.$_SERVER['HTTP_HOST']) .
+			preg_quote($config['root'], '/') .
+		'(' .
+				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
+			'|' .
+				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
+				preg_quote($config['file_index'], '/') .
+			'|' .
+				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
+				str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
+			'|' .
+				preg_quote($config['file_mod'], '/') .
+			'\?\/.+' .
+		')$/i';
+	
+	if($config['root_file']) {
+		chdir($config['root_file']);
 	}
 	
-	if(VERBOSE_ERRORS) {
+	if($config['verbose_errors']) {
 		error_reporting(E_ALL);
 		ini_set('display_errors', 1);
 	}
 	
-	/*
-	Multi-board support removes any use for this.
-	
-	if(!defined('IS_INSTALLATION')) {
-		if(!file_exists(DIR_IMG)) @mkdir(DIR_IMG, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_THUMB)) @mkdir(DIR_THUMB, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-		if(!file_exists(DIR_RES)) @mkdir(DIR_RES, 0777) or error("Couldn't create " . DIR_IMG . ". Install manually.", true);
-	}
-	*/
 ?>

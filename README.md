@@ -5,23 +5,25 @@ Tinyboard is an imageboard software package written in PHP. It aims to maintain 
 
 Tinyboard is not currently at a stable state.
 
-[o]: http://omegadev.org/
+[o]: http://omegasdg.com/
+
+## Requirements
+ 1. PHP >= 5.2.0
+ 2. php-gd
+ 3. php-pdo with appropriate driver for your database
 
 ## Installation
- 1. Tinyboard requires a MySQL database and a user to work. Create one.
+ 1. Tinyboard requires an SQL database and a user to work. Create one.
  2. Import 'install.sql' into the database. There are several ways to do this.
 	- using phpMyAdmin
 	- `mysql -uUSERNAME -pPASSWORD DATABASE < install.sql`
  3. Edit 'instance-config.php' to suit your installation. You should copy some values from '[inc/config.php][c]' to redefine them in the instance-config.
- 4. Make sure that the directories used by Tinyboard are writable. Depending on your setup, you may need to `chmod` the directories to 777.
-  The default directories are:
-	- ./res
-	- ./src
-	- ./thumb
-	- . (document root)
+ 4. Make sure that the Tinyboard directory is writable. Depending on your setup, you may need to `chmod` "." to 777, with `chmod 777 .`
  5. Ensure everything is okay by running [test.php][t] in a browser. The script will try and help you correct your errors.
  6. Run the [post.php][p] script. It should create an index.html and redirect you to it if everything is okay.
  7. Optional (highly recommended): Either delete or chmod as unreadable the following files: [test.php][t], [install.sql][i], and this [README][r].
+ 
+An automated installation script will be completed soon.
 
 [t]: http://github.com/savetheinternet/Tinyboard/blob/master/test.php
 [p]: http://github.com/savetheinternet/Tinyboard/blob/master/post.php
@@ -30,17 +32,24 @@ Tinyboard is not currently at a stable state.
 [r]: http://github.com/savetheinternet/Tinyboard/blob/master/README.md
 
 ## License
-Copyright (c) 2010 by Omega Software Development Group
+Copyright (c) 2010-2011, Omega Software Development Group <http://omegasdg.com/>
 
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above copyright
-notice and this permission notice appear in all copies.
+Permission to use, copy, modify, and/or distribute this software is granted, 
+provided that the following terms are obeyed.
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+1. The above copyright notice, this permission notice, and these terms must 
+appear in all copies and modifications of this software.
 
+2. This software must not be utilized in any manner that is primarily intended 
+for or directed toward commercial advantage or private monetary compensation.
+
+3. Any changes to this software must be made easily publicly available in the 
+form of source code.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH 
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER 
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF 
+THIS SOFTWARE.

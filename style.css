@@ -80,6 +80,18 @@ form table tr th {
 form table tr th {
 	background: #98E;
 }
+form table tr td div {
+	text-align: cetner;
+	float: left;
+	padding-left: 3px;
+}
+form table tr td div input {
+	display: block;
+	margin: 2px auto 0 auto;
+}
+form table tr td div label {
+	font-size: 10px;
+}
 .unimportant, .unimportant * {
 	font-size: 10px;
 }
@@ -101,6 +113,10 @@ div.banner a:hover {
 	color: #EEF2FF;
 	text-decoration: none;
 }
+img.banner {
+	float: none;
+	margin: 4px auto 0 auto;
+}
 img {
 	display: block;
 	float: left;
@@ -111,6 +127,12 @@ div.post img {
 	padding: 5px;
 	margin: 5px 20px 0 0;
 }
+div.post img.icon {
+	display: inline;
+	float: none;
+	margin: 0 5px;
+	padding: 0;
+}
 div.post.op {
 	margin-right: 20px;
 	margin-bottom: 5px;
@@ -120,6 +142,10 @@ p.intro {
 	padding: 0;
 	padding-bottom: 0.2em;
 }
+input.delete {
+	float: left;
+	margin: 1px 6px 0 0;
+}
 p.intro span.subject {
 	color: #0F0C5D;
 	font-weight: bold;
@@ -128,8 +154,15 @@ p.intro span.name {
 	color: #117743;
 	font-weight: bold;
 }
+p.intro a.nametag {
+	color: #F00000;
+	margin-left: 0;
+}
 p.intro a {
 	margin-left: 8px;
+}
+div.delete {
+	float: right;
 }
 div.post.reply p {
 	margin: 0.3em 0 0 0;
@@ -167,4 +200,74 @@ span.omitted {
 }
 br.clear {
 	clear: left;
+}
+span.controls {
+	float: right;
+	margin: 0;
+	padding: 0;
+	font-size: 80%;
+}
+span.controls.op {
+	float: none;
+	margin-left: 10px;
+}
+span.controls a {
+	margin: 0;
+}
+div#wrap {
+	width: 900px;
+	margin:0 auto;
+}
+div.ban {
+	background: white;
+	border: 1px solid #98E;
+	max-width: 700px;
+	margin: 30px auto;
+}
+div.ban p, div.ban h2 {
+	padding: 3px 7px;
+}
+div.ban h2 {
+	background: #98E;
+	color: black;
+	font-size: 12pt;
+}
+div.ban p {
+	font-size: 12px;
+	margin-bottom: 12px;
+}
+div.ban p.reason {
+	font-weight: bold;
+}
+span.spoiler {
+	background: black;
+}
+span.spoiler:hover {
+	color: white;
+}
+div.styles {
+	float: right;
+	padding-bottom: 20px;
+}
+div.styles a {
+	margin: 0 10px;
+}
+div.styles a.selected {
+	text-decoration: none;
+}
+table.test {
+	width: 100%;
+}
+table.test td, table.test th {
+	text-align: left;
+	padding: 5px;
+}
+table.test tr.h th {
+	background: #98E;
+}
+table.test td img {
+	margin: 0;
+}
+fieldset label {
+	display: block;
 }

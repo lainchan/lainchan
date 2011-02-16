@@ -1,26 +1,27 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" media="screen" href="{index}style.css"/>
 	<title>{board[url]} - {board[name]}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<script type="text/javascript" src="{index}main.js"></script>
 </head>
 <body>
 	<h1>{board[url]} - {board[name]}</h1>
-	<div class="title">{board[title]?{board[title]}}</div>
+	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
+	
 	
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
 	<input type="hidden" name="board" value="{board[uri]}" />
+	{mod?<input type="hidden" name="mod" value="1" />}
 		<table>
 			<tr>
 				<th>
 					Name
 				</th>
 				<td>
-					<input type="text" name="name" size="25" maxlength="25" autocomplete="off" />
+					<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
 				</td>
 			</tr>
 			<tr>
@@ -37,7 +38,7 @@
 				</th>
 				<td>
 					<input style="float:left;" type="text" name="subject" size="25" maxlength="25" autocomplete="off" />
-					<input style="float:right;" type="submit" name="post" value="{button=New Topic}" />
+					<input accesskey="s" style="float:right;" type="submit" name="post" value="{button=New Topic}" />
 				</td>
 			</tr>
 			<tr>
@@ -56,6 +57,27 @@
 					<input type="file" name="file"/>
 				</td>
 			</tr>
+			{mod?
+			<tr>
+				<th>
+					Flags
+				</th>
+				<td>
+					<div>
+						<label for="sticky">Sticky</label>
+						<input title="Sticky" type="checkbox" name="sticky" id="sticky"><br/>
+					</div>
+					<div>
+						<label for="lock">Lock</label><br/>
+						<input title="Lock" type="checkbox" name="lock" id="lock">
+					</div>
+					<div>
+						<label for="raw">Raw HTML</label><br/>
+						<input title="Raw HTML" type="checkbox" name="raw" id="raw">
+					</div>
+				</td>
+			</tr>
+			}
 			<tr>
 				<th>
 					Password
@@ -68,10 +90,21 @@
 		</table>
 	</form>
 	<hr/>
+	<form action="{post_url}" method="post">
+	<input type="hidden" name="delete" value="1" />
+	<input type="hidden" name="board" value="{board[uri]}" />
+	{mod?<input type="hidden" name="mod" value="1" />}
 	{body}
+	<div class="delete">
+		Delete Post [<input title="Delete file only" type="checkbox" name="file" id="delete_file"/>
+		 <label for="delete_file">File</label>] Password
+			<input type="password" name="password" size="12" maxlength="18" />
+			<input type="submit" value="Delete" />
+	</div>
+	</form>
 	Pages: {pages:
 		[<a href="{pages[link]}">{pages[num]}</a>]{!%last? }
 	}
-	<p class="unimportant" style="text-align:center;">Copyright &copy; 2010 <a href="http://omegadev.org/">OmegaSDG</a></p>
+	<p class="unimportant" style="text-align:center;">Tinyboard Software Copyright &copy; 2010-2011 <a href="http://omegasdg.com/">OmegaSDG</a></p>
 </body>
 </html>
