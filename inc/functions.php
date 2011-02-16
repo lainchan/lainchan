@@ -628,6 +628,7 @@
 		if($config['auto_unicode']) {
 			$body = str_replace('...', '…', $body);
 			$body = str_replace('<--', '←', $body);
+			$body = str_replace('-->', '→', $body);
 
 			// En and em- dashes are rendered exactly the same in
 			// most monospace fonts (they look the same in code
