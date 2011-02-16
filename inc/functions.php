@@ -437,16 +437,16 @@
 
 			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
 			$posts->bindValue(1, $th['id']);
-			$posts->bindValue(2, $config['threads_preview'], PDO::PARAM_INT);
+			$posts->bindValue(2, ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
 			
-			if($posts->rowCount() == $config['threads_preview']) {
+			if($posts->rowCount() == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
 				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = ?", $board['uri']));
 				$count->bindValue(1, $th['id']);
 				$count->execute() or error(db_error($count));
 				
 				$count = $count->fetch();
-				$omitted = $count['num'] - $config['threads_preview'];
+				$omitted = $count['num'] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
 				$thread->omitted = $omitted;
 				unset($count);
 				unset($omitted);
@@ -474,7 +474,10 @@
 
 		$pages = Array();
 		for($x=0;$x<$count && $x<$config['max_pages'];$x++) {
-			$pages[] = Array('num' => $x+1, 'link' => $x==0 ? ($mod ? '?/' : $config['root']) . $board['dir'] . $config['file_index'] : ($mod ? '?/' : $config['root']) . $board['dir'] . sprintf($config['file_page'], $x+1));
+			$pages[] = Array(
+				'num' => $x+1,
+				'link' => $x==0 ? ($mod ? '?/' : $config['root']) . $board['dir'] . $config['file_index'] : ($mod ? '?/' : $config['root']) . $board['dir'] . sprintf($config['file_page'], $x+1)
+			);
 		}
 		
 		return $pages;
@@ -589,6 +592,7 @@
 			if(file_exists($filename)) $md5 = md5_file($filename);
 
 			$content['pages'] = $pages;
+			$content['pages'][$page-1]['selected'] = true;
 			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
 			
 			if(isset($md5) && $md5 == md5_file($filename)) {

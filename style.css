@@ -271,3 +271,18 @@ table.test td img {
 fieldset label {
 	display: block;
 }
+div.pages {
+	color: #89A;
+	background: #D6DAF0;
+	display: inline;
+	padding: 8px;
+	border-right: 1px solid #B7C5D9;
+	border-bottom: 1px solid #B7C5D9;
+}
+div.pages a.selected {
+	color: black;
+	font-weight: bolder;
+}
+div.pages a:link {
+	text-decoration: none;
+}

@@ -73,6 +73,7 @@
 	$config['threads_per_page']	= 10;
 	$config['max_pages']		= 10;
 	$config['threads_preview']	= 5;
+	$config['threads_preview_sticky'] = 1;
 	
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
 	$config['verbose_errors']	= true;

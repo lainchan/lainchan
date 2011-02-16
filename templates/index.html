@@ -102,9 +102,9 @@
 			<input type="submit" value="Delete" />
 	</div>
 	</form>
-	Pages: {pages:
-		[<a href="{pages[link]}">{pages[num]}</a>]{!%last? }
-	}
-	<p class="unimportant" style="text-align:center;">Tinyboard Software Copyright &copy; 2010-2011 <a href="http://omegasdg.com/">OmegaSDG</a></p>
+	<div class="pages">Pages: {pages:
+		[<a {pages[selected]?class="selected"}{!pages[selected]?href="{pages[link]}"}>{pages[num]}</a>]{!%last? }
+	}</div>
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Tinyboard Software Copyright &copy; 2010-2011 <a href="http://omegasdg.com/">OmegaSDG</a></p>
 </body>
 </html>

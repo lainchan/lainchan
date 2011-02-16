@@ -318,10 +318,14 @@
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
 			
-			if(!$page = index(empty($matches[2]) || $matches[2] == $config['file_index'] ? 1 : $matches[2], $mod)) {
+			$page_no = empty($matches[2]) || $matches[2] == $config['file_index'] ? 1 : $matches[2];
+			
+			if(!$page = index($page_no, $mod)) {
 				error($config['error']['404']);
 			}
+			
 			$page['pages'] = getPages(true);
+			$page['pages'][$page_no-1]['selected'] = true;
 			$page['mod'] = true;
 			
 			echo Element('index.html', $page);
