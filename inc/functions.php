@@ -42,6 +42,15 @@
 			$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 		if(!isset($config['image_zip']))
 			$config['image_zip'] = $config['dir']['static'] . 'zip.png';
+		
+		if($config['root_file']) {
+			chdir($config['root_file']);
+		}
+
+		if($config['verbose_errors']) {
+			error_reporting(E_ALL);
+			ini_set('display_errors', 1);
+		}
 	}
 	
 	function sprintf3($str, $vars, $delim = '%') {

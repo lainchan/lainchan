@@ -303,32 +303,4 @@
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko'] = false;
-	
-	$config['url_match'] = '/^' .
-		(preg_match($config['url_regex'], $config['root']) ? '' :
-			(@$_SERVER['HTTPS']?'https':'http') .
-			':\/\/'.$_SERVER['HTTP_HOST']) .
-			preg_quote($config['root'], '/') .
-		'(' .
-				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
-			'|' .
-				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
-				preg_quote($config['file_index'], '/') .
-			'|' .
-				str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
-				str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
-			'|' .
-				preg_quote($config['file_mod'], '/') .
-			'\?\/.+' .
-		')$/i';
-	
-	if($config['root_file']) {
-		chdir($config['root_file']);
-	}
-	
-	if($config['verbose_errors']) {
-		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
-	}
-	
 ?>
