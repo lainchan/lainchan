@@ -1,353 +1,244 @@
-<?php
-
-// install.php
-// Basic installer written by Alpha.
-
-// TODO:
-//	* The installer should create the database
-//	* Error checking
-//	* General cleanup
-//	* Skin
-
-// Debug
-error_reporting(E_ALL); 
-ini_set("display_errors", 1);
-
-function htmlclean ($string) {
-	return htmlentities($string,ENT_QUOTES);
-}
-
-if (file_exists('inc/instance-config.php')) {
-	echo "<h1>Error:</h1>";
-	echo "<p>inc/instance-config.php already exists. Please delete it before trying to re-install.</p>";
-	die();
-}
-
-$default_values = array(
-		// Database stuff
-		array(
-			'output' => "<h2>Database settings</h2>\n".
-			"<p>Please change the following to reflect the setup of your database.</p>"
-		),
-		array(
-			'name' => 'DB_TYPE',
-			'html' => 'dropdown',
-			'values' => array(
-				'mysql' => 'MySQL',
-				'dblib' => 'FreeTDS / Microsoft SQL Server / Sybase',
-				'pgsql' => 'PostgreSQL',
-				'sqlite' => 'SQLite'
-				),
-			'comment' => 'Database engine:'
-		),
-		array(
-			'name' => 'DB_SERVER',
-			'html' => 'text',
-			'values' => 'localhost',
-			'comment' => 'Database hostname:'
-		),
-		array(
-			'name' => 'DB_USER',
-			'html' => 'text',
-			'values' => 'root',
-			'comment' => 'Database username:'
-		),
-		array(
-			'name' => 'DB_PASSWORD',
-			'html' => 'password',
-			'values' => '',
-			'comment' => 'Database password:'
-		),
-		array(
-			'name' => 'DB_DATABASE',
-			'html' => 'text',
-			'values' => 'tinyboard',
-			'comment' => 'Database name (please create this database beforehand):'
-		),
-		
-		// General Config
-		array(
-			'output' => "<h2>General Config</h2>\n".
-			"<p>General board configuration.</p>"
-		),
-		array(
-			'name' => 'LURKTIME',
-			'html' => 'text',
-			'values' => '30',
-			'comment' => 'How many seconds before you can post, after the first visit:'
-		),
-		array(
-			'name' => 'MAX_BODY',
-			'html' => 'text',
-			'values' => '1800',
-			'comment' => 'Max body length:'
-		),
-		array(
-			'name' => 'THREADS_PER_PAGE',
-			'html' => 'text',
-			'values' => '10',
-			'comment' => 'Threads per page:'
-		),
-		array(
-			'name' => 'MAX_PAGES',
-			'html' => 'text',
-			'values' => '5',
-			'comment' => 'Max pages:'
-		),
-		array(
-			'name' => 'THREADS_PREVIEW',
-			'html' => 'text',
-			'values' => '5',
-			'comment' => 'Threads Preview:'
-		),
-		array(
-			'name' => 'VERBOSE_ERRORS',
-			'html' => 'bool',
-			'values' => true,
-			'comment' => 'Turns \'display_errors\' on. Not recommended for production.:'
-		),
-		
-		// Image Config
-		array(
-			'output' => "<h2>Image Config</h2>\n".
-			"<p>Image configuration.</p>"
-		),
-		array(
-			'name' => 'THUMB_WIDTH',
-			'html' => 'text',
-			'values' => '200',
-			'comment' => 'Maximum thumbnail width:'
-		),
-		array(
-			'name' => 'THUMB_HEIGHT',
-			'html' => 'text',
-			'values' => '200',
-			'comment' => 'Maximum thumbnail height:'
-		),
-		array(
-			'name' => 'MAX_FILESIZE',
-			'html' => 'text',
-			'values' => '10485760',
-			'comment' => 'Maximum file size (in bytes; default: 10MB):'
-		),
-		array(
-			'name' => 'MAX_WIDTH',
-			'html' => 'text',
-			'values' => '10000',
-			'comment' => 'Maximum image width:'
-		),
-		array(
-			'name' => 'MAX_HEIGHT',
-			'html' => 'text',
-			'values' => '10000',
-			'comment' => 'Maximum image height:'
-		),
-		array(
-			'name' => 'ALLOW_ZIP',
-			'html' => 'bool',
-			'values' => false,
-			'comment' => 'When you upload a ZIP as a file, all the images inside the archive '.
-			'get dumped into the thread as replies. (Extremely beta and not recommended yet.)'
-		),
-		array(
-			'name' => 'REDRAW_IMAGE',
-			'html' => 'bool',
-			'values' => false,
-			'comment' => 'Redraw the image using GD functions to strip any excess data (WARNING: VERY BETA).'
-		),
-		array(
-			'name' => 'SHOW_RATIO',
-			'html' => 'bool',
-			'values' => true,
-			'comment' => 'Display the aspect ratio in a post\'s file info.'
-		),
-		
-		// Cookies
-		array(
-			'output' => "<h2>Cookies</h2>\n".
-			"<p>The following deals with cookie setup. ".
-			"You probably don't need to change it.</p>"
-		),
-		array(
-			'name' => 'SESS_COOKIE',
-			'html' => 'text',
-			'values' => 'imgboard',
-			'comment' => 'Name of the session cookie:'
-		),
-		array(
-			'name' => 'TIME_COOKIE',
-			'html' => 'text',
-			'values' => 'arrived',
-			'comment' => 'Name of the time cookie:'
-		),
-		array(
-			'name' => 'HASH_COOKIE',
-			'html' => 'text',
-			'values' => 'hash',
-			'comment' => 'Name of the hash cookie:'
-		),
-		array(
-			'name' => 'MOD_COOKIE',
-			'html' => 'text',
-			'values' => 'mod',
-			'comment' => 'Name of the moderator cookie:'
-		),
-		array(
-			'name' => 'JAIL_COOKIES',
-			'html' => 'text',
-			'values' => 'true',
-			'comment' => 'Where to set the \'path\' parameter to ROOT when creating cookies. Recommended.:'
-		),
-		array(
-			'name' => 'COOKIE_EXPIRE',
-			'html' => 'text',
-			'values' => '15778463',
-			'comment' => 'How long should the cookies last (in seconds; default 6 months):'
-		),
-		array(
-			'name' => 'SALT',
-			'html' => 'text',
-			'values' => md5(rand(0,100)),
-			'comment' => 'Make this something long and random for security:'
-		),
-		
-	);
-
-$sql = array(
-		'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";',
-		'CREATE TABLE IF NOT EXISTS `boards` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `uri` varchar(8) NOT NULL,
-  `title` varchar(20) NOT NULL,
-  `subtitle` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uri` (`uri`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;',
-		'INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
-(1, \'b\', \'Beta\', \'In development.\');',
-		'CREATE TABLE IF NOT EXISTS `posts_b` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `thread` int(11) DEFAULT NULL,
-  `subject` varchar(40) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `name` varchar(25) NOT NULL,
-  `trip` varchar(15) DEFAULT NULL,
-  `body` text NOT NULL,
-  `time` int(11) NOT NULL,
-  `bump` int(11) DEFAULT NULL,
-  `thumb` varchar(50) DEFAULT NULL,
-  `thumbwidth` int(11) DEFAULT NULL,
-  `thumbheight` int(11) DEFAULT NULL,
-  `file` varchar(50) DEFAULT NULL,
-  `filewidth` int(11) DEFAULT NULL,
-  `fileheight` int(11) DEFAULT NULL,
-  `filesize` int(11) DEFAULT NULL,
-  `filename` varchar(30) DEFAULT NULL,
-  `filehash` varchar(32) DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
-  `sticky` int(1) NOT NULL,
-  `locked` int(1) NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;',
-		'CREATE TABLE IF NOT EXISTS `mods` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `password` char(40) NOT NULL COMMENT \'SHA1\',
-  `type` smallint(1) NOT NULL COMMENT \'0: janitor, 1: mod, 2: admin\',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;',
-		'INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
-(1, \'admin\', \'5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8\', 2);',
-		'CREATE TABLE IF NOT EXISTS  `bans` (
-  `ip` varchar( 15 ) NOT NULL ,
-  `mod` int NOT NULL COMMENT  \'which mod made the ban\',
-  `set` int NOT NULL,
-  `expires` int NULL,
-  `reason` text NULL
-) ENGINE = InnoDB;',
-	);
-
-if (isset($_POST['submit'])) {
-	$date = date('H:i jS F Y (e)');
-	$config_file = "<?php\n// Installer Generated Config File\n// Created at $date\n";
-	foreach ($default_values as $value) {
-		if (isset($value['output'])) {
-			continue;
-		}
-		if (isset($_POST[$value['name']])) {
-			$x = $_POST[$value['name']];
-		} else {
-			if (is_array($value['values'])) {
-				$x = $value['values'][0];
-			} else {
-				$x = $value['values'];
-			}
-		}
-		if ($value['html'] != 'bool') {
-			$x = "'$x'";
-		}
-		$config_file .= "define('".$value['name']."',$x,true);\n";
-	}
-	file_put_contents('inc/instance-config.php',$config_file);
-	
+<?php	
 	require 'inc/functions.php';
 	require 'inc/display.php';
-	require 'inc/instance-config.php';
-	//require 'inc/config.php';
+	require 'inc/config.php';
+	if (file_exists('inc/instance-config.php')) {
+		require 'inc/instance-config.php';
+	}
 	require 'inc/template.php';
 	require 'inc/database.php';
+	require 'inc/user.php';
+	$step = isset($_GET['step']) ? round($_GET['step']) : 0;
+	$page = Array(
+		'index' => $config['root'],
+		'title' => 'Install',
+		'body' => ''
+	);
 	
-	sql_open();
-	foreach ($sql as $query) {
-		query($query);
-	}
-	
-	echo "<h1>Install Complete.</h1>";
-	die();
-}
-
-echo "<form action=\"install.php\" method=\"POST\">";
-foreach ($default_values as $value) {
-	if (isset($value['output'])) {
-		echo $value['output'];
-		continue;
-	}
-	if (isset($value['error'])) {
-		echo "<p>Error: ".htmlclean($value['error'])."</p>\n";
-	}
-	echo "<p>".$value['comment']." ";
-	switch ($value['html']) {
-		case 'text':
-			echo "<input type=\"text\" id=\"".htmlclean($value['name'])."\" name=\"".htmlclean($value['name'])."\" value=\"".htmlclean($value['values'])."\" />";
-			break;
-		case 'password':
-			echo "<input type=\"password\" id=\"".htmlclean($value['name'])."\" name=\"".htmlclean($value['name'])."\" value=\"".htmlclean($value['values'])."\" />";
-			break;
-		case 'dropdown':
-			echo "<select name=\"".htmlclean($value['name'])."\" id=\"".htmlclean($value['name'])."\">\n";
-			foreach ($value['values'] as $option => $human) {
-				echo "<option value=\"".htmlclean($option)."\">".htmlclean($human)."</option>";
+	if($step == 0) {
+		// Agreeement
+		$page['body'] = '
+		<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE')) . '</textarea>
+		<p style="text-align:center">
+			<a href="?step=1">I have read and understood the agreement. Proceed to installation.</a>
+		</p>';
+		
+		echo Element('page.html', $page);
+	} elseif($step == 1) {
+		$page['title'] = 'Pre-installation test';
+		
+		$page['body'] = '<table class="test">';
+		
+		function rheader($item) {
+			global $page, $config;
+			
+			$page['body'] .= '<tr class="h"><th colspan="2">' . $item . '</th></tr>';
+		}
+		
+		function row($item, $result) {
+			global $page, $config;
+			
+			$page['body'] .= '<tr><th>' . $item . '</th><td><img style="width:16px;height:16px" src="' . $config['dir']['static'] . ($result ? 'ok.png' : 'error.png') . '" /></td></tr>';
+		}
+		
+		
+		// Required extensions
+		rheader('PHP extensions');
+		row('PDO', extension_loaded('pdo'));
+		row('GD', extension_loaded('gd'));
+		
+		// GD tests
+		rheader('GD tests');
+		row('JPEG', function_exists('imagecreatefromjpeg'));
+		row('PNG', function_exists('imagecreatefrompng'));
+		row('GIF', function_exists('imagecreatefromgif'));
+		row('BMP', function_exists('imagecreatefrombmp'));
+		
+		// Database drivers
+		$drivers = PDO::getAvailableDrivers();
+		
+		rheader('PDO drivers <em>(currently installed drivers)</em>');
+		foreach($drivers as &$driver) {
+			row($driver, true);
+		}
+		
+		// Permissions
+		rheader('File permissions');
+		row('<em>root directory</em> (' . getcwd() . ')', is_writable('.'));
+		
+		$page['body'] .= '</table>
+		<p style="text-align:center">
+			<a href="?step=2">Continue.</a>
+		</p>';
+		
+		echo Element('page.html', $page);
+	} elseif($step == 2) {
+		// Basic config
+		$page['title'] = 'Configuration';
+		
+		function create_salt() {
+			return substr(base64_encode(sha1(rand())), 0, rand(25, 31));
+		}
+		
+		$page['body'] = '
+	<form action="?step=3" method="post">
+		<fieldset>
+		<legend>Database</legend>
+			<label for="db_type">Type:</label> 
+			<select id="db_type" name="db[type]">';
+			
+			$drivers = PDO::getAvailableDrivers();
+			
+			foreach($drivers as &$driver) {
+				$driver_txt = $driver;
+				switch($driver) {
+					case 'cubrid':
+						$driver_txt = 'Cubrid';
+						break;
+					case 'dblib':
+						$driver_txt = 'FreeTDS / Microsoft SQL Server / Sybase';
+						break;
+					case 'firebird':
+						$driver_txt = 'Firebird/Interbase 6';
+						break;
+					case 'ibm':
+						$driver_txt = 'IBM DB2';
+						break;
+					case 'informix':
+						$driver_txt = 'IBM Informix Dynamic Server';
+						break;
+					case 'mysql':
+						$driver_txt = 'MySQL';
+						break;
+					case 'oci':
+						$driver_txt = 'OCI';
+						break;
+					case 'odbc':
+						$driver_txt = 'ODBC v3 (IBM DB2, unixODBC)';
+						break;
+					case 'pgsql':
+						$driver_txt = 'PostgreSQL';
+						break;
+					case 'sqlite':
+						$driver_txt = 'SQLite 3';
+						break;
+					case 'sqlite2':
+						$driver_txt = 'SQLite 2';
+						break;
+				}
+				$page['body'] .= '<option name="' . $driver . '">' . $driver_txt . '</option>';
 			}
-			echo "</select>\n";
-			break;
-		case 'bool':
-			if ($value['values']) {
-				echo "<input type=\"radio\" id=\"".htmlclean($value['name'])."\" value=\"true\" name=\"".htmlclean($value['name'])."\" checked />True<br />";
-				echo "<input type=\"radio\" id=\"".htmlclean($value['name'])."\" value=\"false\" name=\"".htmlclean($value['name'])."\" />False<br />";
-			} else {
-				echo "<input type=\"radio\" id=\"".htmlclean($value['name'])."\" value=\"true\" name=\"".htmlclean($value['name'])."\" />True<br />";
-				echo "<input type=\"radio\" id=\"".htmlclean($value['name'])."\" value=\"false\" name=\"".htmlclean($value['name'])."\" checked />False<br />";
-			}
-			break;
-		default:
-			die('Internal Error. You have found a bug.');
+			
+			$page['body'] .= '	
+			</select>
+			
+			<label for="db_db">Database:</label> 
+			<input type="text" id="db_db" name="db[database]" value="" />
+			
+			<label for="db_user">Username:</label> 
+			<input type="text" id="db_user" name="db[user]" value="" />
+			
+			<label for="db_pass">Password:</label> 
+			<input type="password" id="db_pass" name="db[password]" value="" />
+		</fieldset>
+		
+		<fieldset>
+		<legend>Cookies</legend>
+			<label for="cookies_session">Name of session cookie:</label> 
+			<input type="text" id="cookies_session" name="cookies[session]" value="' . session_name() . '" />
+			
+			<label for="cookies_time">Cookie containing a timestamp of first arrival:</label> 
+			<input type="text" id="cookies_time" name="cookies[time]" value="' . $config['cookies']['time'] . '" />
+			
+			<label for="cookies_hash">Cookie containing a hash for verification purposes:</label> 
+			<input type="text" id="cookies_hash" name="cookies[hash]" value="' . $config['cookies']['hash'] . '" />
+			
+			<label for="cookies_mod">Moderator cookie:</label> 
+			<input type="text" id="cookies_mod" name="cookies[mod]" value="' . $config['cookies']['mod'] . '" />
+			
+			<label for="cookies_salt">Secure salt:</label> 
+			<input type="text" id="cookies_salt" name="cookies[salt]" value="' . create_salt() . '" size="40" />
+		</fieldset>
+		
+		<fieldset>
+		<legend>Flood control</legend>
+			<label for="flood_time">Seconds before each post:</label> 
+			<input type="text" id="flood_time" name="flood_time" value="' . $config['flood_time'] . '" />
+			
+			<label for="flood_time_ip">Seconds before you can repost something (post the exact same text):</label> 
+			<input type="text" id="flood_time_ip" name="flood_time_ip" value="' . $config['flood_time_ip'] . '" />
+			
+			<label for="flood_time_same">Same as above, but with a different IP address:</label> 
+			<input type="text" id="flood_time_same" name="flood_time_same" value="' . $config['flood_time_same'] . '" />
+			
+			<label for="max_body">Maximum post body length:</label> 
+			<input type="text" id="max_body" name="max_body" value="' . $config['max_body'] . '" />
+			
+			<label for="reply_limit">Replies in a thread before it can no longer be bumped:</label> 
+			<input type="text" id="reply_limit" name="reply_limit" value="' . $config['reply_limit'] . '" />
+			
+			<label for="max_links">Maximum number of links in a single post:</label> 
+			<input type="text" id="max_links" name="max_links" value="' . $config['max_links'] . '" />			
+		</fieldset>
+		
+		<fieldset>
+		<legend>Images</legend>
+			<label for="max_filesize">Maximum image filesize:</label> 
+			<input type="text" id="max_filesize" name="max_filesize" value="' . $config['max_filesize'] . '" />
+			
+			<label for="thumb_width">Thumbnail width:</label> 
+			<input type="text" id="thumb_width" name="thumb_width" value="' . $config['thumb_width'] . '" />
+			
+			<label for="thumb_height">Thumbnail height:</label> 
+			<input type="text" id="thumb_height" name="thumb_height" value="' . $config['thumb_height'] . '" />
+			
+			<label for="max_width">Maximum image width:</label> 
+			<input type="text" id="max_width" name="max_width" value="' . $config['max_width'] . '" />
+			
+			<label for="max_height">Maximum image height:</label> 
+			<input type="text" id="max_height" name="max_height" value="' . $config['max_height'] . '" />
+		</fieldset>
+		
+		<fieldset>
+		<legend>Display</legend>
+			<label for="threads_per_page">Threads per page:</label> 
+			<input type="text" id="threads_per_page" name="threads_per_page" value="' . $config['threads_per_page'] . '" />
+			
+			<label for="max_pages">Page limit:</label> 
+			<input type="text" id="max_pages" name="max_pages" value="' . $config['max_pages'] . '" />
+			
+			<label for="threads_preview">Number of replies to show per thread on the index page:</label> 
+			<input type="text" id="threads_preview" name="threads_preview" value="' . $config['threads_preview'] . '" />
+		</fieldset>
+		
+		<fieldset>
+		<legend>Directories</legend>
+			<label for="root">Root URI (include trailing slash):</label> 
+			<input type="text" id="root" name="root" value="' . $config['root'] . '" />
+			
+			<label for="dir_img">Image directory:</label> 
+			<input type="text" id="dir_img" name="dir[img]" value="' . $config['dir']['img'] . '" />
+			
+			<label for="dir_thumb">Thumbnail directory:</label> 
+			<input type="text" id="dir_thumb" name="dir[thumb]" value="' . $config['dir']['thumb'] . '" />
+			
+			<label for="dir_res">Thread directory:</label> 
+			<input type="text" id="dir_res" name="dir[res]" value="' . $config['dir']['res'] . '" />
+		</fieldset>
+		
+		<fieldset>
+		<legend>Miscellaneous</legend>
+			<label for="secure_trip_salt">Secure trip (##) salt:</label> 
+			<input type="text" id="secure_trip_salt" name="secure_trip_salt" value="' . create_salt() . '" size="40" />
+		</fieldset>
+		
+		<p style="text-align:center">
+			<input type="submit" value="Complete installation" />
+		</p>
+	</form>
+		';
+		
+		
+		echo Element('page.html', $page);
 	}
-	echo "</p>\n";
-}
-echo "<p><input type=\"submit\" name=\"submit\" value=\"Install\" /></p>\n";
-echo "</form>";
-
 ?>
