@@ -17,7 +17,7 @@
 	$config['db']['password']	= '';
 	$config['db']['database']	= '';
 	
-	$config['root']				= '/';
+	//$config['root']				= '/';
 	
 	
 	
