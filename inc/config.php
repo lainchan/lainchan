@@ -156,15 +156,15 @@
 	$config['dir']['res']	= 'res/';
 	// For load balancing, having a seperate server (and domain/subdomain) for serving static content is possible.
 	// This can either be a directory or a URL (eg. http://static.example.org/)
-	$config['dir']['static']	= $config['root'] . 'static/';
+	//$config['dir']['static']	= $config['root'] . 'static/';
 	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
 	$config['dir']['template']	= getcwd() . '/templates';
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
-	$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
-	$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
-	$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
-	$config['image_zip']		= $config['dir']['static'] . 'zip.png';
+	//$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
+	//$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
+	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
+	//$config['image_zip']		= $config['dir']['static'] . 'zip.png';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
