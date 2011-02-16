@@ -128,9 +128,9 @@
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
 		
-		//if(ROBOT_ENABLE && $board['uri'] == ROBOT_BOARD && ROBOT_MUTE) {
-		//	checkMute();
-		//}
+		if($config['robot_enable'] && $config['robot_mute']) {
+			checkMute();
+		}
 		
 		//Check if thread exists
 		if(!$OP && !threadExists($post['thread']))
@@ -265,15 +265,13 @@
 			$post['thumbheight'] = $thumb['height'];
 		}
 		
-		/*
-		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && ROBOT_ENABLE && $board['uri'] == ROBOT_BOARD && checkRobot($post['body_nomarkup'])) {
-			if(ROBOT_MUTE) {
+		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
+			if($config['robot_mute']) {
 				error(sprintf($config['error']['muted'], mute()));
 			} else {
 				error($config['error']['unoriginal']);
 			}
 		}
-		*/
 		
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {

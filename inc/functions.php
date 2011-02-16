@@ -533,7 +533,7 @@
 		global $config;
 		// Find number of mutes in the past X hours
 		$query = prepare("SELECT COUNT(*) as `count` FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
-		$query->bindValue(':time', time()-(ROBOT_MUTE_HOUR*3600), PDO::PARAM_INT);
+		$query->bindValue(':time', time()-($config['robot_mute_hour']*3600), PDO::PARAM_INT);
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->execute() or error(db_error($query));
 		
@@ -553,6 +553,8 @@
 	}
 	
 	function checkMute() {
+		global $config;
+		
 		$mutetime = muteTime();
 		if($mutetime > 0) {
 			// Find last mute time
