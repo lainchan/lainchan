@@ -46,7 +46,5 @@ div.pages a.selected {
 	color: #800;
 }
 hr {
-	border: none;
-	border-top: 1px solid #D9BFB7;
-	height: 0px;
+	border-color: 1px solid #D9BFB7;
 }
