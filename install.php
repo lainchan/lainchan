@@ -1,10 +1,6 @@
 <?php	
 	require 'inc/functions.php';
 	require 'inc/display.php';
-	require 'inc/config.php';
-	if (file_exists('inc/instance-config.php')) {
-		require 'inc/instance-config.php';
-	}
 	require 'inc/template.php';
 	require 'inc/database.php';
 	require 'inc/user.php';
@@ -126,11 +122,14 @@
 						$driver_txt = 'SQLite 2';
 						break;
 				}
-				$page['body'] .= '<option name="' . $driver . '">' . $driver_txt . '</option>';
+				$page['body'] .= '<option value="' . $driver . '">' . $driver_txt . '</option>';
 			}
 			
 			$page['body'] .= '	
 			</select>
+			
+			<label for="db_server">Server:</label> 
+			<input type="text" id="db_server" name="db[server]" value="localhost" />
 			
 			<label for="db_db">Database:</label> 
 			<input type="text" id="db_db" name="db[database]" value="" />
@@ -239,6 +238,87 @@
 		';
 		
 		
+		echo Element('page.html', $page);
+	} elseif($step == 3) {
+		$instance_config = 
+'<?php
+
+/*
+ *  Instance Configuration
+ *  ----------------------
+ *  Edit this file and not config.php for imageboard configuration.
+ *
+ *  You can copy values from config.php (defaults) and paste them here.
+ */
+
+';
+		
+		function create_config_from_array(&$instance_config, &$array, $prefix = '') {
+			foreach($array as $name => $value) {
+				if(is_array($value)) {
+					$instance_config .= "\n";
+					create_config_from_array($instance_config, $value, $prefix . '[\'' . addslashes($name) . '\']');
+					$instance_config .= "\n";
+				} else {
+					$instance_config .= '	$config' . $prefix . '[\'' . addslashes($name) . '\'] = ';
+					
+					if(is_numeric($value))
+						$instance_config .= $value;
+					else
+						$instance_config .= "'" . addslashes($value) . "'";
+						
+					$instance_config .= ";\n";
+				}
+			}
+		}
+		
+		create_config_from_array($instance_config, $_POST);
+		
+		$instance_config .= '?>';
+		
+		if(@file_put_contents('inc/instance-config.php', $instance_config)) {
+			header('Location: ?step=4', true, $config['redirect_http']);
+		} else {
+			$page['title'] = 'Manual installation required';
+			$page['body'] = '
+				<p>I couldn\'t write to <strong>inc/instance-config.php</strong> with the new configuration, probably due to a permissions error.</p>
+				<p>Please complete the installation manually by copying and pasting the following code into the contents of <strong>inc/instance-config.php</strong>:</p>
+				<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black">' . htmlentities($instance_config) . '</textarea>
+				<p style="text-align:center">
+					<a href="?step=4">Once complete, click here to complete installation.</a>
+				</p>
+			';
+			echo Element('page.html', $page);
+		}
+	} elseif($step == 4) {
+		// SQL installation
+		
+		sql_open();
+		
+		$sql = @file_get_contents('install.sql') or error("Couldn't load install.sql.");
+		
+		// This code is probably horrible, but what I'm trying
+		// to do is find all of the SQL queires and put them
+		// in an array.
+		preg_match_all("/((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
+		$queries = $queries[1];
+		
+		foreach($queries as &$query) {
+			query($query) or error(db_error());
+		}
+		
+		$boards = listBoards();
+		foreach($boards as &$_board) {
+			setupBoard($_board);
+			buildIndex();
+		}
+		
+		sql_close();
+		
+		touch($config['has_installed'], 0777);
+		
+		$page['title'] = 'Installation complete';
+		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
 		echo Element('page.html', $page);
 	}
 ?>
