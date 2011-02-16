@@ -149,7 +149,7 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	$config['root']		= '/';
+	$config['root']		= ($_SERVER['REQUEST_URI'] == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
 	
 	$config['dir']['img']	= 'src/';
 	$config['dir']['thumb']	= 'thumb/';
