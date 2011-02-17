@@ -142,7 +142,7 @@
 				error($config['error']['noimage']);
 		}
 		
-		$post['name'] = (!empty($_POST['name'])?$_POST['name']:'Anonymous');
+		$post['name'] = (!empty($_POST['name'])?$_POST['name']:$config['anonymous']);
 		$post['subject'] = $_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
@@ -189,7 +189,7 @@
 		if($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
 			if(($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
 				$post['mod_tag'] = $match[3];
-				$post['name'] = !empty($match[2])?$match[2]:'Anonymous';
+				$post['name'] = !empty($match[2])?$match[2]:$config['anonymous'];
 			}
 		} else {
 			$post['mod_tag'] = false;

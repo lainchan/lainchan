@@ -306,10 +306,13 @@
 	$config['button_newtopic']	= 'New Topic';
 	$config['button_reply']		= 'New Reply';
 	
+	// The default name (ie. Anonymous)
+	$config['anonymous']	= 'Anonymous';
+	
 	// The string passed to date() for post times
 	// http://php.net/manual/en/function.date.php
-	$config['post_date'] = 'm/d/y (D) H:i:s';
+	$config['post_date']	= 'm/d/y (D) H:i:s';
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
-	$config['always_noko'] = false;
+	$config['always_noko']	= false;
 ?>
