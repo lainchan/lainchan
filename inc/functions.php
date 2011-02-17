@@ -668,7 +668,14 @@
 		return false;
 	}
 	
+	function isIPv6() {
+		return strstr($_SERVER['RETMOTE_ADDR'], ':') !== false;
+	}
+	
 	function isTor() {
+		if(isIPv6())
+			return false; // Tor does not support IPv6
+		
 		return gethostbyname(
 				ReverseIPOctets($_SERVER['REMOTE_ADDR']) . '.' . $_SERVER['SERVER_PORT'] . '.' . ReverseIPOctets($_SERVER['SERVER_ADDR']) . '.ip-port.exitlist.torproject.org'
 			) == '127.0.0.2';

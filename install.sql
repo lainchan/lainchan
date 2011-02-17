@@ -20,7 +20,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
-  `ip` varchar(15) NOT NULL,
+  `45` varchar(15) NOT NULL,
   `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
@@ -63,7 +63,7 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 
 CREATE TABLE IF NOT EXISTS `modlogs` (
   `mod` int(11) NOT NULL,
-  `ip` varchar(15) NOT NULL,
+  `ip` varchar(45) NOT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -102,7 +102,7 @@ INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `mutes` (
-  `ip` varchar(15) NOT NULL,
+  `ip` varchar(45) NOT NULL,
   `time` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `filename` varchar(30) DEFAULT NULL,
   `filehash` varchar(32) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
+  `ip` varchar(45) NOT NULL,
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
