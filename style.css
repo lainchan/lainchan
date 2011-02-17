@@ -286,6 +286,15 @@ div.pages a.selected {
 div.pages a:link {
 	text-decoration: none;
 }
+div.pages form {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+div.pages form input {
+	margin: 0 5px;
+	display: inline;
+}
 hr {
 	border: none;
 	border-top: 1px solid #B7C5D9;
