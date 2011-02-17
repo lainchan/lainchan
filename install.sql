@@ -20,7 +20,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
-  `45` varchar(15) NOT NULL,
+  `ip` varchar(45) NOT NULL,
   `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
