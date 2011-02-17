@@ -194,7 +194,7 @@
 	};
 	
 	class Thread {
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false) {
+		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false, $hr=true) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
 			
@@ -221,6 +221,7 @@
 			$this->locked = $locked;
 			$this->root = $root;
 			$this->mod = $mod;
+			$this->hr = $hr;
 			
 			if($this->mod)
 				// Fix internal links
@@ -366,7 +367,7 @@
 				$built .= $post->build($index);
 			}
 			
-			$built .= '<br class="clear"/><hr/>';
+			$built .= '<br class="clear"/>' . ($this->hr ? '<hr/>' : '');
 			return $built;
 		}
 	};

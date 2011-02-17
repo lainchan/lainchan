@@ -32,6 +32,9 @@ p.intro a.email span.name {
 p.intro a.email:hover span.name {
 	color: #ff0000;
 }
+p.intro label {
+	display: inline;
+}
 h2 {
 	color: #AF0A0F;
 	font-size: 11pt;
