@@ -56,7 +56,7 @@
 		}
 		
 		if($config['ipv6_ipv4']) {
-			// Keep the original address to properly comply with other board configuartions
+			// Keep the original address to properly comply with other board configurations
 			if(!isset($__ip))
 				$__ip = $_SERVER['REMOTE_ADDR'];
 			
