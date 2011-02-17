@@ -128,6 +128,9 @@
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
 		
+		if(checkSpam())
+			error($config['error']['spam']);
+		
 		if($config['robot_enable'] && $config['robot_mute']) {
 			checkMute();
 		}
@@ -188,7 +191,7 @@
 		
 		if($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
 			if(($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
-				$post['mod_tag'] = $match[3];
+				$post['mod_tag'] = utf8tohtml($match[3]);
 				$post['name'] = !empty($match[2])?$match[2]:$config['anonymous'];
 			}
 		} else {
