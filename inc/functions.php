@@ -634,6 +634,105 @@
 		}
 	}
 	
+	function createHiddenInputs() {
+		global $config;
+		
+		$inputs = Array();
+		
+		shuffle($config['spam']['hidden_input_names']);
+		$hidden_input_names_x = 0;
+		
+		$input_count = rand($config['spam']['hidden_inputs_min'], $config['spam']['hidden_inputs_max']);
+		for($x=0;$x<$input_count;$x++) {
+			if(rand(0, 2) == 0 || $hidden_input_names_x < 0) {
+				// Use an obscure name
+				$name = substr(base64_encode(sha1(rand())), 0, rand(2, 40));
+			} else {
+				// Use a pre-defined confusing name
+				$name = $config['spam']['hidden_input_names'][$hidden_input_names_x++];
+				if($hidden_input_names_x > count($config['spam']['hidden_input_names']))
+					$hidden_input_names_x = -1;
+			}
+			
+			if(rand(0, 2) == 0) {
+				// Value must be null
+				$inputs[$name] = '';
+			} elseif(rand(0, 4) == 0) {
+				// Numeric value
+				$inputs[$name] = rand(0, 100);
+			} else {
+				// Obscure value
+				$inputs[$name] = substr(base64_encode(sha1(rand())), 0, rand(2, 40));
+			}
+		}
+		
+		$content = '';
+		foreach($inputs as $name => $value) {
+			$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />' . "\n	";
+		}
+		
+		// Create a hash to validate it after
+		// This is the tricky part.
+		
+		// First, sort the keys in alphabetical order (A-Z)
+		ksort($inputs);
+		
+		$hash = '';
+		
+		// Iterate through each input
+		foreach($inputs as $name => $value) {
+			$hash .= $name . '=' . $value;
+		}
+		
+		// Add a salt to the hash
+		$hash .= $config['cookies']['salt'];
+		
+		// Use SHA1 for the hash
+		$hash = sha1($hash);
+		
+		// Append it to the HTML
+		$content .= '<input type="hidden" name="hash" value="' . $hash . '" />';
+		
+		return $content;
+	}
+	
+	function checkSpam() {
+		global $config;
+		
+		if(!isset($_POST['hash']))
+			return true;
+		
+		$hash = $_POST['hash'];
+		
+		// Reconsturct the $inputs array
+		$inputs = Array();
+		
+		foreach($_POST as $name => $value) {
+			if(in_array($name, $config['spam']['valid_inputs']))
+				continue;
+			
+			$inputs[$name] = $value;
+		}
+		
+		// Sort the inputs in alphabetical order (A-Z)
+		ksort($inputs);
+		
+		$_hash = '';
+		
+		// Iterate through each input
+		foreach($inputs as $name => $value) {
+			$_hash .= $name . '=' . $value;
+		}
+		
+		// Add a salt to the hash
+		$_hash .= $config['cookies']['salt'];
+		
+		// Use SHA1 for the hash
+		$_hash = sha1($_hash);
+		
+		return $hash != $_hash;
+	}
+	
 	function buildIndex() {
 		global $board, $config;
 		sql_open();
@@ -648,6 +747,7 @@
 			$content['pages'] = $pages;
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
+			$content['hidden_inputs'] = createHiddenInputs();
 			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
 			
 			if(isset($md5) && $md5 == md5_file($filename)) {
@@ -837,6 +937,7 @@
 			'index' => $config['root'],
 			'id' => $id,
 			'mod' => $mod,
+			'hidden_inputs' => $content['hidden_inputs'] = createHiddenInputs(),
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
 			

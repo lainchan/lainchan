@@ -13,6 +13,7 @@
 	
 	
 	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
+	{hidden_inputs}
 	<input type="hidden" name="board" value="{board[uri]}" />
 	{mod?<input type="hidden" name="mod" value="1" />}
 		<table>

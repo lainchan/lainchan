@@ -18,7 +18,8 @@
 		'cookies' => Array(),
 		'error' => Array(),
 		'dir' => Array(),
-		'mod' => Array()
+		'mod' => Array(),
+		'spam' => Array()
 	);
 	// Database stuff
 	
@@ -92,6 +93,7 @@
 	$config['error']['locked']			= 'Thread locked. You may not reply at this time.';
 	$config['error']['nopost']			= 'You didn\'t make a post.';
 	$config['error']['flood']			= 'Flood detected; Post discared.';
+	$config['error']['spam']			= 'Your request looks automated; Post discared.';
 	$config['error']['unoriginal']		= 'Unoriginal content!';
 	$config['error']['muted']			= 'Unoriginal content! You have been muted for %d seconds.';
 	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
@@ -281,6 +283,36 @@
 	$config['mod']['link_desticky'] = '[-Sticky]';
 	$config['mod']['link_lock'] = '[Lock]';
 	$config['mod']['link_unlock'] = '[-Lock]';
+	
+	// Spam filter
+	$config['spam']['hidden_inputs_min']	= 4;
+	$config['spam']['hidden_inputs_max']	= 12;
+	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
+	$config['spam']['hidden_input_names'] = Array(
+		'user',
+		'username',
+		'login',
+		'search',
+		'q',
+		'url',
+		'firstname',
+		'lastname',
+		'text',
+		'message'
+	);
+	// Always update this when adding new valid fields to the post form, or EVERYTHING WILL BE DETECTED AS SPAM!
+	$config['spam']['valid_inputs'] = Array(
+		'hash',
+		'board',
+		'thread',
+		'mod',
+		'name',
+		'email',
+		'subject',
+		'post',
+		'body',
+		'password'
+	);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
