@@ -477,7 +477,9 @@
 		
 		$count = current($query->fetch());
 		$count = floor(($config['threads_per_page'] + $count - 1) / $config['threads_per_page']);
-
+		
+		if($count < 1) $count = 1;
+		
 		$pages = Array();
 		for($x=0;$x<$count && $x<$config['max_pages'];$x++) {
 			$pages[] = Array(
