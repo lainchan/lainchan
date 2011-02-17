@@ -650,7 +650,7 @@
 			} else {
 				// Use a pre-defined confusing name
 				$name = $config['spam']['hidden_input_names'][$hidden_input_names_x++];
-				if($hidden_input_names_x > count($config['spam']['hidden_input_names']))
+				if($hidden_input_names_x >= count($config['spam']['hidden_input_names']))
 					$hidden_input_names_x = -1;
 			}
 			

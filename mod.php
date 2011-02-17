@@ -105,7 +105,7 @@
 		} elseif(preg_match('/^\/bans$/', $query)) {
 			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			
-			if($config['mod']['view_banexpired']) {
+			if($mod['type'] >= $config['mod']['view_banexpired']) {
 				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY `expires` < :time, `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
@@ -186,6 +186,29 @@
 				'mod'=>true
 			)
 		);
+		} elseif(preg_match('/^\/rebuild$/', $query)) {
+			// For debugging
+			set_time_limit(0);
+			
+			header('Content-Type: text/plain');
+			if($mod['type'] != ADMIN) die('Admins only!');
+			
+			$boards = listBoards();
+			
+			foreach($boards as &$board) {
+				echo "Opening board /{$board['uri']}/\n";
+				openBoard($board['uri']);
+				
+				echo "Creating index pages\n";
+				buildIndex();
+				
+				$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+				while($post = $query->fetch()) {
+					echo "Rebuilding #{$post['id']}\n";
+					buildThread($post['id']);
+				}
+			}
+			echo "Complete!\n";
 		} elseif(preg_match('/^\/config$/', $query)) {
 			if($mod['type'] < $config['mod']['show_config']) error($config['error']['noaccess']);
 			
@@ -571,8 +594,12 @@
 				// Redirect
 				if(isset($_POST['continue']))
 					header('Location: ' . $_POST['continue'], true, $config['redirect_http']);
+				elseif(isset($board))
+					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+				elseif(isset($_SERVER['HTTP_REFERER']))
+					header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 				else
-					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);				
+					header('Location: ?/', true, $config['redirect_http']);
 			}
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
@@ -610,6 +637,13 @@
 			$ip = $matches[1];
 			$host = $config['mod']['dns_lookup'] ? gethostbyaddr($ip) : false;
 			
+			if($mod['type'] >= $config['mod']['unban'] && isset($_POST['unban'])) {
+				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
+				$query->bindValue(':ip', $ip);
+				$query->execute() or error(db_error($query));
+			}
+				
+			
 			$body = '';
 			$boards = listBoards();
 			foreach($boards as &$_board) {
@@ -633,7 +667,65 @@
 						'</a></legend>' . $temp . '</fieldset>';
 			}
 			
-			if($config['mod']['ip_banform'])
+			if($mod['type'] >= $config['mod']['view_ban']) {
+				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` WHERE `ip` = :ip");
+				$query->bindValue(':ip', $ip);
+				$query->execute() or error(db_error($query));
+				
+				if($query->rowCount() > 0) {
+					$body .= '<fieldset><legend>Ban' . ($query->rowCount() == 1 ? '' : 's') . ' on record</legend><form action="" method="post" style="text-align:center">';
+					
+					while($ban = $query->fetch()) {
+						$body .= '<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px"><tr><th>Status</th><td>' . 
+							($config['mod']['view_banexpired'] && $ban['expires'] != 0 && $ban['expires'] < time() ?
+								'Expired'
+							: 'Active') .
+						'</td></tr>' .
+						
+						// IP
+						'<tr><th>IP</th><td>' . $ban['ip'] . '</td></tr>' .
+						
+						// Reason
+						'<tr><th>Reason</th><td>' . $ban['reason'] . '</td></tr>' .
+						
+						// Set
+						'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .
+						
+						// Expires
+						'<tr><th>Expires</th><td>' . 
+							($ban['expires'] == 0 ?
+								'<em>Never</em>'
+							:
+								date($config['post_date'], $ban['expires'])
+							) .
+						'</td></tr>' .
+						
+						// Staff
+						'<tr><th>Staff</th><td>' .
+							($mod['type'] < $config['mod']['view_banstaff'] ?
+								($config['mod']['view_banquestionmark'] ?
+									'?'
+								:
+									($ban['type'] == JANITOR ? 'Janitor' :
+									($ban['type'] == MOD ? 'Mod' :
+									($ban['type'] == ADMIN ? 'Admin' :
+									'?')))
+								)
+							:
+								$ban['username']
+							) .
+						'</td></tr>' .
+						
+						'</tr></table>';
+					}
+					
+					$body .= '<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
+						($mod['type'] < $config['mod']['unban'] ? 'disabled' : '') .
+					'/></form></fieldset>';
+				}
+			}
+			
+			if($mod['type'] >= $config['mod']['ip_banform'])
 				$body .= form_newBan($ip, null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
 			
 			echo Element('page.html', Array(

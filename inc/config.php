@@ -240,6 +240,8 @@
 	$config['mod']['ban'] = MOD;
 	// Ban and delete (one click; instant)
 	$config['mod']['bandelete'] = MOD;
+	// Remove bans
+	$config['mod']['unban'] = MOD;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
 	// Delete all posts by IP
@@ -269,6 +271,8 @@
 	$config['mod']['view_banquestionmark'] = false;
 	// Show expired bans in the ban list (they are kept in cache until the culprit returns)
 	$config['mod']['view_banexpired'] = true;
+	// View ban for IP address
+	$config['mod']['view_ban'] = $config['mod']['view_banlist'];
 	// Create a new board
 	$config['mod']['newboard'] = ADMIN;
 	

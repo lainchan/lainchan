@@ -172,6 +172,7 @@ div.post.reply p.body {
 	margin-top: 0.8em;
 	padding-right: 3em;
 	padding-bottom: 0.3em;
+	word-wrap: break-word;
 }
 div.post.reply.highlighted {
 	background: #D6BAD0;
@@ -187,6 +188,7 @@ div.post.reply {
 	border-width: 1px;
 	border-style: none solid solid none;
 	border-color: #B7C5D9;
+	max-width: 97%;
 }
 span.trip {
 	color: #228854;
