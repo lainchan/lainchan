@@ -213,7 +213,7 @@
 		
 		// Check string lengths
 		if(strlen($post['name']) > 50) error(sprintf($config['error']['toolong'], 'name'));			
-		if(strlen($post['email']) > 30) error(sprintf($config['error']['toolong'], 'email'));
+		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf($config['error']['toolong'], 'subject'));
 		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolongbody']);
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshortbody']);
