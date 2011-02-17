@@ -194,7 +194,6 @@
 	};
 	
 	class Thread {
-		public $omitted = 0;
 		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
@@ -215,6 +214,7 @@
 			$this->filesize = $filesize;
 			$this->filename = $filename;
 			$this->omitted = 0;
+			$this->omitted_images = 0;
 			$this->posts = Array();
 			$this->ip = $ip;
 			$this->sticky = $sticky;
@@ -348,7 +348,15 @@
 			$built .= $this->body .
 			
 			// Omitted posts
-			($this->omitted ? '<span class="omitted">' . $this->omitted . ' post' . ($this->omitted==1?'':'s') . ' omitted. Click reply to view.</span>':'') .
+			($this->omitted || $this->omitted_images? '<span class="omitted">' .
+				($this->omitted ?
+					$this->omitted . ' post' . ($this->omitted==1?'':'s') .
+						($this->omitted_images ? ' and ' : '')
+				:'') .
+				($this->omitted_images ?
+					$this->omitted_images . ' image repl' . ($this->omitted_images==1?'y':'ies')
+				:'') .
+			' omitted. Click reply to view.</span>':'') .
 			
 			// End
 			'</div>';
