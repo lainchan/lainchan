@@ -603,7 +603,7 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+)$/', $query, $matches)) {
+		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')$/', $query, $matches)) {
 			// View information on an IP address
 			
 			$ip = $matches[1];
