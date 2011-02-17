@@ -656,9 +656,14 @@
 				$query->execute() or error(db_error($query));
 				
 				while($post = $query->fetch()) {
-					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod);
+					if(!$post['thread']) {
+						$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $mod ? '?/' : $config['root'], $mod);
+					} else {
+						$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod);
+					}
 					$temp .= $po->build();
 				}
+				
 				if(!empty($temp))
 					$body .= '<fieldset><legend>Last ' . $query->rowCount() . ' posts on <a href="?/' .
 							sprintf($config['board_path'], $_board['uri']) . $config['file_index'] .
