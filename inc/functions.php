@@ -679,7 +679,7 @@
 	}
 	
 	function isIPv6() {
-		return strstr($_SERVER['RETMOTE_ADDR'], ':') !== false;
+		return strstr($_SERVER['REMOTE_ADDR'], ':') !== false;
 	}
 	
 	function isTor() {
