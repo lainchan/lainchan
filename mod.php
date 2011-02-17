@@ -326,6 +326,7 @@
 			
 			$page['pages'] = getPages(true);
 			$page['pages'][$page_no-1]['selected'] = true;
+			$page['btn'] = getPageButtons($page['pages'], true);
 			$page['mod'] = true;
 			
 			echo Element('index.html', $page);

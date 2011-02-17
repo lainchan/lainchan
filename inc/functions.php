@@ -469,6 +469,42 @@
 		return Array('button'=>$config['button_newtopic'], 'board'=>$board, 'body'=>$body, 'post_url' => $config['post_url'], 'index' => $config['root']);
 	}
 	
+	function getPageButtons($pages, $mod=false) {
+		global $config, $board;
+		
+		$btn = Array();
+		$root = ($mod ? '?/' : $config['root']) . $board['dir'];
+		
+		foreach($pages as $num => $page) {
+			if(isset($page['selected'])) {
+				// Previous button
+				if($num == 0) {
+					// There is no previous page.
+					$btn['prev'] = 'Previous';
+				} else {
+					$btn['prev'] = '<form action="' . $root .
+					($num == 1 ?
+						$config['file_index']
+					:
+						sprintf($config['file_page'], $num)
+					) .
+					'" method="' . ($mod ? 'post' : 'get') . '"><input type="submit" value="Previous" /></form>';
+				}
+				
+				if($num == count($pages) - 1) {
+					// There is no next page.
+					$btn['next'] = 'Next';
+				} else {
+					$btn['next'] = '<form action="' . $root .
+						sprintf($config['file_page'], $num + 2) .
+					'" method="' . ($mod ? 'post' : 'get') . '"><input type="submit" value="Next" /></form>';
+				}
+			}
+		}
+		
+		return $btn;
+	}
+	
 	function getPages($mod=false) {
 		global $board, $config;
 		
@@ -601,6 +637,7 @@
 
 			$content['pages'] = $pages;
 			$content['pages'][$page-1]['selected'] = true;
+			$content['btn'] = getPageButtons($content['pages']);
 			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
 			
 			if(isset($md5) && $md5 == md5_file($filename)) {
