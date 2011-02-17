@@ -228,7 +228,7 @@
 			markup($post['body']);
 		
 		// Check for a flood
-		if(checkFlood($post)) {
+		if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
 			error($config['error']['flood']);
 		}
 		

@@ -250,6 +250,8 @@
 	$config['mod']['postinlocked'] = MOD;
 	// Post bypass unoriginal content check
 	$config['mod']['postunoriginal'] = ADMIN;
+	// Bypass flood check
+	$config['mod']['flood'] = ADMIN;
 	// Raw HTML posting
 	$config['mod']['rawhtml'] = MOD;
 	
