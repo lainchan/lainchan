@@ -2,7 +2,7 @@
 	loadConfig();
 	
 	function loadConfig() {
-		global $board, $config;
+		global $board, $config, $__ip;
 		
 		require 'config.php';
 		if (file_exists('inc/instance-config.php')) {
@@ -53,6 +53,16 @@
 		if($config['verbose_errors']) {
 			error_reporting(E_ALL);
 			ini_set('display_errors', 1);
+		}
+		
+		if($config['ipv6_ipv4']) {
+			// Keep the original address to properly comply with other board configuartions
+			if(!isset($__ip))
+				$__ip = $_SERVER['REMOTE_ADDR'];
+			
+			// ::ffff:0.0.0.0
+			if(preg_match('/^\:\:ffff\:(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
+				$_SERVER['REMOTE_ADDR'] = $m[1];
 		}
 	}
 	
