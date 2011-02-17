@@ -668,7 +668,37 @@
 		
 		$content = '';
 		foreach($inputs as $name => $value) {
-			$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />' . "\n	";
+			$display_type = rand(0, 8);
+			
+			switch($display_type) {
+				case 0:
+					$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />';
+					break;
+				case 1:
+					$content .= '<input style="display:none" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />';
+					break;
+				case 2:
+					$content .= '<input type="hidden" value="' . htmlspecialchars($value) . '" name="' . htmlspecialchars($name) . '" />';
+					break;
+				case 3:
+					$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />';
+					break;
+				case 4:
+					$content .= '<span style="display:none"><input type="text" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" /></span>';
+					break;
+				case 5:
+					$content .= '<div style="display:none"><input type="text" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" /></div>';
+					break;
+				case 6:
+					$content .= '<textarea style="display:none" name="' . htmlspecialchars($name) . '">' . htmlspecialchars($value) . '</textarea>';
+					break;
+				case 7:
+					$content .= '<textarea name="' . htmlspecialchars($name) . '" style="display:none">' . htmlspecialchars($value) . '</textarea>';
+					break;
+				case 8:
+					$content .= '<div style="display:none"><textarea name="' . htmlspecialchars($name) . '" style="display:none">' . htmlspecialchars($value) . '</textarea></div>';
+					break;
+			}
 		}
 		
 		// Create a hash to validate it after
