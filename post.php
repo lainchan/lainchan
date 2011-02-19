@@ -247,12 +247,12 @@
 			
 			// Check if the image is valid
 			if($post['width'] < 1 || $post['height'] < 1) {
-				unlink($post['file']);
+				undoImage($post);
 				error($config['error']['invalidimg']);
 			}
 			
 			if($post['width'] > $config['max_width'] || $post['height'] > $config['max_height']) {
-				unlink($post['file']);
+				undoImage($post);
 				error($config['error']['maxsize']);
 			}
 			
@@ -269,6 +269,7 @@
 		}
 		
 		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
+			undoImage($post);
 			if($config['robot_mute']) {
 				error(sprintf($config['error']['muted'], mute()));
 			} else {

@@ -1122,7 +1122,14 @@
 	 return $res;
 	}
 
+	function undoImage($post) {
+		unlink($post['file']);
+		unlink($post['thumb']);
+	}
+	
 	function createimage($type, $source_pic) {
+		global $config;
+		
 		$image = false;
 		switch($type) {
 			case 'jpg':
