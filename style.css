@@ -305,3 +305,11 @@ hr {
 	border-top: 1px solid #B7C5D9;
 	height: 0px;
 }
+div.boardlist {
+	color: #89A;
+	font-size: 9pt;
+	margin-top: 10px;
+}
+div.boardlist a {
+	text-decoration: none;
+}

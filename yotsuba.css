@@ -48,3 +48,9 @@ div.pages a.selected {
 hr {
 	border-color: 1px solid #D9BFB7;
 }
+div.boardlist {
+	color: #B86;
+}
+div.boardlist a {
+	color: #800;
+}
