@@ -277,7 +277,7 @@
 			}
 		}
 		
-		if($config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
+		if($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
 			undoImage($post);
 			error(sprintf($config['error']['fileexists'], 
 				$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
