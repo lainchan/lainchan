@@ -92,8 +92,8 @@
 	$config['error']['nonexistant']		= 'Thread specified does not exist.';
 	$config['error']['locked']			= 'Thread locked. You may not reply at this time.';
 	$config['error']['nopost']			= 'You didn\'t make a post.';
-	$config['error']['flood']			= 'Flood detected; Post discared.';
-	$config['error']['spam']			= 'Your request looks automated; Post discared.';
+	$config['error']['flood']			= 'Flood detected; Post discarded.';
+	$config['error']['spam']			= 'Your request looks automated; Post discarded.';
 	$config['error']['unoriginal']		= 'Unoriginal content!';
 	$config['error']['muted']			= 'Unoriginal content! You have been muted for %d seconds.';
 	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
