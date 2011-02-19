@@ -357,4 +357,14 @@
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko']	= false;
+	
+	// Boardlinks
+	// You can group, order and place the boardlist at the top of every page, using the following template.
+	//$config['boards'] = Array(
+	//	Array('a', 'b'),
+	//	Array('c', 'd', 'e', 'f', 'g'),
+	//	Array('h', 'i', 'j'),
+	//	Array('k', Array('l', 'm'))
+	//);
+	
 ?>
