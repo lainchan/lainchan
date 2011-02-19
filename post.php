@@ -282,15 +282,13 @@
 			error(sprintf($config['error']['fileexists'], 
 				$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
 				$board['dir'] . $config['dir']['res'] .
-					($p->thread ?
-						$p->thread . '.html#' . $p->id
+					($p['thread'] ?
+						$p['thread'] . '.html#' . $p['id']
 					:
-						$p->id . '.html'
+						$p['id'] . '.html'
 					)
 			));
 		}
-		
-		exit;
 		
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
