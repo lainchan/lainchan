@@ -105,6 +105,7 @@
 	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
 	$config['error']['maxsize']			= 'The file was too big.';
 	$config['error']['invalidzip']		= 'Invalid archive!';
+	$config['error']['fileexists']		= 'That file <a href="%s">already exists</a>!';
 	
 	// Moderator errors
 	$config['error']['invalid']			= 'Invalid username and/or password.';
@@ -140,7 +141,8 @@
 	// Maximum image dimensions
 	$config['max_width']	= 10000;
 	$config['max_height']	= $config['max_width']; // 1:1
-	
+	// Reject a post if its image is already in active content
+	$config['image_reject_repost']	= true;
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 		WARNING: Currently strips animated GIFs too :(
