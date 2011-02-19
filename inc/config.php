@@ -202,7 +202,7 @@
 	// Tinyboard uses ROBOT9000's original 2^x implementation
 	$config['robot_mute']		= true;
 	// How many mutes x hours ago to include in the algorithm
-	$config['robot_mute_hour']	= 50;
+	$config['robot_mute_hour']	= 336; // 2 weeks
 	// If you want to alter the algorithm a bit. Default value is 2. n^x
 	$config['robot_mute_multiplier']	= 2;
 	$config['robot_mute_descritpion']	= 'You have been muted for unoriginal content.';
