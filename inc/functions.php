@@ -1144,8 +1144,9 @@
 	}
 	
 	function undoImage($post) {
-		unlink($post['file']);
-		unlink($post['thumb']);
+		if($post['has_file'])
+			@unlink($post['file']);
+			@unlink($post['thumb']);
 	}
 	
 	function createimage($type, $source_pic) {
