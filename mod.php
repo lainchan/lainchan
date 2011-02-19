@@ -661,7 +661,7 @@
 					} else {
 						$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod);
 					}
-					$temp .= $po->build() . '<hr/>';
+					$temp .= $po->build(true) . '<hr/>';
 				}
 				
 				if(!empty($temp))
