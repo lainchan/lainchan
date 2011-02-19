@@ -1121,7 +1121,20 @@
 
 	 return $res;
 	}
-
+	
+	function getPostByHash($hash) {
+		global $board;
+		$query = prepare(sprintf("SELECT `id`,`thread` FROM `posts_%s` WHERE `filehash` = :hash", $board['uri']));
+		$query->bindValue(':hash', $hash, PDO::PARAM_STR);
+		$query->execute() or error(db_error($query));
+		
+		if($post = $query->fetch()) {
+			return $post;
+		}
+		
+		return false;
+	}
+	
 	function undoImage($post) {
 		unlink($post['file']);
 		unlink($post['thumb']);

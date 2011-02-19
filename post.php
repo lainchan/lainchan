@@ -155,7 +155,7 @@
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		
 		if(empty($post['body']) && $config['force_body'])
-			error($config['error']['tooshortbody']);
+			error($config['error']['tooshort_body']);
 		
 		if($post['mod']) {
 			require 'inc/mod.php';
@@ -276,6 +276,21 @@
 				error($config['error']['unoriginal']);
 			}
 		}
+		
+		if($config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
+			undoImage($post);
+			error(sprintf($config['error']['fileexists'], 
+				$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
+				$board['dir'] . $config['dir']['res'] .
+					($p->thread ?
+						$p->thread . '.html#' . $p->id
+					:
+						$p->id . '.html'
+					)
+			));
+		}
+		
+		exit;
 		
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
