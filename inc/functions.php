@@ -476,7 +476,14 @@
 			$body .= $thread->build(true);
 		}
 		
-		return Array('button'=>$config['button_newtopic'], 'board'=>$board, 'body'=>$body, 'post_url' => $config['post_url'], 'index' => $config['root']);
+		return Array(
+			'button'=>$config['button_newtopic'],
+			'board'=>$board,
+			'body'=>$body,
+			'post_url' => $config['post_url'],
+			'index' => $config['root'],
+			'boardlist' => createBoardlist($mod)
+		);
 	}
 	
 	function getPageButtons($pages, $mod=false) {
@@ -967,6 +974,7 @@
 			'index' => $config['root'],
 			'id' => $id,
 			'mod' => $mod,
+			'boardlist' => createBoardlist($mod),
 			'hidden_inputs' => $content['hidden_inputs'] = createHiddenInputs(),
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));

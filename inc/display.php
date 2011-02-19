@@ -18,6 +18,32 @@
 		$n = strval($n);
 		return (intval($n) < 1000) ? $n : commaize(substr($n, 0, -3)) . ',' . substr($n, -3);
 	}
+	
+	function doBoardListPart($list, $root) {
+		global $config;
+		
+		$body = '';
+		foreach($list as $board) {
+			if(is_array($board))
+				$body .= ' [' . doBoardListPart($board, $root) . '] ';
+			else {
+				$body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '">' . $board . '</a> /';
+			}
+		}
+		$body = preg_replace('/\/$/', '', $body);
+		
+		return $body;
+	}
+	
+	function createBoardlist($mod=false) {
+		global $config;
+		
+		if(!isset($config['boards'])) return '';
+		
+		$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
+		
+		return '<div class="boardlist">' . $body . '</div>';
+	}
 
 	function error($message) {
 		global $board, $mod, $config;
