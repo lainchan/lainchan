@@ -111,6 +111,9 @@
 		if(count($report) > $config['report_limit'])
 			error($config['error']['toomanyreports']);
 		
+		$reason = $_POST['reason'];
+		markup($reason);
+		
 		foreach($report as &$id) {
 			$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -122,7 +125,7 @@
 				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
 				$query->bindValue(':board', $board['id'], PDO::PARAM_INT);
 				$query->bindValue(':post', $id, PDO::PARAM_INT);
-				$query->bindValue(':reason', htmlentities($_POST['reason']), PDO::PARAM_STR);
+				$query->bindValue(':reason', $reason, PDO::PARAM_STR);
 				$query->execute() or error(db_error($query));
 			}
 		}

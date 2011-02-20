@@ -140,6 +140,9 @@ div.post.op {
 	margin-right: 20px;
 	margin-bottom: 5px;
 }
+div.post.op hr {
+	border-color: #D9BFB7;
+}
 p.intro {
 	margin: 0.5em 0;
 	padding: 0;
@@ -316,4 +319,7 @@ div.boardlist.bottom {
 }
 div.boardlist a {
 	text-decoration: none;
+}
+div.report {
+	color: #333;
 }

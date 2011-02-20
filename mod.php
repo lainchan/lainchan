@@ -107,8 +107,12 @@
 			);
 		} elseif(preg_match('/^\/reports$/', $query)) {
 			$body = '';
+			$reports = 0;
 			
-			$query = query("SELECT `reports`.*, `boards`.`uri` FROM `reports` INNER JOIN `boards` ON `board` = `boards`.`id` ORDER BY `time` DESC") or error(db_error());
+			$query = prepare("SELECT `reports`.*, `boards`.`uri` FROM `reports` INNER JOIN `boards` ON `board` = `boards`.`id` ORDER BY `time` DESC LIMIT :limit");
+			$query->bindValue(':limit', $config['mod']['recent_reports'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
 			if($query->rowCount() < 1)
 				$body = '(Empty.)';
 			else {
@@ -124,6 +128,7 @@
 						$p_query->execute() or error(db_error($query));
 					}
 					
+					$reports++;
 					openBoard($report['uri']);
 					
 					if(!$post['thread']) {
@@ -147,6 +152,12 @@
 					$body .= $po->build(true) . '<hr/>';
 				}
 			}
+			
+			$query = query("SELECT COUNT(`id`) AS `count` FROM `reports`") or error(db_error());
+			$count = $query->fetch();
+			
+			$body .= '<p class="unimportant" style="text-align:center">Showing ' . 
+				($reports == $count['count'] ? 'all ' . $reports . ' reports' : $reports . ' of ' . $count['count'] . ' reports') . '.</p>';
 			
 			echo Element('page.html', Array(
 				'index'=>$config['root'],

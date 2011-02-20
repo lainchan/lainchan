@@ -227,6 +227,8 @@
 	$config['mod']['ip_banform'] = true;
 	// How many recent posts, per board, to show in the IP summary page
 	$config['mod']['ip_recentposts'] = 5;
+	// How many posts to display on the reports page
+	$config['mod']['recent_reports'] = 5;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -328,7 +330,10 @@
 		'subject',
 		'post',
 		'body',
-		'password'
+		'password',
+		'sticky',
+		'lock',
+		'raw'
 	);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
