@@ -16,6 +16,27 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE IF NOT EXISTS `reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` int(11) NOT NULL,
+  `ip` varchar(45) NOT NULL,
+  `board` smallint(6) NOT NULL,
+  `post` int(11) NOT NULL,
+  `reason` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `reports`
+--
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bans`
 --
 
