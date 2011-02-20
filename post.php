@@ -78,7 +78,61 @@
 		$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	
+	} elseif(isset($_POST['report'])) {
+		if(	!isset($_POST['board']) ||
+			!isset($_POST['password']) ||
+			!isset($_POST['reason'])
+			)
+			error($config['error']['bot']);
 		
+		$report = Array();
+		foreach($_POST as $post => $value) {
+			if(preg_match('/^delete_(\d+)$/', $post, $m)) {
+				$report[] = (int)$m[1];
+			}
+		}
+		
+		sql_open();
+		
+		// Check if banned
+		checkBan();
+		
+		if($config['block_tor'] && isTor())
+			error($config['error']['tor']);
+			
+		// Check if board exists
+		if(!openBoard($_POST['board']))
+			error($config['error']['noboard']);
+		
+		if(empty($report))
+			error($config['error']['noreport']);
+		
+		if(count($report) > $config['report_limit'])
+			error($config['error']['toomanyreports']);
+		
+		foreach($report as &$id) {
+			$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query->bindValue(':id', $id, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if($post = $query->fetch()) {
+				$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
+				$query->bindValue(':time', time(), PDO::PARAM_INT);
+				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
+				$query->bindValue(':board', $board['id'], PDO::PARAM_INT);
+				$query->bindValue(':post', $id, PDO::PARAM_INT);
+				$query->bindValue(':reason', htmlentities($_POST['reason']), PDO::PARAM_STR);
+				$query->execute() or error(db_error($query));
+			}
+		}
+		
+		sql_close();
+		
+		$is_mod = isset($_POST['mod']) && $_POST['mod'];
+		$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
+		
+		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	} elseif(isset($_POST['post'])) {
 		if(	!isset($_POST['name']) ||
 			!isset($_POST['email']) ||

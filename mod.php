@@ -80,6 +80,9 @@
 			// Boards
 			$fieldset['Boards'] .= ulBoards();
 			
+			if($mod['type'] >= $config['mod']['reports']) {
+				$fieldset['Administration'] .= 	'<li><a href="?/reports">Report queue</a></li>';
+			}
 			if($mod['type'] >= $config['mod']['view_banlist']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
@@ -102,6 +105,87 @@
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
+		} elseif(preg_match('/^\/reports$/', $query)) {
+			$body = '';
+			
+			$query = query("SELECT `reports`.*, `boards`.`uri` FROM `reports` INNER JOIN `boards` ON `board` = `boards`.`id` ORDER BY `time` DESC") or error(db_error());
+			if($query->rowCount() < 1)
+				$body = '(Empty.)';
+			else {
+				while($report = $query->fetch()) {
+					$p_query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `id` = :id", $report['uri']));
+					$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
+					$p_query->execute() or error(db_error($query));
+					
+					if(!$post = $p_query->fetch()) {
+						// Invalid report (post has since been deleted)
+						$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id");
+						$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
+						$p_query->execute() or error(db_error($query));
+					}
+					
+					openBoard($report['uri']);
+					
+					if(!$post['thread']) {
+						$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], '?/', $mod, false);
+					} else {
+						$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], '?/', $mod);
+					}
+					
+					$po->body .=
+						'<div class="report">' .
+							'<hr/>' .
+							'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
+							'Reason: ' . $report['reason'] . '<br/>' .
+							'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>' .
+							'<hr/>' .
+								($mod['type'] >= $config['mod']['report_dismiss'] ?
+									'<a title="Discard abuse report" href="?/reports/' . $report['id'] . '/dismiss">Dismiss</a> | ' : '') .
+								($mod['type'] >= $config['mod']['report_dismiss_ip'] ?
+									'<a title="Discard all abuse reports by this user" href="?/reports/' . $report['id'] . '/dismiss/all">Dismiss+</a>' : '') .
+						'</div>';
+					$body .= $po->build(true) . '<hr/>';
+				}
+			}
+			
+			echo Element('page.html', Array(
+				'index'=>$config['root'],
+				'title'=>'Report queue',
+				'body'=>$body,
+				'mod'=>true
+			));
+		} elseif(preg_match('/^\/reports\/(\d+)\/dismiss(\/all)?$/', $query, $matches)) {
+			if(isset($matches[2]) && $matches[2] == '/all') {
+				if($mod['type'] < $config['mod']['report_dismiss_ip']) error($config['error']['noaccess']);
+				
+				$query = prepare("SELECT `ip` FROM `reports` WHERE `id` = :id");
+				$query->bindValue(':id', $matches[1], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				if($report = $query->fetch()) {
+					$query = prepare("DELETE FROM `reports` WHERE `ip` = :ip");
+					$query->bindValue(':ip', $report['ip'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+				}
+			} else {
+				if($mod['type'] < $config['mod']['report_dismiss']) error($config['error']['noaccess']);
+				
+				$query = prepare("SELECT `post` FROM `reports` WHERE `id` = :id");
+				$query->bindValue(':id', $matches[1], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				if($report = $query->fetch()) {
+					$query = prepare("DELETE FROM `reports` WHERE `post` = :post");
+					$query->bindValue(':post', $report['post'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+				}
+			}
+			
+			// Redirect
+			if(isset($_SERVER['HTTP_REFERER']))
+				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
+			else
+				header('Location: ?/reports', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/bans$/', $query)) {
 			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			

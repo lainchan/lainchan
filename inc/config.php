@@ -100,6 +100,8 @@
 	$config['error']['tor']				= 'Hmm… That looks like a Tor exit node.';
 	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
 	$config['error']['nodelete']		= 'You didn\'t select anything to delete.';
+	$config['error']['noreport']		= 'You didn\'t select anything to report.';
+	$config['error']['toomanyreports']	= 'You can\'t report that many posts at once.';
 	$config['error']['invalidpassword']	= 'Wrong password…';
 	$config['error']['invalidimg']		= 'Invalid image.';
 	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
@@ -119,6 +121,9 @@
 	$config['error']['noaccess']		= 'You don\'t have permission to do that.';
 	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
 	$config['error']['404']				= 'Page not found.';
+	
+	// How many reports you can create in the same request.
+	$config['report_limit']	= 2;
 	
 	// Reply limit (deletes thread when this is reached)
 	$config['reply_limit']	= 250;
@@ -264,6 +269,12 @@
 	/* Administration */
 	// Display the contents of instance-config.php
 	$config['mod']['show_config'] = ADMIN;
+	// View the report queue
+	$config['mod']['reports'] = JANITOR;
+	// Dismiss an abuse report
+	$config['mod']['report_dismiss'] = JANITOR;
+	// Dismiss all abuse reports by an IP
+	$config['mod']['report_dismiss_ip'] = JANITOR;
 	// View list of bans
 	$config['mod']['view_banlist'] = MOD;
 	// View the username of the mod who made a ban

@@ -828,8 +828,8 @@
 			) == '127.0.0.2';
 	}
 			
-	function ReverseIPOctets($inputip) {
-		$ipoc = explode('.', $inputip);
+	function ReverseIPOctets($ip) {
+		$ipoc = explode('.', $ip);
 		return $ipoc[3] . '.' . $ipoc[2] . '.' . $ipoc[1] . '.' . $ipoc[0];
 	}
 
