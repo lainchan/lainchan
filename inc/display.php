@@ -169,14 +169,14 @@
 			// Trip
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
+			// End email
+			if(!empty($this->email))
+				$built .= '</a>';
+			
 			// IP Address
 			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
-			
-			// End email
-			if(!empty($this->email))
-				$built .= '</a>';
 			
 			// Date/time
 			$built .= ' ' . date($config['post_date'], $this->time);
@@ -342,14 +342,14 @@
 			// Trip
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
 			
+			// End email
+			if(!empty($this->email))
+				$built .= '</a>';
+			
 			// IP Address
 			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
-			
-			// End email
-			if(!empty($this->email))
-				$built .= '</a>';
 			
 			// Date/time
 			$built .= ' ' . date($config['post_date'], $this->time);
