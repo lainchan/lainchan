@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="{index}main.js"></script>
 </head>
 <body>
-	{boardlist}
+	{boardlist[top]}
 	<h1>{board[url]} - {board[name]}</h1>
 	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
@@ -97,7 +97,7 @@
 	</div>
 	</form>
 	<a href="{return}">[Return.]</a>
-	{boardlist}
+	{boardlist[bottom]}
 	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://wiki.omegasdg.com/index.php?title=Tinyboard">Tinyboard Alpha</a> | <a href="http://wiki.omegasdg.com/index.php?title=Tinyboard">Tinyboard</a> Copyright © 2010-2011 <a href="http://omegasdg.com/">OmegaSDG</a></p>
 </body>
 </html>

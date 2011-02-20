@@ -42,7 +42,10 @@
 		
 		$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
 		
-		return '<div class="boardlist">' . $body . '</div>';
+		return Array(
+			'top' => '<div class="boardlist">' . $body . '</div>',
+			'bottom' => '<div class="boardlist bottom">' . $body . '</div>'
+		);
 	}
 
 	function error($message) {

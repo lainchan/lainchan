@@ -246,6 +246,7 @@ div.ban p.reason {
 }
 span.spoiler {
 	background: black;
+	color: black;
 }
 span.spoiler:hover {
 	color: white;
@@ -308,7 +309,10 @@ hr {
 div.boardlist {
 	color: #89A;
 	font-size: 9pt;
-	margin-top: 10px;
+	margin-top: 3px;
+}
+div.boardlist.bottom {
+	margin-top: 20px;
 }
 div.boardlist a {
 	text-decoration: none;
