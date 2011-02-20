@@ -38,7 +38,7 @@
 	function createBoardlist($mod=false) {
 		global $config;
 		
-		if(!isset($config['boards'])) return '';
+		if(!isset($config['boards'])) return Array('top'=>'','bottom'=>'');
 		
 		$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
 		
