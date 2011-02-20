@@ -113,44 +113,40 @@
 			$query->bindValue(':limit', $config['mod']['recent_reports'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			if($query->rowCount() < 1)
-				$body = '(Empty.)';
-			else {
-				while($report = $query->fetch()) {
-					$p_query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `id` = :id", $report['uri']));
+			while($report = $query->fetch()) {
+				$p_query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `id` = :id", $report['uri']));
+				$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
+				$p_query->execute() or error(db_error($query));
+				
+				if(!$post = $p_query->fetch()) {
+					// Invalid report (post has since been deleted)
+					$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id");
 					$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
 					$p_query->execute() or error(db_error($query));
-					
-					if(!$post = $p_query->fetch()) {
-						// Invalid report (post has since been deleted)
-						$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id");
-						$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
-						$p_query->execute() or error(db_error($query));
-					}
-					
-					$reports++;
-					openBoard($report['uri']);
-					
-					if(!$post['thread']) {
-						$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], '?/', $mod, false);
-					} else {
-						$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], '?/', $mod);
-					}
-					
-					$po->body .=
-						'<div class="report">' .
-							'<hr/>' .
-							'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
-							'Reason: ' . $report['reason'] . '<br/>' .
-							'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>' .
-							'<hr/>' .
-								($mod['type'] >= $config['mod']['report_dismiss'] ?
-									'<a title="Discard abuse report" href="?/reports/' . $report['id'] . '/dismiss">Dismiss</a> | ' : '') .
-								($mod['type'] >= $config['mod']['report_dismiss_ip'] ?
-									'<a title="Discard all abuse reports by this user" href="?/reports/' . $report['id'] . '/dismiss/all">Dismiss+</a>' : '') .
-						'</div>';
-					$body .= $po->build(true) . '<hr/>';
 				}
+				
+				$reports++;
+				openBoard($report['uri']);
+				
+				if(!$post['thread']) {
+					$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], '?/', $mod, false);
+				} else {
+					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], '?/', $mod);
+				}
+				
+				$po->body .=
+					'<div class="report">' .
+						'<hr/>' .
+						'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
+						'Reason: ' . $report['reason'] . '<br/>' .
+						'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>' .
+						'<hr/>' .
+							($mod['type'] >= $config['mod']['report_dismiss'] ?
+								'<a title="Discard abuse report" href="?/reports/' . $report['id'] . '/dismiss">Dismiss</a> | ' : '') .
+							($mod['type'] >= $config['mod']['report_dismiss_ip'] ?
+								'<a title="Discard all abuse reports by this user" href="?/reports/' . $report['id'] . '/dismiss/all">Dismiss+</a>' : '') .
+					'</div>';
+				$body .= $po->build(true) . '<hr/>';
 			}
 			
 			$query = query("SELECT COUNT(`id`) AS `count` FROM `reports`") or error(db_error());
