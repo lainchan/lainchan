@@ -123,6 +123,7 @@
 					$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id");
 					$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
 					$p_query->execute() or error(db_error($query));
+					continue;
 				}
 				
 				$reports++;
