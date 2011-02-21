@@ -128,6 +128,9 @@
 	// Reply limit (deletes thread when this is reached)
 	$config['reply_limit']	= 250;
 	
+	// Strip superfluous new lines at the end of a post
+	$config['strip_superfluous_returns'] = true;
+	
 	// For resizing, max values
 	$config['thumb_width']	= 255;
 	$config['thumb_height']	= 255;

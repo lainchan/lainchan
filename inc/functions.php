@@ -905,6 +905,9 @@
 			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
 			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
 		}
+		if($config['strip_superfluous_returns'])
+			$body = preg_replace('/\s+$/', '', $body);
+		
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
 
