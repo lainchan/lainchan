@@ -499,22 +499,33 @@
 					// There is no previous page.
 					$btn['prev'] = 'Previous';
 				} else {
-					$btn['prev'] = '<form action="' . $root .
-					($num == 1 ?
-						$config['file_index']
-					:
-						sprintf($config['file_page'], $num)
-					) .
-					'" method="' . ($mod ? 'post' : 'get') . '"><input type="submit" value="Previous" /></form>';
+					$loc = ($mod ? '?/' . $board['uri'] . '/' : '') .
+						($num == 1 ?
+							$config['file_index']
+						:
+							sprintf($config['file_page'], $num)
+						);
+					
+					$btn['prev'] = '<form action="' . ($mod ? '' : $root . $loc) . '" method="get">' .
+						($mod ?
+							'<input type="hidden" name="status" value="301" />' .
+							'<input type="hidden" name="r" value="' . htmlentities($loc) . '" />'
+						:'') .
+					'<input type="submit" value="Previous" /></form>';
 				}
 				
 				if($num == count($pages) - 1) {
 					// There is no next page.
 					$btn['next'] = 'Next';
 				} else {
-					$btn['next'] = '<form action="' . $root .
-						sprintf($config['file_page'], $num + 2) .
-					'" method="' . ($mod ? 'post' : 'get') . '"><input type="submit" value="Next" /></form>';
+					$loc = ($mod ? '?/' . $board['uri'] . '/' : '') . sprintf($config['file_page'], $num + 2);
+					
+					$btn['next'] = '<form action="' . ($mod ? '' : $root . $loc) . '" method="get">' .
+						($mod ?
+							'<input type="hidden" name="status" value="301" />' .
+							'<input type="hidden" name="r" value="' . htmlentities($loc) . '" />'
+						:'') .
+					'<input type="submit" value="Next" /></form>';
 				}
 			}
 		}
