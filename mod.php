@@ -221,57 +221,59 @@
 				$query->execute() or error(db_error($query));
 				
 				header('Location: ?/', true, $config['redirect_http']);
-			} elseif(isset($_POST['title']) && isset($_POST['subtitle'])) {
-				$query = prepare("UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `id` = :id");
-				$query->bindValue(':title', utf8tohtml($_POST['title'], true));
+			} else {
+				if(isset($_POST['title']) && isset($_POST['subtitle'])) {
+					$query = prepare("UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `id` = :id");
+					$query->bindValue(':title', utf8tohtml($_POST['title'], true));
+					
+					if(!empty($_POST['subtitle']))
+						$query->bindValue(':subtitle', utf8tohtml($_POST['subtitle'], true));
+					else
+						$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
+					
+					$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					openBoard($board['uri']);
+				}
 				
-				if(!empty($_POST['subtitle']))
-					$query->bindValue(':subtitle', utf8tohtml($_POST['subtitle'], true));
-				else
-					$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
+				$body =
+				'<fieldset><legend><a href="?/' .
+				$board['uri'] .	'/' . $config['file_index'] . '">' .
+				sprintf($config['board_abbreviation'], $board['uri']) . '</a>' . 
+				' - ' . $board['name'] . '</legend>' . 
 				
-				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				// Begin form
+				'<form style="text-align:center" action="" method="post">' .
 				
-				openBoard($board['uri']);
+				'<table>' .
+				
+				'<tr><th>URI</th><td>' . $board['uri'] . '</td>' .
+				'<tr><th>Title</th><td><input size="20" maxlength="20" type="text" name="title" value="' . $board['name'] . '" /></td></tr>' .
+				'<tr><th>Subtitle</th><td><input size="20" maxlength="40" type="text" name="subtitle" value="' .
+					(isset($board['title']) ? $board['title'] : '') . '" /></td></tr>' .
+				
+				'</table>' .
+				
+				'<input type="submit" value="Update" />' .
+				
+				// End form
+				'</form> ' .
+				
+				// Delete button
+				($mod['type'] >= $config['mod']['deleteboard'] ?
+					'<p style="text-align:center"><a href="?/board/' . $board['uri'] . '/delete">Delete board</a></p>'
+				:'') .
+				
+				'</fieldset>';
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'Manage – ' . sprintf($config['board_abbreviation'], $board['uri']),
+					'body'=>$body,
+					'mod'=>true
+				));
 			}
-			
-			$body =
-			'<fieldset><legend><a href="?/' .
-			$board['uri'] .	'/' . $config['file_index'] . '">' .
-			sprintf($config['board_abbreviation'], $board['uri']) . '</a>' . 
-			' - ' . $board['name'] . '</legend>' . 
-			
-			// Begin form
-			'<form style="text-align:center" action="" method="post">' .
-			
-			'<table>' .
-			
-			'<tr><th>URI</th><td>' . $board['uri'] . '</td>' .
-			'<tr><th>Title</th><td><input size="20" maxlength="20" type="text" name="title" value="' . $board['name'] . '" /></td></tr>' .
-			'<tr><th>Subtitle</th><td><input size="20" maxlength="40" type="text" name="subtitle" value="' .
-				(isset($board['title']) ? $board['title'] : '') . '" /></td></tr>' .
-			
-			'</table>' .
-			
-			'<input type="submit" value="Update" />' .
-			
-			// End form
-			'</form> ' .
-			
-			// Delete button
-			($mod['type'] >= $config['mod']['deleteboard'] ?
-				'<p style="text-align:center"><a href="?/board/' . $board['uri'] . '/delete">Delete board</a></p>'
-			:'') .
-			
-			'</fieldset>';
-			
-			echo Element('page.html', Array(
-				'index'=>$config['root'],
-				'title'=>'Manage – ' . sprintf($config['board_abbreviation'], $board['uri']),
-				'body'=>$body,
-				'mod'=>true
-			));
 		} elseif(preg_match('/^\/bans$/', $query)) {
 			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			
@@ -493,19 +495,22 @@
 				
 				// Build the board
 				buildIndex();
+				
+				header('Location: ?/board/' . $board['uri'], true, $config['redirect_http']);
+			} else {
+				
+				$body .= form_newBoard();
+				
+				// TODO: Statistics, etc, in the dashboard.
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'New board',
+					'body'=>$body,
+					'mod'=>true
+					)
+				);
 			}
-			
-			$body .= form_newBoard();
-			
-			// TODO: Statistics, etc, in the dashboard.
-			
-			echo Element('page.html', Array(
-				'index'=>$config['root'],
-				'title'=>'New board',
-				'body'=>$body,
-				'mod'=>true
-				)
-			);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(' . $regex['index'] . '|' . $regex['page'] . ')?$/', $query, $matches)) {
 			// Board index
 			
