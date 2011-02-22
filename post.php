@@ -185,7 +185,7 @@
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
 		
-		if(!preg_match('/^208\.54\.39\./', $_SERVER['REMOTE_ADDR']) && checkSpam())
+		if(checkSpam())
 			error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {
