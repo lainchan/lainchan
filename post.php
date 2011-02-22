@@ -209,6 +209,7 @@
 		$post['password'] = $_POST['password'];
 		$post['filename'] = get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name'];
 		$post['has_file'] = $OP || !empty($_FILES['file']['tmp_name']);
+		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		
 		if($config['force_body'] && empty($post['body']))
 			error($config['error']['tooshort_body']);
