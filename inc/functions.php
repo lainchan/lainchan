@@ -988,6 +988,22 @@
 			@file_put_contents($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body) or error("Couldn't write to file.");
 	}
 	
+	 function rrmdir($dir) {
+		if (is_dir($dir)) {
+			$objects = scandir($dir);
+			foreach ($objects as $object) {
+				if ($object != "." && $object != "..") {
+					if (filetype($dir."/".$object) == "dir")
+						rrmdir($dir."/".$object);
+					else
+						unlink($dir."/".$object);
+				}
+			}
+			reset($objects);
+			rmdir($dir);
+		}
+	} 
+ 
 	function generate_tripcode ( $name, $length = 10 ) {
 		global $config;
 		$name = stripslashes ( $name );

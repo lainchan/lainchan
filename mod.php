@@ -194,6 +194,84 @@
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
 				header('Location: ?/reports', true, $config['redirect_http']);
+		} elseif(preg_match('/^\/board\/(\w+)(\/delete)?$/', $query, $matches)) {
+			if($mod['type'] < $config['mod']['manageboards']) error($config['error']['noaccess']);
+			
+			if(!openBoard($matches[1]))
+				error($config['error']['noboard']);
+			
+			if(isset($matches[2]) && $matches[2] == '/delete') {
+				if($mod['type'] < $config['mod']['deleteboard']) error($config['error']['noaccess']);
+				// Delete board
+				
+				// Delete entire board directory
+				rrmdir($board['uri'] . '/');
+				
+				// Delete posting table
+				$query = query(sprintf("DROP TABLE IF EXISTS `posts_%s`", $board['uri'])) or error(db_error());
+				
+				// Clear reports
+				$query = prepare("DELETE FROM `reports` WHERE `board` = :id");
+				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				// Delete from table
+				$query = prepare("DELETE FROM `boards` WHERE `id` = :id");
+				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				header('Location: ?/', true, $config['redirect_http']);
+			} elseif(isset($_POST['title']) && isset($_POST['subtitle'])) {
+				$query = prepare("UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `id` = :id");
+				$query->bindValue(':title', utf8tohtml($_POST['title'], true));
+				
+				if(!empty($_POST['subtitle']))
+					$query->bindValue(':subtitle', utf8tohtml($_POST['subtitle'], true));
+				else
+					$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
+				
+				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				openBoard($board['uri']);
+			}
+			
+			$body =
+			'<fieldset><legend><a href="?/' .
+			$board['uri'] .	'/' . $config['file_index'] . '">' .
+			sprintf($config['board_abbreviation'], $board['uri']) . '</a>' . 
+			' - ' . $board['name'] . '</legend>' . 
+			
+			// Begin form
+			'<form style="text-align:center" action="" method="post">' .
+			
+			'<table>' .
+			
+			'<tr><th>URI</th><td>' . $board['uri'] . '</td>' .
+			'<tr><th>Title</th><td><input size="20" maxlength="20" type="text" name="title" value="' . $board['name'] . '" /></td></tr>' .
+			'<tr><th>Subtitle</th><td><input size="20" maxlength="40" type="text" name="subtitle" value="' .
+				(isset($board['title']) ? $board['title'] : '') . '" /></td></tr>' .
+			
+			'</table>' .
+			
+			'<input type="submit" value="Update" />' .
+			
+			// End form
+			'</form> ' .
+			
+			// Delete button
+			($mod['type'] >= $config['mod']['deleteboard'] ?
+				'<p style="text-align:center"><a href="?/board/' . $board['uri'] . '/delete">Delete board</a></p>'
+			:'') .
+			
+			'</fieldset>';
+			
+			echo Element('page.html', Array(
+				'index'=>$config['root'],
+				'title'=>'Manage – ' . sprintf($config['board_abbreviation'], $board['uri']),
+				'body'=>$body,
+				'mod'=>true
+			));
 		} elseif(preg_match('/^\/bans$/', $query)) {
 			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			
@@ -367,6 +445,10 @@
 					'title' => $_POST['title'],
 					'subtitle' => $_POST['subtitle']
 				);
+				
+				// HTML characters
+				$b['title'] = utf8tohtml($b['title'], true);
+				$b['subtitle'] = utf8tohtml($b['subtitle'], true);
 				
 				// Check required fields
 				if(empty($b['uri']))

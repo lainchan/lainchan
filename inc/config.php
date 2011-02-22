@@ -295,6 +295,10 @@
 	$config['mod']['view_ban'] = $config['mod']['view_banlist'];
 	// Create a new board
 	$config['mod']['newboard'] = ADMIN;
+	// Manage existing boards (change title, etc)
+	$config['mod']['manageboards'] = ADMIN;
+	// Delete a board
+	$config['mod']['deleteboard'] = ADMIN;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

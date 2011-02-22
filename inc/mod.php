@@ -112,6 +112,8 @@
 					'</a> - ' .
 					$b['title'] .
 					(isset($b['subtitle']) ? '<span class="unimportant"> — ' . $b['subtitle'] . '</span>' : '') . 
+						($mod['type'] >= $config['mod']['manageboards'] ?
+							' <a href="?/board/' . $b['uri'] . '" class="unimportant">[manage]</a>' : '') .
 				'</li>';
 		}
 		
