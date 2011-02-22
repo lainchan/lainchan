@@ -67,7 +67,9 @@
 	$config['flood_time_same']	= 30;
 	// Do you need a body for your non-OP posts?
 	$config['force_body']		= true;
-
+	// Reject blank posts? (just whitespace, etc)?
+	$config['reject_blank']		= true;
+	
 	// Max body length
 	$config['max_body']			= 1800;
 	
