@@ -375,7 +375,7 @@
 			'</p>';
 			
 			// Body
-			$built .= $this->body .
+			$built .= '<p class="body">' . $this->body . '</p>' .
 			
 			// Omitted posts
 			($this->omitted || $this->omitted_images? '<span class="omitted">' .
