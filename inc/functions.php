@@ -468,8 +468,6 @@
 				
 				$c = $count->fetch();
 				$thread->omitted_images = $c['num'] - $num_images;
-				
-				$thread->omitted -= $thread->omitted_images;
 			}
 			
 			$thread->posts = array_reverse($thread->posts);
