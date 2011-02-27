@@ -720,30 +720,34 @@
 				// 1yr2hrs30mins
 				// 1y2h30m
 				$expire = 0;
-				if(preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', $_POST['length'], $m)) {
+				if(preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?mon?t?h?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', $_POST['length'], $m)) {
 					if(isset($m[2])) {
 						// Years
 						$expire += $m[2]*60*60*24*365;
 					}
 					if(isset($m[4])) {
-						// Weeks
-						$expire += $m[4]*60*60*24*7;
+						// Months
+						$expire += $m[4]*60*60*24*30;
 					}
 					if(isset($m[6])) {
-						// Days
-						$expire += $m[6]*60*60*24;
+						// Weeks
+						$expire += $m[6]*60*60*24*7;
 					}
 					if(isset($m[8])) {
-						// Hours
-						$expire += $m[8]*60*60;
+						// Days
+						$expire += $m[8]*60*60*24;
 					}
 					if(isset($m[10])) {
-						// Minutes
-						$expire += $m[10]*60;
+						// Hours
+						$expire += $m[10]*60*60;
 					}
 					if(isset($m[12])) {
+						// Minutes
+						$expire += $m[12]*60;
+					}
+					if(isset($m[14])) {
 						// Seconds
-						$expire += $m[12];
+						$expire += $m[14];
 					}
 				}
 				if($expire) {
