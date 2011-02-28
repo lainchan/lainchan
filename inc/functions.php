@@ -61,7 +61,7 @@
 				$__ip = $_SERVER['REMOTE_ADDR'];
 			
 			// ::ffff:0.0.0.0
-			if(preg_match('/^\:\:ffff\:(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
+			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 				$_SERVER['REMOTE_ADDR'] = $m[1];
 		}
 	}
