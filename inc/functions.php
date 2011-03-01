@@ -62,7 +62,7 @@
 			
 			// ::ffff:0.0.0.0
 			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
-				$_SERVER['REMOTE_ADDR'] = $m[1];
+				$_SERVER['REMOTE_ADDR'] = $m[2];
 		}
 	}
 	
@@ -130,6 +130,23 @@
 	
 	function until($timestamp) {
 		$difference = $timestamp - time();
+		if($difference < 60) {
+			return $difference . ' second' . ($difference != 1 ? 's' : '');
+		} elseif($difference < 60*60) {
+			return ($num = round($difference/(60))) . ' minute' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24) {
+			return ($num = round($difference/(60*60))) . ' hour' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24*7) {
+			return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
+		} elseif($difference < 60*60*24*365) {
+			return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
+		} else {
+			return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
+		}
+	}
+	
+	function ago($timestamp) {
+		$difference = time() - $timestamp;
 		if($difference < 60) {
 			return $difference . ' second' . ($difference != 1 ? 's' : '');
 		} elseif($difference < 60*60) {
