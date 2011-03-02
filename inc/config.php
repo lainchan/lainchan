@@ -235,6 +235,8 @@
 	$config['mod']['ip_recentposts'] = 5;
 	// How many posts to display on the reports page
 	$config['mod']['recent_reports'] = 5;
+	// How many actions to show per page in the moderation log
+	$config['mod']['modlog_page'] = 350;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -310,6 +312,8 @@
 	$config['mod']['deleteusers'] = ADMIN;
 	// Create a user
 	$config['mod']['createusers'] = ADMIN;
+	// View the moderation log
+	$config['mod']['modlog'] = ADMIN;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

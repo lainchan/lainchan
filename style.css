@@ -333,3 +333,24 @@ div.boardlist a {
 div.report {
 	color: #333;
 }
+table.modlog {
+	margin: auto;
+	width: 100%;
+}
+table.modlog tr td {
+	text-align: left;
+	margin: 0px;
+	padding: 4px 15px 0 0;
+}
+table.modlog tr th {
+	text-align: left;
+	padding: 4px 15px 5px 5px;
+	white-space: nowrap;
+}
+table.modlog tr th {
+	background: #98E;
+}
+td.minimal {
+	width: 1%;
+	white-space: nowrap;
+}

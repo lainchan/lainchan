@@ -90,8 +90,11 @@
 			if($mod['type'] >= $config['mod']['view_banlist']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
-				if($mod['type'] >= $config['mod']['manageusers']) {
+			if($mod['type'] >= $config['mod']['manageusers']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/users">Manage users</a></li>';
+			}
+			if($mod['type'] >= $config['mod']['modlog']) {
+				$fieldset['Administration'] .= 	'<li><a href="?/log">Moderation log</a></li>';
 			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
@@ -112,7 +115,40 @@
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
+		} elseif(preg_match('/^\/log$/', $query)) {
+			if($mod['type'] < $config['mod']['modlog']) error($config['error']['noaccess']);
+			
+			$body = '<table class="modlog"><tr><th>User</th><th>IP address</th><th>Ago</th><th>Action</th></tr>';
+			
+			$query = prepare("SELECT `id`,`username`,`ip`,`time`,`text` FROM `modlogs` INNER JOIN `mods` ON `mod` = `id` ORDER BY `time` DESC LIMIT :limit");
+			$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			while($log = $query->fetch()) {
+				$log['text'] = htmlentities($log['text']);
+				$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
+				
+				
+				$body .= '<tr>' .
+				'<td class="minimal"><a href="?/users/' . $log['id'] . '">' . $log['username'] . '</a></td>' .
+				'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
+				'<td class="minimal">' . ago($log['time']) . '</td>' .
+				'<td>' . $log['text'] . '</td>' .
+				'</tr>';
+			}
+			
+			$body .= '</table>';
+			
+			echo Element('page.html', Array(
+				'index'=>$config['root'],
+				'title'=>'Moderation log',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
 		} elseif(preg_match('/^\/users$/', $query)) {
+			if($mod['type'] < $config['mod']['manageusers']) error($config['error']['noaccess']);
+			
 			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Last action</th><th>…</th></tr>';
 			
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
@@ -899,7 +935,7 @@
 			$ip = $post['ip'];
 			
 			// Record the action
-			modLog("Deleted all posts by IP address: #{$ip}");
+			modLog("Deleted all posts by IP address: {$ip}");
 			
 			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = :ip", $board['uri']));
 			$query->bindValue(':ip', $ip);
