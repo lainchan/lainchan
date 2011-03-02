@@ -195,6 +195,8 @@
 				$query->bindValue(':password', sha1($_POST['password']));
 				$query->bindValue(':type', $_POST['type'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
+				
+				modLog('Create a new user: "' . $_POST['username'] . '"');
 			}
 			
 			$body = '<fieldset><legend>New user</legend>' . 
@@ -386,6 +388,8 @@
 					$query = prepare("DELETE FROM `reports` WHERE `ip` = :ip");
 					$query->bindValue(':ip', $report['ip'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
+					
+					modLog('Dismissed all reports by ' . $report['ip']);
 				}
 			} else {
 				if($mod['type'] < $config['mod']['report_dismiss']) error($config['error']['noaccess']);
@@ -395,6 +399,8 @@
 				$query->execute() or error(db_error($query));
 				
 				if($report = $query->fetch()) {
+					modLog('Dismissed a report for post #' . $report['post']);
+					
 					$query = prepare("DELETE FROM `reports` WHERE `post` = :post");
 					$query->bindValue(':post', $report['post'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
