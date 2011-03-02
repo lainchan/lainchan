@@ -123,6 +123,7 @@
 	$config['error']['noaccess']		= 'You don\'t have permission to do that.';
 	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
 	$config['error']['404']				= 'Page not found.';
+	$config['error']['modexists']		= 'That mod <a href="?/users/%d">already exists</a>!';
 	
 	// How many reports you can create in the same request.
 	$config['report_limit']	= 2;
@@ -299,6 +300,16 @@
 	$config['mod']['manageboards'] = ADMIN;
 	// Delete a board
 	$config['mod']['deleteboard'] = ADMIN;
+	// List/manage users
+	$config['mod']['manageusers'] = MOD;
+	// Promote/demote users
+	$config['mod']['promoteusers'] = ADMIN;
+	// Edit any users' login information
+	$config['mod']['editusers'] = ADMIN;
+	// Delete a user
+	$config['mod']['deleteusers'] = ADMIN;
+	// Create a user
+	$config['mod']['createusers'] = ADMIN;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

@@ -90,6 +90,9 @@
 			if($mod['type'] >= $config['mod']['view_banlist']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
+				if($mod['type'] >= $config['mod']['manageusers']) {
+				$fieldset['Administration'] .= 	'<li><a href="?/users">Manage users</a></li>';
+			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
@@ -109,7 +112,212 @@
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
+		} elseif(preg_match('/^\/users$/', $query)) {
+			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Last action</th><th>…</th></tr>';
+			
+			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
+			while($_mod = $query->fetch()) {				
+				$type = $_mod['type'] == JANITOR ? 'Janitor' : ($_mod['type'] == MOD ? 'Mod' : 'Admin');
+				$body .= '<tr>' .
+					'<td>' .
+						$_mod['id'] .
+					'</td>' .
+					
+					'<td>' .
+						$_mod['username'] .
+					'</td>' .
+					
+					'<td>' .
+						$type .
+					'</td>' .
+					
+					'<td>' .
+						($_mod['last'] ?
+							'<span title="' . htmlentities($_mod['action']) . '">' . ago($_mod['last']) . '</span>'
+						: '<em>never</em>') .
+					'</td>' .
+					
+					'<td style="white-space:nowrap">' .
+						($mod['type'] >= $config['mod']['promoteusers'] ?
+							($_mod['type'] != ADMIN ?
+								'<a style="text-decoration:none" href="?/users/' . $_mod['id'] . '/promote" title="Promote">▲</a>'
+							:'') .
+							($_mod['type'] != JANITOR ?
+								'<a style="text-decoration:none" href="?/users/' . $_mod['id'] . '/demote" title="Demote">▼</a>'
+							:'')
+						: ''
+						) .
+						($mod['type'] >= $config['mod']['editusers'] ?
+							'<a class="unimportant" style="margin-left:5px;float:right" href="?/users/' . $_mod['id'] . '">[edit]</a>'
+						: ''
+						) .
+					'</td></tr>';
+			}
+			
+			$body .= '</table>';
+			
+			if($mod['type'] >= $config['mod']['createusers']) {
+				$body .= '<p style="text-align:center"><a href="?/users/new">Create new user</a></p>';
+			}
+			
+			$body .= '</form>';
+			
+			echo Element('page.html', Array(
+				'index'=>$config['root'],
+				'title'=>'Manage users',
+				'body'=>$body
+				,'mod'=>true
+				)
+			);
+		} elseif(preg_match('/^\/users\/new$/', $query)) {
+			if($mod['type'] < $config['mod']['createusers']) error($config['error']['noaccess']);
+			
+			if(isset($_POST['username']) && isset($_POST['password'])) {
+				if(!isset($_POST['type'])) {
+					error(sprintf($config['error']['required'], 'type'));
+				}
+				
+				if($_POST['type'] != ADMIN && $_POST['type'] != MOD && $_POST['type'] != JANITOR) {
+					error(sprintf($config['error']['invalidfield'], 'type'));
+				}
+				
+				// Check if already exists
+				$query = prepare("SELECT `id` FROM `mods` WHERE `username` = :username");
+				$query->bindValue(':username', $_POST['username']);
+				$query->execute() or error(db_error($query));
+				
+				if($_mod = $query->fetch()) {
+					error(sprintf($config['error']['modexists'], $_mod['id']));
+				}
+				
+				$query = prepare("INSERT INTO `mods` VALUES (NULL, :username, :password, :type)");
+				$query->bindValue(':username', $_POST['username']);
+				$query->bindValue(':password', sha1($_POST['password']));
+				$query->bindValue(':type', $_POST['type'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+			}
+			
+			$body = '<fieldset><legend>New user</legend>' . 
+				
+				// Begin form
+				'<form style="text-align:center" action="" method="post">' .
+				
+				'<table>' .
+				
+				'<tr><th>Username</th><td><input size="20" maxlength="30" type="text" name="username" value="" autocomplete="off" /></td></tr>' .
+				'<tr><th>Password</th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
+				'<tr><th>Type</th><td>' .
+					'<div><label for="janitor">Janitor</label> <input type="radio" id="janitor" name="type" value="' . JANITOR . '" /></div>' .
+					'<div><label for="mod">Mod</label> <input type="radio" id="mod" name="type" value="' . MOD . '" /></div>' .
+					'<div><label for="admin">Admin</label> <input type="radio" id="admin" name="type" value="' . ADMIN . '" /></div>' .
+				'</td></tr>' .
+				'</table>' .
+				
+				'<input style="margin-top:10px" type="submit" value="Create user" />' .
+				
+				// End form
+				'</form></fieldset>';
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'New user',
+					'body'=>$body
+					,'mod'=>true
+					)
+				);
+		} elseif(preg_match('/^\/users\/(\d+)(\/(promote|demote|delete))?$/', $query, $matches)) {
+			$modID = $matches[1];
+			
+			if(isset($matches[2])) {
+				if($matches[3] == 'delete') {
+					if($mod['type'] < $config['mod']['deleteusers']) error($config['error']['noaccess']);
+					
+					$query = prepare("DELETE FROM `mods` WHERE `id` = :id");
+					$query->bindValue(':id', $modID, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+				} else {
+					// Promote/demote
+					if($mod['type'] < $config['mod']['promoteusers']) error($config['error']['noaccess']);
+					
+					if($matches[3] == 'promote') {
+						$query = prepare("UPDATE `mods` SET `type` = `type` + 1 WHERE `type` != :admin AND `id` = :id");
+						$query->bindValue(':admin', ADMIN, PDO::PARAM_INT);
+					} else {
+						$query = prepare("UPDATE `mods` SET `type` = `type` - 1 WHERE `type` != :janitor AND `id` = :id");
+						$query->bindValue(':janitor', JANITOR, PDO::PARAM_INT);
+					}
+					
+					$query->bindValue(':id', $modID, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+				}
+				header('Location: ?/users', true, $config['redirect_http']);
+			} else {
+				// Edit user
+				if($mod['type'] < $config['mod']['editusers']) error($config['error']['noaccess']);
+				
+				$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
+				$query->bindValue(':id', $modID, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				if(!$_mod = $query->fetch()) {
+					error($config['error']['404']);
+				}
+				
+				if(isset($_POST['username']) && isset($_POST['password'])) {
+					$query = prepare("UPDATE `mods` SET `username` = :username WHERE `id` = :id");
+					$query->bindValue(':username', $_POST['username']);
+					$query->bindValue(':id', $modID, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					if(!empty($_POST['password'])) {
+						$query = prepare("UPDATE `mods` SET `password` = :password WHERE `id` = :id");
+						$query->bindValue(':password', sha1($_POST['password']));
+						$query->bindValue(':id', $modID, PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
+					}
+					
+					// Refresh
+					$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
+					$query->bindValue(':id', $modID, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					$_mod = $query->fetch();
+				}
+				
+				$body = '<fieldset><legend>Edit user</legend>' . 
+				
+				// Begin form
+				'<form style="text-align:center" action="" method="post">' .
+				
+				'<table>' .
+				
+				'<tr><th>Username</th><td><input size="20" maxlength="30" type="text" name="username" value="' . $_mod['username'] . '" autocomplete="off" /></td></tr>' .
+				'<tr><th>Password <span class="unimportant">(new; optional)</span></th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
+				'</table>' .
+				
+				'<input type="submit" value="Save changes" />' .
+				
+				// End form
+				'</form> ' .
+				
+				// Delete button
+				($mod['type'] >= $config['mod']['deleteusers'] ?
+					'<p style="text-align:center"><a href="?/users/' . $_mod['id'] . '/delete">Delete user</a></p>'
+				:'') .
+				
+				'</fieldset>';
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'Edit user',
+					'body'=>$body
+					,'mod'=>true
+					)
+				);
+			}
 		} elseif(preg_match('/^\/reports$/', $query)) {
+			if($mod['type'] < $config['mod']['reports']) error($config['error']['noaccess']);
+			
 			$body = '';
 			$reports = 0;
 			

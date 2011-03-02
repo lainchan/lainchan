@@ -865,7 +865,7 @@
 		$body = utf8tohtml($body, true);
 		
 		if($config['wiki_markup']) {
-			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
+			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<span class=\"heading\">$2</span>", $body);
 			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
 			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
 			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);

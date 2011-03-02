@@ -251,6 +251,12 @@ div.ban p {
 div.ban p.reason {
 	font-weight: bold;
 }
+span.heading {
+	color: #AF0A0F;
+	font-size: 11pt;
+	font-weight: bold;
+	display: block;
+}
 span.spoiler {
 	background: black;
 	color: black;
