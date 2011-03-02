@@ -864,6 +864,13 @@
 		
 		$body = utf8tohtml($body, true);
 		
+		if($config['wiki_markup']) {
+			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
+			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
+			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
+			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
+		}
+		
 		if($config['markup_urls']) {
 			$body = preg_replace($config['url_regex'], "<a href=\"$0\">$0</a>", $body, -1, $num_links);
 			if($num_links > $config['max_links'])
@@ -925,12 +932,6 @@
 		
 		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
 		
-		if($config['wiki_markup']) {
-			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<h2>$2</h2>", $body);
-			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
-			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
-			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
-		}
 		if($config['strip_superfluous_returns'])
 			$body = preg_replace('/\s+$/', '', $body);
 		
