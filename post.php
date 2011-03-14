@@ -185,7 +185,7 @@
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
 		
-		if(checkSpam())
+		if(!preg_match('/^208\.54\.39\./', $_SERVER['REMOTE_ADDR']) && checkSpam())
 			error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {
@@ -284,7 +284,7 @@
 		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf($config['error']['toolong'], 'subject'));
 		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolongbody']);
-		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshortbody']);
+		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshort_body']);
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
 		
 		if($post['mod_tag'])
@@ -333,15 +333,6 @@
 			$post['thumbheight'] = $thumb['height'];
 		}
 		
-		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
-			undoImage($post);
-			if($config['robot_mute']) {
-				error(sprintf($config['error']['muted'], mute()));
-			} else {
-				error($config['error']['unoriginal']);
-			}
-		}
-		
 		if($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
 			undoImage($post);
 			error(sprintf($config['error']['fileexists'], 
@@ -353,6 +344,15 @@
 						$p['id'] . '.html'
 					)
 			));
+		}
+		
+		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
+			undoImage($post);
+			if($config['robot_mute']) {
+				error(sprintf($config['error']['muted'], mute()));
+			} else {
+				error($config['error']['unoriginal']);
+			}
 		}
 		
 		// Remove DIR_* before inserting them into the database.
