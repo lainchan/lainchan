@@ -1025,7 +1025,10 @@
 				// Delete too
 				if($mod['type'] >= $config['mod']['delete'] && isset($_POST['delete']) && isset($_POST['board'])) {
 					openBoard($_POST['board']);
-					deletePost(round($_POST['delete']));
+					
+					$post = round($_POST['delete']);
+					
+					deletePost($post);
 					
 					// Record the action
 					modLog("Deleted post #{$post}");
