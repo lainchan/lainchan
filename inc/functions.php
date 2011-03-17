@@ -890,7 +890,7 @@
 		}
 
 		// Cites
-		if(preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
+		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
 			$previousPosition = 0;
 			$temp = '';
 			sql_open();
