@@ -410,12 +410,13 @@
 	$config['always_noko']	= false;
 	
 	// Boardlinks
-	// You can group, order and place the boardlist at the top of every page, using the following template.
+	// You can group, order and place the boardlist at the top of every page, using the following template.	
 	//$config['boards'] = Array(
 	//	Array('a', 'b'),
 	//	Array('c', 'd', 'e', 'f', 'g'),
 	//	Array('h', 'i', 'j'),
-	//	Array('k', Array('l', 'm'))
+	//	Array('k', Array('l', 'm')),
+	// 'status' => 'http://status.example.org/'
 	//);
 	
 ?>

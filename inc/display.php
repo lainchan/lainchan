@@ -27,7 +27,11 @@
 			if(is_array($board))
 				$body .= ' [' . doBoardListPart($board, $root) . '] ';
 			else {
-				$body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '">' . $board . '</a> /';
+				if(($key = array_search($board, $list)) && gettype($key) == 'string') {
+					$body .= ' <a href="' . $board . '">' . $key . '</a> /';
+				} else {			
+					$body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '">' . $board . '</a> /';
+				}
 			}
 		}
 		$body = preg_replace('/\/$/', '', $body);
