@@ -56,6 +56,22 @@
 		unset($_SESSION['mod']);
 	}
 	
+	function create_pm_header() {
+		global $mod;
+		$query = prepare("SELECT `id` FROM `pms` WHERE `to` = :id AND `unread` = 1");
+		$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if($pm = $query->fetch()) {
+			return 'You have <a href="?/PM/' . $pm['id'] . '">an unread PM</a>' .
+			($query->rowCount() > 1 ?
+				', plus ' . ($query->rowCount()-1) . ' more waiting'
+			: '') . '.';
+		}
+		
+		return false;
+	}
+	
 	function modLog($action) {
 		global $mod;
 		$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :time, :text)");

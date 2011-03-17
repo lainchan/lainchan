@@ -127,11 +127,11 @@
 				
 				// Delete
 				if($this->mod['type'] >= $config['mod']['delete'])
-					$built .= ' <a title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
+					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete this?\')" title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= $config['mod']['deletebyip'])
-					$built .= ' <a title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
+					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete all posts by IP?\')" title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
 				
 				// Ban
 				if($this->mod['type'] >= $config['mod']['ban'])
@@ -274,11 +274,11 @@
 				
 				// Delete
 				if($this->mod['type'] >= $config['mod']['delete'])
-					$built .= ' <a title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
+					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete this?\')" title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= $config['mod']['deletebyip'])
-					$built .= ' <a title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
+					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete all posts by IP?\')" title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
 				
 				// Ban
 				if($this->mod['type'] >= $config['mod']['ban'])

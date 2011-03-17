@@ -146,6 +146,119 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/PM\/(\d+)$/', $query, $match)) {
+			$id = $match[1];
+			
+			$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
+			$query->bindValue(':id', $id, PDO::PARAM_INT);
+			$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if(!$pm = $query->fetch()) {
+				// Mod doesn't exist
+				error($config['error']['404']);
+			}
+			
+			if(isset($_POST['delete'])) {
+				$query = prepare("DELETE FROM `pms` WHERE `id` = :id");
+				$query->bindValue(':id', $id, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				header('Location: ?/', true, $config['redirect_http']);
+			} else {
+				$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
+				$query->bindValue(':id', $id, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				$body = '<form action="" method="post"><table><th>From</th><td>' .
+					($mod['type'] >= $config['mod']['editusers'] ?
+						'<a href="?/users/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>' :
+						htmlentities($pm['username'])
+					) .
+				'</td></tr>' .
+				
+				'<tr><th>Date</th><td> ' . date($config['post_date'], $pm['time']) . '</td></tr>' .
+				
+				'<tr><th>Message</th><td> ' . $pm['message'] . '</td></tr>' .
+				
+				'</table>' . 
+				
+				'<p style="text-align:center"><input type="submit" name="delete" value="Delete forever" /></p>' .
+				
+				'</form>';
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'Private message',
+					'body'=>$body,
+					'mod'=>true
+					)
+				);
+			}
+		} elseif(preg_match('/^\/new_PM\/(\d+)$/', $query, $match)) {
+			if($mod['type'] < $config['mod']['create_pm']) error($config['error']['noaccess']);
+			
+			$to = $match[1];
+			
+			$query = prepare("SELECT `username`,`id` FROM `mods` WHERE `id` = :id");
+			$query->bindValue(':id', $to, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if(!$to = $query->fetch()) {
+				// Mod doesn't exist
+				error($config['error']['404']);
+			}
+			
+			if(isset($_POST['message'])) {
+				// Post message
+				$message = $_POST['message'];
+				
+				if(empty($message))
+					error($config['error']['tooshort_body']);
+				
+				markup($message);
+				
+				$query = prepare("INSERT INTO `pms` VALUES (NULL, :sender, :to, :message, :time, 1)");
+				$query->bindValue(':sender', $mod['id'], PDO::PARAM_INT);
+				$query->bindValue(':to', $to['id'], PDO::PARAM_INT);
+				$query->bindValue(':message', $message);
+				$query->bindValue(':time', time(), PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'PM sent',
+					'body'=>'<p style="text-align:center">Message sent successfully to ' . htmlentities($to['username']) . '.</p>',
+					'mod'=>true
+					)
+				);
+			} else {
+				$body = '<form action="" method="post">' .
+				
+				'<table>' . 
+				
+				'<tr><th>To</th><td>' .
+					($mod['type'] >= $config['mod']['editusers'] ?
+						'<a href="?/users/' . $to['id'] . '">' . htmlentities($to['username']) . '</a>' :
+						htmlentities($to['username'])
+					) .
+				'</td>' .
+				
+				'<tr><th>Message</th><td><textarea name="message" rows="10" cols="40"></textarea></td>' .
+				
+				'</table>' .
+				
+				'<p style="text-align:center"><input type="submit" value="Send message" /></p>' .
+				
+				'</form>';
+				
+				echo Element('page.html', Array(
+					'index'=>$config['root'],
+					'title'=>'New PM for ' . htmlentities($to['username']),
+					'body'=>$body
+					,'mod'=>true
+					)
+				);
+			}
 		} elseif(preg_match('/^\/users$/', $query)) {
 			if($mod['type'] < $config['mod']['manageusers']) error($config['error']['noaccess']);
 			
@@ -185,8 +298,10 @@
 						) .
 						($mod['type'] >= $config['mod']['editusers'] ?
 							'<a class="unimportant" style="margin-left:5px;float:right" href="?/users/' . $_mod['id'] . '">[edit]</a>'
-						: ''
-						) .
+						: '' ) .
+						($mod['type'] >= $config['mod']['create_pm'] ?
+							'<a class="unimportant" style="margin-left:5px;float:right" href="?/new_PM/' . $_mod['id'] . '">[PM]</a>'
+						: '' ) .
 					'</td></tr>';
 			}
 			

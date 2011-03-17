@@ -5,10 +5,7 @@
 	// savetheinternet@n0v4.com
 	
 	// -----------------------------------------------------
-	// Standard configuration	
-	//
-	// Folder where the template files are kept
-	$templateDir = $config['dir']['template'];
+	// Standard configuration
 	//
 	// Enable global things like %gentime, etc.
 	$templateGlobals = true;
@@ -170,12 +167,18 @@
 	}
 	
 	function Element($templateFile, array $options) {
-		global $templateDir;
+		global $config;
+		
+		// Small little hack to add the PM system
+		if(function_exists('create_pm_header') && @$options['mod']) {
+			$options['pm'] = create_pm_header();
+		}
+		
 		// Read the template file
-		if($template = @file_get_contents("${templateDir}/${templateFile}")) {
+		if($template = @file_get_contents("{$config['dir']['template']}/${templateFile}")) {
 			return templateParse($template, $options, null, $templateFile);
 		} else {
-			throw new Exception("Template file '${templateFile}' does not exist or is empty in '${templateDir}'!");
+			throw new Exception("Template file '${templateFile}' does not exist or is empty in '{$config['dir']['template']}'!");
 		}
 	}
 	

@@ -354,3 +354,7 @@ td.minimal {
 	width: 1%;
 	white-space: nowrap;
 }
+div.top_notice {
+	text-align: center;
+	margin: 5px auto;
+}
