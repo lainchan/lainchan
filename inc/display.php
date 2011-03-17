@@ -45,8 +45,10 @@
 		if(!isset($config['boards'])) return Array('top'=>'','bottom'=>'');
 		
 		$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
-		if(!preg_match('/\]$/', $body))
+		if(!preg_match('/\] $/', $body))
 			$body = '[' . $body . ']';
+		
+		$body = trim($body);
 		
 		return Array(
 			'top' => '<div class="boardlist">' . $body . '</div>',
