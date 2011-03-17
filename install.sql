@@ -52,6 +52,26 @@ CREATE TABLE IF NOT EXISTS `bans` (
 -- Dumping data for table `bans`
 --
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pms`
+--
+
+CREATE TABLE IF NOT EXISTS `pms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` int(11) NOT NULL,
+  `to` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `time` int(11) NOT NULL,
+  `unread` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `pms`
+--
 
 -- --------------------------------------------------------
 
