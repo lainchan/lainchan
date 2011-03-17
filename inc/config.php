@@ -66,7 +66,7 @@
 	// Same as above but different IP address
 	$config['flood_time_same']	= 30;
 	// Do you need a body for your non-OP posts?
-	$config['force_body']		= true;
+	$config['force_body']		= false;
 	// Reject blank posts? (just whitespace, etc)?
 	$config['reject_blank']		= true;
 	
@@ -185,6 +185,15 @@
 	//$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
 	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
 	//$config['image_zip']		= $config['dir']['static'] . 'zip.png';
+	
+	
+	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain, you can use this:
+	// This will override $config['root'] and $config['dir']['...'] directives
+	
+	// "%s" will get replaced with $board['dir'], which usually includes a trailing slash. To avoid double slashes, you don't need
+	// to put a slash after %s
+	// $config['uri_thumb'] = 'http://images.example.org/%sthumb/';
+	// $config['uri_img'] = 'http://images.example.org/%ssrc/';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
@@ -314,6 +323,8 @@
 	$config['mod']['createusers'] = ADMIN;
 	// View the moderation log
 	$config['mod']['modlog'] = ADMIN;
+	// Create a PM (viewing mod usernames)
+	$config['mod']['create_pm'] = JANITOR;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

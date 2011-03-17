@@ -46,6 +46,17 @@
 		if(!isset($config['image_zip']))
 			$config['image_zip'] = $config['dir']['static'] . 'zip.png';
 		
+		if(!isset($config['uri_thumb']))
+			$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
+		else
+			$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
+			
+		if(!isset($config['uri_img']))
+			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
+		else
+			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
+		
+		
 		if($config['root_file']) {
 			chdir($config['root_file']);
 		}

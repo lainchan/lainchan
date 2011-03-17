@@ -194,7 +194,7 @@
 		
 			// File info
 			if(!empty($this->file) && $this->file != 'deleted') {
-				$built .= '<p class="fileinfo">File: <a href="'	. $config['root'] . $board['dir'] . $config['dir']['img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 					format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -208,7 +208,7 @@
 				$built .= ', ' . $this->filename . ')</span></p>' .
 				
 			// Thumbnail
-				'<a href="' . $config['root'] . $board['dir'] . $config['dir']['img'] . $this->file.'"><img src="' . $config['root'] . $board['dir'] . $config['dir']['thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			} elseif($this->file == 'deleted') {
 				$built .= '<img src="' . $config['image_deleted'] . '" />';
 			}
@@ -311,7 +311,7 @@
 		public function build($index=false) {
 			global $board, $config;
 			
-			$built = '<p class="fileinfo">File: <a href="'	. $config['root'] . $board['dir'] . $config['dir']['img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+			$built = '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
 				format_bytes($this->filesize) . ', ' . 
 			// File dimensions
@@ -324,7 +324,7 @@
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' . 
 			// Thumbnail
-				'<a href="' . $config['root'] . $board['dir'] . $config['dir']['img'] . $this->file.'"><img src="' . $config['root'] . $board['dir'] . $config['dir']['thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			
