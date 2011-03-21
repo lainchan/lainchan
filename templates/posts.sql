@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `filename` varchar(30) DEFAULT NULL,
   `filehash` varchar(40) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
+  `ip` varchar(45) NOT NULL,
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
