@@ -66,7 +66,7 @@
 			ini_set('display_errors', 1);
 		}
 		
-		if($config['ipv6_ipv4']) {
+		if($config['ipv6_ipv4'] && isset($_SERVER['REMOTE_ADDR'])) {
 			// Keep the original address to properly comply with other board configurations
 			if(!isset($__ip))
 				$__ip = $_SERVER['REMOTE_ADDR'];
