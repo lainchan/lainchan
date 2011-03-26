@@ -15,7 +15,7 @@
 		if(!isset($config['url_stylesheet']))
 			$config['url_stylesheet'] = $config['root'] . 'style.css';
 		if(!isset($config['url_javascript']))
-			$config['url_javascript'] = $config['root'] . 'script.js';
+			$config['url_javascript'] = $config['root'] . 'main.js';
 		
 		if(!isset($config['post_url']))
 			$config['post_url'] = $config['root'] . $config['file_post'];
@@ -60,6 +60,9 @@
 			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
 		else
 			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
+		
+		if(!isset($config['uri_stylesheets']))
+			$config['uri_stylesheets'] = $config['root'];
 		
 		if($config['root_file']) {
 			chdir($config['root_file']);
@@ -838,6 +841,22 @@
 				@unlink($filename);
 			}
 		}
+	}
+	
+	function buildJavascript() {
+		global $config;
+		
+		$stylesheets = Array();
+		foreach($config['stylesheets'] as $name => $uri) {
+			$stylesheets[] = Array(
+				'name' => addslashes($name),
+				'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
+		}
+		
+		file_put_contents($config['file_script'], Element('main.js', Array(
+			'config' => $config,
+			'stylesheets' => $stylesheets
+		)));
 	}
 	
 	function isDNSBL() {

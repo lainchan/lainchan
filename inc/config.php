@@ -203,6 +203,7 @@
 	$config['file_page']	= '%d.html';
 	$config['file_mod']		= 'mod.php';
 	$config['file_post']	= 'post.php';
+	$config['file_script']	= 'main.js';
 	
 	// Multi-board (%s is board abbreviation)
 	$config['board_path']	= '%s/';
@@ -325,6 +326,11 @@
 	$config['mod']['modlog'] = ADMIN;
 	// Create a PM (viewing mod usernames)
 	$config['mod']['create_pm'] = JANITOR;
+	// Rebuild everything
+	$config['mod']['rebuild'] = ADMIN;
+	
+	// Wait indefinitely when rebuilding everything
+	$config['mod']['rebuild_timelimit'] = 0;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives
@@ -434,6 +440,22 @@
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko']	= false;
 	
+	// Characters used to generate a random password (with Javascript)
+	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+	
+	// Custom stylesheets available. The prefix for each stylesheet URI is defined below.
+	$config['stylesheets'] = Array(
+		// Stylesheet name => URI
+		'Yotsuba B' => 'default.css',
+		'Yotsuba' => 'yotsuba.css'
+	);
+	
+	// The prefix for each stylesheet URI. Defaults to $config['root']
+	//$config['uri_stylesheets'] = 'http://static.example.org/stylesheets/';
+	
+	// The default stylesheet to use
+	$config['default_stylesheet'] = Array('Yotsuba B', $config['stylesheets']['Yotsuba B']);
+	
 	// Boardlinks
 	// You can group, order and place the boardlist at the top of every page, using the following template.	
 	//$config['boards'] = Array(
@@ -450,4 +472,5 @@
 	// $config['url_javascript'] = 'http://static.example.org/main.js';
 	// $config['url_banner'] = '/banner.php';
 	// $config['url_favicon'] = '/favicon.gif';
+
 ?>

@@ -20,7 +20,7 @@ function focusId(id)
 
 function generatePassword() {
 	pass = '';
-	chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+	chars = '{config[genpassword_chars]}';
 	for(i=0;i<8;i++) {
 		rnd = Math.floor(Math.random() * chars.length);
 		pass += chars.substring(rnd,rnd + 1);
@@ -39,10 +39,10 @@ function citeReply(id) {
 	document.getElementById('body').value += '>>' + id + '\n';
 }
 
-var selectedstyle = 'Yotsuba B';
+var selectedstyle = '{config[default_stylesheet][0]}';
 var styles = [
-	['Yotsuba B', '/board/default.css'],
-	['Yotsuba', '/board/yotsuba.css']
+	{stylesheets:['{stylesheets[name]}', '{stylesheets[uri]}']{!%last?,
+	}}
 ];
 
 function changeStyle(x) {
