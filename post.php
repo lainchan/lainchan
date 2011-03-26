@@ -283,7 +283,7 @@
 		if(strlen($post['name']) > 50) error(sprintf($config['error']['toolong'], 'name'));			
 		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
 		if(strlen($post['subject']) > 40) error(sprintf($config['error']['toolong'], 'subject'));
-		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolongbody']);
+		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolong_body']);
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshort_body']);
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
 		
