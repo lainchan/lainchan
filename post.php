@@ -161,8 +161,6 @@
 			if(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['url_match'], $_SERVER['HTTP_REFERER'])) error($config['error']['bot']);
 		}
 		
-		file_put_contents('test_a47.txt', print_r($_SERVER, true) . "\n" . print_r($_POST, true). "\n\n\n", FILE_APPEND);
-		
 		// TODO: Since we're now using static HTML files, we can't give them cookies on their first page view
 		// Find another anti-spam method.
 		
