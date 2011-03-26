@@ -21,7 +21,7 @@
 	if($step == 0) {
 		// Agreeement
 		$page['body'] = '
-		<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE')) . '</textarea>
+		<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE.md')) . '</textarea>
 		<p style="text-align:center">
 			<a href="?step=1">I have read and understood the agreement. Proceed to installation.</a>
 		</p>';
