@@ -49,6 +49,7 @@
 	}
 	
 	function destroyCookies() {
+		global $config;
 		// Delete the cookies
 		setcookie($config['cookies']['mod'], 'deleted', time()-$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
 		
