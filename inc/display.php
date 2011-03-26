@@ -61,7 +61,7 @@
 		
 		if(function_exists('sql_close')) sql_close();
 		die(Element('page.html', Array(
-			'index'=>$config['root'],
+			'config'=>$config,
 			'title'=>'Error',
 			'subtitle'=>'An error has occured.',
 			'body'=>"<center>" .
@@ -82,7 +82,7 @@
 			'index'=>$config['root'],
 			'title'=>'Login',
 			'body'=>Element('login.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'error'=>$error,
 				'username'=>$username,
 				'redirect'=>$redirect

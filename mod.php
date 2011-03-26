@@ -109,7 +109,7 @@
 			}
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Dashboard',
 				'body'=>$body
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
@@ -140,7 +140,7 @@
 			$body .= '</table>';
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Moderation log',
 				'body'=>$body,
 				'mod'=>true
@@ -187,7 +187,7 @@
 				'</form>';
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'Private message',
 					'body'=>$body,
 					'mod'=>true
@@ -225,7 +225,7 @@
 				$query->execute() or error(db_error($query));
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'PM sent',
 					'body'=>'<p style="text-align:center">Message sent successfully to ' . htmlentities($to['username']) . '.</p>',
 					'mod'=>true
@@ -252,7 +252,7 @@
 				'</form>';
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'New PM for ' . htmlentities($to['username']),
 					'body'=>$body
 					,'mod'=>true
@@ -314,7 +314,7 @@
 			$body .= '</form>';
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Manage users',
 				'body'=>$body
 				,'mod'=>true
@@ -372,7 +372,7 @@
 				'</form></fieldset>';
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'New user',
 					'body'=>$body
 					,'mod'=>true
@@ -461,7 +461,7 @@
 				'</fieldset>';
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'Edit user',
 					'body'=>$body
 					,'mod'=>true
@@ -522,7 +522,7 @@
 				($reports == $count['count'] ? 'all ' . $reports . ' reports' : $reports . ' of ' . $count['count'] . ' reports') . '.</p>';
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Report queue',
 				'body'=>$body,
 				'mod'=>true
@@ -637,7 +637,7 @@
 				'</fieldset>';
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'Manage – ' . sprintf($config['board_abbreviation'], $board['uri']),
 					'body'=>$body,
 					'mod'=>true
@@ -721,7 +721,7 @@
 			}
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Ban list',
 				'body'=>$body,
 				'mod'=>true
@@ -792,7 +792,7 @@
 			$body = '<fieldset><legend>Configuration</legend><table>' . $data . '</table></fieldset>';
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'Configuration',
 				'body'=>$body,
 				'mod'=>true
@@ -873,7 +873,7 @@
 				// TODO: Statistics, etc, in the dashboard.
 				
 				echo Element('page.html', Array(
-					'index'=>$config['root'],
+					'config'=>$config,
 					'title'=>'New board',
 					'body'=>$body,
 					'mod'=>true
@@ -1186,7 +1186,7 @@
 			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $delete ? $post['id'] : false, $delete ? $boardName : false);
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'New ban',
 				'body'=>$body,
 				'mod'=>true
@@ -1295,7 +1295,7 @@
 				$body .= form_newBan($ip, null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
 			
 			echo Element('page.html', Array(
-				'index'=>$config['root'],
+				'config'=>$config,
 				'title'=>'IP: ' . $ip,
 				'subtitle' => $host,
 				'body'=>$body,

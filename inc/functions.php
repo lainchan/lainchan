@@ -12,6 +12,11 @@
 			require $board['dir'] . '/config.php';
 		}
 		
+		if(!isset($config['url_stylesheet']))
+			$config['url_stylesheet'] = $config['root'] . 'style.css';
+		if(!isset($config['url_javascript']))
+			$config['url_javascript'] = $config['root'] . 'script.js';
+		
 		if(!isset($config['post_url']))
 			$config['post_url'] = $config['root'] . $config['file_post'];
 		
@@ -55,7 +60,6 @@
 			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
 		else
 			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
-		
 		
 		if($config['root_file']) {
 			chdir($config['root_file']);
@@ -256,7 +260,7 @@
 			
 			// Show banned page and exit
 			die(Element('page.html', Array(
-					'index' => $config['root'],
+					'config' => $config,
 					'title' => 'Banned',
 					'subtitle' => 'You are banned!',
 					'body' => $body
@@ -503,11 +507,10 @@
 		}
 		
 		return Array(
-			'button'=>$config['button_newtopic'],
 			'board'=>$board,
 			'body'=>$body,
 			'post_url' => $config['post_url'],
-			'index' => $config['root'],
+			'config' => $config,
 			'boardlist' => createBoardlist($mod)
 		);
 	}
@@ -1008,11 +1011,9 @@
 		if(!isset($thread)) error($config['error']['nonexistant']);
 		
 		$body = Element('thread.html', Array(
-			'button'=>$config['button_reply'],
 			'board'=>$board, 
 			'body'=>$thread->build(),
-			'post_url' => $config['post_url'],
-			'index' => $config['root'],
+			'config' => $config,
 			'id' => $id,
 			'mod' => $mod,
 			'boardlist' => createBoardlist($mod),

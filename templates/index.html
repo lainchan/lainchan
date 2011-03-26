@@ -1,20 +1,22 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" media="screen" href="{index}style.css"/>
+	<link rel="stylesheet" media="screen" href="{config[url_stylesheet]}"/>
 	<title>{board[url]} - {board[name]}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-	<script type="text/javascript" src="{index}main.js"></script>
+	<script type="text/javascript" src="{config[url_javascript]}"></script>
+	{config[meta_keywords]?<meta name="keywords" content="{config[meta_keywords]}" />}
 </head>
 <body>
 	{boardlist[top]}
 	{pm?<div class="top_notice">{pm}</div><hr/>}
+	{config[url_banner]?<img class="banner" src="{config[url_banner]}" />}
 	<h1>{board[url]} - {board[name]}</h1>
 	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
 	
-	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{post_url}" method="post">
+	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{config[post_url]}" method="post">
 	{hidden_inputs}
 	<input type="hidden" name="board" value="{board[uri]}" />
 	{mod?<input type="hidden" name="mod" value="1" />}
@@ -41,7 +43,7 @@
 				</th>
 				<td>
 					<input style="float:left;" type="text" name="subject" size="25" maxlength="40" autocomplete="off" />
-					<input accesskey="s" style="float:right;" type="submit" name="post" value="{button=New Topic}" />
+					<input accesskey="s" style="float:right;" type="submit" name="post" value="{config[button_newtopic]=New Topic}" />
 				</td>
 			</tr>
 			<tr>
