@@ -96,6 +96,9 @@
 			if($mod['type'] >= $config['mod']['modlog']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/log">Moderation log</a></li>';
 			}
+			if($mod['type'] >= $config['mod']['rebuild']) {
+				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">Rebuild static files</a></li>';
+			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
@@ -728,28 +731,38 @@
 			)
 		);
 		} elseif(preg_match('/^\/rebuild$/', $query)) {
-			// For debugging
-			set_time_limit(0);
+			if($mod['type'] < $config['mod']['rebuild']) error($config['error']['noaccess']);
 			
-			header('Content-Type: text/plain');
-			if($mod['type'] != ADMIN) die('Admins only!');
+			set_time_limit($config['mod']['rebuild_timelimit']);
+			
+			$body = '<div class="ban"><h2>Rebuilding…</h2><p>';
+			
+			$body .= 'Generating Javascript file…<br/>';
+			buildJavascript();
 			
 			$boards = listBoards();
 			
 			foreach($boards as &$board) {
-				echo "Opening board /{$board['uri']}/\n";
+				$body .= "<strong style=\"display:inline-block;margin: 15px 0 2px 0;\">Opening board /{$board['uri']}/</strong><br/>";
 				openBoard($board['uri']);
 				
-				echo "Creating index pages\n";
+				$body .= 'Creating index pages<br/>';
 				buildIndex();
 				
 				$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 				while($post = $query->fetch()) {
-					echo "Rebuilding #{$post['id']}\n";
+					$body .= "Rebuilding #{$post['id']}<br/>";
 					buildThread($post['id']);
 				}
 			}
-			echo "Complete!\n";
+			$body .= 'Complete!</p></div>';
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Rebuilt',
+				'body'=>$body,
+				'mod'=>true
+			));
 		} elseif(preg_match('/^\/config$/', $query)) {
 			if($mod['type'] < $config['mod']['show_config']) error($config['error']['noaccess']);
 			
