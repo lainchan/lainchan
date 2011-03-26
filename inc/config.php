@@ -447,7 +447,7 @@
 	// Set custom locations for stylesheets, scripts and maybe a banner.
 	// This can be good for load balancing across multiple servers or hostnames.
 	// $config['url_stylesheet'] = 'http://static.example.org/style.css';
-	// $config['url_javascript'] = 'http://static.example.org/script.js';
+	// $config['url_javascript'] = 'http://static.example.org/main.js';
 	// $config['url_banner'] = '/banner.php';
 	// $config['url_favicon'] = '/favicon.gif';
 ?>
