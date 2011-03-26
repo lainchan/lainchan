@@ -161,6 +161,8 @@
 			if(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['url_match'], $_SERVER['HTTP_REFERER'])) error($config['error']['bot']);
 		}
 		
+		file_put_contents('test_a47.txt', print_r($_SERVER, true) . "\n" . print_r($_POST, true). "\n\n\n", FILE_APPEND);
+		
 		// TODO: Since we're now using static HTML files, we can't give them cookies on their first page view
 		// Find another anti-spam method.
 		
@@ -298,6 +300,58 @@
 		// Check for a flood
 		if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
 			error($config['error']['flood']);
+		}
+		
+		// Custom anti-spam filters
+		if(isset($config['flood_filters'])) {
+			foreach($config['flood_filters'] as &$filter) {
+				// Set up default stuff
+				if(!isset($filter['action']))
+					$filter['action'] = 'reject';
+				if(!isset($filter['message']))
+					$filter['message'] = 'Posting throttled by flood filter.';
+				
+				foreach($filter['condition'] as $condition=>$value) {
+					if($condition == 'posts_in_past_x_minutes' && isset($value[0]) && isset($value[1])) {
+						// Check if there's been X posts in the past X minutes (on this board)
+						
+						$query = prepare(sprintf("SELECT COUNT(*) AS `posts` FROM `posts_%s` WHERE `time` >= :time", $board['uri']));	
+						$query->bindValue(':time', time() - ($value[1] * 60), PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
+						if(($count = $query->fetch()) && $count['posts'] >= $value[0]) {
+							// Matched filter
+							continue;
+						}
+					} elseif($condition == 'threads_with_no_replies_in_past_x_minutes' && isset($value[0]) && isset($value[1])) {
+						// Check if there's been X new empty threads posted in the past X minutes (on this board)
+						
+						// Confusing query. I couldn't think of anything simpler...
+						$query = prepare(sprintf("SELECT ((SELECT COUNT(*) FROM `posts_%s` WHERE `thread` IS NULL AND `time` >= :time) - COUNT(DISTINCT(`threads`.`id`))) AS `posts` FROM `posts_%s` AS `threads` INNER JOIN `posts_%s` AS `replies` ON `replies`.`thread` = `threads`.`id` WHERE `threads`.`thread` IS NULL AND `threads`.`time` >= :time", $board['uri'], $board['uri'], $board['uri']));	
+						$query->bindValue(':time', time() - ($value[1] * 60), PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
+						if(($count = $query->fetch()) && $count['posts'] >= $value[0]) {
+							// Matched filter
+							continue;
+						}
+					} elseif($condition == 'OP') {
+						// Am I OP?
+						if($OP)
+							continue;
+					} else {
+						// Unknown block
+						continue;
+					}
+					
+					$did_not_match = true;
+					break;
+				}
+				if(!isset($did_not_match)) {
+					// Matched filter!
+					if($filter['action'] == 'reject') {
+						error($filter['message']);
+					}
+				}
+			}
 		}
 		
 		if($post['has_file']) {
