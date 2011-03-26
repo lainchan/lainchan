@@ -649,8 +649,21 @@
 		} elseif(preg_match('/^\/bans$/', $query)) {
 			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
 			
+			if(isset($_POST['unban'])) {
+				if($mod['type'] < $config['mod']['unban']) error($config['error']['noaccess']);
+				
+				foreach($_POST as $post => $value) {
+					if(preg_match('/^ban_(.+)$/', $post, $m)) {
+						$m[1] = str_replace('_', '.', $m[1]);
+						$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
+						$query->bindValue(':ip', $m[1]);
+						$query->execute() or error(db_error($query));
+					}
+				}
+			}
+			
 			if($mod['type'] >= $config['mod']['view_banexpired']) {
-				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY `expires` < :time, `set` DESC");
+				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			} else {
@@ -664,7 +677,7 @@
 				$body = '(There are no active bans.)';
 			} else {
 				$body = '<form action="" method="post">';
-				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Set</th><th>Expires</th><th>Staff</th><th>Actions</th></tr>';
+				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Set</th><th>Expires</th><th>Staff</th></tr>';
 				
 				while($ban = $query->fetch()) {
 					$body .=
@@ -685,7 +698,7 @@
 					'">'. $ban['ip'] . '</a></td>' .
 					
 					// Reason
-					'<td>' . $ban['reason'] . '</td>' .
+					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>none given</em>') . '</td>' .
 					
 					// Set
 					'<td style="white-space: nowrap">' . date($config['post_date'], $ban['set']) . '</td>' .
@@ -715,12 +728,16 @@
 						) .
 					'</td>' .
 					
-					'<td></td>' .
-					
 					'</tr>';
 				}
 				
-				$body .= '</table></form>';
+				$body .= '</table>' .
+				
+				($mod['type'] >= $config['mod']['unban'] ?
+					'<p style="text-align:center"><input name="unban" type="submit" value="Unban selected" /></p>'
+				: '') .
+				
+				'</form>';
 			}
 			
 			echo Element('page.html', Array(
