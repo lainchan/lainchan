@@ -6,7 +6,7 @@
 	require 'inc/user.php';
 	$step = isset($_GET['step']) ? round($_GET['step']) : 0;
 	$page = Array(
-		'index' => $config['root'],
+		'config' => $config,
 		'title' => 'Install',
 		'body' => ''
 	);
