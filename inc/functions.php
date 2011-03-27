@@ -905,7 +905,7 @@
 		}
 		
 		if($config['markup_urls']) {
-			$body = preg_replace($config['url_regex'], "<a href=\"$0\">$0</a>", $body, -1, $num_links);
+			$body = preg_replace($config['url_regex'], "<a target=\"_blank\" rel=\"nofollow\" href=\"$0\">$0</a>", $body, -1, $num_links);
 			if($num_links > $config['max_links'])
 				error($config['error']['toomanylinks']);
 		}
