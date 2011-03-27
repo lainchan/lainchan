@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `subject` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `name` varchar(40) NOT NULL,
-  `trip` varchar(45) DEFAULT NULL,
+  `trip` varchar(100) DEFAULT NULL,
   `body` text NOT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
