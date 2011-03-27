@@ -303,6 +303,7 @@
 		// Custom anti-spam filters
 		if(isset($config['flood_filters'])) {
 			foreach($config['flood_filters'] as &$filter) {
+				unset($did_not_match);
 				// Set up default stuff
 				if(!isset($filter['action']))
 					$filter['action'] = 'reject';
@@ -333,7 +334,7 @@
 						}
 					} elseif($condition == 'OP') {
 						// Am I OP?
-						if($OP)
+						if($value == $OP)
 							continue;
 					} else {
 						// Unknown block
@@ -343,11 +344,11 @@
 					$did_not_match = true;
 					break;
 				}
-				if(!isset($did_not_match)) {
-					// Matched filter!
-					if($filter['action'] == 'reject') {
-						error($filter['message']);
-					}
+			}
+			if(!isset($did_not_match)) {
+				// Matched filter!
+				if($filter['action'] == 'reject') {
+					error($filter['message']);
 				}
 			}
 		}

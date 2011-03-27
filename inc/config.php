@@ -19,7 +19,8 @@
 		'error' => Array(),
 		'dir' => Array(),
 		'mod' => Array(),
-		'spam' => Array()
+		'spam' => Array(),
+		'flood_filters' => Array()
 	);
 	// Database stuff
 	
@@ -378,28 +379,27 @@
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
-	//$config['flood_filters'] = Array(
-	//	Array(
-	//		'condition' => Array(
-	//			// 100 posts in the past 5 minutes (~20 p/m)
-	//			'posts_in_past_x_minutes' => Array(100, 5)
-	//		),
-	//		// Don't allow the user to post
-	//		'action' => 'reject',
-	//		// Display this message
-	//		'message' => 'Your post has been rejected on the suspicion of a flood attack on this board.'
+	//$config['flood_filters'][] = Array(
+	//	'condition' => Array(
+	//		// 100 posts in the past 5 minutes (~20 p/m)
+	//		'posts_in_past_x_minutes' => Array(100, 5)
 	//	),
-	//	// Another filter
-	//	Array(
-	//		'condition' => Array(
-	//			// 10 new empty threads in the past 2 minutes
-	//			'threads_with_no_replies_in_past_x_minutes' => Array(10, 2),
-	//			// Allow replies, but not new threads (ie. reject topics only).
-	//			'OP' => true
-	//		),
-	//		'action' => 'reject',
-	//		'message' => 'Your post has been rejected on the suspicion of a flood attack on this board (too many new threads); post a reply instead.'
-	//	)
+	//	// Don't allow the user to post
+	//	'action' => 'reject',
+	//	// Display this message
+	//	'message' => 'Your post has been rejected on the suspicion of a flood attack on this board.'
+	//);
+	
+	// Another filter
+	//$config['flood_filters'][] = Array(
+	//	'condition' => Array(
+	//		// 10 new empty threads in the past 2 minutes
+	//		'threads_with_no_replies_in_past_x_minutes' => Array(10, 2),
+	//		// Allow replies, but not new threads (ie. reject topics only).
+	//		'OP' => true
+	//	),
+	//	'action' => 'reject',
+	//	'message' => 'Your post has been rejected on the suspicion of a flood attack on this board (too many new threads); post a reply instead.'
 	//);
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
