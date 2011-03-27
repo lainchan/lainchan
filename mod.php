@@ -78,7 +78,8 @@
 			// Dashboard
 			$fieldset = Array(
 				'Boards' => '',
-				'Administration' => ''
+				'Administration' => '',
+				'Logout' => ''
 			);
 			
 			// Boards
@@ -103,6 +104,8 @@
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
 			
+			$fieldset['Logout'] .= '<li><a href="?/logout">Logout</a></li>';
+			
 			// TODO: Statistics, etc, in the dashboard.
 			
 			$body = '';
@@ -118,6 +121,10 @@
 				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
 				)
 			);
+		} elseif(preg_match('/^\/logout$/', $query)) {
+			destroyCookies();
+			
+			header('Location: ?/', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/log$/', $query)) {
 			if($mod['type'] < $config['mod']['modlog']) error($config['error']['noaccess']);
 			
@@ -698,7 +705,7 @@
 					'">'. $ban['ip'] . '</a></td>' .
 					
 					// Reason
-					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>none given</em>') . '</td>' .
+					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>-</em>') . '</td>' .
 					
 					// Set
 					'<td style="white-space: nowrap">' . date($config['post_date'], $ban['set']) . '</td>' .
