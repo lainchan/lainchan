@@ -458,8 +458,6 @@
 						var_dump(login($_mod['username'], $_mod['password'], false));
 						setCookies();
 					}
-					
-					$_mod = $query->fetch();
 				}
 				
 				$body = '<fieldset><legend>Edit user</legend>' . 
