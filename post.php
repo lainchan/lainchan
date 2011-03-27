@@ -347,6 +347,9 @@
 					} elseif($condition == 'body') {
 						if(preg_match($value, $post['body_nomarkup']))
 							continue;
+						} elseif($condition == 'ip') {
+						if(preg_match($value, $_SERVER['REMOTE_ADDR']))
+							continue;
 					} elseif($condition == 'OP') {
 						// Am I OP?
 						if($value == $OP)
