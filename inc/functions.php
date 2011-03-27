@@ -248,7 +248,7 @@
 						} else if (diff < 60*60*24*365) {
 							return (num = Math.round(diff/(60*60*24*7))) + " week" + (num == 1 ? "" : "s");
 						} else {
-							return (num = Math.round(diff/(60*60*365))) + " year" + (num == 1 ? "" : "s");
+							return (num = Math.round(diff/(60*60*24*365))) + " year" + (num == 1 ? "" : "s");
 						}
 					}
 					var countdown = document.getElementById("countdown");
