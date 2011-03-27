@@ -47,7 +47,9 @@
 	$config['cookies']['hash']	= 'hash';
 	// Used for moderation login
 	$config['cookies']['mod']	= 'mod';
-	// Where to set the 'path' parameter to $config['root'] when creating cookies. Recommended.
+	// Cookies "path". Defaults to $config['root']. If $config['root'] is a URL, you need to set this. Should be '/' or '/board/', depending on your installation.
+	// $config['cookies']['path'] = '/';
+	// Where to set the 'path' parameter to $config['cookies']['path'] when creating cookies. Recommended.
 	$config['cookies']['jail']	= true;
 	// How long should the cookies last (in seconds)
 	$config['cookies']['expire']= 15778463; //6 months

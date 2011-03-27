@@ -16,8 +16,8 @@
 	
 	if(!isset($_COOKIE[$config['cookies']['hash']]) || !isset($_COOKIE[$config['cookies']['time']]) || $_COOKIE[$config['cookies']['hash']] != md5($_COOKIE[$config['cookies']['time']] . $config['cookies']['salt'])) {
 		$time = time();
-		setcookie($config['cookies']['time'], $time, time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
-		setcookie($config['cookies']['hash'], md5($time . $config['cookies']['salt']), $time+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
+		setcookie($config['cookies']['time'], $time, time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
+		setcookie($config['cookies']['hash'], md5($time . $config['cookies']['salt']), $time+$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
 		$user = Array('valid' => false, 'appeared' => $time);
 	} else {
 		$user = Array('valid' => true, 'appeared' => $_COOKIE[$config['cookies']['time']]);

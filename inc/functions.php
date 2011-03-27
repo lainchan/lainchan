@@ -39,6 +39,9 @@
 					'\?\/.+' .
 				')$/i';
 		
+		if(!isset($config['cookies']['path']))
+			$config['cookies']['path'] = $config['root'];
+			
 		if(!isset($config['dir']['static']))
 			$config['dir']['static'] = $config['root'] . 'static/';
 		
