@@ -211,7 +211,7 @@
 		
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		if($post['has_file'])
-			$post['filename'] = get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name'];
+			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
 		
 		if($config['force_body'] && empty($post['body']))
 			error($config['error']['tooshort_body']);
