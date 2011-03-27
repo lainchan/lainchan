@@ -374,7 +374,7 @@
 			}
 			if(!isset($did_not_match)) {
 				// Matched filter!
-				if($filter['action'] == 'reject') {
+				if(isset($filter) && $filter['action'] == 'reject') {
 					error($filter['message']);
 				}
 			}
