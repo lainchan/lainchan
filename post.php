@@ -347,7 +347,16 @@
 					} elseif($condition == 'body') {
 						if(preg_match($value, $post['body_nomarkup']))
 							continue;
-						} elseif($condition == 'ip') {
+					} elseif($condition == 'extension') {
+						if($post['has_file'] && preg_match($value, $post['extension']))
+							continue;
+					} elseif($condition == 'filename') {
+						if($post['has_file'] && preg_match($value, $post['filename']))
+							continue;
+					} elseif($condition == 'has_file') {
+						if($value == $post['has_file'])
+							continue;
+					} elseif($condition == 'ip') {
 						if(preg_match($value, $_SERVER['REMOTE_ADDR']))
 							continue;
 					} elseif($condition == 'OP') {
