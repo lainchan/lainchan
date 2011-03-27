@@ -332,6 +332,21 @@
 							// Matched filter
 							continue;
 						}
+					} elseif($condition == 'name') {
+						if(preg_match($value, $post['name']))
+							continue;
+					} elseif($condition == 'trip') {
+						if(preg_match($value, $post['trip']))
+							continue;
+					} elseif($condition == 'email') {
+						if(preg_match($value, $post['email']))
+							continue;
+					} elseif($condition == 'subject') {
+						if(preg_match($value, $post['subject']))
+							continue;
+					} elseif($condition == 'body') {
+						if(preg_match($value, $post['body_nomarkup']))
+							continue;
 					} elseif($condition == 'OP') {
 						// Am I OP?
 						if($value == $OP)

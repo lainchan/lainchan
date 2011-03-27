@@ -379,6 +379,7 @@
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
+	// See http://tinyboard.org/wiki/index.php?title=Flood_filters for more information.
 	//$config['flood_filters'][] = Array(
 	//	'condition' => Array(
 	//		// 100 posts in the past 5 minutes (~20 p/m)
