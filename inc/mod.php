@@ -38,7 +38,7 @@
 		if(!$mod) error('setCookies() was called for a non-moderator!');
 		
 		// $config['cookies']['mod'] contains username:hash
-		setcookie($config['cookies']['mod'], $mod['username'] . ':' . $mod['hash'], time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
+		setcookie($config['cookies']['mod'], $mod['username'] . ':' . $mod['hash'], time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
 		
 		// Put $mod in the session
 		$_SESSION['mod'] = $mod;
@@ -51,7 +51,7 @@
 	function destroyCookies() {
 		global $config;
 		// Delete the cookies
-		setcookie($config['cookies']['mod'], 'deleted', time()-$config['cookies']['expire'], $config['cookies']['jail']?$config['root']:'/', null, false, true);
+		setcookie($config['cookies']['mod'], 'deleted', time()-$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
 		
 		// Unset the session
 		unset($_SESSION['mod']);

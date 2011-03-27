@@ -306,7 +306,8 @@
 							:'')
 						: ''
 						) .
-						($mod['type'] >= $config['mod']['editusers'] ?
+						($mod['type'] >= $config['mod']['editusers'] ||
+						($mod['type'] >= $config['mod']['change_password'] && $_mod['id'] == $mod['id'])?
 							'<a class="unimportant" style="margin-left:5px;float:right" href="?/users/' . $_mod['id'] . '">[edit]</a>'
 						: '' ) .
 						($mod['type'] >= $config['mod']['create_pm'] ?
@@ -416,7 +417,7 @@
 				header('Location: ?/users', true, $config['redirect_http']);
 			} else {
 				// Edit user
-				if($mod['type'] < $config['mod']['editusers']) error($config['error']['noaccess']);
+				if($mod['type'] < $config['mod']['editusers'] && $mod['type'] < $config['mod']['change_password']) error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
 				$query->bindValue(':id', $modID, PDO::PARAM_INT);
@@ -426,12 +427,16 @@
 					error($config['error']['404']);
 				}
 				
-				if(isset($_POST['username']) && isset($_POST['password'])) {
-					$query = prepare("UPDATE `mods` SET `username` = :username WHERE `id` = :id");
-					$query->bindValue(':username', $_POST['username']);
-					$query->bindValue(':id', $modID, PDO::PARAM_INT);
-					$query->execute() or error(db_error($query));
-					
+				if($mod['type'] < $config['mod']['editusers'] && !($mod['type'] >= $config['mod']['change_password'] && $mod['id'] == $_mod['id'] && $change_password_only = true))
+					error($config['error']['noaccess']);
+				
+				if((isset($_POST['username']) && isset($_POST['password'])) || (isset($change_password_only) && isset($_POST['password']))) {
+					if(!isset($change_password_only)) {
+						$query = prepare("UPDATE `mods` SET `username` = :username WHERE `id` = :id");
+						$query->bindValue(':username', $_POST['username']);
+						$query->bindValue(':id', $modID, PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
+					}
 					if(!empty($_POST['password'])) {
 						$query = prepare("UPDATE `mods` SET `password` = :password WHERE `id` = :id");
 						$query->bindValue(':password', sha1($_POST['password']));
@@ -444,6 +449,16 @@
 					$query->bindValue(':id', $modID, PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
 					
+					if(!$_mod = $query->fetch()) {
+						error($config['error']['404']);
+					}
+				
+					if($_mod['id'] == $mod['id']) {
+						// Changed own password. Update cookies
+						var_dump(login($_mod['username'], $_mod['password'], false));
+						setCookies();
+					}
+					
 					$_mod = $query->fetch();
 				}
 				
@@ -454,7 +469,13 @@
 				
 				'<table>' .
 				
-				'<tr><th>Username</th><td><input size="20" maxlength="30" type="text" name="username" value="' . $_mod['username'] . '" autocomplete="off" /></td></tr>' .
+				'<tr><th>Username</th><td>' . 
+				
+				(isset($change_password_only) ?
+					$_mod['username']
+				: '<input size="20" maxlength="30" type="text" name="username" value="' . $_mod['username'] . '" autocomplete="off" />') .
+				
+				'</td></tr>' .
 				'<tr><th>Password <span class="unimportant">(new; optional)</span></th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
 				'</table>' .
 				

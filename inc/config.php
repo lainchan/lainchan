@@ -321,6 +321,8 @@
 	$config['mod']['promoteusers'] = ADMIN;
 	// Edit any users' login information
 	$config['mod']['editusers'] = ADMIN;
+	// Change user's own password
+	$config['mod']['change_password'] = JANITOR;
 	// Delete a user
 	$config['mod']['deleteusers'] = ADMIN;
 	// Create a user
