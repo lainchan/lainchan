@@ -128,9 +128,15 @@
 		} elseif(preg_match('/^\/log$/', $query)) {
 			if($mod['type'] < $config['mod']['modlog']) error($config['error']['noaccess']);
 			
-			$body = '<table class="modlog"><tr><th>User</th><th>IP address</th><th>Ago</th><th>Action</th></tr>';
+			$boards = Array();
+			$_boards = listBoards();
+			foreach($_boards as &$_b) {
+				$boards[$_b['id']] = $_b['uri'];
+			}
 			
-			$query = prepare("SELECT `id`,`username`,`ip`,`time`,`text` FROM `modlogs` INNER JOIN `mods` ON `mod` = `id` ORDER BY `time` DESC LIMIT :limit");
+			$body = '<table class="modlog"><tr><th>User</th><th>IP address</th><th>Ago</th><th>Board</th><th>Action</th></tr>';
+			
+			$query = prepare("SELECT `mods`.`id`,`username`,`ip`,`board`,`time`,`text` FROM `modlogs` INNER JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :limit");
 			$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
@@ -143,6 +149,12 @@
 				'<td class="minimal"><a href="?/users/' . $log['id'] . '">' . $log['username'] . '</a></td>' .
 				'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
 				'<td class="minimal">' . ago($log['time']) . '</td>' .
+				'<td class="minimal">' .
+					($log['board'] ?
+						(isset($boards[$log['board']]) ?
+							'<a href="?/' . $boards[$log['board']] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $boards[$log['board']]) . '</a></td>'
+						: '<em>deleted?</em>')
+					: '-') .
 				'<td>' . $log['text'] . '</td>' .
 				'</tr>';
 			}
@@ -173,11 +185,16 @@
 				$query = prepare("DELETE FROM `pms` WHERE `id` = :id");
 				$query->bindValue(':id', $id, PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
+				
+				modLog('Deleted a PM');
+				
 				header('Location: ?/', true, $config['redirect_http']);
 			} else {
 				$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
 				$query->bindValue(':id', $id, PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
+				
+				modLog('Read a PM');
 				
 				$body = '<form action="" method="post"><table><th>From</th><td>' .
 					($mod['type'] >= $config['mod']['editusers'] ?
@@ -233,6 +250,8 @@
 				$query->bindValue(':message', $message);
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
+				
+				modLog('Sent a PM to ' . $to['username']);
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
@@ -399,6 +418,8 @@
 					$query = prepare("DELETE FROM `mods` WHERE `id` = :id");
 					$query->bindValue(':id', $modID, PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
+					
+					modLog('Deleted user #' . $modID);
 				} else {
 					// Promote/demote
 					if($mod['type'] < $config['mod']['promoteusers']) error($config['error']['noaccess']);
@@ -436,6 +457,9 @@
 						$query->bindValue(':username', $_POST['username']);
 						$query->bindValue(':id', $modID, PDO::PARAM_INT);
 						$query->execute() or error(db_error($query));
+						modLog('Edited login details for user "' . $_mod['username'] . '"');
+					} else {
+						modLog('Changed own password');
 					}
 					if(!empty($_POST['password'])) {
 						$query = prepare("UPDATE `mods` SET `password` = :password WHERE `id` = :id");
@@ -601,6 +625,8 @@
 			if(isset($matches[2]) && $matches[2] == '/delete') {
 				if($mod['type'] < $config['mod']['deleteboard']) error($config['error']['noaccess']);
 				// Delete board
+				
+				modLog('Deleted board ' . sprintf($config['board_abbreviation'], $board['uri']));
 				
 				// Delete entire board directory
 				rrmdir($board['uri'] . '/');
@@ -799,6 +825,8 @@
 				}
 			}
 			$body .= 'Complete!</p></div>';
+			
+			modLog('Rebuilt everything');
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
@@ -1191,7 +1219,7 @@
 				}
 				
 				// Record the action
-				modLog("Created a ban for {$_POST['ip']} with reason {$_POST['reason']}");
+				modLog('Created a ' . ($expire ? $expire . ' second' : 'permanent') . " ban for {$_POST['ip']} with " . (!empty($_POST['reason']) ? "reason \"{$_POST['reason']}\"" : 'no reason'));
 				
 				$query->execute() or error(db_error($query));
 				

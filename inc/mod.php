@@ -74,12 +74,16 @@
 	}
 	
 	function modLog($action) {
-		global $mod;
-		$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :time, :text)");
+		global $mod, $board;
+		$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :board, :time, :text)");
 		$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':time', time(), PDO::PARAM_INT);
 		$query->bindValue(':text', $action);
+		if(isset($board))
+			$query->bindValue(':board', $board['id']);
+		else
+			$query->bindValue(':board', null, PDO::PARAM_NULL);
 		$query->execute() or error(db_error($query));
 	}
 	

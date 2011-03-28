@@ -105,6 +105,7 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 CREATE TABLE IF NOT EXISTS `modlogs` (
   `mod` int(11) NOT NULL,
   `ip` varchar(45) NOT NULL,
+  `board` int(11) NOT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
