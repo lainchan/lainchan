@@ -826,6 +826,7 @@
 			}
 			$body .= 'Complete!</p></div>';
 			
+			unset($board);
 			modLog('Rebuilt everything');
 			
 			echo Element('page.html', Array(
