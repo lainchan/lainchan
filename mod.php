@@ -117,8 +117,8 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'Dashboard',
-				'body'=>$body
-				//,'mod'=>true /* All 'mod' does, at this point, is put the "Return to dashboard" link in. */
+				'body'=>$body,
+				'__mod'=>true
 				)
 			);
 		} elseif(preg_match('/^\/logout$/', $query)) {
@@ -576,7 +576,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Report queue',
+				'title'=>'Report queue (' . $count['count'] . ')',
 				'body'=>$body,
 				'mod'=>true
 			));

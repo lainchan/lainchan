@@ -170,7 +170,7 @@
 		global $config;
 		
 		// Small little hack to add the PM system
-		if(function_exists('create_pm_header') && @$options['mod']) {
+		if(function_exists('create_pm_header') && (@$options['mod'] || @$options['__mod'])) {
 			$options['pm'] = create_pm_header();
 		}
 		
