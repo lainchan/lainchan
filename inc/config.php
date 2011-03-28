@@ -477,5 +477,7 @@
 	// $config['url_javascript'] = 'http://static.example.org/main.js';
 	// $config['url_banner'] = '/banner.php';
 	// $config['url_favicon'] = '/favicon.gif';
-
+	
+	// Meta keywords. It's probably best to include these in per-board configurations.
+	//$config['meta_keywords'] = 'chan,anonymous discussion,imageboard,tinyboard';
 ?>
