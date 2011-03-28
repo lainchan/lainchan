@@ -267,7 +267,7 @@
 		$post['name'] = $trip[0];
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
 		
-		if($post['email'] == 'noko') {
+		if(strtolower($post['email']) == 'noko') {
 			$noko = true;
 			$post['email'] = '';
 		} else $noko = false;
