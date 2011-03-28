@@ -1119,6 +1119,8 @@
 				deletePost($post['id'], false);
 			}
 			
+			buildIndex();
+			
 			if(isset($_SERVER['HTTP_REFERER']))
 				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 			else
