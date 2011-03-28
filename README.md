@@ -21,4 +21,4 @@ Visit the development wiki at [http://tinyboard.org/wiki/][o] for help.
 
 ## License
 See [LICENSE.md][l] for the license.
-[l]: http://github.com/savetheinternet/Tinyboard/blob/master/README.md
+[l]: http://github.com/savetheinternet/Tinyboard/blob/master/LICENSE.md
