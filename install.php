@@ -310,8 +310,10 @@
 		preg_match_all("/((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
 		$queries = $queries[1];
 		
+		$sql_errors = '';
 		foreach($queries as &$query) {
-			query($query) or error(db_error());
+			if(!query($query))
+				$sql_errors .= '<li>' . db_error() . '</li>';
 		}
 		
 		$boards = listBoards();
@@ -322,13 +324,26 @@
 		
 		sql_close();
 		
-		touch($config['has_installed'], 0777);
-		
 		$page['title'] = 'Installation complete';
 		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
 		
+		if(!empty($sql_errors)) {
+			$page['body'] .= '<div class="ban"><h2>SQL errors</h2><p>SQL errors were encountered when trying to install the database. This may be the result of using a database which is already occupied with a Tinyboard installation; if so, you can probably ignore this.</p><p>The errors encountered were:</p><ul>' . $sql_errors . '</ul><p><a href="?step=5">Ignore errors and complete installation.</a></p></div>';
+		} else {
+			touch($config['has_installed'], 0777);
+			if(!@unlink(__FILE__)) {
+				$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
+			}
+		}
+		
+		echo Element('page.html', $page);
+	} elseif($step == 5) {
+		$page['title'] = 'Installation complete';
+		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
+		
+		touch($config['has_installed'], 0777);
 		if(!@unlink(__FILE__)) {
-			$page['body'] = '<p style="text-align:center">I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p>';
+			$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
 		}
 		
 		echo Element('page.html', $page);
