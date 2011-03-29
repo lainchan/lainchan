@@ -250,6 +250,8 @@
 	$config['mod']['recent_reports'] = 5;
 	// How many actions to show per page in the moderation log
 	$config['mod']['modlog_page'] = 350;
+	// Maximum number of results to display for a search, per board
+	$config['mod']['search_results'] = 75;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -333,6 +335,8 @@
 	$config['mod']['create_pm'] = JANITOR;
 	// Rebuild everything
 	$config['mod']['rebuild'] = ADMIN;
+	// Search through posts
+	$config['mod']['search'] = JANITOR;
 	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;

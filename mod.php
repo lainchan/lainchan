@@ -79,6 +79,7 @@
 			$fieldset = Array(
 				'Boards' => '',
 				'Administration' => '',
+				'Search' => '',
 				'Logout' => ''
 			);
 			
@@ -102,6 +103,16 @@
 			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
+			}
+			
+			if($mod['type'] >= $config['mod']['search']) {
+				$fieldset['Search'] .= 	'<li><form style="display:inline" action="?/search" method="post">' .
+				'<label style="display:inline" for="search">Phrase:</label> ' .
+					'<input id="search" name="search" type="text" size="35" />' .
+					'<input type="submit" value="Search" />' .
+				'</form>' .
+					'<p class="unimportant">(Search is case-insensitive but not based on keywords.)</p>' .
+				'</li>';
 			}
 			
 			$fieldset['Logout'] .= '<li><a href="?/logout">Logout</a></li>';
@@ -283,11 +294,69 @@
 				echo Element('page.html', Array(
 					'config'=>$config,
 					'title'=>'New PM for ' . htmlentities($to['username']),
-					'body'=>$body
-					,'mod'=>true
+					'body'=>$body,
+					'mod'=>true
 					)
 				);
 			}
+		} elseif(preg_match('/^\/search$/', $query)) {
+			if($mod['type'] < $config['mod']['search']) error($config['error']['noaccess']);
+			
+			$body = '<div class="ban"><h2>Search</h2><form style="display:inline" action="?/search" method="post">' .
+				'<p><label style="display:inline" for="search">Phrase:</label> ' .
+					'<input id="search" name="search" type="text" size="35" ' .
+						(isset($_POST['search']) ? 'value="' . htmlentities($_POST['search']) . '" ' : '') .
+					'/>' .
+					'<input type="submit" value="Search" />' .
+				'</p></form>' .
+					'<p><span class="unimportant">(Search is case-insensitive but not based on keywords.)</span></p>' .
+				'</div>';
+			
+			if(isset($_POST['search']) && !empty($_POST['search'])) {
+				$phrase = $_POST['search'];
+				$_body = '';
+				
+				$boards = listBoards();
+				foreach($boards as &$_b) {
+					openBoard($_b['uri']);
+					
+					$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `body` LIKE :query ORDER BY `time` DESC LIMIT :limit", $board['uri']));
+					$query->bindValue(':query', "%{$phrase}%");
+					$query->bindValue(':limit', $config['mod']['search_results'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					$temp = '';
+					while($post = $query->fetch()) {
+						if(!$post['thread']) {
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], '?/', $mod, false);
+						} else {
+							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], '?/', $mod);
+						}
+						$temp .= $po->build(true) . '<hr/>';
+					}
+					
+					if(!empty($temp))
+						$_body .= '<fieldset><legend>' . $query->rowCount() . ' result' . ($query->rowCount() != 1 ? 's' : '') . ' on <a href="?/' .
+								sprintf($config['board_path'], $board['uri']) . $config['file_index'] .
+						'">' .
+						sprintf($config['board_abbreviation'], $board['uri']) . ' - ' . $board['title'] .
+						'</a></legend>' . $temp . '</fieldset>';
+				}
+				
+				$body .= '<hr/>';
+				if(!empty($_body))
+					$body .= $_body;
+				else
+					$body .= '<p style="text-align:center" class="unimportant">(No results.)</p>';
+			}
+				
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Search',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
 		} elseif(preg_match('/^\/users$/', $query)) {
 			if($mod['type'] < $config['mod']['manageusers']) error($config['error']['noaccess']);
 			
