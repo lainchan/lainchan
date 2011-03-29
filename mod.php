@@ -317,7 +317,7 @@
 				$_body = '';
 				
 				// Remove SQL wildcard
-				$phrase = str_replace('%', '%%', $phrase);
+				$phrase = str_replace('%', '!%', $phrase);
 				
 				// Use asterisk as wildcard to suit convention
 				$phrase = str_replace('*', '%', $phrase);
@@ -345,7 +345,7 @@
 					if(!empty($like))
 						$like .= ' AND ';
 					$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
-					$like .= '`body` LIKE ' . $phrase;
+					$like .= '`body` LIKE ' . $phrase . ' ESCAPE \'!\'';
 				}
 				
 				$like = str_replace('%', '%%', $like);
