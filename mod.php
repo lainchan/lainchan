@@ -111,7 +111,7 @@
 					'<input id="search" name="search" type="text" size="35" />' .
 					'<input type="submit" value="Search" />' .
 				'</form>' .
-					'<p class="unimportant">(Search is case-insensitive but not based on keywords.)</p>' .
+					'<p class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes".)</p>' .
 				'</li>';
 			}
 			
@@ -309,19 +309,55 @@
 					'/>' .
 					'<input type="submit" value="Search" />' .
 				'</p></form>' .
-					'<p><span class="unimportant">(Search is case-insensitive but not based on keywords.)</span></p>' .
+					'<p><span class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes".)</span></p>' .
 				'</div>';
 			
 			if(isset($_POST['search']) && !empty($_POST['search'])) {
 				$phrase = $_POST['search'];
 				$_body = '';
 				
+				// Remove SQL wildcard
+				$phrase = str_replace('%', '%%', $phrase);
+				
+				// Use asterisk as wildcard to suit convention
+				$phrase = str_replace('*', '%', $phrase);
+				
+				// wat "this is a test" "niggers and jews" hello world
+				
+				$like = '';
+				
+				$match = Array();
+				
+				// Find exact phrases
+				if(preg_match_all('/"(.+?)"/', $phrase, $m)) {
+					foreach($m[1] as &$quote) {
+						$phrase = str_replace("\"{$quote}\"", '', $phrase);
+						$match[] = $pdo->quote($quote);
+					}
+				}
+				
+				$words = explode(' ', $phrase);
+				foreach($words as &$word) {
+					if(empty($word))
+						continue;
+					$match[] = $pdo->quote($word);
+				}
+				
+				$like = '';
+				foreach($match as &$phrase) {
+					if(!empty($like))
+						$like .= ' AND ';
+					$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
+					$like .= '`body` LIKE ' . $phrase;
+				}
+				
+				$like = str_replace('%', '%%', $like);
+				
 				$boards = listBoards();
 				foreach($boards as &$_b) {
 					openBoard($_b['uri']);
 					
-					$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `body` LIKE :query ORDER BY `time` DESC LIMIT :limit", $board['uri']));
-					$query->bindValue(':query', "%{$phrase}%");
+					$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE " . $like . " ORDER BY `time` DESC LIMIT :limit", $board['uri']));
 					$query->bindValue(':limit', $config['mod']['search_results'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
 					
