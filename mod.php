@@ -111,7 +111,7 @@
 					'<input id="search" name="search" type="text" size="35" />' .
 					'<input type="submit" value="Search" />' .
 				'</form>' .
-					'<p class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes".)</p>' .
+					'<p class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk ("*") for wildcard.)</p>' .
 				'</li>';
 			}
 			
@@ -309,7 +309,7 @@
 					'/>' .
 					'<input type="submit" value="Search" />' .
 				'</p></form>' .
-					'<p><span class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes".)</span></p>' .
+					'<p><span class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk ("*") for wildcard.)</span></p>' .
 				'</div>';
 			
 			if(isset($_POST['search']) && !empty($_POST['search'])) {
