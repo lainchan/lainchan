@@ -322,10 +322,7 @@
 				// Use asterisk as wildcard to suit convention
 				$phrase = str_replace('*', '%', $phrase);
 				
-				// wat "this is a test" "niggers and jews" hello world
-				
 				$like = '';
-				
 				$match = Array();
 				
 				// Find exact phrases
