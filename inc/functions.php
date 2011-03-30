@@ -213,7 +213,7 @@
 				$query->execute() or error(db_error($query));
 				
 				if($config['ban_range']) {
-					$query = prepare("DELETE FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') AND `expires` = :expires LIMIT 1");
+					$query = prepare("DELETE FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9a-f]*'), '$') AND `expires` = :expires LIMIT 1");
 					$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 					$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
