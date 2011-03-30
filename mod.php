@@ -88,7 +88,40 @@
 			$fieldset['Boards'] .= ulBoards();
 			
 			if($mod['type'] >= $config['mod']['noticeboard']) {
-				$fieldset['Noticeboard'] .= 	'<li><a href="?/noticeboard">View previous entries</a></li>';
+				$query = prepare("SELECT * FROM `noticeboard` ORDER BY `id` DESC LIMIT :limit");
+				$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				$fieldset['Noticeboard'] .= '<li>';
+				
+				$_body = '';
+				while($notice = $query->fetch()) {
+					$m_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
+					$m_query->bindValue(':id', $notice['mod'], PDO::PARAM_INT);
+					$m_query->execute() or error(db_error($m_query));
+					if(!$_mod = $m_query->fetch()) {
+						$_mod = Array('username' => '<em>???</em>');
+					}
+					
+					$_body .= '<li><a href="?/noticeboard#' .
+						$notice['id'] .
+					'">' .
+					($notice['subject'] ?
+						$notice['subject']
+					:
+						'<em>no subject</em>'
+					) .
+				'</a><span class="unimportant"> — by ' .
+					$_mod['username'] .
+				' at ' .
+					date($config['post_date'], $notice['time']) .
+				'</span></li>';
+				}
+				if(!empty($_body)) {
+					$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
+				}
+				
+				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">View all entires</a></li>';
 			}
 			
 			if($mod['type'] >= $config['mod']['reports']) {
@@ -197,7 +230,7 @@
 			$body = '';
 			
 			if($mod['type'] >= $config['mod']['noticeboard_post']) {
-				if(isset($_POST['subject']) && isset($_POST['body'])) {
+				if(isset($_POST['subject']) && isset($_POST['body']) && !empty($_POST['body'])) {
 					$query = prepare("INSERT INTO `noticeboard` VALUES (NULL, :mod, :time, :subject, :body)");
 					$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
 					$query->bindvalue(':time', time(), PDO::PARAM_INT);
@@ -239,7 +272,7 @@
 					($mod['type'] >= $config['mod']['noticeboard_delete'] ?
 						'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a>'
 					: '') .
-				'</span><h2>' .
+				'</span><h2 id="' . $notice['id'] . '">' .
 					($notice['subject'] ?
 						$notice['subject']
 					:

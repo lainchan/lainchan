@@ -254,6 +254,8 @@
 	$config['mod']['search_results'] = 75;
 	// Maximum number of notices to display on the moderator noticeboard
 	$config['mod']['noticeboard_display'] = 50;
+	// Number of entries to summarize and display on the dashboard
+	$config['mod']['noticeboard_dashboard'] = 5;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
