@@ -78,6 +78,7 @@
 			// Dashboard
 			$fieldset = Array(
 				'Boards' => '',
+				'Noticeboard' => '',
 				'Administration' => '',
 				'Search' => '',
 				'Logout' => ''
@@ -85,6 +86,10 @@
 			
 			// Boards
 			$fieldset['Boards'] .= ulBoards();
+			
+			if($mod['type'] >= $config['mod']['noticeboard']) {
+				$fieldset['Noticeboard'] .= 	'<li><a href="?/noticeboard">View previous entries</a></li>';
+			}
 			
 			if($mod['type'] >= $config['mod']['reports']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/reports">Report queue</a></li>';
@@ -174,6 +179,83 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'Moderation log',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
+		} elseif(preg_match('/^\/noticeboard\/delete\/(\d+)$/', $query, $match)) {
+			if($mod['type'] < $config['mod']['noticeboard_delete']) error($config['error']['noaccess']);
+			
+			$query = prepare("DELETE FROM `noticeboard` WHERE `id` = :id");
+			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			header('Location: ?/noticeboard', true, $config['redirect_http']);
+		} elseif(preg_match('/^\/noticeboard$/', $query)) {
+			if($mod['type'] < $config['mod']['noticeboard']) error($config['error']['noaccess']);
+			
+			$body = '';
+			
+			if($mod['type'] >= $config['mod']['noticeboard_post']) {
+				if(isset($_POST['subject']) && isset($_POST['body'])) {
+					$query = prepare("INSERT INTO `noticeboard` VALUES (NULL, :mod, :time, :subject, :body)");
+					$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+					$query->bindvalue(':time', time(), PDO::PARAM_INT);
+					$query->bindValue(':subject', utf8tohtml($_POST['subject']));
+					
+					markup($_POST['body']);
+					$query->bindValue(':body', $_POST['body']);
+					$query->execute() or error(db_error($query));
+				}
+				
+				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
+				'<tr>' .
+					'<th><label for="subject">Name</label></th>' .
+					'<td>' . $mod['username'] . '</td>' .
+				'</tr><tr>' .
+					'<th>Subject</th>' .
+					'<td><input type="text" size="55" name="subject" id="subject" /></td>' .
+				'</tr><tr>' .
+					'<th>Body</th>' .
+					'<td><textarea name="body" style="width:100%;height:100px"></textarea></td>' .
+				'</tr><tr>' .
+					'<td></td><td><input type="submit" value="Post to noticeboard" /></td>' .
+				'</tr></table>' .
+				'</form></fieldset>';
+			}
+			
+			$query = prepare("SELECT * FROM `noticeboard` ORDER BY `id` DESC LIMIT :limit");
+			$query->bindValue(':limit', $config['mod']['noticeboard_display'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			while($notice = $query->fetch()) {
+				$m_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
+				$m_query->bindValue(':id', $notice['mod'], PDO::PARAM_INT);
+				$m_query->execute() or error(db_error($m_query));
+				if(!$_mod = $m_query->fetch()) {
+					$_mod = Array('username' => '<em>???</em>');
+				}
+			
+				$body .= '<div class="ban">' .
+					($mod['type'] >= $config['mod']['noticeboard_delete'] ?
+						'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a>'
+					: '') .
+				'</span><h2>' .
+					($notice['subject'] ?
+						$notice['subject']
+					:
+						'<em>no subject</em>'
+					) .
+				'<span class="unimportant"> — by ' .
+					$_mod['username'] .
+				' at ' .
+					date($config['post_date'], $notice['time']) .
+				'</span></h2><p>' . $notice['body'] . '</p></div>';
+			}
+			
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Noticeboard',
 				'body'=>$body,
 				'mod'=>true
 				)

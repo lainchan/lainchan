@@ -204,3 +204,22 @@ CREATE TABLE IF NOT EXISTS `robot` (
 -- Dumping data for table `robot`
 --
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `noticeboard`
+--
+
+CREATE TABLE IF NOT EXISTS `noticeboard` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mod` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `subject` text NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `noticeboard`
+--

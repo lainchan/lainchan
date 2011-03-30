@@ -252,6 +252,8 @@
 	$config['mod']['modlog_page'] = 350;
 	// Maximum number of results to display for a search, per board
 	$config['mod']['search_results'] = 75;
+	// Maximum number of notices to display on the moderator noticeboard
+	$config['mod']['noticeboard_display'] = 50;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -337,6 +339,12 @@
 	$config['mod']['rebuild'] = ADMIN;
 	// Search through posts
 	$config['mod']['search'] = JANITOR;
+	// Read the moderator noticeboard
+	$config['mod']['noticeboard'] = JANITOR;
+	// Post to the moderator noticeboard
+	$config['mod']['noticeboard_post'] = MOD;
+	// Delete entries from the noticeboard
+	$config['mod']['noticeboard_delete'] = ADMIN;
 	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
