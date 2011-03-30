@@ -155,7 +155,6 @@
 				$log['text'] = htmlentities($log['text']);
 				$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
 				
-				
 				$body .= '<tr>' .
 				'<td class="minimal"><a href="?/users/' . $log['id'] . '">' . $log['username'] . '</a></td>' .
 				'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
@@ -315,6 +314,9 @@
 			if(isset($_POST['search']) && !empty($_POST['search'])) {
 				$phrase = $_POST['search'];
 				$_body = '';
+				
+				// Escape escape character
+				$phrase = str_replace('!', '!!', $phrase);
 				
 				// Remove SQL wildcard
 				$phrase = str_replace('%', '!%', $phrase);
@@ -700,12 +702,12 @@
 			} else {
 				if($mod['type'] < $config['mod']['report_dismiss']) error($config['error']['noaccess']);
 				
-				$query = prepare("SELECT `post` FROM `reports` WHERE `id` = :id");
+				$query = prepare("SELECT `post`, `board` FROM `reports` WHERE `id` = :id");
 				$query->bindValue(':id', $matches[1], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
 				if($report = $query->fetch()) {
-					modLog('Dismissed a report for post #' . $report['post']);
+					modLog('Dismissed a report for post #' . $report['post'], $report['board']);
 					
 					$query = prepare("DELETE FROM `reports` WHERE `post` = :post");
 					$query->bindValue(':post', $report['post'], PDO::PARAM_INT);
