@@ -462,6 +462,10 @@
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
 	
+	// Enable IP range bans (eg. "127.*.0.1", "127.0.0.*", and "12*.0.0.1" all match "127.0.0.1").
+	// A little more load on the database
+	$config['ban_range']	= true;
+	
 	// Custom stylesheets available. The prefix for each stylesheet URI is defined below.
 	$config['stylesheets'] = Array(
 		// Stylesheet name => URI

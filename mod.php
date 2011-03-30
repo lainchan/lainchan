@@ -945,7 +945,7 @@
 			}
 			
 			if($query->rowCount() < 1) {
-				$body = '(There are no active bans.)';
+				$body = '<p style="text-align:center" class="unimportant">(There are no active bans.)</p>';
 			} else {
 				$body = '<form action="" method="post">';
 				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Set</th><th>Expires</th><th>Staff</th></tr>';
@@ -964,9 +964,13 @@
 					'<input type="checkbox" name="ban_' . $ban['ip'] . '" id="ban_' . $ban['ip'] . '" /> ' .
 					
 					// IP address
-					'<a href="?/IP/' .
-						$ban['ip'] .
-					'">'. $ban['ip'] . '</a></td>' .
+					(preg_match('/^(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')$/', $ban['ip']) ?
+						'<a href="?/IP/' .
+							$ban['ip'] .
+						'">'. $ban['ip'] . '</a>'
+					: $ban['ip']) .
+					
+					'</td>' .
 					
 					// Reason
 					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>-</em>') . '</td>' .

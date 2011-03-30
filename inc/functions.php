@@ -195,9 +195,14 @@
 			return;
 		}
 		
-		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip LIMIT 1");
+		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->execute() or error(db_error($query));
+		if($query->rowCount() < 1 && $config['ban_range']) {
+			$query = prepare("SELECT * FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->execute() or error(db_error($query));
+		}
 		
 		if($ban = $query->fetch()) {
 			if($ban['expires'] && $ban['expires'] < time()) {
