@@ -358,3 +358,9 @@ div.top_notice {
 	text-align: center;
 	margin: 5px auto;
 }
+span.public_ban {
+	display: block;
+	color: red;
+	font-weight: bold;
+	margin-top: 15px;
+}
