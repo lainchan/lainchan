@@ -256,6 +256,12 @@
 	$config['mod']['noticeboard_display'] = 50;
 	// Number of entries to summarize and display on the dashboard
 	$config['mod']['noticeboard_dashboard'] = 5;
+	// Default public ban message
+	$config['mod']['default_ban_message'] = 'USER WAS BANNED FOR THIS POST';
+	// What to append to the post for public bans ("%s" is the message)
+	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
+	// Wait indefinitely when rebuilding everything
+	$config['mod']['rebuild_timelimit'] = 0;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -347,9 +353,8 @@
 	$config['mod']['noticeboard_post'] = MOD;
 	// Delete entries from the noticeboard
 	$config['mod']['noticeboard_delete'] = ADMIN;
-	
-	// Wait indefinitely when rebuilding everything
-	$config['mod']['rebuild_timelimit'] = 0;
+	// Public ban messages; attached to posts
+	$config['mod']['public_ban'] = MOD;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

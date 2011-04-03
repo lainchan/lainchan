@@ -146,11 +146,12 @@
 		return $body;
 	}
 	
-	function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $board=false) {
+	function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $board=false, $allow_public = false) {
+		global $config, $mod;
 		return '<fieldset><legend>New ban</legend>' . 
 					'<form action="?/ban" method="post">' . 
 						($continue ? '<input type="hidden" name="continue" value="' . htmlentities($continue) . '" />' : '') .
-						($delete ? '<input type="hidden" name="delete" value="' . htmlentities($delete) . '" />' : '') .
+						($delete || $allow_public ? '<input type="hidden" name="' . (!$allow_public ? 'delete' : 'post') . '" value="' . htmlentities($delete) . '" />' : '') .
 						($board ? '<input type="hidden" name="board" value="' . htmlentities($board) . '" />' : '') .
 						'<table>' .
 						'<tr>' . 
@@ -167,6 +168,21 @@
 								htmlentities($reason) .
 							'</textarea></td>' .
 						'</tr>' . 
+						($mod['type'] >= $config['mod']['public_ban'] && $allow_public ?
+							'<tr>' . 
+								'<th><label for="message">Message</label></th>' .
+								'<td><input type="checkbox" id="public_message" name="public_message"/>' .
+								' <input type="text" name="message" id="message" size="35" maxlength="200" value="' . htmlentities($config['mod']['default_ban_message']) . '" />' .
+								' <span class="unimportant">(public; attached to post)</span></td>' .
+									'<script type="text/javascript">' . 
+										'document.getElementById(\'message\').disabled = true;' .
+										'document.getElementById(\'public_message\').onchange = function() {' . 
+											'document.getElementById(\'message\').disabled = !this.checked;' .
+										'}' . 
+										
+									'</script>' .
+							'</tr>'
+						: '') .
 						'<tr>' . 
 							'<th><label for="length">Length</label></th>' .
 							'<td><input type="text" name="length" id="length" size="20" maxlength="40" />' .

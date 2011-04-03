@@ -1445,7 +1445,7 @@
 				// Record the action
 				modLog('Created a ' . ($expire ? $expire . ' second' : 'permanent') . " ban for {$_POST['ip']} with " . (!empty($_POST['reason']) ? "reason \"{$_POST['reason']}\"" : 'no reason'));
 				
-				$query->execute() or error(db_error($query));
+				//$query->execute() or error(db_error($query));
 				
 				// Delete too
 				if($mod['type'] >= $config['mod']['delete'] && isset($_POST['delete']) && isset($_POST['board'])) {
@@ -1460,6 +1460,20 @@
 					
 					// Rebuild board
 					buildIndex();
+				}
+				
+				if($mod['type'] >= $config['mod']['public_ban'] && isset($_POST['post']) && isset($_POST['board']) && isset($_POST['public_message']) && isset($_POST['message'])) {
+					openBoard($_POST['board']);
+					
+					$post = round($_POST['post']);
+					
+					$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id", $board['uri']));
+					$query->bindValue(':id', $post, PDO::PARAM_INT);
+					$query->bindValue(':body', sprintf($config['mod']['ban_message'], htmlentities($_POST['message'])));
+					$query->execute() or error(db_error($query));
+					
+					// Record the action
+					modLog("Attached a public ban message for post #{$post}: " . $_POST['message']);
 				}
 				
 				// Redirect
@@ -1493,7 +1507,7 @@
 		
 			$post = $query->fetch();
 			
-			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $delete ? $post['id'] : false, $delete ? $boardName : false);
+			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $post['id'], $boardName, !$delete);
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
