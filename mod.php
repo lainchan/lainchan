@@ -1445,7 +1445,7 @@
 				// Record the action
 				modLog('Created a ' . ($expire ? $expire . ' second' : 'permanent') . " ban for {$_POST['ip']} with " . (!empty($_POST['reason']) ? "reason \"{$_POST['reason']}\"" : 'no reason'));
 				
-				//$query->execute() or error(db_error($query));
+				$query->execute() or error(db_error($query));
 				
 				// Delete too
 				if($mod['type'] >= $config['mod']['delete'] && isset($_POST['delete']) && isset($_POST['board'])) {
