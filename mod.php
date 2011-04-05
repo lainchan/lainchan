@@ -1516,6 +1516,18 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')\/deletenote\/(?P<id>\d+)$/', $query, $matches)) {
+			if($mod['type'] < $config['mod']['remove_notes']) error($config['error']['noaccess']);
+			
+			$ip = $matches[1];
+			$id = $matches['id'];
+
+			$query = prepare("DELETE FROM `ip_notes` WHERE `ip` = :ip AND `id` = :id");
+			$query->bindValue(':ip', $ip);
+			$query->bindValue(':id', $id);
+			$query->execute() or error(db_error($query));
+			
+			header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
 		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')$/', $query, $matches)) {
 			// View information on an IP address
 			
@@ -1526,8 +1538,15 @@
 				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
 				$query->bindValue(':ip', $ip);
 				$query->execute() or error(db_error($query));
+			} elseif($mod['type'] >= $config['mod']['create_notes'] && isset($_POST['note'])) {
+				$query = prepare("INSERT INTO `ip_notes` VALUES(NULL, :ip, :mod, :time, :body)");
+				$query->bindValue(':ip', $ip);
+				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+				$query->bindValue(':time', time(), PDO::PARAM_INT);
+				markup($_POST['note']);
+				$query->bindValue(':body', $_POST['note']);
+				$query->execute() or error(db_error($query));
 			}
-				
 			
 			$body = '';
 			$boards = listBoards();
@@ -1555,6 +1574,76 @@
 						'">' .
 						sprintf($config['board_abbreviation'], $_board['uri']) . ' - ' . $_board['title'] .
 						'</a></legend>' . $temp . '</fieldset>';
+			}
+			
+			if($mod['type'] >= $config['mod']['view_notes']) {
+				$query = prepare("SELECT * FROM `ip_notes` WHERE `ip` = :ip ORDER BY `id` DESC");
+				$query->bindValue(':ip', $ip);
+				$query->execute() or error(db_error($query));
+				
+				if($query->rowCount() > 0 || $mod['type'] >= $config['mod']['create_notes'] ) {
+					$body .= '<fieldset><legend>' .
+							$query->rowCount() . ' note' . ($query->rowCount() == 1 ?'' : 's') . ' on record' . 
+						'</legend>';
+					if($query->rowCount() > 0) {
+						$body .= '<table class="modlog">' .
+						'<tr><th>Staff</th><th>Note</th><th>Date</th>' .
+							($mod['type'] >= $config['mod']['remove_notes'] ? '<th>Actions</th>' : '') .
+						'</td>';
+						while($note = $query->fetch()) {
+							
+							if($note['mod']) {
+								$_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
+								$_query->bindValue(':id', $note['mod']);
+								$_query->execute() or error(db_error($_query));
+								if($_mod = $_query->fetch()) {
+									if($mod['type'] >= $config['mod']['editusers'])
+										$staff = '<a href="?/users/' . $note['mod'] . '">' . htmlentities($_mod['username']) . '</a>';
+									else
+										$staff = $_mod['username'];
+								} else {
+									$staff = '<em>??</em>';
+								}
+							} else {
+								$staff = '<em>system</em>';
+							}
+							$body .= '<tr>' .
+								'<td class="minimal">' .
+									$staff .
+								'</td><td>' .
+									$note['body'] .
+								'</td><td class="minimal">' .
+									date($config['post_date'], $note['time']) .
+								'</td>' .
+								($mod['type'] >= $config['mod']['remove_notes'] ?
+									'<td class="minimal"><a class="unimportant" href="?/IP/' . $ip . '/deletenote/' . $note['id'] . '">[delete]</a></td>'
+								: '') .
+							'</tr>';
+						}
+						$body .= '</table>';
+					}
+			
+					if($mod['type'] >= $config['mod']['create_notes']) {
+						$body .= '<form action="" method="post" style="text-align:center;margin:0">' . 
+								'<table>' .
+									'<tr>' .
+										'<th>Staff</th>' .
+										'<td>' . $mod['username'] . '</td>' .
+									'</tr>' .
+									'<tr>' .
+										'<th><label for="note">Note</label></th>' .
+										'<td><textarea id="note" name="note" rows="5" cols="30"></textarea></td>' .
+									'</tr>' .
+									'<tr>' .
+										'<td></td>' .
+										'<td><input type="submit" value="New note" /></td>' .
+									'</tr>' .
+								'</table>' .
+							'</form>';
+					}
+					
+					$body .= '</fieldset>';
+				}
 			}
 			
 			if($mod['type'] >= $config['mod']['view_ban']) {

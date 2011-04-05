@@ -325,6 +325,12 @@
 	$config['mod']['view_banexpired'] = true;
 	// View ban for IP address
 	$config['mod']['view_ban'] = $config['mod']['view_banlist'];
+	// View IP address notes
+	$config['mod']['view_notes'] = JANITOR;
+	// Create notes
+	$config['mod']['create_notes'] = $config['mod']['view_notes'];
+	// Remote notes
+	$config['mod']['remove_notes'] = ADMIN;
 	// Create a new board
 	$config['mod']['newboard'] = ADMIN;
 	// Manage existing boards (change title, etc)

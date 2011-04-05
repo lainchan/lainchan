@@ -223,3 +223,23 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
 --
 -- Dumping data for table `noticeboard`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ip_notes`
+--
+
+CREATE TABLE IF NOT EXISTS `ip_notes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(45) NOT NULL,
+  `mod` int(11) DEFAULT NULL,
+  `time` int(11) NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `ip_notes`
+--
+

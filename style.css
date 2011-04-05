@@ -350,7 +350,7 @@ table.modlog tr th {
 table.modlog tr th {
 	background: #98E;
 }
-td.minimal {
+td.minimal, th.minimal {
 	width: 1%;
 	white-space: nowrap;
 }
