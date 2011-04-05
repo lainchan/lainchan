@@ -52,14 +52,18 @@
 			error($config['error']['nodelete']);
 			
 		foreach($delete as &$id) {
-			$query = prepare(sprintf("SELECT `password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query = prepare(sprintf("SELECT `time`,`password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			if($post = $query->fetch()) {
 				if(!empty($password) && $post['password'] != $password)
 					error($config['error']['invalidpassword']);
-					
+				
+				if($post['time'] >= time() - $config['delete_time']) {
+					error(sprintf($config['error']['delete_too_soon'], until($post['time'] + $config['delete_time'])));
+				}
+				
 				if(isset($_POST['file'])) {
 					// Delete just the file
 					deleteFile($id);

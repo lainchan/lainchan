@@ -113,6 +113,7 @@
 	$config['error']['maxsize']			= 'The file was too big.';
 	$config['error']['invalidzip']		= 'Invalid archive!';
 	$config['error']['fileexists']		= 'That file <a href="%s">already exists</a>!';
+	$config['error']['delete_too_soon']	= 'You\'ll have to wait another %s before deleting that.';
 	
 	// Moderator errors
 	$config['error']['invalid']			= 'Invalid username and/or password.';
@@ -131,7 +132,10 @@
 	// How many reports you can create in the same request.
 	$config['report_limit']	= 2;
 	
-	// Reply limit (deletes thread when this is reached)
+	// How long before you can delete a post after posting, in seconds.
+	$config['delete_time']	= 60;
+	
+	// Reply limit (stops bumping thread when this is reached)
 	$config['reply_limit']	= 250;
 	
 	// Strip superfluous new lines at the end of a post
