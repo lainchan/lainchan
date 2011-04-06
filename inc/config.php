@@ -20,7 +20,8 @@
 		'dir' => Array(),
 		'mod' => Array(),
 		'spam' => Array(),
-		'flood_filters' => Array()
+		'flood_filters' => Array(),
+		'wordfilters' => Array()
 	);
 	// Database stuff
 	
@@ -446,6 +447,14 @@
 	//	'action' => 'reject',
 	//	'message' => 'Your post has been rejected on the suspicion of a flood attack on this board (too many new threads); post a reply instead.'
 	//);
+	
+	// Wordfilters are used to automatically replace certain words/phrases with something else.
+	
+	// For a normal string replacement:
+	// $config['wordfilters'][] = Array('cat', 'dog');
+	
+	// Advanced raplcement (regular expressions):
+	// $config['wordfilters'][] = Array('/cat/', 'dog', true); // 'true' means it's a regular expression
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.

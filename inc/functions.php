@@ -906,7 +906,19 @@
 		$ipoc = explode('.', $ip);
 		return $ipoc[3] . '.' . $ipoc[2] . '.' . $ipoc[1] . '.' . $ipoc[0];
 	}
-
+	
+	function wordfilters(&$body) {
+		global $config;
+		
+		foreach($config['wordfilters'] as $filter) {
+			if(isset($filter[2]) && $filter[2]) {
+				$body = preg_replace($filter[0], $filter[1], $body);
+			} else {
+				$body = str_replace($filter[0], $filter[1], $body);
+			}
+		}
+	}
+	
 	function markup(&$body) {
 		global $board, $config;
 		
@@ -938,43 +950,72 @@
 		}
 
 		// Cites
-		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;([0-9]+?)(\s|$)/', $body, $cites)) {
-			$previousPosition = 0;
-			$temp = '';
+		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)(\s|$)/', $body, $cites)) {
+			if(count($cites[0]) > $config['max_cites']) {
+				error($config['error']['toomanycites']);
+			}
 			sql_open();
 			for($index=0;$index<count($cites[0]);$index++) {
 				$cite = $cites[2][$index];
-				$whitespace = Array(
-					strlen($cites[1][$index]),
-					strlen($cites[3][$index]),
-				);
 				$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 				$query->bindValue(':id', $cite);
 				$query->execute() or error(db_error($query));
 				
 				if($post = $query->fetch()) {
-					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' . $config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">&gt;&gt;' . $cite . '</a>';
-				} else {
-					$replacement = "&gt;&gt;{$cite}";
+					$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
+						$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
+							'&gt;&gt;' . $cite .
+							'</a>';
+					$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[3][$index], $body);
 				}
-
-				// Find the position of the cite
-				$position = strpos($body, $cites[0][$index]);
-				
-				
-				
-				// Replace the found string with "xxxx[...]". (allows duplicate tags). Keeps whitespace.
-				$body = substr_replace($body, str_repeat('x', strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]), $position + $whitespace[0], strlen($cites[0][$index]) - $whitespace[0] - $whitespace[1]);
-				
-				$temp .= substr($body, $previousPosition, $position-$previousPosition) . $cites[1][$index] . $replacement . $cites[3][$index];
-				$previousPosition = $position+strlen($cites[0][$index]);
 			}
-			
-			// The rest
-			$temp .= substr($body, $previousPosition);
-				
-			$body = $temp;
 		}
+		
+		// Cross-board linking
+		if(preg_match_all('/(^|\s)&gt;&gt;&gt;\/(\w+?)\/(\d+)?(\s|$)/', $body, $cites)) {
+			if(count($cites[0]) > $config['max_cites']) {
+				error($config['error']['toomanycross']);
+			}
+			sql_open();
+			for($index=0;$index<count($cites[0]);$index++) {
+				$_board = $cites[2][$index];
+				$cite = @$cites[3][$index];
+				
+				// Temporarily store board information because it will be overwritten
+				$tmp_board = $board['uri'];
+				
+				// Check if the board exists, and load settings
+				if(openBoard($_board)) {
+					if($cite) {
+						$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+						$query->bindValue(':id', $cite);
+						$query->execute() or error(db_error($query));
+						
+						if($post = $query->fetch()) {
+							$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
+								$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
+									'&gt;&gt;&gt;/' . $_board . '/' . $cite .
+									'</a>';
+							$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
+						}
+					} else {
+						$replacement = '<a href="' .
+							$config['root'] . $board['dir'] . $config['file_index'] . '">' .
+								'&gt;&gt;&gt;/' . $_board . '/' .
+								'</a>';
+						$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
+					}
+					var_dump($post);
+				}
+				
+				//var_dump($cite);
+			//	exit;
+				
+				// Restore main board settings
+				openBoard($tmp_board);
+			}
+		}
+		
 
 		$body = str_replace("\r", '', $body);
 		

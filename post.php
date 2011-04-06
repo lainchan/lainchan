@@ -294,6 +294,8 @@
 		if($post['mod_tag'])
 			$post['trip'] .= ' <a class="nametag">## ' . $post['mod_tag'] . '</a>';
 		
+		wordfilters($post['body']);
+		
 		$post['body_nomarkup'] = $post['body'];
 		
 		if(!($mod && $post['raw']))
