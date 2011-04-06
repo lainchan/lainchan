@@ -47,8 +47,8 @@
 	$config['cookies']['hash']	= 'hash';
 	// Used for moderation login
 	$config['cookies']['mod']	= 'mod';
-	// Used for communicating with Javascript; telling it when posts were successful
-	// Currently DO NOT CHANGE THIS OR IT WON'T WORK!
+	// Used for communicating with Javascript; telling it when posts were successful.
+	// Rebuild Javascript file after changing this value or it won't work.
 	$config['cookies']['js']	= 'serv';
 	// Cookies "path". Defaults to $config['root']. If $config['root'] is a URL, you need to set this. Should be '/' or '/board/', depending on your installation.
 	// $config['cookies']['path'] = '/';
