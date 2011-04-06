@@ -309,8 +309,8 @@
 		// This code is probably horrible, but what I'm trying
 		// to do is find all of the SQL queires and put them
 		// in an array.
-		preg_match_all("/((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
-		$queries = $queries[1];
+		preg_match_all("/(^|\n)((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
+		$queries = $queries[2];
 		
 		$sql_errors = '';
 		foreach($queries as &$query) {

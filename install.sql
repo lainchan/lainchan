@@ -2,10 +2,7 @@
 -- version 3.3.9
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
 -- Generation Time: Apr 07, 2011 at 12:37 AM
--- Server version: 5.1.48
--- PHP Version: 5.3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -14,10 +11,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-
---
--- Database: `imgboard`
---
 
 -- --------------------------------------------------------
 
