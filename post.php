@@ -460,6 +460,16 @@
 		buildIndex();
 		sql_close();
 		
+		// Tell Javascript that we posted successfully
+		if(isset($_COOKIE[$config['cookies']['js']]))
+			$js = json_decode($_COOKIE[$config['cookies']['js']]);
+		else
+			$js = Array();
+		// Tell it to delete the cached post for referer
+		$js->{$_SERVER['HTTP_REFERER']} = true;
+		// Encode and set cookie
+		setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, false);
+		
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		if($config['always_noko'] || $noko) {

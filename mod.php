@@ -174,6 +174,24 @@
 			destroyCookies();
 			
 			header('Location: ?/', true, $config['redirect_http']);
+		} elseif(preg_match('/^\/confirm\/(.+)$/', $query, $matches)) {
+			$uri = $matches[1];
+			
+			$body = '<p style="text-align:center">' .
+			'<span class="heading" style="margin-bottom:6px">Are you sure you want to do that?</span>' .
+				'You clicked ' .
+					'<strong>?/' . htmlentities($uri) . '</strong>' .
+				' but had Javascript disabled, so we weren\'t able to serve the confirmation dialog.' .
+			'</p>' .
+			'<p style="text-align:center"><a style="margin:block;font-size:150%;font-weight:bold" href="?/' . htmlentities($uri) . '">Confirm.</a></p>';
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Confirm',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
 		} elseif(preg_match('/^\/log$/', $query)) {
 			if($mod['type'] < $config['mod']['modlog']) error($config['error']['noaccess']);
 			

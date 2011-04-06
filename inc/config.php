@@ -47,6 +47,9 @@
 	$config['cookies']['hash']	= 'hash';
 	// Used for moderation login
 	$config['cookies']['mod']	= 'mod';
+	// Used for communicating with Javascript; telling it when posts were successful
+	// Currently DO NOT CHANGE THIS OR IT WON'T WORK!
+	$config['cookies']['js']	= 'serv';
 	// Cookies "path". Defaults to $config['root']. If $config['root'] is a URL, you need to set this. Should be '/' or '/board/', depending on your installation.
 	// $config['cookies']['path'] = '/';
 	// Where to set the 'path' parameter to $config['cookies']['path'] when creating cookies. Recommended.
@@ -104,6 +107,8 @@
 	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
 	$config['error']['tor']				= 'Hmm… That looks like a Tor exit node.';
 	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
+	$config['error']['toomanycites']	= 'Too many cites; post discarded.';
+	$config['error']['toomanycross']	= 'Too many cross-board links; post discarded.';
 	$config['error']['nodelete']		= 'You didn\'t select anything to delete.';
 	$config['error']['noreport']		= 'You didn\'t select anything to report.';
 	$config['error']['toomanyreports']	= 'You can\'t report that many posts at once.';
@@ -133,7 +138,7 @@
 	$config['report_limit']	= 2;
 	
 	// How long before you can delete a post after posting, in seconds.
-	$config['delete_time']	= 60;
+	$config['delete_time']	= 10;
 	
 	// Reply limit (stops bumping thread when this is reached)
 	$config['reply_limit']	= 250;
@@ -153,6 +158,10 @@
 	$config['block_tor']	= true;
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
 	$config['max_links']	= 20;
+	// Maximum number of cites per post (protects against abuse)
+	$config['max_cites']	= 45;
+	// Maximum number of cross-board links/cites per post
+	$config['max_cross']	= $config['max_cites'];
 	
 	// Maximum image upload size in bytes
 	$config['max_filesize']	= 10*1024*1024; // 10MB
@@ -266,6 +275,8 @@
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
+	// Server-side confirm button for actions like deleting posts, for when Javascript is disabled or the DOM isn't loaded.
+	$config['mod']['server-side_confirm'] = true;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
@@ -513,4 +524,7 @@
 	
 	// Meta keywords. It's probably best to include these in per-board configurations.
 	//$config['meta_keywords'] = 'chan,anonymous discussion,imageboard,tinyboard';
+	
+	// Link imageboard to your Google Analytics account to track users and provide marketing insights.
+	// $config['google_analytics'] = 'UA-xxxxxxx-yy';
 ?>

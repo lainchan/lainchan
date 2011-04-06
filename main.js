@@ -1,3 +1,12 @@
+function get_cookie(cookie_name)
+{
+	var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
+	if(results)
+		return (unescape(results[2]));
+	else
+		return null;
+}
+
 function highlightReply(id)
 {
 	var divs = document.getElementsByTagName('div');
@@ -33,6 +42,9 @@ function dopost(form) {
 	if(form.email.value != 'sage')
 		localStorage.email = form.email.value;
 	
+	saved[document.location] = form.body.value;
+	sessionStorage.body = JSON.stringify(saved);
+	
 	return form.body.value != "" || (typeof form.thread != "undefined" && form.file.value != "");
 }
 function citeReply(id) {
@@ -44,6 +56,7 @@ var styles = [
 	['Yotsuba B', '/board/default.css'],
 	['Yotsuba', '/board/yotsuba.css']
 ];
+var saved = {};
 
 function changeStyle(x) {
 	localStorage.stylesheet = styles[x][1];
@@ -92,6 +105,28 @@ function init()
 	if(localStorage.email)
 		document.getElementsByTagName('form')[0].email.value = localStorage.email;
 	
+	
+	if(sessionStorage.body) {
+		saved = JSON.parse(sessionStorage.body);
+		if(get_cookie('serv')) {
+			// Remove successful posts
+			successful = JSON.parse(get_cookie('serv'));
+			for (var url in successful) {
+				saved[url] = null;
+			}
+			sessionStorage.body = JSON.stringify(saved);
+			
+			document.cookie = 'serv={};expires=0;path=/;';
+		}
+		if(saved[document.location]) {
+			document.getElementsByTagName('form')[0].body.value = saved[document.location];
+		}
+	}
+	
+	if(localStorage.body) {
+		document.getElementsByTagName('form')[0].body.value = localStorage.body;
+		localStorage.body = '';
+	}
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
 		if(typeof link[i] == "object" && link[i].childNodes[0].src) {

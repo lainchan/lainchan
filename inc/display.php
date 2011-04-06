@@ -92,6 +92,14 @@
 		)));
 	}
 	
+	function confirmLink($text, $title, $confirm, $href) {
+		global $config, $mod;
+		if($config['mod']['server-side_confirm'])
+			return '<a onclick="if(confirm(\'' . htmlentities(addslashes($confirm)) . '\')) document.location=\'?/' . htmlentities(addslashes($href)) . '\';return false;" title="' . htmlentities($title) . '" href="?/confirm/' . $href . '">' . $text . '</a>';
+		else
+			return '<a onclick="return confirm(\'' . htmlentities(addslashes($confirm)) . '\')" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+	}
+	
 	class Post {
 		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=null, $mod=false) {
 			global $config;
@@ -136,11 +144,11 @@
 				
 				// Delete
 				if($this->mod['type'] >= $config['mod']['delete'])
-					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete this?\')" title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
+					$built .= ' ' . confirmLink($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= $config['mod']['deletebyip'])
-					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete all posts by IP?\')" title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
+					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by IP?', $board['uri'] . '/deletebyip/' . $this->id);
 				
 				// Ban
 				if($this->mod['type'] >= $config['mod']['ban'])
@@ -283,11 +291,11 @@
 				
 				// Delete
 				if($this->mod['type'] >= $config['mod']['delete'])
-					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete this?\')" title="Delete" href="?/' . $board['uri'] . '/delete/' . $this->id . '">' . $config['mod']['link_delete'] . '</a>';
+					$built .= ' ' . confirmLink($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
 				
 				// Delete all posts by IP
 				if($this->mod['type'] >= $config['mod']['deletebyip'])
-					$built .= ' <a onclick="return confirm(\'Are you sure you want to delete all posts by IP?\')" title="Delete all posts by IP" href="?/' . $board['uri'] . '/deletebyip/' . $this->id . '">' . $config['mod']['link_deletebyip'] . '</a>';
+					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by IP?', $board['uri'] . '/deletebyip/' . $this->id);
 				
 				// Ban
 				if($this->mod['type'] >= $config['mod']['ban'])
