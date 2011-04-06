@@ -1005,11 +1005,7 @@
 								'</a>';
 						$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
 					}
-					var_dump($post);
 				}
-				
-				//var_dump($cite);
-			//	exit;
 				
 				// Restore main board settings
 				openBoard($tmp_board);
