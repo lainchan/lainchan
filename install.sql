@@ -3,35 +3,20 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2011 at 04:52 PM
+-- Generation Time: Apr 07, 2011 at 12:37 AM
 -- Server version: 5.1.48
 -- PHP Version: 5.3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
 -- Database: `imgboard`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reports`
---
-
-CREATE TABLE IF NOT EXISTS `reports` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` int(11) NOT NULL,
-  `ip` varchar(45) NOT NULL,
-  `board` smallint(6) NOT NULL,
-  `post` int(11) NOT NULL,
-  `reason` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `reports`
 --
 
 -- --------------------------------------------------------
@@ -52,26 +37,6 @@ CREATE TABLE IF NOT EXISTS `bans` (
 -- Dumping data for table `bans`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `pms`
---
-
-CREATE TABLE IF NOT EXISTS `pms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender` int(11) NOT NULL,
-  `to` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `time` int(11) NOT NULL,
-  `unread` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `pms`
---
 
 -- --------------------------------------------------------
 
@@ -87,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uri` (`uri`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `boards`
@@ -99,13 +64,33 @@ INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ip_notes`
+--
+
+CREATE TABLE IF NOT EXISTS `ip_notes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(45) NOT NULL,
+  `mod` int(11) DEFAULT NULL,
+  `time` int(11) NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `ip_notes`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `modlogs`
 --
 
 CREATE TABLE IF NOT EXISTS `modlogs` (
   `mod` int(11) NOT NULL,
   `ip` varchar(45) NOT NULL,
-  `board` int(11) NOT NULL,
+  `board` int(11) DEFAULT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -128,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `mods`
@@ -156,6 +141,48 @@ CREATE TABLE IF NOT EXISTS `mutes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `noticeboard`
+--
+
+CREATE TABLE IF NOT EXISTS `noticeboard` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mod` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `subject` text NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `noticeboard`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pms`
+--
+
+CREATE TABLE IF NOT EXISTS `pms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` int(11) NOT NULL,
+  `to` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `time` int(11) NOT NULL,
+  `unread` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `pms`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts_b`
 --
 
@@ -163,9 +190,9 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread` int(11) DEFAULT NULL,
   `subject` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `trip` varchar(100) DEFAULT NULL,
+  `email` varchar(30) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `trip` varchar(15) DEFAULT NULL,
   `body` text NOT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
@@ -193,6 +220,28 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE IF NOT EXISTS `reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` int(11) NOT NULL,
+  `ip` varchar(45) NOT NULL,
+  `board` smallint(6) NOT NULL,
+  `post` int(11) NOT NULL,
+  `reason` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `reports`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `robot`
 --
 
@@ -202,44 +251,5 @@ CREATE TABLE IF NOT EXISTS `robot` (
 
 --
 -- Dumping data for table `robot`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `noticeboard`
---
-
-CREATE TABLE IF NOT EXISTS `noticeboard` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mod` int(11) NOT NULL,
-  `time` int(11) NOT NULL,
-  `subject` text NOT NULL,
-  `body` text NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
-
---
--- Dumping data for table `noticeboard`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ip_notes`
---
-
-CREATE TABLE IF NOT EXISTS `ip_notes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(45) NOT NULL,
-  `mod` int(11) DEFAULT NULL,
-  `time` int(11) NOT NULL,
-  `body` text NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `ip_notes`
 --
 
