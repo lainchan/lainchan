@@ -1,11 +1,6 @@
 # static html
 *.html
 
-# directories
-res/
-src/
-thumb/
-
 # instance-config
 inc/instance-config.php
 
