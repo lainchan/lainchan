@@ -29,7 +29,7 @@ function focusId(id)
 
 function generatePassword() {
 	pass = '';
-	chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+	chars = '{config[genpassword_chars]}';
 	for(i=0;i<8;i++) {
 		rnd = Math.floor(Math.random() * chars.length);
 		pass += chars.substring(rnd,rnd + 1);
