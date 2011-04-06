@@ -300,6 +300,8 @@
 	} elseif($step == 4) {
 		// SQL installation
 		
+		buildJavascript();
+		
 		sql_open();
 		
 		$sql = @file_get_contents('install.sql') or error("Couldn't load install.sql.");
