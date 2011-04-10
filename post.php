@@ -473,7 +473,7 @@
 		if(isset($_COOKIE[$config['cookies']['js']]))
 			$js = json_decode($_COOKIE[$config['cookies']['js']]);
 		else
-			$js = Array();
+			$js = (object) Array();
 		// Tell it to delete the cached post for referer
 		$js->{$_SERVER['HTTP_REFERER']} = true;
 		// Encode and set cookie
