@@ -407,6 +407,13 @@
 				error($config['error']['maxsize']);
 			}
 			
+			// Check IE MIME type detection XSS exploit
+			$buffer = file_get_contents($post['file'], null, null, null, 255);
+			if(preg_match($config['ie_mime_type_detection'], $buffer)) {
+				undoImage($post);
+				error($config['error']['mime_exploit']);
+			}
+			
 			$post['filehash'] = $config['file_hash']($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
