@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `trip` varchar(15) DEFAULT NULL,
+  `trip` varchar(100) DEFAULT NULL,
   `body` text NOT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
