@@ -366,6 +366,8 @@
 	$config['mod']['modlog'] = ADMIN;
 	// Create a PM (viewing mod usernames)
 	$config['mod']['create_pm'] = JANITOR;
+	// Read any PM, sent to or from anybody
+	$config['mod']['master_pm'] = ADMIN;
 	// Rebuild everything
 	$config['mod']['rebuild'] = ADMIN;
 	// Search through posts

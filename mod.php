@@ -314,9 +314,14 @@
 		} elseif(preg_match('/^\/PM\/(\d+)$/', $query, $match)) {
 			$id = $match[1];
 			
-			$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
+			if($mod['type'] >= $config['mod']['master_pm']) {
+				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id");
+			} else {
+				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
+				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+			}
+			
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
-			$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			if(!$pm = $query->fetch()) {
@@ -337,14 +342,31 @@
 				$query->bindValue(':id', $id, PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
+				if($pm['to'] != $mod['id']) {
+					$query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
+					$query->bindValue(':id', $pm['to'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					if($_mod = $query->fetch()) {
+						$__to = $_mod['username'];
+					} else {
+						$__to = '<em>??</em>';
+					}
+				}
+				
 				modLog('Read a PM');
 				
-				$body = '<form action="" method="post"><table><th>From</th><td>' .
-					($mod['type'] >= $config['mod']['editusers'] ?
-						'<a href="?/users/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>' :
-						htmlentities($pm['username'])
-					) .
+				$body = '<form action="" method="post"><table>' . 
+				
+				'<th>From</th><td>' .
+					'<a href="?/new_PM/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>' .
 				'</td></tr>' .
+				
+				(isset($__to) ?
+					'<th>To</th><td>' .
+						'<a href="?/new_PM/' . $pm['to'] . '">' . htmlentities($__to) . '</a>' .
+					'</td></tr>'
+				: '') .
 				
 				'<tr><th>Date</th><td> ' . date($config['post_date'], $pm['time']) . '</td></tr>' .
 				
