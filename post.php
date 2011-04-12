@@ -416,7 +416,7 @@
 			
 			
 			
-			if($config['minimum_copy_resize'] && $post['width'] < $config['thumb_width'] && $post['height'] < $config['thumb_height']) {
+			if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height']) {
 				// Copy, because there's nothing to resize
 				copy($post['file'], $post['thumb']);
 				
