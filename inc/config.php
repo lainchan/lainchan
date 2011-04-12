@@ -153,6 +153,9 @@
 	$config['thumb_width']	= 255;
 	$config['thumb_height']	= 255;
 	
+	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use that as a thumbnail instead of resizing/redrawing
+	$config['minimum_copy_resize'] = true;
+	
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
 	// sha1_file, md5_file, etc.

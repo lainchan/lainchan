@@ -414,13 +414,23 @@
 			$post['filehash'] = $config['file_hash']($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
-			$image = createimage($post['extension'], $post['file']);
 			
-			// Create a thumbnail
-			$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height']);
 			
-			$post['thumbwidth'] = $thumb['width'];
-			$post['thumbheight'] = $thumb['height'];
+			if($config['minimum_copy_resize'] && $post['width'] < $config['thumb_width'] && $post['height'] < $config['thumb_height']) {
+				// Copy, because there's nothing to resize
+				copy($post['file'], $post['thumb']);
+				
+				$post['thumbwidth'] = $post['width'];
+				$post['thumbheight'] = $post['height'];
+			} else {
+				$image = createimage($post['extension'], $post['file']);
+				
+				// Create a thumbnail
+				$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height']);
+				
+				$post['thumbwidth'] = $thumb['width'];
+				$post['thumbheight'] = $thumb['height'];
+			}
 		}
 		
 		if($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
