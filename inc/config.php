@@ -154,7 +154,7 @@
 	$config['thumb_height']	= 255;
 	
 	// Thumbnail extension, empty for inherited (png recommended)
-	$config['thumb_ext'] = '';
+	$config['thumb_ext'] = 'png';
 	
 	// Thumbnail quality (compression level), from 0 to 9
 	$config['thumb_quality'] = 7;
