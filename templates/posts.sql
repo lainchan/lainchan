@@ -2,9 +2,10 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread` int(11) DEFAULT NULL,
   `subject` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `trip` varchar(100) DEFAULT NULL,
+  `email` varchar(30) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `trip` varchar(15) DEFAULT NULL,
+  `capcode` varchar(50) DEFAULT NULL,
   `body` text NOT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
@@ -22,4 +23,4 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;

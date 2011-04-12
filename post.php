@@ -260,11 +260,11 @@
 		
 		if($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
 			if(($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
-				$post['mod_tag'] = utf8tohtml($match[3]);
+				$post['capcode'] = utf8tohtml($match[3]);
 				$post['name'] = !empty($match[2])?$match[2]:$config['anonymous'];
 			}
 		} else {
-			$post['mod_tag'] = false;
+			$post['capcode'] = false;
 		}
 		
 		$trip = generate_tripcode($post['name']);
@@ -290,9 +290,6 @@
 		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolong_body']);
 		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshort_body']);
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
-		
-		if($post['mod_tag'])
-			$post['trip'] .= ' <a class="capcode">## ' . $post['mod_tag'] . '</a>';
 		
 		wordfilters($post['body']);
 		

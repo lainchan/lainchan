@@ -1,4 +1,9 @@
-<?php	
+<?php
+	// Installation/upgrade file
+	// Current version: 0.9.2 (or 0.9.1-dev)
+	
+	define('VERSION', 'v0.9.2-dev');
+	
 	require 'inc/functions.php';
 	require 'inc/display.php';
 	require 'inc/template.php';
@@ -12,9 +17,40 @@
 	);
 	
 	if(file_exists($config['has_installed'])) {
-		$page['title'] = 'Pre-installation test';
 		
-		$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
+		// Check the version number
+		$version = file_get_contents($config['has_installed']);
+		if(empty($version)) {
+			// v0.9 or v0.9.1
+			// Upgrading to v0.9.2
+			
+			sql_open();
+			
+			$boards = listBoards();
+			foreach($boards as &$_board) {
+				openBoard($_board['uri']);
+				
+				// Add `capcode` field after `trip`
+				query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $board['uri'])) or error(db_error());
+				
+				// Resize `trip` to 15 characters
+				query(sprintf("ALTER TABLE `posts_%s` CHANGE  `trip`  `trip` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
+			}
+			
+			file_put_contents($config['has_installed'], VERSION);
+			
+			$page['title'] = 'Upgraded';
+			$page['body'] = '<p style="text-align:center">Successfully upgraded from v0.9 (or v0.9.1) to <strong>' . VERSION . '</strong>.</p>';
+		} elseif($version == VERSION) {
+			$page['title'] = 'Already installed';
+			$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
+		} else {
+			$page['title'] = 'Unknown version';
+			$page['body'] = '<p style="text-align:center">Tinyboard was unable to determine what version is currently installed.</p>';
+		}
+		
+		
+		
 		die(Element('page.html', $page));
 	}
 	
@@ -332,7 +368,7 @@
 		if(!empty($sql_errors)) {
 			$page['body'] .= '<div class="ban"><h2>SQL errors</h2><p>SQL errors were encountered when trying to install the database. This may be the result of using a database which is already occupied with a Tinyboard installation; if so, you can probably ignore this.</p><p>The errors encountered were:</p><ul>' . $sql_errors . '</ul><p><a href="?step=5">Ignore errors and complete installation.</a></p></div>';
 		} else {
-			touch($config['has_installed'], 0777);
+			file_put_contents($config['has_installed'], VERSION);
 			if(!@unlink(__FILE__)) {
 				$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
 			}
@@ -343,7 +379,7 @@
 		$page['title'] = 'Installation complete';
 		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
 		
-		touch($config['has_installed'], 0777);
+		file_put_contents($config['has_installed'], VERSION);
 		if(!@unlink(__FILE__)) {
 			$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
 		}

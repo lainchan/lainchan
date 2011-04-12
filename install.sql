@@ -185,7 +185,8 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `subject` varchar(40) NOT NULL,
   `email` varchar(30) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `trip` varchar(100) DEFAULT NULL,
+  `trip` varchar(15) DEFAULT NULL,
+  `capcode` varchar(50) DEFAULT NULL,
   `body` text NOT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
@@ -203,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `posts_b`

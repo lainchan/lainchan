@@ -110,6 +110,18 @@
 		return '<em>' . utf8tohtml($body) . '</em>';
 	}
 	
+	function capcode($cap) {
+		global $config;
+		
+		if(isset($config['custom_capcode'][$cap])) {
+			if(is_array($config['custom_capcode'][$cap]))
+				return sprintf($config['custom_capcode'][$cap][0], $cap);
+			return sprintf($config['custom_capcode'][$cap], $cap);
+		}
+		
+		return sprintf($config['capcode'], $cap);
+	}
+	
 	function confirmLink($text, $title, $confirm, $href) {
 		global $config, $mod;
 		if($config['mod']['server-side_confirm'])
@@ -119,7 +131,7 @@
 	}
 	
 	class Post {
-		public function __construct($id, $thread, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=null, $mod=false) {
+		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=null, $mod=false) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
 			
@@ -129,6 +141,7 @@
 			$this->email = $email;
 			$this->name = utf8tohtml($name);
 			$this->trip = $trip;
+			$this->capcode = $capcode;
 			$this->body = $body;
 			$this->time = $time;
 			$this->thumb = $thumb;
@@ -200,9 +213,19 @@
 			if(!empty($this->email))
 				$built .=  '<a class="email" href="mailto:' . $this->email . '">';
 			// Name
-			$built .= '<span class="name">' . $this->name . '</span>'
+			$built .= '<span class="name"' .
+				(!empty($this->capcode) && isset($config['custom_capcode'][$this->capcode][1]) ?
+					' style="' . $config['custom_capcode'][$this->capcode][1] . '"'
+				: '')
+			. '>' . $this->name . '</span>'
 			// Trip
-			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
+			. (!empty($this->trip) ? ' <span class="trip"' . 
+				(!empty($this->capcode) && isset($config['custom_capcode'][$this->capcode][2]) ?
+					' style="' . $config['custom_capcode'][$this->capcode][2] . '"'
+				: '')
+			. '>'.$this->trip.'</span>':'')
+			// Capcode
+			. (!empty($this->capcode) ? capcode($this->capcode) : '');
 			
 			// End email
 			if(!empty($this->email))
@@ -258,7 +281,7 @@
 	};
 	
 	class Thread {
-		public function __construct($id, $subject, $email, $name, $trip, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false, $hr=true) {
+		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false, $hr=true) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
 			
@@ -267,6 +290,7 @@
 			$this->email = $email;
 			$this->name = utf8tohtml($name);
 			$this->trip = $trip;
+			$this->capcode = $capcode;
 			$this->body = $body;
 			$this->time = $time;
 			$this->thumb = $thumb;
@@ -375,7 +399,9 @@
 			// Name
 			$built .= '<span class="name">' . $this->name . '</span>'
 			// Trip
-			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'');
+			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'')
+			// Capcode
+			. (!empty($this->capcode) ? capcode($this->capcode) : '');
 			
 			// End email
 			if(!empty($this->email))

@@ -21,7 +21,8 @@
 		'mod' => Array(),
 		'spam' => Array(),
 		'flood_filters' => Array(),
-		'wordfilters' => Array()
+		'wordfilters' => Array(),
+		'custom_capcode' => Array()
 	);
 	// Database stuff
 	
@@ -394,6 +395,29 @@
 	$config['mod']['link_desticky'] = '[-Sticky]';
 	$config['mod']['link_lock'] = '[Lock]';
 	$config['mod']['link_unlock'] = '[-Lock]';
+	
+	// Moderator capcodes
+	$config['capcode'] = ' <a class="capcode">## %s</a>';
+	
+	// Custom capcodes, by example:
+	// "## Custom" becomes lightgreen, italic and bold
+	//$config['custom_capcode']['Custom'] = Array(
+	//	'<a class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</a>'
+	//);
+	
+	// "## Mod" makes everything purple, including the name and tripcode
+	//$config['custom_capcode']['Mod'] = Array(
+	//	'<a class="capcode" style="color:purple"> ## %s</a>',
+	//	'color:purple', // Change name style; optional
+	//	'color:purple' // Change tripcode style; optional
+	//);
+	
+	// "## Admin" makes everything red and bold, including the name and tripcode
+	//$config['custom_capcode']['Admin'] = Array(
+	//	'<a class="capcode" style="color:red;font-weight:bold"> ## %s</a>',
+	//	'color:red;font-weight:bold', // Change name style; optional
+	//	'color:red;font-weight:bold' // Change tripcode style; optional
+	//);
 	
 	// Spam filter
 	$config['spam']['hidden_inputs_min']	= 4;
