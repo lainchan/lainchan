@@ -280,7 +280,7 @@
 			$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
 			$post['file_id'] = time() . rand(100, 999);
 			$post['file'] = $board['dir'] . $config['dir']['img'] . $post['file_id'] . '.' . $post['extension'];
-			$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.png';
+			$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
 		}
 		
 		// Check string lengths
@@ -414,9 +414,7 @@
 			$post['filehash'] = $config['file_hash']($post['file']);
 			$post['filesize'] = filesize($post['file']);
 			
-			
-			
-			if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height']) {
+			if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height'] && $post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
 				// Copy, because there's nothing to resize
 				copy($post['file'], $post['thumb']);
 				
@@ -426,7 +424,7 @@
 				$image = createimage($post['extension'], $post['file']);
 				
 				// Create a thumbnail
-				$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height']);
+				$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height'], ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']));
 				
 				$post['thumbwidth'] = $thumb['width'];
 				$post['thumbheight'] = $thumb['height'];

@@ -1361,7 +1361,7 @@
 		return $image;
 	}
 
-	function resize($src, $width, $height, $destination_pic, $max_width, $max_height) {
+	function resize($src, $width, $height, $destination_pic, $max_width, $max_height, $ext) {	
 		$return = Array();
 
 		$x_ratio = $max_width / $width;
@@ -1382,13 +1382,34 @@
 		$return['height'] = $tn_height;
 
 		$tmp = imagecreatetruecolor($tn_width, $tn_height);
-		imagecolortransparent($tmp, imagecolorallocatealpha($tmp, 0, 0, 0, 0));
-		imagealphablending($tmp, false);
-		imagesavealpha($tmp, true);
-
+		
+		if($ext == 'png' || $ext == 'gif') {
+			imagecolortransparent($tmp, imagecolorallocatealpha($tmp, 0, 0, 0, 0));
+			imagesavealpha($tmp, true);
+		}
+		if($ext == 'png')
+			imagealphablending($tmp, false);
+		
 		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tn_width, $tn_height, $width, $height);
-
-		imagepng($tmp, $destination_pic, 4);
+		
+		switch($ext) {
+			case 'jpg':
+			case 'jpeg':
+				imagejpeg($tmp, $destination_pic);
+				break;
+			case 'png':
+				imagepng($tmp, $destination_pic, $config['thumb_quality']);
+				break;
+			case 'gif':
+				imagegif($tmp, $destination_pic);
+				break;
+			case 'bmp':
+				imagebmp($tmp, $destination_pic);
+				break;
+			default:
+				error('Unknwon file extension.');
+		}
+		
 		imagedestroy($src);
 		imagedestroy($tmp);
 

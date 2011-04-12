@@ -153,6 +153,12 @@
 	$config['thumb_width']	= 255;
 	$config['thumb_height']	= 255;
 	
+	// Thumbnail extension, empty for inherited (png recommended)
+	$config['thumb_ext'] = '';
+	
+	// Thumbnail quality (compression level), from 0 to 9
+	$config['thumb_quality'] = 7;
+	
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use that as a thumbnail instead of resizing/redrawing
 	$config['minimum_copy_resize'] = true;
 	
@@ -205,8 +211,8 @@
 	// These can be URLs OR base64 (data URI scheme)
 	//$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
 	//$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
-	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.png';
-	//$config['image_zip']		= $config['dir']['static'] . 'zip.png';
+	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.';
+	//$config['image_zip']		= $config['dir']['static'] . 'zip.';
 	
 	
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain, you can use this:
@@ -511,7 +517,7 @@
 	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/';
 	
 	// Allowed file extensions
-	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
+	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', '');
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post".)
 	$config['button_newtopic']	= 'New Topic';
