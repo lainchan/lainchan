@@ -402,7 +402,7 @@
 				
 				modLog('Read a PM');
 				
-				$body = '<form action="" method="post"><table>' . 
+				$body = '<form action="" method="post" style="margin:0"><table>' . 
 				
 				'<th>From</th><td>' .
 					'<a href="?/new_PM/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>' .
@@ -422,7 +422,9 @@
 				
 				'<p style="text-align:center"><input type="submit" name="delete" value="Delete forever" /></p>' .
 				
-				'</form>';
+				'</form>' .
+				
+				'<p style="text-align:center"><a href="?/new_PM/' . $pm['sender'] . '/' . $pm['id'] . '">Reply with quote</a></p>';
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
@@ -432,7 +434,7 @@
 					)
 				);
 			}
-		} elseif(preg_match('/^\/new_PM\/(\d+)$/', $query, $match)) {
+		} elseif(preg_match('/^\/new_PM\/(\d+)(\/(\d+))?$/', $query, $match)) {
 			if($mod['type'] < $config['mod']['create_pm']) error($config['error']['noaccess']);
 			
 			$to = $match[1];
@@ -472,6 +474,21 @@
 					)
 				);
 			} else {
+				$value = '';
+				if(isset($match[3])) {
+					$reply = $match[3];
+					
+					$query = prepare("SELECT `message` FROM `pms` WHERE `sender` = :sender AND `to` = :mod AND `id` = :id");
+					$query->bindValue(':sender', $to['id'], PDO::PARAM_INT);
+					$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+					$query->bindValue(':id', $reply, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					if($pm = $query->fetch()) {
+						$value = quote($pm['message']);
+					}
+				}
+				
+				
 				$body = '<form action="" method="post">' .
 				
 				'<table>' . 
@@ -483,7 +500,7 @@
 					) .
 				'</td>' .
 				
-				'<tr><th>Message</th><td><textarea name="message" rows="10" cols="40"></textarea></td>' .
+				'<tr><th>Message</th><td><textarea name="message" rows="10" cols="40">' . $value . '</textarea></td>' .
 				
 				'</table>' .
 				

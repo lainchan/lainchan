@@ -919,6 +919,16 @@
 		}
 	}
 	
+	function quote($body) {
+		$body = str_replace('<br/>', "\n", $body);
+		
+		$body = strip_tags($body);
+		
+		$body = preg_replace("/(^|\n)/", '$1&gt;', $body);
+		
+		return $body . "\n";
+	}
+	
 	function markup(&$body) {
 		global $board, $config;
 		
