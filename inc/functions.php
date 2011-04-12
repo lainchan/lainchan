@@ -1023,6 +1023,37 @@
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
 
+	function html_entity_decode_utf8($string) {
+		static $trans_tbl;
+		
+		// replace numeric entities
+		$string = preg_replace('~&#x([0-9a-f]+);~ei', 'code2utf(hexdec("\\1"))', $string);
+		$string = preg_replace('~&#([0-9]+);~e', 'code2utf(\\1)', $string);
+
+		// replace literal entities
+		if (!isset($trans_tbl)) {
+			$trans_tbl = array();
+			
+			foreach (get_html_translation_table(HTML_ENTITIES) as $val=>$key)
+				$trans_tbl[$key] = utf8_encode($val);
+		}
+		
+		return strtr($string, $trans_tbl);
+	}
+
+	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
+	function code2utf($num) {
+		if ($num < 128)
+			return chr($num);
+		if ($num < 2048)
+			return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
+		if ($num < 65536)
+			return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		if ($num < 2097152)
+			return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
+		return '';
+	}
+
 	function utf8tohtml($utf8, $encodeTags=true) {
 		$result = '';
 		for ($i = 0; $i < strlen($utf8); $i++) {
@@ -1040,7 +1071,7 @@
 			} else if ($ascii < 240) {
 				// three-byte character
 				$ascii1 = ord($utf8[$i+1]);
-				$ascii2 = ord($utf8[$i+2]);
+				$ascii2 = @ord($utf8[$i+2]);
 				$unicode = (15 & $ascii) * 4096 +
 						   (63 & $ascii1) * 64 +
 						   (63 & $ascii2);

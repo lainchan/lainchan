@@ -279,6 +279,8 @@
 	$config['mod']['rebuild_timelimit'] = 0;
 	// Server-side confirm button for actions like deleting posts, for when Javascript is disabled or the DOM isn't loaded.
 	$config['mod']['server-side_confirm'] = true;
+	// PM snippet (for ?/inbox) length in characters
+	$config['mod']['snippet_length'] = 75;
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {

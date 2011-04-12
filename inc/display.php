@@ -92,6 +92,24 @@
 		)));
 	}
 	
+	function pm_snippet($body) {
+		global $config;
+		
+		// Replace line breaks with some whitespace
+		$body = str_replace('<br/>', '  ', $body);
+		
+		// Strip tags
+		$body = strip_tags($body);
+		
+		// Unescape HTML characters, to avoid splitting them in half
+		$body = html_entity_decode_utf8($body);
+		
+		$body = substr($body, 0, $config['mod']['snippet_length']) . (strlen($body) > $config['mod']['snippet_length'] ? '…' : '');
+		
+		// Re-escape the characters.
+		return '<em>' . utf8tohtml($body) . '</em>';
+	}
+	
 	function confirmLink($text, $title, $confirm, $href) {
 		global $config, $mod;
 		if($config['mod']['server-side_confirm'])

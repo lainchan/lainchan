@@ -122,6 +122,19 @@
 				}
 				
 				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">View all entires</a></li>';
+				
+				$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
+				$query->bindValue(':id', $mod['id']);
+				$query->execute() or error(db_error($query));
+				$count = $query->fetch();
+				$count = $count['count'];
+				
+				$fieldset['Noticeboard'] .= '<li><a href="?/inbox">PM inbox' . 
+					($count > 0
+					?
+						' <strong>(' . $count . ' unread)</strong>'
+					: '') .
+				'</a></li>';
 			}
 			
 			if($mod['type'] >= $config['mod']['reports']) {
@@ -307,6 +320,39 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'Noticeboard',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
+		} elseif(preg_match('/^\/inbox$/', $query, $match)) {
+			$query = prepare("SELECT `unread`,`pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC");
+			$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if($query->rowCount() == 0) {
+				$body = '<p style="text-align:center" class="unimportant">(No private messages for you.)</p>';
+			} else {
+				$unread_pms = 0;
+				
+				$body = '<table class="modlog"><tr><th>ID</th><th>From</th><th>Date</th><th>Message snippet</th></tr>';
+				while($pm = $query->fetch()) {
+					$body .= '<tr' . ($pm['unread'] ? ' style="font-weight:bold"' : '') . '>' . 
+							'<td class="minimal"><a href="?/PM/' . $pm['id'] . '">' . $pm['id'] . '</a></td>' .
+							'<td class="minimal"><a href="?/new_PM/' . $pm['sender'] . '">' . $pm['username'] . '</a></td>' .
+							'<td class="minimal">' . date($config['post_date'], $pm['time']) . '</td>' .
+							'<td><a href="?/PM/' . $pm['id'] . '">' . pm_snippet($pm['message']) . '</a></td>' .
+						'</tr>';
+					
+					if($pm['unread'])
+						$unread_pms++;
+				}
+				$body .= '</table>';
+			}
+			
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'PM Inbox (' . ($query->rowCount() == 0 ? 'empty' : $unread_pms . ' unread') . ')',
 				'body'=>$body,
 				'mod'=>true
 				)
