@@ -292,7 +292,7 @@
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
 		
 		if($post['mod_tag'])
-			$post['trip'] .= ' <a class="nametag">## ' . $post['mod_tag'] . '</a>';
+			$post['trip'] .= ' <a class="capcode">## ' . $post['mod_tag'] . '</a>';
 		
 		wordfilters($post['body']);
 		

@@ -160,7 +160,7 @@ p.intro span.name {
 	color: #117743;
 	font-weight: bold;
 }
-p.intro a.nametag {
+p.intro a.capcode, p.intro a.nametag {
 	color: #F00000;
 	margin-left: 0;
 }
