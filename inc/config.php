@@ -401,9 +401,7 @@
 	
 	// Custom capcodes, by example:
 	// "## Custom" becomes lightgreen, italic and bold
-	//$config['custom_capcode']['Custom'] = Array(
-	//	'<a class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</a>'
-	//);
+	//$config['custom_capcode']['Custom'] ='<a class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</a>';
 	
 	// "## Mod" makes everything purple, including the name and tripcode
 	//$config['custom_capcode']['Mod'] = Array(
