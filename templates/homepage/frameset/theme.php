@@ -112,12 +112,24 @@ Users never have to leave the homepage; they can do all their browsing from the 
 			
 			$body = '<!DOCTYPE html><html>'
 			. '<head>' 
+				. '<link rel="stylesheet" media="screen" href="' . $config['url_stylesheet'] . '"/>'
 				. '<style type="text/css">'
-					. ''
+					. 'fieldset{margin:10px 0}'
+					. 'legend{width:100%;margin-left:-15px;background:#98E;border:1px solid white;color:white;font-weight:bold;padding:5px 5px}'
+					. 'ul{margin:0;padding:0}'
+					. 'li{list-style:none;padding:0 4px;margin: 0 4px}'
+					. 'li a.system{font-weight:bold}'
 				. '</style>'
 				. '<base target="main" />'
 				. '<title>' . $settings['title'] . '</title>'
-			. '</head><body><h2>Boards</h2><ul>';
+			. '</head><body>';
+			
+			$body .= '<fieldset><legend>' . $settings['title'] . '</legend><ul>' .
+				'<li><a class="system" href="news.html">[News]</a></li>' .
+			'</ul></fieldset>';
+			
+			
+			$body .= '<fieldset><legend>Boards</legend><ul>';
 			
 			$boards = listBoards();
 			foreach($boards as &$_board) {
@@ -127,9 +139,10 @@ Users never have to leave the homepage; they can do all their browsing from the 
 				'">' . $board['name'] . '</a></li>';
 			}
 			
-			$body .= '</ul>'
+			$body .= '</ul></fieldset>';
+			
 			// Finish page
-			. '</body></html>';
+			$body .= '</body></html>';
 			
 			return $body;
 		}
