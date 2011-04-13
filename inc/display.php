@@ -201,7 +201,7 @@
 		public function build($index=false) {
 			global $board, $config;
 			
-			$built =	'<div class="post reply"' . (!$index?' id="reply_' . $this->id . '"':'') . '>' . 
+			$built =	'<div class="post reply" id="reply_' . $this->id . '">' . 
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>' . 
 			// Delete
 				'<input type="checkbox" class="delete" name="delete_' . $this->id . '" id="delete_' . $this->id . '" /><label for="delete_' . $this->id . '">';
