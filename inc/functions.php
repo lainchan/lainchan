@@ -527,7 +527,7 @@
 			}
 			
 			$thread->posts = array_reverse($thread->posts);
-			$body .= $thread->build(true);
+			$body .= '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
 		}
 		
 		return Array(
