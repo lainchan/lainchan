@@ -1481,6 +1481,7 @@
 			else
 				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/ban$/', $query)) {
+			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
 			// Ban page
 			
 			if(isset($_POST['new_ban'])) {
@@ -1590,11 +1591,13 @@
 					header('Location: ?/', true, $config['redirect_http']);
 			}
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
+			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
 			// Ban by post
 			
 			$boardName = $matches[1];
 			$delete = isset($matches[2]) && $matches[2] == '&delete';
+			if($delete && $mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
+			
 			$post = $matches[3];
 			// Open board
 			if(!openBoard($boardName))
