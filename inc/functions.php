@@ -93,6 +93,25 @@
 		}
 	}
 	
+	function loadThemeConfig($_theme) {
+		global $config;
+		
+		// Load theme information into $theme
+		include $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
+		return $theme;
+	}
+	
+	function themeSettings() {
+		$query = query("SELECT * FROM `theme_settings`") or error(db_error());
+		$settings = Array();
+		
+		while($s = $query->fetch()) {
+			$settings[$s['name']] = $s['value'];
+		}
+		
+		return $settings;
+	}
+	
 	function sprintf3($str, $vars, $delim = '%') {
 		$replaces = array();
 		foreach($vars as $k => $v) {

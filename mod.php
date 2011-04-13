@@ -247,6 +247,131 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/themes(\/(\w+))?$/', $query, $match)) {
+			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
+			
+			if(!is_dir($config['dir']['homepage']))
+				error('Homepage directory doesn\'t exist!');
+			if(!$dir = opendir($config['dir']['homepage']))
+				error('Cannot open homepage directory; check permissions.');
+			
+			if(isset($match[2])) {
+				$_theme = $match[2];
+				
+				$theme = loadThemeConfig($_theme);
+				
+				if(isset($_POST['install'])) {
+					// Check if everything is submitted
+					foreach($theme['config'] as &$c) {
+						if(!isset($_POST[$c['name']]) && $c['type'] != 'checkbox')
+							error(spritnf($config['error']['required'], $c['title']));
+					}
+					
+					// Clear previous settings
+					query("TRUNCATE TABLE `theme_settings`") or error(db_error());
+					
+					foreach($theme['config'] as &$c) {
+						$query = prepare("INSERT INTO `theme_settings` VALUES(:name, :value)");
+						$query->bindValue(':name', $c['name']);
+						$query->bindValue(':value', $_POST[$c['name']]);
+						$query->execute() or error(db_error($query));
+					}
+					
+					$query = prepare("INSERT INTO `theme_settings` VALUES('theme', :value)");
+					$query->bindValue(':value', $_theme);
+					$query->execute() or error(db_error($query));
+					
+					// Build theme
+					$config['build_function'](themeSettings());
+				} else {
+					$body = '<form action="" method="post">';
+					
+					if(!isset($theme['config']) || empty($theme['config'])) {
+						$body .= '<p style="text-align:center" class="unimportant">(No configuration required.)</p>';
+					} else {
+						$body .= '<table>';
+						foreach($theme['config'] as &$c) {
+							$body .= '<tr><th>' . $c['title'] . '</th><td>';
+							switch($c['type']) {
+								case 'text':
+								default:
+									$body .= '<input type="text" name="' . $c['name'] . '" />';
+							}
+							$body .= '</td></tr>';
+						}
+						$body .= '</table>';
+					}
+					
+					$body .= '<p style="text-align:center"><input name="install" type="submit" value="Install theme" /></p></form>';
+					
+					echo Element('page.html', Array(
+						'config'=>$config,
+						'title'=>'Installing "' . htmlentities($theme['name']) . '"',
+						'body'=>$body,
+						'mod'=>true
+						)
+					);
+				}
+			} else {
+			
+				// Scan directory for themes
+				$themes = Array();
+				while($file = readdir($dir)) {
+					if($file[0] != '.' && is_dir($config['dir']['homepage'] . '/' . $file)) {
+						$themes[] = $file;
+					}
+				}
+				closedir($dir);
+				
+				$body = '';
+				if(empty($themes)) {
+					$body = '<p style="text-align:center" class="unimportant">(No themes installed.)</p>';
+				} else {
+					$body .= '<table class="modlog">';
+					foreach($themes as &$_theme) {
+						$theme = loadThemeConfig($_theme);
+						
+						markup($theme['description']);
+						
+						$body .= '<tr>' .
+									'<th class="minimal">Name</th>' .
+									'<td>' . htmlentities($theme['name']) . '</td>' .
+								'</tr>' .
+								'<tr>' .
+									'<th class="minimal">Version</th>' .
+									'<td>' . htmlentities($theme['version']) . '</td>' .
+								'</tr>' .
+								'<tr>' .
+									'<th class="minimal">Description</th>' .
+									'<td>' . $theme['description'] . '</td>' .
+								'</tr>' .
+								'<tr>' .
+									'<th class="minimal">Thumbnail</th>' .
+									'<td><img style="float:none;margin:4px" src="' . $config['dir']['homepage_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
+								'</tr>' .
+								'<tr>' .
+									'<th class="minimal">Actions</th>' .
+									'<td><ul style="padding:0 20px">' .
+										'<li>' .
+											'<a title="Use theme" href="?/themes/frameset">Use</a>' .
+										'</li>' .
+										'<li>' .
+											confirmLink('Remove', 'Uninstall theme', 'Are you sure you want to permanently remove this theme?', 'themes/' . $_theme . '/uninstall') .
+										'</li>' .
+									'</ul></td>' .
+								'</tr>' .
+							'</tr>';
+					}
+					$body .= '</table>';
+				}
+				echo Element('page.html', Array(
+					'config'=>$config,
+					'title'=>'Select theme',
+					'body'=>$body,
+					'mod'=>true
+					)
+				);
+			}
 		} elseif(preg_match('/^\/noticeboard\/delete\/(\d+)$/', $query, $match)) {
 			if($mod['type'] < $config['mod']['noticeboard_delete']) error($config['error']['noaccess']);
 			

@@ -208,6 +208,13 @@
 	//$config['dir']['static']	= $config['root'] . 'static/';
 	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
 	$config['dir']['template']	= getcwd() . '/templates';
+	// For the homepage generation files (themes, etc.)
+	$config['dir']['homepage']	= getcwd() . '/templates/homepage';
+	// Same as above, but a URI (accessable by web interface, not locally)
+	$config['dir']['homepage_uri']	= 'templates/homepage';
+	// Homepage directory
+	$config['dir']['home']	= '';
+	
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
 	//$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
@@ -393,6 +400,8 @@
 	$config['mod']['noticeboard_delete'] = ADMIN;
 	// Public ban messages; attached to posts
 	$config['mod']['public_ban'] = MOD;
+	// Manage and install themes for homepage
+	$config['mod']['themes'] = ADMIN;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives
