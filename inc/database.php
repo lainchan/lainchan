@@ -1,4 +1,9 @@
 <?php
+	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
+		// You cannot request this file directly.
+		header('Location: ../', true, 302);
+		exit;
+	}
 	
 	function sql_open() {
 		global $pdo, $config;

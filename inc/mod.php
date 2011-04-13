@@ -1,5 +1,10 @@
 <?php
-		
+	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
+		// You cannot request this file directly.
+		header('Location: ../', true, 302);
+		exit;
+	}
+	
 	// Creates a small random string for validating moderators' cookies
 	function mkhash($length=12) {
 		// The method here isn't really important,

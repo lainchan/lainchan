@@ -588,4 +588,10 @@
 	
 	// Link imageboard to your Google Analytics account to track users and provide marketing insights.
 	// $config['google_analytics'] = 'UA-xxxxxxx-yy';
+	
+	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
+		// You cannot request this file directly.
+		header('Location: ../', true, 302);
+		exit;
+	}
 ?>

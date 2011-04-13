@@ -1,8 +1,9 @@
 <?php
-	
-	// PHP Template Preprocessor by Savetheinternet
-	// http://codecanyon.net/user/Savetheinternet
-	// savetheinternet@n0v4.com
+	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
+		// You cannot request this file directly.
+		header('Location: ../', true, 302);
+		exit;
+	}
 	
 	// -----------------------------------------------------
 	// Standard configuration
