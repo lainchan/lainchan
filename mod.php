@@ -426,9 +426,9 @@
 			
 				$body .= '<div class="ban">' .
 					($mod['type'] >= $config['mod']['noticeboard_delete'] ?
-						'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a>'
+						'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a></span>'
 					: '') .
-				'</span><h2 id="' . $notice['id'] . '">' .
+				'<h2 id="' . $notice['id'] . '">' .
 					($notice['subject'] ?
 						$notice['subject']
 					:
