@@ -240,9 +240,14 @@
 			$built .= ' ' . date($config['post_date'], $this->time);
 			
 			// End delete
-			$built .= '</label>';
+			$built .= '</label>'
 			
-			$built .= ' <a class="post_no"' . 
+			// Poster ID
+			. ($config['poster_ids'] ?
+				' ID: ' . poster_id($this->ip, $this->thread)
+			: '')
+			
+			. ' <a class="post_no"' . 
 			// JavaScript highlight
 				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
 				' href="' . $this->root . $board['dir'] . $config['dir']['res'] . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
@@ -416,9 +421,14 @@
 			$built .= ' ' . date($config['post_date'], $this->time);
 			
 			// End delete
-			$built .= '</label>';
+			$built .= '</label>'
 			
-			$built .= ' <a class="post_no"' . 
+			// Poster ID
+			. ($config['poster_ids'] ?
+				' ID: ' . poster_id($this->ip, $this->id)
+			: '')
+			
+			. ' <a class="post_no"' . 
 			// JavaScript highlight
 			($index?'':' onclick="highlightReply(' . $this->id . ');"') .
 			' href="' . $this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 

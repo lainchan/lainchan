@@ -1159,9 +1159,16 @@
 			reset($objects);
 			rmdir($dir);
 		}
-	} 
+	}
+	
+	function poster_id($ip, $thread) {
+		global $config;
+		
+		// Confusing, hard to brute-force, but simple algorithm
+		return substr(sha1(sha1($ip . $config['secure_trip_salt'] . $thread) . $config['secure_trip_salt']), 0, $config['poster_id_length']);
+	}
  
-	function generate_tripcode ( $name, $length = 10 ) {
+	function generate_tripcode($name, $length = 10){
 		global $config;
 		$name = stripslashes ( $name );
 		$t = explode('#', $name);

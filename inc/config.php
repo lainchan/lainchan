@@ -62,7 +62,7 @@
 	$config['cookies']['salt']	= 'wefaw98YHEWUFuo';
 	// How long should moderators should remain logged in (0=browser session) (in seconds)
 	$config['mod']['expire']	= 15778463; //6 months
-	// Used to salt secure tripcodes (##trip)
+	// Used to salt secure tripcodes (##trip) and poster IDs (if enabled)
 	$config['secure_trip_salt']	= '@#$&^@#)$(*&@!_$(&329-8347';
 	
 	// How many seconds before you can post, after the first visit
@@ -532,6 +532,12 @@
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko']	= false;
+	
+	// Assign each poster in a thread a unique ID, shown by "ID: {id}" before the post number.
+	$config['poster_ids'] = false;
+	
+	// Number of characters in the poster ID (maximum is 40)
+	$config['poster_id_length'] = 5;
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
