@@ -521,7 +521,7 @@
 	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
 	
 	// Allowed additional file extensions (not images; downloadable files)
-	$config['allowed_ext_files'] = Array('mp3');
+	$config['allowed_ext_files'] = Array();
 	
 	// Thumbnail to use for the downloadable files (not images)
 	$config['file_thumb'] = 'static/file.png';
