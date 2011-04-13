@@ -230,12 +230,10 @@
 					' style="' . $config['custom_capcode'][$this->capcode][2] . '"'
 				: '')
 			. '>'.$this->trip.'</span>':'')
+			// End email
+			. (!empty($this->email)? '</a>' : '')
 			// Capcode
 			. (!empty($this->capcode) ? capcode($this->capcode) : '');
-			
-			// End email
-			if(!empty($this->email))
-				$built .= '</a>';
 			
 			// IP Address
 			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
@@ -415,12 +413,10 @@
 			$built .= '<span class="name">' . $this->name . '</span>'
 			// Trip
 			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'')
+			// End email
+			. (!empty($this->email)? '</a>' : '')
 			// Capcode
 			. (!empty($this->capcode) ? capcode($this->capcode) : '');
-			
-			// End email
-			if(!empty($this->email))
-				$built .= '</a>';
 			
 			// IP Address
 			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
