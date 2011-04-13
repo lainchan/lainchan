@@ -402,6 +402,12 @@
 	$config['mod']['public_ban'] = MOD;
 	// Manage and install themes for homepage
 	$config['mod']['themes'] = ADMIN;
+	// Post news entries
+	$config['mod']['news'] = ADMIN;
+	// Custom name when posting news
+	$config['mod']['news_custom'] = ADMIN;
+	// Delete news entries
+	$config['mod']['news_delete'] = ADMIN;
 	
 	// Mod links (full HTML)
 	// Correspond to above permission directives

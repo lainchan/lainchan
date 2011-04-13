@@ -135,6 +135,8 @@
 						' <strong>(' . $count . ' unread)</strong>'
 					: '') .
 				'</a></li>';
+				
+				$fieldset['Noticeboard'] .= '<li><a href="?/news">News</a></li>';
 			}
 			
 			if($mod['type'] >= $config['mod']['reports']) {
@@ -445,6 +447,83 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'Noticeboard',
+				'body'=>$body,
+				'mod'=>true
+				)
+			);
+		} elseif(preg_match('/^\/news\/delete\/(\d+)$/', $query, $match)) {
+			if($mod['type'] < $config['mod']['noticeboard_delete']) error($config['error']['noaccess']);
+			
+			$query = prepare("DELETE FROM `news` WHERE `id` = :id");
+			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			header('Location: ?/news', true, $config['redirect_http']);
+		} elseif(preg_match('/^\/news$/', $query)) {			
+			$body = '';
+			
+			if($mod['type'] >= $config['mod']['news']) {
+				if(isset($_POST['subject']) && isset($_POST['body']) && !empty($_POST['body'])) {
+					$query = prepare("INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)");
+					
+					if(isset($_POST['name']) && $mod['type'] >= $config['mod']['news_custom'])
+						$name = $_POST['name'];
+					else
+						$name = $mod['username'];
+					
+					$query->bindValue(':name', utf8tohtml($name), PDO::PARAM_INT);
+					$query->bindvalue(':time', time(), PDO::PARAM_INT);
+					$query->bindValue(':subject', utf8tohtml($_POST['subject']));
+					
+					markup($_POST['body']);
+					$query->bindValue(':body', $_POST['body']);
+					$query->execute() or error(db_error($query));
+				}
+				
+				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
+				'<tr>' .
+					'<th><label for="subject">Name</label></th>' .
+					($mod['type'] >= $config['mod']['news_custom'] ?
+						'<td><input type="text" size="55" name="subject" id="subject" value="' . htmlentities($mod['username']) . '" /></td>'
+					:
+						'<td>' . $mod['username'] . '</td>') .
+				'</tr><tr>' .
+					'<th>Subject</th>' .
+					'<td><input type="text" size="55" name="subject" id="subject" /></td>' .
+				'</tr><tr>' .
+					'<th>Body</th>' .
+					'<td><textarea name="body" style="width:100%;height:100px"></textarea></td>' .
+				'</tr><tr>' .
+					'<td></td><td><input type="submit" value="Post to news" /></td>' .
+				'</tr></table>' .
+				'</form></fieldset>';
+			}
+			
+			$query = prepare("SELECT * FROM `news` ORDER BY `id` DESC LIMIT :limit");
+			$query->bindValue(':limit', $config['mod']['noticeboard_display'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			while($news = $query->fetch()) {			
+				$body .= '<div class="ban">' .
+					($mod['type'] >= $config['mod']['news_delete'] ?
+						'<span style="float:right;padding:2px"><a class="unimportant" href="?/news/delete/' . $news['id'] . '">[delete]</a></span>'
+					: '') .
+				'<h2 id="' . $news['id'] . '">' .
+					($news['subject'] ?
+						$news['subject']
+					:
+						'<em>no subject</em>'
+					) .
+				'<span class="unimportant"> — by ' .
+					$news['name'] .
+				' at ' .
+					date($config['post_date'], $news['time']) .
+				'</span></h2><p>' . $news['body'] . '</p></div>';
+			}
+			
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'News',
 				'body'=>$body,
 				'mod'=>true
 				)

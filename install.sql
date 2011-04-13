@@ -247,3 +247,39 @@ CREATE TABLE IF NOT EXISTS `robot` (
 -- Dumping data for table `robot`
 --
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `theme_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `theme_settings` (
+  `name` varchar(40) NOT NULL,
+  `value` text,
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `theme_settings`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `time` int(11) NOT NULL,
+  `subject` text NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `news`
+--
+

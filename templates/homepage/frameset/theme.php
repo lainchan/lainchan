@@ -12,9 +12,16 @@ Users never have to leave the homepage; they can do all their browsing from the 
 	
 	// Theme configuration	
 	$theme['config'] = Array();
+	
 	$theme['config'][] = Array(
-		'title' => 'Page title',
+		'title' => 'Title',
 		'name' => 'title',
+		'type' => 'text'
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Slogan',
+		'name' => 'subtitle',
 		'type' => 'text'
 	);
 	
@@ -32,6 +39,7 @@ Users never have to leave the homepage; they can do all their browsing from the 
 			
 			file_put_contents($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
 			file_put_contents($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
+			file_put_contents($config['dir']['home'] . 'news.html', Frameset::news($settings));
 		}
 		
 		// Build homepage
@@ -52,9 +60,50 @@ Users never have to leave the homepage; they can do all their browsing from the 
 			// Sidebar
 			. '<iframe src="sidebar.html" id="sidebar"></iframe>'
 			// Main
-			. '<iframe src="b" id="main"></iframe>'
+			. '<iframe src="news.html" id="main"></iframe>'
 			// Finish page
 			. '</body></html>';
+		}
+		
+		// Build news page
+		public static function news($settings) {
+			global $config;
+			
+			// HTML5
+			$body = '<!DOCTYPE html><html>'
+			. '<head>'
+				. '<link rel="stylesheet" media="screen" href="' . $config['url_stylesheet'] . '"/>'
+				. '<title>News</title>'
+			. '</head><body>';
+			
+			$body .= '<h1>' . $settings['title'] . '</h1>'
+				. '<div class="title">' . ($settings['subtitle'] ? utf8tohtml($settings['subtitle']) : '') . '</div>';
+			
+			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
+			if($query->rowCount() == 0) {
+				$body .= '<p style="text-align:center" class="unimportant">(No news to show.)</p>';
+			} else {
+				// List news
+				while($news = $query->fetch()) {
+					$body .= '<div class="ban">' .
+					'<h2 id="' . $news['id'] . '">' .
+						($news['subject'] ?
+							$news['subject']
+						:
+							'<em>no subject</em>'
+						) .
+					'<span class="unimportant"> — by ' .
+						$news['name'] .
+					' at ' .
+						date($config['post_date'], $news['time']) .
+					'</span></h2><p>' . $news['body'] . '</p></div>';
+				}
+			}
+			
+			// Finish page
+			$body .= '</body></html>';
+			
+			return $body;
 		}
 		
 		// Build sidebar
