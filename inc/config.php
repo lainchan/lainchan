@@ -116,6 +116,7 @@
 	$config['error']['toomanyreports']	= 'You can\'t report that many posts at once.';
 	$config['error']['invalidpassword']	= 'Wrong password…';
 	$config['error']['invalidimg']		= 'Invalid image.';
+	$config['error']['unknownext']		= 'Unknown file extension.';
 	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
 	$config['error']['maxsize']			= 'The file was too big.';
 	$config['error']['invalidzip']		= 'Invalid archive!';
@@ -516,8 +517,14 @@
 	// https://github.com/savetheinternet/Tinyboard/issues/20
 	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/';
 	
-	// Allowed file extensions
-	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', '');
+	// Allowed image file extensions
+	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
+	
+	// Allowed additional file extensions (not images; downloadable files)
+	$config['allowed_ext_files'] = Array('mp3');
+	
+	// Thumbnail to use for the downloadable files (not images)
+	$config['file_thumb'] = 'static/file.png';
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post".)
 	$config['button_newtopic']	= 'New Topic';

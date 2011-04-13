@@ -259,14 +259,16 @@
 			if(!empty($this->file) && $this->file != 'deleted') {
 				$built .= '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
-					format_bytes($this->filesize) . ', ' . 
+				format_bytes($this->filesize) .
 			// File dimensions
-					$this->filex . 'x' . $this->filey;
+			($this->filex && $this->filey ?
+				', ' . $this->filex . 'x' . $this->filey
+			: '' );
 			// Aspect Ratio
-				if($config['show_ratio']) {
-					$fraction = fraction($this->filex, $this->filey, ':');
-					$built .= ', ' . $fraction;
-				}
+			if($config['show_ratio'] && $this->filex && $this->filey) {
+				$fraction = fraction($this->filex, $this->filey, ':');
+				$built .= ', ' . $fraction;
+			}
 			// Filename
 				$built .= ', ' . $this->filename . ')</span></p>' .
 				
@@ -377,11 +379,13 @@
 			
 			$built = '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
 			// Filesize
-				format_bytes($this->filesize) . ', ' . 
+				format_bytes($this->filesize) .
 			// File dimensions
-				$this->filex . 'x' . $this->filey;
+			($this->filex && $this->filey ?
+				', ' . $this->filex . 'x' . $this->filey
+			: '' );
 			// Aspect Ratio
-			if($config['show_ratio']) {
+			if($config['show_ratio'] && $this->filex && $this->filey) {
 				$fraction = fraction($this->filex, $this->filey, ':');
 				$built .= ', ' . $fraction;
 			}

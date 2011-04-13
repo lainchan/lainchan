@@ -363,7 +363,7 @@
 			$query->bindValue(':height', $post['height'], PDO::PARAM_INT);
 			$query->bindValue(':filesize', $post['filesize'], PDO::PARAM_INT);
 			$query->bindValue(':filename', $post['filename']);
-			$query->bindValue(':filehash', $post['filehash']);
+			$query->bindValue(':filehash', $post['file']);
 		} else {
 			$query->bindValue(':thumb', null, PDO::PARAM_NULL);
 			$query->bindValue(':thumbwidth', null, PDO::PARAM_NULL);
@@ -1363,12 +1363,13 @@
 				}
 				break;
 			default:
-				error('Unknwon file extension.');
+				error($config['error']['unknownext']);
 		}
 		return $image;
 	}
 
-	function resize($src, $width, $height, $destination_pic, $max_width, $max_height, $ext) {	
+	function resize($src, $width, $height, $destination_pic, $max_width, $max_height, $ext) {
+		global $config;
 		$return = Array();
 
 		$x_ratio = $max_width / $width;
@@ -1414,7 +1415,7 @@
 				imagebmp($tmp, $destination_pic);
 				break;
 			default:
-				error('Unknwon file extension.');
+				error($config['error']['unknownext']);
 		}
 		
 		imagedestroy($src);

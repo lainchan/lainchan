@@ -384,51 +384,65 @@
 		}
 		
 		if($post['has_file']) {
+			if(!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
+				error($config['error']['unknownext']);
+			
+			if(in_array($post['extension'], $config['allowed_ext_files']))
+				$__file = true;
+			
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
-			$size = @getimagesize($post['file']);
-			$post['width'] = $size[0];
-			$post['height'] = $size[1];
-			
-			// Check if the image is valid
-			if($post['width'] < 1 || $post['height'] < 1) {
-				undoImage($post);
-				error($config['error']['invalidimg']);
-			}
-			
-			if($post['width'] > $config['max_width'] || $post['height'] > $config['max_height']) {
-				undoImage($post);
-				error($config['error']['maxsize']);
-			}
-			
-			// Check IE MIME type detection XSS exploit
-			$buffer = file_get_contents($post['file'], null, null, null, 255);
-			if(preg_match($config['ie_mime_type_detection'], $buffer)) {
-				undoImage($post);
-				error($config['error']['mime_exploit']);
+			if(!isset($__file)) {
+				$size = @getimagesize($post['file']);
+				$post['width'] = $size[0];
+				$post['height'] = $size[1];
+				
+				// Check if the image is valid
+				if($post['width'] < 1 || $post['height'] < 1) {
+					undoImage($post);
+					error($config['error']['invalidimg']);
+				}
+				
+				if($post['width'] > $config['max_width'] || $post['height'] > $config['max_height']) {
+					undoImage($post);
+					error($config['error']['maxsize']);
+				}
+				
+				// Check IE MIME type detection XSS exploit
+				$buffer = file_get_contents($post['file'], null, null, null, 255);
+				if(preg_match($config['ie_mime_type_detection'], $buffer)) {
+					undoImage($post);
+					error($config['error']['mime_exploit']);
+				}
+				
+				if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height'] && $post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
+					// Copy, because there's nothing to resize
+					copy($post['file'], $post['thumb']);
+					
+					$post['thumbwidth'] = $post['width'];
+					$post['thumbheight'] = $post['height'];
+				} else {
+					$image = createimage($post['extension'], $post['file']);
+					
+					// Create a thumbnail
+					$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height'], ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']));
+					
+					$post['thumbwidth'] = $thumb['width'];
+					$post['thumbheight'] = $thumb['height'];
+				}
+			} else {
+				copy($config['file_thumb'], $post['thumb']);
+				
+				$size = @getimagesize($post['thumb']);
+				$post['thumbwidth'] = $size[0];
+				$post['thumbheight'] = $size[1];
 			}
 			
 			$post['filehash'] = $config['file_hash']($post['file']);
 			$post['filesize'] = filesize($post['file']);
-			
-			if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height'] && $post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
-				// Copy, because there's nothing to resize
-				copy($post['file'], $post['thumb']);
-				
-				$post['thumbwidth'] = $post['width'];
-				$post['thumbheight'] = $post['height'];
-			} else {
-				$image = createimage($post['extension'], $post['file']);
-				
-				// Create a thumbnail
-				$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height'], ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']));
-				
-				$post['thumbwidth'] = $thumb['width'];
-				$post['thumbheight'] = $thumb['height'];
-			}
 		}
 		
 		if($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
