@@ -458,6 +458,8 @@
 			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
+			rebuildTheme();
+			
 			header('Location: ?/news', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/news$/', $query)) {			
 			$body = '';
@@ -478,13 +480,15 @@
 					markup($_POST['body']);
 					$query->bindValue(':body', $_POST['body']);
 					$query->execute() or error(db_error($query));
+					
+					rebuildTheme();
 				}
 				
 				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
 				'<tr>' .
-					'<th><label for="subject">Name</label></th>' .
+					'<th>Name</th>' .
 					($mod['type'] >= $config['mod']['news_custom'] ?
-						'<td><input type="text" size="55" name="subject" id="subject" value="' . htmlentities($mod['username']) . '" /></td>'
+						'<td><input type="text" size="55" name="name" id="name" value="' . htmlentities($mod['username']) . '" /></td>'
 					:
 						'<td>' . $mod['username'] . '</td>') .
 				'</tr><tr>' .
@@ -1335,6 +1339,9 @@
 			set_time_limit($config['mod']['rebuild_timelimit']);
 			
 			$body = '<div class="ban"><h2>Rebuilding…</h2><p>';
+			
+			$body .= 'Regenerating theme files…<br/>';
+			rebuildTheme();
 			
 			$body .= 'Generating Javascript file…<br/>';
 			buildJavascript();

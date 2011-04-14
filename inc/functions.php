@@ -101,6 +101,16 @@
 		return $theme;
 	}
 	
+	function rebuildTheme() {
+		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
+		if($theme = $query->fetch()) {
+			// A theme is installed
+			
+			$theme = loadThemeConfig($theme['theme']);
+			$theme['build_function'](themeSettings());
+		}
+	}
+	
 	function themeSettings() {
 		$query = query("SELECT * FROM `theme_settings`") or error(db_error());
 		$settings = Array();
