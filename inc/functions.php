@@ -104,13 +104,13 @@
 		return $theme;
 	}
 	
-	function rebuildTheme() {
+	function rebuildTheme($action) {
 		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
 		if($theme = $query->fetch()) {
 			// A theme is installed
 			
 			$theme = loadThemeConfig($theme['theme']);
-			$theme['build_function'](themeSettings());
+			$theme['build_function']($action, themeSettings());
 		}
 	}
 	
@@ -799,10 +799,16 @@
 					$content .= '<div style="display:none"><input type="text" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" /></div>';
 					break;
 				case 6:
-					$content .= '<textarea style="display:none" name="' . htmlspecialchars($name) . '">' . htmlspecialchars($value) . '</textarea>';
+					if(!empty($value))
+						$content .= '<textarea style="display:none" name="' . htmlspecialchars($name) . '">' . htmlspecialchars($value) . '</textarea>';
+					else
+						$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />';
 					break;
 				case 7:
-					$content .= '<textarea name="' . htmlspecialchars($name) . '" style="display:none">' . htmlspecialchars($value) . '</textarea>';
+					if(!empty($value))
+						$content .= '<textarea name="' . htmlspecialchars($name) . '" style="display:none">' . htmlspecialchars($value) . '</textarea>';
+					else
+						$content .= '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" />';
 					break;
 				case 8:
 					$content .= '<div style="display:none"><textarea name="' . htmlspecialchars($name) . '" style="display:none">' . htmlspecialchars($value) . '</textarea></div>';

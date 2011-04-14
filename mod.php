@@ -304,7 +304,15 @@
 					$query->execute() or error(db_error($query));
 					
 					// Build theme
-					$theme['build_function'](themeSettings());
+					rebuildTheme('all');
+					
+					echo Element('page.html', Array(
+						'config'=>$config,
+						'title'=>'Installed "' . htmlentities($theme['name']) . '"',
+						'body'=>'<p style="text-align:center">Successfully installed and built theme.</p>',
+						'mod'=>true
+						)
+					);
 				} else {
 					$body = '<form action="" method="post">';
 					
@@ -481,7 +489,7 @@
 			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			rebuildTheme();
+			rebuildTheme('news');
 			
 			header('Location: ?/news', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/news$/', $query)) {			
@@ -504,7 +512,7 @@
 					$query->bindValue(':body', $_POST['body']);
 					$query->execute() or error(db_error($query));
 					
-					rebuildTheme();
+					rebuildTheme('news');
 				}
 				
 				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
@@ -1197,6 +1205,8 @@
 				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
+				rebuildTheme('boards');
+				
 				header('Location: ?/', true, $config['redirect_http']);
 			} else {
 				if(isset($_POST['title']) && isset($_POST['subtitle'])) {
@@ -1210,6 +1220,8 @@
 					
 					$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
+					
+					rebuildTheme('boards');
 					
 					openBoard($board['uri']);
 				}
@@ -1364,7 +1376,7 @@
 			$body = '<div class="ban"><h2>Rebuilding…</h2><p>';
 			
 			$body .= 'Regenerating theme files…<br/>';
-			rebuildTheme();
+			rebuildTheme('all');
 			
 			$body .= 'Generating Javascript file…<br/>';
 			buildJavascript();
@@ -1509,6 +1521,8 @@
 				
 				// Build the board
 				buildIndex();
+				
+				rebuildTheme('boards');
 				
 				header('Location: ?/board/' . $board['uri'], true, $config['redirect_http']);
 			} else {

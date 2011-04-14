@@ -28,18 +28,28 @@ Users never have to leave the homepage; they can do all their browsing from the 
 	// Unique function name for building everything
 	$theme['build_function'] = 'frameset_build';
 	
-	function frameset_build($settings) {
-		Frameset::build($settings);
+	function frameset_build($action, $settings) {
+		// Possible values for $action:
+		//	- all (rebuild everything, initialization)
+		//	- news (news has been updated)
+		//	- boards (board list changed)
+		
+		Frameset::build($action, $settings);
 	}
 	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class Frameset {
-		public static function build($settings) {
+		public static function build($action, $settings) {
 			global $config;
 			
-			file_put_contents($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
-			file_put_contents($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
-			file_put_contents($config['dir']['home'] . 'news.html', Frameset::news($settings));
+			if($action == 'all')
+				file_put_contents($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
+			
+			if($action == 'all' || $action == 'boards')
+				file_put_contents($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
+			
+			if($action == 'all' || $action == 'news')
+				file_put_contents($config['dir']['home'] . 'news.html', Frameset::news($settings));
 		}
 		
 		// Build homepage
