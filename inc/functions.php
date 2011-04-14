@@ -96,6 +96,9 @@
 	function loadThemeConfig($_theme) {
 		global $config;
 		
+		if(!file_exists($config['dir']['homepage'] . '/' . $_theme . '/theme.php'))
+			return false;
+		
 		// Load theme information into $theme
 		include $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
 		return $theme;

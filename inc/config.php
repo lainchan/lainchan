@@ -137,6 +137,7 @@
 	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
 	$config['error']['404']				= 'Page not found.';
 	$config['error']['modexists']		= 'That mod <a href="?/users/%d">already exists</a>!';
+	$config['error']['invalidtheme']	= 'That theme doesn\'t exist!';
 	
 	// How many reports you can create in the same request.
 	$config['report_limit']	= 2;

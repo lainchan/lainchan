@@ -80,6 +80,7 @@
 				'Boards' => '',
 				'Noticeboard' => '',
 				'Administration' => '',
+				'Themes' => '',
 				'Search' => '',
 				'Logout' => ''
 			);
@@ -156,6 +157,10 @@
 			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
+			}
+			
+			if($mod['type'] >= $config['mod']['themes']) {
+				$fieldset['Themes'] .= 	'<li><a href="?/themes">Manage themes</a></li>';
 			}
 			
 			if($mod['type'] >= $config['mod']['search']) {
@@ -249,6 +254,19 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/themes\/none$/', $query, $match)) {
+			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
+			
+			// Clearsettings
+			query("TRUNCATE TABLE `theme_settings`") or error(db_error());
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'No theme',
+				'body'=>'<p style="text-align:center">Successfully stopped using any themes. You\'ll have to create a homepage manually if you want one.</p>',
+				'mod'=>true
+				)
+			);
 		} elseif(preg_match('/^\/themes(\/(\w+))?$/', $query, $match)) {
 			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
 			
@@ -260,7 +278,9 @@
 			if(isset($match[2])) {
 				$_theme = $match[2];
 				
-				$theme = loadThemeConfig($_theme);
+				if(!$theme = loadThemeConfig($_theme)) {
+					error($config['error']['invalidtheme']);
+				}
 				
 				if(isset($_POST['install'])) {
 					// Check if everything is submitted
@@ -366,6 +386,9 @@
 					}
 					$body .= '</table>';
 				}
+				
+				$body .= '<p style="text-align:center"><a href="?/themes/none">Don\'t use a theme.</a></p>';
+				
 				echo Element('page.html', Array(
 					'config'=>$config,
 					'title'=>'Select theme',
