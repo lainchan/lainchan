@@ -284,7 +284,7 @@
 					$query->execute() or error(db_error($query));
 					
 					// Build theme
-					$config['build_function'](themeSettings());
+					$theme['build_function'](themeSettings());
 				} else {
 					$body = '<form action="" method="post">';
 					
@@ -355,14 +355,14 @@
 									'<th class="minimal">Actions</th>' .
 									'<td><ul style="padding:0 20px">' .
 										'<li>' .
-											'<a title="Use theme" href="?/themes/frameset">Use</a>' .
+											'<a title="Use theme" href="?/themes/' . $_theme . '">Use</a>' .
 										'</li>' .
 										'<li>' .
 											confirmLink('Remove', 'Uninstall theme', 'Are you sure you want to permanently remove this theme?', 'themes/' . $_theme . '/uninstall') .
 										'</li>' .
 									'</ul></td>' .
 								'</tr>' .
-							'</tr>';
+								'<tr style="height:40px"><td colspan="2"><hr/></td></tr>';
 					}
 					$body .= '</table>';
 				}

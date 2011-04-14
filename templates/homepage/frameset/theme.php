@@ -26,7 +26,7 @@ Users never have to leave the homepage; they can do all their browsing from the 
 	);
 	
 	// Unique function name for building everything
-	$config['build_function'] = 'frameset_build';
+	$theme['build_function'] = 'frameset_build';
 	
 	function frameset_build($settings) {
 		Frameset::build($settings);

@@ -23,7 +23,7 @@
 	);
 	
 	// Unique function name for building everything
-	$config['build_function'] = 'basic_build';
+	$theme['build_function'] = 'basic_build';
 	
 	function basic_build($settings) {
 		Basic::build($settings);
