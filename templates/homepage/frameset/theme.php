@@ -28,13 +28,15 @@ Users never have to leave the homepage; they can do all their browsing from the 
 	// Unique function name for building everything
 	$theme['build_function'] = 'frameset_build';
 	
-	function frameset_build($action, $settings) {
-		// Possible values for $action:
-		//	- all (rebuild everything, initialization)
-		//	- news (news has been updated)
-		//	- boards (board list changed)
-		
-		Frameset::build($action, $settings);
+	if(!function_exists('frameset_build')) {
+		function frameset_build($action, $settings) {
+			// Possible values for $action:
+			//	- all (rebuild everything, initialization)
+			//	- news (news has been updated)
+			//	- boards (board list changed)
+			
+			Frameset::build($action, $settings);
+		}
 	}
 	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations

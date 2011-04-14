@@ -25,15 +25,16 @@
 	// Unique function name for building everything
 	$theme['build_function'] = 'basic_build';
 	
-	function basic_build($action, $settings) {
-		// Possible values for $action:
-		//	- all (rebuild everything, initialization)
-		//	- news (news has been updated)
-		//	- boards (board list changed)
-		
-		Basic::build($action, $settings);
+	if(!function_exists('basic_build')) {
+		function basic_build($action, $settings) {
+			// Possible values for $action:
+			//	- all (rebuild everything, initialization)
+			//	- news (news has been updated)
+			//	- boards (board list changed)
+			
+			Basic::build($action, $settings);
+		}
 	}
-	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class Basic {
 		public static function build($action, $settings) {
