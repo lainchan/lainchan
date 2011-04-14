@@ -1,40 +1,15 @@
 <?php
-	$theme = Array();
+	require 'info.php';
 	
-	// Theme name
-	$theme['name'] = 'Basic';
-	// Description (you can use Tinyboard markup here)
-	$theme['description'] = 'Extremely basic news listing for the homepage. It\'s suggested that you enable boardlinks for this theme.';
-	$theme['version'] = 'v0.9';
-	
-	// Theme configuration	
-	$theme['config'] = Array();
-	
-	$theme['config'][] = Array(
-		'title' => 'Title',
-		'name' => 'title',
-		'type' => 'text'
-	);
-	
-	$theme['config'][] = Array(
-		'title' => 'Slogan',
-		'name' => 'subtitle',
-		'type' => 'text'
-	);
-	
-	// Unique function name for building everything
-	$theme['build_function'] = 'basic_build';
-	
-	if(!function_exists('basic_build')) {
-		function basic_build($action, $settings) {
-			// Possible values for $action:
-			//	- all (rebuild everything, initialization)
-			//	- news (news has been updated)
-			//	- boards (board list changed)
-			
-			Basic::build($action, $settings);
-		}
+	function basic_build($action, $settings) {
+		// Possible values for $action:
+		//	- all (rebuild everything, initialization)
+		//	- news (news has been updated)
+		//	- boards (board list changed)
+		
+		Basic::build($action, $settings);
 	}
+	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class Basic {
 		public static function build($action, $settings) {

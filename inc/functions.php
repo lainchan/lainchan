@@ -96,21 +96,28 @@
 	function loadThemeConfig($_theme) {
 		global $config;
 		
-		if(!file_exists($config['dir']['homepage'] . '/' . $_theme . '/theme.php'))
+		if(!file_exists($config['dir']['homepage'] . '/' . $_theme . '/info.php'))
 			return false;
 		
 		// Load theme information into $theme
-		include $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
+		include $config['dir']['homepage'] . '/' . $_theme . '/info.php';
 		return $theme;
 	}
 	
 	function rebuildTheme($action) {
+		global $config;
+		
 		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
 		if($theme = $query->fetch()) {
 			// A theme is installed
+			$_theme = $theme['theme'];
 			
-			$theme = loadThemeConfig($theme['theme']);
-			$theme['build_function']($action, themeSettings());
+			$theme = loadThemeConfig($_theme);
+			
+			if(file_exists($config['dir']['homepage'] . '/' . $_theme . '/theme.php')) {
+				include $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
+				$theme['build_function']($action, themeSettings());
+			}
 		}
 	}
 	
