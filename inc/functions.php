@@ -105,7 +105,7 @@
 	}
 	
 	function rebuildTheme($action) {
-		global $config;
+		global $config, $_theme;
 		
 		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
 		if($theme = $query->fetch()) {
@@ -976,7 +976,7 @@
 		}
 	}
 	
-	function quote($body) {
+	function quote($body, $quote=true) {
 		$body = str_replace('<br/>', "\n", $body);
 		
 		$body = strip_tags($body);

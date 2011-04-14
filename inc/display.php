@@ -98,8 +98,11 @@
 		)));
 	}
 	
-	function pm_snippet($body) {
+	function pm_snippet($body, $len=null) {
 		global $config;
+		
+		if(!isset($len))
+			$len = $config['mod']['snippet_length'];
 		
 		// Replace line breaks with some whitespace
 		$body = str_replace('<br/>', '  ', $body);
@@ -110,7 +113,7 @@
 		// Unescape HTML characters, to avoid splitting them in half
 		$body = html_entity_decode_utf8($body);
 		
-		$body = substr($body, 0, $config['mod']['snippet_length']) . (strlen($body) > $config['mod']['snippet_length'] ? '…' : '');
+		$body = substr($body, 0, $len) . (strlen($body) > $len ? '…' : '');
 		
 		// Re-escape the characters.
 		return '<em>' . utf8tohtml($body) . '</em>';
