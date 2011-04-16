@@ -8,25 +8,28 @@
 		//	- boards (board list changed)
 		//	- post (a post has been made)
 		
-		Basic::build($action, $settings);
+		$b = new Basic();
+		$b->build($action, $settings);
 	}
 	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class Basic {
-		public static function build($action, $settings) {
+		public function build($action, $settings) {
 			global $config, $_theme;
 			
 			if($action == 'all') {
 				copy($config['dir']['homepage'] . '/' . $_theme . '/recent.css', $config['dir']['home'] . 'recent.css');
 			}
 			
+			$this->excluded = explode(' ', $settings['exclude']);
+			
 			if($action == 'all' || $action == 'post')
-			//	file_put_contents($config['dir']['home'] . $config['file_index'], Basic::homepage($settings));
-				file_put_contents($config['dir']['home'] . 'recent.html', Basic::homepage($settings));
+			//	file_put_contents($config['dir']['home'] . $config['file_index'], $this->homepage($settings));
+				file_put_contents($config['dir']['home'] . 'recent.html', $this->homepage($settings));
 		}
 		
 		// Build news page
-		public static function homepage($settings) {
+		public function homepage($settings) {
 			global $config, $board;
 			
 			// HTML5
@@ -52,6 +55,8 @@
 			$body .= '<div class="box left"><h2>Recent Images</h2><ul>';
 				$query = '';
 				foreach($boards as &$_board) {
+					if(in_array($_board['uri'], $this->excluded))
+						continue;
 					$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `file` IS NOT NULL UNION ALL ", $_board['uri'], $_board['uri']);
 				}
 				$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT 3', $query);
@@ -70,6 +75,8 @@
 			$body .= '<div class="box right"><h2>Latest Posts</h2><ul>';
 				$query = '';
 				foreach($boards as &$_board) {
+					if(in_array($_board['uri'], $this->excluded))
+						continue;
 					$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` UNION ALL ", $_board['uri'], $_board['uri']);
 				}
 				$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT 30', $query);
@@ -92,6 +99,8 @@
 				// Total posts
 				$query = 'SELECT SUM(`top`) AS `count` FROM (';
 				foreach($boards as &$_board) {
+					if(in_array($_board['uri'], $this->excluded))
+						continue;
 					$query .= sprintf("SELECT MAX(`id`) AS `top` FROM `posts_%s` UNION ALL ", $_board['uri']);
 				}
 				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
@@ -102,6 +111,8 @@
 				// Unique IPs
 				$query = 'SELECT COUNT(DISTINCT(`ip`)) AS `count` FROM (';
 				foreach($boards as &$_board) {
+					if(in_array($_board['uri'], $this->excluded))
+						continue;
 					$query .= sprintf("SELECT `ip` FROM `posts_%s` UNION ALL ", $_board['uri']);
 				}
 				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
@@ -112,6 +123,8 @@
 				// Active content
 				$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
 				foreach($boards as &$_board) {
+					if(in_array($_board['uri'], $this->excluded))
+						continue;
 					$query .= sprintf("SELECT `filesize` FROM `posts_%s` UNION ALL ", $_board['uri']);
 				}
 				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);

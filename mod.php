@@ -286,7 +286,7 @@
 					// Check if everything is submitted
 					foreach($theme['config'] as &$c) {
 						if(!isset($_POST[$c['name']]) && $c['type'] != 'checkbox')
-							error(spritnf($config['error']['required'], $c['title']));
+							error(sprintf($config['error']['required'], $c['title']));
 					}
 					
 					// Clear previous settings
@@ -327,6 +327,8 @@
 								default:
 									$body .= '<input type="text" name="' . $c['name'] . '" />';
 							}
+							if(isset($c['comment']))
+								$body .= ' <span class="unimportant">' . $c['comment'] . '</span>';
 							$body .= '</td></tr>';
 						}
 						$body .= '</table>';

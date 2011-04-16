@@ -16,6 +16,13 @@
 		'type' => 'text'
 	);
 	
+	$theme['config'][] = Array(
+		'title' => 'Excluded boards',
+		'name' => 'exclude',
+		'type' => 'text',
+		'comment' => '(space seperated)'
+	);
+	
 	// Unique function name for building everything
 	$theme['build_function'] = 'recentposts_build';
 ?>
