@@ -80,6 +80,10 @@
 	
 	// Max body length
 	$config['max_body']			= 1800;
+	// Amount of post lines to show on the index page
+	$config['body_truncate']	= 15;
+	// Amount of characters to show on the index page
+	$config['body_truncate_char'] = 2500;
 	
 	$config['threads_per_page']	= 10;
 	$config['max_pages']		= 10;

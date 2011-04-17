@@ -131,6 +131,52 @@
 		return sprintf($config['capcode'], $cap);
 	}
 	
+	function truncate($body, $url) {
+		global $config;
+		
+		$original_body = $body;
+		
+		$lines = substr_count($body, '<br/>');
+		
+		// Limit line count
+		if($lines > $config['body_truncate']) {
+			if(preg_match('/(((.*?)<br\/>){' . $config['body_truncate'] . '})/', $body, $m))
+				$body = $m[0];
+		}
+		
+		$body = substr($body, 0, $config['body_truncate_char']);
+		
+		if($body != $original_body) {
+			// Remove any corrupt tags at the end
+			$body = preg_replace('/<([\w]+)?([^>]*)?$/', '', $body);
+			
+			// Open tags
+			if(preg_match_all('/<([\w]+)[^>]*>/', $body, $open_tags)) {
+				
+				$tags = Array();
+				for($x=0;$x<count($open_tags[0]);$x++) {
+					if(!preg_match('/\/(\s+)?>$/', $open_tags[0][$x]))
+						$tags[] = $open_tags[1][$x];
+				}
+				
+				// List successfully closed tags
+				if(preg_match_all('/(<\/([\w]+))>/', $body, $closed_tags)) {
+					for($x=0;$x<count($closed_tags[0]);$x++) {
+						unset($tags[array_search($closed_tags[1][$x], $tags)]);
+					}
+				}
+				
+				// Close any open tags
+				foreach($tags as &$tag) {
+					$body .= "</{$tag}>";
+				}
+			}
+			$body .= '<span class="toolong">Post too long. Click <a href="' . $url . '">here</a> to view the full text.</span>';
+		}
+		
+		return $body;
+	}
+	
 	function confirmLink($text, $title, $confirm, $href) {
 		global $config, $mod;
 		if($config['mod']['server-side_confirm'])
@@ -173,6 +219,11 @@
 					'<a $1href="?/$4',
 					$this->body
 				);
+		}
+		public function link($pre = '') {
+			global $config, $board;
+			
+			return $this->root . $board['dir'] . $config['dir']['res'] . $this->thread . '.html' . '#' . $pre . $this->id;
 		}
 		public function postControls() {
 			global $board, $config;
@@ -257,9 +308,9 @@
 			. ' <a class="post_no"' . 
 			// JavaScript highlight
 				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-				' href="' . $this->root . $board['dir'] . $config['dir']['res'] . $this->thread . '.html' . '#' . $this->id . '">No.</a>' . 
+				' href="' . $this->link() . '">No.</a>' . 
 			// JavaScript cite
-				'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index?$this->root . $board['dir'] . $config['dir']['res'] . $this->thread . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' . 
+				'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' . 
 			'</p>';
 		
 			// File info
@@ -288,7 +339,7 @@
 			$built .= $this->postControls();
 			
 			// Body
-			$built .= '<p class="body">' . $this->body . '</p></div><br class="clear"/>';
+			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br class="clear"/>';
 			
 			return $built;
 		}
@@ -333,6 +384,11 @@
 					'<a href="?/$3',
 					$this->body
 				);
+		}
+		public function link($pre = '') {
+			global $config, $board;
+			
+			return $this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html' . '#' . $pre . $this->id;
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
@@ -440,9 +496,9 @@
 			. ' <a class="post_no"' . 
 			// JavaScript highlight
 			($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-			' href="' . $this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html' . '#' . $this->id . '">No.</a>' . 
+			' href="' . $this->link()  . '">No.</a>' . 
 			// JavaScript cite
-			'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index?$this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html' . '#q' . $this->id:'javascript:void(0);') . '">'.$this->id.'</a>' .
+			'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' .
 			// Sticky
 			($this->sticky ? '<img class="icon" title="Sticky" src="' . $config['image_sticky'] . '" />' : '') .
 			// Locked
@@ -455,7 +511,7 @@
 			'</p>';
 			
 			// Body
-			$built .= '<p class="body">' . $this->body . '</p>' .
+			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p>' .
 			
 			// Omitted posts
 			($this->omitted || $this->omitted_images? '<span class="omitted">' .
