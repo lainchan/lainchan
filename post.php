@@ -486,7 +486,6 @@
 			clean();
 		
 		buildIndex();
-		sql_close();
 		
 		// Tell Javascript that we posted successfully
 		if(isset($_COOKIE[$config['cookies']['js']]))
@@ -501,10 +500,16 @@
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		if($config['always_noko'] || $noko) {
-			header('Location: ' . $root . $board['dir'] . $config['dir']['res'] . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:''), true, $config['redirect_http']);
+			$redirect = $root . $board['dir'] . $config['dir']['res'] . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:'');
 		} else {
-			header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+			$redirect = $root . $board['dir'] . $config['file_index'];
+			
 		}
+		
+		rebuildTheme('post');
+		header('Location: ' . $redirect, true, $config['redirect_http']);
+		
+		sql_close();
 		
 		exit;
 	} else {
