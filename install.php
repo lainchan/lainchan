@@ -2,7 +2,7 @@
 	// Installation/upgrade file
 	// Current version: 0.9.2 (or 0.9.1-dev)
 	
-	define('VERSION', 'v0.9.2-dev');
+	define('VERSION', 'v0.9.2.1-dev');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -18,38 +18,48 @@
 	
 	if(file_exists($config['has_installed'])) {
 		
+		sql_open();
+		
 		// Check the version number
 		$version = file_get_contents($config['has_installed']);
-		if(empty($version)) {
-			// v0.9 or v0.9.1
-			// Upgrading to v0.9.2
-			
-			sql_open();
-			
-			$boards = listBoards();
-			foreach($boards as &$_board) {
-				openBoard($_board['uri']);
+		switch($version) {
+			case '':
+			case 'v0.9':
+			case 'v0.9.1':
+				// Upgrading to v0.9.2-dev
 				
-				// Add `capcode` field after `trip`
-				query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $board['uri'])) or error(db_error());
+				$boards = listBoards();
+				foreach($boards as &$_board) {
+					openBoard($_board['uri']);
+					
+					// Add `capcode` field after `trip`
+					query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $board['uri'])) or error(db_error());
+					
+					// Resize `trip` to 15 characters
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `trip`  `trip` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
+				}
+			case 'v0.9.2-dev':
+				// Upgrade to v0.9.2.1-dev
 				
-				// Resize `trip` to 15 characters
-				query(sprintf("ALTER TABLE `posts_%s` CHANGE  `trip`  `trip` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
-			}
-			
-			file_put_contents($config['has_installed'], VERSION);
-			
-			$page['title'] = 'Upgraded';
-			$page['body'] = '<p style="text-align:center">Successfully upgraded from v0.9 (or v0.9.1) to <strong>' . VERSION . '</strong>.</p>';
-		} elseif($version == VERSION) {
-			$page['title'] = 'Already installed';
-			$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
-		} else {
-			$page['title'] = 'Unknown version';
-			$page['body'] = '<p style="text-align:center">Tinyboard was unable to determine what version is currently installed.</p>';
+				// New table: `theme_settings`
+				query(sprintf("CREATE TABLE IF NOT EXISTS `theme_settings` ( `name` varchar(40) NOT NULL, `value` text, UNIQUE KEY `name` (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", $board['uri'])) or error(db_error());
+				
+				// New table: `news`
+				query(sprintf("CREATE TABLE IF NOT EXISTS `news` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` text NOT NULL, `time` int(11) NOT NULL, `subject` text NOT NULL, `body` text NOT NULL, UNIQUE KEY `id` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;", $board['uri'])) or error(db_error());
+				
+				$page['title'] = 'Upgraded';
+				$page['body'] = '<p style="text-align:center">Successfully upgraded from v0.9 (or v0.9.1) to <strong>' . VERSION . '</strong>.</p>';
+				break;
+			default:
+				$page['title'] = 'Unknown version';
+				$page['body'] = '<p style="text-align:center">Tinyboard was unable to determine what version is currently installed.</p>';
+			case VERSION:
+				$page['title'] = 'Already installed';
+				$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
+				break;
 		}
-		
-		
+		file_put_contents($config['has_installed'], VERSION);
+			
 		
 		die(Element('page.html', $page));
 	}
