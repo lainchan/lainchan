@@ -22,11 +22,14 @@
 		
 		// Check the version number
 		$version = file_get_contents($config['has_installed']);
+		if(empty($version))
+			$version = 'v0.9.1';
+		
 		switch($version) {
 			case '':
 			case 'v0.9':
 			case 'v0.9.1':
-				// Upgrading to v0.9.2-dev
+				// Upgrade to v0.9.2-dev
 				
 				$boards = listBoards();
 				foreach($boards as &$_board) {
@@ -48,7 +51,7 @@
 				query(sprintf("CREATE TABLE IF NOT EXISTS `news` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` text NOT NULL, `time` int(11) NOT NULL, `subject` text NOT NULL, `body` text NOT NULL, UNIQUE KEY `id` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;", $board['uri'])) or error(db_error());
 				
 				$page['title'] = 'Upgraded';
-				$page['body'] = '<p style="text-align:center">Successfully upgraded from v0.9 (or v0.9.1) to <strong>' . VERSION . '</strong>.</p>';
+				$page['body'] = '<p style="text-align:center">Successfully upgraded from ' . $version . ' to <strong>' . VERSION . '</strong>.</p>';
 				break;
 			default:
 				$page['title'] = 'Unknown version';
