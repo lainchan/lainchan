@@ -15,6 +15,7 @@
 	
 	$config = Array(
 		'db' => Array(),
+		'memcached' => Array(),
 		'cookies' => Array(),
 		'error' => Array(),
 		'dir' => Array(),
@@ -37,9 +38,21 @@
 	$config['db']['password']	= '';
 	// Tinyboard database
 	$config['db']['database']	= '';
+	// Use a persistent connection
+	$config['db']['persistent']	= false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
 	$config['db']['dsn']		= '';
-
+	// Timeout duration in seconds (not all drivers support this)
+	$config['db']['timeout'] = 5;
+	
+	
+	// Optional Memcached server for more cache/optimization (currently at debug state)
+	$config['memcached']['enabled'] = false;
+	// Memcached servers to use - http://www.php.net/manual/en/memcached.addservers.php
+	$config['memcached']['servers'] = Array(
+		Array('localhost', 11211)
+	);
+	
 	// The name of the session cookie (PHP's $_SESSION)
 	$config['cookies']['session']= 'imgboard';
 	
@@ -608,6 +621,8 @@
 	
 	// Link imageboard to your Google Analytics account to track users and provide marketing insights.
 	// $config['google_analytics'] = 'UA-xxxxxxx-yy';
+	// Keep the Google Analytics cookies to one domain -- ga._setDomainName()
+	// $config['google_analytics_domain'] = 'www.example.org';
 	
 	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
 		// You cannot request this file directly.

@@ -13,6 +13,9 @@
 		if(!empty($config['db']['dsn']))
 			$dsn .= ';' . $config['db']['dsn'];
 		try {
+			$options = Array(PDO::ATTR_TIMEOUT => $config['db']['timeout']);
+			if($config['db']['persistent'])
+				$options[PDO::ATTR_PERSISTENT] = true;
 			return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password']);
 		} catch(PDOException $e) {
 			$message = $e->getMessage();
@@ -27,17 +30,22 @@
 	}
 	
 	function sql_close() {
-		global $pdo;
-		$pdo = NULL;
+		global $pdo, $config;
+		if(!$config['db']['persistent'])
+			$pdo = NULL;
 	}
 	
 	function prepare($query) {
 		global $pdo;
+		
+		sql_open();
 		return $pdo->prepare($query);
 	}
 	
 	function query($query) {
 		global $pdo;
+		
+		sql_open();
 		return $pdo->query($query);
 	}
 	

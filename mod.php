@@ -1276,6 +1276,11 @@
 						$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
 						$query->bindValue(':ip', $m[1]);
 						$query->execute() or error(db_error($query));
+						
+						if($config['memcached']['enabled']) {
+							// Remove cached ban
+							$memcached->delete("ban_${m[1]}");
+						}
 					}
 				}
 			}
@@ -1893,6 +1898,11 @@
 				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
 				$query->bindValue(':ip', $ip);
 				$query->execute() or error(db_error($query));
+				
+				if($config['memcached']['enabled']) {
+					// Remove cached ban
+					$memcached->delete("ban_${ip}");
+				}
 			} elseif($mod['type'] >= $config['mod']['create_notes'] && isset($_POST['note'])) {
 				$query = prepare("INSERT INTO `ip_notes` VALUES(NULL, :ip, :mod, :time, :body)");
 				$query->bindValue(':ip', $ip);

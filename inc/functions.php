@@ -91,6 +91,18 @@
 			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 				$_SERVER['REMOTE_ADDR'] = $m[2];
 		}
+		
+		if($config['memcached']['enabled'])
+			memcached_open();
+	}
+	
+	// Memcached
+	function memcached_open() {
+		global $memcached, $config;
+		if($memcached) return;
+		
+		$memcached = new Memcached();
+		$memcached->addServers($config['memcached']['servers']);
 	}
 	
 	function loadThemeConfig($_theme) {
@@ -162,7 +174,7 @@
 	}
 	
 	function openBoard($uri) {
-		sql_open();
+		
 		
 		$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
 		$query->bindValue(':uri', $uri);
@@ -232,40 +244,10 @@
 		return date('jS F, Y', $timestamp);
 	}
 	
-	function checkBan() {
+	function displayBan($ban) {
 		global $config;
 		
-		if(!isset($_SERVER['REMOTE_ADDR'])) {
-			// Server misconfiguration
-			return;
-		}
-		
-		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
-		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-		$query->execute() or error(db_error($query));
-		if($query->rowCount() < 1 && $config['ban_range']) {
-			$query = prepare("SELECT * FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-			$query->execute() or error(db_error($query));
-		}
-		
-		if($ban = $query->fetch()) {
-			if($ban['expires'] && $ban['expires'] < time()) {
-				// Ban expired
-				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip AND `expires` = :expires LIMIT 1");
-				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-				$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
-				
-				if($config['ban_range']) {
-					$query = prepare("DELETE FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9a-f]*'), '$') AND `expires` = :expires LIMIT 1");
-					$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-					$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
-					$query->execute() or error(db_error($query));
-				}
-				return;
-			}
-			$body = '<div class="ban">
+		$body = '<div class="ban">
 		<h2>You are banned! ;_;</h2>
 		<p>You have been banned ' .
 			($ban['reason'] ? 'for the following reason:' : 'for an unspecified reason.') .
@@ -319,16 +301,62 @@
 			: '<em>will not expire</em>.' ) .
 		'</span></p>
 		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
-	</div>';
+		</div>';
+	
+		// Show banned page and exit
+		die(Element('page.html', Array(
+				'config' => $config,
+				'title' => 'Banned',
+				'subtitle' => 'You are banned!',
+				'body' => $body
+			)
+		));
+	}
+	
+	function checkBan() {
+		global $config, $memcached;
+		
+		if(!isset($_SERVER['REMOTE_ADDR'])) {
+			// Server misconfiguration
+			return;
+		}
+		
+		if($config['memcached']['enabled']) {
+			// Cached ban?
+			if($ban = $memcached->get("ban_${_SERVER['REMOTE_ADDR']}")) {
+				displayBan($ban);
+			}
+		}
+		
+		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->execute() or error(db_error($query));
+		if($query->rowCount() < 1 && $config['ban_range']) {
+			$query = prepare("SELECT * FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->execute() or error(db_error($query));
+		}
+		
+		if($ban = $query->fetch()) {
+			if($ban['expires'] && $ban['expires'] < time()) {
+				// Ban expired
+				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip AND `expires` = :expires LIMIT 1");
+				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+				$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				if($config['ban_range']) {
+					$query = prepare("DELETE FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9a-f]*'), '$') AND `expires` = :expires LIMIT 1");
+					$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+					$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+				}
+				return;
+			}
 			
-			// Show banned page and exit
-			die(Element('page.html', Array(
-					'config' => $config,
-					'title' => 'Banned',
-					'subtitle' => 'You are banned!',
-					'body' => $body
-				)
-			));
+			if($config['memcached']['enabled'])
+				$memcached->set("ban_${_SERVER['REMOTE_ADDR']}", $ban, $ban['expires']);
+			displayBan($ban);
 		}
 	}
 	
@@ -535,7 +563,7 @@
 		$body = '';
 		$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
 
-		sql_open();
+		
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT ?,?", $board['uri']));
 		$query->bindValue(1, $offset, PDO::PARAM_INT);
@@ -887,7 +915,7 @@
 	
 	function buildIndex() {
 		global $board, $config;
-		sql_open();
+		
 		
 		$pages = getPages();
 
@@ -1021,7 +1049,7 @@
 			if(count($cites[0]) > $config['max_cites']) {
 				error($config['error']['toomanycites']);
 			}
-			sql_open();
+			
 			for($index=0;$index<count($cites[0]);$index++) {
 				$cite = $cites[2][$index];
 				$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
@@ -1043,7 +1071,7 @@
 			if(count($cites[0]) > $config['max_cites']) {
 				error($config['error']['toomanycross']);
 			}
-			sql_open();
+			
 			for($index=0;$index<count($cites[0]);$index++) {
 				$_board = $cites[2][$index];
 				$cite = @$cites[3][$index];
@@ -1389,8 +1417,8 @@
 		$image = false;
 		switch($type) {
 			case 'jpg':
-			case 'jpeg':
-				if(!$image = @imagecreatefromjpeg($source_pic)) {
+			case 'jpeg':				
+				if(!$image = imagecreatefromjpeg($source_pic)) {
 					unlink($source_pic);
 					error($config['error']['invalidimg']);
 				}
