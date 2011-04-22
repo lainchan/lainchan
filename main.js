@@ -51,7 +51,7 @@ function citeReply(id) {
 	document.getElementById('body').value += '>>' + id + '\n';
 }
 
-var selectedstyle = 'Yotsuba B';
+var selectedstyle = 'Yotsuba';
 var styles = [
 	['Yotsuba B', '/board/default.css'],
 	['Yotsuba', '/board/yotsuba.css']
@@ -87,14 +87,13 @@ function init()
 		newElement.appendChild(style);
 	}	
 	
+	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
+	
 	if(!localStorage.password)
 		localStorage.password = generatePassword();
-	elements = document.getElementsByName('password');
-	for(x=0;x<elements.length;x++) {
-		elements[x].value = localStorage.password;
+	if(document.forms.delete) {
+		document.forms.delete.password.value = localStorage.password;
 	}
-	
-	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
 	
 	if (window.location.hash.indexOf('q') == 1)
 		citeReply(window.location.hash.substring(2));
