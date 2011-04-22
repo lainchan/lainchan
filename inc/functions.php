@@ -98,10 +98,17 @@
 	
 	function fatal_error_handler() { 
 		if($error = error_get_last()) {
-			error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line']);
+			if($error['type'] == E_ERROR) {
+				if(function_exists('error')) {
+					error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line']);
+				} else {
+					header('Content-Type: text/plain');
+					echo 'Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'];
+				}
+			}
 		}
 	}
-	//register_shutdown_function('fatal_error_handler'); 
+	register_shutdown_function('fatal_error_handler'); 
 	
 	// Memcached
 	function memcached_open() {
