@@ -96,6 +96,13 @@
 			memcached_open();
 	}
 	
+	function fatal_error_handler() { 
+		if($error = error_get_last()) {
+			echo 'Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line'];
+		}
+	}
+	register_shutdown_function('fatal_error_handler'); 
+	
 	// Memcached
 	function memcached_open() {
 		global $memcached, $config;
