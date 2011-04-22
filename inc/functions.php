@@ -29,7 +29,7 @@
 		if(!isset($config['url_match']))
 			$config['url_match'] = '/^' .
 				(preg_match($config['url_regex'], $config['root']) ? '' :
-					(@$_SERVER['HTTPS']?'https':'http') .
+					(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']?'https':'http') .
 					':\/\/'.$_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
@@ -98,7 +98,7 @@
 	
 	function fatal_error_handler() { 
 		if($error = error_get_last()) {
-			echo 'Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line'];
+			error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line']);
 		}
 	}
 	register_shutdown_function('fatal_error_handler'); 
