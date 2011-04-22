@@ -1418,7 +1418,7 @@
 		switch($type) {
 			case 'jpg':
 			case 'jpeg':				
-				if(!$image = imagecreatefromjpeg($source_pic)) {
+				if(!$image = @imagecreatefromjpeg($source_pic)) {
 					unlink($source_pic);
 					error($config['error']['invalidimg']);
 				}

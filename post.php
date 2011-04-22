@@ -36,7 +36,7 @@
 			}
 		}
 		
-		sql_open();
+		
 		
 		// Check if banned
 		checkBan();
@@ -97,7 +97,7 @@
 			}
 		}
 		
-		sql_open();
+		
 		
 		// Check if banned
 		checkBan();
@@ -175,9 +175,6 @@
 		// Check how long he has been here.
 		if(time()-$user['appeared']<LURKTIME) error(ERROR_LURK);
 		*/
-		
-		// Open database connection
-		sql_open();
 		
 		// Check if banned
 		checkBan();
@@ -487,15 +484,17 @@
 		
 		buildIndex();
 		
-		// Tell Javascript that we posted successfully
-		if(isset($_COOKIE[$config['cookies']['js']]))
-			$js = json_decode($_COOKIE[$config['cookies']['js']]);
-		else
-			$js = (object) Array();
-		// Tell it to delete the cached post for referer
-		$js->{$_SERVER['HTTP_REFERER']} = true;
-		// Encode and set cookie
-		setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, false);
+		if(isset($_SERVER['HTTP_REFERER'])) {
+			// Tell Javascript that we posted successfully
+			if(isset($_COOKIE[$config['cookies']['js']]))
+				$js = json_decode($_COOKIE[$config['cookies']['js']]);
+			else
+				$js = (object) Array();
+			// Tell it to delete the cached post for referer
+			$js->{$_SERVER['HTTP_REFERER']} = true;
+			// Encode and set cookie
+			setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, false);
+		}
 		
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
@@ -514,7 +513,7 @@
 		exit;
 	} else {
 		if(!file_exists($config['has_installed'])) {
-			sql_open();
+			
 			
 			// Build all boards
 			$boards = listBoards();
