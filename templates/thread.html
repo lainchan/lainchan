@@ -17,7 +17,7 @@
 	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
 	<div class="banner">Posting mode: Reply <a class="unimportant" href="{return}">[Return.]</a></div>
-	<form onsubmit="return dopost(this);" enctype="multipart/form-data" action="{config[post_url]}" method="post">{hidden_inputs}
+	<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{config[post_url]}" method="post">{hidden_inputs}
 	<input type="hidden" name="thread" value="{id}" />
 	<input type="hidden" name="board" value="{board[uri]}" />
 	{mod?<input type="hidden" name="mod" value="1" />}
@@ -87,6 +87,9 @@
 			</tr>
 		</table>
 	</form>
+	<script type="text/javascript">
+		rememberStuff();
+	</script>
 	<hr/>
 	<form name="delete" action="{config[post_url]}" method="post">
 	<input type="hidden" name="board" value="{board[uri]}" />

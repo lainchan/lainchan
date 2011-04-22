@@ -51,7 +51,7 @@ function citeReply(id) {
 	document.getElementById('body').value += '>>' + id + '\n';
 }
 
-var selectedstyle = 'Yotsuba';
+var selectedstyle = 'Yotsuba B';
 var styles = [
 	['Yotsuba B', '/board/default.css'],
 	['Yotsuba', '/board/yotsuba.css']
@@ -73,6 +73,41 @@ if(localStorage.stylesheet) {
 	}
 }
 
+function rememberStuff() {
+	if(document.forms.post) {
+		if(!localStorage.password)
+			localStorage.password = generatePassword();
+		document.forms.post.password.value = localStorage.password;
+		
+		if(localStorage.name)
+			document.forms.post.name.value = localStorage.name;
+		if(localStorage.email)
+			document.forms.post.email.value = localStorage.email;
+			
+		if(sessionStorage.body) {
+			saved = JSON.parse(sessionStorage.body);
+			if(get_cookie('serv')) {
+				// Remove successful posts
+				successful = JSON.parse(get_cookie('serv'));
+				for (var url in successful) {
+					saved[url] = null;
+				}
+				sessionStorage.body = JSON.stringify(saved);
+				
+				document.cookie = 'serv={};expires=0;path=/;';
+			}
+			if(saved[document.location]) {
+				document.getElementsByTagName('form')[0].body.value = saved[document.location];
+			}
+		}
+		
+		if(localStorage.body) {
+			document.getElementsByTagName('form')[0].body.value = localStorage.body;
+			localStorage.body = '';
+		}
+	}
+}
+
 function init()
 {
 	newElement = document.createElement('div');
@@ -89,8 +124,6 @@ function init()
 	
 	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
 	
-	if(!localStorage.password)
-		localStorage.password = generatePassword();
 	if(document.forms.delete) {
 		document.forms.delete.password.value = localStorage.password;
 	}
@@ -99,33 +132,7 @@ function init()
 		citeReply(window.location.hash.substring(2));
 	else if (window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
-	if(localStorage.name)
-		document.getElementsByTagName('form')[0].name.value = localStorage.name;
-	if(localStorage.email)
-		document.getElementsByTagName('form')[0].email.value = localStorage.email;
 	
-	
-	if(sessionStorage.body) {
-		saved = JSON.parse(sessionStorage.body);
-		if(get_cookie('serv')) {
-			// Remove successful posts
-			successful = JSON.parse(get_cookie('serv'));
-			for (var url in successful) {
-				saved[url] = null;
-			}
-			sessionStorage.body = JSON.stringify(saved);
-			
-			document.cookie = 'serv={};expires=0;path=/;';
-		}
-		if(saved[document.location]) {
-			document.getElementsByTagName('form')[0].body.value = saved[document.location];
-		}
-	}
-	
-	if(localStorage.body) {
-		document.getElementsByTagName('form')[0].body.value = localStorage.body;
-		localStorage.body = '';
-	}
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
 		if(typeof link[i] == "object" && link[i].childNodes[0].src) {
