@@ -97,12 +97,12 @@ function rememberStuff() {
 				document.cookie = 'serv={};expires=0;path=/;';
 			}
 			if(saved[document.location]) {
-				document.getElementsByTagName('form')[0].body.value = saved[document.location];
+				document.forms.post.body.value = saved[document.location];
 			}
 		}
 		
 		if(localStorage.body) {
-			document.getElementsByTagName('form')[0].body.value = localStorage.body;
+			document.forms.post.body.value = localStorage.body;
 			localStorage.body = '';
 		}
 	}
