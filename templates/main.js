@@ -124,8 +124,8 @@ function init()
 	
 	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
 	
-	if(document.forms.delete) {
-		document.forms.delete.password.value = localStorage.password;
+	if(document.forms.postcontrols) {
+		document.forms.postcontrols.password.value = localStorage.password;
 	}
 	
 	if (window.location.hash.indexOf('q') == 1)
