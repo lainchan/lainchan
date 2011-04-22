@@ -1042,7 +1042,6 @@
 				
 					if($_mod['id'] == $mod['id']) {
 						// Changed own password. Update cookies
-						var_dump(login($_mod['username'], $_mod['password'], false));
 						setCookies();
 					}
 				}
@@ -2078,5 +2077,7 @@
 	
 	// Close the connection in-case it's still open
 	sql_close();
+	
+	foreach(array_keys(get_defined_vars()) as $name) if($name[0] != '_') unset(${$name});
 ?>
 
