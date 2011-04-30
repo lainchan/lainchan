@@ -19,12 +19,11 @@
 		sql_open();
 		
 		// Check the version number
-		$version = file_get_contents($config['has_installed']);
+		$version = trim(file_get_contents($config['has_installed']));
 		if(empty($version))
 			$version = 'v0.9.1';
 		
 		switch($version) {
-			case '':
 			case 'v0.9':
 			case 'v0.9.1':
 				// Upgrade to v0.9.2-dev
@@ -62,18 +61,21 @@
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `name` `name` VARCHAR( 35 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $board['uri'])) or error(db_error());
 				}
 				
+				// Update version number
+				file_put_contents($config['has_installed'], VERSION);
+				
 				$page['title'] = 'Upgraded';
 				$page['body'] = '<p style="text-align:center">Successfully upgraded from ' . $version . ' to <strong>' . VERSION . '</strong>.</p>';
 				break;
 			default:
 				$page['title'] = 'Unknown version';
 				$page['body'] = '<p style="text-align:center">Tinyboard was unable to determine what version is currently installed.</p>';
+				break;
 			case VERSION:
 				$page['title'] = 'Already installed';
-				$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
+				$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed (' . $version . ') and there is nothing to upgrade! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
 				break;
 		}
-		file_put_contents($config['has_installed'], VERSION);
 		
 		sql_close();
 			
