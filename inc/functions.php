@@ -94,6 +94,31 @@
 		
 		if($config['memcached']['enabled'])
 			memcached_open();
+		
+		// Test custom fields and stuff
+		if(isset($config['fields'])) {
+			$error_func = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
+			
+			foreach($config['fields'] as $index => $field) {
+				if(!is_array($field))
+					$error_func(sprintf("Error parsing custom fields. Field at index %d is not an array!", $index));
+				if(!isset($field['name']))
+					$error_func(sprintf("Error parsing custom fields. Field at index %d doesn't have a name!", $index));
+			}		
+		}
+	}
+	
+	function basic_error_function_because_the_other_isnt_loaded_yet($message) {
+		if(function_exists('sql_close')) sql_close();
+		// Yes, this is horrible.
+		die('<!DOCTYPE html><html><head><title>Error</title>' .
+			'<style type="text/css">' .
+				'body{text-align:center;font-family:arial, helvetica, sans-serif;font-size:10pt;}' .
+				'p{padding:0;margin:20px 0;}' .
+				'p.c{font-size:11px;}' .
+			'</style></head>' .
+			'<body><h2>Error</h2>' . $message . '<hr/>' .
+			'<p class="c">This alternative error page is being displayed because the other couldn\'t be found or hasn\'t loaded yet.</p></body></html>');
 	}
 	
 	function fatal_error_handler() { 
