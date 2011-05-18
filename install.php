@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.2-dev-2');
+	define('VERSION', 'v0.9.2-dev-3');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -30,22 +30,20 @@
 				
 				$boards = listBoards();
 				foreach($boards as &$_board) {
-					openBoard($_board['uri']);
-					
 					// Add `capcode` field after `trip`
-					query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $_board['uri'])) or error(db_error());
 					
 					// Resize `trip` to 15 characters
-					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `trip`  `trip` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `trip`  `trip` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $_board['uri'])) or error(db_error());
 				}
 			case 'v0.9.2-dev':
 				// Upgrade to v0.9.2-dev-1
 				
 				// New table: `theme_settings`
-				query(sprintf("CREATE TABLE IF NOT EXISTS `theme_settings` ( `name` varchar(40) NOT NULL, `value` text, UNIQUE KEY `name` (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", $board['uri'])) or error(db_error());
+				query("CREATE TABLE IF NOT EXISTS `theme_settings` ( `name` varchar(40) NOT NULL, `value` text, UNIQUE KEY `name` (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or error(db_error());
 				
 				// New table: `news`
-				query(sprintf("CREATE TABLE IF NOT EXISTS `news` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` text NOT NULL, `time` int(11) NOT NULL, `subject` text NOT NULL, `body` text NOT NULL, UNIQUE KEY `id` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;", $board['uri'])) or error(db_error());
+				query("CREATE TABLE IF NOT EXISTS `news` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` text NOT NULL, `time` int(11) NOT NULL, `subject` text NOT NULL, `body` text NOT NULL, UNIQUE KEY `id` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;") or error(db_error());
 			case 'v0.9.2.1-dev':
 			case 'v0.9.2-dev-1':
 				// Fix broken version number/mistake
@@ -54,11 +52,17 @@
 				
 				$boards = listBoards();
 				foreach($boards as &$_board) {
-					openBoard($_board['uri']);
-					
 					// Increase field sizes
-					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `subject` `subject` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $board['uri'])) or error(db_error());
-					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `name` `name` VARCHAR( 35 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `subject` `subject` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `name` `name` VARCHAR( 35 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
+				}
+			case 'v0.9.2-dev-2':
+				// Upgrade to v0.9.2-dev-3
+				
+				$boards = listBoards();
+				foreach($boards as &$_board) {
+					// Add `custom_fields` field
+					query(sprintf("ALTER TABLE `posts_%s` ADD `embed` TEXT NULL", $_board['uri'])) or error(db_error());
 				}
 				
 				// Update version number
