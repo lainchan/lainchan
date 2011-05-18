@@ -592,8 +592,7 @@
 	$config['embedding'] = Array(
 		Array(
 			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9-]{10,11})(&.+)?$/i',
-		//	'<iframe width="%%tb_width%%" height="%%tb_height%%" src="http://www.youtube.com/embed/$2" frameborder="0" allowfullscreen></iframe>',
-			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/-EBs2Os9ZXw?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" width="%%tb_width%%" height="%%tb_height%%" allowscriptaccess="always" allowfullscreen="true"></embed></object>'
+			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" width="%%tb_width%%" height="%%tb_height%%" allowscriptaccess="always" allowfullscreen="true"></embed></object>'
 		)
 	);
 	// Embedding width and height
