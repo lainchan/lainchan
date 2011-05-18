@@ -549,7 +549,7 @@
 	$config['ipv6_ipv4']	= true;
 	// Regular expression to check for IE MIME type detection XSS exploit. To disable, comment the line out
 	// https://github.com/savetheinternet/Tinyboard/issues/20
-	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/';
+	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/i';
 	
 	// Allowed image file extensions
 	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
