@@ -63,6 +63,16 @@
 					<input type="file" name="file"/>
 				</td>
 			</tr>
+			{config[enable_enbedding]?
+			<tr>
+				<th>
+					Embed
+				</th>
+				<td>
+					<input type="text" name="embed" size="30" maxlength="80" autocomplete="off" />
+				</td>
+			</tr>
+			}
 			{mod?
 			<tr>
 				<th>

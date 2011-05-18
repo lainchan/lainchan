@@ -196,9 +196,35 @@
 		//Check if thread exists
 		if(!$OP && !threadExists($post['thread']))
 			error($config['error']['nonexistant']);
-			
+		
+		// Check for an embed field
+		if($config['enable_enbedding'] && isset($_POST['embed']) && !empty($_POST['embed'])) {
+			// yep; validate it
+			$value = $_POST['embed'];
+			foreach($config['embedding'] as &$embed) {
+				if($html = preg_replace($embed[0], $embed[1], $value)) {
+					if($html == $value) {
+						// Nope.
+						continue;
+					}
+					
+					// Width and height
+					$html = str_replace('%%tb_width%%', $config['embed_width'], $html);
+					$html = str_replace('%%tb_height%%', $config['embed_height'], $html);
+					
+					// Validated. It works.
+					$post['embed'] = $html;
+					// This looks messy right now, I know. I'll work on a better alternative later.
+					$post['no_longer_require_an_image_for_op'] = true;
+				}
+			}
+			if(!isset($post['embed'])) {
+				error($config['error']['invalid_embed']);
+			}
+		}
+		
 		// Check for a file
-		if($OP) {
+		if($OP && !isset($post['no_longer_require_an_image_for_op'])) {
 			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']))
 				error($config['error']['noimage']);
 		}
@@ -208,7 +234,7 @@
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
 		$post['password'] = $_POST['password'];
-		$post['has_file'] = $OP || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name']));
+		$post['has_file'] = ($OP && !isset($post['no_longer_require_an_image_for_op'])) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name']));
 		
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		if($post['has_file'])

@@ -491,7 +491,8 @@
 		'password',
 		'sticky',
 		'lock',
-		'raw'
+		'raw',
+		'embed'
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
@@ -583,16 +584,21 @@
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
 	
+	// Enable embedding (see below)
+	$config['enable_enbedding'] = false;
+	
 	// Custom embedding (YouTube, vimeo, etc.)
+	// It's very important that you match the full string (with ^ and $) or things will not work correctly.
 	$config['embedding'] = Array(
 		Array(
-			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9-]{10,11})(&|$)/i',
-			'<iframe width="%%tb_width%%" height="%%tb_height%%" src="http://www.youtube.com/embed/$2" frameborder="0" allowfullscreen></iframe>'
+			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9-]{10,11})(&.+)?$/i',
+		//	'<iframe width="%%tb_width%%" height="%%tb_height%%" src="http://www.youtube.com/embed/$2" frameborder="0" allowfullscreen></iframe>',
+			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/-EBs2Os9ZXw?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" width="%%tb_width%%" height="%%tb_height%%" allowscriptaccess="always" allowfullscreen="true"></embed></object>'
 		)
 	);
 	// Embedding width and height
-	$config['embed_width'] = 200;
-	$config['embed_height'] = 164;
+	$config['embed_width'] = 300;
+	$config['embed_height'] = 246;
 	
 	
 	// Enable IP range bans (eg. "127.*.0.1", "127.0.0.*", and "12*.0.0.1" all match "127.0.0.1").

@@ -186,7 +186,7 @@
 	}
 	
 	class Post {
-		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $root=null, $mod=false) {
+		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $embed, $root=null, $mod=false) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
 			
@@ -208,6 +208,7 @@
 			$this->filesize = $filesize;
 			$this->filename = $filename;
 			$this->ip = $ip;
+			$this->embed = $embed;
 			$this->root = $root;
 			$this->mod = $mod;
 			
@@ -312,28 +313,33 @@
 			// JavaScript cite
 				'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' . 
 			'</p>';
-		
-			// File info
-			if(!empty($this->file) && $this->file != 'deleted') {
+			
+			if($this->embed) {
+				// Embedded video (or something else; doesn't have to be a video really)
+				$built .=
+				// Actual embedding
+				$this->embed;
+			} elseif(!empty($this->file) && $this->file != 'deleted') {
+				// File info
 				$built .= '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
-			// Filesize
-				format_bytes($this->filesize) .
-			// File dimensions
-			($this->filex && $this->filey ?
-				', ' . $this->filex . 'x' . $this->filey
-			: '' );
-			// Aspect Ratio
-			if($config['show_ratio'] && $this->filex && $this->filey) {
-				$fraction = fraction($this->filex, $this->filey, ':');
-				$built .= ', ' . $fraction;
-			}
-			// Filename
-				$built .= ', ' . $this->filename . ')</span></p>' .
-				
-			// Thumbnail
-				'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
-			} elseif($this->file == 'deleted') {
-				$built .= '<img src="' . $config['image_deleted'] . '" />';
+				// Filesize
+					format_bytes($this->filesize) .
+				// File dimensions
+				($this->filex && $this->filey ?
+					', ' . $this->filex . 'x' . $this->filey
+				: '' );
+				// Aspect Ratio
+				if($config['show_ratio'] && $this->filex && $this->filey) {
+					$fraction = fraction($this->filex, $this->filey, ':');
+					$built .= ', ' . $fraction;
+				}
+				// Filename
+					$built .= ', ' . $this->filename . ')</span></p>' .
+					
+				// Thumbnail
+					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+				} elseif($this->file == 'deleted') {
+					$built .= '<img src="' . $config['image_deleted'] . '" />';
 			}
 			
 			$built .= $this->postControls();
@@ -346,7 +352,7 @@
 	};
 	
 	class Thread {
-		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $root=null, $mod=false, $hr=true) {
+		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $embed, $root=null, $mod=false, $hr=true) {
 			global $config;
 			if(!isset($root)) $root = $config['root'];
 			
@@ -372,6 +378,7 @@
 			$this->ip = $ip;
 			$this->sticky = $sticky;
 			$this->locked = $locked;
+			$this->embed = $embed;
 			$this->root = $root;
 			$this->mod = $mod;
 			$this->hr = $hr;
@@ -440,22 +447,32 @@
 		public function build($index=false) {
 			global $board, $config;
 			
-			$built = '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
-			// Filesize
-				format_bytes($this->filesize) .
-			// File dimensions
-			($this->filex && $this->filey ?
-				', ' . $this->filex . 'x' . $this->filey
-			: '' );
-			// Aspect Ratio
-			if($config['show_ratio'] && $this->filex && $this->filey) {
-				$fraction = fraction($this->filex, $this->filey, ':');
-				$built .= ', ' . $fraction;
+			if($this->embed) {
+				// Embedded video (or something else; doesn't have to be a video really)
+				$built =
+				// Actual embedding
+				$this->embed;
+			} else {
+				// Image, not embedded shit
+				$built = 
+				// File link
+				'<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				// Filesize
+					format_bytes($this->filesize) .
+				// File dimensions
+				($this->filex && $this->filey ?
+					', ' . $this->filex . 'x' . $this->filey
+				: '' );
+				// Aspect Ratio
+				if($config['show_ratio'] && $this->filex && $this->filey) {
+					$fraction = fraction($this->filex, $this->filey, ':');
+					$built .= ', ' . $fraction;
+				}
+				// Filename
+					$built .= ', ' . $this->filename . ')</span></p>' . 
+				// Thumbnail
+					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			}
-			// Filename
-				$built .= ', ' . $this->filename . ')</span></p>' . 
-			// Thumbnail
-				'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
 			

@@ -94,18 +94,6 @@
 		
 		if($config['memcached']['enabled'])
 			memcached_open();
-		
-		// Test custom fields and stuff
-		if(isset($config['fields'])) {
-			$error_func = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
-			
-			foreach($config['fields'] as $index => $field) {
-				if(!is_array($field))
-					$error_func(sprintf("Error parsing custom fields. Field at index %d is not an array!", $index));
-				if(!isset($field['name']))
-					$error_func(sprintf("Error parsing custom fields. Field at index %d doesn't have a name!", $index));
-			}		
-		}
 	}
 	
 	function basic_error_function_because_the_other_isnt_loaded_yet($message) {
@@ -428,8 +416,7 @@
 	
 	function post($post, $OP) {
 		global $pdo, $board;
-		
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked)", $board['uri']));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, :embed)", $board['uri']));
 		
 		// Basic stuff
 		$query->bindValue(':subject', $post['subject']);
@@ -457,6 +444,12 @@
 			$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 		} else {
 			$query->bindValue(':capcode', NULL, PDO::PARAM_NULL);
+		}
+		
+		if(!empty($post['embed'])) {
+			$query->bindValue(':embed', $post['embed']);
+		} else {
+			$query->bindValue(':embed', NULL, PDO::PARAM_NULL);
 		}
 		
 		if($OP) {
@@ -611,9 +604,9 @@
 		
 		if($query->rowcount() < 1 && $page > 1) return false;
 		while($th = $query->fetch()) {
-			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $mod ? '?/' : $config['root'], $mod);
+			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 
-			$posts = prepare(sprintf("SELECT `id`, `subject`, `email`, `name`, `trip`, `capcode`, `body`, `time`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`,`ip` FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
+			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
 			$posts->bindValue(1, $th['id']);
 			$posts->bindValue(2, ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
@@ -623,7 +616,7 @@
 				if($po['file'])
 					$num_images++;
 					
-				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $mod ? '?/' : $config['root'], $mod));
+				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod));
 			}
 			
 			if($posts->rowCount() == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
@@ -962,7 +955,7 @@
 		while($page <= $config['max_pages'] && $content = index($page)) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			if(file_exists($filename)) $md5 = md5_file($filename);
-
+			
 			$content['pages'] = $pages;
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
@@ -1231,15 +1224,15 @@
 		global $board, $config;
 		$id = round($id);
 		
-		$query = prepare(sprintf("SELECT `id`,`thread`,`subject`,`name`,`email`,`trip`,`capcode`,`body`,`time`,`thumb`,`thumbwidth`,`thumbheight`,`file`,`filewidth`,`fileheight`,`filesize`,`filename`,`ip`,`sticky`,`locked` FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
+		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		while($post = $query->fetch()) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $mod ? '?/' : $config['root'], $mod);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], $mod ? '?/' : $config['root'], $mod);
 			} else {
-				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $mod ? '?/' : $config['root'], $mod));
+				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod));
 			}
 		}
 		
