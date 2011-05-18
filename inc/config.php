@@ -140,6 +140,7 @@
 	$config['error']['fileexists']		= 'That file <a href="%s">already exists</a>!';
 	$config['error']['delete_too_soon']	= 'You\'ll have to wait another %s before deleting that.';
 	$config['error']['mime_exploit']	= 'MIME type detection XSS exploit (IE) detected; post discarded.';
+	$config['error']['invalid_embed']	= 'Couldn\'t make sense of the URL of the video you tried to embed.';
 	
 	// Moderator errors
 	$config['error']['invalid']			= 'Invalid username and/or password.';
@@ -216,7 +217,7 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	$config['root']		= ($_SERVER['REQUEST_URI'] == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
+	$config['root']		= (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
 	
 	$config['dir']['img']	= 'src/';
 	$config['dir']['thumb']	= 'thumb/';
@@ -581,6 +582,18 @@
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+	
+	// Custom embedding (YouTube, vimeo, etc.)
+	$config['embedding'] = Array(
+		Array(
+			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9-]{10,11})(&|$)/i',
+			'<iframe width="%%tb_width%%" height="%%tb_height%%" src="http://www.youtube.com/embed/$2" frameborder="0" allowfullscreen></iframe>'
+		)
+	);
+	// Embedding width and height
+	$config['embed_width'] = 200;
+	$config['embed_height'] = 164;
+	
 	
 	// Enable IP range bans (eg. "127.*.0.1", "127.0.0.*", and "12*.0.0.1" all match "127.0.0.1").
 	// A little more load on the database
