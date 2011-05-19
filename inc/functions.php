@@ -727,14 +727,6 @@
 	}
 	
 	function checkRobot($body) {
-		/* CREATE TABLE `robot` (
-`hash` VARCHAR( 40 ) NOT NULL COMMENT  'SHA1'
-) ENGINE = INNODB; */
-		/* CREATE TABLE `mutes` (
-`ip` VARCHAR( 15 ) NOT NULL ,
-`time` INT NOT NULL
-) ENGINE = MYISAM ; */
-
 		$body = makerobot($body);
 		$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
 		$query->bindValue(':hash', $body);
@@ -786,7 +778,14 @@
 	}
 	
 	function checkMute() {
-		global $config;
+		global $config, $memcached;
+		
+		if($config['memcached']['enabled']) {
+			// Cached mute?
+			if(($mute = $memcached->get("mute_${_SERVER['REMOTE_ADDR']}")) && ($mutetime = $memcached->get("mutetime_${_SERVER['REMOTE_ADDR']}"))) {
+				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
+			}
+		}
 		
 		$mutetime = muteTime();
 		if($mutetime > 0) {
@@ -801,6 +800,10 @@
 			}
 			
 			if($mute['time'] + $mutetime > time()) {
+				if($config['memcached']['enabled']) {
+					$memcached->set("mute_${_SERVER['REMOTE_ADDR']}", $mute, $mute['time'] + $mutetime);
+					$memcached->set("mutetime_${_SERVER['REMOTE_ADDR']}", $mutetime, $mute['time'] + $mutetime);
+				}
 				// Not expired yet
 				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
 			} else {
