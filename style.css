@@ -65,7 +65,7 @@ form table input {
 	height: auto;
 }
 input[type="text"], input[type="password"], textarea {
-	border: 1px solid darkGray;
+	border: 1px solid #a9a9a9;
 	text-indent: 0px;
 	text-shadow: none;
 	text-transform: none;
@@ -261,7 +261,10 @@ span.spoiler {
 	background: black;
 	color: black;
 }
-span.spoiler:hover {
+div.post.reply p.body span.spoiler a {
+	color: black;
+}
+span.spoiler:hover, div.post.reply p.body span.spoiler:hover a {
 	color: white;
 }
 div.styles {
