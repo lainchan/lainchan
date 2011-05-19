@@ -1006,7 +1006,7 @@
 		foreach($config['dnsbl'] as &$blacklist) {
 			$lookup = $ip . '.' . $blacklist;
 			$host = gethostbyname($lookup);
-			if($host != $looku) {
+			if($host != $lookup) {
 				// On NXDOMAIN (meaning it's not in the blacklist), gethostbyname() returns the host unchanged.
 				if(preg_match('/^127\.0\.0\./', $host) && $host != '127.0.0.10')
 					error(sprintf($config['error']['dnsbl'], $blacklist));
