@@ -201,8 +201,6 @@
 	}
 	
 	function openBoard($uri) {
-		
-		
 		$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
 		$query->bindValue(':uri', $uri);
 		$query->execute() or error(db_error($query));
@@ -615,7 +613,7 @@
 			while($po = $posts->fetch()) {
 				if($po['file'])
 					$num_images++;
-					
+				
 				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod));
 			}
 			
@@ -1223,8 +1221,15 @@
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
-		global $board, $config;
+		global $board, $config, $memcached;
 		$id = round($id);
+		
+		if($config['memcached']['cache_threads'] && $config['memcached']['enabled'] && $return && $mod) {
+			// Experimental: cache entire threads (for mods, since we already cache it with static HTML anyway)
+			if($body = $memcached->get('thread_' . $board['uri'] . '_' . $id)) {
+				return $body;
+			}
+		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -1251,6 +1256,10 @@
 			'hidden_inputs' => $content['hidden_inputs'] = createHiddenInputs(),
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
+		
+		if($config['memcached']['cache_threads'] && $config['memcached']['enabled']) {
+			$memcached->set('thread_' . $board['uri'] . '_' . $id, $body, time() + 60);
+		}
 			
 		if($return)
 			return $body;
