@@ -263,7 +263,7 @@
 			global $board, $config, $memcached;
 			
 			if(!$this->mod && $config['memcached']['enabled']) {
-				if($built = $memcached->get('post_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id))
+				if($built = $memcached->get($this->memcached_key($index)))
 					return $built;
 			}
 			
@@ -353,10 +353,15 @@
 			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br class="clear"/>';
 			
 			if(!$this->mod && $config['memcached']['enabled']) {
-				$memcached->set('post_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id, $built, time() + $config['memcached']['timeout']);
+				$memcached->set($this->memcached_key($index), $built, time() + $config['memcached']['timeout']);
 			}
 			
 			return $built;
+		}
+		
+		function memcached_key($index) {
+			global $board;
+			return 'post_' . md5($this->body) . '_' . ($this->file ? $this->file : '-') . '_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id;
 		}
 	};
 	
