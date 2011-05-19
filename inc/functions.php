@@ -1257,7 +1257,7 @@
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
 		
-		if($config['memcached']['cache_threads'] && $config['memcached']['enabled']) {
+		if($config['memcached']['cache_threads'] && $config['memcached']['enabled'] && $mod) {
 			$memcached->set('thread_' . $board['uri'] . '_' . $id, $body, time() + $config['memcached']['timeout']);
 		}
 			
