@@ -991,34 +991,31 @@
 		)));
 	}
 	
-	function isDNSBL() {
-		$dns_black_lists = file('./dnsbl.txt', FILE_IGNORE_NEW_LINES);
+	function checkDNSBL() {
+		global $config;
 		
-		// Reverse the IP
-		$rev_ip = implode(array_reverse(explode('.', $_SERVER['REMOTE_ADDR'])), '.');
-		$response = array();
-		foreach ($dns_black_lists as $dns_black_list) {
-			$response = (gethostbynamel($rev_ip . '.' . $dns_black_list));
-			if(!empty($response))
-				return true;
+		if(isIPv6())
+			return; // No IPv6 support yet.
+		
+		if(!isset($_SERVER['REMOTE_ADDR']))
+			return; // Fix your web server configuration
+		
+		// Reverse IP
+		$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
+		
+		foreach($config['dnsbl'] as &$blacklist) {
+			$lookup = $ip . '.' . $blacklist;
+			if(gethostbyname($lookup) != $lookup) {
+				// On NXDOMAIN (meaning it's not in the blacklist), gethostbyname() returns the host unchanged.
+				error(sprintf($config['error']['dnsbl'], $blacklist));
+			}
 		}
-		
-		return false;
 	}
 	
 	function isIPv6() {
 		return strstr($_SERVER['REMOTE_ADDR'], ':') !== false;
 	}
 	
-	function isTor() {
-		if(isIPv6())
-			return false; // Tor does not support IPv6
-		
-		return gethostbyname(
-				ReverseIPOctets($_SERVER['REMOTE_ADDR']) . '.' . $_SERVER['SERVER_PORT'] . '.' . ReverseIPOctets($_SERVER['SERVER_ADDR']) . '.ip-port.exitlist.torproject.org'
-			) == '127.0.0.2';
-	}
-			
 	function ReverseIPOctets($ip) {
 		$ipoc = explode('.', $ip);
 		return $ipoc[3] . '.' . $ipoc[2] . '.' . $ipoc[1] . '.' . $ipoc[0];

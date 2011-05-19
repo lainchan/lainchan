@@ -41,8 +41,7 @@
 		// Check if banned
 		checkBan();
 		
-		if($config['block_tor'] && isTor())
-			error($config['error']['tor']);
+		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($_POST['board']))
@@ -102,8 +101,7 @@
 		// Check if banned
 		checkBan();
 		
-		if($config['block_tor'] && isTor())
-			error($config['error']['tor']);
+		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($_POST['board']))
@@ -179,8 +177,7 @@
 		// Check if banned
 		checkBan();
 		
-		if($config['block_tor'] && isTor())
-			error($config['error']['tor']);
+		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($post['board']))

@@ -23,7 +23,8 @@
 		'spam' => Array(),
 		'flood_filters' => Array(),
 		'wordfilters' => Array(),
-		'custom_capcode' => Array()
+		'custom_capcode' => Array(),
+		'dnsbl' => Array()
 	);
 	// Database stuff
 	
@@ -124,7 +125,7 @@
 	$config['error']['unoriginal']		= 'Unoriginal content!';
 	$config['error']['muted']			= 'Unoriginal content! You have been muted for %d seconds.';
 	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
-	$config['error']['tor']				= 'Hmm… That looks like a Tor exit node.';
+	$config['error']['dnsbl']			= 'Your IP address is listed in %s.';
 	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
 	$config['error']['toomanycites']	= 'Too many cites; post discarded.';
 	$config['error']['toomanycross']	= 'Too many cross-board links; post discarded.';
@@ -187,7 +188,9 @@
 	// sha1_file, md5_file, etc.
 	$config['file_hash']	= 'sha1_file';
 	
-	$config['block_tor']	= true;
+	// DNS blacklists (DNSBL) http://www.dnsbl.info/dnsbl-list.php
+	$config['dnsbl'][] = 'tor.dnsbl.sectoor.de'; // Tor exit nodes
+	
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
 	$config['max_links']	= 20;
 	// Maximum number of cites per post (protects against abuse)
