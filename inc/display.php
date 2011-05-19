@@ -260,7 +260,12 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $config;
+			global $board, $config, $memcached;
+			
+			if(!$this->mod && $config['memcached']['enabled']) {
+				if($built = $memcached->get('post_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id))
+					return $built;
+			}
 			
 			$built =	'<div class="post reply" id="reply_' . $this->id . '">' . 
 						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>' . 
@@ -346,6 +351,10 @@
 			
 			// Body
 			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br class="clear"/>';
+			
+			if(!$this->mod && $config['memcached']['enabled']) {
+				$memcached->set('post_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id, $built, time() + $config['memcached']['timeout']);
+			}
 			
 			return $built;
 		}

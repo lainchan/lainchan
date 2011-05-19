@@ -1258,7 +1258,7 @@
 		));
 		
 		if($config['memcached']['cache_threads'] && $config['memcached']['enabled']) {
-			$memcached->set('thread_' . $board['uri'] . '_' . $id, $body, time() + 86400);
+			$memcached->set('thread_' . $board['uri'] . '_' . $id, $body, time() + $config['memcached']['timeout']);
 		}
 			
 		if($return)
