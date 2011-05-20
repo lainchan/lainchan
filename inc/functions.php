@@ -621,7 +621,7 @@
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
 			if($config['memcached']['enabled'] && !$mod) {
-				if($built = $memcached->get("theadindex_{$th['id']}")) {
+				if($built = $memcached->get("theadindex_{$board['uri']}_{$th['id']}")) {
 					$body .= $built;
 					continue;
 				}
@@ -657,7 +657,7 @@
 			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
 			
 			if($config['memcached']['enabled'] && !$mod) {
-				$memcached->set("theadindex_{$th['id']}", $built, time() + $config['memcached']['timeout']);
+				$memcached->set("theadindex_{$board['uri']}_{$th['id']}", $built, time() + $config['memcached']['timeout']);
 			}
 			
 			$body .= $built;
@@ -1255,7 +1255,7 @@
 		
 		if($config['memcached']['enabled'] && !$mod) {
 			// Clear cache for index pages
-			$memcached->delete("theadindex_{$id}");
+			$memcached->delete("theadindex_{$board['uri']}_{$th['id']}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
