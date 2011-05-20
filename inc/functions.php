@@ -588,12 +588,10 @@
 	}
 	
 	function index($page, $mod=false) {
-		global $board, $config;
+		global $board, $config, $memcached;
 
 		$body = '';
 		$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
-
-		
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT ?,?", $board['uri']));
 		$query->bindValue(1, $offset, PDO::PARAM_INT);
@@ -603,7 +601,14 @@
 		if($query->rowcount() < 1 && $page > 1) return false;
 		while($th = $query->fetch()) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
-
+			
+			if($config['memcached']['enabled']) {
+				if($built = $memcached->get("theadindex_{$th['id']}")) {
+					$body .= $built;
+					continue;
+				}
+			}
+			
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
 			$posts->bindValue(1, $th['id']);
 			$posts->bindValue(2, ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
@@ -630,7 +635,14 @@
 			}
 			
 			$thread->posts = array_reverse($thread->posts);
-			$body .= '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
+			
+			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
+			
+			if($config['memcached']['enabled']) {
+				$memcached->set("theadindex_{$th['id']}", $built, time() + $config['memcached']['timeout']);
+			}
+			
+			$body .= $built;
 		}
 		
 		return Array(
@@ -949,7 +961,6 @@
 	function buildIndex() {
 		global $board, $config;
 		
-		
 		$pages = getPages();
 
 		$page = 1;
@@ -1224,11 +1235,9 @@
 		global $board, $config, $memcached;
 		$id = round($id);
 		
-		if($config['memcached']['cache_threads'] && $config['memcached']['enabled'] && $return && $mod) {
-			// Experimental: cache entire threads (for mods, since we already cache it with static HTML anyway)
-			if($body = $memcached->get('thread_' . $board['uri'] . '_' . $id)) {
-				return $body;
-			}
+		if($config['memcached']['enabled'] && !$mod) {
+			// Clear cache for index pages
+			$memcached->delete("theadindex_{$id}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
@@ -1257,10 +1266,6 @@
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
 		
-		if($config['memcached']['cache_threads'] && $config['memcached']['enabled'] && $mod) {
-			$memcached->set('thread_' . $board['uri'] . '_' . $id, $body, time() + $config['memcached']['timeout']);
-		}
-			
 		if($return)
 			return $body;
 		else

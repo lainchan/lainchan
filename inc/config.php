@@ -53,11 +53,8 @@
 	$config['memcached']['servers'] = Array(
 		Array('localhost', 11211)
 	);
-	// Experimental: cache entire thread HTML (for mods, since we already cache it with static HTML anyway)
-	// Increases load times for mods but might take up a bit of memory
-	$config['memcached']['cache_threads'] = false;
 	// Timeout for cached objects such as posts and HTML
-	$config['memcached']['timeout'] = 86400; // one day
+	$config['memcached']['timeout'] = 43200; // 12 hours
 	
 	// The name of the session cookie (PHP's $_SESSION)
 	$config['cookies']['session']= 'imgboard';
