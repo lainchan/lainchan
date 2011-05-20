@@ -221,6 +221,9 @@
 	// Display the aspect ratio in a post's file info
 	$config['show_ratio']	= true;
 	
+	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
+	$config['tmp'] = '/tmp';
+	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
 	$config['root']		= (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');

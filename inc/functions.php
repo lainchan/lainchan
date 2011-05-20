@@ -212,9 +212,23 @@
 	}
 	
 	function file_write($path, $data) {
+		global $config;
+		if(preg_match('/^scp:\/\/(.+)$/', $path, $m)) {
+			// Experimental: secure copy...
+			$file = tempnam($config['tmp'], 'tinyboard-scp');
+			// Write to temp file
+			file_write($file, $data);
+			// Call `scp` (yes, this is horrible)
+			$command = 'scp ' . escapeshellarg($file) . ' ' . escapeshellarg($m[1]);
+			system($command);
+			// Delete temporary file
+			unlink($file);
+			exit;
+		}
+		
 		if(!$fp = fopen($path, 'c'))
 			error('Unable to open file for writing: ' . $path);
-
+		
 		// File locking
 		if(!flock($fp, LOCK_EX)) {
 			error('Unable to lock file: ' . $path);
