@@ -224,7 +224,7 @@
 		public function link($pre = '') {
 			global $config, $board;
 			
-			return $this->root . $board['dir'] . $config['dir']['res'] . $this->thread . '.html' . '#' . $pre . $this->id;
+			return $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->thread) . '#' . $pre . $this->id;
 		}
 		public function postControls() {
 			global $board, $config;
@@ -409,7 +409,7 @@
 		public function link($pre = '') {
 			global $config, $board;
 			
-			return $this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html' . '#' . $pre . $this->id;
+			return $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->id) . '#' . $pre . $this->id;
 		}
 		public function add(Post $post) {
 			$this->posts[] = $post;
@@ -535,7 +535,7 @@
 			// Locked
 			($this->locked ? '<img class="icon" title="Locked" src="' . $config['image_locked'] . '" />' : '') .
 			// [Reply]
-			($index ? '<a href="' . $this->root . $board['dir'] . $config['dir']['res'] . $this->id . '.html">[Reply]</a>' : '') .
+			($index ? '<a href="' . $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->id) . '">[Reply]</a>' : '') .
 			
 			// Mod controls
 			$this->postControls() .

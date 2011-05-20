@@ -522,7 +522,7 @@
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		if($config['always_noko'] || $noko) {
-			$redirect = $root . $board['dir'] . $config['dir']['res'] . ($OP?$id:$post['thread']) . '.html' . (!$OP?'#'.$id:'');
+			$redirect = $root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP?'#'.$id:'');
 		} else {
 			$redirect = $root . $board['dir'] . $config['file_index'];
 			
