@@ -1255,7 +1255,7 @@
 		
 		if($config['memcached']['enabled'] && !$mod) {
 			// Clear cache for index pages
-			$memcached->delete("theadindex_{$board['uri']}_{$th['id']}");
+			$memcached->delete("theadindex_{$board['uri']}_{$id}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
