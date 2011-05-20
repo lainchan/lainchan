@@ -211,6 +211,23 @@
 		} else return false;
 	}
 	
+	function file_write($path, $data) {
+		$fp = fopen($path, 'c');
+
+		// File locking
+		if(!flock($fp, LOCK_EX)) {
+			error('Unable to lock file!');
+		}
+		
+		// Truncate file
+		ftruncate($fp, 0);
+		// Write data
+		fwrite($fp, $data);
+		flock($fp, LOCK_UN);
+
+		fclose($fp);
+	}
+	
 	function listBoards() {
 		$query = query("SELECT * FROM `boards` ORDER BY `uri`") or error(db_error());
 		$boards = $query->fetchAll();
@@ -972,7 +989,7 @@
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
 			$content['hidden_inputs'] = createHiddenInputs();
-			@file_put_contents($filename, Element('index.html', $content)) or error("Couldn't write to file.");
+			file_write($filename, Element('index.html', $content));
 			
 			if(isset($md5) && $md5 == md5_file($filename)) {
 				break;
@@ -997,7 +1014,7 @@
 				'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
 		}
 		
-		file_put_contents($config['file_script'], Element('main.js', Array(
+		file_write($config['file_script'], Element('main.js', Array(
 			'config' => $config,
 			'stylesheets' => $stylesheets
 		)));
@@ -1269,7 +1286,7 @@
 		if($return)
 			return $body;
 		else
-			@file_put_contents($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body) or error("Couldn't write to file.");
+			file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
 	}
 	
 	 function rrmdir($dir) {

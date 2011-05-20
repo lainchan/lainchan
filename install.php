@@ -66,7 +66,7 @@
 				}
 				
 				// Update version number
-				file_put_contents($config['has_installed'], VERSION);
+				file_write($config['has_installed'], VERSION);
 				
 				$page['title'] = 'Upgraded';
 				$page['body'] = '<p style="text-align:center">Successfully upgraded from ' . $version . ' to <strong>' . VERSION . '</strong>.</p>';
@@ -401,7 +401,7 @@
 		if(!empty($sql_errors)) {
 			$page['body'] .= '<div class="ban"><h2>SQL errors</h2><p>SQL errors were encountered when trying to install the database. This may be the result of using a database which is already occupied with a Tinyboard installation; if so, you can probably ignore this.</p><p>The errors encountered were:</p><ul>' . $sql_errors . '</ul><p><a href="?step=5">Ignore errors and complete installation.</a></p></div>';
 		} else {
-			file_put_contents($config['has_installed'], VERSION);
+			file_write($config['has_installed'], VERSION);
 			if(!@unlink(__FILE__)) {
 				$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
 			}
@@ -412,7 +412,7 @@
 		$page['title'] = 'Installation complete';
 		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
 		
-		file_put_contents($config['has_installed'], VERSION);
+		file_write($config['has_installed'], VERSION);
 		if(!@unlink(__FILE__)) {
 			$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
 		}
