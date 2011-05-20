@@ -602,7 +602,7 @@
 		while($th = $query->fetch()) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
-			if($config['memcached']['enabled']) {
+			if($config['memcached']['enabled'] && !$mod) {
 				if($built = $memcached->get("theadindex_{$th['id']}")) {
 					$body .= $built;
 					continue;
@@ -638,7 +638,7 @@
 			
 			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
 			
-			if($config['memcached']['enabled']) {
+			if($config['memcached']['enabled'] && !$mod) {
 				$memcached->set("theadindex_{$th['id']}", $built, time() + $config['memcached']['timeout']);
 			}
 			
