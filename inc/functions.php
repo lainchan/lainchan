@@ -5,6 +5,7 @@
 		exit;
 	}
 	
+	register_shutdown_function('fatal_error_handler'); 
 	loadConfig();
 	
 	function loadConfig() {
@@ -115,13 +116,11 @@
 				if(function_exists('error')) {
 					error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line']);
 				} else {
-					header('Content-Type: text/plain');
-					echo 'Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'];
+					basic_error_function_because_the_other_isnt_loaded_yet('Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line']);
 				}
 			}
 		}
 	}
-	register_shutdown_function('fatal_error_handler'); 
 	
 	// Memcached
 	function memcached_open() {
