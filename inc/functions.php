@@ -212,11 +212,12 @@
 	}
 	
 	function file_write($path, $data) {
-		$fp = fopen($path, 'c');
+		if(!$fp = fopen($path, 'c'))
+			error('Unable to open file for writing: ' . $path);
 
 		// File locking
 		if(!flock($fp, LOCK_EX)) {
-			error('Unable to lock file!');
+			error('Unable to lock file: ' . $path);
 		}
 		
 		// Truncate file
