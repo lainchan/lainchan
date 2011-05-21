@@ -342,9 +342,9 @@
 					$built .= ', ' . $this->filename . ')</span></p>' .
 					
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 				} elseif($this->file == 'deleted') {
-					$built .= '<img src="' . $config['image_deleted'] . '" />';
+					$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
 			
 			$built .= $this->postControls();
@@ -485,7 +485,7 @@
 				// Filename
 					$built .= ', ' . $this->filename . ')</span></p>' . 
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" /></a>';
+					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 			}
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
@@ -531,9 +531,9 @@
 			// JavaScript cite
 			'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' .
 			// Sticky
-			($this->sticky ? '<img class="icon" title="Sticky" src="' . $config['image_sticky'] . '" />' : '') .
+			($this->sticky ? '<img class="icon" title="Sticky" src="' . $config['image_sticky'] . '" alt="Sticky" />' : '') .
 			// Locked
-			($this->locked ? '<img class="icon" title="Locked" src="' . $config['image_locked'] . '" />' : '') .
+			($this->locked ? '<img class="icon" title="Locked" src="' . $config['image_locked'] . '" alt="Locked" />' : '') .
 			// [Reply]
 			($index ? '<a href="' . $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->id) . '">[Reply]</a>' : '') .
 			

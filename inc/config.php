@@ -26,8 +26,12 @@
 		'custom_capcode' => Array(),
 		'dnsbl' => Array()
 	);
-	// Database stuff
+	// Database stuff	
 	
+	// Automatically check if a newer version of Tinyboard is available when an administrator logs in
+	$config['check_updates'] = true;
+	// How often to check for updates
+	$config['check_updates_time'] = 43200; // 12 hours
 	
 	// SQL driver ("mysql", "pgsql", "sqlite", "dblib", etc)
 	// http://www.php.net/manual/en/pdo.drivers.php
@@ -46,6 +50,9 @@
 	// Timeout duration in seconds (not all drivers support this)
 	$config['db']['timeout'] = 5;
 	
+	// Shows some extra information at the bottom of pages. Good for debugging development.
+	// Also experimental.
+	$config['debug'] = false;
 	
 	// Optional Memcached server for more cache/optimization (currently at debug state)
 	$config['memcached']['enabled'] = false;

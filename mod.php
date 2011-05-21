@@ -82,6 +82,7 @@
 				'Administration' => '',
 				'Themes' => '',
 				'Search' => '',
+				'Update' => '',
 				'Logout' => ''
 			);
 			
@@ -155,6 +156,9 @@
 			if($mod['type'] >= $config['mod']['rebuild']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">Rebuild static files</a></li>';
 			}
+			if($mod['type'] >= $config['mod']['rebuild'] && $config['memcached']['enabled']) {
+				$fieldset['Administration'] .= 	'<li><a href="?/flush">Clear cache</a></li>';
+			}
 			if($mod['type'] >= $config['mod']['show_config']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
@@ -171,6 +175,56 @@
 				'</form>' .
 					'<p class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk (*) for wildcard.)</p>' .
 				'</li>';
+			}
+			
+			if($mod['type'] >= ADMIN && $config['check_updates']) {
+				if(!$version = @file_get_contents('.installed'))
+					error('Could not find current version! (Check .installed)');
+				if(isset($_SESSION['update']) && time() - $_SESSION['update']['time'] < $config['check_updates_time']) {
+					$latest = $_SESSION['update']['latest'];
+				} else {
+					$ctx = stream_context_create(array( 
+						'http' => array(
+							'timeout' => 3
+							) 
+						) 
+					);
+					$latest = @file_get_contents('http://tinyboard.org/latest.txt', 0, $ctx);
+					if(preg_match('/^v(\d+)\.(\d)\.(\d+)$/', $latest, $m)) {
+						$newer = Array(
+							'massive' => (int)$m[1],
+							'major' => (int)$m[2],
+							'minor' => (int)$m[3]
+						);
+						if(preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $version, $m)) {
+							$current = Array(
+								'massive' => (int)$m[1],
+								'major' => (int)$m[2],
+								'minor' => (int)$m[3]
+							);
+							if(isset($m[4])) { 
+								// Development versions are always ahead in the versioning numbers
+								$current['minor'] --;
+							}
+						}
+						// Check if it's newer
+						if(	$newer['massive'] > $current['massive'] ||
+							$newer['major'] > $current['major'] ||
+								($newer['massive'] == $current['massive'] &&
+									$newer['major'] == $current['major'] &&
+									$newer['minor'] > $current['minor']
+								)) {
+							$latest = $latest;
+						} else $latest = false;
+					} else $latest = false;
+					
+					$_SESSION['update'] = Array('time' => time(), 'latest' => $latest);
+				}
+				
+				if($latest) {
+					$latest = trim($latest);
+					$fieldset['Update'] .= '<li>A newer version of Tinyboard (<strong>' . $latest . '</strong>) is available! See <a href="http://tinyboard.org">http://tinyboard.org/</a> for download instructions.</li>';
+				}
 			}
 			
 			$fieldset['Logout'] .= '<li><a href="?/logout">Logout</a></li>';
@@ -1374,6 +1428,23 @@
 				'mod'=>true
 			)
 		);
+		} elseif(preg_match('/^\/flush$/', $query)) {
+			if($mod['type'] < $config['mod']['rebuild']) error($config['error']['noaccess']);
+			if(!$config['memcached']['enabled']) error('Memcached is not enabled.');
+			
+			if($memcached->flush()) {
+				$body = 'Successfully invalidated all items in the cache.';
+				modLog('Cleared cache');
+			} else {
+				$body = $memcached->getResultMessage();
+			}
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Flushed',
+				'body'=>'<p style="text-align:center">' . $body . '</p>',
+				'mod'=>true
+			));
 		} elseif(preg_match('/^\/rebuild$/', $query)) {
 			if($mod['type'] < $config['mod']['rebuild']) error($config['error']['noaccess']);
 			

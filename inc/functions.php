@@ -9,7 +9,7 @@
 	loadConfig();
 	
 	function loadConfig() {
-		global $board, $config, $__ip;
+		global $board, $config, $__ip, $debug;
 		
 		require 'config.php';
 		if (file_exists('inc/instance-config.php')) {
@@ -17,6 +17,12 @@
 		}
 		if(isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
 			require $board['dir'] . '/config.php';
+		}
+		
+		if($config['debug']) {
+			if(!isset($debug))
+				$debug = Array('sql');
+			$debug['start'] = time();
 		}
 		
 		if(!isset($config['url_stylesheet']))
