@@ -228,7 +228,7 @@
 			system($command);
 			// Delete temporary file
 			unlink($file);
-			exit;
+			return;
 		}
 		
 		if(!$fp = fopen($path, 'c'))
