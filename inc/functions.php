@@ -222,7 +222,6 @@
 		global $config;
 		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 		
-		
 		foreach($config['purge'] as &$purge) {
 			$host = $purge[0];
 			$port = $purge[1];
@@ -274,7 +273,13 @@
 			// Purge cache
 			if(basename($path) == $config['file_index']) {
 				// Index file (/index.html); purge "/" as well
-				purge(dirname($path) . '/');
+				$uri = dirname($path);
+				// root
+				if($uri == '.')
+					$uri = '';
+				else
+					$uri .= '/';
+				purge($uri);
 			}
 			purge($path);
 		}
