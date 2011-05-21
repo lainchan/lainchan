@@ -203,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `ip` varchar(45) NOT NULL,
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
+  `embed` text,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
