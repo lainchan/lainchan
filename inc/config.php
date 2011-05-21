@@ -665,6 +665,7 @@
 	// you can configure Tinyboard to PURGE files when they're written to
 	//$config['purge'] = Array(
 	//	Array('127.0.0.1', 80)
+	//	Array('127.0.0.1', 80, 'example.org')
 	//);
 	// Connection timeout, in seconds
 	$config['purge_timeout'] = 3;
