@@ -16,7 +16,7 @@
 			global $config;
 			
 			if($action == 'all' || $action == 'news')
-				file_put_contents($config['dir']['home'] . $config['file_index'], Basic::homepage($settings));
+				file_write($config['dir']['home'] . $config['file_index'], Basic::homepage($settings));
 		}
 		
 		// Build news page

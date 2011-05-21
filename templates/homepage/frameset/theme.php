@@ -16,13 +16,13 @@
 			global $config;
 			
 			if($action == 'all')
-				file_put_contents($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
+				file_write($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
 			
 			if($action == 'all' || $action == 'boards')
-				file_put_contents($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
+				file_write($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
 			
 			if($action == 'all' || $action == 'news')
-				file_put_contents($config['dir']['home'] . 'news.html', Frameset::news($settings));
+				file_write($config['dir']['home'] . 'news.html', Frameset::news($settings));
 		}
 		
 		// Build homepage
