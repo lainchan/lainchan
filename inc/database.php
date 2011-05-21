@@ -36,14 +36,20 @@
 	}
 	
 	function prepare($query) {
-		global $pdo;
+		global $pdo, $debug, $config;
+		if($config['debug']) {
+			$debug['sql'][] = $query;
+		}
 		
 		sql_open();
 		return $pdo->prepare($query);
 	}
 	
 	function query($query) {
-		global $pdo;
+		global $pdo, $debug, $config;
+		if($config['debug']) {
+			$debug['sql'][] = $query;
+		}
 		
 		sql_open();
 		return $pdo->query($query);

@@ -168,11 +168,15 @@
 	}
 	
 	function Element($templateFile, array $options) {
-		global $config;
+		global $config, $debug;
 		
 		// Small little hack to add the PM system
-		if(function_exists('create_pm_header') && (@$options['mod'] || @$options['__mod'])) {
+		if(function_exists('create_pm_header') && (isset($options['mod']) || isset($options['__mod']))) {
 			$options['pm'] = create_pm_header();
+		}
+		
+		if(isset($options['body']) && $config['debug']) {
+			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . print_r($debug, true) . '</pre><hr/>';
 		}
 		
 		// Read the template file
