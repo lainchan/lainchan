@@ -12,7 +12,7 @@
 <body>
 	{boardlist[top]}
 	{pm?<div class="top_notice">{pm}</div><hr/>}
-	{config[url_banner]?<img class="banner" src="{config[url_banner]}" />}
+	{config[url_banner]?<img class="banner" src="{config[url_banner]}" alt="" />}
 	<h1>{board[url]} - {board[name]}</h1>
 	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
@@ -101,7 +101,7 @@
 		rememberStuff();
 	</script>
 	<hr/>
-	<form name="delete" action="{config[post_url]}" method="post">
+	<form name="postcontrols" action="{config[post_url]}" method="post">
 	<input type="hidden" name="board" value="{board[uri]}" />
 	{mod?<input type="hidden" name="mod" value="1" />}
 	{body}
