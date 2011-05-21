@@ -218,6 +218,25 @@
 		} else return false;
 	}
 	
+	function purge($uri) {
+		global $config;
+		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
+		$request = "PURGE {$uri} HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\nUser-Agent: Tinyboard\r\nConnection: Close\r\n\r\n";
+		
+		foreach($config['purge'] as &$purge) {
+			$host = $purge[0];
+			$port = $purge[1];
+			if($fp = fsockopen($host, $port, $errno, $errstr, $config['purge_timeout'])) {
+				fwrite($fp, $request);
+				fclose($fp);
+			} else {
+				// Cannot connect?
+				error('Could not PURGE for ' . $host);
+			}
+			
+		}
+	}
+	
 	function file_write($path, $data) {
 		global $config;
 		if(preg_match('/^scp:\/\/(.+)$/', $path, $m)) {
@@ -231,6 +250,15 @@
 			// Delete temporary file
 			unlink($file);
 			return;
+		}
+		
+		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+			// Purge cache
+			if(basename($path) == $config['file_index']) {
+				// Index file (/index.html); purge "/" as well
+				purge(dirname($path) . '/');
+			}
+			purge($path);
 		}
 		
 		if(!$fp = fopen($path, 'c'))
