@@ -252,15 +252,6 @@
 			return;
 		}
 		
-		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
-			// Purge cache
-			if(basename($path) == $config['file_index']) {
-				// Index file (/index.html); purge "/" as well
-				purge(dirname($path) . '/');
-			}
-			purge($path);
-		}
-		
 		if(!$fp = fopen($path, 'c'))
 			error('Unable to open file for writing: ' . $path);
 		
@@ -276,6 +267,15 @@
 		flock($fp, LOCK_UN);
 
 		fclose($fp);
+		
+		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+			// Purge cache
+			if(basename($path) == $config['file_index']) {
+				// Index file (/index.html); purge "/" as well
+				purge(dirname($path) . '/');
+			}
+			purge($path);
+		}
 	}
 	
 	function listBoards() {
