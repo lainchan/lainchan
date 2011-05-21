@@ -25,6 +25,8 @@
 			$debug['start'] = time();
 		}
 		
+		date_default_timezone_set($config['timezone']);
+		
 		if(!isset($config['url_stylesheet']))
 			$config['url_stylesheet'] = $config['root'] . 'style.css';
 		if(!isset($config['url_javascript']))

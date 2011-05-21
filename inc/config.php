@@ -588,6 +588,9 @@
 	// http://php.net/manual/en/function.date.php
 	$config['post_date']	= 'm/d/y (D) H:i:s';
 	
+	// Timezone
+	$config['timezone'] = 'America/Los_Angeles';
+	
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko']	= false;
 	
