@@ -101,6 +101,7 @@ form table tr td div label {
 p.fileinfo {
 	display: block;
 	margin: 0px;
+	padding-right: 7em;
 }
 div.banner {
 	background-color: #E04000;
