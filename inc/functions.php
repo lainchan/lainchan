@@ -220,8 +220,12 @@
 	
 	function purge($uri) {
 		global $config;
-		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
-		
+		if(preg_match($config['url_match'], $config['root'])) {
+			$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
+		} else {
+			$uri = $config['root'] . $uri;
+		}
+				
 		foreach($config['purge'] as &$purge) {
 			$host = $purge[0];
 			$port = $purge[1];
@@ -234,7 +238,6 @@
 				// Cannot connect?
 				error('Could not PURGE for ' . $host);
 			}
-			
 		}
 	}
 	
@@ -249,7 +252,7 @@
 			$command = 'scp ' . escapeshellarg($file) . ' ' . escapeshellarg($m[1]);
 			system($command);
 			// Delete temporary file
-			unlink($file);
+			file_unlink($file);
 			return;
 		}
 		
@@ -269,6 +272,26 @@
 
 		fclose($fp);
 		
+		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+			// Purge cache
+			if(basename($path) == $config['file_index']) {
+				// Index file (/index.html); purge "/" as well
+				$uri = dirname($path);
+				// root
+				if($uri == '.')
+					$uri = '';
+				else
+					$uri .= '/';
+				purge($uri);
+			}
+			purge($path);
+		}
+	}
+	
+	function file_unlink($path) {
+		global $config;
+		
+		@unlink($path);
 		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
 			// Purge cache
 			if(basename($path) == $config['file_index']) {
@@ -586,10 +609,10 @@
 			$query->bindValue(':file', null, PDO::PARAM_NULL);
 		} else {
 			// Delete thumbnail
-			@unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
+			file_unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
 			
 			// Delete file
-			@unlink($board['dir'] . $config['dir']['img'] . $post['file']);
+			file_unlink($board['dir'] . $config['dir']['img'] . $post['file']);
 			
 			// Set file to 'deleted'
 			$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
@@ -621,18 +644,18 @@
 		while($post = $query->fetch()) {
 			if(!$post['thread']) {
 				// Delete thread HTML page
-				@unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
+				file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
 			} elseif($query->rowCount() == 1) {
 				// Rebuild thread
 				$rebuild = $post['thread'];
 			}
 			if($post['thumb']) {
 				// Delete thumbnail
-				@unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
+				file_unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
 			}
 			if($post['file']) {
 				// Delete file
-				@unlink($board['dir'] . $config['dir']['img'] . $post['file']);
+				file_unlink($board['dir'] . $config['dir']['img'] . $post['file']);
 			}
 		}
 		
@@ -1056,7 +1079,7 @@
 		if($page < $config['max_pages']) {
 			for(;$page<=$config['max_pages'];$page++) {
 				$filename = $page==1 ? $config['file_index'] : sprintf($config['file_page'], $page);
-				@unlink($filename);
+				file_unlink($filename);
 			}
 		}
 	}
@@ -1354,7 +1377,7 @@
 					if (filetype($dir."/".$object) == "dir")
 						rrmdir($dir."/".$object);
 					else
-						unlink($dir."/".$object);
+						file_unlink($dir."/".$object);
 				}
 			}
 			reset($objects);
@@ -1528,9 +1551,12 @@
 	}
 	
 	function undoImage($post) {
-		if($post['has_file'])
-			@unlink($post['file']);
-			@unlink($post['thumb']);
+		if($post['has_file']) {
+			if(isset($post['thumb']))
+				file_unlink($post['file']);
+			if(isset($post['thumb']))
+				file_unlink($post['thumb']);
+		}
 	}
 	
 	function createimage($type, $source_pic) {
@@ -1541,26 +1567,26 @@
 			case 'jpg':
 			case 'jpeg':				
 				if(!$image = @imagecreatefromjpeg($source_pic)) {
-					unlink($source_pic);
+					file_unlink($source_pic);
 					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'png':
 				if(!$image = @imagecreatefrompng($source_pic)) {
-					unlink($source_pic);
+					file_unlink($source_pic);
 					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'gif':
 				if(!$image = @imagecreatefromgif($source_pic)) {
-					unlink($source_pic);
+					file_unlink($source_pic);
 					error($config['error']['invalidimg']);
 				}
 				break;
 			case 'bmp':
 				if(!$image = @imagecreatefrombmp($source_pic)) {
 					unlink($source_pic);
-					error($config['error']['invalidimg']);
+					file_unlink($config['error']['invalidimg']);
 				}
 				break;
 			default:
