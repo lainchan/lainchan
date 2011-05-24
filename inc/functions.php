@@ -55,7 +55,7 @@
 				')$/i';
 		
 		if(!isset($config['cookies']['path']))
-			$config['cookies']['path'] = $config['root'];
+			$config['cookies']['path'] = &$config['root'];
 			
 		if(!isset($config['dir']['static']))
 			$config['dir']['static'] = $config['root'] . 'static/';
@@ -80,7 +80,7 @@
 			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
 		
 		if(!isset($config['uri_stylesheets']))
-			$config['uri_stylesheets'] = $config['root'];
+			$config['uri_stylesheets'] = &$config['root'];
 		
 		if($config['root_file']) {
 			chdir($config['root_file']);
@@ -94,7 +94,7 @@
 		if($config['ipv6_ipv4'] && isset($_SERVER['REMOTE_ADDR'])) {
 			// Keep the original address to properly comply with other board configurations
 			if(!isset($__ip))
-				$__ip = $_SERVER['REMOTE_ADDR'];
+				$__ip = &$_SERVER['REMOTE_ADDR'];
 			
 			// ::ffff:0.0.0.0
 			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
@@ -156,7 +156,7 @@
 		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
 		if($theme = $query->fetch()) {
 			// A theme is installed
-			$_theme = $theme['theme'];
+			$_theme = &$theme['theme'];
 			
 			$theme = loadThemeConfig($_theme);
 			
@@ -227,8 +227,8 @@
 		}
 				
 		foreach($config['purge'] as &$purge) {
-			$host = $purge[0];
-			$port = $purge[1];
+			$host = &$purge[0];
+			$port = &$purge[1];
 			$http_host = isset($purge[2]) ? $purge[2] : $_SERVER['HTTP_HOST'];
 			$request = "PURGE {$uri} HTTP/1.0\r\nHost: {$http_host}\r\nUser-Agent: Tinyboard\r\nConnection: Close\r\n\r\n";
 			if($fp = fsockopen($host, $port, $errno, $errstr, $config['purge_timeout'])) {
@@ -647,7 +647,7 @@
 				file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
 			} elseif($query->rowCount() == 1) {
 				// Rebuild thread
-				$rebuild = $post['thread'];
+				$rebuild = &$post['thread'];
 			}
 			if($post['thumb']) {
 				// Delete thumbnail

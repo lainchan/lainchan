@@ -102,7 +102,7 @@
 		global $config;
 		
 		if(!isset($len))
-			$len = $config['mod']['snippet_length'];
+			$len = &$config['mod']['snippet_length'];
 		
 		// Replace line breaks with some whitespace
 		$body = str_replace('<br/>', '  ', $body);
@@ -188,7 +188,7 @@
 	class Post {
 		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $embed, $root=null, $mod=false) {
 			global $config;
-			if(!isset($root)) $root = $config['root'];
+			if(!isset($root)) $root = &$config['root'];
 			
 			$this->id = $id;
 			$this->thread = $thread;
@@ -368,7 +368,7 @@
 	class Thread {
 		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $embed, $root=null, $mod=false, $hr=true) {
 			global $config;
-			if(!isset($root)) $root = $config['root'];
+			if(!isset($root)) $root = &$config['root'];
 			
 			$this->id = $id;
 			$this->subject = utf8tohtml($subject);
