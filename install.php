@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.2-dev-3');
+	define('VERSION', 'v0.9.2');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -57,7 +57,7 @@
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `name` `name` VARCHAR( 35 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
 				}
 			case 'v0.9.2-dev-2':
-				// Upgrade to v0.9.2-dev-3
+				// Upgrade to v0.9.2-dev-3 (v0.9.2)
 				
 				$boards = listBoards();
 				foreach($boards as &$_board) {

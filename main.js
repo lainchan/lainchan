@@ -53,8 +53,8 @@ function citeReply(id) {
 
 var selectedstyle = 'Yotsuba B';
 var styles = [
-	['Yotsuba B', '/board/default.css'],
-	['Yotsuba', '/board/yotsuba.css']
+	['Yotsuba B', '/default.css'],
+	['Yotsuba', '/yotsuba.css']
 ];
 var saved = {};
 
