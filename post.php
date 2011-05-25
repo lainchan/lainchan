@@ -213,6 +213,7 @@
 					$post['embed'] = $html;
 					// This looks messy right now, I know. I'll work on a better alternative later.
 					$post['no_longer_require_an_image_for_op'] = true;
+					break;
 				}
 			}
 			if(!isset($post['embed'])) {
@@ -231,7 +232,7 @@
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = &$_POST['body'];
 		$post['password'] = &$_POST['password'];
-		$post['has_file'] = ($OP && !isset($post['no_longer_require_an_image_for_op'])) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name']));
+		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op'])) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name'])));
 		
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		if($post['has_file'])
