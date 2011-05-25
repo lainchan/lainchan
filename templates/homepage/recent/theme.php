@@ -25,7 +25,7 @@
 			
 			if($action == 'all' || $action == 'post')
 			//	file_put_contents($config['dir']['home'] . $config['file_index'], $this->homepage($settings));
-				file_put_contents($config['dir']['home'] . 'recent.html', $this->homepage($settings));
+				file_write($config['dir']['home'] . 'recent.html', $this->homepage($settings));
 		}
 		
 		// Build news page
@@ -118,7 +118,7 @@
 				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
 				$query = query($query) or error(db_error());
 				$res = $query->fetch();
-				$body .= '<li>Unqiue posters: ' . number_format($res['count']) . '</li>';
+				$body .= '<li>Unique posters: ' . number_format($res['count']) . '</li>';
 				
 				// Active content
 				$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
