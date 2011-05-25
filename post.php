@@ -24,7 +24,7 @@
 			)
 			error($config['error']['bot']);
 		
-		$password = $_POST['password'];
+		$password = &$_POST['password'];
 		
 		if(empty($password))
 			error($config['error']['invalidpassword']);
@@ -113,7 +113,7 @@
 		if(count($report) > $config['report_limit'])
 			error($config['error']['toomanyreports']);
 		
-		$reason = $_POST['reason'];
+		$reason = &$_POST['reason'];
 		markup($reason);
 		
 		foreach($report as &$id) {
@@ -183,7 +183,7 @@
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
 		
-		if(!preg_match('/^208\.54\.39\./', $_SERVER['REMOTE_ADDR']) && checkSpam())
+		if(checkSpam())
 			error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {
@@ -195,9 +195,9 @@
 			error($config['error']['nonexistant']);
 		
 		// Check for an embed field
-		if($config['enable_enbedding'] && isset($_POST['embed']) && !empty($_POST['embed'])) {
+		if($config['enable_embedding'] && isset($_POST['embed']) && !empty($_POST['embed'])) {
 			// yep; validate it
-			$value = $_POST['embed'];
+			$value = &$_POST['embed'];
 			foreach($config['embedding'] as &$embed) {
 				if($html = preg_replace($embed[0], $embed[1], $value)) {
 					if($html == $value) {
@@ -227,10 +227,10 @@
 		}
 		
 		$post['name'] = (!empty($_POST['name'])?$_POST['name']:$config['anonymous']);
-		$post['subject'] = $_POST['subject'];
+		$post['subject'] = &$_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
-		$post['body'] = $_POST['body'];
-		$post['password'] = $_POST['password'];
+		$post['body'] = &$_POST['body'];
+		$post['password'] = &$_POST['password'];
 		$post['has_file'] = ($OP && !isset($post['no_longer_require_an_image_for_op'])) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name']));
 		
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
@@ -288,7 +288,7 @@
 		}
 		
 		$trip = generate_tripcode($post['name']);
-		$post['name'] = $trip[0];
+		$post['name'] = &$trip[0];
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
 		
 		if(strtolower($post['email']) == 'noko') {
@@ -417,8 +417,8 @@
 			
 			if(!isset($__file)) {
 				$size = @getimagesize($post['file']);
-				$post['width'] = $size[0];
-				$post['height'] = $size[1];
+				$post['width'] = &$size[0];
+				$post['height'] = &$size[1];
 				
 				// Check if the image is valid
 				if($post['width'] < 1 || $post['height'] < 1) {
