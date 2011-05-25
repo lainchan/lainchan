@@ -2,13 +2,13 @@
 	$theme = Array();
 	
 	// Theme name
-	$theme['name'] = 'Frameset';
+	$theme['name'] = 'Frameset (alpha)';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 
 'Use a basic frameset layout, with a list of boards and pages on a sidebar to the left of the page.
 
 Users never have to leave the homepage; they can do all their browsing from the one page.';
-	$theme['version'] = 'v0.1';
+	$theme['version'] = 'v0.0.1';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
