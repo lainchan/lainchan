@@ -260,11 +260,15 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $config, $memcached;
+			global $board, $config, $memcached, $debug;
 			
 			if(!$this->mod && $config['memcached']['enabled']) {
-				if($built = $memcached->get($this->memcached_key($index)))
+				if($built = $memcached->get($this->memcached_key($index))) {
+					if($config['debug']) {
+						$debug['memcached'][] = $this->memcached_key($index);
+					}
 					return $built;
+				}
 			}
 			
 			$built =	'<div class="post reply" id="reply_' . $this->id . '">' . 

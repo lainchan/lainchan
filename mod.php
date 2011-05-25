@@ -249,7 +249,7 @@
 			
 			header('Location: ?/', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/confirm\/(.+)$/', $query, $matches)) {
-			$uri = $matches[1];
+			$uri = &$matches[1];
 			
 			$body = '<p style="text-align:center">' .
 			'<span class="heading" style="margin-bottom:6px">Are you sure you want to do that?</span>' .
@@ -330,7 +330,7 @@
 				error('Cannot open homepage directory; check permissions.');
 			
 			if(isset($match[2])) {
-				$_theme = $match[2];
+				$_theme = &$match[2];
 				
 				if(!$theme = loadThemeConfig($_theme)) {
 					error($config['error']['invalidtheme']);
@@ -556,9 +556,9 @@
 					$query = prepare("INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)");
 					
 					if(isset($_POST['name']) && $mod['type'] >= $config['mod']['news_custom'])
-						$name = $_POST['name'];
+						$name = &$_POST['name'];
 					else
-						$name = $mod['username'];
+						$name = &$mod['username'];
 					
 					$query->bindValue(':name', utf8tohtml($name), PDO::PARAM_INT);
 					$query->bindvalue(':time', time(), PDO::PARAM_INT);
@@ -653,7 +653,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/PM\/(\d+)$/', $query, $match)) {
-			$id = $match[1];
+			$id = &$match[1];
 			
 			if($mod['type'] >= $config['mod']['master_pm']) {
 				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id");
@@ -689,7 +689,7 @@
 					$query->execute() or error(db_error($query));
 					
 					if($_mod = $query->fetch()) {
-						$__to = $_mod['username'];
+						$__to = &$_mod['username'];
 					} else {
 						$__to = '<em>??</em>';
 					}
@@ -732,7 +732,7 @@
 		} elseif(preg_match('/^\/new_PM\/(\d+)(\/(\d+))?$/', $query, $match)) {
 			if($mod['type'] < $config['mod']['create_pm']) error($config['error']['noaccess']);
 			
-			$to = $match[1];
+			$to = &$match[1];
 			
 			$query = prepare("SELECT `username`,`id` FROM `mods` WHERE `id` = :id");
 			$query->bindValue(':id', $to, PDO::PARAM_INT);
@@ -745,7 +745,7 @@
 			
 			if(isset($_POST['message'])) {
 				// Post message
-				$message = $_POST['message'];
+				$message = &$_POST['message'];
 				
 				if(empty($message))
 					error($config['error']['tooshort_body']);
@@ -771,7 +771,7 @@
 			} else {
 				$value = '';
 				if(isset($match[3])) {
-					$reply = $match[3];
+					$reply = &$match[3];
 					
 					$query = prepare("SELECT `message` FROM `pms` WHERE `sender` = :sender AND `to` = :mod AND `id` = :id");
 					$query->bindValue(':sender', $to['id'], PDO::PARAM_INT);
@@ -825,7 +825,7 @@
 				'</div>';
 			
 			if(isset($_POST['search']) && !empty($_POST['search'])) {
-				$phrase = $_POST['search'];
+				$phrase = &$_POST['search'];
 				$_body = '';
 				
 				// Escape escape character
@@ -1026,7 +1026,7 @@
 					)
 				);
 		} elseif(preg_match('/^\/users\/(\d+)(\/(promote|demote|delete))?$/', $query, $matches)) {
-			$modID = $matches[1];
+			$modID = &$matches[1];
 			
 			if(isset($matches[2])) {
 				if($matches[3] == 'delete') {
@@ -1619,7 +1619,7 @@
 		} elseif(preg_match('/^\/' . $regex['board'] . '(' . $regex['index'] . '|' . $regex['page'] . ')?$/', $query, $matches)) {
 			// Board index
 			
-			$boardName = $matches[1];
+			$boardName = &$matches[1];
 			
 			// Open board
 			if(!openBoard($boardName))
@@ -1641,8 +1641,8 @@
 		} elseif(preg_match('/^\/' . $regex['board'] . $regex['res'] . $regex['page'] . '$/', $query, $matches)) {
 			// View thread
 			
-			$boardName = $matches[1];
-			$thread = $matches[2];
+			$boardName = &$matches[1];
+			$thread = &$matches[2];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1654,8 +1654,8 @@
 			if($mod['type'] < $config['mod']['deletefile']) error($config['error']['noaccess']);
 			// Delete file from post
 			
-			$boardName = $matches[1];
-			$post = $matches[2];
+			$boardName = &$matches[1];
+			$post = &$matches[2];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1679,8 +1679,8 @@
 			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
 			// Delete post
 			
-			$boardName = $matches[1];
-			$post = $matches[2];
+			$boardName = &$matches[1];
+			$post = &$matches[2];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1703,8 +1703,8 @@
 			if($mod['type'] < $config['mod']['sticky']) error($config['error']['noaccess']);
 			// Add/remove sticky
 			
-			$boardName = $matches[1];
-			$post = $matches[3];
+			$boardName = &$matches[1];
+			$post = &$matches[3];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1737,8 +1737,8 @@
 			if($mod['type'] < $config['mod']['lock']) error($config['error']['noaccess']);
 			// Lock/Unlock
 			
-			$boardName = $matches[1];
-			$post = $matches[3];
+			$boardName = &$matches[1];
+			$post = &$matches[3];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1770,8 +1770,8 @@
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
 			// Delete all posts by an IP
 			
-			$boardName = $matches[1];
-			$post = $matches[2];
+			$boardName = &$matches[1];
+			$post = &$matches[2];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -1919,7 +1919,7 @@
 			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
 			// Ban by post
 			
-			$boardName = $matches[1];
+			$boardName = &$matches[1];
 			$delete = isset($matches[2]) && $matches[2] == '&delete';
 			if($delete && $mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
 			
