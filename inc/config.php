@@ -484,6 +484,9 @@
 	// $config['custom_tripcode']['#test123'] = '!HelloWorld';
 	// $config['custom_tripcode']['##securetrip'] = '!!somethingelse';
 	
+	// Blotter -- the simple version.
+	//$config['blotter'] = 'This is an important announcement!';
+	
 	// Spam filter
 	$config['spam']['hidden_inputs_min']	= 4;
 	$config['spam']['hidden_inputs_max']	= 12;
