@@ -24,6 +24,7 @@
 		'flood_filters' => Array(),
 		'wordfilters' => Array(),
 		'custom_capcode' => Array(),
+		'custom_tripcode' => Array(),
 		'dnsbl' => Array()
 	);
 	// Database stuff	
@@ -476,6 +477,12 @@
 	//	'color:red;font-weight:bold', // Change name style; optional
 	//	'color:red;font-weight:bold' // Change tripcode style; optional
 	//);
+	
+	
+	// Custom tripcodes. The below example makes a tripcode
+	//  of "#test123" evaluate to "!HelloWorld"
+	// $config['custom_tripcode']['#test123'] = '!HelloWorld';
+	// $config['custom_tripcode']['##securetrip'] = '!!somethingelse';
 	
 	// Spam filter
 	$config['spam']['hidden_inputs_min']	= 4;

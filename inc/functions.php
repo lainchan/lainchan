@@ -1423,10 +1423,16 @@
 			$salt = strtr ( $salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef' );
 			if ( isset ( $t[2] ) ) {
 				// secure
-				$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
+				if(isset($config['custom_tripcode']["##{$trip}"]))
+					$trip = $config['custom_tripcode']["##{$trip}"];
+				else
+					$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
 			} else {
 				// insecure
-				$trip = '!' . substr ( crypt ( $trip, $salt ), ( -1 * $length ) );
+				if(isset($config['custom_tripcode']["#{$trip}"]))
+					$trip = $config['custom_tripcode']["#{$trip}"];
+				else
+					$trip = '!' . substr ( crypt ( $trip, $salt ), ( -1 * $length ) );
 			}
 		}
 		if ( isset ( $trip ) ) {
