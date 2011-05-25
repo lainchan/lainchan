@@ -176,6 +176,11 @@
 		}
 		
 		if(isset($options['body']) && $config['debug']) {
+			if(isset($debug['start'])) {
+				$debug['time'] = '~' . round((microtime(true) - $debug['start']) * 1000, 2) . 'ms';
+				unset($debug['start']);
+				
+			}
 			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . print_r($debug, true) . '</pre><hr/>';
 		}
 		
