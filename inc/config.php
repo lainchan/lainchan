@@ -90,7 +90,9 @@
 	$config['secure_trip_salt']	= '@#$&^@#)$(*&@!_$(&329-8347';
 	
 	// How many seconds before you can post, after the first visit
+	// Does not currently work due to technical limitations; disregard for now
 	$config['lurktime']			= 30;
+	
 	// How many seconds between each post
 	$config['flood_time']		= 10;
 	// How many seconds between each post with exactly the same content and same IP
@@ -614,7 +616,7 @@
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
 	
 	// Enable embedding (see below)
-	$config['enable_enbedding'] = false;
+	$config['enable_embedding'] = false;
 	
 	// Custom embedding (YouTube, vimeo, etc.)
 	// It's very important that you match the full string (with ^ and $) or things will not work correctly.
