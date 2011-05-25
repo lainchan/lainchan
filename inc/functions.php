@@ -20,9 +20,10 @@
 		}
 		
 		if($config['debug']) {
-			if(!isset($debug))
-				$debug = Array('sql');
-			$debug['start'] = time();
+			if(!isset($debug)) {
+				$debug = Array('sql' => Array(), 'purge' => Array(), 'memcached' => Array());
+				$debug['start'] = microtime(true);
+			}
 		}
 		
 		date_default_timezone_set($config['timezone']);
@@ -219,11 +220,15 @@
 	}
 	
 	function purge($uri) {
-		global $config;
+		global $config, $debug;
 		if(preg_match($config['url_match'], $config['root'])) {
 			$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 		} else {
 			$uri = $config['root'] . $uri;
+		}
+		
+		if($config['debug']) {
+			$debug['purge'][] = $uri;
 		}
 				
 		foreach($config['purge'] as &$purge) {
@@ -289,7 +294,13 @@
 	}
 	
 	function file_unlink($path) {
-		global $config;
+		global $config, $debug;
+		
+		if($config['debug']) {
+			if(!isset($debug['unlink']))
+				$debug['unlink'] = Array();
+			$debug['unlink'][] = $path;
+		}
 		
 		@unlink($path);
 		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
@@ -685,14 +696,14 @@
 	}
 	
 	function index($page, $mod=false) {
-		global $board, $config, $memcached;
+		global $board, $config, $memcached, $debug;
 
 		$body = '';
 		$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
 		
-		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT ?,?", $board['uri']));
-		$query->bindValue(1, $offset, PDO::PARAM_INT);
-		$query->bindValue(2, $config['threads_per_page'], PDO::PARAM_INT);
+		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset,:threads_per_page", $board['uri']));
+		$query->bindValue(':offset', $offset, PDO::PARAM_INT);
+		$query->bindValue(':threads_per_page', $config['threads_per_page'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		if($query->rowcount() < 1 && $page > 1) return false;
@@ -700,15 +711,18 @@
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
 			if($config['memcached']['enabled'] && !$mod) {
-				if($built = $memcached->get("theadindex_{$board['uri']}_{$th['id']}")) {
+				if($built = $memcached->get("threadindex_{$board['uri']}_{$th['id']}")) {
 					$body .= $built;
+					if($config['debug']) {
+						$debug['memcached'][] = "threadindex_{$board['uri']}_{$th['id']}";
+					}
 					continue;
 				}
 			}
 			
-			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = ? ORDER BY `id` DESC LIMIT ?", $board['uri']));
-			$posts->bindValue(1, $th['id']);
-			$posts->bindValue(2, ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
+			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
+			$posts->bindValue(':id', $th['id']);
+			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
 			
 			$num_images = 0;
@@ -736,7 +750,7 @@
 			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
 			
 			if($config['memcached']['enabled'] && !$mod) {
-				$memcached->set("theadindex_{$board['uri']}_{$th['id']}", $built, time() + $config['memcached']['timeout']);
+				$memcached->set("threadindex_{$board['uri']}_{$th['id']}", $built, time() + $config['memcached']['timeout']);
 			}
 			
 			$body .= $built;
@@ -1334,7 +1348,7 @@
 		
 		if($config['memcached']['enabled'] && !$mod) {
 			// Clear cache for index pages
-			$memcached->delete("theadindex_{$board['uri']}_{$id}");
+			$memcached->delete("threadindex_{$board['uri']}_{$id}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`time`", $board['uri']));
