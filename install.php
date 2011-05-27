@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.2');
+	define('VERSION', 'v0.9.3-dev-1');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -64,6 +64,13 @@
 					// Add `custom_fields` field
 					query(sprintf("ALTER TABLE `posts_%s` ADD `embed` TEXT NULL", $_board['uri'])) or error(db_error());
 				}
+			case 'v0.9.2':
+				// Upgrade to v0.9.3-dev-1
+				
+				// Upgrade `theme_settings` table
+				query("TRUNCATE TABLE `theme_settings`") or error(db_error());
+				query("ALTER TABLE  `theme_settings` ADD  `theme` VARCHAR( 40 ) NOT NULL FIRST") or error(db_error());
+				query("ALTER TABLE  `theme_settings` CHANGE  `name`  `name` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
 				
 				// Update version number
 				file_write($config['has_installed'], VERSION);

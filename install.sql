@@ -256,7 +256,8 @@ CREATE TABLE IF NOT EXISTS `robot` (
 --
 
 CREATE TABLE IF NOT EXISTS `theme_settings` (
-  `name` varchar(40) NOT NULL,
+  `theme` varchar(40) NOT NULL,
+  `name` varchar(40) DEFAULT NULL,
   `value` text,
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
