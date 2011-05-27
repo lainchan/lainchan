@@ -1,7 +1,10 @@
 <?php
 
 /*
- *  WARNING: This is a project-wide configuration file shared by all Tinyboard users around the globe.
+ *  Copyright (c) 2010-2011 Tinyboard Development Group
+ *  
+ *  WARNING: This is a project-wide configuration file and is overwritten when upgrading to a newer
+ *  version of Tinyboard. Please leave this file unchanged, or it will be a lot harder for you to upgrade.
  *  If you would like to make instance-specific changes to your own setup, please use instance-config.php.
  *
  *  This is the default configuration. You can copy values from here and use them in
@@ -10,6 +13,8 @@
  *  You can also create per-board configuration files. Once a board is created, locate its directory and
  *	create a new file named config.php (eg. b/config.php). Like instance-config.php, you can copy values
  *  from here and use them in your per-board configuration files.
+ *
+ *  More information: http://tinyboard.org/wiki/index.php?title=Config
  *
  */
 	
