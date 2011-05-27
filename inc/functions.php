@@ -143,11 +143,11 @@
 	function loadThemeConfig($_theme) {
 		global $config;
 		
-		if(!file_exists($config['dir']['homepage'] . '/' . $_theme . '/info.php'))
+		if(!file_exists($config['dir']['themes'] . '/' . $_theme . '/info.php'))
 			return false;
 		
 		// Load theme information into $theme
-		include $config['dir']['homepage'] . '/' . $_theme . '/info.php';
+		include $config['dir']['themes'] . '/' . $_theme . '/info.php';
 		return $theme;
 	}
 	
@@ -162,8 +162,8 @@
 			
 			$theme = loadThemeConfig($_theme);
 			
-			if(file_exists($config['dir']['homepage'] . '/' . $_theme . '/theme.php')) {
-				require_once $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
+			if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
+				require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
 				$theme['build_function']($action, themeSettings());
 			}
 		

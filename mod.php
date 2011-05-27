@@ -317,17 +317,17 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'No theme',
-				'body'=>'<p style="text-align:center">Successfully stopped using any themes. You\'ll have to create a homepage manually if you want one.</p>',
+				'body'=>'<p style="text-align:center">Successfully stopped using all themes.</p>',
 				'mod'=>true
 				)
 			);
 		} elseif(preg_match('/^\/themes(\/(\w+))?$/', $query, $match)) {
 			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
 			
-			if(!is_dir($config['dir']['homepage']))
-				error('Homepage directory doesn\'t exist!');
-			if(!$dir = opendir($config['dir']['homepage']))
-				error('Cannot open homepage directory; check permissions.');
+			if(!is_dir($config['dir']['themes']))
+				error('Themes directory doesn\'t exist!');
+			if(!$dir = opendir($config['dir']['themes']))
+				error('Cannot open themes directory; check permissions.');
 			
 			if(isset($match[2])) {
 				$_theme = &$match[2];
@@ -406,7 +406,7 @@
 				// Scan directory for themes
 				$themes = Array();
 				while($file = readdir($dir)) {
-					if($file[0] != '.' && is_dir($config['dir']['homepage'] . '/' . $file)) {
+					if($file[0] != '.' && is_dir($config['dir']['themes'] . '/' . $file)) {
 						$themes[] = $file;
 					}
 				}
@@ -436,7 +436,7 @@
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Thumbnail</th>' .
-									'<td><img style="float:none;margin:4px" src="' . $config['dir']['homepage_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
+									'<td><img style="float:none;margin:4px" src="' . $config['dir']['themes_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Actions</th>' .

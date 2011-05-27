@@ -246,10 +246,10 @@
 	//$config['dir']['static']	= $config['root'] . 'static/';
 	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
 	$config['dir']['template']	= getcwd() . '/templates';
-	// For the homepage generation files (themes, etc.)
-	$config['dir']['homepage']	= getcwd() . '/templates/homepage';
+	// For the themes (homepages, etc.)
+	$config['dir']['themes']	= getcwd() . '/templates/themes';
 	// Same as above, but a URI (accessable by web interface, not locally)
-	$config['dir']['homepage_uri']	= 'templates/homepage';
+	$config['dir']['themes_uri']	= 'templates/themes';
 	// Homepage directory
 	$config['dir']['home']	= '';
 	
