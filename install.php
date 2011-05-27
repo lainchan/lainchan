@@ -64,6 +64,7 @@
 					// Add `custom_fields` field
 					query(sprintf("ALTER TABLE `posts_%s` ADD `embed` TEXT NULL", $_board['uri'])) or error(db_error());
 				}
+			case 'v0.9.2-dev-3': // v0.9.2-dev-3 == v0.9.2
 			case 'v0.9.2':
 				// Upgrade to v0.9.3-dev-1
 				
@@ -71,6 +72,7 @@
 				query("TRUNCATE TABLE `theme_settings`") or error(db_error());
 				query("ALTER TABLE  `theme_settings` ADD  `theme` VARCHAR( 40 ) NOT NULL FIRST") or error(db_error());
 				query("ALTER TABLE  `theme_settings` CHANGE  `name`  `name` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
+				query("ALTER TABLE  `theme_settings` DROP INDEX  `name`") or error(db_error());
 				
 				// Update version number
 				file_write($config['has_installed'], VERSION);
