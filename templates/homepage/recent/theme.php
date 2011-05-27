@@ -8,17 +8,17 @@
 		//	- boards (board list changed)
 		//	- post (a post has been made)
 		
-		$b = new Basic();
+		$b = new RecentPosts();
 		$b->build($action, $settings);
 	}
 	
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
-	class Basic {
+	class RecentPosts {
 		public function build($action, $settings) {
 			global $config, $_theme;
 			
 			if($action == 'all') {
-				copy($config['dir']['homepage'] . '/' . $_theme . '/recent.css', $config['dir']['home'] . 'recent.css');
+				//copy($config['dir']['homepage'] . '/' . $_theme . '/recent.css', $config['dir']['home'] . 'recent.css');
 			}
 			
 			$this->excluded = explode(' ', $settings['exclude']);

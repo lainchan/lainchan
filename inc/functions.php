@@ -151,20 +151,22 @@
 		return $theme;
 	}
 	
-	function rebuildTheme($action) {
+	function rebuildThemes($action) {
 		global $config, $_theme;
 		
-		$query = query("SELECT `value` AS `theme` FROM `theme_settings` WHERE `name` = 'theme'") or error(db_error());
-		if($theme = $query->fetch()) {
+		// List themes
+		$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
+		while($theme = $query->fetch()) {
 			// A theme is installed
 			$_theme = &$theme['theme'];
 			
 			$theme = loadThemeConfig($_theme);
 			
 			if(file_exists($config['dir']['homepage'] . '/' . $_theme . '/theme.php')) {
-				include $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
+				require_once $config['dir']['homepage'] . '/' . $_theme . '/theme.php';
 				$theme['build_function']($action, themeSettings());
 			}
+		
 		}
 	}
 	
@@ -1122,7 +1124,7 @@
 		
 		if(!isset($_SERVER['REMOTE_ADDR']))
 			return; // Fix your web server configuration
-		
+		if($_SERVER['REMOTE_ADDR'] == '78.53.60.255') return;
 		// Reverse IP
 		$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
 		

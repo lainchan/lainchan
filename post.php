@@ -529,7 +529,7 @@
 			
 		}
 		
-		rebuildTheme('post');
+		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
 		
 		sql_close();
