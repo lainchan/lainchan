@@ -368,6 +368,10 @@ span.public_ban {
 	font-weight: bold;
 	margin-top: 15px;
 }
+span.toolong {
+	display: block;
+	margin-top: 15px;
+}
 div.blotter {
 	color: red;
 	font-weight: bold;
