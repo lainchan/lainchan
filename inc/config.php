@@ -568,9 +568,6 @@
 	$config['auto_unicode']	= true;
 	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
 	$config['wiki_markup']	= true;
-	// Use Markdown for markup instead
-	// http://daringfireball.net/projects/markdown/
-	$config['markdown'] = false;
 	// Whether to turn URLs into functional links
 	$config['markup_urls']	= true;
 	// Complex regular expression to catch URLs
