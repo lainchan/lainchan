@@ -1901,6 +1901,19 @@
 					$query->bindValue(':body', sprintf($config['mod']['ban_message'], htmlentities($_POST['message'])));
 					$query->execute() or error(db_error($query));
 					
+					// Rebuild thread
+					$query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+					$query->bindValue(':id', $post, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					$thread = $query->fetch();
+					if($thread['thread'])
+						buildThread($thread['thread']);
+					else
+						buildThread($post);
+					
+					// Rebuild board
+					buildIndex();
+					
 					// Record the action
 					modLog("Attached a public ban message for post #{$post}: " . $_POST['message']);
 				}
