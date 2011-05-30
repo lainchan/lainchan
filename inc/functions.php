@@ -164,16 +164,18 @@
 			
 			if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
 				require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
-				$theme['build_function']($action, themeSettings());
+				$theme['build_function']($action, themeSettings($_theme));
 			}
 		
 		}
 	}
 	
-	function themeSettings() {
-		$query = query("SELECT * FROM `theme_settings`") or error(db_error());
-		$settings = Array();
+	function themeSettings($theme) {
+		$query = prepare("SELECT `name`, `value` FROM `theme_settings` WHERE `theme` = :theme AND `name` IS NOT NULL");
+		$query->bindValue(':theme', $theme);
+		$query->execute() or error(db_error($query));
 		
+		$settings = Array();
 		while($s = $query->fetch()) {
 			$settings[$s['name']] = $s['value'];
 		}
@@ -1124,8 +1126,7 @@
 		
 		if(!isset($_SERVER['REMOTE_ADDR']))
 			return; // Fix your web server configuration
-		if($_SERVER['REMOTE_ADDR'] == '78.53.60.255') return;
-		// Reverse IP
+		
 		$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
 		
 		foreach($config['dnsbl'] as &$blacklist) {
