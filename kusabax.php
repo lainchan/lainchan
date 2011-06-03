@@ -18,6 +18,8 @@
 	
 	/* End Config */
 	
+	if(empty($kusabaxc['db']['user']))
+		error('Did you forget to configure the script?');
 	
 	// KusabaX functions
 	function md5_decrypt($enc_text, $password, $iv_len = 16) {
