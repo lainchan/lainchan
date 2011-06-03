@@ -4,9 +4,9 @@
 	$kusabaxc = Array('db' => Array('timeout' => 5, 'persistent' => false));
 	$kusabaxc['db']['type']		= 'mysql';
 	$kusabaxc['db']['server']	= 'localhost';
-	$kusabaxc['db']['user']		= 'kusaba';
-	$kusabaxc['db']['password']	= 'kusaba';
-	$kusabaxc['db']['database']	= 'kusaba';
+	$kusabaxc['db']['user']		= '';
+	$kusabaxc['db']['password']	= '';
+	$kusabaxc['db']['database']	= '';
 	// KusabaX table prefix
 	$kusabaxc['db']['prefix']	= '';
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
@@ -222,10 +222,24 @@
 			$file_path = $kusabaxc['root'] . '/' . $board . '/src/' . $post['file'] . '.' . $post['file_type'];
 			$thumb_path = $kusabaxc['root'] . '/' . $board . '/thumb/' . $post['file'] . 's.' . $post['file_type'];
 			
-			$log[] = 'Copying file: <strong>' . $file_path . '</strong>';
+			$to_file_path = sprintf($config['board_path'], $board) . $config['dir']['img'] . $post['file'] . '.' . $post['file_type'];
+			$to_thumb_path = sprintf($config['board_path'], $board) . $config['dir']['thumb'] . $post['file'] . '.' . $post['file_type'];
 			
-			copy($file_path, sprintf($config['board_path'], $board) . $config['dir']['img'] . $post['file'] . '.' . $post['file_type']);
-			copy($thumb_path, sprintf($config['board_path'], $board) . $config['dir']['thumb'] . $post['file'] . '.' . $post['file_type']);
+			if(!file_exists($to_file_path)) {
+				$log[] = 'Copying file: <strong>' . $file_path . '</strong>';
+				if(!@copy($file_path, $to_file_path)) {
+					$err = error_get_last();
+					$log[] = 'Could not copy <strong>' . $file_path . '</strong>: ' . $err['message'];
+				}
+			}
+			
+			if(!file_exists($to_thumb_path)) {
+				$log[] = 'Copying file: <strong>' . $thumb_path . '</strong>';
+				if(!@copy($thumb_path, $to_thumb_path)) {
+					$err = error_get_last();
+					$log[] = 'Could not copy <strong>' . $thumb_path. '</strong>: ' . $err['message'];
+				}
+			}
 		}
 		
 		// Insert post
