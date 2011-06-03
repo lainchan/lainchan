@@ -188,7 +188,14 @@
 		}
 		
 		// IP
-		$query->bindValue(':ip', md5_decrypt($post['ip'], $kusabaxc['randomseed']), PDO::PARAM_STR);
+		$ip = md5_decrypt($post['ip'], $kusabaxc['randomseed']);
+		if(!preg_match('/^\d+\.\d+\.\d+\.\d+$/', $ip)) {
+			// Invalid IP address. Wrong KU_RANDOMSEED?
+			
+			$log[] = 'Invalid IP address returned after decryption. Wrong KU_RANDOMSEED?';
+			$ip = '0.0.0.0'; // just set it to something valid and continue
+		}
+		$query->bindValue(':ip', $ip, PDO::PARAM_STR);
 		
 		// Time (`timestamp`)
 		$query->bindValue(':time', $post['timestamp'], PDO::PARAM_INT);
