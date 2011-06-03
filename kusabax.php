@@ -131,6 +131,8 @@
 		}
 		$board = $kusabax_boards[(int)$post['boardid']];
 		
+		$log[] = 'Replicating post <strong>' . $post['id'] . '</strong> on /' . $board . '/';
+		
 		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES (:id, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :bump, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, :embed)", $board));
 		
 		// Post ID
@@ -163,8 +165,11 @@
 		$query->bindValue(':body', convert_markup($post['message']), PDO::PARAM_STR);
 		
 		// File
-		if(empty($post['file'])) {
-			$query->bindValue(':file', null, PDO::PARAM_NULL);
+		if(empty($post['file']) || $post['file'] == 'removed') {
+			if($post['file'] == 'removed')
+				$query->bindValue(':file', 'deleted', PDO::PARAM_STR);
+			else
+				$query->bindValue(':file', null, PDO::PARAM_NULL);
 			$query->bindValue(':width', null, PDO::PARAM_NULL);
 			$query->bindValue(':height', null, PDO::PARAM_NULL);
 			$query->bindValue(':filesize', null, PDO::PARAM_NULL);
@@ -185,6 +190,29 @@
 			$query->bindValue(':thumb', $post['file'] . '.' . $post['file_type'], PDO::PARAM_STR);
 			$query->bindValue(':thumbwidth', $post['thumb_w'], PDO::PARAM_INT);
 			$query->bindValue(':thumbheight', $post['thumb_h'], PDO::PARAM_INT);
+			
+			// Copy file
+			$file_path = $kusabaxc['root'] . '/' . $board . '/src/' . $post['file'] . '.' . $post['file_type'];
+			$thumb_path = $kusabaxc['root'] . '/' . $board . '/thumb/' . $post['file'] . 's.' . $post['file_type'];
+			
+			$to_file_path = sprintf($config['board_path'], $board) . $config['dir']['img'] . $post['file'] . '.' . $post['file_type'];
+			$to_thumb_path = sprintf($config['board_path'], $board) . $config['dir']['thumb'] . $post['file'] . '.' . $post['file_type'];
+			
+			if(!file_exists($to_file_path)) {
+				$log[] = 'Copying file: <strong>' . $file_path . '</strong>';
+				if(!@copy($file_path, $to_file_path)) {
+					$err = error_get_last();
+					$log[] = 'Could not copy <strong>' . $file_path . '</strong>: ' . $err['message'];
+				}
+			}
+			
+			if(!file_exists($to_thumb_path)) {
+				$log[] = 'Copying file: <strong>' . $thumb_path . '</strong>';
+				if(!@copy($thumb_path, $to_thumb_path)) {
+					$err = error_get_last();
+					$log[] = 'Could not copy <strong>' . $thumb_path. '</strong>: ' . $err['message'];
+				}
+			}
 		}
 		
 		// IP
@@ -213,34 +241,6 @@
 		$query->bindValue(':embed', null, PDO::PARAM_NULL);
 		$query->bindValue(':password', null, PDO::PARAM_NULL);
 		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
-		
-		
-		$log[] = 'Replicating post <strong>' . $post['id'] . '</strong> on /' . $board . '/';
-		
-		if(!empty($post['file'])) {
-			// Copy file
-			$file_path = $kusabaxc['root'] . '/' . $board . '/src/' . $post['file'] . '.' . $post['file_type'];
-			$thumb_path = $kusabaxc['root'] . '/' . $board . '/thumb/' . $post['file'] . 's.' . $post['file_type'];
-			
-			$to_file_path = sprintf($config['board_path'], $board) . $config['dir']['img'] . $post['file'] . '.' . $post['file_type'];
-			$to_thumb_path = sprintf($config['board_path'], $board) . $config['dir']['thumb'] . $post['file'] . '.' . $post['file_type'];
-			
-			if(!file_exists($to_file_path)) {
-				$log[] = 'Copying file: <strong>' . $file_path . '</strong>';
-				if(!@copy($file_path, $to_file_path)) {
-					$err = error_get_last();
-					$log[] = 'Could not copy <strong>' . $file_path . '</strong>: ' . $err['message'];
-				}
-			}
-			
-			if(!file_exists($to_thumb_path)) {
-				$log[] = 'Copying file: <strong>' . $thumb_path . '</strong>';
-				if(!@copy($thumb_path, $to_thumb_path)) {
-					$err = error_get_last();
-					$log[] = 'Could not copy <strong>' . $thumb_path. '</strong>: ' . $err['message'];
-				}
-			}
-		}
 		
 		// Insert post
 		$query->execute() or $log[] = 'Error: ' . db_error($query);
