@@ -4,9 +4,9 @@
 	$kusabaxc = Array('db' => Array('timeout' => 5, 'persistent' => false));
 	$kusabaxc['db']['type']		= 'mysql';
 	$kusabaxc['db']['server']	= 'localhost';
-	$kusabaxc['db']['user']		= '';
-	$kusabaxc['db']['password']	= '';
-	$kusabaxc['db']['database']	= '';
+	$kusabaxc['db']['user']		= 'kusaba';
+	$kusabaxc['db']['password']	= 'kusaba';
+	$kusabaxc['db']['database']	= 'kusaba';
 	// KusabaX table prefix
 	$kusabaxc['db']['prefix']	= '';
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
@@ -52,7 +52,7 @@
 		$body = preg_replace('/<a href="[^"]+?\/(\w+)\/res\/(\d+).html#(\d+)" onclick="return highlight\(\'\d+\', true\);" class="[^"]+">/', '<a onclick="highlightReply(\'$3\');" href="' . $config['root'] . '$1/res/$2.html#$3">', $body);
 		
 		// Public bans
-		$body = preg_replace('/<br \/><font color="#FF0000"><b>\((.+?)\)<\/b><\/font>/', '<span class="public_ban">$1</span>', $body);
+		$body = preg_replace('/<br \/><font color="#FF0000"><b>\((.+?)\)<\/b><\/font>/', '<span class="public_ban">($1)</span>', $body);
 		
 		return $body;
 	}
