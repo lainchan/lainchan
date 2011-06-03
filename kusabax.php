@@ -21,6 +21,9 @@
 	if(empty($kusabaxc['db']['user']))
 		die('Did you forget to configure the script?');
 	
+	// Infinite timeout
+	set_time_limit(0);
+	
 	// KusabaX functions
 	function md5_decrypt($enc_text, $password, $iv_len = 16) {
 		$enc_text = base64_decode($enc_text);
@@ -42,11 +45,14 @@
 		global $config;
 		$body = stripslashes($body);
 		
-		// Replace >quotes
+		// >quotes
 		$body = str_replace('"unkfunc"', '"quote"', $body);
 		
-		// Replace >>cites
+		// >>cites
 		$body = preg_replace('/<a href="[^"]+?\/(\w+)\/res\/(\d+).html#(\d+)" onclick="return highlight\(\'\d+\', true\);" class="[^"]+">/', '<a onclick="highlightReply(\'$3\');" href="' . $config['root'] . '$1/res/$2.html#$3">', $body);
+		
+		// Public bans
+		$body = preg_replace('/<br \/><font color="#FF0000"><b>\((.+?)\)<\/b><\/font>/', '<span class="public_ban">$1</span>', $body);
 		
 		return $body;
 	}
