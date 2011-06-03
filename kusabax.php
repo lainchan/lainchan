@@ -246,6 +246,25 @@
 		$query->execute() or $log[] = 'Error: ' . db_error($query);
 	}
 	
+	// News
+	$k_query = $kusabax->query('SELECT * FROM `' . $kusabaxc['db']['prefix'] . 'front` WHERE `page` = 0');
+	while($news = $k_query->fetch()) {
+		// Check if already exists
+		$query = prepare("SELECT 1 FROM `news` WHERE `body` = :body AND `time` = :time");
+		$query->bindValue(':time', $news['timestamp'], PDO::PARAM_INT);
+		$query->bindValue(':body', $news['message'], PDO::PARAM_STR);
+		$query->execute() or error(db_error($query));
+		if($query->fetch())
+			continue;		
+		
+		$query = prepare("INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)");
+		$query->bindValue(':name', $news['poster'], PDO::PARAM_STR);
+		$query->bindValue(':time', $news['timestamp'], PDO::PARAM_INT);
+		$query->bindValue(':subject', $news['subject'], PDO::PARAM_STR);
+		$query->bindValue(':body', $news['message'], PDO::PARAM_STR);
+		$query->execute() or $log[] = 'Error: ' . db_error($query);
+	}
+	
 	$page['body'] = '<div class="ban"><h2>Migrating…</h2><p>';
 	foreach($log as &$l) {
 		$page['body'] .= $l . '<br/>';
