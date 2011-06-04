@@ -31,6 +31,7 @@
 		'custom_capcode' => Array(),
 		'custom_tripcode' => Array(),
 		'dnsbl' => Array(),
+		'dnsbl_exceptions' => Array()
 		'remote' => Array()
 	);
 	// Database stuff	
@@ -212,6 +213,9 @@
 	// A better way to check for Tor exit nodes (https://www.torproject.org/projects/tordnsel.html.en):
 	// server-port.reverse-server-ip.ip-port.exitlist.torproject.org
 	//$config['dnsbl'][] = $_SERVER['PORT'] . '.' . '4.3.2.1' . '.ip-port.exitlist.torproject.org';
+	
+	// Skip checking certain IP addresses against blacklists (for troubleshooting or whatever)
+	$config['dnsbl_exceptions'][] = '127.0.0.1';
 	
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
 	$config['max_links']	= 20;

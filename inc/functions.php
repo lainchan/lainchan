@@ -1139,6 +1139,9 @@
 		if(!isset($_SERVER['REMOTE_ADDR']))
 			return; // Fix your web server configuration
 		
+		if(in_array($_SERVER['REMOTE_ADDR'], $dnsbl_exceptions))
+			return;
+		
 		$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
 		
 		foreach($config['dnsbl'] as &$blacklist) {
