@@ -131,20 +131,23 @@
 		return sprintf($config['capcode'], $cap);
 	}
 	
-	function truncate($body, $url) {
+	function truncate($body, $url, $max_lines = false, $max_chars = false) {
 		global $config;
-		
+		if($max_lines === false)
+			$max_lines = $config['body_truncate'];
+		if($max_chars === false)
+			$max_chars = $config['body_truncate_char'];
 		$original_body = $body;
 		
 		$lines = substr_count($body, '<br/>');
 		
 		// Limit line count
-		if($lines > $config['body_truncate']) {
-			if(preg_match('/(((.*?)<br\/>){' . $config['body_truncate'] . '})/', $body, $m))
+		if($lines > $max_lines) {
+			if(preg_match('/(((.*?)<br\/>){' . $max_lines . '})/', $body, $m))
 				$body = $m[0];
 		}
 		
-		$body = substr($body, 0, $config['body_truncate_char']);
+		$body = substr($body, 0, $max_chars);
 		
 		if($body != $original_body) {
 			// Remove any corrupt tags at the end
@@ -347,8 +350,8 @@
 					
 				// Thumbnail
 					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
-				} elseif($this->file == 'deleted') {
-					$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
+			} elseif($this->file == 'deleted') {
+				$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
 			
 			$built .= $this->postControls();
@@ -442,7 +445,11 @@
 				if($this->mod['type'] >= $config['mod']['bandelete'])
 					$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 				
-				// Stickies
+				// Delete file (keep post)
+				if(!empty($this->file) && $this->file != 'deleted' && $this->mod['type'] >= $config['mod']['deletefile'])
+					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
+				
+				// Sticky
 				if($this->mod['type'] >= $config['mod']['sticky'])
 					if($this->sticky)
 						$built .= ' <a title="Make thread not sticky" href="?/' . $board['uri'] . '/unsticky/' . $this->id . '">' . $config['mod']['link_desticky'] . '</a>';
@@ -455,7 +462,6 @@
 						$built .= ' <a title="Lock thread" href="?/' . $board['uri'] . '/unlock/' . $this->id . '">' . $config['mod']['link_unlock'] . '</a>';
 					else
 						$built .= ' <a title="Unlock thread" href="?/' . $board['uri'] . '/lock/' . $this->id . '">' . $config['mod']['link_lock'] . '</a>';
-				
 				
 				$built .= '</span>';
 			}
@@ -470,7 +476,7 @@
 				$built =
 				// Actual embedding
 				$this->embed;
-			} else {
+			} elseif(!empty($this->file) && $this->file != 'deleted') {
 				// Image, not embedded shit
 				$built = 
 				// File link
@@ -490,6 +496,8 @@
 					$built .= ', ' . $this->filename . ')</span></p>' . 
 				// Thumbnail
 					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
+			} elseif($this->file == 'deleted') {
+				$built = '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
 			
 			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';

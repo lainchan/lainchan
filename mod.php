@@ -1172,7 +1172,7 @@
 					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod);
 				}
 				
-				$po->body .=
+				$append_html =
 					'<div class="report">' .
 						'<hr/>' .
 						'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
@@ -1184,7 +1184,22 @@
 							($mod['type'] >= $config['mod']['report_dismiss_ip'] ?
 								'<a title="Discard all abuse reports by this user" href="?/reports/' . $report['id'] . '/dismiss/all">Dismiss+</a>' : '') .
 					'</div>';
+				
+				// Bug fix for https://github.com/savetheinternet/Tinyboard/issues/21
+				$po->body = truncate($po->body, $po->link(), $config['body_truncate'] - substr_count($append_html, '<br/>'));
+				
+				if(strlen($po->body) + strlen($append_html) > $config['body_truncate_char']) {
+					// still too long. temporarily increase limit in the config
+					$__old_body_truncate_char = $config['body_truncate_char'];
+					$config['body_truncate_char'] = strlen($po->body) + strlen($append_html);
+				}
+				
+				$po->body .= $append_html;
+				
 				$body .= $po->build(true) . '<hr/>';
+				
+				if(isset($__old_body_truncate_char))
+					$config['body_truncate_char'] = $__old_body_truncate_char;
 			}
 			
 			$query = query("SELECT COUNT(`id`) AS `count` FROM `reports`") or error(db_error());
