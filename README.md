@@ -14,6 +14,11 @@ This script pulls board information, posts and images from an already existing [
  3. Edit the script and fill in your Kusaba X configuration. You can find KU_RANDOMSEED from Kusaba X's config.php file.
  4. Run the script in a web browser.
 
+## What's copied? (in the future, more will be added.)
+ 1. Basic board information
+ 2. Posts
+ 3. News
+
 ## Documentation
 Visit the Tinyboard development wiki at <http://tinyboard.org/wiki/> for help.
 
