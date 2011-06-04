@@ -608,7 +608,7 @@
 	function deleteFile($id, $remove_entirely_if_already=true) {
 		global $board, $config;
 		
-		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NOT NULL LIMIT 1", $board['uri']));
+		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
@@ -617,6 +617,9 @@
 		}
 		
 		$post = $query->fetch();
+		
+		if($post['file'] == 'deleted' && !$post['thread'])
+			return; // Can't delete OP's image completely.
 		
 		$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id OR `thread` = :id", $board['uri']));
 		if($post['file'] == 'deleted' && $remove_entirely_if_already) {
@@ -637,7 +640,8 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		buildThread($post['thread']);
+		if($post['thread'])
+			buildThread($post['thread']);
 	}
 	
 	// Delete a post (reply or thread)
