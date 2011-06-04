@@ -629,7 +629,7 @@
 		if($post['file'] == 'deleted' && !$post['thread'])
 			return; // Can't delete OP's image completely.
 		
-		$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id OR `thread` = :id", $board['uri']));
+		$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id", $board['uri']));
 		if($post['file'] == 'deleted' && $remove_entirely_if_already) {
 			// Already deleted; remove file fully
 			$query->bindValue(':file', null, PDO::PARAM_NULL);
