@@ -31,7 +31,7 @@
 		'custom_capcode' => Array(),
 		'custom_tripcode' => Array(),
 		'dnsbl' => Array(),
-		'dnsbl_exceptions' => Array()
+		'dnsbl_exceptions' => Array(),
 		'remote' => Array()
 	);
 	// Database stuff	
