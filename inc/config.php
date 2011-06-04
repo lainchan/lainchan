@@ -209,6 +209,9 @@
 	// DNS blacklists (DNSBL) http://www.dnsbl.info/dnsbl-list.php
 	$config['dnsbl'][] = 'tor.dnsbl.sectoor.de'; // Tor exit nodes
 	//$config['dnsbl'][] = 'dnsbl.sorbs.net';
+	// A better way to check for Tor exit nodes (https://www.torproject.org/projects/tordnsel.html.en):
+	// server-port.reverse-server-ip.ip-port.exitlist.torproject.org
+	//$config['dnsbl'][] = $_SERVER['PORT'] . '.' . '4.3.2.1' . '.ip-port.exitlist.torproject.org';
 	
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
 	$config['max_links']	= 20;
