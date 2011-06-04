@@ -704,6 +704,20 @@
 	// Connection timeout, in seconds
 	$config['purge_timeout'] = 3;
 	
+	// Remote servers
+	// http://tinyboard.org/wiki/index.php?title=Multiple_Servers
+	//$config['remote'] = Array(
+	//	'static' => Array(
+	//		'host' => 'static.example.org',
+	//		'auth' => Array(
+	//			'method' => 'plain',
+	//			'username' => 'username',
+	//			'password' => 'password!123'
+	//		),
+	//		'type' => 'scp'
+	//	)
+	//);
+	
 	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
 		// You cannot request this file directly.
 		header('Location: ../', true, 302);
