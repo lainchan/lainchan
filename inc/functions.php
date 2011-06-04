@@ -250,38 +250,46 @@
 		}
 	}
 	
-	function file_write($path, $data) {
+	function file_write($path, $data, $simple = false, $skip_purge = false) {
 		global $config;
-		if(preg_match('/^scp:\/\/(.+)$/', $path, $m)) {
-			// Experimental: secure copy...
-			$file = tempnam($config['tmp'], 'tinyboard-scp');
-			// Write to temp file
-			file_write($file, $data);
-			// Call `scp` (yes, this is horrible)
-			$command = 'scp ' . escapeshellarg($file) . ' ' . escapeshellarg($m[1]);
-			system($command);
-			// Delete temporary file
-			file_unlink($file);
-			return;
+		
+		if(preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
+			if(isset($config['remote'][$m[1]])) {
+				require_once 'inc/remote.php';
+				
+				$remote = new Remote($config['remote'][$m[1]]);
+				$remote->write($data, $m[2]);
+				return;
+			} else {
+				error('Invalid remote server: ' . $m[1]);
+			}
 		}
 		
-		if(!$fp = fopen($path, 'c'))
+		if(!$fp = fopen($path, $simple ? 'w' : 'c'))
 			error('Unable to open file for writing: ' . $path);
 		
 		// File locking
-		if(!flock($fp, LOCK_EX)) {
+		if(!$simple && !flock($fp, LOCK_EX)) {
 			error('Unable to lock file: ' . $path);
 		}
 		
 		// Truncate file
-		ftruncate($fp, 0);
+		if(!$simple && !ftruncate($fp, 0))
+			error('Unable to truncate file: ' . $path);
+			
 		// Write data
-		fwrite($fp, $data);
-		flock($fp, LOCK_UN);
-
-		fclose($fp);
+		if(fwrite($fp, $data) === false)
+			error('Unable to write to file: ' . $path);
 		
-		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+		// Unlock
+		if(!$simple)
+			flock($fp, LOCK_UN);
+		
+		// Close
+		if(!fclose($fp))
+			error('Unable to close file: ' . $path);
+		
+		if(!$skip_purge && isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
 			// Purge cache
 			if(basename($path) == $config['file_index']) {
 				// Index file (/index.html); purge "/" as well

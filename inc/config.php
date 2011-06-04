@@ -30,7 +30,8 @@
 		'wordfilters' => Array(),
 		'custom_capcode' => Array(),
 		'custom_tripcode' => Array(),
-		'dnsbl' => Array()
+		'dnsbl' => Array(),
+		'remote' => Array()
 	);
 	// Database stuff	
 	
