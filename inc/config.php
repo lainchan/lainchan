@@ -297,7 +297,7 @@
 	
 	// The HTTP status code to use when redirecting.
 	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-	// "302" is recommended.
+	// "302" is strongly recommended. (This shouldn't even be configurable... It's not like it's going to change or anything.)
 	$config['redirect_http']	= 302;
 	
 	// TODO: Put this in per-board instance-config instead
