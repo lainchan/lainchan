@@ -1433,8 +1433,7 @@
 			if ( ( function_exists ( 'mb_convert_encoding' ) ) ) {
 				// multi-byte encoding is necessary to produce standard tripcode output, but only use it if available
 				mb_substitute_character('none');
-				// $trip is now properly encoded
-				$trip = mb_convert_encoding ( $trip, 'Shift_JIS', 'UTF-8' );
+				$recoded_cap = mb_convert_encoding ( $trip, 'Shift_JIS', 'UTF-8' );
 			}
 			$trip = ( ( ! empty ( $recoded_cap ) ) ? $recoded_cap : $trip );
 			$salt = substr ( $trip.'H.', 1, 2 );
