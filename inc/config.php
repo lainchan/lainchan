@@ -14,6 +14,9 @@
  *	create a new file named config.php (eg. b/config.php). Like instance-config.php, you can copy values
  *  from here and use them in your per-board configuration files.
  *
+ *  Some directives are commented out. This is either because they are optional and examples, or because
+ *  they are "optionally configurable", and given their default values by Tinyboard's code later if unset.
+ *
  *  More information: http://tinyboard.org/wiki/index.php?title=Config
  *
  */
