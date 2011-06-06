@@ -1426,14 +1426,15 @@
  
 	function generate_tripcode($name, $length = 10){
 		global $config;
-		$name = stripslashes ( $name );
 		$t = explode('#', $name);
 		$nameo = $t[0];
 		if ( isset ( $t[1] ) || isset ( $t[2] ) ) {
 			$trip = ( ( strlen ( $t[1] ) > 0 ) ? $t[1] : $t[2] );
 			if ( ( function_exists ( 'mb_convert_encoding' ) ) ) {
-				# mb_substitute_character('none');
-				$recoded_cap = mb_convert_encoding ( $trip, 'Shift_JIS', 'UTF-8' );
+				// multi-byte encoding is necessary to produce standard tripcode output, but only use it if available
+				mb_substitute_character('none');
+				// $trip is now properly encoded
+				$trip = mb_convert_encoding ( $trip, 'Shift_JIS', 'UTF-8' );
 			}
 			$trip = ( ( ! empty ( $recoded_cap ) ) ? $recoded_cap : $trip );
 			$salt = substr ( $trip.'H.', 1, 2 );
@@ -1446,7 +1447,7 @@
 				else
 					$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
 			} else {
-				// insecure
+				// insecure				
 				if(isset($config['custom_tripcode']["#{$trip}"]))
 					$trip = $config['custom_tripcode']["#{$trip}"];
 				else
