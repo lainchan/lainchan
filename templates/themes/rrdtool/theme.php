@@ -65,7 +65,6 @@
 					$query->execute() or error(db_error($query));
 					$count = $query->fetch();
 					$count = $count['count'];
-					echo 'Posts on /' . $board . '/: ' . $count . PHP_EOL;
 					
 					if(!rrd_update($file, Array(
 						'-t',
