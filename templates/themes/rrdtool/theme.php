@@ -41,8 +41,8 @@
 					
 					if($action == 'cron') {
 						$query = prepare(sprintf("SELECT COUNT(*) AS `count` FROM `posts_%s` WHERE `time` >= :time", $board));
-						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT):
-						$query->exeucte() or error(db_error($query));
+						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
 						$count = $query->fetch();
 						$count = $count['count'];
 						
