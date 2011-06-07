@@ -151,22 +151,25 @@
 		return $theme;
 	}
 	
+	function rebuildTheme($theme, $action) {
+		global $config, $_theme;
+		$_theme = $theme;
+		
+		$theme = loadThemeConfig($_theme);
+		
+		if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
+			require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
+			$theme['build_function']($action, themeSettings($_theme));
+		}
+	}
+	
 	function rebuildThemes($action) {
 		global $config, $_theme;
 		
 		// List themes
 		$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 		while($theme = $query->fetch()) {
-			// A theme is installed
-			$_theme = &$theme['theme'];
-			
-			$theme = loadThemeConfig($_theme);
-			
-			if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
-				require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
-				$theme['build_function']($action, themeSettings($_theme));
-			}
-		
+			rebuildTheme($theme['theme']);
 		}
 	}
 	
@@ -1446,7 +1449,7 @@
 				else
 					$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
 			} else {
-				// insecure				
+				// insecure
 				if(isset($config['custom_tripcode']["#{$trip}"]))
 					$trip = $config['custom_tripcode']["#{$trip}"];
 				else
