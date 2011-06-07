@@ -40,6 +40,29 @@
 		'default' => implode(' ', $__default_boards)
 	);
 	
+	$theme['install_callback'] = 'rrdtool_install';
+	if(!function_exists('rrdtool_install')) {
+		function rrdtool_install($settings) {
+			global $config;
+			
+			$job = '* * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
+			
+			if(function_exists('system')) {
+				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');
+				file_write($crontab, $job);
+				@system('crontab ' . escapeshellarg($crontab) . '; echo $?', $ret);
+				unlink($crontab);
+				
+				if($ret === 0)
+					return; // it seems to install okay?
+			}
+			
+			return '<h2>I couldn\'t install the crontab!</h2>' . 
+				'In order to use this plugin, you must add the following crontab entry:' . 
+				'<pre>' . $job . '</pre>';
+		}
+	}
+	
 	// Unique function name for building everything
 	$theme['build_function'] = 'rrdtool_build';
 ?>
