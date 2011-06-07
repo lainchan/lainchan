@@ -18,7 +18,7 @@
 			global $config, $_theme;
 			
 			$this->boards = explode(' ', $settings['boards']);
-			$this->spans = Array('hour', 'day', 'week', 'month');
+			$this->spans = Array('minute', 'hour', 'day', 'week', 'month');
 			$this->interval = 60;
 			$this->height = 150;
 			$this->width = 700;
@@ -61,19 +61,23 @@
 						// Graph graph
 						if(!rrd_graph($settings['images'] . '/' . $board . '-' . $span . '.png', Array(
 							'-s -1' . $span,
-							'-t Posts on ' . sprintf($config['board_abbreviation'], $board),
+							'-t Posts on ' . sprintf($config['board_abbreviation'] . ' this ' . $span, $board),
 							//'--lazy',
 							'-l 0',
 							'-h', $this->height, '-w', $this->width,
-							'-l 0',
 							'-a', 'PNG',
+							'-R', 'mono',
 							'-W', 'Powered by Tinyboard',
+							'-E',
+							'-X', '0',
+							//'-L', '4',
+							'-Y',
 							'-v posts/minute',
 							'DEF:posts=' . $file . ':posts:AVERAGE',
-							'LINE2:posts#336600:Posts',
-							'GPRINT:posts:MAX:  Max\\: %5.1lf %s',
-							'GPRINT:posts:AVERAGE: Avg\\: %5.1lf %s',
-							'GPRINT:posts:LAST: Current\\: %5.1lf %sposts/min',
+							'LINE2:posts#663300:Posts',
+							'GPRINT:posts:MAX:Max\\: %5.2lf',
+							'GPRINT:posts:AVERAGE:Average\\: %5.2lf',
+							'GPRINT:posts:LAST:Current\\: %5.2lf posts/min',
 							'HRULE:0#000000')))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
