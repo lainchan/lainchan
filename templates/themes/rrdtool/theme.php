@@ -40,19 +40,19 @@
 							
 							'RRA:MIN:0:1:' .	(3600/$this->interval), // hour
 							'RRA:MIN:0:1:' .	(86400/$this->interval), // day
-							'RRA:MIN:0:60:' .	(604800/$this->interval), // week
+							'RRA:MIN:0:1:' .	(604800/$this->interval), // week
 							'RRA:MIN:0:60:' .	(2592000/$this->interval), // month
 							'RRA:MIN:0:1440:' .	(31536000/$this->interval), // year
 							
 							'RRA:AVERAGE:0:1:' .	(3600/$this->interval), // hour
 							'RRA:AVERAGE:0:1:' .	(86400/$this->interval), // day
-							'RRA:AVERAGE:0:60:' .	(604800/$this->interval), // week
+							'RRA:AVERAGE:0:1:' .	(604800/$this->interval), // week
 							'RRA:AVERAGE:0:60:' .	(2592000/$this->interval), // month
 							'RRA:AVERAGE:0:1440:' .	(31536000/$this->interval), // year
 							
 							'RRA:MAX:0:1:' .	(3600/$this->interval), // hour
 							'RRA:MAX:0:1:' .	(86400/$this->interval), // day
-							'RRA:MAX:0:60:' .	(604800/$this->interval), // week
+							'RRA:MAX:0:1:' .	(604800/$this->interval), // week
 							'RRA:MAX:0:60:' .	(2592000/$this->interval), // month
 							'RRA:MAX:0:1440:' .	(31536000/$this->interval), // year
 							)))
@@ -122,12 +122,10 @@
 					$c = 0;
 					$cc = 0;
 					
-					echo PHP_EOL;
 					foreach($this->boards as &$board) {
 						$color =	str_pad(dechex($red*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($green*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($blue*85), 2, '0', STR_PAD_LEFT);
-						echo $color . '  ' . $c . PHP_EOL;
 						
 						$options[] = 'DEF:posts' . $board . '=' . $settings['path'] . '/' . $board . '.rrd' . ':posts:AVERAGE';
 						$options[] = 'LINE2:posts' . $board . '#' . $color . ':' .
