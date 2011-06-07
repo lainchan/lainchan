@@ -22,6 +22,8 @@
 			$this->interval = 120;
 			$this->height = 150;
 			$this->width = 700;
+			// exclude boards from the "combiend" graph
+			$this->combined_exclude = Array('dome9001', 'mod', 'test');
 			
 			if($action == 'cron') {
 				if(!file_exists($settings['path']))
@@ -123,6 +125,8 @@
 					$cc = 0;
 					
 					foreach($this->boards as &$board) {
+						if(in_array($board, $this->combined_exclude))
+							continue;
 						$color =	str_pad(dechex($red*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($green*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($blue*85), 2, '0', STR_PAD_LEFT);
