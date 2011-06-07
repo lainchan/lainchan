@@ -155,7 +155,7 @@
 		global $config, $_theme;
 		$_theme = $theme;
 		
-		$theme = loadThemeConfig($_theme);
+		$theme = loadThemeConfig($_theme, $action);
 		
 		if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
 			require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
