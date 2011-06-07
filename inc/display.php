@@ -66,6 +66,12 @@
 		global $board, $mod, $config;
 		
 		if(function_exists('sql_close')) sql_close();
+		
+		if(defined('STDIN')) {
+			// Running from CLI
+			die('Error: ' . $message);
+		}
+		
 		die(Element('page.html', Array(
 			'config'=>$config,
 			'title'=>'Error',
