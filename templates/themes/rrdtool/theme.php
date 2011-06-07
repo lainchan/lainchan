@@ -19,6 +19,8 @@
 			
 			$this->boards = explode(' ', $settings['boards']);
 			$this->interval = 60;
+			$this->height = 150;
+			$this->width = 700;
 			
 			if($action == 'cron') {
 				if(!file_exists($settings['path']))
@@ -39,19 +41,36 @@
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
 					
-					if($action == 'cron') {
-						$query = prepare(sprintf("SELECT COUNT(*) AS `count` FROM `posts_%s` WHERE `time` >= :time", $board));
-						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT);
-						$query->execute() or error(db_error($query));
-						$count = $query->fetch();
-						$count = $count['count'];
-						
-						if(!rrd_update($file, Array(
-								'-t',
-								'posts',
-								'N:' . $count)))
-								error('RRDtool failed: ' . htmlentities(rrd_error()));
-						}
+					// Update graph
+					$query = prepare(sprintf("SELECT COUNT(*) AS `count` FROM `posts_%s` WHERE `time` >= :time", $board));
+					$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					$count = $query->fetch();
+					$count = $count['count'];
+					
+					if(!rrd_update($file, Array(
+						'-t',
+						'posts',
+						'N:' . $count)))
+							error('RRDtool failed: ' . htmlentities(rrd_error()));
+					
+					// Graph graph
+					if(!rrd_graph('/var/vhosts/s.avetheinter.net/intel/test-' . $board . '.png', Array(
+						'-s -1hour',
+						'-t Posts on ' . sprintf($config['board_abbreviation'], $board),
+						'--lazy',
+						'-h', $this->height, '-w', $this->width,
+						'-l 0',
+						'-a', 'PNG',
+						'-v posts/sec',
+						'DEF:posts=' . $file . ':posts:AVERAGE',
+						'LINE2:posts#336600:Posts',
+						'GPRINT:posts:MAX:  Max\\: %5.1lf %S',
+						'GPRINT:posts:AVERAGE: Avg\\: %5.1lf %S',
+						'GPRINT:posts:LAST: Current\\: %5.1lf %Sreq/sec',
+						'HRULE:0#000000')))
+							error('RRDtool failed: ' . htmlentities(rrd_error()));
+					
 				}
 			}
 		}
