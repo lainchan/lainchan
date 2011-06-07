@@ -18,6 +18,14 @@
 		'size' => '50'
 	);
 	
+	$theme['config'][] = Array(
+		'title' => 'Images path',
+		'name' => 'images',
+		'type' => 'text',
+		'default' => str_replace('\\', '/', dirname(__FILE__)) . '/images',
+		'size' => '50'
+	);
+	
 	$__boards = listBoards();
 	$__default_boards = Array();
 	foreach($__boards as $__board)
