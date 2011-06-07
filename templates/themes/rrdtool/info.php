@@ -45,7 +45,7 @@
 		function rrdtool_install($settings) {
 			global $config;
 			
-			$job = '* * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
+			$job = '*/2 * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
 			
 			if(function_exists('system')) {
 				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');

@@ -19,7 +19,7 @@
 			
 			$this->boards = explode(' ', $settings['boards']);
 			$this->spans = Array('minute', 'hour', 'day', 'week', 'month');
-			$this->interval = 60;
+			$this->interval = 120;
 			$this->height = 150;
 			$this->width = 700;
 			
@@ -36,7 +36,7 @@
 						// Create graph
 						if(!rrd_create($file, Array(
 							'-s ' . $this->interval,
-							'DS:posts:ABSOLUTE:120:0:100000000',
+							'DS:posts:ABSOLUTE:' . ($this->interval*2) . ':0:100000000',
 							'RRA:AVERAGE:0.5:1:2880',
 							'RRA:AVERAGE:0.5:30:672',
 							'RRA:AVERAGE:0.5:120:732',
