@@ -360,13 +360,21 @@
 					$query->bindValue(':theme', $_theme);
 					$query->execute() or error(db_error($query));
 					
+					$body = '';
+					if(isset($theme['install_callback'])) {
+						$ret = $theme['install_callback']($theme['config']);
+						if($ret && !empty($ret))
+							$body .= '<div style="border:1px dashed maroon;padding:20px;margin:auto;max-width:800px">' . $ret . '</div>';
+					}
+					$body .= '<p style="text-align:center">Successfully installed and built theme.</p>';
+					
 					// Build themes
 					rebuildThemes('all');
 					
 					echo Element('page.html', Array(
 						'config'=>$config,
 						'title'=>'Installed "' . htmlentities($theme['name']) . '"',
-						'body'=>'<p style="text-align:center">Successfully installed and built theme.</p>',
+						'body'=>$body,
 						'mod'=>true
 						)
 					);
@@ -382,7 +390,10 @@
 							switch($c['type']) {
 								case 'text':
 								default:
-									$body .= '<input type="text" name="' . $c['name'] . '" />';
+									$body .= '<input type="text" name="' . htmlentities($c['name']) . '" ' .
+										(isset($c['default']) ? 'value="' . htmlentities($c['default']) . '" ' :'') .
+										(isset($c['size']) ? 'size="' . (int)$c['size'] . '" ' :'') .
+									'/>';
 							}
 							if(isset($c['comment']))
 								$body .= ' <span class="unimportant">' . $c['comment'] . '</span>';

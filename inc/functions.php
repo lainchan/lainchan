@@ -155,7 +155,7 @@
 		global $config, $_theme;
 		$_theme = $theme;
 		
-		$theme = loadThemeConfig($_theme, $action);
+		$theme = loadThemeConfig($_theme);
 		
 		if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
 			require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
@@ -169,7 +169,7 @@
 		// List themes
 		$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 		while($theme = $query->fetch()) {
-			rebuildTheme($theme['theme']);
+			rebuildTheme($theme['theme'], $action);
 		}
 	}
 	
