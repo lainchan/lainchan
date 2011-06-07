@@ -122,11 +122,12 @@
 					$c = 0;
 					$cc = 0;
 					
+					echo PHP_EOL;
 					foreach($this->boards as &$board) {
 						$color =	str_pad(dechex($red*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($green*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($blue*85), 2, '0', STR_PAD_LEFT);
-						echo $color . PHP_EOL;
+						echo $color . '  ' . $c . PHP_EOL;
 						
 						$options[] = 'DEF:posts' . $board . '=' . $settings['path'] . '/' . $board . '.rrd' . ':posts:AVERAGE';
 						$options[] = 'LINE2:posts' . $board . '#' . $color . ':' .
@@ -145,7 +146,7 @@
 							$red--;
 						
 						$cc++;
-						if($cc > 3) {
+						if($cc > 2) {
 							$c++;
 							$cc = 0;
 						}
