@@ -36,11 +36,26 @@
 						// Create graph
 						if(!rrd_create($file, Array(
 							'-s ' . $this->interval,
-							'DS:posts:ABSOLUTE:' . ($this->interval*2) . ':0:100000000',
-							'RRA:AVERAGE:0.5:1:2880',
-							'RRA:AVERAGE:0.5:30:672',
-							'RRA:AVERAGE:0.5:120:732',
-							'RRA:AVERAGE:0.5:720:1460')))
+							'DS:posts:GAUGE:' . ($this->interval*2) . ':0:10000',
+							
+							'RRA:MIN:0:1:' .	(3600/$this->interval), // hour
+							'RRA:MIN:0:60:' .	(86400/$this->interval), // day
+							'RRA:MIN:0:60:' .	(604800/$this->interval), // week
+							'RRA:MIN:0:60:' .	(2592000/$this->interval), // month
+							'RRA:MIN:0:1440:' .	(31536000/$this->interval), // year
+							
+							'RRA:AVERAGE:0:1:' .	(3600/$this->interval), // hour
+							'RRA:AVERAGE:0:60:' .	(86400/$this->interval), // day
+							'RRA:AVERAGE:0:60:' .	(604800/$this->interval), // week
+							'RRA:AVERAGE:0:60:' .	(2592000/$this->interval), // month
+							'RRA:AVERAGE:0:1440:' .	(31536000/$this->interval), // year
+							
+							'RRA:MAX:0:1:' .	(3600/$this->interval), // hour
+							'RRA:MAX:0:60:' .	(86400/$this->interval), // day
+							'RRA:MAX:0:60:' .	(604800/$this->interval), // week
+							'RRA:MAX:0:60:' .	(2592000/$this->interval), // month
+							'RRA:MAX:0:1440:' .	(31536000/$this->interval), // year
+							)))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
 					
@@ -50,6 +65,7 @@
 					$query->execute() or error(db_error($query));
 					$count = $query->fetch();
 					$count = $count['count'];
+					echo 'Posts on /' . $board . '/: ' . $count . PHP_EOL;
 					
 					if(!rrd_update($file, Array(
 						'-t',
@@ -62,7 +78,7 @@
 						if(!rrd_graph($settings['images'] . '/' . $board . '-' . $span . '.png', Array(
 							'-s -1' . $span,
 							'-t Posts on ' . sprintf($config['board_abbreviation'] . ' this ' . $span, $board),
-							//'--lazy',
+							'--lazy',
 							'-l 0',
 							'-h', $this->height, '-w', $this->width,
 							'-a', 'PNG',
