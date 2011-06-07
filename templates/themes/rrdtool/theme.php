@@ -59,7 +59,7 @@
 					
 					foreach($this->spans as &$span) {
 						// Graph graph
-						if(!rrd_graph($settings['images'] . $board . '-' . $span . '.png', Array(
+						if(!rrd_graph($settings['images'] . '/' . $board . '-' . $span . '.png', Array(
 							'-s -1' . $span,
 							'-t Posts on ' . sprintf($config['board_abbreviation'], $board),
 							//'--lazy',
