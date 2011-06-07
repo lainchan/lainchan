@@ -50,11 +50,11 @@
 			if(function_exists('system')) {
 				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');
 				file_write($crontab, $job);
-				@system('crontab ' . escapeshellarg($crontab) . '; echo $?', $ret);
+				@system('crontab ' . escapeshellarg($crontab), $ret);
 				unlink($crontab);
 				
 				if($ret === 0)
-					return; // it seems to install okay?
+					return ''; // it seems to install okay?
 			}
 			
 			return '<h2>I couldn\'t install the crontab!</h2>' . 
