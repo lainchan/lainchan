@@ -81,7 +81,7 @@
 						// Graph graph
 						if(!rrd_graph($settings['images'] . '/' . $board . '-' . $span . '.png', Array(
 							'-s -1' . $span,
-							'-t Posts on ' . sprintf($config['board_abbreviation'], $board) .' this ',
+							'-t Posts on ' . sprintf($config['board_abbreviation'], $board) .' this ' . $span,
 							'--lazy',
 							'-l 0',
 							'-h', $this->height, '-w', $this->width,
@@ -106,7 +106,7 @@
 				foreach($this->spans as &$span) {
 					$options = Array(
 						'-s -1' . $span,
-						'-t Posts',
+						'-t Posts this ' . $span,
 						'--lazy',
 						'-l 0',
 						'-h', $this->height, '-w', $this->width,
@@ -124,6 +124,9 @@
 					$c = 0;
 					$cc = 0;
 					
+					$c = 1;
+					$cc = 0;
+					$red = 2;
 					foreach($this->boards as &$board) {
 						if(in_array($board, $this->combined_exclude))
 							continue;
