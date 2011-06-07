@@ -43,12 +43,13 @@
 						$query = prepare(sprintf("SELECT COUNT(*) AS `count` FROM `posts_%s` WHERE `time` >= :time", $board));
 						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT):
 						$query->exeucte() or error(db_error($query));
-						$query->fetch();
+						$count = $query->fetch();
+						$count = $count['count'];
 						
 						if(!rrd_update($file, Array(
 								'-t',
 								'posts',
-								'N:')))
+								'N:' . $count)))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 						}
 				}
