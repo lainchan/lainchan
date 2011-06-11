@@ -316,7 +316,7 @@
 		
 		$post['body_nomarkup'] = $post['body'];
 		
-		if(!($mod && $post['raw']))
+		if(!($mod && isset($post['raw']) && $post['raw']))
 			markup($post['body']);
 		
 		// Check for a flood
