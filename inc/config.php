@@ -164,6 +164,7 @@
 	$config['error']['delete_too_soon']	= 'You\'ll have to wait another %s before deleting that.';
 	$config['error']['mime_exploit']	= 'MIME type detection XSS exploit (IE) detected; post discarded.';
 	$config['error']['invalid_embed']	= 'Couldn\'t make sense of the URL of the video you tried to embed.';
+	$config['error']['captcha']			= 'You seem to have mistyped the verification.';
 	
 	// Moderator errors
 	$config['error']['invalid']			= 'Invalid username and/or password.';
@@ -246,7 +247,7 @@
 	
 	// Display the aspect ratio in a post's file info
 	$config['show_ratio']	= false;
-	// Display the file's original filename 
+	// Display the file's original filename
 	$config['show_filename']= true;
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
@@ -538,7 +539,9 @@
 		'sticky',
 		'lock',
 		'raw',
-		'embed'
+		'embed',
+		'recaptcha_challenge_field',
+		'recaptcha_response_field'
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
@@ -729,6 +732,12 @@
 	//		'type' => 'scp'
 	//	)
 	//);
+	
+	// Enable reCaptcha to make spam even harder
+	$config['recaptcha'] = false;
+	// Public and private key pair from https://www.google.com/recaptcha/admin/create
+	$config['recaptcha_public'] = '6LcXTcUSAAAAAKBxyFWIt2SO8jwx4W7wcSMRoN3f';
+	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
 	
 	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
 		// You cannot request this file directly.

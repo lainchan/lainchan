@@ -102,6 +102,8 @@
 				$_SERVER['REMOTE_ADDR'] = $m[2];
 		}
 		
+		if($config['recaptcha'])
+			require_once 'inc/contrib/recaptcha/recaptchalib.php';
 		if($config['memcached']['enabled'])
 			memcached_open();
 	}

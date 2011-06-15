@@ -161,6 +161,10 @@ function init()
 	}
 }
 
+var RecaptchaOptions = {
+	theme : 'clean'
+};
+
 window.onload = init;
 {config[google_analytics]?
 

@@ -9,6 +9,22 @@
 	{config[meta_keywords]?<meta name="keywords" content="{config[meta_keywords]}" />}
 	<link rel="stylesheet" type="text/css" id="stylesheet" href="{config[uri_stylesheets]}{config[default_stylesheet][1]}">
 	<script type="text/javascript" src="{config[url_javascript]}"></script>
+	{config[recaptcha]?<style type="text/css">
+		/* reCaptcha style */
+		.recaptcha_image_cell {
+			background: none !important;
+		}
+		table.recaptchatable {
+			border: none !important;
+		}
+		#recaptcha_logo, #recaptcha_tagline {
+			display: none;
+			float: right;
+		}
+		.recaptchatable a {
+			display: block;
+		}
+	</style>}
 </head>
 <body>
 	{boardlist[top]}
@@ -56,6 +72,16 @@
 					<textarea name="body" id="body" rows="5" cols="30"></textarea>
 				</td>
 			</tr>
+			{config[recaptcha]?
+			<tr>
+				<th>
+					Verification
+				</th>
+				<td>
+					<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={config[recaptcha_public]}"></script>
+				</td>
+			</tr>
+			}
 			<tr>
 				<th>
 					File

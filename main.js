@@ -53,8 +53,8 @@ function citeReply(id) {
 
 var selectedstyle = 'Yotsuba B';
 var styles = [
-	['Yotsuba B', '/default.css'],
-	['Yotsuba', '/yotsuba.css']
+	['Yotsuba B', '/Tinyboard/default.css'],
+	['Yotsuba', '/Tinyboard/yotsuba.css']
 ];
 var saved = {};
 
@@ -160,5 +160,10 @@ function init()
 		}
 	}
 }
+
+var RecaptchaOptions = {
+	theme : 'clean'
+};
+
 
 window.onload = init;
