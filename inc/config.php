@@ -246,6 +246,8 @@
 	
 	// Display the aspect ratio in a post's file info
 	$config['show_ratio']	= false;
+	// Display the file's original filename 
+	$config['show_filename']= true;
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
 	$config['tmp'] = '/tmp';

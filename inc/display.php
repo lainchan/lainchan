@@ -351,9 +351,12 @@
 					$fraction = fraction($this->filex, $this->filey, ':');
 					$built .= ', ' . $fraction;
 				}
-				// Filename
-					$built .= ', ' . $this->filename . ')</span></p>' .
-					
+				if($config['show_filename']) {
+					// Filename
+					$built .= ', ' . $this->filename;
+				}
+				
+				$built .= ')</span></p>' .
 				// Thumbnail
 					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
@@ -498,8 +501,12 @@
 					$fraction = fraction($this->filex, $this->filey, ':');
 					$built .= ', ' . $fraction;
 				}
-				// Filename
-					$built .= ', ' . $this->filename . ')</span></p>' . 
+				if($config['show_filename']) {
+					// Filename
+					$built .= ', ' . $this->filename;
+				}
+				
+				$built .= ')</span></p>' .
 				// Thumbnail
 					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
