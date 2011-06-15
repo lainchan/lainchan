@@ -117,8 +117,9 @@
 		}
 		
 		function row($item, $result) {
-			global $page, $config;
-			
+			global $page, $config, $__is_error;
+			if(!$result)
+				$__is_error = true;
 			$page['body'] .= '<tr><th>' . $item . '</th><td><img style="width:16px;height:16px" src="' . $config['dir']['static'] . ($result ? 'ok.png' : 'error.png') . '" /></td></tr>';
 		}
 		
@@ -149,7 +150,9 @@
 		
 		$page['body'] .= '</table>
 		<p style="text-align:center">
-			<a href="?step=2">Continue.</a>
+			<a href="?step=2"' .
+				(isset($__is_error) ? ' onclick="return confirm(\'Are you sure you want to continue when errors exist?\')"' : '') .
+			'>Continue' . (isset($__is_error) ? ' anyway' : '') . '.</a>
 		</p>';
 		
 		echo Element('page.html', $page);
