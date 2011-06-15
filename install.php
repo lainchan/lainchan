@@ -228,7 +228,7 @@
 			<label for="db_pass">Password:</label> 
 			<input type="password" id="db_pass" name="db[password]" value="" />
 		</fieldset>
-		
+		<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/wiki/index.php?title=Config">edit your configuration files</a> after installing.</p>
 		<fieldset>
 		<legend>Cookies</legend>
 			<label for="cookies_session">Name of session cookie:</label> 
