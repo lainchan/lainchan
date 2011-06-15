@@ -317,7 +317,7 @@
 			$debug['unlink'][] = $path;
 		}
 		
-		@unlink($path);
+		$ret = @unlink($path);
 		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
 			// Purge cache
 			if(basename($path) == $config['file_index']) {
@@ -332,6 +332,7 @@
 			}
 			purge($path);
 		}
+		return $ret;
 	}
 	
 	function listBoards() {
