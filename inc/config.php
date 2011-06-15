@@ -245,7 +245,7 @@
 	$config['redraw_gifs']	= false;
 	
 	// Display the aspect ratio in a post's file info
-	$config['show_ratio']	= true;
+	$config['show_ratio']	= false;
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
 	$config['tmp'] = '/tmp';
