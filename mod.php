@@ -1257,10 +1257,7 @@
 			}
 			
 			// Redirect
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/reports', true, $config['redirect_http']);
+			header('Location: ?/reports', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/board\/(\w+)(\/delete)?$/', $query, $matches)) {
 			if($mod['type'] < $config['mod']['manageboards']) error($config['error']['noaccess']);
 			
@@ -1700,10 +1697,7 @@
 			
 			
 			// Redirect
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
 			// Delete post
@@ -1724,10 +1718,7 @@
 			buildIndex();
 			
 			// Redirect
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < $config['mod']['sticky']) error($config['error']['noaccess']);
 			// Add/remove sticky
@@ -1758,10 +1749,7 @@
 			
 			
 			// Redirect
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?lock\/(\d+)$/', $query, $matches)) {
 			if($mod['type'] < $config['mod']['lock']) error($config['error']['noaccess']);
 			// Lock/Unlock
@@ -1792,10 +1780,7 @@
 			
 			
 			// Redirect
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
 			// Delete all posts by an IP
 			
@@ -1830,10 +1815,7 @@
 			
 			buildIndex();
 			
-			if(isset($_SERVER['HTTP_REFERER']))
-				header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
-			else
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/ban$/', $query)) {
 			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
 			// Ban page
@@ -1952,8 +1934,6 @@
 					header('Location: ' . $_POST['continue'], true, $config['redirect_http']);
 				elseif(isset($board))
 					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
-				elseif(isset($_SERVER['HTTP_REFERER']))
-					header('Location: ' . $_SERVER['HTTP_REFERER'], true, $config['redirect_http']);
 				else
 					header('Location: ?/', true, $config['redirect_http']);
 			}
@@ -1980,7 +1960,7 @@
 		
 			$post = $query->fetch();
 			
-			$body = form_newBan($post['ip'], null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false, $post['id'], $boardName, !$delete);
+			$body = form_newBan($post['ip'], null, '?/' . sprintf($config['board_path'], $board['uri']) . $config['file_index'], $post['id'], $boardName, !$delete);
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
@@ -2183,7 +2163,7 @@
 			}
 			
 			if($mod['type'] >= $config['mod']['ip_banform'])
-				$body .= form_newBan($ip, null, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false);
+				$body .= form_newBan($ip, null, '?/IP/' . $ip);
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
