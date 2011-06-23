@@ -9,6 +9,11 @@ function get_cookie(cookie_name)
 
 function highlightReply(id)
 {
+	if(window.event !== undefined && event.which == 2) {
+		// don't highlight on middle click
+		return true;
+	}
+	
 	var divs = document.getElementsByTagName('div');
 	for (var i = 0; i < divs.length; i++)
 	{
