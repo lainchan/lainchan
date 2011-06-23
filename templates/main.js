@@ -136,7 +136,10 @@ function init()
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
 		if(typeof link[i] == "object" && link[i].childNodes[0].src) {
-			link[i].onclick = function() {
+			link[i].onclick = function(e) {
+				if(e.which == 2) {
+					return true;
+				}
 				if(!this.tag) {
 					this.tag = this.childNodes[0].src;
 					this.childNodes[0].src = this.href;
