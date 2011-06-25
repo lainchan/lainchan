@@ -170,8 +170,11 @@
 	function Element($templateFile, array $options) {
 		global $config, $debug;
 		
+		//var_dump($options);
+		//exit;
+		
 		// Small little hack to add the PM system
-		if(function_exists('create_pm_header') && (isset($options['mod']) || isset($options['__mod']))) {
+		if(function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod']))) {
 			$options['pm'] = create_pm_header();
 		}
 		
