@@ -267,7 +267,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/log$/', $query)) {
-			if($mod['type'] < $config['mod']['modlog']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['modlog'])) error($config['error']['noaccess']);
 			
 			$boards = Array();
 			$_boards = listBoards();
@@ -309,7 +309,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/themes\/none$/', $query, $match)) {
-			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
 			// Clearsettings
 			query("TRUNCATE TABLE `theme_settings`") or error(db_error());
@@ -322,7 +322,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/themes(\/(\w+))?$/', $query, $match)) {
-			if($mod['type'] < $config['mod']['themes']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
 			if(!is_dir($config['dir']['themes']))
 				error('Themes directory doesn\'t exist!');
@@ -476,7 +476,7 @@
 				);
 			}
 		} elseif(preg_match('/^\/noticeboard\/delete\/(\d+)$/', $query, $match)) {
-			if($mod['type'] < $config['mod']['noticeboard_delete']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['noticeboard_delete'])) error($config['error']['noaccess']);
 			
 			$query = prepare("DELETE FROM `noticeboard` WHERE `id` = :id");
 			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
@@ -484,7 +484,7 @@
 			
 			header('Location: ?/noticeboard', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/noticeboard$/', $query)) {
-			if($mod['type'] < $config['mod']['noticeboard']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['noticeboard'])) error($config['error']['noaccess']);
 			
 			$body = '';
 			
@@ -553,7 +553,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/news\/delete\/(\d+)$/', $query, $match)) {
-			if($mod['type'] < $config['mod']['noticeboard_delete']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['noticeboard_delete'])) error($config['error']['noaccess']);
 			
 			$query = prepare("DELETE FROM `news` WHERE `id` = :id");
 			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
@@ -744,7 +744,7 @@
 				);
 			}
 		} elseif(preg_match('/^\/new_PM\/(\d+)(\/(\d+))?$/', $query, $match)) {
-			if($mod['type'] < $config['mod']['create_pm']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['create_pm'])) error($config['error']['noaccess']);
 			
 			$to = &$match[1];
 			
@@ -826,7 +826,7 @@
 				);
 			}
 		} elseif(preg_match('/^\/search$/', $query)) {
-			if($mod['type'] < $config['mod']['search']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['search'])) error($config['error']['noaccess']);
 			
 			$body = '<div class="ban"><h2>Search</h2><form style="display:inline" action="?/search" method="post">' .
 				'<p><label style="display:inline" for="search">Phrase:</label> ' .
@@ -920,9 +920,9 @@
 				)
 			);
 		} elseif(preg_match('/^\/users$/', $query)) {
-			if($mod['type'] < $config['mod']['manageusers']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['manageusers'])) error($config['error']['noaccess']);
 			
-			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Last action</th><th>…</th></tr>';
+			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Boards</th><th>Last action</th><th>…</th></tr>';
 			
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 			while($_mod = $query->fetch()) {				
@@ -938,6 +938,10 @@
 					
 					'<td>' .
 						$type .
+					'</td>' .
+					
+					'<td>' .
+						str_replace(',', ', ', $_mod['boards']) .
 					'</td>' .
 					
 					'<td>' .
@@ -982,7 +986,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/users\/new$/', $query)) {
-			if($mod['type'] < $config['mod']['createusers']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['createusers'])) error($config['error']['noaccess']);
 			
 			if(isset($_POST['username']) && isset($_POST['password'])) {
 				if(!isset($_POST['type'])) {
@@ -1002,14 +1006,35 @@
 					error(sprintf($config['error']['modexists'], $_mod['id']));
 				}
 				
-				$query = prepare("INSERT INTO `mods` VALUES (NULL, :username, :password, :type)");
+				$boards = Array();
+				foreach($_POST as $name => $null) {
+					if(preg_match('/^board_(\w+)/', $name, $m))
+						$boards[] = $m[1];
+				}
+				$boards = implode(',', $boards);
+				
+				$query = prepare("INSERT INTO `mods` VALUES (NULL, :username, :password, :type, :boards)");
 				$query->bindValue(':username', $_POST['username']);
 				$query->bindValue(':password', sha1($_POST['password']));
 				$query->bindValue(':type', $_POST['type'], PDO::PARAM_INT);
+				$query->bindValue(':boards', $boards);
 				$query->execute() or error(db_error($query));
 				
 				modLog('Create a new user: "' . $_POST['username'] . '"');
 			}
+			
+			$__boards = '<ul style="list-style:none;padding:2px 5px">';
+			$boards = listBoards();
+			foreach($boards as &$_board) {
+				$__boards .= '<li>' .
+					'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"/> ' .
+					'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
+						sprintf($config['board_abbreviation'], $_board['uri']) .
+						' - ' . $_board['title'] .
+					'</label>' .
+					'</li>';
+			}
+			$__boards .= '</ul>';
 			
 			$body = '<fieldset><legend>New user</legend>' . 
 				
@@ -1025,6 +1050,7 @@
 					'<div><label for="mod">Mod</label> <input type="radio" id="mod" name="type" value="' . MOD . '" /></div>' .
 					'<div><label for="admin">Admin</label> <input type="radio" id="admin" name="type" value="' . ADMIN . '" /></div>' .
 				'</td></tr>' .
+				'<tr><th>Boards</th><td>' . $__boards . '</td></tr>' .
 				'</table>' .
 				
 				'<input style="margin-top:10px" type="submit" value="Create user" />' .
@@ -1044,7 +1070,7 @@
 			
 			if(isset($matches[2])) {
 				if($matches[3] == 'delete') {
-					if($mod['type'] < $config['mod']['deleteusers']) error($config['error']['noaccess']);
+					if(!hasPermission($config['mod']['deleteusers'])) error($config['error']['noaccess']);
 					
 					$query = prepare("DELETE FROM `mods` WHERE `id` = :id");
 					$query->bindValue(':id', $modID, PDO::PARAM_INT);
@@ -1053,7 +1079,7 @@
 					modLog('Deleted user #' . $modID);
 				} else {
 					// Promote/demote
-					if($mod['type'] < $config['mod']['promoteusers']) error($config['error']['noaccess']);
+					if(!hasPermission($config['mod']['promoteusers'])) error($config['error']['noaccess']);
 					
 					if($matches[3] == 'promote') {
 						$query = prepare("UPDATE `mods` SET `type` = `type` + 1 WHERE `type` != :admin AND `id` = :id");
@@ -1069,7 +1095,7 @@
 				header('Location: ?/users', true, $config['redirect_http']);
 			} else {
 				// Edit user
-				if($mod['type'] < $config['mod']['editusers'] && $mod['type'] < $config['mod']['change_password']) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['editusers']) || !hasPermission($config['mod']['change_password'])) error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
 				$query->bindValue(':id', $modID, PDO::PARAM_INT);
@@ -1084,8 +1110,16 @@
 				
 				if((isset($_POST['username']) && isset($_POST['password'])) || (isset($change_password_only) && isset($_POST['password']))) {
 					if(!isset($change_password_only)) {
-						$query = prepare("UPDATE `mods` SET `username` = :username WHERE `id` = :id");
-						$query->bindValue(':username', $_POST['username']);
+						$boards = Array();
+						foreach($_POST as $name => $null) {
+							if(preg_match('/^board_(\w+)/', $name, $m))
+								$boards[] = $m[1];
+						}
+						$boards = implode(',', $boards);
+						
+						$query = prepare("UPDATE `mods` SET `username` = :username, `boards` = :boards WHERE `id` = :id");
+						$query->bindValue(':username', $_POST['username'], PDO::PARAM_STR);
+						$query->bindValue(':boards', $boards, PDO::PARAM_STR);
 						$query->bindValue(':id', $modID, PDO::PARAM_INT);
 						$query->execute() or error(db_error($query));
 						modLog('Edited login details for user "' . $_mod['username'] . '"');
@@ -1114,6 +1148,24 @@
 					}
 				}
 				
+				$__boards = '<ul style="list-style:none;padding:2px 5px">';
+				$boards = listBoards();
+				$_mod['boards'] = explode(',', $_mod['boards']);
+				foreach($boards as &$_board) {
+					$__boards .= '<li>' .
+						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
+							(in_array($_board['uri'], $_mod['boards']) ? 
+								' checked="checked"'
+							: '') .
+						'/> ' . 
+						'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
+							sprintf($config['board_abbreviation'], $_board['uri']) .
+							' - ' . $_board['title'] .
+						'</label>' .
+						'</li>';
+				}
+				$__boards .= '</ul>';
+				
 				$body = '<fieldset><legend>Edit user</legend>' . 
 				
 				// Begin form
@@ -1129,6 +1181,11 @@
 				
 				'</td></tr>' .
 				'<tr><th>Password <span class="unimportant">(new; optional)</span></th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
+				
+				(isset($change_password_only) ? '' :
+					'<tr><th>Boards</th><td>' . $__boards . '</td></tr>'
+				) .
+				
 				'</table>' .
 				
 				'<input type="submit" value="Save changes" />' .
@@ -1751,10 +1808,11 @@
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?lock\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['lock']) error($config['error']['noaccess']);
 			// Lock/Unlock
 			
 			$boardName = &$matches[1];
+			if(!hasPermission($config['mod']['lock'], $boardName)) error($config['error']['noaccess']);
+			
 			$post = &$matches[3];
 			// Open board
 			if(!openBoard($boardName))
@@ -1817,7 +1875,7 @@
 			
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/ban$/', $query)) {
-			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['ban'])) error($config['error']['noaccess']);
 			// Ban page
 			
 			if(isset($_POST['new_ban'])) {
@@ -1888,7 +1946,7 @@
 				$query->execute() or error(db_error($query));
 				
 				// Delete too
-				if($mod['type'] >= $config['mod']['delete'] && isset($_POST['delete']) && isset($_POST['board'])) {
+				if(isset($_POST['delete']) && isset($_POST['board']) && hasPermission($config['mod']['delete'], $_POST['board'])) {
 					openBoard($_POST['board']);
 					
 					$post = round($_POST['delete']);
@@ -1938,12 +1996,14 @@
 					header('Location: ?/', true, $config['redirect_http']);
 			}
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['ban']) error($config['error']['noaccess']);
+			
 			// Ban by post
 			
 			$boardName = &$matches[1];
+			if(!hasPermission($config['mod']['ban'], $boardName)) error($config['error']['noaccess']);
+			
 			$delete = isset($matches[2]) && $matches[2] == '&delete';
-			if($delete && $mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
+			if($delete && !hasPermission($config['mod']['delete'], $boardName)) error($config['error']['noaccess']);
 			
 			$post = $matches[3];
 			// Open board
@@ -1970,7 +2030,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/IP\/(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')\/deletenote\/(?P<id>\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['remove_notes']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['remove_notes'])) error($config['error']['noaccess']);
 			
 			$ip = $matches[1];
 			$id = $matches['id'];

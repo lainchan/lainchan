@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `username` varchar(30) NOT NULL,
   `password` char(40) NOT NULL COMMENT 'SHA1',
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  `boards` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;

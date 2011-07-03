@@ -14,6 +14,21 @@
 		return substr(base64_encode(sha1(rand() . time(), true)), 0, $length);
 	}
 	
+	function hasPermission($action = null, $board = null, $_mod = null) {
+		if(isset($_mod))
+			$mod = &$_mod;
+		else
+			global $mod;
+		
+		if(isset($action) && $mod['type'] < $action)
+			return false;
+			
+		if(isset($board) && !in_array($board, $mod['boards']))
+			return false;
+		
+		return true;
+	}
+	
 	function login($username, $password, $makehash=true) {
 		global $mod;
 		
@@ -22,7 +37,7 @@
 			$password = sha1($password);
 		}
 		
-		$query = prepare("SELECT `id`,`type` FROM `mods` WHERE `username` = :username AND `password` = :password LIMIT 1");
+		$query = prepare("SELECT `id`,`type`,`boards` FROM `mods` WHERE `username` = :username AND `password` = :password LIMIT 1");
 		$query->bindValue(':username', $username);
 		$query->bindValue(':password', $password);
 		$query->execute() or error(db_error($query));
@@ -33,7 +48,8 @@
 				'type' => $user['type'],
 				'username' => $username,
 				'password' => $password,
-				'hash' => isset($_SESSION['mod']['hash']) ? $_SESSION['mod']['hash'] : mkhash()
+				'hash' => isset($_SESSION['mod']['hash']) ? $_SESSION['mod']['hash'] : mkhash(),
+				'boards' => explode(',', $user['boards'])
 				);
 		} else return false;
 	}

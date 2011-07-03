@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-1');
+	define('VERSION', 'v0.9.3-dev-2');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -73,7 +73,9 @@
 				query("ALTER TABLE  `theme_settings` ADD  `theme` VARCHAR( 40 ) NOT NULL FIRST") or error(db_error());
 				query("ALTER TABLE  `theme_settings` CHANGE  `name`  `name` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
 				query("ALTER TABLE  `theme_settings` DROP INDEX  `name`") or error(db_error());
-				
+			case 'v0.9.3-dev-1':
+				query("ALTER TABLE  `mods` ADD  `boards` TEXT NOT NULL") or error(db_error());
+			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
 				

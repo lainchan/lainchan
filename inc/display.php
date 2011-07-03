@@ -241,29 +241,29 @@
 			$built = '';
 			if($this->mod) {
 				// Mod controls (on posts)
-				$built .= '<span class="controls">';
 				
 				// Delete
-				if($this->mod['type'] >= $config['mod']['delete'])
+				if(hasPermission($config['mod']['delete'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
 				
 				// Delete all posts by IP
-				if($this->mod['type'] >= $config['mod']['deletebyip'])
+				if(hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by IP?', $board['uri'] . '/deletebyip/' . $this->id);
 				
 				// Ban
-				if($this->mod['type'] >= $config['mod']['ban'])
+				if(hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
 					$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 				
 				// Ban & Delete
-				if($this->mod['type'] >= $config['mod']['bandelete'])
+				if(hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
 					$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 				
 				// Delete file (keep post)
-				if(!empty($this->file) && $this->mod['type'] >= $config['mod']['deletefile'])
+				if(!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
 				
-				$built .= '</span>';
+				if(!empty($built))
+					$built = '<span class="controls">' . $built . '</span>';
 			}
 			return $built;
 		}
@@ -309,7 +309,7 @@
 			. (!empty($this->capcode) ? capcode($this->capcode) : '');
 			
 			// IP Address
-			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
+			if($this->mod && hasPermission($config['mod']['show_ip'], $board['uri'], $this->mod)) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
 			
@@ -436,43 +436,42 @@
 			$built = '';
 			if($this->mod) {
 				// Mod controls (on posts)
-				$built .= '<span class="controls op">';
-				
 				// Delete
-				if($this->mod['type'] >= $config['mod']['delete'])
+				if(hasPermission($config['mod']['delete'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
 				
 				// Delete all posts by IP
-				if($this->mod['type'] >= $config['mod']['deletebyip'])
+				if(hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by IP?', $board['uri'] . '/deletebyip/' . $this->id);
 				
 				// Ban
-				if($this->mod['type'] >= $config['mod']['ban'])
+				if(hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
 					$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 				
 				// Ban & Delete
-				if($this->mod['type'] >= $config['mod']['bandelete'])
+				if(hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
 					$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 				
 				// Delete file (keep post)
-				if(!empty($this->file) && $this->file != 'deleted' && $this->mod['type'] >= $config['mod']['deletefile'])
+				if(!empty($this->file) && $this->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
 				
 				// Sticky
-				if($this->mod['type'] >= $config['mod']['sticky'])
+				if(hasPermission($config['mod']['sticky'], $board['uri'], $this->mod))
 					if($this->sticky)
 						$built .= ' <a title="Make thread not sticky" href="?/' . $board['uri'] . '/unsticky/' . $this->id . '">' . $config['mod']['link_desticky'] . '</a>';
 					else
 						$built .= ' <a title="Make thread sticky" href="?/' . $board['uri'] . '/sticky/' . $this->id . '">' . $config['mod']['link_sticky'] . '</a>';
 				
 				// Lock
-				if($this->mod['type'] >= $config['mod']['lock'])
+				if(hasPermission($config['mod']['lock'], $board['uri'], $this->mod))
 					if($this->locked)
 						$built .= ' <a title="Unlock thread" href="?/' . $board['uri'] . '/unlock/' . $this->id . '">' . $config['mod']['link_unlock'] . '</a>';
 					else
 						$built .= ' <a title="Lock thread" href="?/' . $board['uri'] . '/lock/' . $this->id . '">' . $config['mod']['link_lock'] . '</a>';
 				
-				$built .= '</span>';
+				if(!empty($built))
+					$built = '<span class="controls op">' . $built . '</span>';
 			}
 			return $built;
 		}
@@ -534,7 +533,8 @@
 			. (!empty($this->capcode) ? capcode($this->capcode) : '');
 			
 			// IP Address
-			if($this->mod && $this->mod['type'] >= $config['mod']['show_ip']) {
+			
+			if($this->mod && hasPermission($config['mod']['show_ip'], $board['uri'], $this->mod)) {
 				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
 			}
 			
