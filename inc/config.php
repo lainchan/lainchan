@@ -367,6 +367,9 @@
 	// Permissions
 	// What level of administration you need to:
 	
+	// Don't worry about per-board moderators. Let all mods moderate any board.
+	$config['mod']['skip_per_board'] = true;	
+	
 	/* Post Controls */
 	// View IP addresses
 	$config['mod']['show_ip'] = MOD;
