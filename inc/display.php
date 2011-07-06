@@ -366,7 +366,7 @@
 			$built .= $this->postControls();
 			
 			// Body
-			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br class="clear"/>';
+			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br/>';
 			
 			if(!$this->mod && $config['memcached']['enabled']) {
 				$memcached->set($this->memcached_key($index), $built, time() + $config['memcached']['timeout']);
