@@ -682,7 +682,7 @@
 		'Yotsuba' => 'yotsuba.css'
 	);
 	
-	// The prefix for each stylesheet URI. Defaults to $config['root']
+	// The prefix for each stylesheet URI. Defaults to $config['root']/stylesheets/
 	//$config['uri_stylesheets'] = 'http://static.example.org/stylesheets/';
 	
 	// The default stylesheet to use
@@ -700,7 +700,7 @@
 	
 	// Set custom locations for stylesheets, scripts and maybe a banner.
 	// This can be good for load balancing across multiple servers or hostnames.
-	// $config['url_stylesheet'] = 'http://static.example.org/style.css';
+	// $config['url_stylesheet'] = 'http://static.example.org/style.css'; // main/base stylesheet
 	// $config['url_javascript'] = 'http://static.example.org/main.js';
 	// $config['url_banner'] = '/banner.php';
 	// $config['url_favicon'] = '/favicon.gif';
