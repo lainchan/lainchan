@@ -681,6 +681,7 @@
 		'Yotsuba B' => 'default.css',
 		'Yotsuba' => 'yotsuba.css'
 	);
+	// $config['stylesheets']['Futaba'] = 'futaba.css';
 	
 	// The prefix for each stylesheet URI. Defaults to $config['root']/stylesheets/
 	//$config['uri_stylesheets'] = 'http://static.example.org/stylesheets/';
