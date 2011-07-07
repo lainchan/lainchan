@@ -72,3 +72,6 @@ div.boardlist a {
 unimportant, .unimportant * {
 	font-size: 13px;
 }
+table.modlog tr th {
+	background: #EA8;
+}

@@ -54,3 +54,6 @@ div.boardlist {
 div.boardlist a {
 	color: #800;
 }
+table.modlog tr th {
+	background: #EA8;
+}
