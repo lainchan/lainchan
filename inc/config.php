@@ -249,6 +249,9 @@
 	$config['show_ratio']	= false;
 	// Display the file's original filename
 	$config['show_filename']= true;
+	// Inline expanding of images with Javascript
+	$config['inline_expanding'] = true;
+	
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
 	$config['tmp'] = '/tmp';

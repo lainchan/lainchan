@@ -113,31 +113,7 @@ function rememberStuff() {
 	}
 }
 
-function init()
-{
-	newElement = document.createElement('div');
-	newElement.className = 'styles';
-	
-	for(x=0;x<styles.length;x++) {
-		style = document.createElement('a');
-		style.innerHTML = '[' + styles[x][0] + ']';
-		style.href = 'javascript:changeStyle(' + x + ');';
-		if(selectedstyle == styles[x][0])
-			style.className = 'selected';
-		newElement.appendChild(style);
-	}	
-	
-	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
-	
-	if(document.forms.postcontrols) {
-		document.forms.postcontrols.password.value = localStorage.password;
-	}
-	
-	if (window.location.hash.indexOf('q') == 1)
-		citeReply(window.location.hash.substring(2));
-	else if (window.location.hash.substring(1))
-		highlightReply(window.location.hash.substring(1));
-	
+function init_expanding() {
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
 		if(typeof link[i] == "object" && link[i].childNodes[0].src) {
@@ -167,6 +143,34 @@ function init()
 			
 		}
 	}
+}
+
+function init()
+{
+	newElement = document.createElement('div');
+	newElement.className = 'styles';
+	
+	for(x=0;x<styles.length;x++) {
+		style = document.createElement('a');
+		style.innerHTML = '[' + styles[x][0] + ']';
+		style.href = 'javascript:changeStyle(' + x + ');';
+		if(selectedstyle == styles[x][0])
+			style.className = 'selected';
+		newElement.appendChild(style);
+	}	
+	
+	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
+	
+	if(document.forms.postcontrols) {
+		document.forms.postcontrols.password.value = localStorage.password;
+	}
+	
+	if (window.location.hash.indexOf('q') == 1)
+		citeReply(window.location.hash.substring(2));
+	else if (window.location.hash.substring(1))
+		highlightReply(window.location.hash.substring(1));
+	
+	{config[inline_expanding]?init_expanding();}
 }
 
 var RecaptchaOptions = {
