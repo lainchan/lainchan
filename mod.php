@@ -1031,7 +1031,7 @@
 				foreach($boards as &$_board) {
 					$__boards .= '<li>' .
 						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
-						'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
+						'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
 							($_board['uri'] == '*' ?
 								'<em>"*"</em>'
 							:
