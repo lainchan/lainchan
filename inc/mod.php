@@ -24,8 +24,11 @@
 		
 		if(isset($action) && $mod['type'] < $action)
 			return false;
-			
-		if(isset($board) && !$config['mod']['skip_per_board'] && !in_array($board, $mod['boards']))
+		
+		if(!isset($board))
+			return true;
+		
+		if(!$config['mod']['skip_per_board'] && !in_array('*', $mod['boards']) && !in_array($board, $mod['boards']))
 			return false;
 		
 		return true;

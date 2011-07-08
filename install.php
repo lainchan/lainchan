@@ -75,6 +75,7 @@
 				query("ALTER TABLE  `theme_settings` DROP INDEX  `name`") or error(db_error());
 			case 'v0.9.3-dev-1':
 				query("ALTER TABLE  `mods` ADD  `boards` TEXT NOT NULL") or error(db_error());
+				query("UPDATE `mods` SET `boards` = '*'") or error(db_error());
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);

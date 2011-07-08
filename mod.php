@@ -1008,7 +1008,7 @@
 				
 				$boards = Array();
 				foreach($_POST as $name => $null) {
-					if(preg_match('/^board_(\w+)/', $name, $m))
+					if(preg_match('/^board_(.+)$/', $name, $m))
 						$boards[] = $m[1];
 				}
 				$boards = implode(',', $boards);
@@ -1021,50 +1021,57 @@
 				$query->execute() or error(db_error($query));
 				
 				modLog('Create a new user: "' . $_POST['username'] . '"');
-			}
+				header('Location: ?/users', true, $config['redirect_http']);
+			} else {
 			
-			$__boards = '<ul style="list-style:none;padding:2px 5px">';
-			$boards = listBoards();
-			foreach($boards as &$_board) {
-				$__boards .= '<li>' .
-					'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"/> ' .
-					'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
-						sprintf($config['board_abbreviation'], $_board['uri']) .
-						' - ' . $_board['title'] .
-					'</label>' .
-					'</li>';
-			}
-			$__boards .= '</ul>';
+				$__boards = '<ul style="list-style:none;padding:2px 5px">';			
+				$boards = array_merge(
+						Array(Array('uri' => '*', 'title' => 'All')
+					), listBoards());
+				foreach($boards as &$_board) {
+					$__boards .= '<li>' .
+						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
+						'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
+							($_board['uri'] == '*' ?
+								'<em>"*"</em>'
+							:
+								sprintf($config['board_abbreviation'], $_board['uri'])
+							) .
+							' - ' . $_board['title'] .
+						'</label>' .
+						'</li>';
+				}
 			
-			$body = '<fieldset><legend>New user</legend>' . 
+				$body = '<fieldset><legend>New user</legend>' . 
 				
-				// Begin form
-				'<form style="text-align:center" action="" method="post">' .
+					// Begin form
+					'<form style="text-align:center" action="" method="post">' .
 				
-				'<table>' .
+					'<table>' .
 				
-				'<tr><th>Username</th><td><input size="20" maxlength="30" type="text" name="username" value="" autocomplete="off" /></td></tr>' .
-				'<tr><th>Password</th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
-				'<tr><th>Type</th><td>' .
-					'<div><label for="janitor">Janitor</label> <input type="radio" id="janitor" name="type" value="' . JANITOR . '" /></div>' .
-					'<div><label for="mod">Mod</label> <input type="radio" id="mod" name="type" value="' . MOD . '" /></div>' .
-					'<div><label for="admin">Admin</label> <input type="radio" id="admin" name="type" value="' . ADMIN . '" /></div>' .
-				'</td></tr>' .
-				'<tr><th>Boards</th><td>' . $__boards . '</td></tr>' .
-				'</table>' .
+					'<tr><th>Username</th><td><input size="20" maxlength="30" type="text" name="username" value="" autocomplete="off" /></td></tr>' .
+					'<tr><th>Password</th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
+					'<tr><th>Type</th><td>' .
+						'<div><label for="janitor">Janitor</label> <input type="radio" id="janitor" name="type" value="' . JANITOR . '" /></div>' .
+						'<div><label for="mod">Mod</label> <input type="radio" id="mod" name="type" value="' . MOD . '" /></div>' .
+						'<div><label for="admin">Admin</label> <input type="radio" id="admin" name="type" value="' . ADMIN . '" /></div>' .
+					'</td></tr>' .
+					'<tr><th>Boards</th><td>' . $__boards . '</td></tr>' .
+					'</table>' .
 				
-				'<input style="margin-top:10px" type="submit" value="Create user" />' .
+					'<input style="margin-top:10px" type="submit" value="Create user" />' .
 				
-				// End form
-				'</form></fieldset>';
+					// End form
+					'</form></fieldset>';
 				
-				echo Element('page.html', Array(
-					'config'=>$config,
-					'title'=>'New user',
-					'body'=>$body
-					,'mod'=>true
-					)
-				);
+					echo Element('page.html', Array(
+						'config'=>$config,
+						'title'=>'New user',
+						'body'=>$body
+						,'mod'=>true
+						)
+					);
+				}
 		} elseif(preg_match('/^\/users\/(\d+)(\/(promote|demote|delete))?$/', $query, $matches)) {
 			$modID = &$matches[1];
 			
@@ -1112,7 +1119,7 @@
 					if(!isset($change_password_only)) {
 						$boards = Array();
 						foreach($_POST as $name => $null) {
-							if(preg_match('/^board_(\w+)/', $name, $m))
+							if(preg_match('/^board_(.+)$/', $name, $m))
 								$boards[] = $m[1];
 						}
 						$boards = implode(',', $boards);
@@ -1149,7 +1156,10 @@
 				}
 				
 				$__boards = '<ul style="list-style:none;padding:2px 5px">';
-				$boards = listBoards();
+				$boards = array_merge(
+						Array(Array('uri' => '*', 'title' => 'All')
+					), listBoards());
+				
 				$_mod['boards'] = explode(',', $_mod['boards']);
 				foreach($boards as &$_board) {
 					$__boards .= '<li>' .
@@ -1159,7 +1169,11 @@
 							: '') .
 						'/> ' . 
 						'<label style="display:inline" for="board_' . $_board['uri'] . '">' .
-							sprintf($config['board_abbreviation'], $_board['uri']) .
+							($_board['uri'] == '*' ?
+								'<em>"*"</em>'
+							:
+								sprintf($config['board_abbreviation'], $_board['uri'])
+							) .
 							' - ' . $_board['title'] .
 						'</label>' .
 						'</li>';

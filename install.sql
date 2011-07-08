@@ -113,8 +113,8 @@ CREATE TABLE IF NOT EXISTS `mods` (
 -- Dumping data for table `mods`
 --
 
-INSERT INTO `mods` (`id`, `username`, `password`, `type`) VALUES
-(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2);
+INSERT INTO `mods` (`id`, `username`, `password`, `type`, `boards`) VALUES
+(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2, '*');
 
 -- --------------------------------------------------------
 
