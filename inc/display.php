@@ -358,7 +358,7 @@
 				
 				$built .= ')</span></p>' .
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
+					'<a href="' . $config['uri_img'] . $this->file.'" target="_blank"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
 				$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
@@ -507,7 +507,7 @@
 				
 				$built .= ')</span></p>' .
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
+					'<a href="' . $config['uri_img'] . $this->file.'" target="_blank"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
 				$built = '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
