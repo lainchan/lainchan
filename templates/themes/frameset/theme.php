@@ -43,7 +43,7 @@
 			// Sidebar
 			. '<iframe src="sidebar.html" id="sidebar"></iframe>'
 			// Main
-			. '<iframe src="news.html" id="main"></iframe>'
+			. '<iframe src="news.html" id="main" name="main"></iframe>'
 			// Finish page
 			. '</body></html>';
 		}
