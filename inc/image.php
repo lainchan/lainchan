@@ -126,7 +126,7 @@
 	
 	class ImagePNG extends ImageBase {
 		public function from() {
-			$this->image = imagecreatefrompng($this->src);
+			$this->image = @imagecreatefrompng($this->src);
 		}
 		public function to($src) {
 			global $config;
@@ -143,7 +143,7 @@
 	
 	class ImageGIF extends ImageBase {
 		public function from() {
-			$this->image = imagecreatefromgif($this->src);
+			$this->image = @imagecreatefromgif($this->src);
 		}
 		public function to($src) {
 			imagegif($this->image, $src);
@@ -158,7 +158,7 @@
 	
 	class ImageJPG extends ImageBase {
 		public function from() {
-			$this->image = imagecreatefromjpeg($this->src);
+			$this->image = @imagecreatefromjpeg($this->src);
 		}
 		public function to($src) {
 			imagejpeg($this->image, $src);
@@ -169,7 +169,7 @@
 	
 	class ImageBMP extends ImageBase {
 		public function from() {
-			$this->image = imagecreatefrombmp($this->src);
+			$this->image = @imagecreatefrombmp($this->src);
 		}
 		public function to($src) {
 			imagebmp($this->image, $src);
