@@ -137,7 +137,6 @@
 		row('JPEG', function_exists('imagecreatefromjpeg'));
 		row('PNG', function_exists('imagecreatefrompng'));
 		row('GIF', function_exists('imagecreatefromgif'));
-		row('BMP', function_exists('imagecreatefrombmp'));
 		
 		// Database drivers
 		$drivers = PDO::getAvailableDrivers();
