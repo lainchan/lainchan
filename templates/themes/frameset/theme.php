@@ -41,7 +41,7 @@
 				. '<title>' . $settings['title'] . '</title>'
 			. '</head><body>'
 			// Sidebar
-			. '<iframe src="sidebar.html" id="sidebar"></iframe>'
+			. '<iframe src="sidebar.html" id="sidebar" name="sidebar"></iframe>'
 			// Main
 			. '<iframe src="news.html" id="main" name="main"></iframe>'
 			// Finish page
