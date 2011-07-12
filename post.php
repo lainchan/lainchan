@@ -431,21 +431,6 @@
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
 			if(!isset($__file)) {
-				$size = @getimagesize($post['file']);
-				$post['width'] = &$size[0];
-				$post['height'] = &$size[1];
-				
-				// Check if the image is valid
-				if($post['width'] < 1 || $post['height'] < 1) {
-					undoImage($post);
-					error($config['error']['invalidimg']);
-				}
-				
-				if($post['width'] > $config['max_width'] || $post['height'] > $config['max_height']) {
-					undoImage($post);
-					error($config['error']['maxsize']);
-				}
-				
 				// Check IE MIME type detection XSS exploit
 				$buffer = file_get_contents($post['file'], null, null, null, 255);
 				if(preg_match($config['ie_mime_type_detection'], $buffer)) {
@@ -453,21 +438,39 @@
 					error($config['error']['mime_exploit']);
 				}
 				
-				if($config['minimum_copy_resize'] && $post['width'] <= $config['thumb_width'] && $post['height'] <= $config['thumb_height'] && $post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
+				require_once 'inc/image.php';
+				// create image object
+				$image = new Image($post['file'], $post['extension']);
+				
+				if($image->size->width > $config['max_width'] || $image->size->height > $config['max_height']) {
+					$image->delete();
+					error($config['error']['maxsize']);
+				}
+				
+				
+				if($config['minimum_copy_resize'] &&
+					$image->size->width <= $config['thumb_width'] &&
+					$image->size->height <= $config['thumb_height'] &&
+					$post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
+					
 					// Copy, because there's nothing to resize
 					copy($post['file'], $post['thumb']);
 					
-					$post['thumbwidth'] = $post['width'];
-					$post['thumbheight'] = $post['height'];
+					$post['thumbwidth'] = $image->size->width;
+					$post['thumbheight'] = $image->size->height;
 				} else {
-					$image = createimage($post['extension'], $post['file']);
+					$thumb = $image->resize($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'], $config['thumb_width'], $config['thumb_height']);
+					$thumb->to($post['thumb']);
 					
-					// Create a thumbnail
-					$thumb = resize($image, $post['width'], $post['height'], $post['thumb'], $config['thumb_width'], $config['thumb_height'], ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']));
+					//header('Content-Type: text/plain');
+					//var_dump($thumb);
+					//exit;
 					
-					$post['thumbwidth'] = $thumb['width'];
-					$post['thumbheight'] = $thumb['height'];
+					$post['thumbwidth'] = $thumb->width;
+					$post['thumbheight'] = $thumb->height;
+					$thumb->_destroy();
 				}
+				$image->destroy();
 			} else {
 				copy($config['file_thumb'], $post['thumb']);
 				
