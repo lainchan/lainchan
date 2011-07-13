@@ -115,9 +115,9 @@
 		$query->execute() or error(db_error($query));
 	}
 	
-	if(isset($_COOKIE['mod']) && isset($_SESSION['mod']) && is_array($_SESSION['mod'])) {
+	if(isset($_COOKIE[$config['cookies']['mod']]) && isset($_SESSION['mod']) && is_array($_SESSION['mod'])) {
 		// Should be username:session hash
-		$cookie = explode(':', $_COOKIE['mod']);
+		$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
 		if(count($cookie) != 2) {
 			destroyCookies();
 			error($config['error']['malformed']);
