@@ -78,7 +78,7 @@
 				query("UPDATE `mods` SET `boards` = '*'") or error(db_error());
 			case 'v0.9.3-dev-2':
 				$boards = listBoards();
-				foreach($boards as &_$board) {
+				foreach($boards as &$_board) {
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE `filehash`  `filehash` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $_board['uri'])) or error(db_error());
 				}
 			case false:
