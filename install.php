@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-2');
+	define('VERSION', 'v0.9.3-dev-3');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -76,6 +76,11 @@
 			case 'v0.9.3-dev-1':
 				query("ALTER TABLE  `mods` ADD  `boards` TEXT NOT NULL") or error(db_error());
 				query("UPDATE `mods` SET `boards` = '*'") or error(db_error());
+			case 'v0.9.3-dev-2':
+				$boards = listBoards();
+				foreach($boards as &_$board) {
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE `filehash`  `filehash` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $_board['uri'])) or error(db_error());
+				}
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
