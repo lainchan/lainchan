@@ -447,6 +447,8 @@
 					error($config['error']['maxsize']);
 				}
 				
+				$post['width'] = $image->size->width;
+				$post['height'] = $image->size->height;
 				
 				if($config['minimum_copy_resize'] &&
 					$image->size->width <= $config['thumb_width'] &&
@@ -468,6 +470,7 @@
 					
 					$post['thumbwidth'] = $thumb->width;
 					$post['thumbheight'] = $thumb->height;
+					
 					$thumb->_destroy();
 				}
 				$image->destroy();
