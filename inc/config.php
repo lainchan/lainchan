@@ -238,9 +238,13 @@
 	$config['max_height']	= &$config['max_width']; // 1:1
 	// Reject a post if its image is already in active content
 	$config['image_reject_repost']	= true;
+	
+	
 	/**
 		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 		WARNING: Currently strips animated GIFs too :(
+		
+		Note: Currently not implemented anymore. Will be added back at a later date.
 	**/
 	$config['redraw_image']	= false;
 	// Redrawing configuration
