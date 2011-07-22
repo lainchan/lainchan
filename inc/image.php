@@ -215,16 +215,6 @@
 		}
 	}
 	
-	class ImageSVG extends ImageBase {
-		public function from() {
-			$im = new Imagick();
-			$this->image = @imagecreatefrombmp($this->src);
-		}
-		public function to($src) {
-			imagebmp($this->image, $src);
-		}
-	}
-	
 	
 	/*********************************************/
 	/* Fonction: imagecreatefrombmp              */
