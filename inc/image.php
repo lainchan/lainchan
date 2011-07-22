@@ -140,6 +140,7 @@
 	class ImageImagick extends ImageBase {
 		public function init() {
 			$this->image = new Imagick();
+			$this->image->setBackgroundColor(new ImagickPixel('transparent'));
 		}
 		public function from() {
 			try {
