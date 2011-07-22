@@ -142,7 +142,12 @@
 			$this->image = new Imagick();
 		}
 		public function from() {
-			$this->image->readImage($this->src);
+			try {
+				$this->image->readImage($this->src);
+			} catch(ImagickException $e) {
+				// invalid image
+				$this->image = false;
+			}
 		}
 		public function to($src) {
 			$this->image->writeImage($src);
