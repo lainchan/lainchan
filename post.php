@@ -464,10 +464,6 @@
 					$thumb = $image->resize($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'], $config['thumb_width'], $config['thumb_height']);
 					$thumb->to($post['thumb']);
 					
-					//header('Content-Type: text/plain');
-					//var_dump($thumb);
-					//exit;
-					
 					$post['thumbwidth'] = $thumb->width;
 					$post['thumbheight'] = $thumb->height;
 					
