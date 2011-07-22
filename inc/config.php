@@ -200,6 +200,9 @@
 	// Thumbnail extension, empty for inherited (png recommended)
 	$config['thumb_ext'] = 'png';
 	
+	// Use Imagick instead of GD (some further config options below are ignored if set)
+	$config['imagick'] = false;
+	
 	// Thumbnail quality (compression level), from 0 to 9
 	$config['thumb_quality'] = 7;
 	
@@ -609,6 +612,7 @@
 	
 	// Allowed image file extensions
 	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
+	// $config['allowed_ext'][] = 'svg';
 	
 	// Allowed additional file extensions (not images; downloadable files)
 	$config['allowed_ext_files'] = Array();

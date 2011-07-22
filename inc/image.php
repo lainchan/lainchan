@@ -13,9 +13,13 @@
 			$this->src = $src;
 			$this->format = $format;
 			
-			$classname = 'Image' . strtoupper($this->format);
-			if(!class_exists($classname)) {
-				error('Unsupported file format: ' . $this->format);
+			if($config['imagick']) {
+				$classname = 'ImageImagick';
+			} else {
+				$classname = 'Image' . strtoupper($this->format);
+				if(!class_exists($classname)) {
+					error('Unsupported file format: ' . $this->format);
+				}
 			}
 			
 			$this->image = new $classname($this);
@@ -32,10 +36,17 @@
 		}
 		
 		public function resize($extension, $max_width, $max_height) {
-			$classname = 'Image' . strtoupper($extension);
-			if(!class_exists($classname)) {
-				error('Unsupported file format: ' . $extension);
+			global $config;
+			
+			if($config['imagick']) {
+				$classname = 'ImageImagick';
+			} else {
+				$classname = 'Image' . strtoupper($extension);
+				if(!class_exists($classname)) {
+					error('Unsupported file format: ' . $extension);
+				}
 			}
+			
 			$thumb = new $classname(false);
 			$thumb->original_width = $this->size->width;
 			$thumb->original_height = $this->size->height;
@@ -86,6 +97,9 @@
 		}
 		
 		public function __construct($img) {
+			if(method_exists($this, 'init'))
+				$this->init();
+			
 			if($img !== false) {
 				$this->src = &$img->src;
 				$this->from();
@@ -120,6 +134,31 @@
 			else
 				// use default GD functions
 				$this->GD_resize();
+		}
+	}
+	
+	class ImageImagick extends ImageBase {
+		public function init() {
+			$this->image = new Imagick();
+		}
+		public function from() {
+			$this->image->readImage($this->src);
+		}
+		public function to($src) {
+			$this->image->writeImage($src);
+		}
+		public function width() {
+			return $this->image->getImageWidth();
+		}
+		public function height() {
+			return $this->image->getImageHeight();
+		}
+		public function destroy() {
+			return $this->image->destroy();
+		}
+		public function resize() {
+			$this->image = $this->original;
+			$this->image->scaleImage($this->width, $this->height, false);
 		}
 	}
 	
@@ -169,6 +208,16 @@
 	
 	class ImageBMP extends ImageBase {
 		public function from() {
+			$this->image = @imagecreatefrombmp($this->src);
+		}
+		public function to($src) {
+			imagebmp($this->image, $src);
+		}
+	}
+	
+	class ImageSVG extends ImageBase {
+		public function from() {
+			$im = new Imagick();
 			$this->image = @imagecreatefrombmp($this->src);
 		}
 		public function to($src) {
