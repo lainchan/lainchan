@@ -32,7 +32,7 @@
 	<h1>{board[url]} - {board[name]}</h1>
 	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
 	
-	<div class="banner">Posting mode: Reply <a class="unimportant" href="{return}">[Return.]</a></div>
+	<div class="banner">Posting mode: Reply <a class="unimportant" href="{return}">[Return]</a></div>
 	<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{config[post_url]}" method="post">{hidden_inputs}
 	<input type="hidden" name="thread" value="{id}" />
 	<input type="hidden" name="board" value="{board[uri]}" />
@@ -144,7 +144,7 @@
 			<input type="submit" name="report" value="Report" />
 	</div>
 	</form>
-	<a href="{return}">[Return.]</a>
+	<a href="{return}">[Return]</a>
 	{boardlist[bottom]}
 	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> v0.9.2 | <a href="http://tinyboard.org/">Tinyboard</a> Copyright © 2010-2011 Tinyboard Development Group</p>
 	<p class="unimportant" style="text-align:center;">All trademarks, copyrights, comments and images on this page are owned by and/or are the responsibility of their respective parties.</p>
