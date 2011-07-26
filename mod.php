@@ -670,9 +670,9 @@
 			$id = &$match[1];
 			
 			if($mod['type'] >= $config['mod']['master_pm']) {
-				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id");
+				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `unread`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id");
 			} else {
-				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
+				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `unread`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
 				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
 			}
 			
@@ -693,9 +693,13 @@
 				
 				header('Location: ?/', true, $config['redirect_http']);
 			} else {
-				$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
-				$query->bindValue(':id', $id, PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				if($pm['unread']) {
+					$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
+					$query->bindValue(':id', $id, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					modLog('Read a PM');
+				}
 				
 				if($pm['to'] != $mod['id']) {
 					$query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
@@ -705,21 +709,27 @@
 					if($_mod = $query->fetch()) {
 						$__to = &$_mod['username'];
 					} else {
-						$__to = '<em>??</em>';
+						$__to = false;
 					}
 				}
-				
-				modLog('Read a PM');
 				
 				$body = '<form action="" method="post" style="margin:0"><table>' . 
 				
 				'<th>From</th><td>' .
-					'<a href="?/new_PM/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>' .
+					(!$pm['username'] ?
+						'<em>??</em>'
+					:
+						'<a href="?/new_PM/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>'
+					) .
 				'</td></tr>' .
 				
 				(isset($__to) ?
 					'<th>To</th><td>' .
-						'<a href="?/new_PM/' . $pm['to'] . '">' . htmlentities($__to) . '</a>' .
+						($__to === false ?
+							'<em>??</em>'
+						:
+							'<a href="?/new_PM/' . $pm['to'] . '">' . htmlentities($__to) . '</a>'
+						) .
 					'</td></tr>'
 				: '') .
 				
