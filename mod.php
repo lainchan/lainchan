@@ -1432,16 +1432,16 @@
 				if($mod['type'] < $config['mod']['unban']) error($config['error']['noaccess']);
 				
 				foreach($_POST as $post => $value) {
-					if(preg_match('/^ban_(.+)$/', $post, $m)) {
-						$m[1] = str_replace('_', '.', $m[1]);
+					if(preg_match('/^ban_(\w+)_(.+)$/', $post, $m)) {
+						$m[1] = str_replace('_', '.', $m[2]);
 						$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
-						$query->bindValue(':ip', $m[1]);
+						$query->bindValue(':ip', $m[2]);
 						$query->execute() or error(db_error($query));
 						
 						if($config['memcached']['enabled']) {
 							// Remove cached ban
 							// TODO
-							$memcached->delete("ban_${m[1]}");
+							$memcached->delete("ban_{$m[1]}_${m[2]}");
 						}
 					}
 				}
@@ -1474,7 +1474,7 @@
 					'<td style="white-space: nowrap">' .
 					
 					// Checkbox
-					'<input type="checkbox" name="ban_' . $ban['ip'] . '" id="ban_' . $ban['ip'] . '" /> ' .
+					'<input type="checkbox" name="ban_' . $ban['board'] . '_' . $ban['ip'] . '" id="ban_' . $ban['ip'] . '" /> ' .
 					
 					// IP address
 					(preg_match('/^(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')$/', $ban['ip']) ?
@@ -2093,8 +2093,11 @@
 				$query->execute() or error(db_error($query));
 				
 				if($config['memcached']['enabled']) {
-					// Remove cached ban
-					$memcached->delete("ban_${ip}");
+					// Remove cached ban(s)
+					$boards = listBoards();
+					foreach($boards as &$_board) {
+						$memcached->delete("ban_{$_board['id']}_${ip}");
+					}
 				}
 			} elseif($mod['type'] >= $config['mod']['create_notes'] && isset($_POST['note'])) {
 				$query = prepare("INSERT INTO `ip_notes` VALUES(NULL, :ip, :mod, :time, :body)");
