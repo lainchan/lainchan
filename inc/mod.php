@@ -176,7 +176,7 @@
 		global $config, $mod;
 		
 		$boards = listBoards();
-		$__boards = '<li><input type="radio" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>all boards</em></label></li>';
+		$__boards = '<li><input type="radio" checked="checked" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>all boards</em></label></li>';
 		foreach($boards as &$_board) {
 			$__boards .= '<li>' .
 						'<input type="radio" name="board_id" id="board_' . $_board['uri'] . '" value="' . $_board['id'] . '">' .
