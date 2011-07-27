@@ -1489,7 +1489,7 @@
 					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>-</em>') . '</td>' .
 					
 					
-					'<td>' .
+					'<td style="white-space: nowrap">' .
 					(isset($ban['uri']) ?
 						sprintf($config['board_abbreviation'], $ban['uri'])
 					:
