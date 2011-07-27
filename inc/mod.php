@@ -174,6 +174,23 @@
 	
 	function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $board=false, $allow_public = false) {
 		global $config, $mod;
+		
+		$boards = listBoards();
+		$__boards = '<li><input type="radio" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>all boards</em></label></li>';
+		foreach($boards as &$_board) {
+			$__boards .= '<li>' .
+						'<input type="radio" name="board_id" id="board_' . $_board['uri'] . '" value="' . $_board['id'] . '">' .
+						'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
+							($_board['uri'] == '*' ?
+								'<em>"*"</em>'
+							:
+								sprintf($config['board_abbreviation'], $_board['uri'])
+							) .
+							' - ' . $_board['title'] .
+						'</label>' .
+						'</li>';
+		}
+		
 		return '<fieldset><legend>New ban</legend>' . 
 					'<form action="?/ban" method="post">' . 
 						($continue ? '<input type="hidden" name="continue" value="' . htmlentities($continue) . '" />' : '') .
@@ -214,6 +231,12 @@
 							'<td><input type="text" name="length" id="length" size="20" maxlength="40" />' .
 							' <span class="unimportant">(eg. "2d1h30m" or "2 days")</span></td>' .
 						'</tr>' . 
+						
+						'<tr>' . 
+							'<th>Board</th>' .
+							'<td><ul style="list-style:none;padding:2px 5px">' . $__boards . '</tl></td>' .
+						'</tr>' . 
+						
 						'<tr>' . 
 							'<td></td>' . 
 							'<td><input name="new_ban" type="submit" value="New Ban" /></td>' . 

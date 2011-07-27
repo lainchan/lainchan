@@ -400,7 +400,12 @@
 		
 		$body = '<div class="ban">
 		<h2>You are banned! ;_;</h2>
-		<p>You have been banned ' .
+		<p>You have been banned from ' .
+			(!isset($ban['uri']) ?
+				'all boards':
+				'<strong>' . sprintf($config['board_abbreviation'], $ban['uri']) . '</strong>'
+			) .
+			' ' .
 			($ban['reason'] ? 'for the following reason:' : 'for an unspecified reason.') .
 		'</p>' .
 			($ban['reason'] ?
@@ -464,7 +469,7 @@
 		));
 	}
 	
-	function checkBan() {
+	function checkBan($board = 0) {
 		global $config, $memcached;
 		
 		if(!isset($_SERVER['REMOTE_ADDR'])) {
@@ -474,17 +479,19 @@
 		
 		if($config['memcached']['enabled']) {
 			// Cached ban?
-			if($ban = $memcached->get("ban_${_SERVER['REMOTE_ADDR']}")) {
+			if($ban = $memcached->get("ban_${board}_${_SERVER['REMOTE_ADDR']}")) {
 				displayBan($ban);
 			}
 		}
 		
-		$query = prepare("SELECT * FROM `bans` WHERE `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
 		if($query->rowCount() < 1 && $config['ban_range']) {
-			$query = prepare("SELECT * FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->bindValue(':board', $board);
 			$query->execute() or error(db_error($query));
 		}
 		
@@ -506,7 +513,7 @@
 			}
 			
 			if($config['memcached']['enabled'])
-				$memcached->set("ban_${_SERVER['REMOTE_ADDR']}", $ban, $ban['expires']);
+				$memcached->set("ban_${board}_${_SERVER['REMOTE_ADDR']}", $ban, $ban['expires']);
 			displayBan($ban);
 		}
 	}

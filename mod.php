@@ -1040,7 +1040,7 @@
 					), listBoards());
 				foreach($boards as &$_board) {
 					$__boards .= '<li>' .
-						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
+						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '">' .
 						'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
 							($_board['uri'] == '*' ?
 								'<em>"*"</em>'
@@ -1173,7 +1173,7 @@
 				$_mod['boards'] = explode(',', $_mod['boards']);
 				foreach($boards as &$_board) {
 					$__boards .= '<li>' .
-						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
+						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '">' .
 							(in_array($_board['uri'], $_mod['boards']) ? 
 								' checked="checked"'
 							: '') .
@@ -1440,19 +1440,19 @@
 						
 						if($config['memcached']['enabled']) {
 							// Remove cached ban
+							// TODO
 							$memcached->delete("ban_${m[1]}");
 						}
 					}
 				}
 			}
-			
 			if($mod['type'] >= $config['mod']['view_banexpired']) {
-				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
+				$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			} else {
 				// Filter out expired bans
-				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` GROUP BY `ip` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
+				$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			}
@@ -1461,7 +1461,7 @@
 				$body = '<p style="text-align:center" class="unimportant">(There are no active bans.)</p>';
 			} else {
 				$body = '<form action="" method="post">';
-				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Set</th><th>Expires</th><th>Staff</th></tr>';
+				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Board</th><th>Set</th><th>Expires</th><th>Staff</th></tr>';
 				
 				while($ban = $query->fetch()) {
 					$body .=
@@ -1487,6 +1487,14 @@
 					
 					// Reason
 					'<td>' . ($ban['reason'] ? $ban['reason'] : '<em>-</em>') . '</td>' .
+					
+					
+					'<td>' .
+					(isset($ban['uri']) ?
+						sprintf($config['board_abbreviation'], $ban['uri'])
+					:
+						'<em>all boards</em>'
+					) . '</td>' .
 					
 					// Set
 					'<td style="white-space: nowrap">' . date($config['post_date'], $ban['set']) . '</td>' .
@@ -1905,14 +1913,15 @@
 			if(isset($_POST['new_ban'])) {
 				if(	!isset($_POST['ip']) ||
 					!isset($_POST['reason']) ||
-					!isset($_POST['length'])
+					!isset($_POST['length']) ||
+					!isset($_POST['board_id'])
 				)	error($config['error']['missedafield']);
 				
 				// Check required fields
 				if(empty($_POST['ip']))
 					error(sprintf($config['error']['required'], 'IP address'));
 				
-				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason)");
+				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason, :board)");
 				
 				// 1yr2hrs30mins
 				// 1y2h30m
@@ -1958,10 +1967,17 @@
 				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
 				$query->bindValue(':set', time(), PDO::PARAM_INT);
 				
+				
 				if(isset($_POST['reason'])) {
 					$query->bindValue(':reason', $_POST['reason'], PDO::PARAM_STR);
 				} else {
 					$query->bindValue(':reason', null, PDO::PARAM_NULL);
+				}
+				
+				if($_POST['board_id'] < 0) {
+					$query->bindValue(':board', null, PDO::PARAM_NULL);
+				} else {
+					$query->bindValue(':board', (int)$_POST['board_id'], PDO::PARAM_INT);
 				}
 				
 				// Record the action
@@ -2189,7 +2205,7 @@
 			}
 			
 			if($mod['type'] >= $config['mod']['view_ban']) {
-				$query = prepare("SELECT * FROM `bans` INNER JOIN `mods` ON `mod` = `id` WHERE `ip` = :ip");
+				$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 				$query->bindValue(':ip', $ip);
 				$query->execute() or error(db_error($query));
 				
@@ -2208,6 +2224,14 @@
 						
 						// Reason
 						'<tr><th>Reason</th><td>' . $ban['reason'] . '</td></tr>' .
+						
+						// Board
+						'<tr><th>Board</th><td>' .
+						(isset($ban['uri']) ?
+							sprintf($config['board_abbreviation'], $ban['uri'])
+						:
+							'<em>all boards</em>'
+						) . '</td></tr>' .
 						
 						// Set
 						'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .

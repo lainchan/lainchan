@@ -36,16 +36,14 @@
 			}
 		}
 		
-		
-		
-		// Check if banned
-		checkBan();
-		
 		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($_POST['board']))
 			error($config['error']['noboard']);
+		
+		// Check if banned
+		checkBan($board['uri']);
 		
 		if(empty($delete))
 			error($config['error']['nodelete']);
@@ -96,16 +94,14 @@
 			}
 		}
 		
-		
-		
-		// Check if banned
-		checkBan();
-		
 		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($_POST['board']))
 			error($config['error']['noboard']);
+		
+		// Check if banned
+		checkBan($board['uri']);
 		
 		if(empty($report))
 			error($config['error']['noreport']);
@@ -174,14 +170,14 @@
 		if(time()-$user['appeared']<LURKTIME) error(ERROR_LURK);
 		*/
 		
-		// Check if banned
-		checkBan();
-		
 		checkDNSBL();
 			
 		// Check if board exists
 		if(!openBoard($post['board']))
 			error($config['error']['noboard']);
+		
+		// Check if banned
+		checkBan($board['uri']);
 		
 		// Check for CAPTCHA right after opening the board so the "return" link is in there
 		if($config['recaptcha']) {
