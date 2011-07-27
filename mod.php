@@ -1968,8 +1968,11 @@
 				$query->bindValue(':set', time(), PDO::PARAM_INT);
 				
 				
-				if(isset($_POST['reason'])) {
-					$query->bindValue(':reason', $_POST['reason'], PDO::PARAM_STR);
+				
+				if(!empty($_POST['reason'])) {
+					$reason = $_POST['reason'];
+					markup($reason);
+					$query->bindValue(':reason', $reason, PDO::PARAM_STR);
 				} else {
 					$query->bindValue(':reason', null, PDO::PARAM_NULL);
 				}
@@ -1981,7 +1984,7 @@
 				}
 				
 				// Record the action
-				modLog('Created a ' . ($expire ? $expire . ' second' : 'permanent') . " ban for {$_POST['ip']} with " . (!empty($_POST['reason']) ? "reason \"{$_POST['reason']}\"" : 'no reason'));
+				modLog('Created a ' . ($expire ? $expire . ' second' : 'permanent') . " ban for {$_POST['ip']} with " . (!empty($_POST['reason']) ? "reason \"${reason}\"" : 'no reason'));
 				
 				$query->execute() or error(db_error($query));
 				
