@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-3');
+	define('VERSION', 'v0.9.3-dev-4');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -81,6 +81,9 @@
 				foreach($boards as &$_board) {
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE `filehash`  `filehash` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $_board['uri'])) or error(db_error());
 				}
+			case 'v0.9.3-dev-3':
+				// Board-specifc bans
+				query("ALTER TABLE `bans` ADD  `board` SMALLINT NULL AFTER  `reason`") or error(db_error());
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);

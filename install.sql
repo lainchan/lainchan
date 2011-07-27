@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
-  `reason` text
+  `reason` text,
+  `board` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
