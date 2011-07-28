@@ -16,8 +16,6 @@
 	
 	if(file_exists($config['has_installed'])) {
 		
-		sql_open();
-		
 		// Check the version number
 		$version = trim(file_get_contents($config['has_installed']));
 		if(empty($version))
@@ -392,8 +390,6 @@
 		// SQL installation
 		
 		buildJavascript();
-		
-		sql_open();
 		
 		$sql = @file_get_contents('install.sql') or error("Couldn't load install.sql.");
 		
