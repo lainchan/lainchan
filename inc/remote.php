@@ -29,7 +29,7 @@
 						error('Plain-text authentication failed.');
 					break;
 				default:
-					error('Unknown authentication method.');
+					error('Unknown authentication method: "' . $this->auth['method'] . '".');
 			}
 			
 		}
