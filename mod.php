@@ -2110,183 +2110,185 @@
 				markup($_POST['note']);
 				$query->bindValue(':body', $_POST['note']);
 				$query->execute() or error(db_error($query));
-			}
-			
-			$body = '';
-			$boards = listBoards();
-			foreach($boards as &$_board) {
-				openBoard($_board['uri']);
 				
-				$temp = '';
-				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` DESC LIMIT :limit", $_board['uri']));
-				$query->bindValue(':ip', $ip);
-				$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+			} else {
+				$body = '';
+				$boards = listBoards();
+				foreach($boards as &$_board) {
+					openBoard($_board['uri']);
 				
-				while($post = $query->fetch()) {
-					if(!$post['thread']) {
-						$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], '?/', $mod, false);
-					} else {
-						$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'], '?/', $mod);
-					}
-					$temp .= $po->build(true) . '<hr/>';
-				}
+					$temp = '';
+					$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `time` DESC LIMIT :limit", $_board['uri']));
+					$query->bindValue(':ip', $ip);
+					$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
 				
-				if(!empty($temp))
-					$body .= '<fieldset><legend>Last ' . $query->rowCount() . ' posts on <a href="?/' .
-							sprintf($config['board_path'], $_board['uri']) . $config['file_index'] .
-						'">' .
-						sprintf($config['board_abbreviation'], $_board['uri']) . ' - ' . $_board['title'] .
-						'</a></legend>' . $temp . '</fieldset>';
-			}
-			
-			if($mod['type'] >= $config['mod']['view_notes']) {
-				$query = prepare("SELECT * FROM `ip_notes` WHERE `ip` = :ip ORDER BY `id` DESC");
-				$query->bindValue(':ip', $ip);
-				$query->execute() or error(db_error($query));
-				
-				if($query->rowCount() > 0 || $mod['type'] >= $config['mod']['create_notes'] ) {
-					$body .= '<fieldset><legend>' .
-							$query->rowCount() . ' note' . ($query->rowCount() == 1 ?'' : 's') . ' on record' . 
-						'</legend>';
-					if($query->rowCount() > 0) {
-						$body .= '<table class="modlog">' .
-						'<tr><th>Staff</th><th>Note</th><th>Date</th>' .
-							($mod['type'] >= $config['mod']['remove_notes'] ? '<th>Actions</th>' : '') .
-						'</td>';
-						while($note = $query->fetch()) {
-							
-							if($note['mod']) {
-								$_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
-								$_query->bindValue(':id', $note['mod']);
-								$_query->execute() or error(db_error($_query));
-								if($_mod = $_query->fetch()) {
-									if($mod['type'] >= $config['mod']['editusers'])
-										$staff = '<a href="?/users/' . $note['mod'] . '">' . htmlentities($_mod['username']) . '</a>';
-									else
-										$staff = $_mod['username'];
-								} else {
-									$staff = '<em>??</em>';
-								}
-							} else {
-								$staff = '<em>system</em>';
-							}
-							$body .= '<tr>' .
-								'<td class="minimal">' .
-									$staff .
-								'</td><td>' .
-									$note['body'] .
-								'</td><td class="minimal">' .
-									date($config['post_date'], $note['time']) .
-								'</td>' .
-								($mod['type'] >= $config['mod']['remove_notes'] ?
-									'<td class="minimal"><a class="unimportant" href="?/IP/' . $ip . '/deletenote/' . $note['id'] . '">[delete]</a></td>'
-								: '') .
-							'</tr>';
+					while($post = $query->fetch()) {
+						if(!$post['thread']) {
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], '?/', $mod, false);
+						} else {
+							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'], '?/', $mod);
 						}
-						$body .= '</table>';
+						$temp .= $po->build(true) . '<hr/>';
 					}
-			
-					if($mod['type'] >= $config['mod']['create_notes']) {
-						$body .= '<form action="" method="post" style="text-align:center;margin:0">' . 
-								'<table>' .
-									'<tr>' .
-										'<th>Staff</th>' .
-										'<td>' . $mod['username'] . '</td>' .
-									'</tr>' .
-									'<tr>' .
-										'<th><label for="note">Note</label></th>' .
-										'<td><textarea id="note" name="note" rows="5" cols="30"></textarea></td>' .
-									'</tr>' .
-									'<tr>' .
-										'<td></td>' .
-										'<td><input type="submit" value="New note" /></td>' .
-									'</tr>' .
-								'</table>' .
-							'</form>';
-					}
-					
-					$body .= '</fieldset>';
-				}
-			}
-			
-			if($mod['type'] >= $config['mod']['view_ban']) {
-				$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
-				$query->bindValue(':ip', $ip);
-				$query->execute() or error(db_error($query));
 				
-				if($query->rowCount() > 0) {
-					$body .= '<fieldset><legend>Ban' . ($query->rowCount() == 1 ? '' : 's') . ' on record</legend><form action="" method="post" style="text-align:center">';
-					
-					while($ban = $query->fetch()) {
-						$body .= '<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px"><tr><th>Status</th><td>' . 
-							($config['mod']['view_banexpired'] && $ban['expires'] != 0 && $ban['expires'] < time() ?
-								'Expired'
-							: 'Active') .
-						'</td></tr>' .
-						
-						// IP
-						'<tr><th>IP</th><td>' . $ban['ip'] . '</td></tr>' .
-						
-						// Reason
-						'<tr><th>Reason</th><td>' . $ban['reason'] . '</td></tr>' .
-						
-						// Board
-						'<tr><th>Board</th><td>' .
-						(isset($ban['uri']) ?
-							sprintf($config['board_abbreviation'], $ban['uri'])
-						:
-							'<em>all boards</em>'
-						) . '</td></tr>' .
-						
-						// Set
-						'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .
-						
-						// Expires
-						'<tr><th>Expires</th><td>' . 
-							($ban['expires'] == 0 ?
-								'<em>Never</em>'
-							:
-								date($config['post_date'], $ban['expires'])
-							) .
-						'</td></tr>' .
-						
-						// Staff
-						'<tr><th>Staff</th><td>' .
-							($mod['type'] < $config['mod']['view_banstaff'] ?
-								($config['mod']['view_banquestionmark'] ?
-									'?'
-								:
-									($ban['type'] == JANITOR ? 'Janitor' :
-									($ban['type'] == MOD ? 'Mod' :
-									($ban['type'] == ADMIN ? 'Admin' :
-									'?')))
-								)
-							:
-								$ban['username']
-							) .
-						'</td></tr>' .
-						
-						'</tr></table>';
-					}
-					
-					$body .= '<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
-						($mod['type'] < $config['mod']['unban'] ? 'disabled' : '') .
-					'/></form></fieldset>';
+					if(!empty($temp))
+						$body .= '<fieldset><legend>Last ' . $query->rowCount() . ' posts on <a href="?/' .
+								sprintf($config['board_path'], $_board['uri']) . $config['file_index'] .
+							'">' .
+							sprintf($config['board_abbreviation'], $_board['uri']) . ' - ' . $_board['title'] .
+							'</a></legend>' . $temp . '</fieldset>';
 				}
+			
+				if($mod['type'] >= $config['mod']['view_notes']) {
+					$query = prepare("SELECT * FROM `ip_notes` WHERE `ip` = :ip ORDER BY `id` DESC");
+					$query->bindValue(':ip', $ip);
+					$query->execute() or error(db_error($query));
+				
+					if($query->rowCount() > 0 || $mod['type'] >= $config['mod']['create_notes'] ) {
+						$body .= '<fieldset><legend>' .
+								$query->rowCount() . ' note' . ($query->rowCount() == 1 ?'' : 's') . ' on record' . 
+							'</legend>';
+						if($query->rowCount() > 0) {
+							$body .= '<table class="modlog">' .
+							'<tr><th>Staff</th><th>Note</th><th>Date</th>' .
+								($mod['type'] >= $config['mod']['remove_notes'] ? '<th>Actions</th>' : '') .
+							'</td>';
+							while($note = $query->fetch()) {
+							
+								if($note['mod']) {
+									$_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
+									$_query->bindValue(':id', $note['mod']);
+									$_query->execute() or error(db_error($_query));
+									if($_mod = $_query->fetch()) {
+										if($mod['type'] >= $config['mod']['editusers'])
+											$staff = '<a href="?/users/' . $note['mod'] . '">' . htmlentities($_mod['username']) . '</a>';
+										else
+											$staff = $_mod['username'];
+									} else {
+										$staff = '<em>??</em>';
+									}
+								} else {
+									$staff = '<em>system</em>';
+								}
+								$body .= '<tr>' .
+									'<td class="minimal">' .
+										$staff .
+									'</td><td>' .
+										$note['body'] .
+									'</td><td class="minimal">' .
+										date($config['post_date'], $note['time']) .
+									'</td>' .
+									($mod['type'] >= $config['mod']['remove_notes'] ?
+										'<td class="minimal"><a class="unimportant" href="?/IP/' . $ip . '/deletenote/' . $note['id'] . '">[delete]</a></td>'
+									: '') .
+								'</tr>';
+							}
+							$body .= '</table>';
+						}
+			
+						if($mod['type'] >= $config['mod']['create_notes']) {
+							$body .= '<form action="" method="post" style="text-align:center;margin:0">' . 
+									'<table>' .
+										'<tr>' .
+											'<th>Staff</th>' .
+											'<td>' . $mod['username'] . '</td>' .
+										'</tr>' .
+										'<tr>' .
+											'<th><label for="note">Note</label></th>' .
+											'<td><textarea id="note" name="note" rows="5" cols="30"></textarea></td>' .
+										'</tr>' .
+										'<tr>' .
+											'<td></td>' .
+											'<td><input type="submit" value="New note" /></td>' .
+										'</tr>' .
+									'</table>' .
+								'</form>';
+						}
+					
+						$body .= '</fieldset>';
+					}
+				}
+			
+				if($mod['type'] >= $config['mod']['view_ban']) {
+					$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+					$query->bindValue(':ip', $ip);
+					$query->execute() or error(db_error($query));
+				
+					if($query->rowCount() > 0) {
+						$body .= '<fieldset><legend>Ban' . ($query->rowCount() == 1 ? '' : 's') . ' on record</legend><form action="" method="post" style="text-align:center">';
+					
+						while($ban = $query->fetch()) {
+							$body .= '<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px"><tr><th>Status</th><td>' . 
+								($config['mod']['view_banexpired'] && $ban['expires'] != 0 && $ban['expires'] < time() ?
+									'Expired'
+								: 'Active') .
+							'</td></tr>' .
+						
+							// IP
+							'<tr><th>IP</th><td>' . $ban['ip'] . '</td></tr>' .
+						
+							// Reason
+							'<tr><th>Reason</th><td>' . $ban['reason'] . '</td></tr>' .
+						
+							// Board
+							'<tr><th>Board</th><td>' .
+							(isset($ban['uri']) ?
+								sprintf($config['board_abbreviation'], $ban['uri'])
+							:
+								'<em>all boards</em>'
+							) . '</td></tr>' .
+						
+							// Set
+							'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .
+						
+							// Expires
+							'<tr><th>Expires</th><td>' . 
+								($ban['expires'] == 0 ?
+									'<em>Never</em>'
+								:
+									date($config['post_date'], $ban['expires'])
+								) .
+							'</td></tr>' .
+						
+							// Staff
+							'<tr><th>Staff</th><td>' .
+								($mod['type'] < $config['mod']['view_banstaff'] ?
+									($config['mod']['view_banquestionmark'] ?
+										'?'
+									:
+										($ban['type'] == JANITOR ? 'Janitor' :
+										($ban['type'] == MOD ? 'Mod' :
+										($ban['type'] == ADMIN ? 'Admin' :
+										'?')))
+									)
+								:
+									$ban['username']
+								) .
+							'</td></tr>' .
+						
+							'</tr></table>';
+						}
+					
+						$body .= '<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
+							($mod['type'] < $config['mod']['unban'] ? 'disabled' : '') .
+						'/></form></fieldset>';
+					}
+				}
+			
+				if($mod['type'] >= $config['mod']['ip_banform'])
+					$body .= form_newBan($ip, null, '?/IP/' . $ip);
+			
+				echo Element('page.html', Array(
+					'config'=>$config,
+					'title'=>'IP: ' . $ip,
+					'subtitle' => $host,
+					'body'=>$body,
+					'mod'=>true
+					)
+				);
 			}
-			
-			if($mod['type'] >= $config['mod']['ip_banform'])
-				$body .= form_newBan($ip, null, '?/IP/' . $ip);
-			
-			echo Element('page.html', Array(
-				'config'=>$config,
-				'title'=>'IP: ' . $ip,
-				'subtitle' => $host,
-				'body'=>$body,
-				'mod'=>true
-				)
-			);
 		} else {
 			error($config['error']['404']);
 		}
