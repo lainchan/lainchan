@@ -103,7 +103,10 @@ function rememberStuff() {
 			document.forms.post.name.value = localStorage.name;
 		if(localStorage.email)
 			document.forms.post.email.value = localStorage.email;
-			
+		
+		if (window.location.hash.indexOf('q') == 1)
+			citeReply(window.location.hash.substring(2));
+		
 		if(sessionStorage.body) {
 			saved = JSON.parse(sessionStorage.body);
 			if(get_cookie('serv')) {
@@ -180,9 +183,7 @@ function init()
 		document.forms.postcontrols.password.value = localStorage.password;
 	}
 	
-	if (window.location.hash.indexOf('q') == 1)
-		citeReply(window.location.hash.substring(2));
-	else if (window.location.hash.substring(1))
+	if(window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
 	
 	init_expanding();
