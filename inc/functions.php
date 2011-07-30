@@ -259,7 +259,6 @@
 		global $config;
 		
 		if(preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
-			
 			if(isset($config['remote'][$m[1]])) {
 				require_once 'inc/remote.php';
 				

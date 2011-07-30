@@ -14,6 +14,16 @@
 			$this->connection = ssh2_connect($this->host, isset($this->port) ? $this->port : 22, $methods);
 			
 			switch($this->auth['method']) {
+				case 'pubkey':
+					
+					if(!isset($this->auth['public']))
+						error('Public key filename not specified.');
+					if(!isset($this->auth['private']))
+						error('Private key filename not specified.');
+					
+					if(!ssh2_auth_pubkey_file($this->connection, $this->auth['username'], $this->auth['public'], $this->auth['private'], isset($this->auth['passphrase']) ? $this->auth['passphrase']: null))
+						error('Public key authentication failed.');
+					break;
 				case 'plain':
 					if(!ssh2_auth_password($this->connection, $this->auth['username'], $this->auth['password']))
 						error('Plain-text authentication failed.');
