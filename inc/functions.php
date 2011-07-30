@@ -13,7 +13,7 @@
 		
 		require 'config.php';
 		if (file_exists('inc/instance-config.php')) {
-			require 'instance-config.php';
+			require 'inc/instance-config.php';
 		}
 		if(isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
 			require $board['dir'] . '/config.php';
@@ -259,6 +259,7 @@
 		global $config;
 		
 		if(preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
+			
 			if(isset($config['remote'][$m[1]])) {
 				require_once 'inc/remote.php';
 				
