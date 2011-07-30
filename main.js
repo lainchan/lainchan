@@ -53,7 +53,22 @@ function dopost(form) {
 	return form.body.value != "" || (typeof form.thread != "undefined" && form.file.value != "");
 }
 function citeReply(id) {
-	document.getElementById('body').value += '>>' + id + '\n';
+	body = document.getElementById('body');
+	
+	if (document.selection) {
+		// IE
+		body.focus();
+		sel = document.selection.createRange();
+		sel.text = '>>' + id + '\n';
+	} else if (body.selectionStart || body.selectionStart == '0') {
+		// Mozilla
+		start = body.selectionStart;
+		end = body.selectionEnd;
+		body.value = body.value.substring(0, start) + '>>' + id + '\n' + body.value.substring(end, body.value.length);
+	} else {
+		// ???
+		body.value += '>>' + id + '\n';
+	}
 }
 
 var selectedstyle = 'Yotsuba B';
