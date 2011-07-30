@@ -691,7 +691,7 @@
 				
 				modLog('Deleted a PM');
 				
-				header('Location: ?/', true, $config['redirect_http']);
+				header('Location: ?/inbox', true, $config['redirect_http']);
 			} else {
 				if($pm['unread']) {
 					$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
