@@ -736,16 +736,14 @@
 	
 	// Remote servers
 	// http://tinyboard.org/wiki/index.php?title=Multiple_Servers
-	//$config['remote'] = Array(
-	//	'static' => Array(
-	//		'host' => 'static.example.org',
-	//		'auth' => Array(
-	//			'method' => 'plain',
-	//			'username' => 'username',
-	//			'password' => 'password!123'
-	//		),
-	//		'type' => 'scp'
-	//	)
+	//$config['remote']['static'] = Array(
+	//	'host' => 'static.example.org',
+	//	'auth' => Array(
+	//		'method' => 'plain',
+	//		'username' => 'username',
+	//		'password' => 'password!123'
+	//	),
+	//	'type' => 'scp'
 	//);
 	
 	// Enable reCaptcha to make spam even harder

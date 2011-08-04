@@ -273,5 +273,20 @@
 					'</form>' .
 				'</fieldset>';
 	}
-
+	
+	
+	function removeBan($id) {
+		global $config;
+		
+		$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if($config['memcached']['enabled']) {
+			// Remove cached ban
+			// TODO
+			$memcached->delete("ban_{$id}");
+		}
+	}
+	
 ?>

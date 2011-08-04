@@ -89,7 +89,7 @@
 			// Boards
 			$fieldset['Boards'] .= ulBoards();
 			
-			if($mod['type'] >= $config['mod']['noticeboard']) {
+			if(hasPermission($config['mod']['noticeboard'])) {
 				$query = prepare("SELECT * FROM `noticeboard` ORDER BY `id` DESC LIMIT :limit");
 				$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
@@ -141,33 +141,33 @@
 				$fieldset['Noticeboard'] .= '<li><a href="?/news">News</a></li>';
 			}
 			
-			if($mod['type'] >= $config['mod']['reports']) {
+			if(hasPermission($config['mod']['reports'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/reports">Report queue</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['view_banlist']) {
+			if(hasPermission($config['mod']['view_banlist'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['manageusers']) {
+			if(hasPermission($config['mod']['manageusers'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/users">Manage users</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['modlog']) {
+			if(hasPermission($config['mod']['modlog'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/log">Moderation log</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['rebuild']) {
+			if(hasPermission($config['mod']['rebuild'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">Rebuild static files</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['rebuild'] && $config['memcached']['enabled']) {
+			if(hasPermission($config['mod']['rebuild']) && $config['memcached']['enabled']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/flush">Clear cache</a></li>';
 			}
-			if($mod['type'] >= $config['mod']['show_config']) {
+			if(hasPermission($config['mod']['show_config'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
 			}
 			
-			if($mod['type'] >= $config['mod']['themes']) {
+			if(hasPermission($config['mod']['themes'])) {
 				$fieldset['Themes'] .= 	'<li><a href="?/themes">Manage themes</a></li>';
 			}
 			
-			if($mod['type'] >= $config['mod']['search']) {
+			if(hasPermission($config['mod']['search'])) {
 				$fieldset['Search'] .= 	'<li><form style="display:inline" action="?/search" method="post">' .
 				'<label style="display:inline" for="search">Phrase:</label> ' .
 					'<input id="search" name="search" type="text" size="35" />' .
@@ -530,7 +530,7 @@
 					}
 			
 					$body .= '<div class="ban">' .
-						($mod['type'] >= $config['mod']['noticeboard_delete'] ?
+						(hasPermission($config['mod']['noticeboard_delete']) ?
 							'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a></span>'
 						: '') .
 					'<h2 id="' . $notice['id'] . '">' .
@@ -568,11 +568,11 @@
 		} elseif(preg_match('/^\/news$/', $query)) {			
 			$body = '';
 			
-			if($mod['type'] >= $config['mod']['news']) {
+			if(hasPermission($config['mod']['news'])) {
 				if(isset($_POST['subject']) && isset($_POST['body']) && !empty($_POST['body'])) {
 					$query = prepare("INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)");
 					
-					if(isset($_POST['name']) && $mod['type'] >= $config['mod']['news_custom'])
+					if(isset($_POST['name']) && hasPermission($config['mod']['news_custom']))
 						$name = &$_POST['name'];
 					else
 						$name = &$mod['username'];
@@ -591,7 +591,7 @@
 				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
 				'<tr>' .
 					'<th>Name</th>' .
-					($mod['type'] >= $config['mod']['news_custom'] ?
+					(hasPermission($config['mod']['news_custom']) ?
 						'<td><input type="text" size="55" name="name" id="name" value="' . htmlentities($mod['username']) . '" /></td>'
 					:
 						'<td>' . $mod['username'] . '</td>') .
@@ -612,7 +612,7 @@
 			$query->execute() or error(db_error($query));
 			while($news = $query->fetch()) {			
 				$body .= '<div class="ban">' .
-					($mod['type'] >= $config['mod']['news_delete'] ?
+					(hasPermission($config['mod']['news_delete']) ?
 						'<span style="float:right;padding:2px"><a class="unimportant" href="?/news/delete/' . $news['id'] . '">[delete]</a></span>'
 					: '') .
 				'<h2 id="' . $news['id'] . '">' .
@@ -672,7 +672,7 @@
 		} elseif(preg_match('/^\/PM\/(\d+)$/', $query, $match)) {
 			$id = &$match[1];
 			
-			if($mod['type'] >= $config['mod']['master_pm']) {
+			if(hasPermission($config['mod']['master_pm'])) {
 				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `unread`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id");
 			} else {
 				$query = prepare("SELECT `pms`.`id`, `time`, `sender`, `unread`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `pms`.`id` = :id AND `to` = :mod");
@@ -816,7 +816,7 @@
 				'<table>' . 
 				
 				'<tr><th>To</th><td>' .
-					($mod['type'] >= $config['mod']['editusers'] ?
+					(hasPermission($config['mod']['editusers']) ?
 						'<a href="?/users/' . $to['id'] . '">' . htmlentities($to['username']) . '</a>' :
 						htmlentities($to['username'])
 					) .
@@ -964,7 +964,7 @@
 					'</td>' .
 					
 					'<td style="white-space:nowrap">' .
-						($mod['type'] >= $config['mod']['promoteusers'] ?
+						(hasPermission($config['mod']['promoteusers']) ?
 							($_mod['type'] != ADMIN ?
 								'<a style="text-decoration:none" href="?/users/' . $_mod['id'] . '/promote" title="Promote">▲</a>'
 							:'') .
@@ -973,11 +973,11 @@
 							:'')
 						: ''
 						) .
-						($mod['type'] >= $config['mod']['editusers'] ||
-						($mod['type'] >= $config['mod']['change_password'] && $_mod['id'] == $mod['id'])?
+						(hasPermission($config['mod']['editusers']) ||
+						(hasPermission($config['mod']['change_password']) && $_mod['id'] == $mod['id'])?
 							'<a class="unimportant" style="margin-left:5px;float:right" href="?/users/' . $_mod['id'] . '">[edit]</a>'
 						: '' ) .
-						($mod['type'] >= $config['mod']['create_pm'] ?
+						(hasPermission($config['mod']['create_pm']) ?
 							'<a class="unimportant" style="margin-left:5px;float:right" href="?/new_PM/' . $_mod['id'] . '">[PM]</a>'
 						: '' ) .
 					'</td></tr>';
@@ -985,7 +985,7 @@
 			
 			$body .= '</table>';
 			
-			if($mod['type'] >= $config['mod']['createusers']) {
+			if(hasPermission($config['mod']['createusers'])) {
 				$body .= '<p style="text-align:center"><a href="?/users/new">Create new user</a></p>';
 			}
 			
@@ -1125,7 +1125,7 @@
 					error($config['error']['404']);
 				}
 				
-				if($mod['type'] < $config['mod']['editusers'] && !($mod['type'] >= $config['mod']['change_password'] && $mod['id'] == $_mod['id'] && $change_password_only = true))
+				if(!hasPermission($config['mod']['editusers']) && !(hasPermission($config['mod']['change_password']) && $mod['id'] == $_mod['id'] && $change_password_only = true))
 					error($config['error']['noaccess']);
 				
 				if((isset($_POST['username']) && isset($_POST['password'])) || (isset($change_password_only) && isset($_POST['password']))) {
@@ -1221,7 +1221,7 @@
 				'</form> ' .
 				
 				// Delete button
-				($mod['type'] >= $config['mod']['deleteusers'] ?
+				(hasPermission($config['mod']['deleteusers']) ?
 					'<p style="text-align:center"><a href="?/users/' . $_mod['id'] . '/delete">Delete user</a></p>'
 				:'') .
 				
@@ -1236,7 +1236,7 @@
 				);
 			}
 		} elseif(preg_match('/^\/reports$/', $query)) {
-			if($mod['type'] < $config['mod']['reports']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['reports'])) error($config['error']['noaccess']);
 			
 			$body = '';
 			$reports = 0;
@@ -1275,9 +1275,9 @@
 						'Report date: ' . date($config['post_date'], $report['time']) . '<br/>' .
 						'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>' .
 						'<hr/>' .
-							($mod['type'] >= $config['mod']['report_dismiss'] ?
+							(hasPermission($config['mod']['report_dismiss']) ?
 								'<a title="Discard abuse report" href="?/reports/' . $report['id'] . '/dismiss">Dismiss</a> | ' : '') .
-							($mod['type'] >= $config['mod']['report_dismiss_ip'] ?
+							(hasPermission($config['mod']['report_dismiss_ip']) ?
 								'<a title="Discard all abuse reports by this user" href="?/reports/' . $report['id'] . '/dismiss/all">Dismiss+</a>' : '') .
 					'</div>';
 				
@@ -1312,7 +1312,7 @@
 			));
 		} elseif(preg_match('/^\/reports\/(\d+)\/dismiss(\/all)?$/', $query, $matches)) {
 			if(isset($matches[2]) && $matches[2] == '/all') {
-				if($mod['type'] < $config['mod']['report_dismiss_ip']) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['report_dismiss_ip'])) error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT `ip` FROM `reports` WHERE `id` = :id");
 				$query->bindValue(':id', $matches[1], PDO::PARAM_INT);
@@ -1326,7 +1326,7 @@
 					modLog('Dismissed all reports by ' . $report['ip']);
 				}
 			} else {
-				if($mod['type'] < $config['mod']['report_dismiss']) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['report_dismiss'])) error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT `post`, `board` FROM `reports` WHERE `id` = :id");
 				$query->bindValue(':id', $matches[1], PDO::PARAM_INT);
@@ -1344,13 +1344,13 @@
 			// Redirect
 			header('Location: ?/reports', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/board\/(\w+)(\/delete)?$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['manageboards']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['manageboards'])) error($config['error']['noaccess']);
 			
 			if(!openBoard($matches[1]))
 				error($config['error']['noboard']);
 			
 			if(isset($matches[2]) && $matches[2] == '/delete') {
-				if($mod['type'] < $config['mod']['deleteboard']) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['deleteboard'])) error($config['error']['noaccess']);
 				// Delete board
 				
 				modLog('Deleted board ' . sprintf($config['board_abbreviation'], $board['uri']));
@@ -1416,7 +1416,7 @@
 				'</form> ' .
 				
 				// Delete button
-				($mod['type'] >= $config['mod']['deleteboard'] ?
+				(hasPermission($config['mod']['deleteboard']) ?
 					'<p style="text-align:center"><a href="?/board/' . $board['uri'] . '/delete">Delete board</a></p>'
 				:'') .
 				
@@ -1430,27 +1430,18 @@
 				));
 			}
 		} elseif(preg_match('/^\/bans$/', $query)) {
-			if($mod['type'] < $config['mod']['view_banlist']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['view_banlist'])) error($config['error']['noaccess']);
 			
 			if(isset($_POST['unban'])) {
-				if($mod['type'] < $config['mod']['unban']) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['unban'])) error($config['error']['noaccess']);
 				
 				foreach($_POST as $post => $value) {
-					if(preg_match('/^ban_(\w+)_(.+)$/', $post, $m)) {
-						$m[1] = str_replace('_', '.', $m[2]);
-						$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
-						$query->bindValue(':ip', $m[2]);
-						$query->execute() or error(db_error($query));
-						
-						if($config['memcached']['enabled']) {
-							// Remove cached ban
-							// TODO
-							$memcached->delete("ban_{$m[1]}_${m[2]}");
-						}
+					if(preg_match('/^ban_(\d+)$/', $post, $m)) {
+						removeBan($m[1]);
 					}
 				}
 			}
-			if($mod['type'] >= $config['mod']['view_banexpired']) {
+			if(hasPermission($config['mod']['view_banexpired'])) {
 				$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
@@ -1478,7 +1469,7 @@
 					'<td style="white-space: nowrap">' .
 					
 					// Checkbox
-					'<input type="checkbox" name="ban_' . $ban['board'] . '_' . $ban['ip'] . '" id="ban_' . $ban['ip'] . '" /> ' .
+					'<input type="checkbox" name="ban_' . $ban['id'] . '" id="ban_' . $ban['id'] . '" /> ' .
 					
 					// IP address
 					(preg_match('/^(\d+\.\d+\.\d+\.\d+|' . $config['ipv6_regex'] . ')$/', $ban['ip']) ?
@@ -1514,7 +1505,7 @@
 					
 					// Staff
 					'<td>' .
-						($mod['type'] < $config['mod']['view_banstaff'] ?
+						(!hasPermission($config['mod']['view_banstaff']) ?
 							($config['mod']['view_banquestionmark'] ?
 								'?'
 							:
@@ -1533,7 +1524,7 @@
 				
 				$body .= '</table>' .
 				
-				($mod['type'] >= $config['mod']['unban'] ?
+				(hasPermission($config['mod']['unban']) ?
 					'<p style="text-align:center"><input name="unban" type="submit" value="Unban selected" /></p>'
 				: '') .
 				
@@ -1548,7 +1539,7 @@
 			)
 		);
 		} elseif(preg_match('/^\/flush$/', $query)) {
-			if($mod['type'] < $config['mod']['rebuild']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['rebuild'])) error($config['error']['noaccess']);
 			if(!$config['memcached']['enabled']) error('Memcached is not enabled.');
 			
 			if($memcached->flush()) {
@@ -1565,7 +1556,7 @@
 				'mod'=>true
 			));
 		} elseif(preg_match('/^\/rebuild$/', $query)) {
-			if($mod['type'] < $config['mod']['rebuild']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['rebuild'])) error($config['error']['noaccess']);
 			
 			set_time_limit($config['mod']['rebuild_timelimit']);
 			
@@ -1604,7 +1595,7 @@
 				'mod'=>true
 			));
 		} elseif(preg_match('/^\/config$/', $query)) {
-			if($mod['type'] < $config['mod']['show_config']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['show_config'])) error($config['error']['noaccess']);
 			
 			// Show instance-config.php	
 			
@@ -1652,7 +1643,7 @@
 				)
 			);
 		} elseif(preg_match('/^\/new$/', $query)) {
-			if($mod['type'] < $config['mod']['newboard']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['newboard'])) error($config['error']['noaccess']);
 			
 			// New board
 			$body = '';
@@ -1770,7 +1761,7 @@
 			
 			echo $page;
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletefile\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['deletefile']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['deletefile'])) error($config['error']['noaccess']);
 			// Delete file from post
 			
 			$boardName = &$matches[1];
@@ -1792,7 +1783,7 @@
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['delete']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['delete'])) error($config['error']['noaccess']);
 			// Delete post
 			
 			$boardName = &$matches[1];
@@ -1813,7 +1804,7 @@
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
-			if($mod['type'] < $config['mod']['sticky']) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['sticky'])) error($config['error']['noaccess']);
 			// Add/remove sticky
 			
 			$boardName = &$matches[1];
@@ -1925,7 +1916,7 @@
 				if(empty($_POST['ip']))
 					error(sprintf($config['error']['required'], 'IP address'));
 				
-				$query = prepare("INSERT INTO `bans` VALUES (:ip, :mod, :set, :expires, :reason, :board)");
+				$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board)");
 				
 				// 1yr2hrs30mins
 				// 1y2h30m
@@ -2007,7 +1998,7 @@
 					buildIndex();
 				}
 				
-				if($mod['type'] >= $config['mod']['public_ban'] && isset($_POST['post']) && isset($_POST['board']) && isset($_POST['public_message']) && isset($_POST['message'])) {
+				if(hasPermission($config['mod']['public_ban']) && isset($_POST['post']) && isset($_POST['board']) && isset($_POST['public_message']) && isset($_POST['message'])) {
 					openBoard($_POST['board']);
 					
 					$post = round($_POST['post']);
@@ -2094,19 +2085,10 @@
 			$ip = $matches[1];
 			$host = $config['mod']['dns_lookup'] ? gethostbyaddr($ip) : false;
 			
-			if($mod['type'] >= $config['mod']['unban'] && isset($_POST['unban'])) {
-				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip");
-				$query->bindValue(':ip', $ip);
-				$query->execute() or error(db_error($query));
-				
-				if($config['memcached']['enabled']) {
-					// Remove cached ban(s)
-					$boards = listBoards();
-					foreach($boards as &$_board) {
-						$memcached->delete("ban_{$_board['id']}_${ip}");
-					}
-				}
-			} elseif($mod['type'] >= $config['mod']['create_notes'] && isset($_POST['note'])) {
+			if(hasPermission($config['mod']['unban']) && isset($_POST['unban']) && isset($_POST['ban_id'])) {
+				removeBan($_POST['ban_id']);
+				header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+			} elseif(hasPermission($config['mod']['create_notes']) && isset($_POST['note'])) {
 				$query = prepare("INSERT INTO `ip_notes` VALUES(NULL, :ip, :mod, :time, :body)");
 				$query->bindValue(':ip', $ip);
 				$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
@@ -2145,19 +2127,19 @@
 							'</a></legend>' . $temp . '</fieldset>';
 				}
 			
-				if($mod['type'] >= $config['mod']['view_notes']) {
+				if(hasPermission($config['mod']['view_notes'])) {
 					$query = prepare("SELECT * FROM `ip_notes` WHERE `ip` = :ip ORDER BY `id` DESC");
 					$query->bindValue(':ip', $ip);
 					$query->execute() or error(db_error($query));
 				
-					if($query->rowCount() > 0 || $mod['type'] >= $config['mod']['create_notes'] ) {
+					if($query->rowCount() > 0 || hasPermission($config['mod']['create_notes'])) {
 						$body .= '<fieldset><legend>' .
 								$query->rowCount() . ' note' . ($query->rowCount() == 1 ?'' : 's') . ' on record' . 
 							'</legend>';
 						if($query->rowCount() > 0) {
 							$body .= '<table class="modlog">' .
 							'<tr><th>Staff</th><th>Note</th><th>Date</th>' .
-								($mod['type'] >= $config['mod']['remove_notes'] ? '<th>Actions</th>' : '') .
+								(hasPermission($config['mod']['remove_notes']) ? '<th>Actions</th>' : '') .
 							'</td>';
 							while($note = $query->fetch()) {
 							
@@ -2166,7 +2148,7 @@
 									$_query->bindValue(':id', $note['mod']);
 									$_query->execute() or error(db_error($_query));
 									if($_mod = $_query->fetch()) {
-										if($mod['type'] >= $config['mod']['editusers'])
+										if(hasPermission($config['mod']['editusers']))
 											$staff = '<a href="?/users/' . $note['mod'] . '">' . htmlentities($_mod['username']) . '</a>';
 										else
 											$staff = $_mod['username'];
@@ -2184,7 +2166,7 @@
 									'</td><td class="minimal">' .
 										date($config['post_date'], $note['time']) .
 									'</td>' .
-									($mod['type'] >= $config['mod']['remove_notes'] ?
+									(hasPermission($config['mod']['remove_notes']) ?
 										'<td class="minimal"><a class="unimportant" href="?/IP/' . $ip . '/deletenote/' . $note['id'] . '">[delete]</a></td>'
 									: '') .
 								'</tr>';
@@ -2192,7 +2174,7 @@
 							$body .= '</table>';
 						}
 			
-						if($mod['type'] >= $config['mod']['create_notes']) {
+						if(hasPermission($config['mod']['create_notes'])) {
 							$body .= '<form action="" method="post" style="text-align:center;margin:0">' . 
 									'<table>' .
 										'<tr>' .
@@ -2215,16 +2197,17 @@
 					}
 				}
 			
-				if($mod['type'] >= $config['mod']['view_ban']) {
-					$query = prepare("SELECT * FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+				if(hasPermission($config['mod']['view_ban'])) {
+					$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 					$query->bindValue(':ip', $ip);
 					$query->execute() or error(db_error($query));
 				
 					if($query->rowCount() > 0) {
-						$body .= '<fieldset><legend>Ban' . ($query->rowCount() == 1 ? '' : 's') . ' on record</legend><form action="" method="post" style="text-align:center">';
+						$body .= '<fieldset><legend>Ban' . ($query->rowCount() == 1 ? '' : 's') . ' on record</legend>';
 					
 						while($ban = $query->fetch()) {
-							$body .= '<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px"><tr><th>Status</th><td>' . 
+							$body .= '<form action="" method="post" style="text-align:center">' .
+							'<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px"><tr><th>Status</th><td>' . 
 								($config['mod']['view_banexpired'] && $ban['expires'] != 0 && $ban['expires'] < time() ?
 									'Expired'
 								: 'Active') .
@@ -2258,7 +2241,7 @@
 						
 							// Staff
 							'<tr><th>Staff</th><td>' .
-								($mod['type'] < $config['mod']['view_banstaff'] ?
+								(!hasPermission($config['mod']['view_banstaff']) ?
 									($config['mod']['view_banquestionmark'] ?
 										'?'
 									:
@@ -2270,18 +2253,21 @@
 								:
 									$ban['username']
 								) .
-							'</td></tr>' .
-						
-							'</tr></table>';
+							'</td></tr></table>' .
+							
+							'<input type="hidden" name="ban_id" value="' . $ban['id'] . '" />' .
+							
+							'<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
+								(!hasPermission($config['mod']['unban']) ? 'disabled' : '') .
+							'/></form>';
 						}
-					
-						$body .= '<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
-							($mod['type'] < $config['mod']['unban'] ? 'disabled' : '') .
-						'/></form></fieldset>';
+						
+						$body .= '</fieldset>';
+						
 					}
 				}
 			
-				if($mod['type'] >= $config['mod']['ip_banform'])
+				if(hasPermission($config['mod']['ip_banform']))
 					$body .= form_newBan($ip, null, '?/IP/' . $ip);
 			
 				echo Element('page.html', Array(

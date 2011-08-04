@@ -477,13 +477,6 @@
 			return;
 		}
 		
-		if($config['memcached']['enabled']) {
-			// Cached ban?
-			if($ban = $memcached->get("ban_${board}_${_SERVER['REMOTE_ADDR']}")) {
-				displayBan($ban);
-			}
-		}
-		
 		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
@@ -512,8 +505,6 @@
 				return;
 			}
 			
-			if($config['memcached']['enabled'])
-				$memcached->set("ban_${board}_${_SERVER['REMOTE_ADDR']}", $ban, $ban['expires']);
 			displayBan($ban);
 		}
 	}

@@ -19,13 +19,16 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(45) NOT NULL,
   `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
   `reason` text,
-  `board` smallint(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `board` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `bans`

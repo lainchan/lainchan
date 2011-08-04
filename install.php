@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-4');
+	define('VERSION', 'v0.9.3-dev-5');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -82,6 +82,9 @@
 			case 'v0.9.3-dev-3':
 				// Board-specifc bans
 				query("ALTER TABLE `bans` ADD  `board` SMALLINT NULL AFTER  `reason`") or error(db_error());
+			case 'v0.9.3-dev-4':
+				// add ban ID
+				query("ALTER TABLE `bans` ADD  `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY ( `id` ), ADD UNIQUE (`id`)");
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
