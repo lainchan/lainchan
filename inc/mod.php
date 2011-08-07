@@ -276,7 +276,7 @@
 	
 	
 	function removeBan($id) {
-		global $config;
+		global $config, $memcached;
 		
 		$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
