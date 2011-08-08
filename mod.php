@@ -1176,7 +1176,7 @@
 				$_mod['boards'] = explode(',', $_mod['boards']);
 				foreach($boards as &$_board) {
 					$__boards .= '<li>' .
-						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '">' .
+						'<input type="checkbox" name="board_' . $_board['uri'] . '" id="board_' . $_board['uri'] . '"' .
 							(in_array($_board['uri'], $_mod['boards']) ? 
 								' checked="checked"'
 							: '') .
