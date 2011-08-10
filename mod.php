@@ -1115,7 +1115,7 @@
 				header('Location: ?/users', true, $config['redirect_http']);
 			} else {
 				// Edit user
-				if(!hasPermission($config['mod']['editusers']) || !hasPermission($config['mod']['change_password'])) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['editusers']) && !hasPermission($config['mod']['change_password'])) error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
 				$query->bindValue(':id', $modID, PDO::PARAM_INT);
