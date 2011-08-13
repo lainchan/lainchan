@@ -477,7 +477,8 @@
 			return;
 		}
 		
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+		
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -491,17 +492,10 @@
 		if($ban = $query->fetch()) {
 			if($ban['expires'] && $ban['expires'] < time()) {
 				// Ban expired
-				$query = prepare("DELETE FROM `bans` WHERE `ip` = :ip AND `expires` = :expires LIMIT 1");
-				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-				$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
+				$query = prepare("DELETE FROM `bans` WHERE `id` = :id LIMIT 1");
+				$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
-				if($config['ban_range']) {
-					$query = prepare("DELETE FROM `bans` WHERE :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9a-f]*'), '$') AND `expires` = :expires LIMIT 1");
-					$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-					$query->bindValue(':expires', $ban['expires'], PDO::PARAM_INT);
-					$query->execute() or error(db_error($query));
-				}
 				return;
 			}
 			
@@ -562,7 +556,7 @@
 			$query->bindValue(':locked', 0, PDO::PARAM_INT);
 		}
 		
-		if($post['mod'] && $post['capcode']) {
+		if($post['mod'] && isset($post['capcode']) && $post['capcode']) {
 			$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 		} else {
 			$query->bindValue(':capcode', NULL, PDO::PARAM_NULL);
