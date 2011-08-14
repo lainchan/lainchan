@@ -29,12 +29,6 @@
 		}
 	}
 	
-	function sql_close() {
-		global $pdo, $config;
-		if(!$config['db']['persistent'])
-			$pdo = NULL;
-	}
-	
 	function prepare($query) {
 		global $pdo, $debug, $config;
 		if($config['debug']) {

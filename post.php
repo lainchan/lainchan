@@ -73,8 +73,6 @@
 		
 		buildIndex();
 		
-		sql_close();
-		
 		$is_mod = isset($_POST['mod']) && $_POST['mod'];
 		$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
@@ -127,8 +125,6 @@
 				$query->execute() or error(db_error($query));
 			}
 		}
-		
-		sql_close();
 		
 		$is_mod = isset($_POST['mod']) && $_POST['mod'];
 		$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
@@ -544,8 +540,6 @@
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
 		
-		sql_close();
-		
 		exit;
 	} else {
 		if(!file_exists($config['has_installed'])) {
@@ -558,7 +552,6 @@
 				buildIndex();
 			}
 			
-			sql_close();
 			touch($config['has_installed'], 0777);
 			
 			die(Element('page.html', Array(

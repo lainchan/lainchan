@@ -5,8 +5,6 @@
 	require 'inc/database.php';
 	require 'inc/user.php';
 	
-	sql_open();
-	
 	// Check if banned
 	checkBan();
 			
@@ -52,9 +50,6 @@
 				header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
 			else
 				header('Location: ?' . $config['mod']['default'], true, $config['redirect_http']);
-			
-			// Close connection
-			sql_close();
 		} else {
 			loginForm(false, false, '?' . $query);
 		}
@@ -181,7 +176,7 @@
 				if(!$version = @file_get_contents('.installed'))
 					error('Could not find current version! (Check .installed)');
 				if(isset($_SESSION['update']) && time() - $_SESSION['update']['time'] < $config['check_updates_time']) {
-					$latest = $_SESSION['update']['latest'];
+					$latest = unserialize($_SESSION['update']['latest']);
 				} else {
 					$ctx = stream_context_create(array( 
 						'http' => array(
@@ -189,13 +184,9 @@
 							) 
 						) 
 					);
-					$latest = @file_get_contents('http://tinyboard.org/latest.txt', 0, $ctx);
-					if(preg_match('/^v(\d+)\.(\d)\.(\d+)$/', $latest, $m)) {
-						$newer = Array(
-							'massive' => (int)$m[1],
-							'major' => (int)$m[2],
-							'minor' => (int)$m[3]
-						);
+					
+					if($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
+						eval($code);
 						if(preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $version, $m)) {
 							$current = Array(
 								'massive' => (int)$m[1],
@@ -208,22 +199,29 @@
 							}
 						}
 						// Check if it's newer
-						if(	$newer['massive'] > $current['massive'] ||
-							$newer['major'] > $current['major'] ||
-								($newer['massive'] == $current['massive'] &&
-									$newer['major'] == $current['major'] &&
-									$newer['minor'] > $current['minor']
+						if(	$latest['massive'] > $current['massive'] ||
+							$latest['major'] > $current['major'] ||
+								($latest['massive'] == $current['massive'] &&
+									$latest['major'] == $current['major'] &&
+									$latest['minor'] > $current['minor']
 								)) {
 							$latest = $latest;
 						} else $latest = false;
-					} else $latest = false;
-					
-					$_SESSION['update'] = Array('time' => time(), 'latest' => $latest);
+					} else {
+						// Couldn't get latest version
+						// TODO: Display some sort of warning message
+						$latest = false;
+					}
+					$_SESSION['update'] = Array('time' => time(), 'latest' => serialize($latest));
 				}
 				
 				if($latest) {
-					$latest = trim($latest);
-					$fieldset['Update'] .= '<li>A newer version of Tinyboard (<strong>' . $latest . '</strong>) is available! See <a href="http://tinyboard.org">http://tinyboard.org/</a> for download instructions.</li>';
+					$fieldset['Update'] .=
+						'<li>A newer version of Tinyboard (<strong>v' .
+							$latest['massive'] . '.' .
+							$latest['major'] . '.' . 
+							$latest['minor'] .
+						'</strong>) is available! See <a href="http://tinyboard.org">http://tinyboard.org/</a> for download instructions.</li>';
 				}
 			}
 			
@@ -2283,8 +2281,5 @@
 			error($config['error']['404']);
 		}
 	}
-	
-	// Close the connection in-case it's still open
-	sql_close();
 ?>
 

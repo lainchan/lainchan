@@ -65,8 +65,6 @@
 	function error($message) {
 		global $board, $mod, $config;
 		
-		if(function_exists('sql_close')) sql_close();
-		
 		if(defined('STDIN')) {
 			// Running from CLI
 			die('Error: ' . $message);
@@ -89,7 +87,6 @@
 	function loginForm($error=false, $username=false, $redirect=false) {
 		global $config;
 		
-		if(function_exists('sql_close')) sql_close();
 		die(Element('page.html', Array(
 			'index'=>$config['root'],
 			'title'=>'Login',

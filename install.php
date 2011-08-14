@@ -100,10 +100,7 @@
 				$page['title'] = 'Already installed';
 				$page['body'] = '<p style="text-align:center">It appears that Tinyboard is already installed (' . $version . ') and there is nothing to upgrade! Delete <strong>' . $config['has_installed'] . '</strong> to reinstall.</p>';
 				break;
-		}
-		
-		sql_close();
-			
+		}			
 		
 		die(Element('page.html', $page));
 	}
@@ -413,8 +410,6 @@
 			setupBoard($_board);
 			buildIndex();
 		}
-		
-		sql_close();
 		
 		$page['title'] = 'Installation complete';
 		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover.</p>';
