@@ -2255,7 +2255,7 @@
 							
 							'<input type="hidden" name="ban_id" value="' . $ban['id'] . '" />' .
 							
-							'<input type="submit" name="unban" value="Remove ban' . ($query->rowCount() == 1 ? '' : 's') . '" ' .
+							'<input type="submit" name="unban" value="Remove ban" ' .
 								(!hasPermission($config['mod']['unban']) ? 'disabled' : '') .
 							'/></form>';
 						}
