@@ -2196,7 +2196,7 @@
 				}
 			
 				if(hasPermission($config['mod']['view_ban'])) {
-					$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+					$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 					$query->bindValue(':ip', $ip);
 					$query->execute() or error(db_error($query));
 				
