@@ -109,7 +109,7 @@
 						'<em>no subject</em>'
 					) .
 				'</a><span class="unimportant"> — by ' .
-					$_mod['username'] .
+					utf8tohtml($_mod['username']) .
 				' at ' .
 					date($config['post_date'], $notice['time']) .
 				'</span></li>';
@@ -252,10 +252,10 @@
 			$body = '<p style="text-align:center">' .
 			'<span class="heading" style="margin-bottom:6px">Are you sure you want to do that?</span>' .
 				'You clicked ' .
-					'<strong>?/' . htmlentities($uri) . '</strong>' .
+					'<strong>?/' . utf8tohtml($uri) . '</strong>' .
 				' but had Javascript disabled, so we weren\'t able to serve the confirmation dialog.' .
 			'</p>' .
-			'<p style="text-align:center"><a style="margin:block;font-size:150%;font-weight:bold" href="?/' . htmlentities($uri) . '">Confirm.</a></p>';
+			'<p style="text-align:center"><a style="margin:block;font-size:150%;font-weight:bold" href="?/' . utf8tohtml($uri) . '">Confirm.</a></p>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
@@ -280,7 +280,7 @@
 			$query->execute() or error(db_error($query));
 			
 			while($log = $query->fetch()) {
-				$log['text'] = htmlentities($log['text']);
+				$log['text'] = utf8tohtml($log['text']);
 				$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
 				
 				$body .= '<tr>' .
@@ -371,7 +371,7 @@
 					
 					echo Element('page.html', Array(
 						'config'=>$config,
-						'title'=>'Installed "' . htmlentities($theme['name']) . '"',
+						'title'=>'Installed "' . utf8tohtml($theme['name']) . '"',
 						'body'=>$body,
 						'mod'=>true
 						)
@@ -388,8 +388,8 @@
 							switch($c['type']) {
 								case 'text':
 								default:
-									$body .= '<input type="text" name="' . htmlentities($c['name']) . '" ' .
-										(isset($c['default']) ? 'value="' . htmlentities($c['default']) . '" ' :'') .
+									$body .= '<input type="text" name="' . utf8tohtml($c['name']) . '" ' .
+										(isset($c['default']) ? 'value="' . utf8tohtml($c['default']) . '" ' :'') .
 										(isset($c['size']) ? 'size="' . (int)$c['size'] . '" ' :'') .
 									'/>';
 							}
@@ -404,7 +404,7 @@
 					
 					echo Element('page.html', Array(
 						'config'=>$config,
-						'title'=>'Installing "' . htmlentities($theme['name']) . '"',
+						'title'=>'Installing "' . utf8tohtml($theme['name']) . '"',
 						'body'=>$body,
 						'mod'=>true
 						)
@@ -433,11 +433,11 @@
 						
 						$body .= '<tr>' .
 									'<th class="minimal">Name</th>' .
-									'<td>' . htmlentities($theme['name']) . '</td>' .
+									'<td>' . utf8tohtml($theme['name']) . '</td>' .
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Version</th>' .
-									'<td>' . htmlentities($theme['version']) . '</td>' .
+									'<td>' . utf8tohtml($theme['version']) . '</td>' .
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Description</th>' .
@@ -538,7 +538,7 @@
 							'<em>no subject</em>'
 						) .
 					'<span class="unimportant"> — by ' .
-						$_mod['username'] .
+						utf8tohtml($_mod['username']) .
 					' at ' .
 						date($config['post_date'], $notice['time']) .
 					'</span></h2><p>' . $notice['body'] . '</p></div>';
@@ -590,7 +590,7 @@
 				'<tr>' .
 					'<th>Name</th>' .
 					(hasPermission($config['mod']['news_custom']) ?
-						'<td><input type="text" size="55" name="name" id="name" value="' . htmlentities($mod['username']) . '" /></td>'
+						'<td><input type="text" size="55" name="name" id="name" value="' . utf8tohtml($mod['username']) . '" /></td>'
 					:
 						'<td>' . $mod['username'] . '</td>') .
 				'</tr><tr>' .
@@ -720,7 +720,7 @@
 					(!$pm['username'] ?
 						'<em>??</em>'
 					:
-						'<a href="?/new_PM/' . $pm['sender'] . '">' . htmlentities($pm['username']) . '</a>'
+						'<a href="?/new_PM/' . $pm['sender'] . '">' . utf8tohtml($pm['username']) . '</a>'
 					) .
 				'</td></tr>' .
 				
@@ -729,7 +729,7 @@
 						($__to === false ?
 							'<em>??</em>'
 						:
-							'<a href="?/new_PM/' . $pm['to'] . '">' . htmlentities($__to) . '</a>'
+							'<a href="?/new_PM/' . $pm['to'] . '">' . utf8tohtml($__to) . '</a>'
 						) .
 					'</td></tr>'
 				: '') .
@@ -789,7 +789,7 @@
 				echo Element('page.html', Array(
 					'config'=>$config,
 					'title'=>'PM sent',
-					'body'=>'<p style="text-align:center">Message sent successfully to ' . htmlentities($to['username']) . '.</p>',
+					'body'=>'<p style="text-align:center">Message sent successfully to ' . utf8tohtml($to['username']) . '.</p>',
 					'mod'=>true
 					)
 				);
@@ -815,8 +815,8 @@
 				
 				'<tr><th>To</th><td>' .
 					(hasPermission($config['mod']['editusers']) ?
-						'<a href="?/users/' . $to['id'] . '">' . htmlentities($to['username']) . '</a>' :
-						htmlentities($to['username'])
+						'<a href="?/users/' . $to['id'] . '">' . utf8tohtml($to['username']) . '</a>' :
+						utf8tohtml($to['username'])
 					) .
 				'</td>' .
 				
@@ -830,7 +830,7 @@
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
-					'title'=>'New PM for ' . htmlentities($to['username']),
+					'title'=>'New PM for ' . utf8tohtml($to['username']),
 					'body'=>$body,
 					'mod'=>true
 					)
@@ -842,7 +842,7 @@
 			$body = '<div class="ban"><h2>Search</h2><form style="display:inline" action="?/search" method="post">' .
 				'<p><label style="display:inline" for="search">Phrase:</label> ' .
 					'<input id="search" name="search" type="text" size="35" ' .
-						(isset($_POST['search']) ? 'value="' . htmlentities($_POST['search']) . '" ' : '') .
+						(isset($_POST['search']) ? 'value="' . utf8tohtml($_POST['search']) . '" ' : '') .
 					'/>' .
 					'<input type="submit" value="Search" />' .
 				'</p></form>' .
@@ -944,7 +944,7 @@
 					'</td>' .
 					
 					'<td>' .
-						$_mod['username'] .
+						utf8tohtml($_mod['username']) .
 					'</td>' .
 					
 					'<td>' .
@@ -957,7 +957,7 @@
 					
 					'<td>' .
 						($_mod['last'] ?
-							'<span title="' . htmlentities($_mod['action']) . '">' . ago($_mod['last']) . '</span>'
+							'<span title="' . utf8tohtml($_mod['action']) . '">' . ago($_mod['last']) . '</span>'
 						: '<em>never</em>') .
 					'</td>' .
 					
@@ -1201,8 +1201,8 @@
 				'<tr><th>Username</th><td>' . 
 				
 				(isset($change_password_only) ?
-					$_mod['username']
-				: '<input size="20" maxlength="30" type="text" name="username" value="' . $_mod['username'] . '" autocomplete="off" />') .
+					utf8tohtml($_mod['username'])
+				: '<input size="20" maxlength="30" type="text" name="username" value="' . utf8tohtml($_mod['username']) . '" autocomplete="off" />') .
 				
 				'</td></tr>' .
 				'<tr><th>Password <span class="unimportant">(new; optional)</span></th><td><input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off" /></td></tr>' .
@@ -1474,7 +1474,7 @@
 						'<a href="?/IP/' .
 							$ban['ip'] .
 						'">'. $ban['ip'] . '</a>'
-					: $ban['ip']) .
+					: utf8tohtml($ban['ip'])) .
 					
 					'</td>' .
 					
@@ -1513,7 +1513,7 @@
 								'?')))
 							)
 						:
-							$ban['username']
+							utf8tohtml($ban['username'])
 						) .
 					'</td>' .
 					
@@ -2147,9 +2147,9 @@
 									$_query->execute() or error(db_error($_query));
 									if($_mod = $_query->fetch()) {
 										if(hasPermission($config['mod']['editusers']))
-											$staff = '<a href="?/users/' . $note['mod'] . '">' . htmlentities($_mod['username']) . '</a>';
+											$staff = '<a href="?/users/' . $note['mod'] . '">' . utf8tohtml($_mod['username']) . '</a>';
 										else
-											$staff = $_mod['username'];
+											$staff = utf8tohtml($_mod['username']);
 									} else {
 										$staff = '<em>??</em>';
 									}
@@ -2249,7 +2249,7 @@
 										'?')))
 									)
 								:
-									$ban['username']
+									utf8tohtml($ban['username'])
 								) .
 							'</td></tr></table>' .
 							
