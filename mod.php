@@ -2003,7 +2003,7 @@
 					
 					$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id", $board['uri']));
 					$query->bindValue(':id', $post, PDO::PARAM_INT);
-					$query->bindValue(':body', sprintf($config['mod']['ban_message'], htmlentities($_POST['message'])));
+					$query->bindValue(':body', sprintf($config['mod']['ban_message'], utf8tohtml($_POST['message'])));
 					$query->execute() or error(db_error($query));
 					
 					// Rebuild thread
