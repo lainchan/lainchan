@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-5');
+	define('VERSION', 'v0.9.3-dev-6');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -85,6 +85,12 @@
 			case 'v0.9.3-dev-4':
 				// add ban ID
 				query("ALTER TABLE `bans` ADD  `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY ( `id` ), ADD UNIQUE (`id`)");
+			case 'v0.9.3-dev-5':
+				$boards = listBoards();
+				foreach($boards as &$_board) {
+					// Increase subject field size
+					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `subject` `subject` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
+				}
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);

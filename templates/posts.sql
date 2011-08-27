@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread` int(11) DEFAULT NULL,
-  `subject` varchar(50) NOT NULL,
+  `subject` varchar(100) NOT NULL,
   `email` varchar(30) NOT NULL,
   `name` varchar(35) NOT NULL,
   `trip` varchar(15) DEFAULT NULL,
