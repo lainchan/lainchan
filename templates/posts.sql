@@ -24,4 +24,4 @@ CREATE TABLE IF NOT EXISTS `posts_{board}` (
   `locked` int(1) NOT NULL,
   `embed` text,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

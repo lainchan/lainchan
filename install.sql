@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `board` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `bans`
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uri` (`uri`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `boards`
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
   `time` int(11) NOT NULL,
   `body` text NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `ip_notes`
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
   `board` int(11) DEFAULT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `modlogs`
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `boards` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `mods`
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
   `subject` text NOT NULL,
   `body` text NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `noticeboard`
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `pms` (
   `unread` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `pms`
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `locked` int(1) NOT NULL,
   `embed` text,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `posts_b`
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `reason` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `reports`
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
 
 CREATE TABLE IF NOT EXISTS `robot` (
   `hash` varchar(40) NOT NULL COMMENT 'SHA1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `robot`
@@ -264,7 +264,7 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   `theme` varchar(40) NOT NULL,
   `name` varchar(40) DEFAULT NULL,
   `value` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `theme_settings`
@@ -283,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `subject` text NOT NULL,
   `body` text NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `news`
