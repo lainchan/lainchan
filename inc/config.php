@@ -109,10 +109,10 @@
 	$config['flood_time_ip']	= 120;
 	// Same as above but different IP address
 	$config['flood_time_same']	= 30;
-	// Do you need a body for your non-OP posts?
+	// Do you need a body for your reply posts?
 	$config['force_body']		= false;
-	// Reject blank posts? (just whitespace, etc)?
-	$config['reject_blank']		= true;
+	// Do you need a body for new threads?
+	$config['force_body_op']	= true;
 	
 	// Max body length
 	$config['max_body']			= 1800;

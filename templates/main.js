@@ -50,7 +50,7 @@ function dopost(form) {
 	saved[document.location] = form.body.value;
 	sessionStorage.body = JSON.stringify(saved);
 	
-	return form.body.value != "" || (typeof form.thread != "undefined" && form.file.value != "");
+	return form.body.value != "" || form.file.value != "";
 }
 function citeReply(id) {
 	body = document.getElementById('body');

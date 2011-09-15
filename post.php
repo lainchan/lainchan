@@ -189,8 +189,8 @@
 			}
 		}
 		
-		if(checkSpam())
-			error($config['error']['spam']);
+		//if(checkSpam())
+		//	error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {
 			checkMute();
@@ -243,11 +243,13 @@
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		if($post['has_file'])
 			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
+		elseif(empty($post['body']))
+			error($config['error']['tooshort_body']);
 		
 		if($config['force_body'] && empty($post['body']))
 			error($config['error']['tooshort_body']);
 		
-		if($config['reject_blank'] && !empty($post['body'])) {
+		if($config['force_body'] && !empty($post['body'])) {
 			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
 			if(empty($stripped_whitespace))
 				error($config['error']['tooshort_body']);
@@ -315,7 +317,10 @@
 		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
 		if(strlen($post['subject']) > 100) error(sprintf($config['error']['toolong'], 'subject'));
 		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolong_body']);
-		if(!(!$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshort_body']);
+		if($config['force_body_op'] && empty($post['body'])) error($config['error']['tooshort_body']);
+		
+		//if(!($config['force_body_op'] && !$OP && $post['has_file']) && strlen($post['body']) < 1) error($config['error']['tooshort_body']);
+		
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
 		
 		wordfilters($post['body']);
@@ -326,9 +331,9 @@
 			markup($post['body']);
 		
 		// Check for a flood
-		if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
-			error($config['error']['flood']);
-		}
+		//if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
+		//	error($config['error']['flood']);
+		//}
 		
 		// Custom anti-spam filters
 		if(isset($config['flood_filters'])) {
