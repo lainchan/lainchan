@@ -412,8 +412,6 @@
 			}
 		}
 		
-		exit;
-		
 		if($post['has_file']) {
 			if(!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
 				error($config['error']['unknownext']);
