@@ -342,7 +342,7 @@
 				if(!isset($filter['message']))
 					$filter['message'] = 'Posting throttled by flood filter.';
 				
-				foreach($filter['condition'] as $condition=>$value) {
+				foreach($filter['condition'] as $condition => $value) {
 					if($condition == 'posts_in_past_x_minutes' && isset($value[0]) && isset($value[1])) {
 						// Check if there's been X posts in the past X minutes (on this board)
 						
@@ -403,14 +403,16 @@
 					$did_not_match = true;
 					break;
 				}
-			}
-			if(!isset($did_not_match)) {
-				// Matched filter!
-				if(isset($filter) && $filter['action'] == 'reject') {
-					error($filter['message']);
+				if(!isset($did_not_match)) {
+					// Matched filter!
+					if(isset($filter) && $filter['action'] == 'reject') {
+						error($filter['message']);
+					}
 				}
 			}
 		}
+		
+		exit;
 		
 		if($post['has_file']) {
 			if(!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
