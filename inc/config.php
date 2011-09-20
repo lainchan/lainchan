@@ -710,6 +710,17 @@
 	// 'status' => 'http://status.example.org/'
 	//);
 	
+	// Categories
+	// Required for the Categories theme. Array of the names of board groups in order, from $config['boards'].
+	//$config['categories'] = Array('groupname', 'name', 'anothername', 'kangaroos');
+	
+	// Custom_categories
+	// Optional for the Categories theme. Array of name => (title, url) groups for categories with non-board links.
+	//$config['custom_categories'] = Array( 'Links' =>
+	//	Array('Tinyboard' => 'http://tinyboard.org',
+	//	'AnotherName' => 'url')
+	//);
+	
 	// Set custom locations for stylesheets, scripts and maybe a banner.
 	// This can be good for load balancing across multiple servers or hostnames.
 	// $config['url_stylesheet'] = 'http://static.example.org/style.css'; // main/base stylesheet
