@@ -228,6 +228,16 @@
 		} else return false;
 	}
 	
+	function boardTitle($uri) {
+		$query = prepare("SELECT `title` FROM `boards` WHERE `uri` = :uri LIMIT 1");
+		$query->bindValue(':uri', $uri);
+		$query->execute() or error(db_error($query));
+		
+		if($title = $query->fetch()) {
+			return $title['title'];
+		} else return false;
+	}
+	
 	function purge($uri) {
 		global $config, $debug;
 		if(preg_match($config['url_match'], $config['root'])) {
