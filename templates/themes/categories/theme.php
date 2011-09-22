@@ -39,6 +39,11 @@
 					. 'iframe#main{border-left:1px solid black;left:15%;top:0;width:85%}'
 				. '</style>'
 				. '<title>' . $settings['title'] . '</title>'
+				. '<script type="text/javascript">'
+					. 'function removeFrames() {'
+					. 'window.location = document.getElementById("main").contentWindow.location.href'
+					. '}'
+				. '</script>'
 			. '</head><body>'
 			// Sidebar
 			. '<iframe src="sidebar.html" id="sidebar" name="sidebar"></iframe>'
@@ -109,16 +114,11 @@
 				. '</style>'
 				. '<base target="main" />'
 				. '<title>' . $settings['title'] . '</title>'
-				. '<script type="text/javascript">'
-					. 'function removeFrames() {'
-					. 'parent.window.location = "' . $config['root'] . 'news.html"'
-					. '}'
-				. '</script>'
 			. '</head><body>';
 			
 			$body .= '<fieldset><legend>' . $settings['title'] . '</legend><ul>' .
 				'<li><a class="system" href="news.html">[News]</a></li>' .
-				'<li><a class="system" href="javascript:removeFrames()">[Remove Frames]</a></li>' .
+				'<li><a class="system" href="javascript:parent.removeFrames()">[Remove Frames]</a></li>' .
 			'</ul></fieldset>';
 			
 			for($cat = 0; $cat < count($config['categories']); $cat++) {
