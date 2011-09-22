@@ -59,7 +59,11 @@
 				. '<title>News</title>'
 			. '</head><body>';
 			
-			$body .= '<h1>' . $settings['title'] . '</h1>'
+			$boardlist = createBoardlist();
+			
+			$body .= $boardlist['top']
+				
+			. '<h1>' . $settings['title'] . '</h1>'
 				. '<div class="title">' . ($settings['subtitle'] ? utf8tohtml($settings['subtitle']) : '') . '</div>';
 			
 			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
@@ -105,10 +109,16 @@
 				. '</style>'
 				. '<base target="main" />'
 				. '<title>' . $settings['title'] . '</title>'
+				. '<script type="text/javascript">'
+					. 'function removeFrames() {'
+					. 'parent.window.location = "' . $config['root'] . 'news.html"'
+					. '}'
+				. '</script>'
 			. '</head><body>';
 			
 			$body .= '<fieldset><legend>' . $settings['title'] . '</legend><ul>' .
 				'<li><a class="system" href="news.html">[News]</a></li>' .
+				'<li><a class="system" href="javascript:removeFrames()">[Remove Frames]</a></li>' .
 			'</ul></fieldset>';
 			
 			for($cat = 0; $cat < count($config['categories']); $cat++) {

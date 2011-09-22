@@ -5,10 +5,10 @@
 	$theme['name'] = 'Categories';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 
-'Group-ordered, category-aware modification of the Frameset theme.
+'Group-ordered, category-aware modification of the Frameset theme, with removable sidebar frame.
 
 Requires $config[\'boards\'] and $config[\'categories\'].';
-	$theme['version'] = 'v0.1';
+	$theme['version'] = 'v0.2';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
