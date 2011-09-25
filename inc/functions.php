@@ -1213,15 +1213,15 @@
 		}
 			
 		if($config['auto_unicode']) {
-			$body = str_replace('...', '…', $body);
-			$body = str_replace('<--', '←', $body);
-			$body = str_replace('-->', '→', $body);
-
+			$body = str_replace('...', '&hellip;', $body);
+			$body = str_replace('&lt;--', '&larr;', $body);
+			$body = str_replace('--&gt;', '&rarr;', $body);
+			
 			// En and em- dashes are rendered exactly the same in
 			// most monospace fonts (they look the same in code
 			// editors).
-			$body = str_replace('---', '—', $body); // em dash
-			$body = str_replace('--', '–', $body); // en dash
+			$body = str_replace('---', '&ndash;', $body); // em dash
+			$body = str_replace('--', '&mdash;', $body); // en dash
 		}
 
 		// Cites
