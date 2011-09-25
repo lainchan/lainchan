@@ -246,13 +246,11 @@
 		elseif(empty($post['body']))
 			error($config['error']['tooshort_body']);
 		
-		if($config['force_body'] && empty($post['body']))
-			error($config['error']['tooshort_body']);
-		
-		if($config['force_body'] && !empty($post['body'])) {
+		if($OP && $config['force_body_op'] || !$OP && $config['force_body']) {
 			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
-			if(empty($stripped_whitespace))
+			if(empty($stripped_whitespace )) {
 				error($config['error']['tooshort_body']);
+			}
 		}
 		
 		if($post['mod']) {
@@ -317,7 +315,6 @@
 		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
 		if(strlen($post['subject']) > 100) error(sprintf($config['error']['toolong'], 'subject'));
 		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolong_body']);
-		if($config['force_body_op'] && empty($post['body'])) error($config['error']['tooshort_body']);		
 		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
 		
 		wordfilters($post['body']);
