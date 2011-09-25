@@ -1,28 +1,28 @@
 <?php
 	require 'info.php';
 	
-	function frameset_build($action, $settings) {
+	function categories_build($action, $settings) {
 		// Possible values for $action:
 		//	- all (rebuild everything, initialization)
 		//	- news (news has been updated)
 		//	- boards (board list changed)
 		
-		Frameset::build($action, $settings);
+		Categories::build($action, $settings);
 	}
 
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
-	class Frameset {
+	class Categories {
 		public static function build($action, $settings) {
 			global $config;
 			
 			if($action == 'all')
-				file_write($config['dir']['home'] . $config['file_index'], Frameset::homepage($settings));
+				file_write($config['dir']['home'] . $config['file_index'], Categories::homepage($settings));
 			
 			if($action == 'all' || $action == 'boards')
-				file_write($config['dir']['home'] . 'sidebar.html', Frameset::sidebar($settings));
+				file_write($config['dir']['home'] . 'sidebar.html', Categories::sidebar($settings));
 			
 			if($action == 'all' || $action == 'news')
-				file_write($config['dir']['home'] . 'news.html', Frameset::news($settings));
+				file_write($config['dir']['home'] . 'news.html', Categories::news($settings));
 		}
 		
 		// Build homepage
@@ -39,6 +39,11 @@
 					. 'iframe#main{border-left:1px solid black;left:15%;top:0;width:85%}'
 				. '</style>'
 				. '<title>' . $settings['title'] . '</title>'
+				. '<script type="text/javascript">'
+					. 'function removeFrames() {'
+					. 'window.location = document.getElementById("main").contentWindow.location.href'
+					. '}'
+				. '</script>'
 			. '</head><body>'
 			// Sidebar
 			. '<iframe src="sidebar.html" id="sidebar" name="sidebar"></iframe>'
@@ -59,7 +64,11 @@
 				. '<title>News</title>'
 			. '</head><body>';
 			
-			$body .= '<h1>' . $settings['title'] . '</h1>'
+			$boardlist = createBoardlist();
+			
+			$body .= $boardlist['top']
+				
+			. '<h1>' . $settings['title'] . '</h1>'
 				. '<div class="title">' . ($settings['subtitle'] ? utf8tohtml($settings['subtitle']) : '') . '</div>';
 			
 			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
@@ -109,20 +118,31 @@
 			
 			$body .= '<fieldset><legend>' . $settings['title'] . '</legend><ul>' .
 				'<li><a class="system" href="news.html">[News]</a></li>' .
+				'<li><a class="system" href="javascript:parent.removeFrames()">[Remove Frames]</a></li>' .
 			'</ul></fieldset>';
 			
-			
-			$body .= '<fieldset><legend>Boards</legend><ul>';
-			
-			$boards = listBoards();
-			foreach($boards as &$_board) {
-				openBoard($_board['uri']);
-				$body .= '<li><a href="' .
-					sprintf($config['board_path'], $board['uri']) .
-				'">' . $board['name'] . '</a></li>';
+			for($cat = 0; $cat < count($config['categories']); $cat++) {
+				$body .= '<fieldset><legend>' . $config['categories'][$cat] . '</legend><ul>';
+				
+				foreach($config['boards'][$cat] as &$board) {
+					$body .= '<li><a href="' .
+						sprintf($config['board_path'], $board) .
+					'">' . boardTitle($board) . '</a></li>';
+				}
+				
+				$body .= '</ul></fieldset>';
 			}
 			
-			$body .= '</ul></fieldset>';
+			foreach($config['custom_categories'] as $name => &$group) {
+				$body .= '<fieldset><legend>' . $name . '</legend><ul>';
+				
+				foreach($group as $title => &$url) {
+					$body .= '<li><a href="' . $url .
+					'">' . $title . '</a></li>';
+				}
+				
+				$body .= '</ul></fieldset>';
+			}
 			
 			// Finish page
 			$body .= '</body></html>';
