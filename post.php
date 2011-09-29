@@ -243,10 +243,8 @@
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
 		if($post['has_file'])
 			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
-		elseif(empty($post['body']))
-			error($config['error']['tooshort_body']);
 		
-		if($OP && $config['force_body_op'] || !$OP && $config['force_body']) {
+		if(!($post['has_file'] || isset($post['embed'])) || (($OP && $config['force_body_op']) || (!$OP && $config['force_body']))) {
 			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
 			if(empty($stripped_whitespace )) {
 				error($config['error']['tooshort_body']);
