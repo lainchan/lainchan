@@ -677,6 +677,7 @@
 			'<embed src="http://video.google.com/googleplayer.swf?docid=$1&hl=en&fs=true" style="width:%%tb_width%%px;height:%%tb_height%%px;float:left;margin:10px 20px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
 		)
 	);
+	
 	// Embedding width and height
 	$config['embed_width'] = 300;
 	$config['embed_height'] = 246;
