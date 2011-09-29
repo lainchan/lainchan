@@ -726,8 +726,14 @@
 	// This can be good for load balancing across multiple servers or hostnames.
 	// $config['url_stylesheet'] = 'http://static.example.org/style.css'; // main/base stylesheet
 	// $config['url_javascript'] = 'http://static.example.org/main.js';
-	// $config['url_banner'] = '/banner.php';
 	// $config['url_favicon'] = '/favicon.gif';
+	
+	// Optional banner at the top of every page.
+	// $config['url_banner'] = '/banner.php';
+	// Banner dimensions are also optional. As the banner loads after the rest of the page, everything
+	// may be shifted down a few pixels when it does. Making the banner a fixed size will prevent this.
+	// $config['banner_width'] = 300;
+	// $config['banner_height'] = 100;
 	
 	// Meta keywords. It's probably best to include these in per-board configurations.
 	//$config['meta_keywords'] = 'chan,anonymous discussion,imageboard,tinyboard';
