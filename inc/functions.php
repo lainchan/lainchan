@@ -1225,7 +1225,7 @@
 		}
 
 		// Cites
-		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.]|$)/', $body, $cites)) {
+		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.?]|$)/', $body, $cites)) {
 			if(count($cites[0]) > $config['max_cites']) {
 				error($config['error']['toomanycites']);
 			}
@@ -1247,7 +1247,7 @@
 		}
 		
 		// Cross-board linking
-		if(preg_match_all('/(^|\s)&gt;&gt;&gt;\/(\w+?)\/(\d+)?([\s,.]|$)/', $body, $cites)) {
+		if(preg_match_all('/(^|\s)&gt;&gt;&gt;\/(\w+?)\/(\d+)?([\s,.?]|$)/', $body, $cites)) {
 			if(count($cites[0]) > $config['max_cites']) {
 				error($config['error']['toomanycross']);
 			}
