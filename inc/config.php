@@ -229,13 +229,13 @@
 	// Maximum number of cites per post (protects against abuse)
 	$config['max_cites']	= 45;
 	// Maximum number of cross-board links/cites per post
-	$config['max_cross']	= &$config['max_cites'];
+	$config['max_cross']	= $config['max_cites'];
 	
 	// Maximum image upload size in bytes
 	$config['max_filesize']	= 10*1024*1024; // 10MB
 	// Maximum image dimensions
 	$config['max_width']	= 10000;
-	$config['max_height']	= &$config['max_width']; // 1:1
+	$config['max_height']	= $config['max_width']; // 1:1
 	// Reject a post if its image is already in active content
 	$config['image_reject_repost']	= true;
 	
@@ -427,11 +427,11 @@
 	// Show expired bans in the ban list (they are kept in cache until the culprit returns)
 	$config['mod']['view_banexpired'] = true;
 	// View ban for IP address
-	$config['mod']['view_ban'] = &$config['mod']['view_banlist'];
+	$config['mod']['view_ban'] = $config['mod']['view_banlist'];
 	// View IP address notes
 	$config['mod']['view_notes'] = JANITOR;
 	// Create notes
-	$config['mod']['create_notes'] = &$config['mod']['view_notes'];
+	$config['mod']['create_notes'] = $config['mod']['view_notes'];
 	// Remote notes
 	$config['mod']['remove_notes'] = ADMIN;
 	// Create a new board
