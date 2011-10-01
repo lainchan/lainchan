@@ -134,7 +134,7 @@ function rememberStuff() {
 function init_expanding() {
 	link = document.getElementsByTagName('a');
 	for ( i in link ) {
-		if(typeof link[i] == "object" && link[i].childNodes[0].src) {
+		if(typeof link[i] == "object" && link[i].childNodes[0].src && link[i].className != 'file') {
 			link[i].onclick = function(e) {
 				if(e.which == 2) {
 					return true;

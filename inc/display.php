@@ -336,7 +336,9 @@
 				$this->embed;
 			} elseif(!empty($this->file) && $this->file != 'deleted') {
 				// File info
-				$built .= '<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				$built .= '<p class="fileinfo">' .
+						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
+					'<span class="unimportant">(' . 
 				// Filesize
 					format_bytes($this->filesize) .
 				// File dimensions
@@ -355,7 +357,17 @@
 				
 				$built .= ')</span></p>' .
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'" target="_blank"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
+					'<a href="' .
+						$config['uri_img'] .$this->file .
+					'" target="_blank"' .
+						($this->thumb == 'file' ? ' class="file"' : '') .
+					'><img src="' .
+						($this->thumb == 'file' ?
+							$config['file_thumb']
+						:
+							$config['uri_thumb'] . $this->thumb
+						) .
+					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
 				$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
@@ -482,10 +494,10 @@
 				// Actual embedding
 				$this->embed;
 			} elseif(!empty($this->file) && $this->file != 'deleted') {
-				// Image, not embedded shit
-				$built = 
-				// File link
-				'<p class="fileinfo">File: <a href="'	. $config['uri_img'] . $this->file .'">' . $this->file . '</a> <span class="unimportant">(' . 
+				// File info
+				$built = '<p class="fileinfo">' .
+						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
+					'<span class="unimportant">(' . 
 				// Filesize
 					format_bytes($this->filesize) .
 				// File dimensions
@@ -504,7 +516,17 @@
 				
 				$built .= ')</span></p>' .
 				// Thumbnail
-					'<a href="' . $config['uri_img'] . $this->file.'" target="_blank"><img src="' . $config['uri_thumb'] . $this->thumb.'" style="width:'.$this->thumbx.'px;height:'.$this->thumby.'px;" alt="" /></a>';
+					'<a href="' .
+						$config['uri_img'] .$this->file .
+					'" target="_blank"' .
+						($this->thumb == 'file' ? ' class="file"' : '') .
+					'><img src="' .
+						($this->thumb == 'file' ?
+							$config['file_thumb']
+						:
+							$config['uri_thumb'] . $this->thumb
+						) .
+					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
 				$built = '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}

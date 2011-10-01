@@ -411,15 +411,14 @@
 			if(!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
 				error($config['error']['unknownext']);
 			
-			if(in_array($post['extension'], $config['allowed_ext_files']))
-				$__file = true;
+			$is_an_image = !in_array($post['extension'], $config['allowed_ext_files']);
 			
 			// Just trim the filename if it's too long
 			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
-			if(!isset($__file)) {
+			if($is_an_image) {
 				// Check IE MIME type detection XSS exploit
 				$buffer = file_get_contents($post['file'], null, null, null, 255);
 				if(preg_match($config['ie_mime_type_detection'], $buffer)) {
@@ -494,9 +493,12 @@
 				}
 				$image->destroy();
 			} else {
-				copy($config['file_thumb'], $post['thumb']);
+				// not an image
 				
-				$size = @getimagesize($post['thumb']);
+				//copy($config['file_thumb'], $post['thumb']);
+				$post['thumb'] = 'file';
+				
+				$size = @getimagesize($config['file_thumb']);
 				$post['thumbwidth'] = $size[0];
 				$post['thumbheight'] = $size[1];
 			}
@@ -530,7 +532,8 @@
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
 			$post['file'] = substr_replace($post['file'], '', 0, strlen($board['dir'] . $config['dir']['img']));
-			$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . $config['dir']['thumb']));
+			if($is_an_image)
+				$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		
 		// Todo: Validate some more, remove messy code, allow more specific configuration
