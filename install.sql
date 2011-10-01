@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `filewidth` int(11) DEFAULT NULL,
   `fileheight` int(11) DEFAULT NULL,
   `filesize` int(11) DEFAULT NULL,
-  `filename` varchar(30) DEFAULT NULL,
+  `filename` text DEFAULT NULL,
   `filehash` text DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(45) NOT NULL,

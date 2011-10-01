@@ -120,6 +120,10 @@
 	$config['body_truncate']	= 15;
 	// Amount of characters to show on the index page
 	$config['body_truncate_char'] = 2500;
+	// Maximum filename length (will be truncated)
+	$config['max_filename_len']	= 255;
+	// Maximum filename length to display (the rest can be viewed upon mouseover)
+	$config['max_filename_display'] = 30;
 	
 	$config['threads_per_page']	= 10;
 	$config['max_pages']		= 10;

@@ -352,7 +352,14 @@
 				}
 				if($config['show_filename']) {
 					// Filename
-					$built .= ', ' . $this->filename;
+					$built .= ', ' .
+						(strlen($this->filename) > $config['max_filename_display'] ?
+							'<span title="' . $this->filename . '">' .
+								substr($this->filename, 0, $config['max_filename_display']) . '&hellip;' .
+							'</span>'
+						:
+							$this->filename
+						);
 				}
 				
 				$built .= ')</span></p>' .
@@ -511,7 +518,14 @@
 				}
 				if($config['show_filename']) {
 					// Filename
-					$built .= ', ' . $this->filename;
+					$built .= ', ' .
+						(strlen($this->filename) > $config['max_filename_display'] ?
+							'<span title="' . $this->filename . '">' .
+								substr($this->filename, 0, $config['max_filename_display']) . '&hellip;' .
+							'</span>'
+						:
+							$this->filename
+						);
 				}
 				
 				$built .= ')</span></p>' .

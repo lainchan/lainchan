@@ -413,8 +413,8 @@
 			
 			$is_an_image = !in_array($post['extension'], $config['allowed_ext_files']);
 			
-			// Just trim the filename if it's too long
-			if(strlen($post['filename']) > 30) $post['filename'] = substr($post['filename'], 0, 27).'…';
+			// Truncate filename if it is too long
+			$post['filename'] = substr($post['filename'], 0, $config['max_filename_len']);
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
