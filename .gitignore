@@ -7,6 +7,9 @@ inc/instance-config.php
 # .installed
 .installed
 
+# script file
+main.js
+
 # other stuff
 .DS_Store?
 thumbs.db
