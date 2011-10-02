@@ -209,8 +209,11 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
   `embed` text,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `id` (`id`),
+  KEY `thread` (`thread`),
+  KEY `time` (`time`),
+  FULLTEXT KEY `body` (`body`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `posts_b`

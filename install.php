@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3-dev-8');
+	define('VERSION', 'v0.9.3-dev-10');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -108,6 +108,17 @@
 				$boards = listBoards();
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE  `posts_%s` CHANGE  `filename` `filename` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
+				}
+			case 'v0.9.3-dev-8':
+				$boards = listBoards();
+				foreach($boards as &$board) {
+					query(sprintf("ALTER TABLE  `posts_%s` ADD INDEX (  `thread` )", $board['uri'])) or error(db_error());
+				}
+			case 'v0.9.3-dev-9':
+				$boards = listBoards();
+				foreach($boards as &$board) {
+					query(sprintf("ALTER TABLE  `posts_%s`ADD INDEX (  `time` )", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE  `posts_%s`ADD FULLTEXT (`body`)", $board['uri'])) or error(db_error());
 				}
 			case false:
 				// Update version number
