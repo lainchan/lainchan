@@ -333,9 +333,9 @@
 	$config['allowed_ext_files'] = Array();
 	
 	// Thumbnail to use for the downloadable files (not images)
-	$config['file_thumb'] = 'static/file.png';
+	$config['file_thumb']		= 'static/file.png';
 	// Thumbnail to use for spoiler images
-	$config['spoiler_image'] = 'static/spoiler.png';
+	$config['spoiler_image']	= 'static/spoiler.png';
 	
 	// Thumbnail quality (compression level), from 0 to 9
 	$config['thumb_quality'] = 7;
