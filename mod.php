@@ -523,9 +523,7 @@
 					$m_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
 					$m_query->bindValue(':id', $notice['mod'], PDO::PARAM_INT);
 					$m_query->execute() or error(db_error($m_query));
-					if(!$_mod = $m_query->fetch()) {
-						$_mod = Array('username' => '<em>???</em>');
-					}
+					$_mod = $m_query->fetch();
 			
 					$body .= '<div class="ban">' .
 						(hasPermission($config['mod']['noticeboard_delete']) ?
@@ -538,7 +536,11 @@
 							'<em>no subject</em>'
 						) .
 					'<span class="unimportant"> — by ' .
-						utf8tohtml($_mod['username']) .
+						($_mod ?
+							utf8tohtml($_mod['username'])
+						:
+							'<em>???</em>'
+						) .
 					' at ' .
 						date($config['post_date'], $notice['time']) .
 					'</span></h2><p>' . $notice['body'] . '</p></div>';
