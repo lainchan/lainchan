@@ -1442,12 +1442,12 @@
 				}
 			}
 			if(hasPermission($config['mod']['view_banexpired'])) {
-				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
+				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			} else {
 				// Filter out expired bans
-				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
+				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			}
