@@ -68,6 +68,10 @@
 	// Make IPv4 addresses look like IPv4 addresses ("::ffff:8.8.8.8" becomes "8.8.8.8")
 	$config['ipv6_ipv4']	= true;
 	
+	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
+	// This keeps the script from querying the database and causing strain when not needed.
+	$config['has_installed'] = '.installed';
+	
 /*
  * ====================
  *  Database settings
@@ -815,10 +819,6 @@
 	$config['mod']['news_custom'] = ADMIN;
 	// Delete news entries
 	$config['mod']['news_delete'] = ADMIN;
-	
-	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
-	// This keeps the script from querying the database and causing strain when not needed.
-	$config['has_installed'] = '.installed';
 	
 /*
  * ====================
