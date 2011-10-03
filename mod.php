@@ -1440,7 +1440,7 @@
 				}
 			}
 			if(hasPermission($config['mod']['view_banexpired'])) {
-				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
+				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` GROUP BY `ip` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 			} else {
@@ -1503,17 +1503,21 @@
 					
 					// Staff
 					'<td>' .
-						(!hasPermission($config['mod']['view_banstaff']) ?
-							($config['mod']['view_banquestionmark'] ?
-								'?'
+						(isset($ban['username']) ?
+							(!hasPermission($config['mod']['view_banstaff']) ?
+								($config['mod']['view_banquestionmark'] ?
+									'?'
+								:
+									($ban['type'] == JANITOR ? 'Janitor' :
+									($ban['type'] == MOD ? 'Mod' :
+									($ban['type'] == ADMIN ? 'Admin' :
+									'?')))
+								)
 							:
-								($ban['type'] == JANITOR ? 'Janitor' :
-								($ban['type'] == MOD ? 'Mod' :
-								($ban['type'] == ADMIN ? 'Admin' :
-								'?')))
+								utf8tohtml($ban['username'])
 							)
 						:
-							utf8tohtml($ban['username'])
+							'<em>deleted?</em>'
 						) .
 					'</td>' .
 					
@@ -2196,7 +2200,7 @@
 				}
 			
 				if(hasPermission($config['mod']['view_ban'])) {
-					$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+					$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 					$query->bindValue(':ip', $ip);
 					$query->execute() or error(db_error($query));
 				
@@ -2219,11 +2223,16 @@
 						
 							// Board
 							'<tr><th>Board</th><td>' .
-							(isset($ban['uri']) ?
-								sprintf($config['board_abbreviation'], $ban['uri'])
+							(isset($ban['board']) ?
+								(isset($ban['uri']) ?
+									sprintf($config['board_abbreviation'], $ban['uri'])
+								:
+									'<em>deleted?</em>'
+								)
 							:
 								'<em>all boards</em>'
-							) . '</td></tr>' .
+							) .
+							'</td></tr>' .
 						
 							// Set
 							'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .
@@ -2239,17 +2248,20 @@
 						
 							// Staff
 							'<tr><th>Staff</th><td>' .
-								(!hasPermission($config['mod']['view_banstaff']) ?
-									($config['mod']['view_banquestionmark'] ?
-										'?'
+								(isset($ban['username']) ?
+									(!hasPermission($config['mod']['view_banstaff']) ?
+										($config['mod']['view_banquestionmark'] ?
+											'?'
+										:
+											($ban['type'] == JANITOR ? 'Janitor' :
+											($ban['type'] == MOD ? 'Mod' :
+											($ban['type'] == ADMIN ? 'Admin' :
+											'?')))
+										)
 									:
-										($ban['type'] == JANITOR ? 'Janitor' :
-										($ban['type'] == MOD ? 'Mod' :
-										($ban['type'] == ADMIN ? 'Admin' :
-										'?')))
+										utf8tohtml($ban['username'])
 									)
-								:
-									utf8tohtml($ban['username'])
+									: '<em>deleted?</em>'
 								) .
 							'</td></tr></table>' .
 							
