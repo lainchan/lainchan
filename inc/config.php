@@ -302,7 +302,7 @@
 	// $config['custom_tripcode']['#test123'] = '!HelloWorld';
 	// $config['custom_tripcode']['##securetrip'] = '!!somethingelse';
 	
-	// TODO: description
+	// Optional spoiler images
 	$config['spoiler_images'] = false;
 	
 /*
