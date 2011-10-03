@@ -720,7 +720,7 @@
 				
 				'<th>From</th><td>' .
 					(!$pm['username'] ?
-						'<em>??</em>'
+						'<em>???</em>'
 					:
 						'<a href="?/new_PM/' . $pm['sender'] . '">' . utf8tohtml($pm['username']) . '</a>'
 					) .
@@ -729,7 +729,7 @@
 				(isset($__to) ?
 					'<th>To</th><td>' .
 						($__to === false ?
-							'<em>??</em>'
+							'<em>???</em>'
 						:
 							'<a href="?/new_PM/' . $pm['to'] . '">' . utf8tohtml($__to) . '</a>'
 						) .
@@ -2157,7 +2157,7 @@
 										else
 											$staff = utf8tohtml($_mod['username']);
 									} else {
-										$staff = '<em>??</em>';
+										$staff = '<em>???</em>';
 									}
 								} else {
 									$staff = '<em>system</em>';
