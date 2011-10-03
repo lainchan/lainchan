@@ -195,7 +195,8 @@
 		'raw',
 		'embed',
 		'recaptcha_challenge_field',
-		'recaptcha_response_field'
+		'recaptcha_response_field',
+		'spoiler'
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
@@ -301,6 +302,9 @@
 	// $config['custom_tripcode']['#test123'] = '!HelloWorld';
 	// $config['custom_tripcode']['##securetrip'] = '!!somethingelse';
 	
+	// TODO: description
+	$config['spoiler_images'] = false;
+	
 /*
  * ====================
  *  Image settings
@@ -330,6 +334,8 @@
 	
 	// Thumbnail to use for the downloadable files (not images)
 	$config['file_thumb'] = 'static/file.png';
+	// Thumbnail to use for spoiler images
+	$config['spoiler_image'] = 'static/spoiler.png';
 	
 	// Thumbnail quality (compression level), from 0 to 9
 	$config['thumb_quality'] = 7;

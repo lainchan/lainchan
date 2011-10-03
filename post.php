@@ -459,7 +459,6 @@
 					}
 				}
 				
-				
 				// create image object
 				$image = new Image($post['file'], $post['extension']);
 				
@@ -471,23 +470,29 @@
 				$post['width'] = $image->size->width;
 				$post['height'] = $image->size->height;
 				
-				if($config['minimum_copy_resize'] &&
+				if($config['spoiler_images'] && isset($_POST['spoiler'])) {
+					$post['thumb'] = 'spoiler';
+					
+					$size = @getimagesize($config['spoiler_image']);
+					$post['thumbwidth'] = $size[0];
+					$post['thumbheight'] = $size[1];
+				} elseif($config['minimum_copy_resize'] &&
 					$image->size->width <= $config['thumb_width'] &&
 					$image->size->height <= $config['thumb_height'] &&
 					$post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
-					
+				
 					// Copy, because there's nothing to resize
 					copy($post['file'], $post['thumb']);
-					
+				
 					$post['thumbwidth'] = $image->size->width;
 					$post['thumbheight'] = $image->size->height;
 				} else {
 					$thumb = $image->resize($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'], $config['thumb_width'], $config['thumb_height']);
 					$thumb->to($post['thumb']);
-					
+				
 					$post['thumbwidth'] = $thumb->width;
 					$post['thumbheight'] = $thumb->height;
-					
+				
 					$thumb->_destroy();
 				}
 				$image->destroy();
@@ -531,7 +536,7 @@
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
 			$post['file'] = substr_replace($post['file'], '', 0, strlen($board['dir'] . $config['dir']['img']));
-			if($is_an_image)
+			if($is_an_image && $post['thumb'] != 'spoiler')
 				$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		

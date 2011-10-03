@@ -339,6 +339,9 @@
 				$built .= '<p class="fileinfo">' .
 						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
 					'<span class="unimportant">(' . 
+					($this->thumb == 'spoiler' ?
+						'Spoiler Image, '
+					: '') .
 				// Filesize
 					format_bytes($this->filesize) .
 				// File dimensions
@@ -372,7 +375,11 @@
 						($this->thumb == 'file' ?
 							$config['file_thumb']
 						:
-							$config['uri_thumb'] . $this->thumb
+							($this->thumb == 'spoiler' ?
+								$config['spoiler_image']
+							:
+								$config['uri_thumb'] . $this->thumb
+							)
 						) .
 					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
@@ -505,6 +512,9 @@
 				$built = '<p class="fileinfo">' .
 						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
 					'<span class="unimportant">(' . 
+					($this->thumb == 'spoiler' ?
+						'Spoiler Image, '
+					: '') .
 				// Filesize
 					format_bytes($this->filesize) .
 				// File dimensions
@@ -538,7 +548,11 @@
 						($this->thumb == 'file' ?
 							$config['file_thumb']
 						:
-							$config['uri_thumb'] . $this->thumb
+							($this->thumb == 'spoiler' ?
+								$config['spoiler_image']
+							:
+								$config['uri_thumb'] . $this->thumb
+							)
 						) .
 					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
 			} elseif($this->file == 'deleted') {
