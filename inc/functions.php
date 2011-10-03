@@ -31,23 +31,21 @@
 		if(!isset($config['post_url']))
 			$config['post_url'] = $config['root'] . $config['file_post'];
 		
-		if(!isset($config['url_match']))
-			$config['url_match'] = '/^' .
+		if(!isset($config['referer_match']))
+			$config['referer_match'] = '/^' .
 				(preg_match($config['url_regex'], $config['root']) ? '' :
 					(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') .
 					':\/\/'.$_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
-						str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
+						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
+						'(' . preg_quote($config['file_index'], '/') . ')?' .
 					'|' .
-						str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
-						preg_quote($config['file_index'], '/') .
-					'|' .
-						str_replace('%s', '\w{1,8}', preg_quote($config['board_path'], '/')) .
+						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
+						preg_quote($config['dir']['res'], '/') .
 						str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
 					'|' .
-						preg_quote($config['file_mod'], '/') .
-					'\?\/.+' .
+						preg_quote($config['file_mod'], '/') . '\?\/.+' .
 				')$/i';
 		
 		if(!isset($config['cookies']['path']))
@@ -240,7 +238,7 @@
 	
 	function purge($uri) {
 		global $config, $debug;
-		if(preg_match($config['url_match'], $config['root'])) {
+		if(preg_match($config['referer_match'], $config['root'])) {
 			$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 		} else {
 			$uri = $config['root'] . $uri;

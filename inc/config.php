@@ -132,10 +132,11 @@
 	
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
 	$config['verbose_errors']	= true;
-
+	
 	// Error messages
 	$config['error']['lurk']			= 'Lurk some more before posting.';
 	$config['error']['bot']				= 'You look like a bot.';
+	$config['error']['referer']			= 'Your browser sent an invalid or no HTTP referer.';
 	$config['error']['toolong']			= 'The %s field was too long.';
 	$config['error']['toolong_body']	= 'The body was too long.';
 	$config['error']['tooshort_body']	= 'The body was too short or empty.';

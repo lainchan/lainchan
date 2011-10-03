@@ -151,9 +151,8 @@
 			error($config['error']['bot']);
 		
 		// Check the referrer
-		if($OP) {
-			if(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['url_match'], $_SERVER['HTTP_REFERER'])) error($config['error']['bot']);
-		}
+		if(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], $_SERVER['HTTP_REFERER']))
+			error($config['error']['referer']);
 		
 		// TODO: Since we're now using static HTML files, we can't give them cookies on their first page view
 		// Find another anti-spam method.
