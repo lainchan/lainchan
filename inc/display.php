@@ -373,10 +373,10 @@
 						($this->thumb == 'file' ? ' class="file"' : '') .
 					'><img src="' .
 						($this->thumb == 'file' ?
-							$config['file_thumb']
+							$config['root'] . $config['file_thumb']
 						:
 							($this->thumb == 'spoiler' ?
-								$config['spoiler_image']
+								$config['root'] . $config['spoiler_image']
 							:
 								$config['uri_thumb'] . $this->thumb
 							)
@@ -546,10 +546,10 @@
 						($this->thumb == 'file' ? ' class="file"' : '') .
 					'><img src="' .
 						($this->thumb == 'file' ?
-							$config['file_thumb']
+							$config['root'] . $config['file_thumb']
 						:
 							($this->thumb == 'spoiler' ?
-								$config['spoiler_image']
+								$config['root'] . $config['spoiler_image']
 							:
 								$config['uri_thumb'] . $this->thumb
 							)
