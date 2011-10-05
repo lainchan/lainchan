@@ -130,7 +130,7 @@
 	
 	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
 	<hr />
-	<form name="postcontrols" action="{{ post_url }}" method="post">
+	<form name="postcontrols" action="{{ config.post_url }}" method="post">
 	<input type="hidden" name="board" value="{{ board.uri }}" />
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	{{ body }}

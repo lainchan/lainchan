@@ -732,16 +732,6 @@
 		while($th = $query->fetch()) {
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
-			if($config['memcached']['enabled'] && !$mod) {
-				if($built = $memcached->get("threadindex_{$board['uri']}_{$th['id']}")) {
-					$body .= $built;
-					if($config['debug']) {
-						$debug['memcached'][] = "threadindex_{$board['uri']}_{$th['id']}";
-					}
-					continue;
-				}
-			}
-			
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
@@ -770,10 +760,6 @@
 			$thread->posts = array_reverse($thread->posts);
 			
 			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
-			
-			if($config['memcached']['enabled'] && !$mod) {
-				$memcached->set("threadindex_{$board['uri']}_{$th['id']}", $built, time() + $config['memcached']['timeout']);
-			}
 			
 			$body .= $built;
 		}
@@ -1371,8 +1357,9 @@
 		$id = round($id);
 		
 		if($config['memcached']['enabled'] && !$mod) {
-			// Clear cache for index pages
-			$memcached->delete("threadindex_{$board['uri']}_{$id}");
+			// Clear cache
+			$memcached->delete("thread_index_{$board['uri']}_{$id}");
+			$memcached->delete("thread_{$board['uri']}_{$id}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id`", $board['uri']));

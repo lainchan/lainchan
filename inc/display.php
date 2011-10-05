@@ -266,144 +266,9 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $config, $memcached, $debug;
+			global $board, $config;
 			
-			if(!$this->mod && $config['memcached']['enabled']) {
-				if($built = $memcached->get($this->memcached_key($index))) {
-					if($config['debug']) {
-						$debug['memcached'][] = $this->memcached_key($index);
-					}
-					return $built;
-				}
-			}
-			
-			$built =	'<div class="post reply" id="reply_' . $this->id . '">' . 
-						'<p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>' . 
-			// Delete
-				'<input type="checkbox" class="delete" name="delete_' . $this->id . '" id="delete_' . $this->id . '" /><label for="delete_' . $this->id . '">';
-			
-			// Subject
-			if(!empty($this->subject))
-				$built .= '<span class="subject">' . $this->subject . '</span> ';
-			// Email
-			if(!empty($this->email))
-				$built .=  '<a class="email" href="mailto:' . $this->email . '">';
-			// Name
-			$built .= '<span class="name"' .
-				(!empty($this->capcode) && isset($config['custom_capcode'][$this->capcode][1]) ?
-					' style="' . $config['custom_capcode'][$this->capcode][1] . '"'
-				: '')
-			. '>' . $this->name . '</span>'
-			// Trip
-			. (!empty($this->trip) ? ' <span class="trip"' . 
-				(!empty($this->capcode) && isset($config['custom_capcode'][$this->capcode][2]) ?
-					' style="' . $config['custom_capcode'][$this->capcode][2] . '"'
-				: '')
-			. '>'.$this->trip.'</span>':'')
-			// End email
-			. (!empty($this->email)? '</a>' : '')
-			// Capcode
-			. (!empty($this->capcode) ? capcode($this->capcode) : '');
-			
-			// IP Address
-			if($this->mod && hasPermission($config['mod']['show_ip'], $board['uri'], $this->mod)) {
-				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
-			}
-			
-			// Date/time
-			$built .= ' ' . date($config['post_date'], $this->time);
-			
-			// End delete
-			$built .= '</label>'
-			
-			// Poster ID
-			. ($config['poster_ids'] ?
-				' ID: ' . poster_id($this->ip, $this->thread)
-			: '')
-			
-			. ' <a class="post_no"' . 
-			// JavaScript highlight
-				($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-				' href="' . $this->link() . '">No.</a>' . 
-			// JavaScript cite
-				'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' . 
-			'</p>';
-			
-			if($this->embed) {
-				// Embedded video (or something else; doesn't have to be a video really)
-				$built .=
-				// Actual embedding
-				$this->embed;
-			} elseif(!empty($this->file) && $this->file != 'deleted') {
-				// File info
-				$built .= '<p class="fileinfo">' .
-						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
-					'<span class="unimportant">(' . 
-					($this->thumb == 'spoiler' ?
-						'Spoiler Image, '
-					: '') .
-				// Filesize
-					format_bytes($this->filesize) .
-				// File dimensions
-				($this->filex && $this->filey ?
-					', ' . $this->filex . 'x' . $this->filey
-				: '' );
-				// Aspect Ratio
-				if($config['show_ratio'] && $this->filex && $this->filey) {
-					$fraction = fraction($this->filex, $this->filey, ':');
-					$built .= ', ' . $fraction;
-				}
-				if($config['show_filename']) {
-					// Filename
-					$built .= ', ' .
-						(strlen($this->filename) > $config['max_filename_display'] ?
-							'<span title="' . $this->filename . '">' .
-								substr($this->filename, 0, $config['max_filename_display']) . '&hellip;' .
-							'</span>'
-						:
-							$this->filename
-						);
-				}
-				
-				$ext = explode('.', $this->file);
-				$ext = $ext[1];
-				$built .= ')</span></p>' .
-				
-				// Thumbnail
-					'<a href="' .
-						$config['uri_img'] .$this->file .
-					'" target="_blank"' .
-						($this->thumb == 'file' ? ' class="file"' : '') .
-					'><img src="' .
-						($this->thumb == 'file' ?
-							$config['root'] . sprintf($config['file_thumb'], isset($config['file_icons'][$ext]) ? $config['file_icons'][$ext] : $config['file_icons']['default'])
-						:
-							($this->thumb == 'spoiler' ?
-								$config['root'] . $config['spoiler_image']
-							:
-								$config['uri_thumb'] . $this->thumb
-							)
-						) .
-					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
-			} elseif($this->file == 'deleted') {
-				$built .= '<img src="' . $config['image_deleted'] . '" alt="" />';
-			}
-			
-			$built .= $this->postControls();
-			
-			// Body
-			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p></div><br/>';
-			
-			if(!$this->mod && $config['memcached']['enabled']) {
-				$memcached->set($this->memcached_key($index), $built, time() + $config['memcached']['timeout']);
-			}
-			
-			return $built;
-		}
-		
-		function memcached_key($index) {
-			global $board;
-			return 'post_' . md5($this->body) . '_' . ($this->file ? $this->file : '-') . '_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id;
+			return Element('post_reply.html', Array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 		}
 	};
 	
@@ -502,147 +367,34 @@
 			return $built;
 		}
 		
+		public function ratio() {
+			return fraction($this->filex, $this->filey, ':');
+		}
+		
 		public function build($index=false) {
-			global $board, $config;
+			global $board, $config, $memcached, $debug;
 			
-			if($this->embed) {
-				// Embedded video (or something else; doesn't have to be a video really)
-				$built =
-				// Actual embedding
-				$this->embed;
-			} elseif(!empty($this->file) && $this->file != 'deleted') {
-				// File info
-				$built = '<p class="fileinfo">' .
-						'File: <a href="'	. $config['uri_img'] . $this->file . '">' . $this->file . '</a> ' . 
-					'<span class="unimportant">(' . 
-					($this->thumb == 'spoiler' ?
-						'Spoiler Image, '
-					: '') .
-				// Filesize
-					format_bytes($this->filesize) .
-				// File dimensions
-				($this->filex && $this->filey ?
-					', ' . $this->filex . 'x' . $this->filey
-				: '' );
-				// Aspect Ratio
-				if($config['show_ratio'] && $this->filex && $this->filey) {
-					$fraction = fraction($this->filex, $this->filey, ':');
-					$built .= ', ' . $fraction;
+			if(!$this->mod && $config['memcached']['enabled']) {
+				if($built = $memcached->get($this->memcached_key($index))) {
+					if($config['debug']) {
+						$debug['memcached'][] = $this->memcached_key($index);
+					}
+					return $built;
 				}
-				if($config['show_filename']) {
-					// Filename
-					$built .= ', ' .
-						(strlen($this->filename) > $config['max_filename_display'] ?
-							'<span title="' . $this->filename . '">' .
-								substr($this->filename, 0, $config['max_filename_display']) . '&hellip;' .
-							'</span>'
-						:
-							$this->filename
-						);
-				}
-				
-				$ext = explode('.', $this->file);
-				$ext = $ext[1];
-				$built .= ')</span></p>' .
-				
-				// Thumbnail
-					'<a href="' .
-						$config['uri_img'] .$this->file .
-					'" target="_blank"' .
-						($this->thumb == 'file' ? ' class="file"' : '') .
-					'><img src="' .
-						($this->thumb == 'file' ?
-							$config['root'] . sprintf($config['file_thumb'], isset($config['file_icons'][$ext]) ? $config['file_icons'][$ext] : $config['file_icons']['default'])
-						:
-							($this->thumb == 'spoiler' ?
-								$config['root'] . $config['spoiler_image']
-							:
-								$config['uri_thumb'] . $this->thumb
-							)
-						) .
-					'" style="width:' . $this->thumbx . 'px;height:' . $this->thumby . 'px;" alt="" /></a>';
-			} elseif($this->file == 'deleted') {
-				$built = '<img src="' . $config['image_deleted'] . '" alt="" />';
 			}
 			
-			$built .= '<div class="post op"><p class="intro"' . (!$index?' id="' . $this->id . '"':'') . '>';
+			$built = Element('post_thread.html', Array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 			
-			// Delete
-			$built .= '<input type="checkbox" class="delete" name="delete_' . $this->id . '" id="delete_' . $this->id . '" /><label for="delete_' . $this->id . '">';
-				
-			// Subject
-			if(!empty($this->subject))
-				$built .= '<span class="subject">' . $this->subject . '</span> ';
-			// Email
-			if(!empty($this->email))
-				$built .=  '<a class="email" href="mailto:' . $this->email . '">';
-			// Name
-			$built .= '<span class="name">' . $this->name . '</span>'
-			// Trip
-			. (!empty($this->trip) ? ' <span class="trip">'.$this->trip.'</span>':'')
-			// End email
-			. (!empty($this->email)? '</a>' : '')
-			// Capcode
-			. (!empty($this->capcode) ? capcode($this->capcode) : '');
-			
-			// IP Address
-			
-			if($this->mod && hasPermission($config['mod']['show_ip'], $board['uri'], $this->mod)) {
-				$built .= ' [<a style="margin:0;" href="?/IP/' . $this->ip . '">' . $this->ip . '</a>]';
+			if(!$this->mod && $config['memcached']['enabled']) {
+				$memcached->set($this->memcached_key($index), $built, time() + $config['memcached']['timeout']);
 			}
 			
-			// Date/time
-			$built .= ' ' . date($config['post_date'], $this->time);
-			
-			// End delete
-			$built .= '</label>'
-			
-			// Poster ID
-			. ($config['poster_ids'] ?
-				' ID: ' . poster_id($this->ip, $this->id)
-			: '')
-			
-			. ' <a class="post_no"' . 
-			// JavaScript highlight
-			($index?'':' onclick="highlightReply(' . $this->id . ');"') .
-			' href="' . $this->link()  . '">No.</a>' . 
-			// JavaScript cite
-			'<a class="post_no"' . ($index?'':' onclick="citeReply(' . $this->id . ');"') . ' href="' . ($index ? $this->link('q') : 'javascript:void(0);') . '">'.$this->id.'</a>' .
-			// Sticky
-			($this->sticky ? '<img class="icon" title="Sticky" src="' . $config['image_sticky'] . '" alt="Sticky" />' : '') .
-			// Locked
-			($this->locked ? '<img class="icon" title="Locked" src="' . $config['image_locked'] . '" alt="Locked" />' : '') .
-			// [Reply]
-			($index ? '<a href="' . $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->id) . '">[Reply]</a>' : '') .
-			
-			// Mod controls
-			$this->postControls() .
-			'</p>';
-			
-			// Body
-			$built .= '<p class="body">' . ($index ? truncate($this->body, $this->link()) : $this->body) . '</p>' .
-			
-			// Omitted posts
-			($this->omitted || $this->omitted_images? '<span class="omitted">' .
-				($this->omitted ?
-					$this->omitted . ' post' . ($this->omitted==1?'':'s') .
-						($this->omitted_images ? ' and ' : '')
-				:'') .
-				($this->omitted_images ?
-					$this->omitted_images . ' image repl' . ($this->omitted_images==1?'y':'ies')
-				:'') .
-			' omitted. Click reply to view.</span>':'') .
-			
-			// End
-			'</div>';
-			
-			// Replies
-			foreach($this->posts as &$post) {
-				$built .= $post->build($index);
-			}
-			
-			$built .= '<br class="clear"/>' . ($this->hr ? '<hr/>' : '');
 			return $built;
+		}
+		function memcached_key($index) {
+			global $board;
+			
+			return 'thread_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id;
 		}
 	};
 ?>

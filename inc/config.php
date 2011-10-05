@@ -467,7 +467,7 @@
 	//	Array('c', 'd', 'e', 'f', 'g'),
 	//	Array('h', 'i', 'j'),
 	//	Array('k', Array('l', 'm')),
-	// 'status' => 'http://status.example.org/'
+	//	Array('status' => 'http://status.example.org/')
 	//);
 	
 	// Categories
