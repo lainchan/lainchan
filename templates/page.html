@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="{{ config.url_javascript }}"></script>
 </head>
 <body>
-	{% if pm %}<div class="top_notice">{{ pm }}</div><hr />{% endif %}
+	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	<h1>{{ title }}</h1>
 	<div class="title">{% if subtitle %}{{subtitle}}{% endif %}<p>{% if mod %}<a href="?/">Return to dashboard</a>{% endif %}</p></div>
 	{{ body }}
