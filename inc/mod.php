@@ -90,10 +90,7 @@
 		$query->execute() or error(db_error($query));
 		
 		if($pm = $query->fetch()) {
-			return 'You have <a href="?/PM/' . $pm['id'] . '">an unread PM</a>' .
-			($query->rowCount() > 1 ?
-				', plus ' . ($query->rowCount()-1) . ' more waiting'
-			: '') . '.';
+			return Array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
 		}
 		
 		return false;
