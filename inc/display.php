@@ -365,7 +365,10 @@
 						);
 				}
 				
+				$ext = explode('.', $this->file);
+				$ext = $ext[1];
 				$built .= ')</span></p>' .
+				
 				// Thumbnail
 					'<a href="' .
 						$config['uri_img'] .$this->file .
@@ -373,7 +376,7 @@
 						($this->thumb == 'file' ? ' class="file"' : '') .
 					'><img src="' .
 						($this->thumb == 'file' ?
-							$config['root'] . $config['file_thumb']
+							$config['root'] . sprintf($config['file_thumb'], isset($config['file_icons'][$ext]) ? $config['file_icons'][$ext] : $config['file_icons']['default'])
 						:
 							($this->thumb == 'spoiler' ?
 								$config['root'] . $config['spoiler_image']
@@ -538,7 +541,10 @@
 						);
 				}
 				
+				$ext = explode('.', $this->file);
+				$ext = $ext[1];
 				$built .= ')</span></p>' .
+				
 				// Thumbnail
 					'<a href="' .
 						$config['uri_img'] .$this->file .
@@ -546,7 +552,7 @@
 						($this->thumb == 'file' ? ' class="file"' : '') .
 					'><img src="' .
 						($this->thumb == 'file' ?
-							$config['root'] . $config['file_thumb']
+							$config['root'] . sprintf($config['file_thumb'], isset($config['file_icons'][$ext]) ? $config['file_icons'][$ext] : $config['file_icons']['default'])
 						:
 							($this->thumb == 'spoiler' ?
 								$config['root'] . $config['spoiler_image']

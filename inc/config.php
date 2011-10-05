@@ -35,7 +35,9 @@
 		'custom_tripcode' => Array(),
 		'dnsbl' => Array(),
 		'dnsbl_exceptions' => Array(),
-		'remote' => Array()
+		'remote' => Array(),
+		'allowed_ext_files' => Array(),
+		'file_icons' => Array()
 	);
 	
 /*
@@ -326,14 +328,18 @@
 	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/i';
 	
 	// Allowed image file extensions
-	$config['allowed_ext'] = Array('jpg', 'jpeg', 'bmp', 'gif', 'png');
 	// $config['allowed_ext'][] = 'svg';
 	
 	// Allowed additional file extensions (not images; downloadable files)
-	$config['allowed_ext_files'] = Array();
+	// $config['allowed_ext_files'][] = 'txt';
+	// $config['allowed_ext_files'][] = 'zip';
+	
+	// Non-image file icons
+	$config['file_icons']['default']	= 'file.png';
+	$config['file_icons']['zip']		= 'zip.png';
 	
 	// Thumbnail to use for the downloadable files (not images)
-	$config['file_thumb']		= 'static/file.png';
+	$config['file_thumb']		= 'static/%s';
 	// Thumbnail to use for spoiler images
 	$config['spoiler_image']	= 'static/spoiler.png';
 	
