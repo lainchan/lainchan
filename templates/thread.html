@@ -1,15 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" media="screen" href="{config[url_stylesheet]}"/>
-	{config[url_favicon]?<link rel="shortcut icon" href="{config[url_favicon]}" />}
-	<title>{board[url]} - {board[name]}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}" />
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+	<title>{{ board.url }} - {{ board.name }}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-	<link rel="stylesheet" type="text/css" id="stylesheet" href="{config[uri_stylesheets]}{config[default_stylesheet][1]}">
-	<script type="text/javascript" src="{config[url_javascript]}"></script>
-	{config[recaptcha]?<style type="text/css">
-		/* reCaptcha style */
+	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}" />{% endif %}
+	<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}" />
+	<script type="text/javascript" src="{{ config.url_javascript }}"></script>
+	{% if config.recaptcha %}<style type="text/css">{% raw %}
 		.recaptcha_image_cell {
 			background: none !important;
 		}
@@ -23,20 +23,21 @@
 		.recaptchatable a {
 			display: block;
 		}
-	</style>}
+	{% endraw %}</style>{% endif %}
 </head>
 <body>
-	{boardlist[top]}
-	{pm?<div class="top_notice">{pm}</div><hr/>}
-	{config[url_banner]?<img class="banner" src="{config[url_banner]}" {config[banner_height]?style="width:{config[banner_width]px?{config[banner_width]}px};height:{config[banner_height]}px" }alt="" />}
-	<h1>{board[url]} - {board[name]}</h1>
-	<div class="title">{board[title]?{board[title]}}<p>{mod?<a href="?/">Return to dashboard</a>}</p></div>
+	{{ boardlist.top }}
+	{% if pm %}<div class="top_notice">{{ pm }}</div><hr />{% endif %}
+	{% if config.url_banner %}<img class="banner" src="{{ config.url_banner }}" {% if config.banner_height %}style="width:{% if config.banner_width %}{{ config.banner_width }}px{% endif %};height:{{ config.banner_height }}px" {% endif %}alt="" />{% endif %}
+	<h1>{{ board.url }} - {{ board.name }}</h1>
+	<div class="title">{% if board.title %}{{ board.title }}{% endif %}<p>{% if mod %}<a href="?/">Return to dashboard</a>{% endif %}</p></div>
 	
-	<div class="banner">Posting mode: Reply <a class="unimportant" href="{return}">[Return]</a></div>
-	<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{config[post_url]}" method="post">{hidden_inputs}
-	<input type="hidden" name="thread" value="{id}" />
-	<input type="hidden" name="board" value="{board[uri]}" />
-	{mod?<input type="hidden" name="mod" value="1" />}
+	<div class="banner">Posting mode: Reply <a class="unimportant" href="{{ return }}">[Return]</a></div>
+	<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
+	{{ hidden_inputs }}
+	<input type="hidden" name="thread" value="{{ id }}" />
+	<input type="hidden" name="board" value="{{ board.uri }}" />
+	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 		<table>
 			<tr>
 				<th>
@@ -60,7 +61,7 @@
 				</th>
 				<td>
 					<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" />
-					<input accesskey="s" style="margin-left:2px" type="submit" name="post" value="{config[button_reply]=New Reply}" />{config[spoiler_images]? <input name="spoiler" type="checkbox"/> Spoiler Image}
+					<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if config.button_reply %}{{ config.button_reply }}{% else %}New Reply{% endif %}" />{% if config.spoiler_images %} <input name="spoiler" type="checkbox" /> Spoiler Image{% endif %}
 				</td>
 			</tr>
 			<tr>
@@ -71,25 +72,25 @@
 					<textarea name="body" id="body" rows="5" cols="30"></textarea>
 				</td>
 			</tr>
-			{config[recaptcha]?
+			{% if config.recaptcha %}
 			<tr>
 				<th>
 					Verification
 				</th>
 				<td>
-					<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={config[recaptcha_public]}"></script>
+					<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
 				</td>
 			</tr>
-			}
+			{% endif %}
 			<tr>
 				<th>
 					File
 				</th>
 				<td>
-					<input type="file" name="file"/>
+					<input type="file" name="file" />
 				</td>
 			</tr>
-			{config[enable_embedding]?
+			{% if config.enable_embedding %}
 			<tr>
 				<th>
 					Embed
@@ -98,43 +99,43 @@
 					<input type="text" name="embed" size="30" maxlength="120" autocomplete="off" />
 				</td>
 			</tr>
-			}
-			{mod?
+			{% endif %}
+			{% if mod %}
 			<tr>
 				<th>
 					Flags
 				</th>
 				<td>
 					<div>
-						<label for="raw">Raw HTML</label><br/>
-						<input title="Raw HTML" type="checkbox" name="raw" id="raw">
+						<label for="raw">Raw HTML</label><br />
+						<input title="Raw HTML" type="checkbox" name="raw" id="raw" />
 					</div>
 				</td>
 			</tr>
-			}
+			{% endif %}
 			<tr>
 				<th>
 					Password
 				</th>
 				<td>
-					<input type="password" name="password" size="12" maxlength="18" autocomplete="off" /> 
+					<input type="password" name="password" size="12" maxlength="18" autocomplete="off" />
 					<span class="unimportant">(For file deletion.)</span>
 				</td>
 			</tr>
 		</table>
 	</form>
-	<script type="text/javascript">
+	<script type="text/javascript">{% raw %}
 		rememberStuff();
-	</script></script>
+	{% endraw %}</script>
 	
-	{config[blotter]?<hr/><div class="blotter">{config[blotter]}</div>}
-	<hr/>
-	<form name="postcontrols" action="{config[post_url]}" method="post">
-	<input type="hidden" name="board" value="{board[uri]}" />
-	{mod?<input type="hidden" name="mod" value="1" />}
-	{body}
+	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
+	<hr />
+	<form name="postcontrols" action="{{ post_url }}" method="post">
+	<input type="hidden" name="board" value="{{ board.uri }}" />
+	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
+	{{ body }}
 	<div class="delete">
-		Delete Post [<input title="Delete file only" type="checkbox" name="file" id="delete_file"/>
+		Delete Post [<input title="Delete file only" type="checkbox" name="file" id="delete_file" />
 		 <label for="delete_file">File</label>] <label for="password">Password</label>
 			<input id="password" type="password" name="password" size="12" maxlength="18" />
 			<input type="submit" name="delete" value="Delete" />
@@ -145,9 +146,12 @@
 			<input type="submit" name="report" value="Report" />
 	</div>
 	</form>
-	<a href="{return}">[Return]</a>
-	{boardlist[bottom]}
-	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> v0.9.3 | <a href="http://tinyboard.org/">Tinyboard</a> Copyright © 2010-2011 Tinyboard Development Group</p>
-	<p class="unimportant" style="text-align:center;">All trademarks, copyrights, comments and images on this page are owned by and/or are the responsibility of their respective parties.</p>
+	<div class="pages">{{ btn.prev }} {% for page in pages %}
+		[<a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>]{% if loop.last %} {% endif %}
+	{% endfor %} {{ btn.next }}</div>
+	{{ boardlist.bottom }}
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> v0.9.4 | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2011 Tinyboard Development Group</p>
+	<p class="unimportant" style="text-align:center;">All trademarks, copyrights, comments, and images on this page are owned by or are the responsibility of their respective parties.</p>
+		
 </body>
 </html>

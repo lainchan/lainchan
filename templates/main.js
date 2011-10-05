@@ -1,4 +1,4 @@
-function get_cookie(cookie_name)
+{% raw %}function get_cookie(cookie_name)
 {
 	var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
 	if(results)
@@ -34,7 +34,7 @@ function focusId(id)
 
 function generatePassword() {
 	pass = '';
-	chars = '{config[genpassword_chars]}';
+	chars = '{% endraw %}{{ config.genpassword_chars }}{% raw %}';
 	for(i=0;i<8;i++) {
 		rnd = Math.floor(Math.random() * chars.length);
 		pass += chars.substring(rnd,rnd + 1);
@@ -71,10 +71,10 @@ function citeReply(id) {
 	}
 }
 
-var selectedstyle = '{config[default_stylesheet][0]}';
+var selectedstyle = '{% endraw %}{{ config.default_stylesheet.0 }}{% raw %}';
 var styles = [
-	{stylesheets:['{stylesheets[name]}', '{stylesheets[uri]}']{!%last?,
-	}}
+	{% endraw %}{% for stylesheet in stylesheets %}{% raw %}['{% endraw %}{{ stylesheet.name }}{% raw %}', '{% endraw %}{{ stylesheet.uri }}{% raw %}']{% endraw %}{% if not loop.last %}{% raw %},
+	{% endraw %}{% endif %}{% endfor %}{% raw %}
 ];
 var saved = {};
 
@@ -109,15 +109,15 @@ function rememberStuff() {
 		
 		if(sessionStorage.body) {
 			saved = JSON.parse(sessionStorage.body);
-			if(get_cookie('{config[cookies][js]}')) {
+			if(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}')) {
 				// Remove successful posts
-				successful = JSON.parse(get_cookie('{config[cookies][js]}'));
+				successful = JSON.parse(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}'));
 				for (var url in successful) {
 					saved[url] = null;
 				}
 				sessionStorage.body = JSON.stringify(saved);
 				
-				document.cookie = '{config[cookies][js]}={};expires=0;path=/;';
+				document.cookie = '{% endraw %}{{ config.cookies.js }}{% raw %}={};expires=0;path=/;';
 			}
 			if(saved[document.location]) {
 				document.forms.post.body.value = saved[document.location];
@@ -186,7 +186,7 @@ function init()
 	if(window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
 	
-	{config[inline_expanding]?init_expanding();}
+	{% endraw %}{% if config.inline_expanding %}{% raw %}init_expanding();{% endraw %}{% endif %}{% raw %}
 }
 
 var RecaptchaOptions = {
@@ -194,6 +194,6 @@ var RecaptchaOptions = {
 };
 
 window.onload = init;
-{config[google_analytics]?
+{% endraw %}{% if config.google_analytics %}{% raw %}
 
-var _gaq = _gaq || [];_gaq.push(['_setAccount', '{config[google_analytics]}']);{config[google_analytics_domain]?_gaq.push(['_setDomainName', '{config[google_analytics_domain]}'])}{!config[google_analytics_domain]?_gaq.push(['_setDomainName', 'none'])};_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();}
+var _gaq = _gaq || [];_gaq.push(['_setAccount', '{% endraw %}{{ config.google_analytics }}{% raw %}']);{% endraw %}{% if config.google_analytics_domain %}{% raw %}_gaq.push(['_setDomainName', '{% endraw %}{{ config.google_analytics_domain }}{% raw %}']){% endraw %}{% endif %}{% if not config.google_analytics_domain %}{% raw %}_gaq.push(['_setDomainName', 'none']){% endraw %}{% endif %}{% raw %};_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();{% endraw %}{% endif %}
