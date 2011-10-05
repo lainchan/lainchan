@@ -28,7 +28,7 @@
 		
 		$twig = new Twig_Environment($loader, Array(
 			'autoescape' => false,
-			'cache' => 'cache',
+			//'cache' => 'cache',
 			'debug' => ($config['debug'] ? true : false),
 		));
 		
