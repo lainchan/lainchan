@@ -36,6 +36,7 @@
 		'dnsbl' => Array(),
 		'dnsbl_exceptions' => Array(),
 		'remote' => Array(),
+		'allowed_ext' => Array(),
 		'allowed_ext_files' => Array(),
 		'file_icons' => Array()
 	);
@@ -328,6 +329,11 @@
 	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/i';
 	
 	// Allowed image file extensions
+	$config['allowed_ext'][] = 'jpg';
+	$config['allowed_ext'][] = 'jpeg';
+	$config['allowed_ext'][] = 'bmp';
+	$config['allowed_ext'][] = 'gif';
+	$config['allowed_ext'][] = 'png';
 	// $config['allowed_ext'][] = 'svg';
 	
 	// Allowed additional file extensions (not images; downloadable files)
