@@ -730,6 +730,17 @@
 		
 		if($query->rowcount() < 1 && $page > 1) return false;
 		while($th = $query->fetch()) {
+			if(!$mod && $config['memcached']['enabled']) {
+				if($built = $memcached->get("thread_index_{$board['uri']}_{$th['id']}")) {
+					if($config['debug']) {
+						$debug['memcached'][] = "thread_index_{$board['uri']}_{$th['id']}";
+					}
+					
+					$body .= '<div id="thread_' . $th['id'] . '">' . $built . '</div>';
+					continue;
+				}
+			}
+			
 			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
@@ -759,9 +770,7 @@
 			
 			$thread->posts = array_reverse($thread->posts);
 			
-			$built = '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
-			
-			$body .= $built;
+			$body .= '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
 		}
 		
 		return Array(
