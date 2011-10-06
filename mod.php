@@ -315,7 +315,23 @@
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'No theme',
-				'body'=>'<p style="text-align:center">Successfully stopped using all themes.</p>',
+				'body'=>'<p style="text-align:center">Successfully uninstalled all themes.</p>' .
+					'<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>',
+				'mod'=>true
+				)
+			);
+		} elseif(preg_match('/^\/themes\/(\w+)\/uninstall$/', $query, $match)) {
+			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
+			
+			$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+			$query->bindValue(':theme', $match[1]);
+			$query->execute() or error(db_error($query));
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Uninstalled',
+				'body'=>'<p style="text-align:center">Successfully uninstalled the <strong>' . $match[1] . '</strong> theme.</p>' .
+					'<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>',
 				'mod'=>true
 				)
 			);
@@ -364,7 +380,8 @@
 						if($ret && !empty($ret))
 							$body .= '<div style="border:1px dashed maroon;padding:20px;margin:auto;max-width:800px">' . $ret . '</div>';
 					}
-					$body .= '<p style="text-align:center">Successfully installed and built theme.</p>';
+					$body .= '<p style="text-align:center">Successfully installed and built theme.</p>' .
+						'<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>';
 					
 					// Build themes
 					rebuildThemes('all');
@@ -411,7 +428,13 @@
 					);
 				}
 			} else {
-			
+				
+				$themes_in_use = Array();
+				$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
+				while($theme = $query->fetch()) {
+					$themes_in_use[$theme['theme']] = true;
+				}
+				
 				// Scan directory for themes
 				$themes = Array();
 				while($file = readdir($dir)) {
@@ -445,17 +468,22 @@
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Thumbnail</th>' .
-									'<td><img style="float:none;margin:4px" src="' . $config['dir']['themes_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
+									'<td><img style="float:none;margin:4px' . 
+										(isset($themes_in_use[$_theme]) ?
+											';border:2px solid red;padding:4px'
+										: '') .
+										'" src="' . $config['dir']['themes_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
 								'</tr>' .
 								'<tr>' .
 									'<th class="minimal">Actions</th>' .
 									'<td><ul style="padding:0 20px">' .
-										'<li>' .
-											'<a title="Use theme" href="?/themes/' . $_theme . '">Use</a>' .
-										'</li>' .
-										'<li>' .
-											confirmLink('Remove', 'Uninstall theme', 'Are you sure you want to permanently remove this theme?', 'themes/' . $_theme . '/uninstall') .
-										'</li>' .
+										'<li><a title="Use theme" href="?/themes/' . $_theme . '">' .
+											(isset($themes_in_use[$_theme]) ? 'Reconfigure' : 'Install') .
+										'</a></li>' .
+										(isset($themes_in_use[$_theme]) ?
+											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">Uninstall</a></li>' 
+										:
+											'') .
 									'</ul></td>' .
 								'</tr>' .
 								'<tr style="height:40px"><td colspan="2"><hr/></td></tr>';
@@ -463,7 +491,8 @@
 					$body .= '</table>';
 				}
 				
-				$body .= '<p style="text-align:center"><a href="?/themes/none">Don\'t use a theme.</a></p>';
+				if(!empty($themes_in_use))
+					$body .= '<p style="text-align:center"><a href="?/themes/none">Uninstall all themes.</a></p>';
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
