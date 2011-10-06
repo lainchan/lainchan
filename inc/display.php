@@ -116,7 +116,7 @@
 		// Unescape HTML characters, to avoid splitting them in half
 		$body = html_entity_decode_utf8($body);
 		
-		$body = substr($body, 0, $len) . (strlen($body) > $len ? '…' : '');
+		$body = substr($body, 0, $len) . (strlen($body) > $len ? '&hellip;' : '');
 		
 		// Re-escape the characters.
 		return '<em>' . utf8tohtml($body) . '</em>';

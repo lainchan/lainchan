@@ -50,7 +50,7 @@
 						:
 							'<em>no subject</em>'
 						) .
-					'<span class="unimportant"> — by ' .
+					'<span class="unimportant"> &mdash; by ' .
 						$news['name'] .
 					' at ' .
 						date($config['post_date'], $news['time']) .
