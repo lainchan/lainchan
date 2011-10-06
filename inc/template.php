@@ -85,7 +85,7 @@
 		
 		$twig = new Twig_Environment($loader, Array(
 			'autoescape' => false,
-			'cache' => 'templates/cache',
+			'cache' => "{$config['dir']['template']}/cache",
 			'debug' => ($config['debug'] ? true : false),
 		));
 		$twig->addExtension(new Tinyboard_Twig_Extension());
