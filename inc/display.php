@@ -67,7 +67,7 @@
 		
 		if(defined('STDIN')) {
 			// Running from CLI
-			die('Error: ' . $message);
+			die('Error: ' . $message . "\n");
 		}
 		
 		die(Element('page.html', Array(
