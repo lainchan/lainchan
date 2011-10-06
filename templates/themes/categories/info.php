@@ -27,4 +27,16 @@ Requires $config[\'boards\'] and $config[\'categories\'].';
 	
 	// Unique function name for building everything
 	$theme['build_function'] = 'categories_build';
+	
+	$theme['install_callback'] = 'categories_install';
+	if(!function_exists('categories_install')) {
+		function categories_install($settings) {
+			global $config;
+			
+			if(!isset($config['boards']) || !isset($config['categories'])) {
+				return Array(false, '<h2>Prerequisites not met!</h2>' . 
+					'This theme requires $config[\'boards\'] and $config[\'categories\'] to be set.');
+			}
+		}
+	}
 ?>

@@ -121,27 +121,31 @@
 				'<li><a class="system" href="javascript:parent.removeFrames()">[Remove Frames]</a></li>' .
 			'</ul></fieldset>';
 			
-			for($cat = 0; $cat < count($config['categories']); $cat++) {
-				$body .= '<fieldset><legend>' . $config['categories'][$cat] . '</legend><ul>';
+			if(isset($config['categories'])) {
+				for($cat = 0; $cat < count($config['categories']); $cat++) {
+					$body .= '<fieldset><legend>' . $config['categories'][$cat] . '</legend><ul>';
 				
-				foreach($config['boards'][$cat] as &$board) {
-					$body .= '<li><a href="' .
-						sprintf($config['board_path'], $board) .
-					'">' . boardTitle($board) . '</a></li>';
+					foreach($config['boards'][$cat] as &$board) {
+						$body .= '<li><a href="' .
+							sprintf($config['board_path'], $board) .
+						'">' . boardTitle($board) . '</a></li>';
+					}
+				
+					$body .= '</ul></fieldset>';
 				}
-				
-				$body .= '</ul></fieldset>';
 			}
 			
-			foreach($config['custom_categories'] as $name => &$group) {
-				$body .= '<fieldset><legend>' . $name . '</legend><ul>';
+			if(isset($config['custom_categories'])) {
+				foreach($config['custom_categories'] as $name => &$group) {
+					$body .= '<fieldset><legend>' . $name . '</legend><ul>';
 				
-				foreach($group as $title => &$url) {
-					$body .= '<li><a href="' . $url .
-					'">' . $title . '</a></li>';
+					foreach($group as $title => &$url) {
+						$body .= '<li><a href="' . $url .
+						'">' . $title . '</a></li>';
+					}
+				
+					$body .= '</ul></fieldset>';
 				}
-				
-				$body .= '</ul></fieldset>';
 			}
 			
 			// Finish page

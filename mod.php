@@ -374,21 +374,36 @@
 					$query->bindValue(':theme', $_theme);
 					$query->execute() or error(db_error($query));
 					
+					$result = true;
 					$body = '';
 					if(isset($theme['install_callback'])) {
 						$ret = $theme['install_callback']($theme['config']);
-						if($ret && !empty($ret))
+						if($ret && !empty($ret)) {
+							if(is_array($ret) && count($ret) == 2) {
+								$result = $ret[0];
+								$ret = $ret[1];
+							}
 							$body .= '<div style="border:1px dashed maroon;padding:20px;margin:auto;max-width:800px">' . $ret . '</div>';
+						}
 					}
-					$body .= '<p style="text-align:center">Successfully installed and built theme.</p>' .
-						'<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>';
+					
+					if($result) {
+						$body .= '<p style="text-align:center">Successfully installed and built theme.</p>';
+					} else {
+						// install failed
+						$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+						$query->bindValue(':theme', $_theme);
+						$query->execute() or error(db_error($query));
+					}
+					
+					$body .= '<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>';
 					
 					// Build themes
 					rebuildThemes('all');
 					
 					echo Element('page.html', Array(
 						'config'=>$config,
-						'title'=>'Installed "' . utf8tohtml($theme['name']) . '"',
+						'title'=>($result ? 'Installed "' . utf8tohtml($theme['name']) . '"' : 'Installation failed!'),
 						'body'=>$body,
 						'mod'=>true
 						)
