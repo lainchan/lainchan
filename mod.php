@@ -151,7 +151,7 @@
 			if(hasPermission($config['mod']['rebuild'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">Rebuild static files</a></li>';
 			}
-			if(hasPermission($config['mod']['rebuild']) && $config['memcached']['enabled']) {
+			if(hasPermission($config['mod']['rebuild']) && $config['cache']['enabled']) {
 				$fieldset['Administration'] .= 	'<li><a href="?/flush">Clear cache</a></li>';
 			}
 			if(hasPermission($config['mod']['show_config'])) {
@@ -1588,13 +1588,13 @@
 		);
 		} elseif(preg_match('/^\/flush$/', $query)) {
 			if(!hasPermission($config['mod']['rebuild'])) error($config['error']['noaccess']);
-			if(!$config['memcached']['enabled']) error('Memcached is not enabled.');
+			if(!$config['cache']['enabled']) error('Cache is not enabled.');
 			
-			if($memcached->flush()) {
+			if(cache::flush()) {
 				$body = 'Successfully invalidated all items in the cache.';
 				modLog('Cleared cache');
 			} else {
-				$body = $memcached->getResultMessage();
+				$body = 'An error occured while trying to flush cache.';
 			}
 			
 			echo Element('page.html', Array(

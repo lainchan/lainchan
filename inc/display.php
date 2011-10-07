@@ -372,26 +372,17 @@
 		}
 		
 		public function build($index=false) {
-			global $board, $config, $memcached, $debug;
-			
-			if(!$this->mod && $config['memcached']['enabled']) {
-				if($built = $memcached->get($this->memcached_key($index))) {
-					if($config['debug']) {
-						$debug['memcached'][] = $this->memcached_key($index);
-					}
-					return $built;
-				}
-			}
+			global $board, $config, $debug;
 			
 			$built = Element('post_thread.html', Array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 			
-			if(!$this->mod && $config['memcached']['enabled']) {
-				$memcached->set($this->memcached_key($index), $built, time() + $config['memcached']['timeout']);
+			if(!$this->mod && $index && $config['cache']['enabled']) {
+				cache::set($this->cache_key($index), $built);
 			}
 			
 			return $built;
 		}
-		function memcached_key($index) {
+		function cache_key($index) {
 			global $board;
 			
 			return 'thread_' . ($index ? 'index_' : '') . $board['uri'] . '_' . $this->id;

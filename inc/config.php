@@ -23,7 +23,7 @@
 	
 	$config = Array(
 		'db' => Array(),
-		'memcached' => Array(),
+		'cache' => Array(),
 		'cookies' => Array(),
 		'error' => Array(),
 		'dir' => Array(),
@@ -98,14 +98,24 @@
 	// Timeout duration in seconds (not all drivers support this)
 	$config['db']['timeout'] = 5;
 	
-	// Optional Memcached server for more cache/optimization (currently at debug state)
-	$config['memcached']['enabled'] = false;
+/*
+ * ====================
+ *  Cache settings
+ * ====================
+ */
+ 	
+ 	$config['cache']['enabled'] = false;
+ 	// $config['cache']['enabled'] = 'memcached';
+ 	// $config['cache']['enabled'] = 'apc';
+ 	// $config['cache']['enabled'] = 'xcache';
+ 	
+ 	// Timeout for cached objects such as posts and HTML
+	$config['cache']['timeout'] = 43200; // 12 hours
+	
 	// Memcached servers to use - http://www.php.net/manual/en/memcached.addservers.php
-	$config['memcached']['servers'] = Array(
+	$config['cache']['memcached'] = Array(
 		Array('localhost', 11211)
 	);
-	// Timeout for cached objects such as posts and HTML
-	$config['memcached']['timeout'] = 43200; // 12 hours
 	
 /*
  * ====================

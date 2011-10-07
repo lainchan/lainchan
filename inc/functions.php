@@ -21,7 +21,7 @@
 		
 		if($config['debug']) {
 			if(!isset($debug)) {
-				$debug = Array('sql' => Array(), 'purge' => Array(), 'memcached' => Array());
+				$debug = Array('sql' => Array(), 'purge' => Array(), 'cached' => Array());
 				$debug['start'] = microtime(true);
 			}
 		}
@@ -102,8 +102,8 @@
 		
 		if($config['recaptcha'])
 			require_once 'inc/contrib/recaptcha/recaptchalib.php';
-		if($config['memcached']['enabled'])
-			memcached_open();
+		if($config['cache']['enabled'])
+			require_once 'inc/cache.php';
 	}
 	
 	function basic_error_function_because_the_other_isnt_loaded_yet($message) {
@@ -129,15 +129,6 @@
 				}
 			}
 		}
-	}
-	
-	// Memcached
-	function memcached_open() {
-		global $memcached, $config;
-		if($memcached) return;
-		
-		$memcached = new Memcached();
-		$memcached->addServers($config['memcached']['servers']);
 	}
 	
 	function loadThemeConfig($_theme) {
@@ -478,7 +469,7 @@
 	}
 	
 	function checkBan($board = 0) {
-		global $config, $memcached;
+		global $config;
 		
 		if(!isset($_SERVER['REMOTE_ADDR'])) {
 			// Server misconfiguration
@@ -718,7 +709,7 @@
 	}
 	
 	function index($page, $mod=false) {
-		global $board, $config, $memcached, $debug;
+		global $board, $config, $debug;
 
 		$body = '';
 		$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
@@ -730,12 +721,8 @@
 		
 		if($query->rowcount() < 1 && $page > 1) return false;
 		while($th = $query->fetch()) {
-			if(!$mod && $config['memcached']['enabled']) {
-				if($built = $memcached->get("thread_index_{$board['uri']}_{$th['id']}")) {
-					if($config['debug']) {
-						$debug['memcached'][] = "thread_index_{$board['uri']}_{$th['id']}";
-					}
-					
+			if(!$mod && $config['cache']['enabled']) {
+				if($built = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {					
 					$body .= '<div id="thread_' . $th['id'] . '">' . $built . '</div>';
 					continue;
 				}
@@ -916,11 +903,11 @@
 	}
 	
 	function checkMute() {
-		global $config, $memcached;
+		global $config, $debug;
 		
-		if($config['memcached']['enabled']) {
+		if($config['cache']['enabled']) {
 			// Cached mute?
-			if(($mute = $memcached->get("mute_${_SERVER['REMOTE_ADDR']}")) && ($mutetime = $memcached->get("mutetime_${_SERVER['REMOTE_ADDR']}"))) {
+			if(($mute = cache::get("mute_${_SERVER['REMOTE_ADDR']}")) && ($mutetime = cache::get("mutetime_${_SERVER['REMOTE_ADDR']}"))) {
 				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
 			}
 		}
@@ -938,9 +925,9 @@
 			}
 			
 			if($mute['time'] + $mutetime > time()) {
-				if($config['memcached']['enabled']) {
-					$memcached->set("mute_${_SERVER['REMOTE_ADDR']}", $mute, $mute['time'] + $mutetime);
-					$memcached->set("mutetime_${_SERVER['REMOTE_ADDR']}", $mutetime, $mute['time'] + $mutetime);
+				if($config['cache']['enabled']) {
+					cache::set("mute_${_SERVER['REMOTE_ADDR']}", $mute, $mute['time'] + $mutetime);
+					cache::set("mutetime_${_SERVER['REMOTE_ADDR']}", $mutetime, $mute['time'] + $mutetime);
 				}
 				// Not expired yet
 				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
@@ -1362,13 +1349,13 @@
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
-		global $board, $config, $memcached;
+		global $board, $config;
 		$id = round($id);
 		
-		if($config['memcached']['enabled'] && !$mod) {
+		if($config['cache']['enabled'] && !$mod) {
 			// Clear cache
-			$memcached->delete("thread_index_{$board['uri']}_{$id}");
-			$memcached->delete("thread_{$board['uri']}_{$id}");
+			cache::delete("thread_index_{$board['uri']}_{$id}");
+			cache::delete("thread_{$board['uri']}_{$id}");
 		}
 		
 		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id`", $board['uri']));
