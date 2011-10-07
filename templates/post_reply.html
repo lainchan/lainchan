@@ -45,7 +45,7 @@
 		{% endif %}">
 		{{ post.id }}
 	 </a>
-	
+	</p>
 	{% if post.embed %}
 		{{ post.embed }}
 	{% elseif post.file == 'deleted' %}
@@ -72,7 +72,8 @@
 				{% endif %}
 			{% endif %}
 		)
-		</span></p>
+		</span>
+</p>
 	<a href="{{ config.uri_img }}{{ post.file }}" target="_blank"{% if this.thumb == 'file' %} class="file"{% endif %}>
 	<img src="
 		{% if post.thumb == 'file' %}
@@ -86,9 +87,9 @@
 			{{ config.root }}{{ config.spoiler_image }}
 		{% else %}
 			{{ config.uri_thumb }}{{ post.thumb }}
-		{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
+		{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" />
+	</a>
 	{% endif %}
-
 	{{ post.postControls }}
 	<p class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}

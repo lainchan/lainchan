@@ -96,6 +96,7 @@
 		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[Reply]</a>
 	{% endif %}
 	{{ post.postControls }}
+	</p>
 	<p class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
