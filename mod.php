@@ -1610,6 +1610,12 @@
 			
 			$body = '<div class="ban"><h2>Rebuilding…</h2><p>';
 			
+			$body .= 'Clearing template cache…<br/>';
+			$twig = new Twig_Environment($loader, Array(
+				'cache' => "{$config['dir']['template']}/cache"
+			));
+			$twig->clearCacheFiles();
+		
 			$body .= 'Regenerating theme files…<br/>';
 			rebuildThemes('all');
 			
