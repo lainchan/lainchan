@@ -320,6 +320,19 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/themes\/(\w+)\/rebuild$/', $query, $match)) {
+			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
+			
+			rebuildTheme($match[1], 'all');
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>'Rebuilt',
+				'body'=>'<p style="text-align:center">Successfully rebuilt the <strong>' . $match[1] . '</strong> theme.</p>' .
+					'<p style="text-align:center"><a href="?/themes">Go back to themes</a>.</p>',
+				'mod'=>true
+				)
+			);
 		} elseif(preg_match('/^\/themes\/(\w+)\/uninstall$/', $query, $match)) {
 			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
@@ -496,7 +509,8 @@
 											(isset($themes_in_use[$_theme]) ? 'Reconfigure' : 'Install') .
 										'</a></li>' .
 										(isset($themes_in_use[$_theme]) ?
-											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">Uninstall</a></li>' 
+											'<li><a title="Rebuild" href="?/themes/' . $_theme . '/rebuild">Rebuild</a></li>' .
+											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">Uninstall</a></li>'
 										:
 											'') .
 									'</ul></td>' .
