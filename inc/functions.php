@@ -226,6 +226,7 @@
 	}
 	
 	function boardTitle($uri) {
+		global $config;
 		if($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
 			return $board['title'];
 		}
