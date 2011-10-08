@@ -331,7 +331,7 @@
 		}
 		
 		$ret = @unlink($path);
-		if(isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+		if(isset($config['purge']) && $path[0] != '/' && isset($_SERVER['HTTP_HOST'])) {
 			// Purge cache
 			if(basename($path) == $config['file_index']) {
 				// Index file (/index.html); purge "/" as well
