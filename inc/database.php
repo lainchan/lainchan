@@ -5,6 +5,36 @@
 		exit;
 	}
 	
+	class PreparedQueryDebug {
+		protected $query;
+		
+		public function __construct($query) {
+			global $pdo;
+			$this->query = $pdo->prepare($query);
+		}
+		public function __call($function, $args) {
+			global $config, $debug;
+			
+			if($config['debug'] && $function == 'execute') {
+				$start = microtime(true);
+			}
+			
+			$return = call_user_func_array(Array($this->query, $function), $args);
+			
+			if($config['debug'] && $function == 'execute') {
+				$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+				
+				$debug['sql'][] = Array(
+					'query' => $this->query->queryString,
+					'rows' => $this->query->rowCount(),
+					'time' => '~' . $time
+				);
+			}
+			
+			return $return;
+		}
+	}
+	
 	function sql_open() {
 		global $pdo, $config;
 		if($pdo) return true;
@@ -31,22 +61,32 @@
 	
 	function prepare($query) {
 		global $pdo, $debug, $config;
-		if($config['debug']) {
-			$debug['sql'][] = $query;
-		}
 		
 		sql_open();
+		
+		if($config['debug'])
+			return new PreparedQueryDebug($query);
 		return $pdo->prepare($query);
 	}
 	
 	function query($query) {
 		global $pdo, $debug, $config;
-		if($config['debug']) {
-			$debug['sql'][] = $query;
-		}
 		
 		sql_open();
-		return $pdo->query($query);
+		
+		if($config['debug']) {
+			$start = microtime(true);
+			$query = $pdo->query($query);
+			$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+			$debug['sql'][] = Array(
+				'query' => $query->queryString,
+				'rows' => $query->rowCount(),
+				'time' => '~' . $time
+			);
+			return $query;
+		} else {
+			return $pdo->query($query);
+		}
 	}
 	
 	function db_error($PDOStatement=null) {
