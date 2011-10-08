@@ -1415,6 +1415,11 @@
 				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
+				if($config['cache']['enabled']) {
+					cache::delete('board_' . $board['uri']);
+					cache::delete('all_boards');
+				}
+				
 				rebuildThemes('boards');
 				
 				header('Location: ?/', true, $config['redirect_http']);
@@ -1430,6 +1435,11 @@
 					
 					$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
+					
+					if($config['cache']['enabled']) {
+						cache::delete('board_' . $board['uri']);
+						cache::delete('all_boards');
+					}
 					
 					rebuildThemes('boards');
 					

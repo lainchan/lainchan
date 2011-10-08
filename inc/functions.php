@@ -207,17 +207,29 @@
 	}
 	
 	function openBoard($uri) {
+		global $config;
+		if($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
+			setupBoard($board);
+			return true;
+		}
+		
 		$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
 		$query->bindValue(':uri', $uri);
 		$query->execute() or error(db_error($query));
 		
 		if($board = $query->fetch()) {
+			if($config['cache']['enabled'])
+				cache::set('board_' . $uri, $board);
 			setupBoard($board);
 			return true;
 		} else return false;
 	}
 	
 	function boardTitle($uri) {
+		if($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
+			return $board['title'];
+		}
+		
 		$query = prepare("SELECT `title` FROM `boards` WHERE `uri` = :uri LIMIT 1");
 		$query->bindValue(':uri', $uri);
 		$query->execute() or error(db_error($query));
@@ -337,8 +349,17 @@
 	}
 	
 	function listBoards() {
+		global $config;
+		
+		if($config['cache']['enabled'] && ($boards = cache::get('all_boards')))
+			return $boards;
+		
 		$query = query("SELECT * FROM `boards` ORDER BY `uri`") or error(db_error());
 		$boards = $query->fetchAll();
+		
+		if($config['cache']['enabled'])
+			cache::set('all_boards', $boards);
+		
 		return $boards;
 	}
 	
