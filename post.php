@@ -581,24 +581,7 @@
 		exit;
 	} else {
 		if(!file_exists($config['has_installed'])) {
-			
-			
-			// Build all boards
-			$boards = listBoards();
-			foreach($boards as &$_board) {
-				setupBoard($_board);
-				buildIndex();
-			}
-			
-			touch($config['has_installed'], 0777);
-			
-			die(Element('page.html', Array(
-				'index'=>ROOT,
-				'title'=>'Success',
-				'body'=>"<center>" .
-						"<h2>Tinyboard is now installed!</h2>" .
-						"</center>"
-			)));
+			header('Location: install.php', true, $config['redirect_http']);
 		} else {
 			// They opened post.php in their browser manually.
 			// Possible TODO: Redirect back to homepage.
