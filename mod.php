@@ -108,7 +108,7 @@
 					:
 						'<em>no subject</em>'
 					) .
-				'</a><span class="unimportant"> — by ' .
+				'</a><span class="unimportant"> &mdash; by ' .
 					utf8tohtml($_mod['username']) .
 				' at ' .
 					date($config['post_date'], $notice['time']) .
@@ -579,7 +579,7 @@
 						:
 							'<em>no subject</em>'
 						) .
-					'<span class="unimportant"> — by ' .
+					'<span class="unimportant"> &mdash; by ' .
 						($_mod ?
 							utf8tohtml($_mod['username'])
 						:
@@ -665,7 +665,7 @@
 					:
 						'<em>no subject</em>'
 					) .
-				'<span class="unimportant"> — by ' .
+				'<span class="unimportant"> &mdash; by ' .
 					$news['name'] .
 				' at ' .
 					date($config['post_date'], $news['time']) .
@@ -979,7 +979,7 @@
 		} elseif(preg_match('/^\/users$/', $query)) {
 			if(!hasPermission($config['mod']['manageusers'])) error($config['error']['noaccess']);
 			
-			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Boards</th><th>Last action</th><th>…</th></tr>';
+			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Boards</th><th>Last action</th><th>&hellip;</th></tr>';
 			
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 			while($_mod = $query->fetch()) {				
@@ -1468,7 +1468,7 @@
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
-					'title'=>'Manage – ' . sprintf($config['board_abbreviation'], $board['uri']),
+					'title'=>'Manage &ndash; ' . sprintf($config['board_abbreviation'], $board['uri']),
 					'body'=>$body,
 					'mod'=>true
 				));
@@ -1608,18 +1608,18 @@
 			
 			set_time_limit($config['mod']['rebuild_timelimit']);
 			
-			$body = '<div class="ban"><h2>Rebuilding…</h2><p>';
+			$body = '<div class="ban"><h2>Rebuilding&hellip;</h2><p>';
 			
-			$body .= 'Clearing template cache…<br/>';
+			$body .= 'Clearing template cache&hellip;<br/>';
 			$twig = new Twig_Environment($loader, Array(
 				'cache' => "{$config['dir']['template']}/cache"
 			));
 			$twig->clearCacheFiles();
 		
-			$body .= 'Regenerating theme files…<br/>';
+			$body .= 'Regenerating theme files&hellip;<br/>';
 			rebuildThemes('all');
 			
-			$body .= 'Generating Javascript file…<br/>';
+			$body .= 'Generating Javascript file&hellip;<br/>';
 			buildJavascript();
 			
 			$boards = listBoards();
@@ -1670,7 +1670,7 @@
 							if(empty($value))
 								$value = '<em>empty</em>';
 							else
-								$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '…' : '')) . '</span>';
+								$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '&hellip;' : '')) . '</span>';
 						} elseif(gettype($value) == 'integer') {
 							$value = '<span style="color:black;">' . $value . '</span>';
 						}
