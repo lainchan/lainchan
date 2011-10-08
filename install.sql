@@ -1,16 +1,24 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 3.4.2
 -- http://www.phpmyadmin.net
 --
--- Generation Time: Apr 07, 2011 at 12:37 AM
+-- Host: localhost
+-- Generation Time: Oct 09, 2011 at 04:03 AM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `tinyboard`
+--
 
 -- --------------------------------------------------------
 
@@ -27,13 +35,8 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `reason` text,
   `board` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `bans`
---
-
+  FULLTEXT KEY `ip` (`ip`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -46,8 +49,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   `uri` varchar(8) NOT NULL,
   `title` varchar(20) NOT NULL,
   `subtitle` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uri` (`uri`),
+  PRIMARY KEY (`uri`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -70,13 +72,9 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
   `mod` int(11) DEFAULT NULL,
   `time` int(11) NOT NULL,
   `body` text NOT NULL,
-  UNIQUE KEY `id` (`id`)
+  UNIQUE KEY `id` (`id`),
+  KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `ip_notes`
---
-
 
 -- --------------------------------------------------------
 
@@ -89,13 +87,9 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
   `ip` varchar(45) NOT NULL,
   `board` int(11) DEFAULT NULL,
   `time` int(11) NOT NULL,
-  `text` text NOT NULL
+  `text` text NOT NULL,
+  KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `modlogs`
---
-
 
 -- --------------------------------------------------------
 
@@ -108,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `username` varchar(30) NOT NULL,
   `password` char(40) NOT NULL COMMENT 'SHA1',
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
-  `boards` TEXT NOT NULL,
+  `boards` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -128,13 +122,25 @@ INSERT INTO `mods` (`id`, `username`, `password`, `type`, `boards`) VALUES
 
 CREATE TABLE IF NOT EXISTS `mutes` (
   `ip` varchar(45) NOT NULL,
-  `time` int(11) NOT NULL
+  `time` int(11) NOT NULL,
+  KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `mutes`
+-- Table structure for table `news`
 --
 
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `time` int(11) NOT NULL,
+  `subject` text NOT NULL,
+  `body` text NOT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -151,11 +157,6 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `noticeboard`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -169,14 +170,8 @@ CREATE TABLE IF NOT EXISTS `pms` (
   `message` text NOT NULL,
   `time` int(11) NOT NULL,
   `unread` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `pms`
---
-
 
 -- --------------------------------------------------------
 
@@ -202,8 +197,8 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `filewidth` int(11) DEFAULT NULL,
   `fileheight` int(11) DEFAULT NULL,
   `filesize` int(11) DEFAULT NULL,
-  `filename` text DEFAULT NULL,
-  `filehash` text DEFAULT NULL,
+  `filename` text,
+  `filehash` text,
   `password` varchar(20) DEFAULT NULL,
   `ip` varchar(45) NOT NULL,
   `sticky` int(1) NOT NULL,
@@ -214,11 +209,6 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   KEY `time` (`time`),
   FULLTEXT KEY `body` (`body`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `posts_b`
---
-
 
 -- --------------------------------------------------------
 
@@ -233,14 +223,8 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `board` smallint(6) NOT NULL,
   `post` int(11) NOT NULL,
   `reason` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `reports`
---
-
 
 -- --------------------------------------------------------
 
@@ -249,13 +233,9 @@ CREATE TABLE IF NOT EXISTS `reports` (
 --
 
 CREATE TABLE IF NOT EXISTS `robot` (
-  `hash` varchar(40) NOT NULL COMMENT 'SHA1'
+  `hash` varchar(40) NOT NULL COMMENT 'SHA1',
+  PRIMARY KEY (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `robot`
---
-
 
 -- --------------------------------------------------------
 
@@ -266,29 +246,10 @@ CREATE TABLE IF NOT EXISTS `robot` (
 CREATE TABLE IF NOT EXISTS `theme_settings` (
   `theme` varchar(40) NOT NULL,
   `name` varchar(40) DEFAULT NULL,
-  `value` text
+  `value` text,
+  KEY `theme` (`theme`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `theme_settings`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `news`
---
-
-CREATE TABLE IF NOT EXISTS `news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `time` int(11) NOT NULL,
-  `subject` text NOT NULL,
-  `body` text NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `news`
---
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
