@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.3');
+	define('VERSION', 'v0.9.4-dev-1');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -112,14 +112,30 @@
 			case 'v0.9.3-dev-8':
 				$boards = listBoards();
 				foreach($boards as &$board) {
-					query(sprintf("ALTER TABLE  `posts_%s` ADD INDEX (  `thread` )", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s` ADD INDEX (  `thread` )", $board['uri'])) or error(db_error());
 				}
 			case 'v0.9.3-dev-9':
 				$boards = listBoards();
 				foreach($boards as &$board) {
-					query(sprintf("ALTER TABLE  `posts_%s`ADD INDEX (  `time` )", $board['uri'])) or error(db_error());
-					query(sprintf("ALTER TABLE  `posts_%s`ADD FULLTEXT (`body`)", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s`ADD INDEX (  `time` )", $board['uri'])) or error(db_error());
+					query(sprintf("ALTER TABLE `posts_%s`ADD FULLTEXT (`body`)", $board['uri'])) or error(db_error());
 				}
+			case 'v0.9.3-dev-10':
+			case 'v0.9.3':
+				query("ALTER TABLE  `bans` DROP INDEX `id`") or error(db_error());
+				query("ALTER TABLE  `pms` DROP INDEX  `id`") or error(db_error());
+				query("ALTER TABLE  `boards` DROP PRIMARY KEY") or error(db_error());
+				query("ALTER TABLE  `reports` DROP INDEX  `id`") or error(db_error());
+				query("ALTER TABLE  `boards` DROP INDEX `uri`") or error(db_error());
+				
+				query("ALTER TABLE  `bans` ADD FULLTEXT (`ip`)") or error(db_error());
+				query("ALTER TABLE  `ip_notes` ADD INDEX (`ip`)") or error(db_error());				
+				query("ALTER TABLE  `modlogs` ADD INDEX (`time`)") or error(db_error());
+				query("ALTER TABLE  `robot` ADD PRIMARY KEY (`hash`)") or error(db_error());
+				query("ALTER TABLE  `boards` ADD PRIMARY KEY(`uri`)") or error(db_error());
+				query("ALTER TABLE  `mutes` ADD INDEX (`ip`)") or error(db_error());
+				query("ALTER TABLE  `news` ADD INDEX (`time`)") or error(db_error());
+				query("ALTER TABLE  `theme_settings` ADD INDEX (`theme`)") or error(db_error());
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
