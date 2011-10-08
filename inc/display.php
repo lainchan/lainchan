@@ -116,10 +116,13 @@
 		// Unescape HTML characters, to avoid splitting them in half
 		$body = html_entity_decode_utf8($body);
 		
-		$body = substr($body, 0, $len) . (strlen($body) > $len ? '&hellip;' : '');
+		// calculate strlen() so we can add "..." after if needed
+		$strlen = strlen($body);
+		
+		$body = substr($body, 0, $len);
 		
 		// Re-escape the characters.
-		return '<em>' . utf8tohtml($body) . '</em>';
+		return '<em>' . utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '') . '</em>';
 	}
 	
 	function capcode($cap) {
