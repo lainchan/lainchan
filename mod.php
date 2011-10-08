@@ -85,21 +85,14 @@
 			$fieldset['Boards'] .= ulBoards();
 			
 			if(hasPermission($config['mod']['noticeboard'])) {
-				$query = prepare("SELECT * FROM `noticeboard` ORDER BY `id` DESC LIMIT :limit");
+				$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
 				$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
 				$fieldset['Noticeboard'] .= '<li>';
 				
 				$_body = '';
-				while($notice = $query->fetch()) {
-					$m_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
-					$m_query->bindValue(':id', $notice['mod'], PDO::PARAM_INT);
-					$m_query->execute() or error(db_error($m_query));
-					if(!$_mod = $m_query->fetch()) {
-						$_mod = Array('username' => '<em>???</em>');
-					}
-					
+				while($notice = $query->fetch()) {					
 					$_body .= '<li><a href="?/noticeboard#' .
 						$notice['id'] .
 					'">' .
@@ -109,7 +102,9 @@
 						'<em>no subject</em>'
 					) .
 				'</a><span class="unimportant"> &mdash; by ' .
-					utf8tohtml($_mod['username']) .
+					(isset($notice['username']) ?
+						utf8tohtml($notice['username'])
+					: '<em>???</em>') .
 				' at ' .
 					date($config['post_date'], $notice['time']) .
 				'</span></li>';
@@ -574,15 +569,10 @@
 					'</form></fieldset>';
 				}
 				
-				$query = prepare("SELECT * FROM `noticeboard` ORDER BY `id` DESC LIMIT :limit");
+				$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
 				$query->bindValue(':limit', $config['mod']['noticeboard_display'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				while($notice = $query->fetch()) {
-					$m_query = prepare("SELECT `username` FROM `mods` WHERE `id` = :id");
-					$m_query->bindValue(':id', $notice['mod'], PDO::PARAM_INT);
-					$m_query->execute() or error(db_error($m_query));
-					$_mod = $m_query->fetch();
-			
 					$body .= '<div class="ban">' .
 						(hasPermission($config['mod']['noticeboard_delete']) ?
 							'<span style="float:right;padding:2px"><a class="unimportant" href="?/noticeboard/delete/' . $notice['id'] . '">[delete]</a></span>'
@@ -594,8 +584,8 @@
 							'<em>no subject</em>'
 						) .
 					'<span class="unimportant"> &mdash; by ' .
-						($_mod ?
-							utf8tohtml($_mod['username'])
+						(isset($notice['username']) ?
+							utf8tohtml($notice['username'])
 						:
 							'<em>???</em>'
 						) .
