@@ -128,10 +128,10 @@
 				query("ALTER TABLE  `reports` DROP INDEX  `id`") or error(db_error());
 				query("ALTER TABLE  `boards` DROP INDEX `uri`") or error(db_error());
 				
+				query("ALTER IGNORE TABLE  `robot` ADD PRIMARY KEY (`hash`)") or error(db_error());
 				query("ALTER TABLE  `bans` ADD FULLTEXT (`ip`)") or error(db_error());
 				query("ALTER TABLE  `ip_notes` ADD INDEX (`ip`)") or error(db_error());				
 				query("ALTER TABLE  `modlogs` ADD INDEX (`time`)") or error(db_error());
-				query("ALTER TABLE  `robot` ADD PRIMARY KEY (`hash`)") or error(db_error());
 				query("ALTER TABLE  `boards` ADD PRIMARY KEY(`uri`)") or error(db_error());
 				query("ALTER TABLE  `mutes` ADD INDEX (`ip`)") or error(db_error());
 				query("ALTER TABLE  `news` ADD INDEX (`time`)") or error(db_error());
