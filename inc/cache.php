@@ -14,12 +14,11 @@
 		public static function get($key) {
 			global $config, $debug;
 			
-			if(!self::$cache)
-				self::init();
-			
 			$data = false;
 			switch($config['cache']['enabled']) {
 				case 'memcached':
+					if(!self::$cache)
+						self::init();
 					$data = self::$cache->get($key);
 					break;
 				case 'apc':
@@ -40,14 +39,13 @@
 		public static function set($key, $value, $expires = false) {
 			global $config;
 			
-			if(!self::$cache)
-				self::init();
-			
 			if(!$expires)
 				$expires = $config['cache']['timeout'];
 			
 			switch($config['cache']['enabled']) {
 				case 'memcached':
+					if(!self::$cache)
+						self::init();
 					self::$cache->set($key, $value, $expires);
 					break;
 				case 'apc':
@@ -61,11 +59,10 @@
 		public static function delete($key) {
 			global $config;
 			
-			if(!self::$cache)
-				self::init();
-			
 			switch($config['cache']['enabled']) {
 				case 'memcached':
+					if(!self::$cache)
+						self::init();
 					self::$cache->delete($key);
 					break;
 				case 'apc':
@@ -79,14 +76,13 @@
 		public static function flush() {
 			global $config;
 			
-			if(!self::$cache)
-				self::init();
-			
 			switch($config['cache']['enabled']) {
 				case 'memcached':
+					if(!self::$cache)
+						self::init();
 					return self::$cache->flush();
 				case 'apc':
-					return apc_clear_cache();
+					return apc_clear_cache('user');
 			}
 			
 			return false;

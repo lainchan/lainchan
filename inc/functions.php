@@ -947,8 +947,8 @@
 			
 			if($mute['time'] + $mutetime > time()) {
 				if($config['cache']['enabled']) {
-					cache::set("mute_${_SERVER['REMOTE_ADDR']}", $mute, $mute['time'] + $mutetime);
-					cache::set("mutetime_${_SERVER['REMOTE_ADDR']}", $mutetime, $mute['time'] + $mutetime);
+					cache::set("mute_${_SERVER['REMOTE_ADDR']}", $mute, $mute['time'] + $mutetime - time());
+					cache::set("mutetime_${_SERVER['REMOTE_ADDR']}", $mutetime, $mute['time'] + $mutetime - time());
 				}
 				// Not expired yet
 				error(sprintf($config['error']['youaremuted'], $mute['time'] + $mutetime - time()));
