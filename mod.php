@@ -929,7 +929,7 @@
 						continue;
 					$match[] = $pdo->quote($word);
 				}
-				
+				// a
 				$like = '';
 				foreach($match as &$phrase) {
 					if(!empty($like))
