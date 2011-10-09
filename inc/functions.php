@@ -11,7 +11,7 @@
 	function loadConfig() {
 		global $board, $config, $__ip, $debug;
 		
-		require 'config.php';
+		require 'inc/config.php';
 		if (file_exists('inc/instance-config.php')) {
 			require 'inc/instance-config.php';
 		}
