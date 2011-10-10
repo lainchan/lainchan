@@ -114,7 +114,7 @@
 		$body = strip_tags($body);
 		
 		// Unescape HTML characters, to avoid splitting them in half
-		$body = html_entity_decode_utf8($body);
+		$body = html_entity_decode($body, ENT_NOQUOTES, 'UTF-8');
 		
 		// calculate strlen() so we can add "..." after if needed
 		$strlen = strlen($body);

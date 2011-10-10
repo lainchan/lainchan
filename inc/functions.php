@@ -1300,24 +1300,6 @@
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
 
-	function html_entity_decode_utf8($string) {
-		static $trans_tbl;
-		
-		// replace numeric entities
-		$string = preg_replace('~&#x([0-9a-f]+);~ei', 'code2utf(hexdec("\\1"))', $string);
-		$string = preg_replace('~&#([0-9]+);~e', 'code2utf(\\1)', $string);
-
-		// replace literal entities
-		if (!isset($trans_tbl)) {
-			$trans_tbl = array();
-			
-			foreach (get_html_translation_table(HTML_ENTITIES) as $val=>$key)
-				$trans_tbl[$key] = utf8_encode($val);
-		}
-		
-		return strtr($string, $trans_tbl);
-	}
-
 	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
 	function code2utf($num) {
 		if ($num < 128)
@@ -1496,7 +1478,7 @@
 		$gcf = hcf($numerator, $denominator);
 		$numerator = $numerator / $gcf;
 		$denominator = $denominator / $gcf;
-
+		
 		return "{$numerator}{$sep}{$denominator}";
 	}
 
