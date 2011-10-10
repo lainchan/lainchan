@@ -77,6 +77,8 @@
 		if($config['debug']) {
 			$start = microtime(true);
 			$query = $pdo->query($query);
+			if(!$query)
+				return false;
 			$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
 			$debug['sql'][] = Array(
 				'query' => $query->queryString,
