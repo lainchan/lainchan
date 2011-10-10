@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `posts_{{ board }}` (
   `ip` varchar(45) NOT NULL,
   `sticky` int(1) NOT NULL,
   `locked` int(1) NOT NULL,
+  `sage` int(1) NOT NULL,
   `embed` text,
   UNIQUE KEY `id` (`id`),
   KEY `thread` (`thread`),
