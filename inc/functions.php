@@ -1139,7 +1139,7 @@
 		}
 		if($page < $config['max_pages']) {
 			for(;$page<=$config['max_pages'];$page++) {
-				$filename = $page==1 ? $config['file_index'] : sprintf($config['file_page'], $page);
+				$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 				file_unlink($filename);
 			}
 		}
