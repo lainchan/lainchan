@@ -19,6 +19,10 @@
 			require $board['dir'] . '/config.php';
 		}
 		
+		if(!isset($__version))
+			$__version = trim(file_get_contents('.installed'));
+		$config['version'] = $__version;
+		
 		if($config['debug']) {
 			if(!isset($debug)) {
 				$debug = Array('sql' => Array(), 'purge' => Array(), 'cached' => Array());
