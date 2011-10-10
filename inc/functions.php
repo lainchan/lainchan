@@ -62,6 +62,8 @@
 			$config['image_sticky'] = $config['dir']['static'] . 'sticky.gif';
 		if(!isset($config['image_locked']))
 			$config['image_locked'] = $config['dir']['static'] . 'locked.gif';
+		if(!isset($config['image_bumplocked']))
+			$config['image_bumplocked'] = $config['dir']['static'] . 'sage.gif';
 		if(!isset($config['image_deleted']))
 			$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 		if(!isset($config['image_zip']))
@@ -543,6 +545,21 @@
 		return (bool) $post['locked'];
 	}
 	
+	function threadSageLocked($id) {
+		global $board;
+		
+		$query = prepare(sprintf("SELECT `sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error());
+		
+		if(!$post = $query->fetch()) {
+			// Non-existant, so it can't be locked...
+			return false;
+		}
+		
+		return (bool) $post['sage'];
+	}
+	
 	function threadExists($id) {
 		global $board;
 		
@@ -557,7 +574,7 @@
 	
 	function post($post, $OP) {
 		global $pdo, $board;
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, :embed)", $board['uri']));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 		
 		// Basic stuff
 		$query->bindValue(':subject', $post['subject']);
@@ -754,7 +771,7 @@
 				}
 			}
 			
-			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
+			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
 			
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
@@ -1372,7 +1389,7 @@
 		
 		while($post = $query->fetch()) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], $mod ? '?/' : $config['root'], $mod);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod);
 			} else {
 				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod));
 			}

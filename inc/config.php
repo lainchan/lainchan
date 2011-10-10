@@ -630,6 +630,7 @@
 	// These can be URLs OR base64 (data URI scheme)
 	//$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
 	//$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
+	//$config['image_bumplocked']	= $config['dir']['static'] . 'sage.gif';
 	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.';
 	//$config['image_zip']		= $config['dir']['static'] . 'zip.';
 	
@@ -675,6 +676,8 @@
 	$config['mod']['link_desticky'] = '[-Sticky]';
 	$config['mod']['link_lock'] = '[Lock]';
 	$config['mod']['link_unlock'] = '[-Lock]';
+	$config['mod']['link_bumplock'] = '[Sage]';
+	$config['mod']['link_bumpunlock'] = '[-Sage]';
 	
 	// Moderator capcodes
 	$config['capcode'] = ' <a class="capcode">## %s</a>';
@@ -770,7 +773,11 @@
 	$config['mod']['lock'] = MOD;
 	// Post in a locked thread
 	$config['mod']['postinlocked'] = MOD;
-	// Post bypass unoriginal content check
+	// Prevent a thread from being bumped
+	$config['mod']['bumplock'] = MOD;
+	// View whether a thread has been bumplocked ("-1" to allow non-mods to see too)
+	$config['mod']['view_bumplock'] = MOD;
+	// Post bypass unoriginal content check on robot-enabled boards
 	$config['mod']['postunoriginal'] = ADMIN;
 	// Bypass flood check
 	$config['mod']['flood'] = ADMIN;

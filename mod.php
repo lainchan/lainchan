@@ -951,7 +951,7 @@
 					$temp = '';
 					while($post = $query->fetch()) {
 						if(!$post['thread']) {
-							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], '?/', $mod, false);
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
 						} else {
 							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod);
 						}
@@ -1310,7 +1310,7 @@
 				openBoard($report['uri']);
 				
 				if(!$post['thread']) {
-					$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], '?/', $mod, false);
+					$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
 				} else {
 					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod);
 				}
@@ -1937,6 +1937,38 @@
 			
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+		} elseif(preg_match('/^\/' . $regex['board'] . 'bump(un)?lock\/(\d+)$/', $query, $matches)) {
+			// Lock/Unlock
+			
+			$boardName = &$matches[1];
+			if(!hasPermission($config['mod']['bumplock'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[3];
+			// Open board
+			if(!openBoard($boardName))
+				error($config['error']['noboard']);
+			
+			$query = prepare(sprintf("UPDATE `posts_%s` SET `sage` = :bumplocked WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			
+			if($matches[2] == 'un') {
+				// Record the action
+				modLog("Unbumplocked post #{$post}");
+				$query->bindValue(':bumplocked', 0, PDO::PARAM_INT);
+			} else {
+				// Record the action
+				modLog("Bumplocked post #{$post}");
+				$query->bindValue(':bumplocked', 1, PDO::PARAM_INT);
+			}
+			
+			$query->execute() or error(db_error($query));
+			
+			buildIndex();
+			buildThread($post);
+			
+			
+			// Redirect
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
 			// Delete all posts by an IP
 			
@@ -2197,7 +2229,7 @@
 				
 					while($post = $query->fetch()) {
 						if(!$post['thread']) {
-							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['embed'], '?/', $mod, false);
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
 						} else {
 							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'], '?/', $mod);
 						}

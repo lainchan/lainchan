@@ -276,7 +276,7 @@
 	};
 	
 	class Thread {
-		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $embed, $root=null, $mod=false, $hr=true) {
+		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $bumplocked, $embed, $root=null, $mod=false, $hr=true) {
 			global $config;
 			if(!isset($root)) $root = &$config['root'];
 			
@@ -302,6 +302,7 @@
 			$this->ip = $ip;
 			$this->sticky = $sticky;
 			$this->locked = $locked;
+			$this->bumplocked = $bumplocked;
 			$this->embed = $embed;
 			$this->root = $root;
 			$this->mod = $mod;
@@ -356,6 +357,12 @@
 						$built .= ' <a title="Make thread not sticky" href="?/' . $board['uri'] . '/unsticky/' . $this->id . '">' . $config['mod']['link_desticky'] . '</a>';
 					else
 						$built .= ' <a title="Make thread sticky" href="?/' . $board['uri'] . '/sticky/' . $this->id . '">' . $config['mod']['link_sticky'] . '</a>';
+				
+				if(hasPermission($config['mod']['bumplock'], $board['uri'], $this->mod))
+					if($this->bumplocked)
+						$built .= ' <a title="Allow thread to be bumped" href="?/' . $board['uri'] . '/bumpunlock/' . $this->id . '">' . $config['mod']['link_bumpunlock'] . '</a>';
+					else
+						$built .= ' <a title="Prevent thread from being bumped" href="?/' . $board['uri'] . '/bumplock/' . $this->id . '">' . $config['mod']['link_bumplock'] . '</a>';
 				
 				// Lock
 				if(hasPermission($config['mod']['lock'], $board['uri'], $this->mod))

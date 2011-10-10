@@ -545,7 +545,7 @@
 		
 		buildThread(($OP?$id:$post['thread']));
 		
-		if(!$OP && strtolower($post['email']) != 'sage' && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
+		if(!$OP && strtolower($post['email']) != 'sage' && !threadSageLocked($post['thread']) && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
 			bumpThread($post['thread']);
 		}
 		
