@@ -1774,6 +1774,9 @@
 				// Create the posts table
 				query(Element('posts.sql', Array('board' => $board['uri']))) or error(db_error());
 				
+				if($config['cache']['enabled'])
+					cache::delete('all_boards');
+				
 				// Build the board
 				buildIndex();
 				
@@ -1952,21 +1955,35 @@
 			
 			$ip = $post['ip'];
 			
-			// Record the action
-			modLog("Deleted all posts by IP address: {$ip}");
+			$boards = listBoards();
+			$query = '';
+			foreach($boards as &$_board) {
+				$query .= sprintf("SELECT `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', '', $query);
 			
-			$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `ip` = :ip", $board['uri']));
+			$query = prepare($query);
 			$query->bindValue(':ip', $ip);
 			$query->execute() or error(db_error($query));
 			
 			if($query->rowCount() < 1)
 				error($config['error']['invalidpost']);
 			
+			$boards = Array();
 			while($post = $query->fetch()) {
+				openBoard($post['board']);
+				$boards[] = $post['board'];
+				
 				deletePost($post['id'], false);
 			}
 			
-			buildIndex();
+			foreach($boards as &$_board) {
+				openBoard($_board);
+				buildIndex();
+			}
+			
+			// Record the action
+			modLog("Deleted all posts by IP address: {$ip}");
 			
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/ban$/', $query)) {
