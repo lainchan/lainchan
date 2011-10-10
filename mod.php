@@ -422,6 +422,8 @@
 					if(!isset($theme['config']) || empty($theme['config'])) {
 						$body .= '<p style="text-align:center" class="unimportant">(No configuration required.)</p>';
 					} else {
+						$settings = themeSettings($_theme);
+						
 						$body .= '<table>';
 						foreach($theme['config'] as &$c) {
 							$body .= '<tr><th>' . $c['title'] . '</th><td>';
@@ -429,7 +431,13 @@
 								case 'text':
 								default:
 									$body .= '<input type="text" name="' . utf8tohtml($c['name']) . '" ' .
-										(isset($c['default']) ? 'value="' . utf8tohtml($c['default']) . '" ' :'') .
+										(isset($settings[$c['name']]) ?
+											' value="' . utf8tohtml($settings[$c['name']]) . '" '
+										:
+											(isset($c['default']) ?
+												'value="' . utf8tohtml($c['default']) . '" '
+											: '')
+										) .
 										(isset($c['size']) ? 'size="' . (int)$c['size'] . '" ' :'') .
 									'/>';
 							}
