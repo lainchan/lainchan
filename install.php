@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.4-dev-1');
+	define('VERSION', 'v0.9.4-dev-2');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -21,12 +21,13 @@
 		if(empty($version))
 			$version = 'v0.9.1';
 		
+		$boards = listBoards();
+		
 		switch($version) {
 			case 'v0.9':
 			case 'v0.9.1':
 				// Upgrade to v0.9.2-dev
 				
-				$boards = listBoards();
 				foreach($boards as &$_board) {
 					// Add `capcode` field after `trip`
 					query(sprintf("ALTER TABLE `posts_%s` ADD  `capcode` VARCHAR( 50 ) NULL AFTER  `trip`", $_board['uri'])) or error(db_error());
@@ -48,7 +49,6 @@
 				$version = 'v0.9.2-dev-1';
 				// Upgrade to v0.9.2-dev-2
 				
-				$boards = listBoards();
 				foreach($boards as &$_board) {
 					// Increase field sizes
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `subject` `subject` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
@@ -57,7 +57,6 @@
 			case 'v0.9.2-dev-2':
 				// Upgrade to v0.9.2-dev-3 (v0.9.2)
 				
-				$boards = listBoards();
 				foreach($boards as &$_board) {
 					// Add `custom_fields` field
 					query(sprintf("ALTER TABLE `posts_%s` ADD `embed` TEXT NULL", $_board['uri'])) or error(db_error());
@@ -75,7 +74,6 @@
 				query("ALTER TABLE  `mods` ADD  `boards` TEXT NOT NULL") or error(db_error());
 				query("UPDATE `mods` SET `boards` = '*'") or error(db_error());
 			case 'v0.9.3-dev-2':
-				$boards = listBoards();
 				foreach($boards as &$_board) {
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE `filehash`  `filehash` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $_board['uri'])) or error(db_error());
 				}
@@ -86,7 +84,6 @@
 				// add ban ID
 				query("ALTER TABLE `bans` ADD  `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY ( `id` ), ADD UNIQUE (`id`)");
 			case 'v0.9.3-dev-5':
-				$boards = listBoards();
 				foreach($boards as &$_board) {
 					// Increase subject field size
 					query(sprintf("ALTER TABLE `posts_%s` CHANGE  `subject` `subject` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL", $_board['uri'])) or error(db_error());
@@ -96,7 +93,6 @@
 				$tables = Array(
 					'bans', 'boards', 'ip_notes', 'modlogs', 'mods', 'mutes', 'noticeboard', 'pms', 'reports', 'robot', 'theme_settings', 'news'
 				);
-				$boards = listBoards();
 				foreach($boards as &$board) {
 					$tables[] = "posts_{$board['uri']}";
 				}
@@ -105,17 +101,14 @@
 					query("ALTER TABLE  `{$table}` ENGINE = MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci") or error(db_error());
 				}
 			case 'v0.9.3-dev-7':
-				$boards = listBoards();
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE  `posts_%s` CHANGE  `filename` `filename` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL", $board['uri'])) or error(db_error());
 				}
 			case 'v0.9.3-dev-8':
-				$boards = listBoards();
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE `posts_%s` ADD INDEX (  `thread` )", $board['uri'])) or error(db_error());
 				}
 			case 'v0.9.3-dev-9':
-				$boards = listBoards();
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE `posts_%s`ADD INDEX (  `time` )", $board['uri'])) or error(db_error());
 					query(sprintf("ALTER TABLE `posts_%s`ADD FULLTEXT (`body`)", $board['uri'])) or error(db_error());
@@ -136,6 +129,10 @@
 				query("ALTER TABLE  `mutes` ADD INDEX (`ip`)") or error(db_error());
 				query("ALTER TABLE  `news` ADD INDEX (`time`)") or error(db_error());
 				query("ALTER TABLE  `theme_settings` ADD INDEX (`theme`)") or error(db_error());
+			case 'v0.9.4-dev-1':
+				foreach($boards as &$board) {
+					query(sprintf("ALTER TABLE  `posts_%s` ADD  `sage` INT( 1 ) NOT NULL AFTER  `locked`", $board['uri'])) or error(db_error());
+				}
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
