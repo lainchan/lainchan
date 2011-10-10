@@ -196,8 +196,17 @@
 		}
 		
 		//Check if thread exists
-		if(!$OP && !threadExists($post['thread']))
-			error($config['error']['nonexistant']);
+		if(!$OP) {
+			$query = prepare(sprintf("SELECT `sticky`,`locked`,`sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+			$query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
+			$query->execute() or error(db_error());
+			
+			if(!$thread = $query->fetch()) {
+				// Non-existant
+				error($config['error']['nonexistant']);
+			}
+		}
+			
 		
 		// Check for an embed field
 		if($config['enable_embedding'] && isset($_POST['embed']) && !empty($_POST['embed'])) {
@@ -269,7 +278,7 @@
 		// Check if thread is locked
 		// but allow mods to post
 		if(!$OP && (!$mod || $mod['type'] < $config['mod']['postinlocked'])) {
-			if(threadLocked($post['thread']))
+			if($thread['locked'])
 				error($config['error']['locked']);
 		}
 		
@@ -545,7 +554,7 @@
 		
 		buildThread(($OP?$id:$post['thread']));
 		
-		if(!$OP && strtolower($post['email']) != 'sage' && !threadSageLocked($post['thread']) && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
+		if(!$OP && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
 			bumpThread($post['thread']);
 		}
 		
