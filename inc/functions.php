@@ -9,7 +9,7 @@
 	loadConfig();
 	
 	function loadConfig() {
-		global $board, $config, $__ip, $debug;
+		global $board, $config, $__ip, $debug, $__version;
 		
 		require 'inc/config.php';
 		if (file_exists('inc/instance-config.php')) {
