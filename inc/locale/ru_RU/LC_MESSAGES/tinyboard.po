@@ -16,7 +16,7 @@ msgstr  "Project-Id-Version: Tinyboard i18n\n"
         "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Name"
-msgstr "Ник"
+msgstr "Имя"
 
 msgid "Email"
 msgstr "Адрес"
@@ -25,16 +25,16 @@ msgid "Subject"
 msgstr "Тема"
 
 msgid "Comment"
-msgstr "комментарий"
+msgstr "Комментарий"
 
 msgid "Verification"
-msgstr "проверка"
+msgstr "Подтверждение"
 
 msgid "File"
 msgstr "Файл"
 
 msgid "Embed"
-msgstr "вставлять"
+msgstr "Вставить медиа"
 
 msgid "Flags"
 msgstr "Флаги"
@@ -46,41 +46,41 @@ msgid "(For file deletion.)"
 msgstr "(Для удаления файлов.)"
 
 msgid "Spoiler Image"
-msgstr "Спойлер изображение"
+msgstr "Картинка-спойлер"
 
 msgid "Return"
-msgstr "возвращение"
+msgstr "Назад"
 
 msgid "Posting mode: Reply"
-msgstr "Режим публикации: Ответить"
+msgstr "Ответ"
 
 msgid "Reply"
 msgstr "Ответить"
 
 msgid "Sticky"
-msgstr "липкий"
+msgstr "Sticky"
 
 msgid "Lock"
-msgstr "Блокировка"
+msgstr "Lock"
 
 msgid "Raw HTML"
-msgstr "Сырье HTML"
+msgstr "Сырой HTML"
 
 msgid "Delete Post"
-msgstr "удалить сообщение"
+msgstr "удалить пост"
 
 msgid "Delete"
-msgstr "удалять"
+msgstr "Удалить"
 
 msgid "Reason"
-msgstr "причина"
+msgstr "Причина"
 
 msgid "Report"
-msgstr "отчет"
+msgstr "Пожаловаться"
 
 msgid "Previous"
-msgstr "предыдущий"
+msgstr "Предыдущий"
 
 msgid "Next"
-msgstr "следующий"
+msgstr "Следующий"
 
