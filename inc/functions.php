@@ -5,6 +5,8 @@
 		exit;
 	}
 	
+	require 'contrib/gettext/gettext.inc';
+	
 	register_shutdown_function('fatal_error_handler'); 
 	loadConfig();
 	
@@ -105,6 +107,15 @@
 			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 				$_SERVER['REMOTE_ADDR'] = $m[2];
 		}
+		
+		if(_setlocale(LC_ALL, $config['locale']) === false) {
+			$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
+			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
+
+		}
+		_bindtextdomain('tinyboard', './inc/locale');
+		_bind_textdomain_codeset('tinyboard', 'UTF-8');
+		_textdomain('tinyboard');
 		
 		if($config['recaptcha'])
 			require_once 'inc/contrib/recaptcha/recaptchalib.php';
@@ -823,7 +834,7 @@
 				// Previous button
 				if($num == 0) {
 					// There is no previous page.
-					$btn['prev'] = 'Previous';
+					$btn['prev'] = _('Previous');
 				} else {
 					$loc = ($mod ? '?/' . $board['uri'] . '/' : '') .
 						($num == 1 ?
@@ -837,12 +848,12 @@
 							'<input type="hidden" name="status" value="301" />' .
 							'<input type="hidden" name="r" value="' . htmlentities($loc) . '" />'
 						:'') .
-					'<input type="submit" value="Previous" /></form>';
+					'<input type="submit" value="' . _('Previous') . '" /></form>';
 				}
 				
 				if($num == count($pages) - 1) {
 					// There is no next page.
-					$btn['next'] = 'Next';
+					$btn['next'] = _('Next');
 				} else {
 					$loc = ($mod ? '?/' . $board['uri'] . '/' : '') . sprintf($config['file_page'], $num + 2);
 					
@@ -851,7 +862,7 @@
 							'<input type="hidden" name="status" value="301" />' .
 							'<input type="hidden" name="r" value="' . htmlentities($loc) . '" />'
 						:'') .
-					'<input type="submit" value="Next" /></form>';
+					'<input type="submit" value="' . _('Next') . '" /></form>';
 				}
 			}
 		}

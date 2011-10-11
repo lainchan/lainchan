@@ -9,6 +9,9 @@
 					self::$cache = new Memcached();
 					self::$cache->addServers($config['cache']['memcached']);
 					break;
+				case 'php':
+					self::$cache = Array();
+					break;
 			}
 		}
 		public static function get($key) {
@@ -26,6 +29,9 @@
 					break;
 				case 'xcache':
 					$data = xcache_get($key);
+					break;
+				case 'php':
+					$data = isset(self::$cache[$key]) ? self::$cache[$key] : false;
 					break;
 			}
 			
@@ -54,6 +60,9 @@
 				case 'xcache':
 					xcache_set($key, $value, $expires);
 					break;
+				case 'php':
+					self::$cache[$key] = $value;
+					break;
 			}			
 		}
 		public static function delete($key) {
@@ -71,6 +80,9 @@
 				case 'xcache':
 					xcache_unset($key);
 					break;
+				case 'php':
+					unset(self::$cache[$key]);
+					break;
 			}
 		}
 		public static function flush() {
@@ -83,6 +95,9 @@
 					return self::$cache->flush();
 				case 'apc':
 					return apc_clear_cache('user');
+				case 'php':
+					self::$cache[$key] = Array();
+					break;
 			}
 			
 			return false;

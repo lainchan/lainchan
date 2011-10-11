@@ -32,7 +32,7 @@
 	<h1>{{ board.url }} - {{ board.name }}</h1>
 	<div class="title">{% if board.title %}{{ board.title }}{% endif %}<p>{% if mod %}<a href="?/">Return to dashboard</a>{% endif %}</p></div>
 	
-	<div class="banner">Posting mode: Reply <a class="unimportant" href="{{ return }}">[Return]</a></div>
+	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
 	<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
 	{{ hidden_inputs }}
 	<input type="hidden" name="thread" value="{{ id }}" />
@@ -41,7 +41,7 @@
 		<table>
 			<tr>
 				<th>
-					Name
+					{% trans %}Name{% endtrans %}
 				</th>
 				<td>
 					<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
@@ -49,7 +49,7 @@
 			</tr>
 			<tr>
 				<th>
-					Email
+					{% trans %}Email{% endtrans %}
 				</th>
 				<td>
 					<input type="text" name="email" size="25" maxlength="40" autocomplete="off" />
@@ -57,16 +57,16 @@
 			</tr>
 			<tr>
 				<th>
-					Subject
+					{% trans %}Subject{% endtrans %}
 				</th>
 				<td>
 					<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" />
-					<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if config.button_reply %}{{ config.button_reply }}{% else %}New Reply{% endif %}" />{% if config.spoiler_images %} <input name="spoiler" type="checkbox" /> Spoiler Image{% endif %}
+					<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{{ config.button_reply }}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox" /> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
 				</td>
 			</tr>
 			<tr>
 				<th>
-					Comment
+					{% trans %}Comment{% endtrans %}
 				</th>
 				<td>
 					<textarea name="body" id="body" rows="5" cols="30"></textarea>
@@ -75,7 +75,7 @@
 			{% if config.recaptcha %}
 			<tr>
 				<th>
-					Verification
+					{% trans %}Verification{% endtrans %}
 				</th>
 				<td>
 					<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
@@ -84,7 +84,7 @@
 			{% endif %}
 			<tr>
 				<th>
-					File
+					{% trans %}File{% endtrans %}
 				</th>
 				<td>
 					<input type="file" name="file" />
@@ -93,7 +93,7 @@
 			{% if config.enable_embedding %}
 			<tr>
 				<th>
-					Embed
+					{% trans %}Embed{% endtrans %}
 				</th>
 				<td>
 					<input type="text" name="embed" size="30" maxlength="120" autocomplete="off" />
@@ -103,11 +103,11 @@
 			{% if mod %}
 			<tr>
 				<th>
-					Flags
+					{% trans %}Flags{% endtrans %}
 				</th>
 				<td>
 					<div>
-						<label for="raw">Raw HTML</label><br />
+						<label for="raw">{% trans %}Raw HTML{% endtrans %}</label><br />
 						<input title="Raw HTML" type="checkbox" name="raw" id="raw" />
 					</div>
 				</td>
@@ -115,11 +115,11 @@
 			{% endif %}
 			<tr>
 				<th>
-					Password
+					{% trans %}Password{% endtrans %}
 				</th>
 				<td>
 					<input type="password" name="password" size="12" maxlength="18" autocomplete="off" />
-					<span class="unimportant">(For file deletion.)</span>
+					<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
 				</td>
 			</tr>
 		</table>
@@ -135,18 +135,18 @@
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	{{ body }}
 	<div class="delete">
-		Delete Post [<input title="Delete file only" type="checkbox" name="file" id="delete_file" />
-		 <label for="delete_file">File</label>] <label for="password">Password</label>
+		{% trans %}Delete Post{% endtrans %} [<input title="Delete file only" type="checkbox" name="file" id="delete_file" />
+		 <label for="delete_file">{% trans %}File{% endtrans %}</label>] <label for="password">{% trans %}Password{% endtrans %}</label>
 			<input id="password" type="password" name="password" size="12" maxlength="18" />
-			<input type="submit" name="delete" value="Delete" />
+			<input type="submit" name="delete" value="{% trans %}Delete{% endtrans %}" />
 	</div>
 	<div class="delete" style="clear:both">
-		<label for="reason">Reason</label>
+		<label for="reason">{% trans %}Reason{% endtrans %}</label>
 			<input id="reason" type="text" name="reason" size="20" maxlength="30" />
-			<input type="submit" name="report" value="Report" />
+			<input type="submit" name="report" value="{% trans %}Report{% endtrans %}" />
 	</div>
 	</form>
-	<a href="{{ return }}">[Return]</a>
+	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2011 Tinyboard Development Group</p>

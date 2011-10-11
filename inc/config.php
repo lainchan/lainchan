@@ -427,6 +427,9 @@
  * ====================
  */
  	
+ 	// Locale (en, ru_RU)
+ 	$config['locale'] = 'en';
+ 	
  	// Timezone
 	$config['timezone'] = 'America/Los_Angeles';
 	

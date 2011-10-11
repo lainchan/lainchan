@@ -96,7 +96,7 @@
 		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Locked" />
 	{% endif %}
 	{% if index %}
-		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[Reply]</a>
+		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
 	{% endif %}
 	{{ post.postControls }}
 	</p>
