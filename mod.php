@@ -1840,14 +1840,17 @@
 			
 			echo $page;
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletefile\/(\d+)$/', $query, $matches)) {
-			if(!hasPermission($config['mod']['deletefile'])) error($config['error']['noaccess']);
 			// Delete file from post
 			
 			$boardName = &$matches[1];
-			$post = &$matches[2];
+			
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['deletefile'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[2];
 			
 			// Delete post
 			deleteFile($post);
@@ -1862,14 +1865,17 @@
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
-			if(!hasPermission($config['mod']['delete'])) error($config['error']['noaccess']);
 			// Delete post
 			
 			$boardName = &$matches[1];
-			$post = &$matches[2];
+			
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['delete'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[2];
 			
 			// Delete post
 			deletePost($post);
@@ -1883,14 +1889,17 @@
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . '(un)?sticky\/(\d+)$/', $query, $matches)) {
-			if(!hasPermission($config['mod']['sticky'])) error($config['error']['noaccess']);
 			// Add/remove sticky
 			
 			$boardName = &$matches[1];
-			$post = &$matches[3];
+			
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['sticky'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[3];
 			
 			$query = prepare(sprintf("UPDATE `posts_%s` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
@@ -1917,12 +1926,14 @@
 			// Lock/Unlock
 			
 			$boardName = &$matches[1];
-			if(!hasPermission($config['mod']['lock'], $boardName)) error($config['error']['noaccess']);
 			
-			$post = &$matches[3];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['lock'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[3];
 			
 			$query = prepare(sprintf("UPDATE `posts_%s` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
@@ -1949,12 +1960,13 @@
 			// Lock/Unlock
 			
 			$boardName = &$matches[1];
-			if(!hasPermission($config['mod']['bumplock'], $boardName)) error($config['error']['noaccess']);
-			
-			$post = &$matches[3];
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['bumplock'], $boardName)) error($config['error']['noaccess']);
+			
+			$post = &$matches[3];
 			
 			$query = prepare(sprintf("UPDATE `posts_%s` SET `sage` = :bumplocked WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
@@ -2108,10 +2120,9 @@
 				
 				$query->execute() or error(db_error($query));
 				
+				openBoard($_POST['board']);
 				// Delete too
-				if(isset($_POST['delete']) && isset($_POST['board']) && hasPermission($config['mod']['delete'], $_POST['board'])) {
-					openBoard($_POST['board']);
-					
+				if(isset($_POST['delete']) && isset($_POST['board']) && hasPermission($config['mod']['delete'], $_POST['board'])) {					
 					$post = round($_POST['delete']);
 					
 					deletePost($post);
@@ -2123,9 +2134,7 @@
 					buildIndex();
 				}
 				
-				if(hasPermission($config['mod']['public_ban']) && isset($_POST['post']) && isset($_POST['board']) && isset($_POST['public_message']) && isset($_POST['message'])) {
-					openBoard($_POST['board']);
-					
+				if(hasPermission($config['mod']['public_ban']) && isset($_POST['post']) && isset($_POST['board']) && isset($_POST['public_message']) && isset($_POST['message'])) {					
 					$post = round($_POST['post']);
 					
 					$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id", $board['uri']));
@@ -2163,15 +2172,16 @@
 			// Ban by post
 			
 			$boardName = &$matches[1];
+			// Open board
+			if(!openBoard($boardName))
+				error($config['error']['noboard']);
+			
 			if(!hasPermission($config['mod']['ban'], $boardName)) error($config['error']['noaccess']);
 			
 			$delete = isset($matches[2]) && $matches[2] == '&delete';
 			if($delete && !hasPermission($config['mod']['delete'], $boardName)) error($config['error']['noaccess']);
 			
 			$post = $matches[3];
-			// Open board
-			if(!openBoard($boardName))
-				error($config['error']['noboard']);
 			
 			$query = prepare(sprintf("SELECT `ip`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $post, PDO::PARAM_INT);
