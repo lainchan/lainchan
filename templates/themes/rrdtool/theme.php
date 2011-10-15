@@ -38,24 +38,24 @@
 						// Create graph
 						if(!rrd_create($file, Array(
 							'-s ' . $this->interval,
-							'DS:posts:GAUGE:' . ($this->interval*2) . ':0:10000',
+							'DS:posts:GAUGE:' . ($this->interval) . ':0:10000',
 							
 							'RRA:MIN:0:1:' .	(3600/$this->interval), // hour
 							'RRA:MIN:0:1:' .	(86400/$this->interval), // day
-							'RRA:MIN:0:1:' .	(604800/$this->interval), // week
-							'RRA:MIN:0:60:' .	(2592000/$this->interval), // month
+							'RRA:MIN:0:30:' .	(604800/$this->interval), // week
+							'RRA:MIN:0:120:' .	(2592000/$this->interval), // month
 							'RRA:MIN:0:1440:' .	(31536000/$this->interval), // year
 							
 							'RRA:AVERAGE:0:1:' .	(3600/$this->interval), // hour
 							'RRA:AVERAGE:0:1:' .	(86400/$this->interval), // day
-							'RRA:AVERAGE:0:1:' .	(604800/$this->interval), // week
-							'RRA:AVERAGE:0:60:' .	(2592000/$this->interval), // month
+							'RRA:AVERAGE:0:60:' .	(604800/$this->interval), // week
+							'RRA:AVERAGE:0:120:' .	(2592000/$this->interval), // month
 							'RRA:AVERAGE:0:1440:' .	(31536000/$this->interval), // year
 							
 							'RRA:MAX:0:1:' .	(3600/$this->interval), // hour
 							'RRA:MAX:0:1:' .	(86400/$this->interval), // day
-							'RRA:MAX:0:1:' .	(604800/$this->interval), // week
-							'RRA:MAX:0:60:' .	(2592000/$this->interval), // month
+							'RRA:MAX:0:30:' .	(604800/$this->interval), // week
+							'RRA:MAX:0:120:' .	(2592000/$this->interval), // month
 							'RRA:MAX:0:1440:' .	(31536000/$this->interval), // year
 							)))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
