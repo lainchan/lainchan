@@ -38,7 +38,7 @@
 						// Create graph
 						if(!rrd_create($file, Array(
 							'-s ' . $this->interval,
-							'DS:posts:GAUGE:' . ($this->interval) . ':0:10000',
+							'DS:posts:GAUGE:' . ($this->interval * 2) . ':0:10000',
 							
 							'RRA:MIN:0:1:' .	(3600/$this->interval), // hour
 							'RRA:MIN:0:1:' .	(86400/$this->interval), // day
@@ -68,7 +68,7 @@
 						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT);
 						$query->execute() or error(db_error($query));
 						$count = $query->fetch();
-						$count = $count['count'];
+						$count = $count['count'] / 2;
 					
 						if(!rrd_update($file, Array(
 							'-t',
