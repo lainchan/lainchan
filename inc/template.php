@@ -31,6 +31,8 @@
 			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . print_r($debug, true) . '</pre><hr/>';
 		}
 		
+		$loader->setPaths($config['dir']['template']);
+		
 		$twig = new Twig_Environment($loader, Array(
 			'autoescape' => false,
 			'cache' => "{$config['dir']['template']}/cache",
