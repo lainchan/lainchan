@@ -1329,7 +1329,9 @@
 						'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
 						'Reason: ' . $report['reason'] . '<br/>' .
 						'Report date: ' . date($config['post_date'], $report['time']) . '<br/>' .
-						'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>' .
+						(hasPermission($config['mod']['show_ip']) ?
+							'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>'
+						: '') .
 						'<hr/>' .
 							(hasPermission($config['mod']['report_dismiss']) ?
 								'<a title="Discard abuse report" href="?/reports/' . $report['id'] . '/dismiss">Dismiss</a> | ' : '') .
