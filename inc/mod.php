@@ -279,11 +279,11 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		if($config['memcached']['enabled']) {
+		//if($config['memcached']['enabled']) {
 			// Remove cached ban
 			// TODO
-			$memcached->delete("ban_{$id}");
-		}
+		//	$memcached->delete("ban_{$id}");
+		//}
 	}
 	
 ?>
