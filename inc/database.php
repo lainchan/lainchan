@@ -44,9 +44,10 @@
 			$dsn .= ';' . $config['db']['dsn'];
 		try {
 			$options = Array(PDO::ATTR_TIMEOUT => $config['db']['timeout']);
+			$options = Array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
 			if($config['db']['persistent'])
 				$options[PDO::ATTR_PERSISTENT] = true;
-			return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password']);
+			return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
 		} catch(PDOException $e) {
 			$message = $e->getMessage();
 			
