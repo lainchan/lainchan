@@ -22,7 +22,7 @@
 		}
 		
 		if(!isset($__version))
-			$__version = trim(file_get_contents('.installed'));
+			$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
 		$config['version'] = $__version;
 		
 		if($config['debug']) {
