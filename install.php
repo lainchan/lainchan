@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.4-dev-2');
+	define('VERSION', 'v0.9.4-dev-3');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -133,6 +133,17 @@
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE  `posts_%s` ADD  `sage` INT( 1 ) NOT NULL AFTER  `locked`", $board['uri'])) or error(db_error());
 				}
+			case 'v0.9.4-dev-2':
+				if(!isset($_GET['confirm'])) {
+					$page['title'] = 'License Change';
+					$page['body'] = '<p style="text-align:center">You are upgrading to a version which uses an amended license. The licenses included with Tinyboard distributions prior to this version (v0.9.4-dev-2) are still valid for those versions, but no longer apply to this and newer versions.</p>' .
+						'<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE.md')) . '</textarea>
+						<p style="text-align:center">
+							<a href="?confirm=1">I have read and understood the agreement. Proceed to upgrading.</a>
+						</p>';
+					break;
+				}
+				
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
