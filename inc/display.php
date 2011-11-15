@@ -36,7 +36,7 @@
 				if(($key = array_search($board, $list)) && gettype($key) == 'string') {
 					$body .= ' <a href="' . $board . '">' . $key . '</a> /';
 				} else {			
-					$body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '">' . $board . '</a> /';
+					$body .= ' <a rel="directory" href="' . $root . $board . '/' . $config['file_index'] . '">' . $board . '</a> /';
 				}
 			}
 		}
