@@ -168,7 +168,7 @@
 			}
 			
 			if($mod['type'] >= ADMIN && $config['check_updates']) {
-				if(!$version = @file_get_contents('.installed'))
+				if(!$config['version'])
 					error('Could not find current version! (Check .installed)');
 				if(isset($_SESSION['update']) && time() - $_SESSION['update']['time'] < $config['check_updates_time']) {
 					$latest = unserialize($_SESSION['update']['latest']);
@@ -182,7 +182,7 @@
 					
 					if($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
 						eval($code);
-						if(preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $version, $m)) {
+						if(preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $m)) {
 							$current = Array(
 								'massive' => (int)$m[1],
 								'major' => (int)$m[2],
