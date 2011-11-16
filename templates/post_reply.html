@@ -33,7 +33,7 @@
 	{% if config.poster_ids %}
 		 ID: {{ post.ip|poster_id(post.thread) }}
 	{% endif %}
-	 <a class="post_no" {% if not index %}onclick="highlightReply({{ post.id }})" {% endif %}href="{{ post.link }}">No.</a>
+	 <a itemprop="url" class="post_no" {% if not index %}onclick="highlightReply({{ post.id }})" {% endif %}href="{{ post.link }}">No.</a>
 	<a class="post_no"
 		{% if not index %}
 			 onclick="citeReply({{ post.id }});"
@@ -91,7 +91,7 @@
 	</a>
 	{% endif %}
 	{{ post.postControls }}
-	<p itemprop="desc" class="body">
+	<p itemprop="text" class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 </div>

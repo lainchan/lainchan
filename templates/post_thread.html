@@ -100,11 +100,11 @@
 		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Locked" />
 	{% endif %}
 	{% if index %}
-		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
+		<a itemprop="url" href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
 	{% endif %}
 	{{ post.postControls }}
 	</p>
-	<p itemprop="desc" class="body">
+	<p itemprop="text" class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 	{% if post.omitted or post.omitted_images %}
