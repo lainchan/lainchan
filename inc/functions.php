@@ -1257,6 +1257,9 @@
 			$body = str_replace('---', '&ndash;', $body); // em dash
 			$body = str_replace('--', '&mdash;', $body); // en dash
 		}
+		
+		// replace tabs with 8 spaces
+		$body = str_replace("\t", '        ', $body);
 
 		// Cites
 		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.?]|$)/', $body, $cites)) {
