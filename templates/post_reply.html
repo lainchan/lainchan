@@ -11,7 +11,7 @@
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
-			<a itemprop="email" class="email" href="mailto:{{ post.email }}">
+			<a class="email" href="mailto:{{ post.email }}">
 		{% endif %}
 		<span itemprop="name" class="name">{{ post.name }}</span>
 		{% if post.trip|length > 0 %}
