@@ -1234,7 +1234,7 @@
 	function markup(&$body) {
 		global $board, $config;
 		
-		$body = utf8tohtml($body, true);
+		$body = utf8tohtml($body);
 		
 		if($config['wiki_markup']) {
 			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<span class=\"heading\">$2</span>", $body);
@@ -1338,56 +1338,8 @@
 		$body = preg_replace("/\n/", '<br/>', $body);
 	}
 
-	// Returns the utf string corresponding to the unicode value (from php.net, courtesy - romans@void.lv)
-	function code2utf($num) {
-		if ($num < 128)
-			return chr($num);
-		if ($num < 2048)
-			return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
-		if ($num < 65536)
-			return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		if ($num < 2097152)
-			return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-		return '';
-	}
-
-	function utf8tohtml($utf8, $encodeTags=true) {
-		$result = '';
-		for ($i = 0; $i < strlen($utf8); $i++) {
-			$char = $utf8[$i];
-			$ascii = ord($char);
-			if ($ascii < 128) {
-				// one-byte character
-				$result .= ($encodeTags) ? htmlentities($char) : $char;
-			} else if ($ascii < 192) {
-				// non-utf8 character or not a start byte
-			} else if ($ascii < 224) {
-				// two-byte character
-				$result .= htmlentities(substr($utf8, $i, 2), ENT_QUOTES, 'UTF-8');
-				$i++;
-			} else if ($ascii < 240) {
-				// three-byte character
-				$ascii1 = ord($utf8[$i+1]);
-				$ascii2 = @ord($utf8[$i+2]);
-				$unicode = (15 & $ascii) * 4096 +
-						   (63 & $ascii1) * 64 +
-						   (63 & $ascii2);
-				$result .= "&#$unicode;";
-				$i += 2;
-			} else if ($ascii < 248) {
-				// four-byte character
-				$ascii1 = ord($utf8[$i+1]);
-				$ascii2 = ord($utf8[$i+2]);
-				$ascii3 = ord($utf8[$i+3]);
-				$unicode = (15 & $ascii) * 262144 +
-						   (63 & $ascii1) * 4096 +
-						   (63 & $ascii2) * 64 +
-						   (63 & $ascii3);
-				$result .= "&#$unicode;";
-				$i += 3;
-			}
-		}
-		return $result;
+	function utf8tohtml($utf8) {
+		return mb_encode_numericentity($utf8, Array(0xff, 0xffff, 0, 0xffff), 'UTF-8');
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
