@@ -113,9 +113,16 @@
 			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
 
 		}
-		_bindtextdomain('tinyboard', './inc/locale');
-		_bind_textdomain_codeset('tinyboard', 'UTF-8');
-		_textdomain('tinyboard');
+		
+		if(extension_loaded('gettext')) {
+			bindtextdomain('tinyboard', './inc/locale');
+			bind_textdomain_codeset('tinyboard', 'UTF-8');
+			textdomain('tinyboard');
+		} else {
+			_bindtextdomain('tinyboard', './inc/locale');
+			_bind_textdomain_codeset('tinyboard', 'UTF-8');
+			_textdomain('tinyboard');
+		}
 		
 		if($config['recaptcha'])
 			require_once 'inc/contrib/recaptcha/recaptchalib.php';
