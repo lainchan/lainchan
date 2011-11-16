@@ -1022,10 +1022,10 @@
 					'<td style="white-space:nowrap">' .
 						(hasPermission($config['mod']['promoteusers']) ?
 							($_mod['type'] != ADMIN ?
-								'<a style="text-decoration:none" href="?/users/' . $_mod['id'] . '/promote" title="Promote">▲</a>'
+								'<a style="float:left;text-decoration:none" href="?/users/' . $_mod['id'] . '/promote" title="Promote">▲</a>'
 							:'') .
 							($_mod['type'] != JANITOR ?
-								'<a style="text-decoration:none" href="?/users/' . $_mod['id'] . '/demote" title="Demote">▼</a>'
+								'<a style="float:left;text-decoration:none" href="?/users/' . $_mod['id'] . '/demote" title="Demote">▼</a>'
 							:'')
 						: ''
 						) .
@@ -2428,4 +2428,5 @@
 			error($config['error']['404']);
 		}
 	}
+
 ?>
