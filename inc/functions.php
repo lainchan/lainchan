@@ -777,7 +777,7 @@
 		while($th = $query->fetch()) {
 			if(!$mod && $config['cache']['enabled']) {
 				if($built = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {					
-					$body .= '<div id="thread_' . $th['id'] . '">' . $built . '</div>';
+					$body .= $built;
 					continue;
 				}
 			}

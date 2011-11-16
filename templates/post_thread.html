@@ -1,10 +1,14 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 
+{% if index %}
+	<div id="thread_{{ post.id }}" itemscope>
+{% endif %}
+
 {% if post.embed %}
 	{{ post.embed }}
 {% elseif post.file == 'deleted' %}
-	<img src="{{ config.image_deleted }}" alt="" />
+	<img itemprop="image" src="{{ config.image_deleted }}" alt="" />
 {% elseif post.file and post.file %}
 	<p class="fileinfo">File: <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
 	(
@@ -43,18 +47,18 @@
 		{{ config.uri_thumb }}{{ post.thumb }}
 	{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
 {% endif %}
-<div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
+<div class="post op"{% if not index %} itemscope{% endif %}><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span class="subject">{{ post.subject }}</span> 
+			<span itemprop="title" class="subject">{{ post.subject }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
-			<a class="email" href="mailto:{{ post.email }}">
+			<a itemprop="email" class="email" href="mailto:{{ post.email }}">
 		{% endif %}
-		<span class="name">{{ post.name }}</span>
+		<span itemprop="name" class="name">{{ post.name }}</span>
 		{% if post.trip|length > 0 %}
 			<span class="trip">{{ post.trip }}</span>
 		{% endif %}
@@ -100,7 +104,7 @@
 	{% endif %}
 	{{ post.postControls }}
 	</p>
-	<p class="body">
+	<p itemprop="desc" class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 	{% if post.omitted or post.omitted_images %}
@@ -130,4 +134,6 @@
 	{% include 'post_reply.html' %}
 {% endfor %}
 <br class="clear"/>{% if hr %}<hr/>{% endif %}
-
+{% if index %}
+	</div>
+{% endif %}
