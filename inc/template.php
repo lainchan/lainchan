@@ -45,7 +45,7 @@
 		if(@file_get_contents("{$config['dir']['template']}/${templateFile}")) {
 			$body = $twig->render($templateFile, $options);
 			
-			if($config['minify_html']) {
+			if($config['minify_html'] && preg_match('/\.html$/', $templateFile)) {
 				$body = trim(preg_replace("/[\t\r\n]/", '', $body));
 			}
 			
