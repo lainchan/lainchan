@@ -494,6 +494,9 @@
 	//	'AnotherName' => 'url')
 	//);
 	
+	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
+	$config['minify_html'] = false;
+	
 /*
  * ====================
  *  Video embedding

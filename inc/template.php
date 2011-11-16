@@ -28,7 +28,7 @@
 				unset($debug['start']);
 				
 			}
-			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . print_r($debug, true) . '</pre><hr/>';
+			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . str_replace("\n", '<br/>', print_r($debug, true)) . '</pre><hr/>';
 		}
 		
 		$loader->setPaths($config['dir']['template']);
@@ -43,7 +43,13 @@
 		
 		// Read the template file
 		if(@file_get_contents("{$config['dir']['template']}/${templateFile}")) {
-			return $twig->render($templateFile, $options);
+			$body = $twig->render($templateFile, $options);
+			
+			if($config['minify_html']) {
+				$body = trim(preg_replace("/[\t\r\n]/", '', $body));
+			}
+			
+			return $body;
 		} else {
 			throw new Exception("Template file '${templateFile}' does not exist or is empty in '{$config['dir']['template']}'!");
 		}
