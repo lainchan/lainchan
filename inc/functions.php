@@ -384,7 +384,7 @@
 	function checkFlood($post) {
 		global $board, $config;
 		
-		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
+		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` != '' AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` != ''  AND `body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':body', $post['body'], PDO::PARAM_INT);
 		$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
@@ -906,11 +906,14 @@
 	}
 	
 	function checkRobot($body) {
+		if(empty($body))
+			return true;
+		
 		$body = makerobot($body);
 		$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
 		$query->bindValue(':hash', $body);
 		$query->execute() or error(db_error($query));
-
+		
 		if($query->fetch()) {
 			return true;
 		} else {
@@ -1540,4 +1543,5 @@
 				file_unlink($post['thumb']);
 		}
 	}
+	
 ?>
