@@ -5,8 +5,9 @@ Tinyboard is an imageboard software package written in PHP. It aims to maintain 
 
 ## Requirements
 1.	PHP >= 5.2.0
-2.	[PHP-GD](http://php.net/manual/en/book.image.php)
-3.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) with appropriate [driver for your database](http://www.php.net/manual/en/pdo.drivers.php)
+2.  [mbstring](http://www.php.net/manual/en/mbstring.installation.php) (--enable-mbstring)
+3.	[PHP-GD](http://php.net/manual/en/book.image.php)
+4.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) with appropriate [driver for your database](http://www.php.net/manual/en/pdo.drivers.php)
 
 ## Installation
 See <http://tinyboard.org/wiki/index.php?title=Installation>.
