@@ -177,7 +177,7 @@ function init()
 		newElement.appendChild(style);
 	}	
 	
-	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild)
+	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild.nextSibling)
 	
 	if(document.forms.postcontrols) {
 		document.forms.postcontrols.password.value = localStorage.password;
