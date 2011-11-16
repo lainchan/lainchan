@@ -2,7 +2,7 @@
 {# tabs and new lines will be ignored #}
 
 {% if index %}
-	<div id="thread_{{ post.id }}" itemscope>
+	<div id="thread_{{ post.id }}" itemscope itemid="/{{ board.uri }}/{{ post.id }}">
 {% endif %}
 
 {% if post.embed %}
@@ -47,7 +47,7 @@
 		{{ config.uri_thumb }}{{ post.thumb }}
 	{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
 {% endif %}
-<div class="post op"{% if not index %} itemscope{% endif %}><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
+<div class="post op"{% if not index %} itemscope itemid="/{{ board.uri }}/{{ post.id }}"{% endif %}><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
