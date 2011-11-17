@@ -2,7 +2,7 @@
 {# tabs and new lines will be ignored #}
 
 {% if index %}
-	<div id="thread_{{ post.id }}" itemscope itemid="/{{ board.uri }}/{{ post.id }}" itemtype="http://schema.org/Article">
+	<div id="thread_{{ post.id }}" itemscope itemid="/{{ board.uri }}/{{ post.id }}" itemtype="http://schema.org/CreativeWork">
 {% endif %}
 
 {% if post.embed %}
@@ -104,7 +104,7 @@
 	{% endif %}
 	{{ post.postControls }}
 	</p>
-	<p itemprop="articleBody" class="body">
+	<p itemprop="description" class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 	{% if post.omitted or post.omitted_images %}
@@ -128,7 +128,7 @@
 			{% endif %} omitted. Click reply to view.
 		</span>
 	{% endif %}
-<meta itemprop="articleSection" content="{{ board.uri }}" />
+<meta itemprop="genre" content="/{{ board.uri }}/" />
 {% if not index %}
 <meta itemprop="interactionCount" content="UserComments:{{ post.posts|count }}" />
 {% endif %}
