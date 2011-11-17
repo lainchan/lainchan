@@ -92,7 +92,7 @@
 	</a>
 	{% endif %}
 	{{ post.postControls }}
-	<p itemprop="text" class="body">
+	<p itemprop="commentText" class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 </div>
