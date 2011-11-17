@@ -52,7 +52,7 @@
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span itemprop="name" class="subject">{{ post.subject }}</span> 
+			<span itemprop="headline" class="subject">{{ post.subject }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
@@ -128,6 +128,7 @@
 			{% endif %} omitted. Click reply to view.
 		</span>
 	{% endif %}
+<meta itemprop="articleSection" content="{{ board.uri }}" />
 {% if not index %}
 <meta itemprop="interactionCount" content="UserComments:{{ post.posts|count }}" />
 {% endif %}
