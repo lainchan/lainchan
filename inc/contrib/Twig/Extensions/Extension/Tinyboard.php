@@ -19,7 +19,8 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'hasPermission' => new Twig_Filter_Function('twig_hasPermission_filter', array('needs_environment' => false)),
 			'date' => new Twig_Filter_Function('twig_date_filter', array('needs_environment' => false)),
 			'poster_id' => new Twig_Filter_Function('poster_id', array('needs_environment' => false)),
-			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter', array('needs_environment' => false))
+			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter', array('needs_environment' => false)),
+			'count' => new Twig_Filter_Function('count', array('needs_environment' => false))
 		);
 	}
 	
