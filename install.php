@@ -137,7 +137,7 @@
 				if(!isset($_GET['confirm'])) {
 					$page['title'] = 'License Change';
 					$page['body'] = '<p style="text-align:center">You are upgrading to a version which uses an amended license. The licenses included with Tinyboard distributions prior to this version (v0.9.4-dev-2) are still valid for those versions, but no longer apply to this and newer versions.</p>' .
-						'<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE.md')) . '</textarea>
+						'<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . str_replace("\n", '<br/>', htmlentities(file_get_contents('LICENSE.md'))) . '</textarea>
 						<p style="text-align:center">
 							<a href="?confirm=1">I have read and understood the agreement. Proceed to upgrading.</a>
 						</p>';
@@ -167,7 +167,7 @@
 	if($step == 0) {
 		// Agreeement
 		$page['body'] = '
-		<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE.md')) . '</textarea>
+		<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . str_replace("\n", '<br/>', htmlentities(file_get_contents('LICENSE.md'))) . '</textarea>
 		<p style="text-align:center">
 			<a href="?step=1">I have read and understood the agreement. Proceed to installation.</a>
 		</p>';
