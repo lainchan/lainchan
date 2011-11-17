@@ -8,7 +8,7 @@
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span itemprop="title" class="subject">{{ post.subject }}</span> 
+			<span itemprop="name" class="subject">{{ post.subject }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
