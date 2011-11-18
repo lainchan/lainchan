@@ -2168,6 +2168,155 @@
 				else
 					header('Location: ?/', true, $config['redirect_http']);
 			}
+		} elseif(preg_match('/^\/' . $regex['board'] . 'move\/(\d+)$/', $query, $matches)) {
+			
+			$boardName = &$matches[1];
+			$postID = $matches[2];
+			
+			// Open board
+			if(!openBoard($boardName))
+				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['move'], $boardName)) error($config['error']['noaccess']);
+			
+			if(isset($_POST['board'])) {
+				$targetBoard = $_POST['board'];
+				$shadow = isset($_POST['shadow']);
+				
+				// copy() if leaving a shadow thread behind. otherwise, rename().
+				$clone = $shadow ? 'copy' : 'rename';
+				
+				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL AND `id` = :id", $board['uri']));
+				$query->bindValue(':id', $postID, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				if(!$post = $query->fetch()) {
+					error($config['error']['nonexistant']);
+				}
+				
+				if($post['file']) {
+					$post['has_file'] = true;
+					$post['width'] = &$post['filewidth'];
+					$post['height'] = &$post['fileheight'];
+					
+					$file_src = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file'];
+					$file_thumb = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb'];
+				} else $post['has_file'] = false;
+				
+				// allow thread to keep its same traits (stickied, locked, etc.)
+				$post['mod'] = true;
+				
+				if(!openBoard($targetBoard))
+					error($config['error']['noboard']);
+				
+				$newID = post($post, true);
+				
+				if($post['has_file']) {
+					$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
+					$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+				}
+				
+				// move replies too...
+				openBoard($boardName);
+				
+				$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id`", $board['uri']));
+				$query->bindValue(':id', $postID, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+				
+				$replies = Array();
+				while($post = $query->fetch()) {
+					$post['mod'] = true;
+					$post['thread'] = $newID;
+					
+					if($post['file']) {
+						$post['has_file'] = true;
+						$post['width'] = &$post['filewidth'];
+						$post['height'] = &$post['fileheight'];
+						
+						$post['file_src'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file'];
+						$post['file_thumb'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb'];
+					} else $post['has_file'] = false;
+					
+					$replies[] = $post;
+				}
+				
+				openBoard($targetBoard);
+				foreach($replies as &$post) {
+					var_dump(post($post, false));
+					if($post['has_file']) {
+						$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
+						$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+					}
+				}
+				
+				// build thread
+				buildThread($newID);
+				buildIndex();
+				
+				// trigger themes
+				rebuildThemes('post');
+				
+				if($shadow) {
+					// do something
+				} else {
+					openBoard($boardName);
+					deletePost($postID);
+					buildIndex();
+				}
+				
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			} else {
+			
+				$body = '<fieldset><legend>Move thread</legend>' .
+					'<form action="?/' . $boardName . '/move/' . $postID . '" method="post">' .
+						'<table>'
+					;
+			
+				$boards = listBoards();
+			
+				$__boards = '';
+				foreach($boards as &$_board) {
+					$__boards .= '<li>' .
+						'<input type="radio" name="board" id="board_' . $_board['uri'] . '" value="' . $_board['uri'] . '">' .
+						'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
+								sprintf($config['board_abbreviation'], $_board['uri']) .
+							' - ' . $_board['title'] .
+						'</label>' .
+						'</li>';
+				}
+			
+				$body .= '<tr>' .
+							'<th>Thread ID</th>' .
+							'<td><input type="text" size="7" value="' . $postID . '" disabled /></td>' .
+						'</tr>' .
+					
+						'<tr>' . 
+							'<th><label for="message">Leave shadow thread</label></th>' .
+							'<td>' .
+								'<input type="checkbox" id="shadow" name="shadow"/>' .
+								' <span class="unimportant">(locks thread; replies to it with a link.)</span>' .
+							'</td>' .
+						'</tr>' .
+					
+						'<tr>' .
+							'<th>Target board</th>' .
+							'<td><ul style="list-style:none;padding:2px 5px">' . $__boards . '</tl></td>' .
+						'</tr>' .
+					
+						'<tr>' . 
+							'<td></td>' . 
+							'<td><input type="submit" value="Move thread" /></td>' . 
+						'</tr>' . 
+					'</table>' .
+				'</form></fieldset>';
+		
+				echo Element('page.html', Array(
+					'config'=>$config,
+					'title'=>'Move #' . $postID,
+					'body'=>$body,
+					'mod'=>true
+					)
+				);
+			}
 		} elseif(preg_match('/^\/' . $regex['board'] . 'ban(&delete)?\/(\d+)$/', $query, $matches)) {
 			
 			// Ban by post

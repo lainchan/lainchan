@@ -614,9 +614,9 @@
 		$query->bindValue(':name', $post['name']);
 		$query->bindValue(':trip', $post['trip']);
 		$query->bindValue(':body', $post['body']);
-		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':time', $post['time'] ? $post['time'] : time(), PDO::PARAM_INT);
 		$query->bindValue(':password', $post['password']);		
-		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+		$query->bindValue(':ip', $post['ip'] ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 		
 		if($post['mod'] && $post['sticky']) {
 			$query->bindValue(':sticky', 1, PDO::PARAM_INT);

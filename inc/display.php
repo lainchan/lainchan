@@ -376,6 +376,9 @@
 					else
 						$built .= ' <a title="Lock thread" href="?/' . $board['uri'] . '/lock/' . $this->id . '">' . $config['mod']['link_lock'] . '</a>';
 				
+				if(hasPermission($config['mod']['move'], $board['uri'], $this->mod))
+					$built .= ' <a title="Move thread to another board" href="?/' . $board['uri'] . '/move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
+				
 				if(!empty($built))
 					$built = '<span class="controls op">' . $built . '</span>';
 			}

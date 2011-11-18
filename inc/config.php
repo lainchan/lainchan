@@ -691,6 +691,7 @@
 	$config['mod']['link_unlock'] = '[-Lock]';
 	$config['mod']['link_bumplock'] = '[Sage]';
 	$config['mod']['link_bumpunlock'] = '[-Sage]';
+	$config['mod']['link_move'] = '[Move]';
 	
 	// Moderator capcodes
 	$config['capcode'] = ' <a class="capcode">## %s</a>';
@@ -754,6 +755,7 @@
 		define('JANITOR',	0,		true);
 		define('MOD',		1,		true);
 		define('ADMIN',		2,		true);
+		define('DISABLED',	3,		true);
 	}
 	
 /*
@@ -761,6 +763,8 @@
  *  Mod permissions
  * ====================
  */
+ 	
+ 	// Set any of the below to "DISABLED" to make them unavailable for everyone.
  
 	// Don't worry about per-board moderators. Let all mods moderate any board.
 	$config['mod']['skip_per_board'] = true;
@@ -790,6 +794,8 @@
 	$config['mod']['bumplock'] = MOD;
 	// View whether a thread has been bumplocked ("-1" to allow non-mods to see too)
 	$config['mod']['view_bumplock'] = MOD;
+	// "Move" a thread to another board
+	$config['mod']['move'] = MOD;
 	// Post bypass unoriginal content check on robot-enabled boards
 	$config['mod']['postunoriginal'] = ADMIN;
 	// Bypass flood check
