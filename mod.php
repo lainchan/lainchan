@@ -2183,6 +2183,9 @@
 				$targetBoard = $_POST['board'];
 				$shadow = isset($_POST['shadow']);
 				
+				if($targetBoard == $boardName)
+					error("Target and source board are the same.");
+				
 				// copy() if leaving a shadow thread behind. otherwise, rename().
 				$clone = $shadow ? 'copy' : 'rename';
 				
@@ -2300,6 +2303,8 @@
 			
 				$__boards = '';
 				foreach($boards as &$_board) {
+					if($_board['uri'] == $board['uri'])
+						continue;
 					$__boards .= '<li>' .
 						'<input type="radio" name="board" id="board_' . $_board['uri'] . '" value="' . $_board['uri'] . '">' .
 						'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
