@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}" />{% endif %}
 	<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}" />
-	<script type="text/javascript" src="{{ config.url_javascript }}"></script>
+	{% if not nojavascript %}<script type="text/javascript" src="{{ config.url_javascript }}"></script>{% endif %}
 	{% if config.recaptcha %}<style type="text/css">{% raw %}
 		.recaptcha_image_cell {
 			background: none !important;

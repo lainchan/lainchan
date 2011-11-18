@@ -11,7 +11,8 @@
 	$page = Array(
 		'config' => $config,
 		'title' => 'Install',
-		'body' => ''
+		'body' => '',
+		'nojavascript' => true
 	);
 	
 	// this breaks the dispaly of licenses if enabled
