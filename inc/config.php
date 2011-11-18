@@ -744,6 +744,14 @@
 	// What to append to the post for public bans ("%s" is the message)
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
 	
+	// When moving a thread to another board and choosing to keep a "shadow thread", an automated post (with a capcode) will
+	// be made, linking to the new location for the thread. "%s" will be replaced with a standard cross-board post citation (>>>/board/xxx)
+	$config['mod']['shadow_mesage'] = 'Moved to %s.';
+	// Capcode to use when posting the above message.
+	$config['mod']['shadow_capcode'] = 'Mod';
+	// Name to use when posting the above message.
+	$config['mod']['shadow_name'] = $config['anonymous'];
+	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
 	

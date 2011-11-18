@@ -2255,15 +2255,40 @@
 				// trigger themes
 				rebuildThemes('post');
 				
+				openBoard($boardName);
+				
 				if($shadow) {
-					// do something
+					// lock thread
+					$query = prepare(sprintf("UPDATE `posts_%s` SET `locked` = 1 WHERE `id` = :id", $board['uri']));
+					$query->bindValue(':id', $postID, PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
+					
+					$post = Array(
+						'mod' => true,
+						'subject' => '',
+						'email' => '',
+						'name' => $config['mod']['shadow_name'],
+						'capcode' => $config['mod']['shadow_capcode'],
+						'trip' => '',
+						'body' => sprintf($config['mod']['shadow_mesage'], '>>>/' . $targetBoard . '/' . $newID),
+						'password' => '',
+						'has_file' => false,
+						// attach to original thread
+						'thread' => $postID
+					);
+					
+					markup($post['body']);
+					
+					$botID = post($post, false);
+					
+					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['dir']['res'] . sprintf($config['file_page'], $postID) . '#' . $botID, true, $config['redirect_http']);
 				} else {
-					openBoard($boardName);
 					deletePost($postID);
 					buildIndex();
+					
+					openBoard($targetBoard);					
+					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['dir']['res'] . sprintf($config['file_page'], $newID), true, $config['redirect_http']);
 				}
-				
-				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 			} else {
 			
 				$body = '<fieldset><legend>Move thread</legend>' .
