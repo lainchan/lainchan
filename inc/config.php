@@ -75,6 +75,9 @@
 	// This keeps the script from querying the database and causing strain when not needed.
 	$config['has_installed'] = '.installed';
 	
+	// Use syslog() for logging all error messages and unauthorized login attempts.
+	$config['syslog'] = false;
+	
 /*
  * ====================
  *  Database settings

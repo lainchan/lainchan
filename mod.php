@@ -36,8 +36,10 @@
 				) loginForm($config['error']['invalid'], $_POST['username'], '?' . $query);
 			
 			
-			if(!login($_POST['username'], $_POST['password']))
+			if(!login($_POST['username'], $_POST['password'])) {
+				_syslog(LOG_WARNING, 'Unauthorized login attempt!');
 				loginForm($config['error']['invalid'], $_POST['username'], '?' . $query);
+			}
 			
 			modLog("Logged in.");
 			

@@ -124,14 +124,24 @@
 			_textdomain('tinyboard');
 		}
 		
+		
+		if($config['syslog'])
+			openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
+		
 		if($config['recaptcha'])
 			require_once 'inc/contrib/recaptcha/recaptchalib.php';
 		if($config['cache']['enabled'])
 			require_once 'inc/cache.php';
 	}
 	
-	function basic_error_function_because_the_other_isnt_loaded_yet($message) {
-		if(function_exists('sql_close')) sql_close();
+	function basic_error_function_because_the_other_isnt_loaded_yet($message, $priority = true) {
+		global $config;
+		
+		if($config['syslog'] && $priority !== false) {
+			// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
+			_syslog($priority !== true ? $priority : LOG_NOTICE, $message);
+		}
+		
 		// Yes, this is horrible.
 		die('<!DOCTYPE html><html><head><title>Error</title>' .
 			'<style type="text/css">' .
@@ -147,12 +157,16 @@
 		if($error = error_get_last()) {
 			if($error['type'] == E_ERROR) {
 				if(function_exists('error')) {
-					error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line']);
+					error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line'], LOG_ERR);
 				} else {
-					basic_error_function_because_the_other_isnt_loaded_yet('Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line']);
+					basic_error_function_because_the_other_isnt_loaded_yet('Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'], LOG_ERR);
 				}
 			}
 		}
+	}
+	
+	function _syslog($priority, $message) {
+		syslog($priority, $message . ' - client: ' . $_SERVER['REMOTE_ADDR'] . ', request: "' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . '"');
 	}
 	
 	function loadThemeConfig($_theme) {

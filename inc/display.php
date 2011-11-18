@@ -61,9 +61,14 @@
 			'bottom' => '<div class="boardlist bottom">' . $body . '</div>'
 		);
 	}
-
-	function error($message) {
+	
+	function error($message, $priority = true) {
 		global $board, $mod, $config;
+		
+		if($config['syslog'] && $priority !== false) {
+			// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
+			_syslog($priority !== true ? $priority : LOG_NOTICE, $message);
+		}
 		
 		if(defined('STDIN')) {
 			// Running from CLI
