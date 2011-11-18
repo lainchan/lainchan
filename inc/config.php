@@ -326,7 +326,7 @@
  *  Image settings
  * ====================
  */
- 
+ 	
 	// For resizing, max values
 	$config['thumb_width']	= 255;
 	$config['thumb_height']	= 255;
@@ -352,6 +352,10 @@
 	// Allowed additional file extensions (not images; downloadable files)
 	// $config['allowed_ext_files'][] = 'txt';
 	// $config['allowed_ext_files'][] = 'zip';
+	
+	// An alternative function for generating a filename, instead of the default UNIX timestamp with appended random digits
+	// http://tinyboard.org/wiki/index.php?title=Filenames
+	// $config['filename_func'] = 'some_function_you_have_created';	
 	
 	// Non-image file icons
 	$config['file_icons']['default']	= 'file.png';

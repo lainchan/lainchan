@@ -311,7 +311,10 @@
 		
 		if($post['has_file']) {
 			$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
-			$post['file_id'] = time() . rand(100, 999);
+			if(isset($config['filename_func']))
+				$post['file_id'] = $config['filename_func']($post);
+			else
+				$post['file_id'] = time() . rand(100, 999);
 			$post['file'] = $board['dir'] . $config['dir']['img'] . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
 		}
