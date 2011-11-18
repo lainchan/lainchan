@@ -10,9 +10,6 @@
 			
 	require 'inc/mod.php';
 	
-	// Fix some encoding issues
-	header('Content-Type: text/html; charset=utf-8', true);
-	
 	if (get_magic_quotes_gpc()) {
 		function strip_array($var) {
 			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
