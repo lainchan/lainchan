@@ -2317,7 +2317,7 @@
 						'<tr>' . 
 							'<th><label for="message">Leave shadow thread</label></th>' .
 							'<td>' .
-								'<input type="checkbox" id="shadow" name="shadow"/>' .
+								'<input type="checkbox" id="shadow" name="shadow" checked/>' .
 								' <span class="unimportant">(locks thread; replies to it with a link.)</span>' .
 							'</td>' .
 						'</tr>' .
