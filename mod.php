@@ -2300,7 +2300,9 @@
 					;
 			
 				$boards = listBoards();
-			
+				if(count($boards) <= 1)
+					error('No board to move to; there is only one.');
+				
 				$__boards = '';
 				foreach($boards as &$_board) {
 					if($_board['uri'] == $board['uri'])
