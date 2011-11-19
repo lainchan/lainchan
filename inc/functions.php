@@ -238,10 +238,14 @@
 		
 		loadConfig();
 		
-		if(!file_exists($board['dir'])) mkdir($board['dir'], 0777);
-		if(!file_exists($board['dir'] . $config['dir']['img'])) @mkdir($board['dir'] . $config['dir']['img'], 0777) or error("Couldn't create " . $config['dir']['img'] . ". Check permissions.", true);
-		if(!file_exists($board['dir'] . $config['dir']['thumb'])) @mkdir($board['dir'] . $config['dir']['thumb'], 0777) or error("Couldn't create " . $config['dir']['thumb'] . ". Check permissions.", true);
-		if(!file_exists($board['dir'] . $config['dir']['res'])) @mkdir($board['dir'] . $config['dir']['res'], 0777) or error("Couldn't create " . $config['dir']['res'] . ". Check permissions.", true);
+		if(!file_exists($board['dir']))
+			mkdir($board['dir'], 0777) or error("Couldn't create " . $board['dir'] . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['img']))
+			@mkdir($board['dir'] . $config['dir']['img'], 0777) or error("Couldn't create " . $board['dir'] . $config['dir']['img'] . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['thumb']))
+			@mkdir($board['dir'] . $config['dir']['thumb'], 0777) or error("Couldn't create " . $board['dir'] . $config['dir']['img'] . ". Check permissions.", true);
+		if(!file_exists($board['dir'] . $config['dir']['res']))
+			@mkdir($board['dir'] . $config['dir']['res'], 0777) or error("Couldn't create " . $board['dir'] . $config['dir']['img'] . ". Check permissions.", true);
 	}
 	
 	function openBoard($uri) {
