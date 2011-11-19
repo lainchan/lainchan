@@ -48,7 +48,6 @@ function twig_hasPermission_filter($mod, $permission, $board) {
 }
 
 function twig_extension_filter($value, $case_insensitive = true) {
-	return 'test';
 	$ext = substr($value, strrpos($value, '.') + 1);
 	if($case_insensitive)
 		$ext = strtolower($ext);		
