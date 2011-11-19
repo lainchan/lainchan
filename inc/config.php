@@ -443,9 +443,10 @@
 	// Inline expanding of images with Javascript
 	$config['inline_expanding'] = true;
  	
- 	// The string passed to date() for post times
-	// http://php.net/manual/en/function.date.php
+ 	// The format string passed to strftime() for post times
+	// http://www.php.net/manual/en/function.strftime.php
 	$config['post_date']	= 'm/d/y (D) H:i:s';
+	$config['post_date']	= '%m/%d/%y (%a) %H:%M:%S';
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post")
 	$config['button_newtopic']	= 'New Topic';

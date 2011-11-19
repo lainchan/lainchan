@@ -40,7 +40,7 @@ function twig_remove_whitespace_filter($data) {
 }
 
 function twig_date_filter($date, $format) {
-	return date($format, $date);
+	return strftime($format, $date);
 }
 
 function twig_hasPermission_filter($mod, $permission, $board) {

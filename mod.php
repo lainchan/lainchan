@@ -105,7 +105,7 @@
 						utf8tohtml($notice['username'])
 					: '<em>???</em>') .
 				' at ' .
-					date($config['post_date'], $notice['time']) .
+					strftime($config['post_date'], $notice['time']) .
 				'</span></li>';
 				}
 				if(!empty($_body)) {
@@ -597,7 +597,7 @@
 							'<em>???</em>'
 						) .
 					' at ' .
-						date($config['post_date'], $notice['time']) .
+						strftime($config['post_date'], $notice['time']) .
 					'</span></h2><p>' . $notice['body'] . '</p></div>';
 				}
 			
@@ -679,7 +679,7 @@
 				'<span class="unimportant"> &mdash; by ' .
 					$news['name'] .
 				' at ' .
-					date($config['post_date'], $news['time']) .
+					strftime($config['post_date'], $news['time']) .
 				'</span></h2><p>' . $news['body'] . '</p></div>';
 			}
 			
@@ -706,7 +706,7 @@
 					$body .= '<tr' . ($pm['unread'] ? ' style="font-weight:bold"' : '') . '>' . 
 							'<td class="minimal"><a href="?/PM/' . $pm['id'] . '">' . $pm['id'] . '</a></td>' .
 							'<td class="minimal"><a href="?/new_PM/' . $pm['sender'] . '">' . $pm['username'] . '</a></td>' .
-							'<td class="minimal">' . date($config['post_date'], $pm['time']) . '</td>' .
+							'<td class="minimal">' . strftime($config['post_date'], $pm['time']) . '</td>' .
 							'<td><a href="?/PM/' . $pm['id'] . '">' . pm_snippet($pm['message']) . '</a></td>' .
 						'</tr>';
 					
@@ -791,7 +791,7 @@
 					'</td></tr>'
 				: '') .
 				
-				'<tr><th>Date</th><td> ' . date($config['post_date'], $pm['time']) . '</td></tr>' .
+				'<tr><th>Date</th><td> ' . strftime($config['post_date'], $pm['time']) . '</td></tr>' .
 				
 				'<tr><th>Message</th><td> ' . $pm['message'] . '</td></tr>' .
 				
@@ -1327,7 +1327,7 @@
 						'<hr/>' .
 						'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
 						'Reason: ' . $report['reason'] . '<br/>' .
-						'Report date: ' . date($config['post_date'], $report['time']) . '<br/>' .
+						'Report date: ' . strftime($config['post_date'], $report['time']) . '<br/>' .
 						(hasPermission($config['mod']['show_ip']) ?
 							'Reported by: <a href="?/IP/' . $report['ip'] . '">' . $report['ip'] . '</a><br/>'
 						: '') .
@@ -1559,14 +1559,14 @@
 					) . '</td>' .
 					
 					// Set
-					'<td style="white-space: nowrap">' . date($config['post_date'], $ban['set']) . '</td>' .
+					'<td style="white-space: nowrap">' . strftime($config['post_date'], $ban['set']) . '</td>' .
 					
 					// Expires
 					'<td style="white-space: nowrap">' . 
 						($ban['expires'] == 0 ?
 							'<em>Never</em>'
 						:
-							date($config['post_date'], $ban['expires'])
+							strftime($config['post_date'], $ban['expires'])
 						) .
 					'</td>' .
 					
@@ -2481,7 +2481,7 @@
 									'</td><td>' .
 										$note['body'] .
 									'</td><td class="minimal">' .
-										date($config['post_date'], $note['time']) .
+										strftime($config['post_date'], $note['time']) .
 									'</td>' .
 									(hasPermission($config['mod']['remove_notes']) ?
 										'<td class="minimal"><a class="unimportant" href="?/IP/' . $ip . '/deletenote/' . $note['id'] . '">[delete]</a></td>'
@@ -2550,14 +2550,14 @@
 							'</td></tr>' .
 						
 							// Set
-							'<tr><th>Set</th><td>' . date($config['post_date'], $ban['set']) . '</td></tr>' .
+							'<tr><th>Set</th><td>' . strftime($config['post_date'], $ban['set']) . '</td></tr>' .
 						
 							// Expires
 							'<tr><th>Expires</th><td>' . 
 								($ban['expires'] == 0 ?
 									'<em>Never</em>'
 								:
-									date($config['post_date'], $ban['expires'])
+									strftime($config['post_date'], $ban['expires'])
 								) .
 							'</td></tr>' .
 						
