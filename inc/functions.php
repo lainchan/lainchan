@@ -40,8 +40,7 @@
 		if(!isset($config['referer_match']))
 			$config['referer_match'] = '/^' .
 				(preg_match($config['url_regex'], $config['root']) ? '' :
-					(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') .
-					':\/\/'.$_SERVER['HTTP_HOST']) .
+					'https?:\/\/'.$_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
 						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
