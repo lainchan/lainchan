@@ -537,8 +537,7 @@
 		if(!isset($_SERVER['REMOTE_ADDR'])) {
 			// Server misconfiguration
 			return;
-		}
-		
+		}		
 		
 		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
@@ -547,6 +546,21 @@
 		if($query->rowCount() < 1 && $config['ban_range']) {
 			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '[0-9]*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->bindValue(':board', $board);
+			$query->execute() or error(db_error($query));
+		}
+		if($query->rowCount() < 1 && $config['ban_cidr']) {
+			// my most insane SQL query yet
+			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board)
+				AND (					
+					`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
+						AND
+					:ip >= INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1))
+						AND
+					:ip < INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) + POW(2, 32 - SUBSTRING_INDEX(`ip`, '/', -1))
+				)
+				ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+			$query->bindValue(':ip', ip2long($_SERVER['REMOTE_ADDR']));
 			$query->bindValue(':board', $board);
 			$query->execute() or error(db_error($query));
 		}

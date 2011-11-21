@@ -718,6 +718,10 @@
 	// A little more load on the database
 	$config['ban_range']	= true;
 	
+	// Enable CDIR netmask bans (eg. "10.0.0.0/8" for 10.0.0.0.0 - 10.255.255.255). Useful for stopping persistent spammers.
+	// Again, a little more database load.
+	$config['ban_cidr']		= true;
+	
 	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
 	$config['mod']['dns_lookup'] = true;
 	// Show ban form on the IP summary page
