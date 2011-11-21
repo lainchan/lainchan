@@ -195,8 +195,10 @@
 						($board ? '<input type="hidden" name="board" value="' . htmlentities($board) . '" />' : '') .
 						'<table>' .
 						'<tr>' . 
-							'<th><label for="ip">IP</label></th>' .
-							'<td><input type="text" name="ip" id="ip" size="15" maxlength="15" ' . 
+							'<th><label for="ip">IP ' .
+								($config['ban_cidr'] ? '<span class="unimportant">(or subnet)' : '') .
+							'</span></label></th>' .
+							'<td><input type="text" name="ip" id="ip" size="30" maxlength="30" ' . 
 								(isset($ip) ?
 									'value="' . htmlentities($ip) . '" ' : ''
 								) .
