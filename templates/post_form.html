@@ -1,0 +1,103 @@
+<form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
+{{ hidden_inputs }}
+{% if id %}<input type="hidden" name="thread" value="{{ id }}" />{% endif %}
+<input type="hidden" name="board" value="{{ board.uri }}" />
+{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
+	<table>
+		<tr>
+			<th>
+				{% trans %}Name{% endtrans %}
+			</th>
+			<td>
+				<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Email{% endtrans %}
+			</th>
+			<td>
+				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" />
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Subject{% endtrans %}
+			</th>
+			<td>
+				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" />
+				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox" /> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Comment{% endtrans %}
+			</th>
+			<td>
+				<textarea name="body" id="body" rows="5" cols="35"></textarea>
+			</td>
+		</tr>
+		{% if config.recaptcha %}
+		<tr>
+			<th>
+				{% trans %}Verification{% endtrans %}
+			</th>
+			<td>
+				<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
+			</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<th>
+				{% trans %}File{% endtrans %}
+			</th>
+			<td>
+				<input type="file" name="file" />
+			</td>
+		</tr>
+		{% if config.enable_embedding %}
+		<tr>
+			<th>
+				{% trans %}Embed{% endtrans %}
+			</th>
+			<td>
+				<input type="text" name="embed" size="30" maxlength="120" autocomplete="off" />
+			</td>
+		</tr>
+		{% endif %}
+		{% if mod %}
+		<tr>
+			<th>
+				{% trans %}Flags{% endtrans %}
+			</th>
+			<td>
+				{% if not id %}<div>
+					<label for="sticky">{% trans %}Sticky{% endtrans %}</label>
+					<input title="{% trans %}Sticky{% endtrans %}" type="checkbox" name="sticky" id="sticky" /><br />
+				</div>{% endif %}
+				{% if not id %}<div>
+					<label for="lock">{% trans %}Lock{% endtrans %}</label><br />
+					<input title="{% trans %}Lock{% endtrans %}" type="checkbox" name="lock" id="lock" />
+				</div>{% endif %}
+				{% if true %}<div>
+					<label for="raw">{% trans %}Raw HTML{% endtrans %}</label><br />
+					<input title="{% trans %}Raw HTML{% endtrans %}" type="checkbox" name="raw" id="raw" />
+				</div>{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<th>
+				{% trans %}Password{% endtrans %}
+			</th>
+			<td>
+				<input type="password" name="password" size="12" maxlength="18" autocomplete="off" /> 
+				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<script type="text/javascript">{% raw %}
+	rememberStuff();
+{% endraw %}</script>
