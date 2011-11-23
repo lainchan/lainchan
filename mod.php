@@ -54,8 +54,10 @@
 		}
 	} else {
 		// Redirect (for index pages)
-		if(count($_GET) == 2 && isset($_GET['status']) && isset($_GET['r']))
+		if(count($_GET) == 2 && isset($_GET['status']) && isset($_GET['r'])) {
 			header('Location: ' . $_GET['r'], true, $_GET['status']);
+			exit;
+		}
 		
 		// A sort of "cache"
 		// Stops calling preg_quote and str_replace when not needed; only does it once
