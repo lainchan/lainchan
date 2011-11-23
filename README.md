@@ -6,10 +6,10 @@ This script pulls board information, posts and images from an already existing [
 [k]: http://kusabax.cultnet.net/
 
 ## Requirements
- 1. [Tinyboard][o] >= v0.9.2
+ 1. [Tinyboard][o] >= v0.9.4
 
 ## Use
- 1. Install Tinyboard (>= v0.9.2) normally.
+ 1. Install Tinyboard (>= v0.9.4) normally.
  2. Download and place `kusabax.php` in the root folder of Tinyboard.
  3. Edit the script and fill in your Kusaba X configuration. You can find KU_RANDOMSEED from Kusaba X's config.php file.
  4. Run the script in a web browser.

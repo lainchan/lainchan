@@ -74,7 +74,7 @@
 	// Trick Tinyboard into opening the KusabaX databse instead
 	$__temp = $config['db'];
 	$config['db'] = $kusabaxc['db'];
-	sql_open();
+	
 	// Get databse link
 	$kusabax = $pdo;
 	// Clear
@@ -83,7 +83,6 @@
 	// Open Tinyboard database
 	$config['db'] = $__temp;
 	unset($__temp);
-	sql_open();
 	
 	$k_query = $kusabax->query('SELECT * FROM `' . $kusabaxc['db']['prefix'] . 'boards`');
 	$boards = listBoards();
@@ -133,7 +132,7 @@
 		
 		$log[] = 'Replicating post <strong>' . $post['id'] . '</strong> on /' . $board . '/';
 		
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES (:id, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :bump, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, :embed)", $board));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES (:id, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :bump, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board));
 		
 		// Post ID
 		$query->bindValue(':id', $post['id'], PDO::PARAM_INT);
@@ -272,4 +271,5 @@
 	$page['body'] .= '</p></div>';
 	
 	echo Element('page.html', $page);
-?>
+
+
