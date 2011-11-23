@@ -164,7 +164,7 @@
 		}
 		
 		if($mod['type'] >= $config['mod']['newboard']) {
-			$body .= '<li style="margin-top:15px;"><a href="?/new"><strong>Create new board</strong></a></li>';
+			$body .= '<li style="margin-top:15px;"><a href="?/new"><strong>' . _('Create new board') . '</strong></a></li>';
 		}
 		return $body;
 	}
@@ -173,7 +173,7 @@
 		global $config, $mod;
 		
 		$boards = listBoards();
-		$__boards = '<li><input type="radio" checked="checked" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>all boards</em></label></li>';
+		$__boards = '<li><input type="radio" checked="checked" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>' . _('all boards') . '</em></label></li>';
 		foreach($boards as &$_board) {
 			$__boards .= '<li>' .
 						'<input type="radio" name="board_id" id="board_' . $_board['uri'] . '" value="' . $_board['id'] . '">' .

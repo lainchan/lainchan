@@ -100,7 +100,7 @@
 					($notice['subject'] ?
 						$notice['subject']
 					:
-						'<em>no subject</em>'
+						'<em>' . _('no subject') . '</em>'
 					) .
 				'</a><span class="unimportant"> &mdash; by ' .
 					(isset($notice['username']) ?
@@ -114,7 +114,7 @@
 					$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
 				}
 				
-				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">View all entires</a></li>';
+				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entires') . '</a></li>';
 				
 				$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
 				$query->bindValue(':id', $mod['id']);
@@ -122,49 +122,49 @@
 				$count = $query->fetch();
 				$count = $count['count'];
 				
-				$fieldset['Noticeboard'] .= '<li><a href="?/inbox">PM inbox' . 
+				$fieldset['Noticeboard'] .= '<li><a href="?/inbox">' . _('PM Inbox') . 
 					($count > 0
 					?
 						' <strong>(' . $count . ' unread)</strong>'
 					: '') .
 				'</a></li>';
 				
-				$fieldset['Noticeboard'] .= '<li><a href="?/news">News</a></li>';
+				$fieldset['Noticeboard'] .= '<li><a href="?/news">' . _('News') . '</a></li>';
 			}
 			
 			if(hasPermission($config['mod']['reports'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/reports">Report queue</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/reports">' . _('Report queue') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['view_banlist'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/bans">Ban list</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/bans">' . _('Ban list') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['manageusers'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/users">Manage users</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/users">' . _('Manage users') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['modlog'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/log">Moderation log</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/log">' . _('Moderation log') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['rebuild'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">Rebuild static files</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/rebuild">' . _('Rebuild static files') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['rebuild']) && $config['cache']['enabled']) {
-				$fieldset['Administration'] .= 	'<li><a href="?/flush">Clear cache</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/flush">' . _('Clear cache') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['show_config'])) {
-				$fieldset['Administration'] .= 	'<li><a href="?/config">Show configuration</a></li>';
+				$fieldset['Administration'] .= 	'<li><a href="?/config">' . _('Show configuration') . '</a></li>';
 			}
 			
 			if(hasPermission($config['mod']['themes'])) {
-				$fieldset['Themes'] .= 	'<li><a href="?/themes">Manage themes</a></li>';
+				$fieldset['Themes'] .= 	'<li><a href="?/themes">' . _('Manage themes') . '</a></li>';
 			}
 			
 			if(hasPermission($config['mod']['search'])) {
 				$fieldset['Search'] .= 	'<li><form style="display:inline" action="?/search" method="post">' .
-				'<label style="display:inline" for="search">Phrase:</label> ' .
+				'<label style="display:inline" for="search">' . _('Phrase:') . '</label> ' .
 					'<input id="search" name="search" type="text" size="35" />' .
-					'<input type="submit" value="Search" />' .
+					'<input type="submit" value="' . _('Search') . '" />' .
 				'</form>' .
-					'<p class="unimportant">(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk (*) for wildcard.)</p>' .
+					'<p class="unimportant">' . _('(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk (*) for wildcard.)') . '</p>' .
 				'</li>';
 			}
 			
@@ -221,19 +221,19 @@
 				}
 			}
 			
-			$fieldset['Logout'] .= '<li><a href="?/logout">Logout</a></li>';
+			$fieldset['Logout'] .= '<li><a href="?/logout">' . _('Logout') . '</a></li>';
 			
 			// TODO: Statistics, etc, in the dashboard.
 			
 			$body = '';
 			foreach($fieldset as $title => $data) {
 				if($data)
-					$body .= "<fieldset><legend>{$title}</legend><ul>{$data}</ul></fieldset>";
+					$body .= '<fieldset><legend>' . _($title) . '</legend><ul>' . $data . '</ul></fieldset>';
 			}
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Dashboard',
+				'title'=>_('Dashboard'),
 				'body'=>$body,
 				'__mod'=>true
 				)
@@ -269,7 +269,7 @@
 				$boards[$_b['id']] = $_b['uri'];
 			}
 			
-			$body = '<table class="modlog"><tr><th>User</th><th>IP address</th><th>Ago</th><th>Board</th><th>Action</th></tr>';
+			$body = '<table class="modlog"><tr><th>' . _('User') . '</th><th>' . _('IP address') . '</th><th>' . _('Ago') . '</th><th>' . _('Board') . '</th><th>' . _('Action') . '</th></tr>';
 			
 			$query = prepare("SELECT `mods`.`id`,`username`,`ip`,`board`,`time`,`text` FROM `modlogs` INNER JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :limit");
 			$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
@@ -297,7 +297,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Moderation log',
+				'title'=>_('Moderation log'),
 				'body'=>$body,
 				'mod'=>true
 				)
@@ -487,19 +487,19 @@
 						markup($theme['description']);
 						
 						$body .= '<tr>' .
-									'<th class="minimal">Name</th>' .
+									'<th class="minimal">' . _('Name') . '</th>' .
 									'<td>' . utf8tohtml($theme['name']) . '</td>' .
 								'</tr>' .
 								'<tr>' .
-									'<th class="minimal">Version</th>' .
+									'<th class="minimal">' . _('Version') . '</th>' .
 									'<td>' . utf8tohtml($theme['version']) . '</td>' .
 								'</tr>' .
 								'<tr>' .
-									'<th class="minimal">Description</th>' .
+									'<th class="minimal">' . _('Description') . '</th>' .
 									'<td>' . $theme['description'] . '</td>' .
 								'</tr>' .
 								'<tr>' .
-									'<th class="minimal">Thumbnail</th>' .
+									'<th class="minimal">' . _('Thumbnail') . '</th>' .
 									'<td><img style="float:none;margin:4px' . 
 										(isset($themes_in_use[$_theme]) ?
 											';border:2px solid red;padding:4px'
@@ -507,14 +507,14 @@
 										'" src="' . $config['dir']['themes_uri'] . '/' . $_theme . '/thumb.png" /></td>' .
 								'</tr>' .
 								'<tr>' .
-									'<th class="minimal">Actions</th>' .
+									'<th class="minimal">' . _('Actions') . '</th>' .
 									'<td><ul style="padding:0 20px">' .
-										'<li><a title="Use theme" href="?/themes/' . $_theme . '">' .
-											(isset($themes_in_use[$_theme]) ? 'Reconfigure' : 'Install') .
+										'<li><a title="' . _('Use theme') . '" href="?/themes/' . $_theme . '">' .
+											(isset($themes_in_use[$_theme]) ? _('Reconfigure') : _('Install')) .
 										'</a></li>' .
 										(isset($themes_in_use[$_theme]) ?
-											'<li><a title="Rebuild" href="?/themes/' . $_theme . '/rebuild">Rebuild</a></li>' .
-											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">Uninstall</a></li>'
+											'<li><a title="Rebuild" href="?/themes/' . $_theme . '/rebuild">' . _('Rebuild') . '</a></li>' .
+											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">' . _('Uninstall') . '</a></li>'
 										:
 											'') .
 									'</ul></td>' .
@@ -525,11 +525,11 @@
 				}
 				
 				if(!empty($themes_in_use))
-					$body .= '<p style="text-align:center"><a href="?/themes/none">Uninstall all themes.</a></p>';
+					$body .= '<p style="text-align:center"><a href="?/themes/none">' . _('Uninstall all themes.') . '</a></p>';
 				
 				echo Element('page.html', Array(
 					'config'=>$config,
-					'title'=>'Select theme',
+					'title'=>_('Manage themes'),
 					'body'=>$body,
 					'mod'=>true
 					)
@@ -564,16 +564,16 @@
 				if(hasPermission($config['mod']['noticeboard_post'])) {
 					$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
 					'<tr>' .
-						'<th><label for="subject">Name</label></th>' .
+						'<th><label for="subject">' . _('Name') . '</label></th>' .
 						'<td>' . $mod['username'] . '</td>' .
 					'</tr><tr>' .
-						'<th>Subject</th>' .
+						'<th>' . _('Subject') . '</th>' .
 						'<td><input type="text" size="55" name="subject" id="subject" /></td>' .
 					'</tr><tr>' .
-						'<th>Body</th>' .
+						'<th>' . _('Body') . '</th>' .
 						'<td><textarea name="body" style="width:100%;height:100px"></textarea></td>' .
 					'</tr><tr>' .
-						'<td></td><td><input type="submit" value="Post to noticeboard" /></td>' .
+						'<td></td><td><input type="submit" value="' . _('Post to noticeboard') . '" /></td>' .
 					'</tr></table>' .
 					'</form></fieldset>';
 				}
@@ -590,7 +590,7 @@
 						($notice['subject'] ?
 							$notice['subject']
 						:
-							'<em>no subject</em>'
+							'<em>' . _('no subject') . '</em>'
 						) .
 					'<span class="unimportant"> &mdash; by ' .
 						(isset($notice['username']) ?
@@ -606,7 +606,7 @@
 			
 				echo Element('page.html', Array(
 					'config'=>$config,
-					'title'=>'Noticeboard',
+					'title'=>_('Noticeboard'),
 					'body'=>$body,
 					'mod'=>true
 					)
@@ -647,19 +647,19 @@
 				
 				$body .= '<fieldset><legend>New post</legend><form style="display:inline" action="" method="post"><table>' .
 				'<tr>' .
-					'<th>Name</th>' .
+					'<th>' . _('Name') . '</th>' .
 					(hasPermission($config['mod']['news_custom']) ?
 						'<td><input type="text" size="55" name="name" id="name" value="' . utf8tohtml($mod['username']) . '" /></td>'
 					:
 						'<td>' . $mod['username'] . '</td>') .
 				'</tr><tr>' .
-					'<th>Subject</th>' .
+					'<th>' . _('Subject') . '</th>' .
 					'<td><input type="text" size="55" name="subject" id="subject" /></td>' .
 				'</tr><tr>' .
-					'<th>Body</th>' .
+					'<th>' . _('Body') . '</th>' .
 					'<td><textarea name="body" style="width:100%;height:100px"></textarea></td>' .
 				'</tr><tr>' .
-					'<td></td><td><input type="submit" value="Post to news" /></td>' .
+					'<td></td><td><input type="submit" value="' . _('Post to news') . '" /></td>' .
 				'</tr></table>' .
 				'</form></fieldset>';
 			}
@@ -676,7 +676,7 @@
 					($news['subject'] ?
 						$news['subject']
 					:
-						'<em>no subject</em>'
+						'<em>' . _('no subject') . '</em>'
 					) .
 				'<span class="unimportant"> &mdash; by ' .
 					$news['name'] .
@@ -688,7 +688,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'News',
+				'title'=>_('News'),
 				'body'=>$body,
 				'mod'=>true
 				)
@@ -699,7 +699,7 @@
 			$query->execute() or error(db_error($query));
 			
 			if($query->rowCount() == 0) {
-				$body = '<p style="text-align:center" class="unimportant">(No private messages for you.)</p>';
+				$body = '<p style="text-align:center" class="unimportant">(' . _('No private messages for you.') . ')</p>';
 			} else {
 				$unread_pms = 0;
 				
@@ -721,7 +721,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'PM Inbox (' . ($query->rowCount() == 0 ? 'empty' : $unread_pms . ' unread') . ')',
+				'title'=>_('PM Inbox') . ' (' . ($query->rowCount() == 0 ? _('empty') : $unread_pms . ' ' . _('unread')) . ')',
 				'body'=>$body,
 				'mod'=>true
 				)
@@ -992,7 +992,7 @@
 		} elseif(preg_match('/^\/users$/', $query)) {
 			if(!hasPermission($config['mod']['manageusers'])) error($config['error']['noaccess']);
 			
-			$body = '<form action="" method="post"><table><tr><th>ID</th><th>Username</th><th>Type</th><th>Boards</th><th>Last action</th><th>&hellip;</th></tr>';
+			$body = '<form action="" method="post"><table><tr><th>' . _('ID') . '</th><th>' . _('Username') . '</th><th>' . _('Type') . '</th><th>' . _('Boards') . '</th><th>' . _('Last action') . '</th><th>&hellip;</th></tr>';
 			
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 			while($_mod = $query->fetch()) {				
@@ -1043,14 +1043,14 @@
 			$body .= '</table>';
 			
 			if(hasPermission($config['mod']['createusers'])) {
-				$body .= '<p style="text-align:center"><a href="?/users/new">Create new user</a></p>';
+				$body .= '<p style="text-align:center"><a href="?/users/new">' . _('Create new user') . '</a></p>';
 			}
 			
 			$body .= '</form>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Manage users',
+				'title'=>_('Manage users'),
 				'body'=>$body
 				,'mod'=>true
 				)
@@ -1365,7 +1365,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Report queue (' . $count['count'] . ')',
+				'title'=>_('Report queue') . ' (' . $count['count'] . ')',
 				'body'=>$body,
 				'mod'=>true
 			));
@@ -1525,7 +1525,7 @@
 				$body = '<p style="text-align:center" class="unimportant">(There are no active bans.)</p>';
 			} else {
 				$body = '<form action="" method="post">';
-				$body .= '<table><tr><th>IP address</th><th>Reason</th><th>Board</th><th>Set</th><th>Expires</th><th>Staff</th></tr>';
+				$body .= '<table><tr><th>' . _('IP address') . '</th><th>' . _('Reason') . '</th><th>' . _('Board') . '</th><th>' . _('Set') . '</th><th>' . _('Expires') . '</th><th>' . _('Staff') . '</th></tr>';
 				
 				while($ban = $query->fetch()) {
 					$body .=
@@ -1557,7 +1557,7 @@
 					(isset($ban['uri']) ?
 						sprintf($config['board_abbreviation'], $ban['uri'])
 					:
-						'<em>all boards</em>'
+						'<em>' . _('all boards') . '</em>'
 					) . '</td>' .
 					
 					// Set
@@ -1606,7 +1606,7 @@
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Ban list',
+				'title'=>_('Ban list'),
 				'body'=>$body,
 				'mod'=>true
 			)
@@ -1712,11 +1712,11 @@
 			
 			do_array_part($config);				
 			
-			$body = '<fieldset><legend>Configuration</legend><table>' . $data . '</table></fieldset>';
+			$body = '<fieldset><legend>' . _('Configuration') . '</legend><table>' . $data . '</table></fieldset>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
-				'title'=>'Configuration',
+				'title'=>_('Configuration'),
 				'body'=>$body,
 				'mod'=>true
 				)
@@ -2547,7 +2547,7 @@
 									'<em>deleted?</em>'
 								)
 							:
-								'<em>all boards</em>'
+								'<em>' . _('all boards') . '</em>'
 							) .
 							'</td></tr>' .
 						
