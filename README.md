@@ -13,7 +13,7 @@ Tinyboard is an imageboard software package written in PHP. It aims to maintain 
 See <http://tinyboard.org/wiki/index.php?title=Installation>.
 
 ## Documentation
-Visit the development wiki at <http://tinyboard.org/wiki/> for help.
+Documentation can be found at <http://tinyboard.org/docs/>.
 
 ## License
 See [LICENSE.md](http://github.com/savetheinternet/Tinyboard/blob/master/LICENSE.md) for the license.
