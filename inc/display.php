@@ -94,7 +94,7 @@
 		
 		die(Element('page.html', Array(
 			'index'=>$config['root'],
-			'title'=>'Login',
+			'title'=>_('Login'),
 			'config'=>$config,
 			'body'=>Element('login.html', Array(
 				'config'=>$config,
