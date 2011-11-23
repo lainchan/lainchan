@@ -558,7 +558,7 @@
 					$query->bindValue(':body', $_POST['body']);
 					$query->execute() or error(db_error($query));
 					
-					header('Location: ?/noticeboard', true, $config['redirect_http']);
+					header('Location: ?/noticeboard#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 			} else {
 				
 				if(hasPermission($config['mod']['noticeboard_post'])) {
