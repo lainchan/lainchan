@@ -68,7 +68,7 @@
 	// "302" is strongly recommended. (This shouldn't even be configurable... It's not like it's going to change or anything.)
 	$config['redirect_http']	= 302;
 	
-	// Make IPv6 addresses look like IPv4 addresses ("::ffff:8.8.8.8" becomes "8.8.8.8")
+	// Make IPv4 addresses look like IPv4 addresses ("::ffff:8.8.8.8" becomes "8.8.8.8")
 	$config['ipv6_ipv4']	= true;
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
@@ -99,7 +99,7 @@
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
 	$config['db']['dsn']		= '';
 	// Timeout duration in seconds (not all drivers support this)
-	$config['db']['timeout']	= 5;
+	$config['db']['timeout'] = 5;
 	
 /*
  * ====================
@@ -153,7 +153,7 @@
 	
 	// How many seconds before you can post, after the first visit
 	// Does not currently work due to technical limitations; disregard for now
-	$config['lurktime']		= 30;
+	$config['lurktime']			= 30;
 
 /*
  * ====================
