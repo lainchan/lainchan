@@ -484,7 +484,7 @@
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
 		if($query->rowCount() < 1 && $config['ban_range']) {
-			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '.*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND :ip REGEXP CONCAT('^', REPLACE(REPLACE(`ip`, '.', '\\.'), '*', '.*'), '$') ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 			$query->bindValue(':board', $board);
 			$query->execute() or error(db_error($query));
