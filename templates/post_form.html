@@ -4,22 +4,22 @@
 <input type="hidden" name="board" value="{{ board.uri }}" />
 {% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	<table>
-		<tr>
+		{% if not config.field_disable_name %}<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
 			</th>
 			<td>
 				<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
 			</td>
-		</tr>
-		<tr>
+		</tr>{% endif %}
+		{% if not config.field_disable_email %}<tr>
 			<th>
 				{% trans %}Email{% endtrans %}
 			</th>
 			<td>
 				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" />
 			</td>
-		</tr>
+		</tr>{% endif %}
 		<tr>
 			<th>
 				{% trans %}Subject{% endtrans %}
@@ -86,7 +86,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		<tr>
+		{% if not config.field_disable_password %}<tr>
 			<th>
 				{% trans %}Password{% endtrans %}
 			</th>
@@ -94,7 +94,7 @@
 				<input type="password" name="password" size="12" maxlength="18" autocomplete="off" /> 
 				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
 			</td>
-		</tr>
+		</tr>{% endif %}
 	</table>
 </form>
 

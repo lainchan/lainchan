@@ -321,6 +321,16 @@
 	// Optional spoiler images
 	$config['spoiler_images'] = false;
 	
+	
+	// With the following, you can disable certain superfluous fields or enable "forced anonymous".
+	
+	// When true, all names will be set to $config['anonymous'].
+	$config['field_disable_name'] = false;
+	// When true, no email will be able to be set.
+	$config['field_disable_email'] = false;
+	// When true, a blank password will be used for files (not usable for deletion).
+	$config['field_disable_password'] = false;
+	
 /*
  * ====================
  *  Image settings

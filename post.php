@@ -131,6 +131,16 @@
 		
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	} elseif(isset($_POST['post'])) {
+		
+		if($config['field_disable_name'])
+			$_POST['name'] = $config['anonymous']; // "forced anonymous"
+		
+		if($config['field_disable_email'])
+			$_POST['email'] = '';
+		
+		if($config['field_disable_password'])
+			$_POST['password'] = '';
+		
 		if(	!isset($_POST['name']) ||
 			!isset($_POST['email']) ||
 			!isset($_POST['subject']) ||
