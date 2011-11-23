@@ -28,7 +28,7 @@
 				unset($debug['start']);
 				
 			}
-			$options['body'] .= '<hr/><h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . str_replace("\n", '<br/>', print_r($debug, true)) . '</pre>';
+			$options['body'] .= '<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' . str_replace("\n", '<br/>', print_r($debug, true)) . '</pre>';
 		}
 		
 		$loader->setPaths($config['dir']['template']);
