@@ -20,7 +20,20 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'date' => new Twig_Filter_Function('twig_date_filter', array('needs_environment' => false)),
 			'poster_id' => new Twig_Filter_Function('poster_id', array('needs_environment' => false)),
 			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter', array('needs_environment' => false)),
-			'count' => new Twig_Filter_Function('count', array('needs_environment' => false))
+			'count' => new Twig_Filter_Function('count', array('needs_environment' => false)),
+			'until' => new Twig_Filter_Function('until', array('needs_environment' => false))
+		);
+	}
+	
+	/**
+	* Returns a list of functions to add to the existing list.
+	*
+	* @return array An array of filters
+	*/
+	public function getFunctions()
+	{
+		return Array(
+			'time' => new Twig_Filter_Function('time', array('needs_environment' => false))
 		);
 	}
 	

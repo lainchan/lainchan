@@ -453,81 +453,21 @@
 		}
 	}
 	
-	function formatDate($timestamp) {
-		return date('jS F, Y', $timestamp);
-	}
-	
 	function displayBan($ban) {
 		global $config;
 		
-		$body = '<div class="ban">
-		<h2>You are banned! ;_;</h2>
-		<p>You have been banned from ' .
-			(!isset($ban['uri']) ?
-				'all boards':
-				'<strong>' . sprintf($config['board_abbreviation'], $ban['uri']) . '</strong>'
-			) .
-			' ' .
-			($ban['reason'] ? 'for the following reason:' : 'for an unspecified reason.') .
-		'</p>' .
-			($ban['reason'] ?
-				'<p class="reason">' .
-					$ban['reason'] .
-				'</p>'
-			: '') .
-		'<p>Your ban was filed on <strong>' .
-			formatDate($ban['set']) .
-		'</strong>, and <span id="expires">' . 
-			($ban['expires'] ?
-				'expires <span id="countdown">' . until($ban['expires']) . '</span> from now, which is on <strong>' .
-					formatDate($ban['expires']) .
-				'</strong>
-				<script>
-					// return date("jS F, Y", $timestamp);
-					var secondsLeft = ' . ($ban['expires'] - time()) . '
-					var end = new Date().getTime() + secondsLeft*1000;
-					function updateExpiresTime() {
-						countdown.firstChild.nodeValue = until(end);
-					}
-					function until(end) {
-						var now = new Date().getTime();
-						var diff = Math.round((end - now) / 1000); // in seconds
-						if (diff < 0) {
-							document.getElementById("expires").innerHTML = "has since expired. Refresh the page to continue.";
-							//location.reload(true);
-							clearInterval(int);
-							return "";
-						} else if (diff < 60) {
-							return diff + " second" + (diff == 1 ? "" : "s");
-						} else if (diff < 60*60) {
-							return (num = Math.round(diff/(60))) + " minute" + (num == 1 ? "" : "s");
-						} else if (diff < 60*60*24) {
-							return (num = Math.round(diff/(60*60))) + " hour" + (num == 1 ? "" : "s");
-						} else if (diff < 60*60*24*7) {
-							return (num = Math.round(diff/(60*60*24))) + " day" + (num == 1 ? "" : "s");
-						} else if (diff < 60*60*24*365) {
-							return (num = Math.round(diff/(60*60*24*7))) + " week" + (num == 1 ? "" : "s");
-						} else {
-							return (num = Math.round(diff/(60*60*24*365))) + " year" + (num == 1 ? "" : "s");
-						}
-					}
-					var countdown = document.getElementById("countdown");
-					
-					updateExpiresTime();
-					var int = setInterval(updateExpiresTime, 1000);
-				</script>'
-			: '<em>will not expire</em>.' ) .
-		'</span></p>
-		<p>Your IP address is <strong>' . $_SERVER['REMOTE_ADDR'] . '</strong>.</p>
-		</div>';
-	
+		$ban['ip'] = $_SERVER['REMOTE_ADDR'];
+		
 		// Show banned page and exit
-		die(Element('page.html', Array(
+		die(
+			Element('page.html', Array(
+				'title' => 'Banned!',
 				'config' => $config,
-				'title' => 'Banned',
-				'subtitle' => 'You are banned!',
-				'body' => $body
-			)
+				'body' => Element('banned.html', Array(
+					'config' => $config,
+					'ban' => $ban
+				)
+			))
 		));
 	}
 	
@@ -549,7 +489,7 @@
 			$query->bindValue(':board', $board);
 			$query->execute() or error(db_error($query));
 		}
-		if($query->rowCount() < 1 && $config['ban_cidr']) {
+		if($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 			// my most insane SQL query yet
 			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board)
 				AND (					

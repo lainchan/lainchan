@@ -1,0 +1,70 @@
+{% filter remove_whitespace %}
+{# Automatically removes unnecessary whitespace #}
+<div class="ban">
+	<h2>You are banned! ;_;</h2>
+	<p>
+		You have been banned from
+			{% if ban.uri %}
+				 <strong>{{ config.board_abbreviation|sprintf(ban.uri) }}</strong>
+			{% else %}
+				 all boards
+			{% endif %}
+			{% if ban.reason %}
+				 for the following reason:
+			{% else %}
+				 for an unspecified reason.
+			{% endif %}
+	</p>
+	{% if ban.reason %}
+		<p class="reason">
+			{{ ban.reason }}
+		</p>
+	{% endif %}
+	<p>
+		Your ban was filed on 
+			<strong>{{ ban.set|date(config.ban_date) }}</strong> and <span id="expires">
+		{% if ban.expires %}
+			expires <span id="countdown">{{ ban.expires|until }}</span> from now, which is on 
+			<strong>
+				{{ ban.expires|date(config.ban_date) }}
+			</strong>
+			<script>
+				var secondsLeft = {{ ban.expires - time() }};
+				var end = new Date().getTime() + secondsLeft*1000;
+				function updateExpiresTime() {
+					countdown.firstChild.nodeValue = until(end);
+				}
+				function until(end) {
+					var now = new Date().getTime();
+					var diff = Math.round((end - now) / 1000);
+					if (diff < 0) {
+						document.getElementById("expires").innerHTML = "has since expired. Refresh the page to continue.";
+						clearInterval(int);
+						return "";
+					} else if (diff < 60) {
+						return diff + " second" + (diff == 1 ? "" : "s");
+					} else if (diff < 60*60) {
+						return (num = Math.round(diff/(60))) + " minute" + (num == 1 ? "" : "s");
+					} else if (diff < 60*60*24) {
+						return (num = Math.round(diff/(60*60))) + " hour" + (num == 1 ? "" : "s");
+					} else if (diff < 60*60*24*7) {
+						return (num = Math.round(diff/(60*60*24))) + " day" + (num == 1 ? "" : "s");
+					} else if (diff < 60*60*24*365) {
+						return (num = Math.round(diff/(60*60*24*7))) + " week" + (num == 1 ? "" : "s");
+					} else {
+						return (num = Math.round(diff/(60*60*24*365))) + " year" + (num == 1 ? "" : "s");
+					}
+				}
+				var countdown = document.getElementById("countdown");
+				
+				updateExpiresTime();
+				var int = setInterval(updateExpiresTime, 1000);
+			</script>
+		{% else %}
+			<em>will not expire</em>.
+		{% endif %}
+		</span>
+	</p>
+	<p>Your IP address is <strong>{{ ban.ip }}</strong>.</p>
+</div>
+{% endfilter %}

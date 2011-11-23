@@ -447,6 +447,9 @@
 	// http://www.php.net/manual/en/function.strftime.php
 	$config['post_date']	= '%m/%d/%y (%a) %H:%M:%S';
 	
+	// Same as above, but used for "you are banned' pages.
+	$config['ban_date']	= '%A, %e %B, %Y';
+	
 	// The names on the post buttons. (On most imageboards, these are both "Post")
 	$config['button_newtopic']	= 'New Topic';
 	$config['button_reply']		= 'New Reply';
