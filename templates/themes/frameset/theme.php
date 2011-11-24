@@ -78,7 +78,7 @@
 					'<span class="unimportant"> &mdash; by ' .
 						$news['name'] .
 					' at ' .
-						date($config['post_date'], $news['time']) .
+						strftime($config['post_date'], $news['time']) .
 					'</span></h2><p>' . $news['body'] . '</p></div>';
 				}
 			}
