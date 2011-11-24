@@ -68,9 +68,6 @@
 	// "302" is strongly recommended. (This shouldn't even be configurable... It's not like it's going to change or anything.)
 	$config['redirect_http']	= 302;
 	
-	// Make IPv4 addresses look like IPv4 addresses ("::ffff:8.8.8.8" becomes "8.8.8.8")
-	$config['ipv6_ipv4']	= true;
-	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
 	$config['has_installed'] = '.installed';

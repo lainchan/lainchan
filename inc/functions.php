@@ -97,15 +97,13 @@
 			ini_set('display_errors', 1);
 		}
 		
-		if($config['ipv6_ipv4'] && isset($_SERVER['REMOTE_ADDR'])) {
-			// Keep the original address to properly comply with other board configurations
-			if(!isset($__ip))
-				$__ip = &$_SERVER['REMOTE_ADDR'];
-			
-			// ::ffff:0.0.0.0
-			if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
-				$_SERVER['REMOTE_ADDR'] = $m[2];
-		}
+		// Keep the original address to properly comply with other board configurations
+		if(!isset($__ip))
+			$__ip = $_SERVER['REMOTE_ADDR'];
+		
+		// ::ffff:0.0.0.0
+		if(preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
+			$_SERVER['REMOTE_ADDR'] = $m[2];
 		
 		if(_setlocale(LC_ALL, $config['locale']) === false) {
 			$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
