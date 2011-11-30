@@ -2123,7 +2123,9 @@
 				
 				$query->execute() or error(db_error($query));
 				
-				openBoard($_POST['board']);
+				if(isset($_POST['board']))
+					openBoard($_POST['board']);
+				
 				// Delete too
 				if(isset($_POST['delete']) && isset($_POST['board']) && hasPermission($config['mod']['delete'], $_POST['board'])) {					
 					$post = round($_POST['delete']);
