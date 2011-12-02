@@ -171,8 +171,8 @@
 			if($mod['type'] >= ADMIN && $config['check_updates']) {
 				if(!$config['version'])
 					error('Could not find current version! (Check .installed)');
-				if(isset($_SESSION['update']) && time() - $_SESSION['update']['time'] < $config['check_updates_time']) {
-					$latest = unserialize($_SESSION['update']['latest']);
+				if(isset($_COOKIE['update'])) {
+					$latest = unserialize($_COOKIE['update']);
 				} else {
 					$ctx = stream_context_create(array( 
 						'http' => array(
@@ -208,7 +208,9 @@
 						// TODO: Display some sort of warning message
 						$latest = false;
 					}
-					$_SESSION['update'] = Array('time' => time(), 'latest' => serialize($latest));
+					
+					
+					setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, true);
 				}
 				
 				if($latest) {
@@ -236,8 +238,7 @@
 				'title'=>_('Dashboard'),
 				'body'=>$body,
 				'__mod'=>true
-				)
-			);
+			));
 		} elseif(preg_match('/^\/logout$/', $query)) {
 			destroyCookies();
 			
@@ -1221,6 +1222,9 @@
 				
 					if($_mod['id'] == $mod['id']) {
 						// Changed own password. Update cookies
+						
+						login($mod['username'], $_POST['password']);
+						
 						setCookies();
 					}
 				}
@@ -2248,7 +2252,7 @@
 				
 				openBoard($targetBoard);
 				foreach($replies as &$post) {
-					var_dump(post($post, false));
+					post($post, false);
 					if($post['has_file']) {
 						$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
 						$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);

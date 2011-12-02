@@ -5,13 +5,24 @@
 		exit;
 	}
 	
-	// Creates a small random string for validating moderators' cookies
-	function mkhash($length=12) {
-		// The method here isn't really important,
-		// but I think this generates a relatively
-		// unique string that looks cool.
-		// If you choose to change this, make sure it cannot include a ':' character.
-		return substr(base64_encode(sha1(rand() . time(), true)), 0, $length);
+	// create a hash/salt pair for validate logins
+	function mkhash($username, $password, $salt = false) {
+		global $config;
+		
+		if(!$salt) {
+			// create some sort of salt for the hash
+			$salt = substr(base64_encode(sha1(rand() . time(), true) . $config['cookies']['salt']), 0, 15);
+			
+			$generated_salt = true;
+		}
+		
+		// generate hash (method is not important as long as it's strong)
+		$hash = substr(base64_encode(md5($username . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
+		
+		if(isset($generated_salt))
+			return Array($hash, $salt);
+		else
+			return $hash;
 	}
 	
 	function hasPermission($action = null, $board = null, $_mod = null) {
@@ -52,8 +63,7 @@
 				'id' => $user['id'],
 				'type' => $user['type'],
 				'username' => $username,
-				'password' => $password,
-				'hash' => isset($_SESSION['mod']['hash']) ? $_SESSION['mod']['hash'] : mkhash(),
+				'hash' => mkhash($username, $password),
 				'boards' => explode(',', $user['boards'])
 				);
 		} else return false;
@@ -61,26 +71,22 @@
 	
 	function setCookies() {
 		global $mod, $config;
-		if(!$mod) error('setCookies() was called for a non-moderator!');
+		if(!$mod)
+			error('setCookies() was called for a non-moderator!');
 		
-		// $config['cookies']['mod'] contains username:hash
-		setcookie($config['cookies']['mod'], $mod['username'] . ':' . $mod['hash'], time()+$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
-		
-		// Put $mod in the session
-		$_SESSION['mod'] = $mod;
-		
-		// Lock sessions to IP addresses
-		if($config['mod']['lock_ip'])
-			$_SESSION['mod']['ip'] = $_SERVER['REMOTE_ADDR'];
+		setcookie($config['cookies']['mod'],
+				$mod['username'] . // username
+				':' . 
+				$mod['hash'][0] . // password
+				':' .
+				$mod['hash'][1], // salt
+			time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, true);
 	}
 	
 	function destroyCookies() {
 		global $config;
 		// Delete the cookies
-		setcookie($config['cookies']['mod'], 'deleted', time()-$config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, true);
-		
-		// Unset the session
-		unset($_SESSION['mod']);
+		setcookie($config['cookies']['mod'], 'deleted', time() - $config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path'] : '/', null, false, true);
 	}
 	
 	function create_pm_header() {
@@ -110,33 +116,6 @@
 		else
 			$query->bindValue(':board', null, PDO::PARAM_NULL);
 		$query->execute() or error(db_error($query));
-	}
-	
-	if(isset($_COOKIE[$config['cookies']['mod']]) && isset($_SESSION['mod']) && is_array($_SESSION['mod'])) {
-		// Should be username:session hash
-		$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
-		if(count($cookie) != 2) {
-			destroyCookies();
-			error($config['error']['malformed']);
-		}
-		
-		// Validate session
-		if(	$cookie[0] != $_SESSION['mod']['username'] ||
-			$cookie[1] != $_SESSION['mod']['hash']) {
-			// Malformed cookies
-			destroyCookies();
-			error($config['error']['malformed']);
-		}
-		
-		// Open connection
-		sql_open();
-		
-		// Check username/password
-		if(!login($_SESSION['mod']['username'], $_SESSION['mod']['password'], false)) {
-			destroyCookies();
-			error($config['error']['invalidafter']);
-		}
-		
 	}
 	
 	// Generates a <ul> element with a list of linked
@@ -288,4 +267,34 @@
 		//}
 	}
 	
-?>
+	
+	// Validate session
+	
+	if(isset($_COOKIE[$config['cookies']['mod']])) {
+		// Should be username:hash:salt
+		$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
+		if(count($cookie) != 3) {
+			destroyCookies();
+			error($config['error']['malformed']);
+		}
+		
+		$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username LIMIT 1");
+		$query->bindValue(':username', $cookie[0]);
+		$query->execute() or error(db_error($query));
+		$user = $query->fetch();
+		
+		// validate password hash
+		if($cookie[1] != mkhash($cookie[0], $user['password'], $cookie[2])) {
+			// Malformed cookies
+			destroyCookies();
+			error($config['error']['malformed']);
+		}
+		
+		$mod = Array(
+			'id' => $user['id'],
+			'type' => $user['type'],
+			'username' => $cookie[0],
+			'boards' => explode(',', $user['boards'])
+		);
+	}
+

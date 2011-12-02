@@ -164,17 +164,6 @@
 		if(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], $_SERVER['HTTP_REFERER']))
 			error($config['error']['referer']);
 		
-		// TODO: Since we're now using static HTML files, we can't give them cookies on their first page view
-		// Find another anti-spam method.
-		
-		/*
-		// Check if he has a valid cookie.
-		if(!$user['valid']) error($config['error']['bot']);
-		
-		// Check how long he has been here.
-		if(time()-$user['appeared']<LURKTIME) error(ERROR_LURK);
-		*/
-		
 		checkDNSBL();
 			
 		// Check if board exists
@@ -596,6 +585,7 @@
 			$redirect = $root . $board['dir'] . $config['file_index'];
 			
 		}
+		
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
