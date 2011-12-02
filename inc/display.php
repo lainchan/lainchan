@@ -79,13 +79,13 @@
 			'config'=>$config,
 			'title'=>'Error',
 			'subtitle'=>'An error has occured.',
-			'body'=>"<center>" .
-			        "<h2>$message</h2>" .
+			'body'=>'<center>' .
+			        '<h2>' . _($message) . '</h2>' .
 				(isset($board) ? 
 					"<p><a href=\"" . $config['root'] .
 						($mod ? $config['file_mod'] . '?/' : '') .
-						$board['dir'] . $config['file_index'] . "\">Go back</a>.</p>" : '').
-			        "</center>"
+						$board['dir'] . $config['file_index'] . "\">Go back</a>.</p>" : '') .
+			        '</center>'
 		)));
 	}
 	
