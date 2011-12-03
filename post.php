@@ -589,8 +589,6 @@
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
-		
-		exit;
 	} else {
 		if(!file_exists($config['has_installed'])) {
 			header('Location: install.php', true, $config['redirect_http']);
