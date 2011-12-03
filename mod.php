@@ -514,8 +514,8 @@
 											(isset($themes_in_use[$_theme]) ? _('Reconfigure') : _('Install')) .
 										'</a></li>' .
 										(isset($themes_in_use[$_theme]) ?
-											'<li><a title="Rebuild" href="?/themes/' . $_theme . '/rebuild">' . _('Rebuild') . '</a></li>' .
-											'<li><a title="Use theme" href="?/themes/' . $_theme . '/uninstall">' . _('Uninstall') . '</a></li>'
+											'<li><a href="?/themes/' . $_theme . '/rebuild">' . _('Rebuild') . '</a></li>' .
+											'<li><a href="?/themes/' . $_theme . '/uninstall">' . _('Uninstall') . '</a></li>'
 										:
 											'') .
 									'</ul></td>' .
