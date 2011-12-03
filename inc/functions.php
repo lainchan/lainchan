@@ -641,7 +641,7 @@
 	}
 	
 	// Remove file from post
-	function deleteFile($id, $remove_entirely_if_already=true) {
+	function deleteFile($id, $remove_entirely_if_already=true, $rebuild_after=true) {
 		global $board, $config;
 		
 		$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
@@ -676,7 +676,7 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		if($post['thread'])
+		if($post['thread'] && $rebuild_after)
 			buildThread($post['thread']);
 	}
 	
