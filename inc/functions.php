@@ -13,6 +13,9 @@
 	function loadConfig() {
 		global $board, $config, $__ip, $debug, $__version;
 		
+		if(!isset($_SERVER['REMOTE_ADDR']))
+			$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
+		
 		require 'inc/config.php';
 		if (file_exists('inc/instance-config.php')) {
 			require 'inc/instance-config.php';
@@ -108,7 +111,6 @@
 		if(_setlocale(LC_ALL, $config['locale']) === false) {
 			$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
 			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
-
 		}
 		
 		if(extension_loaded('gettext')) {
