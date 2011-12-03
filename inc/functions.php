@@ -1384,42 +1384,39 @@
 		return substr(sha1(sha1($ip . $config['secure_trip_salt'] . $thread) . $config['secure_trip_salt']), 0, $config['poster_id_length']);
 	}
  
-	function generate_tripcode($name, $length = 10){
+	function generate_tripcode($name) {
 		global $config;
-		$t = explode('#', $name);
-		$nameo = $t[0];
-		if ( isset ( $t[1] ) || isset ( $t[2] ) ) {
-			$trip = ( ( strlen ( $t[1] ) > 0 ) ? $t[1] : $t[2] );
-			if ( ( function_exists ( 'mb_convert_encoding' ) ) ) {
-				// multi-byte encoding is necessary to produce standard tripcode output, but only use it if available
-				mb_substitute_character('none');
-				$recoded_cap = mb_convert_encoding ( $trip, 'Shift_JIS', 'UTF-8' );
-			}
-			$trip = ( ( ! empty ( $recoded_cap ) ) ? $recoded_cap : $trip );
-			$salt = substr ( $trip.'H.', 1, 2 );
-			$salt = preg_replace ( '/[^\.-z]/', '.', $salt );
-			$salt = strtr ( $salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef' );
-			if ( isset ( $t[2] ) ) {
-				// secure
-				if(isset($config['custom_tripcode']["##{$trip}"]))
-					$trip = $config['custom_tripcode']["##{$trip}"];
-				else
-					$trip = '!!' . substr ( crypt ( $trip, $config['secure_trip_salt'] ), ( -1 * $length ) );
-			} else {
-				// insecure
-				if(isset($config['custom_tripcode']["#{$trip}"]))
-					$trip = $config['custom_tripcode']["#{$trip}"];
-				else
-					$trip = '!' . substr ( crypt ( $trip, $salt ), ( -1 * $length ) );
-			}
-		}
-		if ( isset ( $trip ) ) {
-			return array ( $nameo, $trip );
+		
+		if(!preg_match('/^([^#]+)?(##|#)(.+)$/', $name, $match))
+			return Array($name);
+		
+		$name = $match[1];
+		$secure = $match[2] == '##';
+		$trip = $match[3];
+		
+		// convert to SHIT_JIS encoding
+		$trip = mb_convert_encoding($trip, 'Shift_JIS', 'UTF-8');
+		
+		// generate salt
+		$salt = substr($trip . 'H..', 1, 2);
+		$salt = preg_replace('/[^\.-z]/', '.', $salt);
+		$salt = strtr($salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef');
+		
+		if($secure) {
+			if(isset($config['custom_tripcode']["##{$trip}"]))
+				$trip = $config['custom_tripcode']["##{$trip}"];
+			else
+				$trip = '!!' . substr(crypt($trip, $config['secure_trip_salt']), -10);
 		} else {
-			return array ( $nameo );
+			if(isset($config['custom_tripcode']["#{$trip}"]))
+				$trip = $config['custom_tripcode']["#{$trip}"];
+			else
+				$trip = '!' . substr(crypt($trip, $salt), -10);
 		}
+		
+		return Array($name, $trip);
 	}
-
+		
 	// Highest common factor
 	function hcf($a, $b){
 		$gcd = 1;
