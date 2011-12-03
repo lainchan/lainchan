@@ -75,6 +75,10 @@
 	// Use syslog() for logging all error messages and unauthorized login attempts.
 	$config['syslog'] = false;
 	
+	// Use `host` via shell_exec() to lookup hostnames, avoiding query timeouts. May not work on your system.
+	// Requires safe_mode to be disabled.
+	$config['dns_system'] = false;
+	
 /*
  * ====================
  *  Database settings

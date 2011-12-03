@@ -2408,7 +2408,7 @@
 			// View information on an IP address
 			
 			$ip = $matches[1];
-			$host = $config['mod']['dns_lookup'] ? gethostbyaddr($ip) : false;
+			$host = $config['mod']['dns_lookup'] ? rDNS($ip) : false;
 			
 			if(hasPermission($config['mod']['unban']) && isset($_POST['unban']) && isset($_POST['ban_id'])) {
 				removeBan($_POST['ban_id']);

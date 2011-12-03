@@ -487,6 +487,7 @@
 			$query->bindValue(':board', $board);
 			$query->execute() or error(db_error($query));
 		}
+		
 		if($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 			// my most insane SQL query yet
 			$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board)
@@ -1470,6 +1471,29 @@
 			if(isset($post['thumb']))
 				file_unlink($post['thumb']);
 		}
+	}
+	
+	function rDNS($ip_addr) {
+		global $config;
+		
+		if($config['cache']['enabled'] && ($host = cache::get('rdns_' . $ip_addr))) {
+			return $host;
+		}
+		
+		if(!$config['dns_system']) {
+			$host = gethostbyaddr($ip_addr);
+		} else {
+			$resp = shell_exec('host -W 1 ' . $ip_addr);
+			if(preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
+				$host = $m[1];
+			else
+				$host = $ip_addr;
+		}
+		
+		if($config['cache']['enabled'])
+			cache::set('rdns_' . $ip_addr, $host, 3600);
+		
+		return $host;
 	}
 	
 ?>
