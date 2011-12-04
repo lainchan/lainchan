@@ -86,51 +86,58 @@
 			$fieldset['Boards'] .= ulBoards();
 			
 			if(hasPermission($config['mod']['noticeboard'])) {
-				$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
-				$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				if(!$config['cache']['enabled'] || !($fieldset['Noticeboard'] = cache::get('noticeboard_preview'))) {
 				
-				$fieldset['Noticeboard'] .= '<li>';
+					$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
+					$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($query));
 				
-				$_body = '';
-				while($notice = $query->fetch()) {					
-					$_body .= '<li><a href="?/noticeboard#' .
-						$notice['id'] .
-					'">' .
-					($notice['subject'] ?
-						$notice['subject']
-					:
-						'<em>' . _('no subject') . '</em>'
-					) .
-				'</a><span class="unimportant"> &mdash; by ' .
-					(isset($notice['username']) ?
-						utf8tohtml($notice['username'])
-					: '<em>???</em>') .
-				' at ' .
-					strftime($config['post_date'], $notice['time']) .
-				'</span></li>';
+					$fieldset['Noticeboard'] .= '<li>';
+				
+					$_body = '';
+					while($notice = $query->fetch()) {					
+						$_body .= '<li><a href="?/noticeboard#' .
+							$notice['id'] .
+						'">' .
+						($notice['subject'] ?
+							$notice['subject']
+						:
+							'<em>' . _('no subject') . '</em>'
+						) .
+					'</a><span class="unimportant"> &mdash; by ' .
+						(isset($notice['username']) ?
+							utf8tohtml($notice['username'])
+						: '<em>???</em>') .
+					' at ' .
+						strftime($config['post_date'], $notice['time']) .
+					'</span></li>';
+					}
+					if(!empty($_body)) {
+						$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
+					}
+				
+					$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entires') . '</a></li>';
+				
+					$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
+					$query->bindValue(':id', $mod['id']);
+					$query->execute() or error(db_error($query));
+					$count = $query->fetch();
+					$count = $count['count'];
+				
+					$fieldset['Noticeboard'] .= '<li><a href="?/inbox">' . _('PM Inbox') . 
+						($count > 0
+						?
+							' <strong>(' . $count . ' unread)</strong>'
+						: '') .
+					'</a></li>';
+				
+					$fieldset['Noticeboard'] .= '<li><a href="?/news">' . _('News') . '</a></li>';
+				
+					if($config['cache']['enabled'])
+						cache::set('noticeboard_preview', $fieldset['Noticeboard']);
 				}
-				if(!empty($_body)) {
-					$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
-				}
-				
-				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entires') . '</a></li>';
-				
-				$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
-				$query->bindValue(':id', $mod['id']);
-				$query->execute() or error(db_error($query));
-				$count = $query->fetch();
-				$count = $count['count'];
-				
-				$fieldset['Noticeboard'] .= '<li><a href="?/inbox">' . _('PM Inbox') . 
-					($count > 0
-					?
-						' <strong>(' . $count . ' unread)</strong>'
-					: '') .
-				'</a></li>';
-				
-				$fieldset['Noticeboard'] .= '<li><a href="?/news">' . _('News') . '</a></li>';
 			}
+			
 			
 			if(hasPermission($config['mod']['reports'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/reports">' . _('Report queue') . '</a></li>';
@@ -543,6 +550,9 @@
 			$query->bindValue(':id', $match[1], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
+			if($config['cache']['enabled'])
+				cache::delete('noticeboard_preview');
+			
 			header('Location: ?/noticeboard', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/noticeboard$/', $query)) {
 			if(!hasPermission($config['mod']['noticeboard'])) error($config['error']['noaccess']);
@@ -558,6 +568,9 @@
 					markup($_POST['body']);
 					$query->bindValue(':body', $_POST['body']);
 					$query->execute() or error(db_error($query));
+					
+					if($config['cache']['enabled'])
+						cache::delete('noticeboard_preview');
 					
 					header('Location: ?/noticeboard#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 			} else {
