@@ -10,6 +10,8 @@
 		
 		public function __construct($query) {
 			global $pdo;
+			$query = preg_replace("/[\n\t]+/", ' ', $query);
+			
 			$this->query = $pdo->prepare($query);
 		}
 		public function __call($function, $args) {
