@@ -119,20 +119,20 @@
 				}
 			case 'v0.9.3-dev-10':
 			case 'v0.9.3':
-				query("ALTER TABLE  `bans` DROP INDEX `id`");
-				query("ALTER TABLE  `pms` DROP INDEX  `id`");
-				query("ALTER TABLE  `boards` DROP PRIMARY KEY");
-				query("ALTER TABLE  `reports` DROP INDEX  `id`");
-				query("ALTER TABLE  `boards` DROP INDEX `uri`");
+				query("ALTER TABLE  `bans` DROP INDEX `id`") or error(db_error());
+				query("ALTER TABLE  `pms` DROP INDEX  `id`") or error(db_error());
+				query("ALTER TABLE  `boards` DROP PRIMARY KEY") or error(db_error());
+				query("ALTER TABLE  `reports` DROP INDEX  `id`") or error(db_error());
+				query("ALTER TABLE  `boards` DROP INDEX `uri`") or error(db_error());
 				
-				query("ALTER IGNORE TABLE  `robot` ADD PRIMARY KEY (`hash`)");
-				query("ALTER TABLE  `bans` ADD FULLTEXT (`ip`)");
-				query("ALTER TABLE  `ip_notes` ADD INDEX (`ip`)");	
-				query("ALTER TABLE  `modlogs` ADD INDEX (`time`)");
-				query("ALTER TABLE  `boards` ADD PRIMARY KEY(`uri`)");
-				query("ALTER TABLE  `mutes` ADD INDEX (`ip`)");
-				query("ALTER TABLE  `news` ADD INDEX (`time`)");
-				query("ALTER TABLE  `theme_settings` ADD INDEX (`theme`)");
+				query("ALTER IGNORE TABLE  `robot` ADD PRIMARY KEY (`hash`)") or error(db_error());
+				query("ALTER TABLE  `bans` ADD FULLTEXT (`ip`)") or error(db_error());
+				query("ALTER TABLE  `ip_notes` ADD INDEX (`ip`)") or error(db_error());	
+				query("ALTER TABLE  `modlogs` ADD INDEX (`time`)") or error(db_error());
+				query("ALTER TABLE  `boards` ADD PRIMARY KEY(`uri`)") or error(db_error());
+				query("ALTER TABLE  `mutes` ADD INDEX (`ip`)") or error(db_error());
+				query("ALTER TABLE  `news` ADD INDEX (`time`)") or error(db_error());
+				query("ALTER TABLE  `theme_settings` ADD INDEX (`theme`)") or error(db_error());
 			case 'v0.9.4-dev-1':
 				foreach($boards as &$board) {
 					query(sprintf("ALTER TABLE  `posts_%s` ADD  `sage` INT( 1 ) NOT NULL AFTER  `locked`", $board['uri'])) or error(db_error());
@@ -145,6 +145,9 @@
 						<p style="text-align:center">
 							<a href="?confirm=1">I have read and understood the agreement. Proceed to upgrading.</a>
 						</p>';
+					
+					file_write($config['has_installed'], 'v0.9.4-dev-2');
+					
 					break;
 				}
 			case 'v0.9.4-dev-3':
