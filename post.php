@@ -210,7 +210,7 @@
 		// Check for an embed field
 		if($config['enable_embedding'] && isset($_POST['embed']) && !empty($_POST['embed'])) {
 			// yep; validate it
-			$value = &$_POST['embed'];
+			$value = $_POST['embed'];
 			foreach($config['embedding'] as &$embed) {
 				if($html = preg_replace($embed[0], $embed[1], $value)) {
 					if($html == $value) {
@@ -241,10 +241,10 @@
 		}
 		
 		$post['name'] = (!empty($_POST['name'])?$_POST['name']:$config['anonymous']);
-		$post['subject'] = &$_POST['subject'];
+		$post['subject'] = $_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
-		$post['body'] = &$_POST['body'];
-		$post['password'] = &$_POST['password'];
+		$post['body'] = $_POST['body'];
+		$post['password'] = $_POST['password'];
 		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op'])) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name'])));
 		
 		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
@@ -269,9 +269,12 @@
 			$post['locked'] = $OP && isset($_POST['lock']);
 			$post['raw'] = isset($_POST['raw']);
 			
-			if($post['sticky'] && $mod['type'] < $config['mod']['sticky']) error($config['error']['noaccess']);
-			if($post['locked'] && $mod['type'] < $config['mod']['lock']) error($config['error']['noaccess']);
-			if($post['raw'] && $mod['type'] < $config['mod']['rawhtml']) error($config['error']['noaccess']);
+			if($post['sticky'] && !hasPermission($config['mod']['sticky'], $board['uri']))
+				error($config['error']['noaccess']);
+			if($post['locked'] && !hasPermission($config['mod']['lock'], $board['uri']))
+				error($config['error']['noaccess']);
+			if($post['raw'] && !hasPermission($config['mod']['rawhtml'], $board['uri']))
+				error($config['error']['noaccess']);
 		}
 		
 		// Check if thread is locked
@@ -300,7 +303,7 @@
 		}
 		
 		$trip = generate_tripcode($post['name']);
-		$post['name'] = &$trip[0];
+		$post['name'] = $trip[0];
 		$post['trip'] = (isset($trip[1])?$trip[1]:'');
 		
 		if(strtolower($post['email']) == 'noko') {
@@ -313,7 +316,8 @@
 			if(isset($config['filename_func']))
 				$post['file_id'] = $config['filename_func']($post);
 			else
-				$post['file_id'] = time() . rand(100, 999);
+				$post['file_id'] = floor(microtime(true) * 1000);
+			
 			$post['file'] = $board['dir'] . $config['dir']['img'] . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
 		}
@@ -551,7 +555,6 @@
 				$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		
-		// Todo: Validate some more, remove messy code, allow more specific configuration
 		$id = post($post, $OP);
 		
 		buildThread(($OP?$id:$post['thread']));
@@ -594,7 +597,6 @@
 			header('Location: install.php', true, $config['redirect_http']);
 		} else {
 			// They opened post.php in their browser manually.
-			// Possible TODO: Redirect back to homepage.
 			error($config['error']['nopost']);
 		}
 	}
