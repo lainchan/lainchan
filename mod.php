@@ -15,7 +15,6 @@
 			return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
 		}
 		
-		$_SESSION = strip_array($_SESSION);
 		$_GET = strip_array($_GET);
 		$_POST = strip_array($_POST);
 	}
