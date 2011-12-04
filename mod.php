@@ -226,7 +226,7 @@
 							$latest['massive'] . '.' .
 							$latest['major'] . '.' . 
 							$latest['minor'] .
-						'</strong>) is available! See <a href="http://tinyboard.org">http://tinyboard.org/</a> for download instructions.</li>';
+						'</strong>) is available! See <a href="http://tinyboard.org">http://tinyboard.org/</a> for upgrade instructions.</li>';
 				}
 			}
 			
