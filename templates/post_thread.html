@@ -58,17 +58,17 @@
 			{# start email #}
 			<a class="email" href="mailto:{{ post.email }}">
 		{% endif %}
-		<span class="name">{{ post.name }}</span>
+		{% set capcode = post.capcode|capcode %}
+		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name }}</span>
 		{% if post.trip|length > 0 %}
-			<span class="trip">{{ post.trip }}</span>
+			<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# end email #}
 			</a>
 		{% endif %}
-		{% if post.capcode|length > 0 %}
-			{# show capcode #}
-			{{ post.capcode|capcode }}
+		{% if capcode %}
+			{{ capcode.cap }}
 		{% endif %}
 		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
 			 [<a style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]

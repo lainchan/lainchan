@@ -133,13 +133,25 @@
 	function capcode($cap) {
 		global $config;
 		
+		if(!$cap)
+			return false;
+		
+		$capcode = Array();
 		if(isset($config['custom_capcode'][$cap])) {
-			if(is_array($config['custom_capcode'][$cap]))
-				return sprintf($config['custom_capcode'][$cap][0], $cap);
-			return sprintf($config['custom_capcode'][$cap], $cap);
+			if(is_array($config['custom_capcode'][$cap])) {
+				$capcode['cap'] = sprintf($config['custom_capcode'][$cap][0], $cap);
+				if(isset($config['custom_capcode'][$cap][1]))
+					$capcode['name'] = $config['custom_capcode'][$cap][1];
+				if(isset($config['custom_capcode'][$cap][2]))
+					$capcode['trip'] = $config['custom_capcode'][$cap][2];
+			} else {
+				$capcode['cap'] = sprintf($config['custom_capcode'][$cap], $cap);
+			}
+		} else {
+			$capcode['cap'] = sprintf($config['capcode'], $cap);
 		}
 		
-		return sprintf($config['capcode'], $cap);
+		return $capcode;
 	}
 	
 	function truncate($body, $url, $max_lines = false, $max_chars = false) {
