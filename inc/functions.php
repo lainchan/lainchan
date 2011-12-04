@@ -567,10 +567,25 @@
 		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 		
 		// Basic stuff
-		$query->bindValue(':subject', $post['subject']);
-		$query->bindValue(':email', $post['email']);
+		if(!empty($post['subject'])) {
+			$query->bindValue(':subject', $post['subject']);
+		} else {
+			$query->bindValue(':subject', NULL, PDO::PARAM_NULL);
+		}
+		
+		if(!empty($post['email'])) {
+			$query->bindValue(':email', $post['email']);
+		} else {
+			$query->bindValue(':email', NULL, PDO::PARAM_NULL);
+		}
+		
+		if(!empty($post['trip'])) {
+			$query->bindValue(':trip', $post['trip']);
+		} else {
+			$query->bindValue(':trip', NULL, PDO::PARAM_NULL);
+		}
+		
 		$query->bindValue(':name', $post['name']);
-		$query->bindValue(':trip', $post['trip']);
 		$query->bindValue(':body', $post['body']);
 		$query->bindValue(':time', isset($post['time']) ? $post['time'] : time(), PDO::PARAM_INT);
 		$query->bindValue(':password', $post['password']);		
