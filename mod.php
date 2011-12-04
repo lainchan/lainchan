@@ -2486,10 +2486,7 @@
 									$_query->bindValue(':id', $note['mod']);
 									$_query->execute() or error(db_error($_query));
 									if($_mod = $_query->fetch()) {
-										if(hasPermission($config['mod']['editusers']))
-											$staff = '<a href="?/users/' . $note['mod'] . '">' . utf8tohtml($_mod['username']) . '</a>';
-										else
-											$staff = utf8tohtml($_mod['username']);
+										$staff = '<a href="?/new_PM/' . $note['mod'] . '">' . utf8tohtml($_mod['username']) . '</a>';
 									} else {
 										$staff = '<em>???</em>';
 									}
