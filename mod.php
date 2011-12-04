@@ -1633,7 +1633,7 @@
 			if(!$config['cache']['enabled']) error('Cache is not enabled.');
 			
 			if(cache::flush()) {
-				$body = 'Successfully invalidated all items in the cache.';
+				$body = 'Successfully invalidated all items in cache.';
 				modLog('Cleared cache');
 			} else {
 				$body = 'An error occured while trying to flush cache.';
