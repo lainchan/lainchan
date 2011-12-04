@@ -147,7 +147,8 @@
 						</p>';
 					break;
 				}
-				
+			case 'v0.9.4-dev-4':
+				// nothing
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
