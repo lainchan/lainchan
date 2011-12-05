@@ -165,7 +165,14 @@
 	}
 	
 	function _syslog($priority, $message) {
-		syslog($priority, $message . ' - client: ' . $_SERVER['REMOTE_ADDR'] . ', request: "' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . '"');
+		if(	isset($_SERVER['REMOTE_ADDR']) &&
+			isset($_SERVER['REQUEST_METHOD']) &&
+			isset($_SERVER['REQUEST_URI'])) {
+			// CGI
+			syslog($priority, $message . ' - client: ' . $_SERVER['REMOTE_ADDR'] . ', request: "' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . '"');
+		} else {
+			syslog($priority, $message);
+		}
 	}
 	
 	function loadThemeConfig($_theme) {
