@@ -54,7 +54,7 @@
 						str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
 					'|' .
 						preg_quote($config['file_mod'], '/') . '\?\/.+' .
-				')$/i';
+				')(#.+)?$/i';
 		
 		if(!isset($config['cookies']['path']))
 			$config['cookies']['path'] = &$config['root'];
