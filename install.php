@@ -449,7 +449,7 @@
 		
 		create_config_from_array($instance_config, $_POST);
 		
-		$instance_config .= '?>';
+		$instance_config .= "\n";
 		
 		if(@file_put_contents('inc/instance-config.php', $instance_config)) {
 			header('Location: ?step=4', true, $config['redirect_http']);
