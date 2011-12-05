@@ -478,6 +478,8 @@
 		preg_match_all("/(^|\n)((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
 		$queries = $queries[2];
 		
+		$queries[] = Element('posts.sql', Array('board' => 'b'));
+		
 		$sql_errors = '';
 		foreach($queries as &$query) {
 			if(!query($query))

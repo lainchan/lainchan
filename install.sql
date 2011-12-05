@@ -176,45 +176,6 @@ CREATE TABLE IF NOT EXISTS `pms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `posts_b`
---
-
-CREATE TABLE IF NOT EXISTS `posts_b` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `thread` int(11) DEFAULT NULL,
-  `subject` varchar(100) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `name` varchar(35) DEFAULT NULL,
-  `trip` varchar(15) DEFAULT NULL,
-  `capcode` varchar(50) DEFAULT NULL,
-  `body` text NOT NULL,
-  `body_nomarkup` text DEFAULT NULL,
-  `time` int(11) NOT NULL,
-  `bump` int(11) DEFAULT NULL,
-  `thumb` varchar(50) DEFAULT NULL,
-  `thumbwidth` int(11) DEFAULT NULL,
-  `thumbheight` int(11) DEFAULT NULL,
-  `file` varchar(50) DEFAULT NULL,
-  `filewidth` int(11) DEFAULT NULL,
-  `fileheight` int(11) DEFAULT NULL,
-  `filesize` int(11) DEFAULT NULL,
-  `filename` text,
-  `filehash` text,
-  `password` varchar(20) DEFAULT NULL,
-  `ip` varchar(45) NOT NULL,
-  `sticky` int(1) NOT NULL,
-  `locked` int(1) NOT NULL,
-  `sage` int(1) NOT NULL,
-  `embed` text,
-  UNIQUE KEY `id` (`id`),
-  KEY `thread` (`thread`),
-  KEY `time` (`time`),
-  FULLTEXT KEY `body` (`body`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `reports`
 --
 
@@ -266,6 +227,7 @@ CREATE TABLE IF NOT EXISTS `cites` (
   KEY `target` (`target_board`,`target`),
   KEY `post` (`board`,`post`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
