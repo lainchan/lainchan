@@ -598,6 +598,7 @@
 			
 		}
 		
+		_syslog(LOG_INFO, 'New post: ' . $redirect);
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
