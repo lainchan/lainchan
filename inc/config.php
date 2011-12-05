@@ -368,7 +368,7 @@
 	// $config['allowed_ext_files'][] = 'txt';
 	// $config['allowed_ext_files'][] = 'zip';
 	
-	// An alternative function for generating a filename, instead of the default UNIX timestamp with appended random digits
+	// An alternative function for generating a filename, instead of the default UNIX timestamp.
 	// http://tinyboard.org/wiki/index.php?title=Filenames
 	// $config['filename_func'] = 'some_function_you_have_created';	
 	
