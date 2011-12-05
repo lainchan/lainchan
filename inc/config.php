@@ -274,6 +274,10 @@
 	// Maximum number of cross-board links/cites per post
 	$config['max_cross']	= $config['max_cites'];
 	
+	// Track post citations (>>XX). Rebuilds posts after a cited post is deleted, removing broken links.
+	// A little more database load.
+	$config['track_cites']	= true;
+	
 	// Maximum filename length (will be truncated)
 	$config['max_filename_len']	= 255;
 	// Maximum filename length to display (the rest can be viewed upon mouseover)

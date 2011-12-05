@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS `posts_b` (
   `trip` varchar(15) DEFAULT NULL,
   `capcode` varchar(50) DEFAULT NULL,
   `body` text NOT NULL,
+  `body_nomarkup` text DEFAULT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
   `thumb` varchar(50) DEFAULT NULL,
@@ -249,6 +250,21 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   `name` varchar(40) DEFAULT NULL,
   `value` text,
   KEY `theme` (`theme`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cites`
+--
+
+CREATE TABLE IF NOT EXISTS `cites` (
+  `board` varchar(8) NOT NULL,
+  `post` int(11) NOT NULL,
+  `target_board` varchar(8) NOT NULL,
+  `target` int(11) NOT NULL,
+  KEY `target` (`target_board`,`target`),
+  KEY `post` (`board`,`post`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

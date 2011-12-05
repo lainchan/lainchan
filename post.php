@@ -334,7 +334,7 @@
 		$post['body_nomarkup'] = $post['body'];
 		
 		if(!($mod && isset($post['raw']) && $post['raw']))
-			markup($post['body']);
+			$post['tracked_cites'] = markup($post['body'], true);
 		
 		// Check for a flood
 		if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
@@ -556,6 +556,15 @@
 		}
 		
 		$id = post($post, $OP);
+		
+		foreach($post['tracked_cites'] as $cite) {
+			$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+			$query->bindValue(':board', $board['uri']);
+			$query->bindValue(':post', $id, PDO::PARAM_INT);
+			$query->bindValue(':target_board',$cite[0]);
+			$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+		}
 		
 		buildThread(($OP?$id:$post['thread']));
 		

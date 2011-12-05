@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `posts_{{ board }}` (
   `trip` varchar(15) DEFAULT NULL,
   `capcode` varchar(50) DEFAULT NULL,
   `body` text NOT NULL,
+  `body_nomarkup` text DEFAULT NULL,
   `time` int(11) NOT NULL,
   `bump` int(11) DEFAULT NULL,
   `thumb` varchar(50) DEFAULT NULL,

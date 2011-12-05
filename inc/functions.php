@@ -564,7 +564,7 @@
 	
 	function post($post, $OP) {
 		global $pdo, $board;
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 		
 		// Basic stuff
 		if(!empty($post['subject'])) {
@@ -587,6 +587,7 @@
 		
 		$query->bindValue(':name', $post['name']);
 		$query->bindValue(':body', $post['body']);
+		$query->bindValue(':body_nomarkup', $post['body_nomarkup']);
 		$query->bindValue(':time', isset($post['time']) ? $post['time'] : time(), PDO::PARAM_INT);
 		$query->bindValue(':password', $post['password']);		
 		$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
@@ -697,6 +698,30 @@
 			buildThread($post['thread']);
 	}
 	
+	// rebuild post (markup)
+	function rebuildPost($id) {
+		global $board;
+		
+		$query = prepare(sprintf("SELECT `body_nomarkup` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		if(!$post = $query->fetch())
+			return false;
+		
+		if(!$post['body_nomarkup'])
+			return false;
+		
+		markup($body = &$post['body_nomarkup']);
+		
+		$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = :body WHERE `id` = :id", $board['uri']));
+		$query->bindValue(':body', $body);
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		return true;
+	}
+	
 	// Delete a post (reply or thread)
 	function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 		global $board, $config;
@@ -735,6 +760,28 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
+		$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board AND `target` = :id");
+		$query->bindValue(':board', $board['uri']);
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		while($cite = $query->fetch()) {
+			var_dump($cite);
+			if($board['uri'] != $cite['board']) {
+				if(!isset($tmp_board))
+					$tmp_board = $board['uri'];
+				openBoard($cite['board']);
+			}
+			rebuildPost($cite['post']);
+		}
+		
+		if(isset($tmp_board))
+			openBoard($tmp_board);
+		
+		$query = prepare("DELETE FROM `cites` WHERE (`target_board` = :board AND `target` = :id) OR (`board` = :board AND `post` = :id)");
+		$query->bindValue(':board', $board['uri']);
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	
 		if(isset($rebuild) && $rebuild_after) {
 			buildThread($rebuild);
 		}
@@ -1225,7 +1272,7 @@
 		return $body . "\n";
 	}
 	
-	function markup(&$body) {
+	function markup(&$body, $track_cites = false) {
 		global $board, $config;
 		
 		$body = utf8tohtml($body);
@@ -1257,9 +1304,11 @@
 		
 		// replace tabs with 8 spaces
 		$body = str_replace("\t", '        ', $body);
-
+		
+		$tracked_cites = Array();
+		
 		// Cites
-		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.?]|$)/', $body, $cites)) {
+		if(isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.?]|$)/', $body, $cites)) {			
 			if(count($cites[0]) > $config['max_cites']) {
 				error($config['error']['toomanycites']);
 			}
@@ -1276,6 +1325,9 @@
 							'&gt;&gt;' . $cite .
 							'</a>';
 					$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[3][$index], $body);
+					
+					if($track_cites && $config['track_cites'])
+						$tracked_cites[] = Array($board['uri'], $post['id']);
 				}
 			}
 		}
@@ -1306,6 +1358,9 @@
 									'&gt;&gt;&gt;/' . $_board . '/' . $cite .
 									'</a>';
 							$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
+							
+							if($track_cites && $config['track_cites'])
+								$tracked_cites[] = Array($board['uri'], $post['id']);
 						}
 					} else {
 						$replacement = '<a href="' .
@@ -1330,6 +1385,8 @@
 			$body = preg_replace('/\s+$/', '', $body);
 		
 		$body = preg_replace("/\n/", '<br/>', $body);
+		
+		return $tracked_cites;
 	}
 
 	function utf8tohtml($utf8) {
