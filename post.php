@@ -316,7 +316,7 @@
 			if(isset($config['filename_func']))
 				$post['file_id'] = $config['filename_func']($post);
 			else
-				$post['file_id'] = floor(microtime(true) * 1000);
+				$post['file_id'] = time() . substr(microtime(), 2, 3);
 			
 			$post['file'] = $board['dir'] . $config['dir']['img'] . $post['file_id'] . '.' . $post['extension'];
 			$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
