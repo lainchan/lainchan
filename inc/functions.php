@@ -702,7 +702,7 @@
 	function rebuildPost($id) {
 		global $board;
 		
-		$query = prepare(sprintf("SELECT `body_nomarkup` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+		$query = prepare(sprintf("SELECT `body_nomarkup`, `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
@@ -718,6 +718,8 @@
 		$query->bindValue(':body', $body);
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
+		
+		buildThread($post['thread'] ? $post['thread'] : $id);
 		
 		return true;
 	}
