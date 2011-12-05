@@ -598,7 +598,8 @@
 			
 		}
 		
-		_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP?'#'.$id:''));
+		if($config['syslog'])
+			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP?'#'.$id:''));
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);

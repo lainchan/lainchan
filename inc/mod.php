@@ -116,6 +116,9 @@
 		else
 			$query->bindValue(':board', null, PDO::PARAM_NULL);
 		$query->execute() or error(db_error($query));
+		
+		if($config['syslog'])
+			_syslog(LOG_INFO, '[mod/' . $mod['username'] . ']: ' . $action);
 	}
 	
 	// Generates a <ul> element with a list of linked
