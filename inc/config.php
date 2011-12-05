@@ -635,7 +635,7 @@
 	
 	$config['file_index']	= 'index.html';
 	$config['file_page']	= '%d.html';
-	$config['file_mod']		= 'mod.php';
+	$config['file_mod']	= 'mod.php';
 	$config['file_post']	= 'post.php';
 	$config['file_script']	= 'main.js';
 	
@@ -655,7 +655,7 @@
 	// Same as above, but a URI (accessable by web interface, not locally)
 	$config['dir']['themes_uri']	= 'templates/themes';
 	// Homepage directory
-	$config['dir']['home']	= '';
+	$config['dir']['home']		= '';
 	
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
@@ -738,7 +738,7 @@
 	
 	// Enable CDIR netmask bans (eg. "10.0.0.0/8" for 10.0.0.0.0 - 10.255.255.255). Useful for stopping persistent spammers.
 	// Again, a little more database load.
-	$config['ban_cidr']		= true;
+	$config['ban_cidr']	= true;
 	
 	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
 	$config['mod']['dns_lookup'] = true;
@@ -782,10 +782,10 @@
 	
 	// Probably best not to change these:
 	if(!defined('JANITOR')) {
-		define('JANITOR',	0,		true);
-		define('MOD',		1,		true);
-		define('ADMIN',		2,		true);
-		define('DISABLED',	3,		true);
+		define('JANITOR',	0,	true);
+		define('MOD',		1,	true);
+		define('ADMIN',		2,	true);
+		define('DISABLED',	3,	true);
 	}
 	
 /*
