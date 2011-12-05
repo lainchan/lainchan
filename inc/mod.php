@@ -103,7 +103,7 @@
 	}
 	
 	function modLog($action, $_board=null) {
-		global $mod, $board;
+		global $mod, $board, $config;
 		$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :board, :time, :text)");
 		$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
