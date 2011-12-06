@@ -47,7 +47,10 @@
 					preg_quote($config['root'], '/') .
 				'(' .
 						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
-						'(' . preg_quote($config['file_index'], '/') . ')?' .
+						'(' .
+							preg_quote($config['file_index'], '/') . '|' .
+							str_replace('%d', '\d+', preg_quote($config['file_page'])) .
+						')?' .
 					'|' .
 						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
 						preg_quote($config['dir']['res'], '/') .
