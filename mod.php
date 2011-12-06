@@ -1463,7 +1463,7 @@
 					}
 				}
 				
-				if(!isset($tmp_board))
+				if(isset($tmp_board))
 					$board = $tmp_board;
 				
 				$query = prepare("DELETE FROM `cites` WHERE `board` = :board OR `target_board` = :board");
