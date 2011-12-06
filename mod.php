@@ -33,7 +33,8 @@
 			
 			
 			if(!login($_POST['username'], $_POST['password'])) {
-				_syslog(LOG_WARNING, 'Unauthorized login attempt!');
+				if($config['syslog'])
+					_syslog(LOG_WARNING, 'Unauthorized login attempt!');
 				loginForm($config['error']['invalid'], $_POST['username'], '?' . $query);
 			}
 			
