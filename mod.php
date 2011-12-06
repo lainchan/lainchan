@@ -1451,6 +1451,10 @@
 					cache::delete('all_boards');
 				}
 				
+				$query = prepare("DELETE FROM `cites` WHERE `board` = :board OR `target_board` = :board");
+				$query->bindValue(':board', $board['uri']);
+				$query->execute() or error(db_error($query));
+				
 				rebuildThemes('boards');
 				
 				header('Location: ?/', true, $config['redirect_http']);
