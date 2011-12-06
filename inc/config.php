@@ -127,13 +127,6 @@
  * ====================
  */
  
-	// The name of the session cookie (PHP's $_SESSION)
-	$config['cookies']['session']= 'imgboard';
-	
-	// Used to safely determine when the user was first seen, to prevent floods. Contains a UNIX timestamp.
-	$config['cookies']['time']	= 'arrived';
-	// Contains an MD5 hash of $config['cookies']['time'] for verification.
-	$config['cookies']['hash']	= 'hash';
 	// Used for moderation login
 	$config['cookies']['mod']	= 'mod';
 	// Used for communicating with Javascript; telling it when posts were successful.
@@ -144,17 +137,13 @@
 	// Where to set the 'path' parameter to $config['cookies']['path'] when creating cookies. Recommended.
 	$config['cookies']['jail']	= true;
 	// How long should the cookies last (in seconds)
-	$config['cookies']['expire']= 15778463; //6 months
+	$config['cookies']['expire']	= 15778463; //6 months
 	// Make this something long and random for security
 	$config['cookies']['salt']	= 'abcdefghijklmnopqrstuvwxyz09123456789!@#$%^&*()';
 	// How long should moderators should remain logged in (0=browser session) (in seconds)
 	$config['mod']['expire']	= 15778463; //6 months
 	// Used to salt secure tripcodes (##trip) and poster IDs (if enabled)
 	$config['secure_trip_salt']	= ')(*&^%$#@!98765432190zyxwvutsrqponmlkjihgfedcba';
-	
-	// How many seconds before you can post, after the first visit
-	// Does not currently work due to technical limitations; disregard for now
-	$config['lurktime']			= 30;
 
 /*
  * ====================
@@ -174,7 +163,7 @@
 	//$config['dnsbl'][] = 'dnsbl.sorbs.net';
 	// A better way to check for Tor exit nodes (https://www.torproject.org/projects/tordnsel.html.en):
 	// server-port.reverse-server-ip.ip-port.exitlist.torproject.org
-	//$config['dnsbl'][] = $_SERVER['PORT'] . '.' . '4.3.2.1' . '.ip-port.exitlist.torproject.org';
+	// $config['dnsbl'][] = $_SERVER['PORT'] . '.' . '4.3.2.1' . '.ip-port.exitlist.torproject.org';
 	
 	// Skip checking certain IP addresses against blacklists (for troubleshooting or whatever)
 	$config['dnsbl_exceptions'][] = '127.0.0.1';
