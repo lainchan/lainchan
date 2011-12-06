@@ -43,7 +43,7 @@
 		if(!isset($config['referer_match']))
 			$config['referer_match'] = '/^' .
 				(preg_match($config['url_regex'], $config['root']) ? '' :
-					'https?:\/\/'.$_SERVER['HTTP_HOST']) .
+					'https?:\/\/' . $_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
 						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
@@ -57,7 +57,7 @@
 						str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
 					'|' .
 						preg_quote($config['file_mod'], '/') . '\?\/.+' .
-				')(#.+)?$/i';
+				')([#?].+)?$/i';
 		
 		if(!isset($config['cookies']['path']))
 			$config['cookies']['path'] = &$config['root'];
