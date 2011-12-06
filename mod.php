@@ -1451,6 +1451,21 @@
 					cache::delete('all_boards');
 				}
 				
+				$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board");
+				$query->bindValue(':board', $board['uri']);
+				$query->execute() or error(db_error($query));
+				while($cite = $query->fetch()) {
+					if($board['uri'] != $cite['board']) {
+						if(!isset($tmp_board))
+							$tmp_board = $board;
+						openBoard($cite['board']);
+						rebuildPost($cite['post']);
+					}
+				}
+				
+				if(!isset($tmp_board))
+					$board = $tmp_board;
+				
 				$query = prepare("DELETE FROM `cites` WHERE `board` = :board OR `target_board` = :board");
 				$query->bindValue(':board', $board['uri']);
 				$query->execute() or error(db_error($query));
