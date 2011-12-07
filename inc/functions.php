@@ -7,7 +7,8 @@
 	
 	require 'contrib/gettext/gettext.inc';
 	
-	register_shutdown_function('fatal_error_handler'); 
+	register_shutdown_function('fatal_error_handler');
+	mb_internal_encoding('UTF-8');
 	loadConfig();
 	
 	function loadConfig() {

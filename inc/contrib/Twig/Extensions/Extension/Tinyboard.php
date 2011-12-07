@@ -72,7 +72,7 @@ function twig_sprintf_filter( $value, $var) {
 }
 
 function twig_truncate_filter($value, $length = 30, $preserve = false, $separator = '&hellip;') {
-	if (strlen($value) > $length) {
+	if (mb_strlen($value) > $length) {
 		if ($preserve) {
 			if (false !== ($breakpoint = strpos($value, ' ', $length))) {
 				$length = $breakpoint;

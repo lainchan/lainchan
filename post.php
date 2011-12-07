@@ -323,11 +323,16 @@
 		}
 		
 		// Check string lengths
-		if(strlen($post['name']) > 50) error(sprintf($config['error']['toolong'], 'name'));			
-		if(strlen($post['email']) > 40) error(sprintf($config['error']['toolong'], 'email'));
-		if(strlen($post['subject']) > 100) error(sprintf($config['error']['toolong'], 'subject'));
-		if(!$mod && strlen($post['body']) > $config['max_body']) error($config['error']['toolong_body']);
-		if(strlen($post['password']) > 20) error(sprintf($config['error']['toolong'], 'password'));
+		if(mb_strlen($post['name']) > 35)
+			error(sprintf($config['error']['toolong'], 'name'));	
+		if(mb_strlen($post['email']) > 40)
+			error(sprintf($config['error']['toolong'], 'email'));
+		if(mb_strlen($post['subject']) > 100)
+			error(sprintf($config['error']['toolong'], 'subject'));
+		if(!$mod && mb_strlen($post['body']) > $config['max_body'])
+			error($config['error']['toolong_body']);
+		if(mb_strlen($post['password']) > 20)
+			error(sprintf($config['error']['toolong'], 'password'));
 		
 		wordfilters($post['body']);
 		
@@ -550,9 +555,9 @@
 		
 		// Remove DIR_* before inserting them into the database.
 		if($post['has_file']) {
-			$post['file'] = substr_replace($post['file'], '', 0, strlen($board['dir'] . $config['dir']['img']));
+			$post['file'] = substr_replace($post['file'], '', 0, mb_strlen($board['dir'] . $config['dir']['img']));
 			if($is_an_image && $post['thumb'] != 'spoiler')
-				$post['thumb'] = substr_replace($post['thumb'], '', 0, strlen($board['dir'] . $config['dir']['thumb']));
+				$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		
 		$id = post($post, $OP);

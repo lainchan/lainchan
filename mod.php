@@ -1360,10 +1360,10 @@
 				// Bug fix for https://github.com/savetheinternet/Tinyboard/issues/21
 				$po->body = truncate($po->body, $po->link(), $config['body_truncate'] - substr_count($append_html, '<br/>'));
 				
-				if(strlen($po->body) + strlen($append_html) > $config['body_truncate_char']) {
+				if(mb_strlen($po->body) + mb_strlen($append_html) > $config['body_truncate_char']) {
 					// still too long. temporarily increase limit in the config
 					$__old_body_truncate_char = $config['body_truncate_char'];
-					$config['body_truncate_char'] = strlen($po->body) + strlen($append_html);
+					$config['body_truncate_char'] = mb_strlen($po->body) + mb_strlen($append_html);
 				}
 				
 				$po->body .= $append_html;
@@ -1731,7 +1731,7 @@
 							if(empty($value))
 								$value = '<em>empty</em>';
 							else
-								$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (strlen($value) > 110 ? '&hellip;' : '')) . '</span>';
+								$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (mb_strlen($value) > 110 ? '&hellip;' : '')) . '</span>';
 						} elseif(gettype($value) == 'integer') {
 							$value = '<span style="color:black;">' . $value . '</span>';
 						}
@@ -1787,11 +1787,11 @@
 					error(sprintf($config['error']['required'], 'title'));
 				
 				// Check string lengths
-				if(strlen($b['uri']) > 8)
+				if(mb_strlen($b['uri']) > 8)
 					error(sprintf($config['error']['toolong'], 'URI'));
-				if(strlen($b['title']) > 20)
+				if(mb_strlen($b['title']) > 20)
 					error(sprintf($config['error']['toolong'], 'title'));
-				if(strlen($b['subtitle']) > 40)
+				if(mb_strlen($b['subtitle']) > 40)
 					error(sprintf($config['error']['toolong'], 'subtitle'));
 				
 				if(!preg_match('/^\w+$/', $b['uri']))
