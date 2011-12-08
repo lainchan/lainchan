@@ -1061,7 +1061,8 @@
 		for($x=0;$x<$input_count;$x++) {
 			if(rand(0, 2) == 0 || $hidden_input_names_x < 0) {
 				// Use an obscure name
-				$name = substr(base64_encode(sha1(rand())), 0, rand(2, 40));
+				$name = strtolower(substr(base64_encode(sha1(rand(), true)), 0, rand(2, 20)));
+				
 			} else {
 				// Use a pre-defined confusing name
 				$name = $config['spam']['hidden_input_names'][$hidden_input_names_x++];
@@ -1077,7 +1078,7 @@
 				$inputs[$name] = rand(0, 100);
 			} else {
 				// Obscure value
-				$inputs[$name] = substr(base64_encode(sha1(rand())), 0, rand(2, 40));
+				$inputs[$name] = substr(base64_encode(sha1(rand(), true) . sha1(rand(), true)), 0, rand(2, 54));
 			}
 		}
 		
