@@ -116,7 +116,7 @@
 						$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
 					}
 				
-					$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entires') . '</a></li>';
+					$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entries') . '</a></li>';
 				
 					$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
 					$query->bindValue(':id', $mod['id']);

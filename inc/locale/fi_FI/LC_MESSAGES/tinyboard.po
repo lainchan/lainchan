@@ -135,7 +135,7 @@ msgstr "Uutiset"
 msgid "no subject"
 msgstr "ei aihetta"
 
-msgid "View all entires"
+msgid "View all entries"
 msgstr "Näytä kaikki tiedotteet"
 
 msgid "Dashboard"
@@ -249,4 +249,6 @@ msgstr "Kirjaudu sisään"
 msgid "Continue"
 msgstr "Jatka"
 
+msgid "Administration"
+msgstr "Hallinta"
 
