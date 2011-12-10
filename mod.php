@@ -1186,7 +1186,8 @@
 				header('Location: ?/users', true, $config['redirect_http']);
 			} else {
 				// Edit user
-				if(!hasPermission($config['mod']['editusers']) && !hasPermission($config['mod']['change_password'])) error($config['error']['noaccess']);
+				if(!hasPermission($config['mod']['editusers']) && !hasPermission($config['mod']['change_password']))
+					error($config['error']['noaccess']);
 				
 				$query = prepare("SELECT * FROM `mods` WHERE `id` = :id");
 				$query->bindValue(':id', $modID, PDO::PARAM_INT);
@@ -1232,14 +1233,18 @@
 					if(!$_mod = $query->fetch()) {
 						error($config['error']['404']);
 					}
-				
+					
 					if($_mod['id'] == $mod['id']) {
 						// Changed own password. Update cookies
 						
-						login($mod['username'], $_POST['password']);
+						if(!login($_mod['username'], $_mod['password'], false, true))
+							error('Could not re-login after changing password. (?)');
 						
 						setCookies();
 					}
+					
+					header('Location: ?/users', true, $config['redirect_http']);
+					exit;
 				}
 				
 				$__boards = '<ul style="list-style:none;padding:2px 5px">';
