@@ -561,13 +561,15 @@
 		
 		$id = post($post, $OP);
 		
-		foreach($post['tracked_cites'] as $cite) {
-			$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
-			$query->bindValue(':board', $board['uri']);
-			$query->bindValue(':post', $id, PDO::PARAM_INT);
-			$query->bindValue(':target_board',$cite[0]);
-			$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
-			$query->execute() or error(db_error($query));
+		if(isset($post['tracked_cites'])) {
+			foreach($post['tracked_cites'] as $cite) {
+				$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+				$query->bindValue(':board', $board['uri']);
+				$query->bindValue(':post', $id, PDO::PARAM_INT);
+				$query->bindValue(':target_board',$cite[0]);
+				$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+			}
 		}
 		
 		buildThread(($OP?$id:$post['thread']));
