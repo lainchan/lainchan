@@ -324,7 +324,7 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/themes\/(\w+)\/rebuild$/', $query, $match)) {
+		} elseif(preg_match('/^\/themes\/([\w\-]+)\/rebuild$/', $query, $match)) {
 			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
 			rebuildTheme($match[1], 'all');
