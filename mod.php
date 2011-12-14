@@ -352,7 +352,7 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/themes(\/(\w+))?$/', $query, $match)) {
+		} elseif(preg_match('/^\/themes(\/([\w\-]+))?$/', $query, $match)) {
 			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
 			if(!is_dir($config['dir']['themes']))
