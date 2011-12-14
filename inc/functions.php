@@ -778,7 +778,6 @@
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		while($cite = $query->fetch()) {
-			var_dump($cite);
 			if($board['uri'] != $cite['board']) {
 				if(!isset($tmp_board))
 					$tmp_board = $board['uri'];
