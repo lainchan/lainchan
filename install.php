@@ -318,15 +318,6 @@
 		<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/docs/config.html">edit your configuration files</a> after installing.</p>
 		<fieldset>
 		<legend>Cookies</legend>
-			<label for="cookies_session">Name of session cookie:</label> 
-			<input type="text" id="cookies_session" name="cookies[session]" value="' . session_name() . '" />
-			
-			<label for="cookies_time">Cookie containing a timestamp of first arrival:</label> 
-			<input type="text" id="cookies_time" name="cookies[time]" value="' . $config['cookies']['time'] . '" />
-			
-			<label for="cookies_hash">Cookie containing a hash for verification purposes:</label> 
-			<input type="text" id="cookies_hash" name="cookies[hash]" value="' . $config['cookies']['hash'] . '" />
-			
 			<label for="cookies_mod">Moderator cookie:</label> 
 			<input type="text" id="cookies_mod" name="cookies[mod]" value="' . $config['cookies']['mod'] . '" />
 			
