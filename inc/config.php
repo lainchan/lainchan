@@ -8,10 +8,10 @@
  *  If you would like to make instance-specific changes to your own setup, please use instance-config.php.
  *
  *  This is the default configuration. You can copy values from here and use them in
- * 	your instance-config.php
+ *  your instance-config.php
  *
  *  You can also create per-board configuration files. Once a board is created, locate its directory and
- *	create a new file named config.php (eg. b/config.php). Like instance-config.php, you can copy values
+ *  create a new file named config.php (eg. b/config.php). Like instance-config.php, you can copy values
  *  from here and use them in your per-board configuration files.
  *
  *  Some directives are commented out. This is either because they are optional and examples, or because
@@ -58,7 +58,7 @@
 	// Also experimental.
 	$config['debug'] = false;
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
-	$config['verbose_errors']	= true;
+	$config['verbose_errors'] = true;
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
 	$config['tmp'] = '/tmp';
@@ -66,7 +66,7 @@
 	// The HTTP status code to use when redirecting.
 	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	// "302" is strongly recommended. (This shouldn't even be configurable... It's not like it's going to change or anything.)
-	$config['redirect_http']	= 302;
+	$config['redirect_http'] = 302;
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
@@ -243,59 +243,61 @@
  */
 
 	// Do you need a body for your reply posts?
-	$config['force_body']		= false;
+	$config['force_body'] = false;
 	// Do you need a body for new threads?
-	$config['force_body_op']	= true;
+	$config['force_body_op'] = true;
 	// Strip superfluous new lines at the end of a post
 	$config['strip_superfluous_returns'] = true;
+	// Require an image for threads?
+	$config['force_image_op'] = true;
 	
 	// Max body length
-	$config['max_body']			= 1800;
+	$config['max_body'] = 1800;
 	// Amount of post lines to show on the index page
-	$config['body_truncate']	= 15;
+	$config['body_truncate'] = 15;
 	// Amount of characters to show on the index page
 	$config['body_truncate_char'] = 2500;
 	
 	// Typically spambots try to post a lot of links. Refuse a post with X standalone links?
-	$config['max_links']	= 20;
+	$config['max_links'] = 20;
 	// Maximum number of cites per post (protects against abuse)
-	$config['max_cites']	= 45;
+	$config['max_cites'] = 45;
 	// Maximum number of cross-board links/cites per post
-	$config['max_cross']	= $config['max_cites'];
+	$config['max_cross'] = $config['max_cites'];
 	
 	// Track post citations (>>XX). Rebuilds posts after a cited post is deleted, removing broken links.
 	// A little more database load.
-	$config['track_cites']	= true;
+	$config['track_cites'] = true;
 	
 	// Maximum filename length (will be truncated)
-	$config['max_filename_len']	= 255;
+	$config['max_filename_len'] = 255;
 	// Maximum filename length to display (the rest can be viewed upon mouseover)
 	$config['max_filename_display'] = 30;
 	
 	// How long before you can delete a post after posting, in seconds.
-	$config['delete_time']	= 10;
+	$config['delete_time'] = 10;
 	// Reply limit (stops bumping thread when this is reached)
-	$config['reply_limit']	= 250;
+	$config['reply_limit'] = 250;
 	
 	// Strip repeating characters when making hashes
-	$config['robot_enable']				= false;
-	$config['robot_strip_repeating']	= true;
+	$config['robot_enable'] = false;
+	$config['robot_strip_repeating'] = true;
 	
 	// Enable mutes
 	// Tinyboard uses ROBOT9000's original 2^x implementation
-	$config['robot_mute']		= true;
+	$config['robot_mute'] = true;
 	// How many mutes x hours ago to include in the algorithm
-	$config['robot_mute_hour']	= 336; // 2 weeks
+	$config['robot_mute_hour'] = 336; // 2 weeks
 	// If you want to alter the algorithm a bit. Default value is 2. n^x
-	$config['robot_mute_multiplier']	= 2;
-	$config['robot_mute_descritpion']	= 'You have been muted for unoriginal content.';
+	$config['robot_mute_multiplier'] = 2;
+	$config['robot_mute_descritpion'] = 'You have been muted for unoriginal content.';
 	
 	// Automatically convert things like "..." to Unicode characters ("…")
-	$config['auto_unicode']	= true;
+	$config['auto_unicode'] = true;
 	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
-	$config['wiki_markup']	= true;
+	$config['wiki_markup'] = true;
 	// Whether to turn URLs into functional links
-	$config['markup_urls']	= true;
+	$config['markup_urls'] = true;
 	
 	// Wordfilters are used to automatically replace certain words/phrases with something else.
 	// For a normal string replacement:
@@ -305,7 +307,7 @@
 	// $config['wordfilters'][] = Array('/cat/', 'dog', true); // 'true' means it's a regular expression
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
-	$config['always_noko']	= false;
+	$config['always_noko'] = false;
 	
 	// Custom tripcodes. The below example makes a tripcode
 	//  of "#test123" evaluate to "!HelloWorld"
@@ -332,7 +334,7 @@
  */
  	
 	// For resizing, max values
-	$config['thumb_width']	= 255;
+	$config['thumb_width'] = 255;
 	$config['thumb_height']	= 255;
 	
 	// Thumbnail extension, empty for inherited (png recommended)
@@ -362,13 +364,13 @@
 	// $config['filename_func'] = 'some_function_you_have_created';	
 	
 	// Non-image file icons
-	$config['file_icons']['default']	= 'file.png';
-	$config['file_icons']['zip']		= 'zip.png';
+	$config['file_icons']['default'] = 'file.png';
+	$config['file_icons']['zip'] = 'zip.png';
 	
 	// Thumbnail to use for the downloadable files (not images)
-	$config['file_thumb']		= 'static/%s';
+	$config['file_thumb'] = 'static/%s';
 	// Thumbnail to use for spoiler images
-	$config['spoiler_image']	= 'static/spoiler.png';
+	$config['spoiler_image'] = 'static/spoiler.png';
 	
 	// Thumbnail quality (compression level), from 0 to 9
 	$config['thumb_quality'] = 7;
@@ -384,13 +386,13 @@
 	// Maximum image upload size in bytes
 	$config['max_filesize']	= 10*1024*1024; // 10MB
 	// Maximum image dimensions
-	$config['max_width']	= 10000;
-	$config['max_height']	= $config['max_width']; // 1:1
+	$config['max_width'] = 10000;
+	$config['max_height'] = $config['max_width']; // 1:1
 	// Reject dupliate image uploads
-	$config['image_reject_repost']	= true;
+	$config['image_reject_repost'] = true;
 	
 	// Display the aspect ratio in a post's file info
-	$config['show_ratio']	= false;
+	$config['show_ratio'] = false;
 	// Display the file's original filename
 	$config['show_filename']= true;
 	
@@ -400,9 +402,9 @@
 		
 		Note: Currently not implemented anymore. Will be added back at a later date.
 	**/
-	$config['redraw_image']	= false;
+	$config['redraw_image'] = false;
 	// Temporary fix for the animation-stripping bug
-	$config['redraw_gifs']	= false;
+	$config['redraw_gifs'] = false;
 	
 	// Redrawing configuration
 	$config['jpeg_quality']	= 100;
@@ -414,11 +416,11 @@
  */
 
 	// Maximum amount of threads to display on a given page.
-	$config['threads_per_page']	= 10;
+	$config['threads_per_page'] = 10;
 	// Maximum number of pages. Content past the last page is automatically purged.
-	$config['max_pages']		= 10;
+	$config['max_pages'] = 10;
 	// Replies to show per thread on the board index page.
-	$config['threads_preview']	= 5;
+	$config['threads_preview'] = 5;
 	// Same as above, but for stickied threads.
 	$config['threads_preview_sticky'] = 1;
 
@@ -427,10 +429,10 @@
 	$config['board_abbreviation'] = '/%s/';
 	
 	// The default name (ie. Anonymous)
-	$config['anonymous']	= 'Anonymous';
+	$config['anonymous'] = 'Anonymous';
 	
 	// How many reports you can create in the same request.
-	$config['report_limit']	= 3;
+	$config['report_limit'] = 3;
 	
 /*
  * ====================
@@ -449,14 +451,14 @@
  	
  	// The format string passed to strftime() for post times
 	// http://www.php.net/manual/en/function.strftime.php
-	$config['post_date']	= '%m/%d/%y (%a) %H:%M:%S';
+	$config['post_date'] = '%m/%d/%y (%a) %H:%M:%S';
 	
 	// Same as above, but used for "you are banned' pages.
-	$config['ban_date']	= '%A %e %B, %Y';
+	$config['ban_date'] = '%A %e %B, %Y';
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post")
-	$config['button_newtopic']	= 'New Topic';
-	$config['button_reply']		= 'New Reply';
+	$config['button_newtopic'] = 'New Topic';
+	$config['button_reply'] = 'New Reply';
 	
 	// Assign each poster in a thread a unique ID, shown by "ID: {id}" before the post number.
 	$config['poster_ids'] = false;
@@ -556,25 +558,25 @@
  */
  
 	// Error messages
-	$config['error']['lurk']			= 'Lurk some more before posting.';
-	$config['error']['bot']				= 'You look like a bot.';
-	$config['error']['referer']			= 'Your browser sent an invalid or no HTTP referer.';
-	$config['error']['toolong']			= 'The %s field was too long.';
+	$config['error']['lurk']		= 'Lurk some more before posting.';
+	$config['error']['bot']			= 'You look like a bot.';
+	$config['error']['referer']		= 'Your browser sent an invalid or no HTTP referer.';
+	$config['error']['toolong']		= 'The %s field was too long.';
 	$config['error']['toolong_body']	= 'The body was too long.';
 	$config['error']['tooshort_body']	= 'The body was too short or empty.';
-	$config['error']['noimage']			= 'You must upload an image.';
-	$config['error']['nomove']			= 'The server failed to handle your upload.';
-	$config['error']['fileext']			= 'Unsupported image format.';
-	$config['error']['noboard']			= 'Invalid board!';
+	$config['error']['noimage']		= 'You must upload an image.';
+	$config['error']['nomove']		= 'The server failed to handle your upload.';
+	$config['error']['fileext']		= 'Unsupported image format.';
+	$config['error']['noboard']		= 'Invalid board!';
 	$config['error']['nonexistant']		= 'Thread specified does not exist.';
-	$config['error']['locked']			= 'Thread locked. You may not reply at this time.';
-	$config['error']['nopost']			= 'You didn\'t make a post.';
-	$config['error']['flood']			= 'Flood detected; Post discarded.';
-	$config['error']['spam']			= 'Your request looks automated; Post discarded.';
+	$config['error']['locked']		= 'Thread locked. You may not reply at this time.';
+	$config['error']['nopost']		= 'You didn\'t make a post.';
+	$config['error']['flood']		= 'Flood detected; Post discarded.';
+	$config['error']['spam']		= 'Your request looks automated; Post discarded.';
 	$config['error']['unoriginal']		= 'Unoriginal content!';
-	$config['error']['muted']			= 'Unoriginal content! You have been muted for %d seconds.';
+	$config['error']['muted']		= 'Unoriginal content! You have been muted for %d seconds.';
 	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
-	$config['error']['dnsbl']			= 'Your IP address is listed in %s.';
+	$config['error']['dnsbl']		= 'Your IP address is listed in %s.';
 	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
 	$config['error']['toomanycites']	= 'Too many cites; post discarded.';
 	$config['error']['toomanycross']	= 'Too many cross-board links; post discarded.';
@@ -585,17 +587,17 @@
 	$config['error']['invalidimg']		= 'Invalid image.';
 	$config['error']['unknownext']		= 'Unknown file extension.';
 	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
-	$config['error']['maxsize']			= 'The file was too big.';
+	$config['error']['maxsize']		= 'The file was too big.';
 	$config['error']['invalidzip']		= 'Invalid archive!';
 	$config['error']['fileexists']		= 'That file <a href="%s">already exists</a>!';
 	$config['error']['delete_too_soon']	= 'You\'ll have to wait another %s before deleting that.';
 	$config['error']['mime_exploit']	= 'MIME type detection XSS exploit (IE) detected; post discarded.';
 	$config['error']['invalid_embed']	= 'Couldn\'t make sense of the URL of the video you tried to embed.';
-	$config['error']['captcha']			= 'You seem to have mistyped the verification.';
+	$config['error']['captcha']		= 'You seem to have mistyped the verification.';
 	
 	// Moderator errors
-	$config['error']['invalid']			= 'Invalid username and/or password.';
-	$config['error']['notamod']			= 'You are not a mod…';
+	$config['error']['invalid']		= 'Invalid username and/or password.';
+	$config['error']['notamod']		= 'You are not a mod…';
 	$config['error']['invalidafter']	= 'Invalid username and/or password. Your user may have been deleted or changed.';
 	$config['error']['malformed']		= 'Invalid/malformed cookies.';
 	$config['error']['missedafield']	= 'Your browser didn\'t submit an input when it should have.';
@@ -604,7 +606,7 @@
 	$config['error']['boardexists']		= 'There is already a %s board.';
 	$config['error']['noaccess']		= 'You don\'t have permission to do that.';
 	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
-	$config['error']['404']				= 'Page not found.';
+	$config['error']['404']			= 'Page not found.';
 	$config['error']['modexists']		= 'That mod <a href="?/users/%d">already exists</a>!';
 	$config['error']['invalidtheme']	= 'That theme doesn\'t exist!';
 
@@ -638,13 +640,13 @@
 	// This can either be a directory or a URL (eg. http://static.example.org/)
 	//$config['dir']['static']	= $config['root'] . 'static/';
 	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
-	$config['dir']['template']	= getcwd() . '/templates';
+	$config['dir']['template'] = getcwd() . '/templates';
 	// For the themes (homepages, etc.)
-	$config['dir']['themes']	= getcwd() . '/templates/themes';
+	$config['dir']['themes'] = getcwd() . '/templates/themes';
 	// Same as above, but a URI (accessable by web interface, not locally)
-	$config['dir']['themes_uri']	= 'templates/themes';
+	$config['dir']['themes_uri'] = 'templates/themes';
 	// Homepage directory
-	$config['dir']['home']		= '';
+	$config['dir']['home'] = '';
 	
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
