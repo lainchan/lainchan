@@ -48,7 +48,7 @@
 			error($config['error']['nodelete']);
 			
 		foreach($delete as &$id) {
-			$query = prepare(sprintf("SELECT `time`,`password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query = prepare(sprintf("SELECT `thread`, `time`,`password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
@@ -67,6 +67,10 @@
 					// Delete entire post
 					deletePost($id);
 				}
+				
+				_syslog(LOG_INFO, 'Deleted post: ' .
+					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '')
+				);
 			}
 		}
 		
@@ -110,9 +114,18 @@
 		markup($reason);
 		
 		foreach($report as &$id) {
-			$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
+			
+			if($config['syslog']) {
+				$post = $query->fetch();
+				
+				_syslog(LOG_INFO, 'Reported post: ' .
+					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '') .
+					' for "' . $reason . '"'
+				);
+			}
 			
 			if($post = $query->fetch()) {
 				$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
