@@ -118,16 +118,14 @@
 			$query->bindValue(':id', $id, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			if($config['syslog']) {
-				$post = $query->fetch();
-				
-				_syslog(LOG_INFO, 'Reported post: ' .
-					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '') .
-					' for "' . $reason . '"'
-				);
-			}
+			$post = $query->fetch();
 			
-			if($post = $query->fetch()) {
+			if($post) {
+				if($config['syslog'])
+					_syslog(LOG_INFO, 'Reported post: ' .
+						'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '') .
+						' for "' . $reason . '"'
+					);
 				$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
 				$query->bindValue(':time', time(), PDO::PARAM_INT);
 				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
