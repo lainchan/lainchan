@@ -5,7 +5,7 @@
 	$theme['name'] = 'RRDtool';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 'Graph basic statistics using the PHP RRDtool extension.';
-	$theme['version'] = 'v0.1';
+	$theme['version'] = 'v0.2';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
@@ -40,14 +40,58 @@
 		'default' => implode(' ', $__default_boards)
 	);
 	
+	$theme['config'][] = Array(
+		'title' => 'Excluded Boards',
+		'name' => 'boards_exclude',
+		'type' => 'text',
+		'comment' => '(above boards to exclude from the "combined" graph)',
+		'size' => 24
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Interval',
+		'name' => 'interval',
+		'type' => 'text',
+		'comment' => '(minutes between updates; max: 86400)',
+		'size' => 3,
+		'default' => '2'
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Width',
+		'name' => 'width',
+		'type' => 'text',
+		'comment' => '(graph width)',
+		'size' => 3,
+		'default' => '700'
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Height',
+		'name' => 'height',
+		'type' => 'text',
+		'comment' => '(graph height)',
+		'size' => 3,
+		'default' => '150'
+	);
+	
 	$theme['install_callback'] = 'rrdtool_install';
 	if(!function_exists('rrdtool_install')) {
 		function rrdtool_install($settings) {
 			global $config;
 			
-			$job = '*/2 * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
+			if(!is_numeric($settings['interval']) || $settings['interval'] < 1 || $settings['interval'] > 86400)
+				return Array(false, 'Invalid interval: <strong>' . $settings['interval'] . '</strong>. Must be an integer greater than 1 and less than 86400.');
 			
-			if(function_exists('system')) {
+			if(!is_numeric($settings['width']) || $settings['width'] < 1)
+				return Array(false, 'Invalid width: <strong>' . $settings['width'] . '</strong>!');
+			
+			if(!is_numeric($settings['height']) || $settings['height'] < 1)
+				return Array(false, 'Invalid height: <strong>' . $settings['height'] . '</strong>!');
+			
+			$job = '*/' . $settings['interval'] . ' * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
+			
+			if(function_exists('system') && false) {
 				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');
 				file_write($crontab, $job);
 				@system('crontab ' . escapeshellarg($crontab), $ret);
@@ -57,9 +101,9 @@
 					return ''; // it seems to install okay?
 			}
 			
-			return '<h2>I couldn\'t install the crontab!</h2>' . 
-				'In order to use this plugin, you must add the following crontab entry:' . 
-				'<pre>' . $job . '</pre>';
+			return Array(true, '<h2>I couldn\'t install the crontab!</h2>' . 
+				'In order to use this plugin, you must add the following crontab entry (`crontab -e`):' . 
+				'<pre>' . $job . '</pre>');
 		}
 	}
 	

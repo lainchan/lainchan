@@ -17,13 +17,14 @@
 		public function build($action, $settings) {
 			global $config, $_theme, $argv;
 			
+			if(!$settings) {
+				error('This theme is not currently installed.');
+			}
+			
 			$this->boards = explode(' ', $settings['boards']);
-			$this->spans = Array('minute', 'hour', 'day', 'week', 'month', 'year');
-			$this->interval = 120;
-			$this->height = 150;
-			$this->width = 700;
-			// exclude boards from the "combiend" graph
-			$this->combined_exclude = Array('dome9001', 'mod', 'test');
+			$this->spans = Array('hour', 'day', 'week', 'month', 'year');
+			// exclude boards from the "combined" graph
+			$this->combined_exclude = Array();
 			
 			if($action == 'cron') {
 				if(!file_exists($settings['path']))
@@ -37,26 +38,22 @@
 					if(!file_exists($file)) {
 						// Create graph
 						if(!rrd_create($file, Array(
-							'-s ' . $this->interval,
-							'DS:posts:GAUGE:' . ($this->interval * 2) . ':0:10000',
+							'-s 60',
+							'DS:posts:COUNTER:86400:0:10000',
 							
-							'RRA:MIN:0:1:' .	(3600/$this->interval), // hour
-							'RRA:MIN:0:1:' .	(86400/$this->interval), // day
-							'RRA:MIN:0:30:' .	(604800/$this->interval), // week
-							'RRA:MIN:0:120:' .	(2592000/$this->interval), // month
-							'RRA:MIN:0:1440:' .	(31536000/$this->interval), // year
+							'RRA:AVERAGE:0:1:60',
+							'RRA:AVERAGE:0:1:1440',
+							'RRA:AVERAGE:0:30:10080',
+							'RRA:AVERAGE:0:120:43829',
+							'RRA:AVERAGE:0:1440:525948',
+							'RRA:AVERAGE:0:2880:1051897',
 							
-							'RRA:AVERAGE:0:1:' .	(3600/$this->interval), // hour
-							'RRA:AVERAGE:0:1:' .	(86400/$this->interval), // day
-							'RRA:AVERAGE:0:60:' .	(604800/$this->interval), // week
-							'RRA:AVERAGE:0:120:' .	(2592000/$this->interval), // month
-							'RRA:AVERAGE:0:1440:' .	(31536000/$this->interval), // year
-							
-							'RRA:MAX:0:1:' .	(3600/$this->interval), // hour
-							'RRA:MAX:0:1:' .	(86400/$this->interval), // day
-							'RRA:MAX:0:30:' .	(604800/$this->interval), // week
-							'RRA:MAX:0:120:' .	(2592000/$this->interval), // month
-							'RRA:MAX:0:1440:' .	(31536000/$this->interval), // year
+							'RRA:MAX:0:1:60',
+							'RRA:MAX:0:1:1440',
+							'RRA:MAX:0:30:10080',
+							'RRA:MAX:0:120:43829',
+							'RRA:MAX:0:1440:525948',
+							'RRA:MAX:0:2880:1051897'
 							)))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
@@ -64,11 +61,9 @@
 					// debug just the graphing (not updating) with the --debug switch
 					if(!isset($argv[1]) || $argv[1] != '--debug') {
 						// Update graph
-						$query = prepare(sprintf("SELECT COUNT(*) AS `count` FROM `posts_%s` WHERE `time` >= :time", $board));
-						$query->bindValue(':time', time() - $this->interval, PDO::PARAM_INT);
-						$query->execute() or error(db_error($query));
+						$query = query(sprintf("SELECT MAX(`id`) AS `count` FROM `posts_%s`", $board));
 						$count = $query->fetch();
-						$count = $count['count'] / 2;
+						$count = $count['count'];
 					
 						if(!rrd_update($file, Array(
 							'-t',
@@ -84,7 +79,7 @@
 							'-t Posts on ' . sprintf($config['board_abbreviation'], $board) .' this ' . $span,
 							'--lazy',
 							'-l 0',
-							'-h', $this->height, '-w', $this->width,
+							'-h', $settings['height'], '-w', $settings['width'],
 							'-a', 'PNG',
 							'-R', 'mono',
 							'-W', 'Powered by Tinyboard',
@@ -93,10 +88,11 @@
 							'-Y',
 							'-v posts/minute',
 							'DEF:posts=' . $file . ':posts:AVERAGE',
-							'LINE2:posts#663300:Posts',
-							'GPRINT:posts:MAX:Max\\: %5.2lf',
-							'GPRINT:posts:AVERAGE:Average\\: %5.2lf',
-							'GPRINT:posts:LAST:Current\\: %5.2lf posts/min',
+							'CDEF:posts-min=posts,60,*',
+							'LINE2:posts-min#663300:Posts',
+							'GPRINT:posts-min:MAX:Max\\: %5.2lf',
+							'GPRINT:posts-min:AVERAGE:Average\\: %5.2lf',
+							'GPRINT:posts-min:LAST:Current\\: %5.2lf posts/min',
 							'HRULE:0#000000')))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
@@ -109,7 +105,7 @@
 						'-t Posts this ' . $span,
 						'--lazy',
 						'-l 0',
-						'-h', $this->height, '-w', $this->width,
+						'-h', $settings['height'], '-w', $settings['width'],
 						'-a', 'PNG',
 						'-R', 'mono',
 						'-W', 'Powered by Tinyboard',
@@ -135,7 +131,8 @@
 									str_pad(dechex($blue*85), 2, '0', STR_PAD_LEFT);
 						
 						$options[] = 'DEF:posts' . $board . '=' . $settings['path'] . '/' . $board . '.rrd' . ':posts:AVERAGE';
-						$options[] = 'LINE2:posts' . $board . '#' . $color . ':' .
+						$options[] = 'CDEF:posts' . $board . '-min=posts' . $board . ',60,*';
+						$options[] = 'LINE2:posts' . $board . '-min#' . $color . ':' .
 							sprintf($config['board_abbreviation'], $board);
 						
 						// Randomize colors using this horrible undocumented algorithm I threw together while debugging
