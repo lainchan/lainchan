@@ -394,7 +394,7 @@
 					$result = true;
 					$body = '';
 					if(isset($theme['install_callback'])) {
-						$ret = $theme['install_callback']($theme['config']);
+						$ret = $theme['install_callback'](themeSettings($_theme));
 						if($ret && !empty($ret)) {
 							if(is_array($ret) && count($ret) == 2) {
 								$result = $ret[0];
