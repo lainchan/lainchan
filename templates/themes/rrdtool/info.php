@@ -91,7 +91,7 @@
 			
 			$job = '*/' . $settings['interval'] . ' * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
 			
-			if(function_exists('system') && false) {
+			if(function_exists('system')) {
 				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');
 				file_write($crontab, $job);
 				@system('crontab ' . escapeshellarg($crontab), $ret);
