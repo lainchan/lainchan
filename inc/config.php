@@ -21,6 +21,7 @@
  *
  */
 	
+	/* Ignore this */
 	$config = Array(
 		'db' => Array(),
 		'cache' => Array(),
@@ -38,8 +39,10 @@
 		'remote' => Array(),
 		'allowed_ext' => Array(),
 		'allowed_ext_files' => Array(),
-		'file_icons' => Array()
+		'file_icons' => Array(),
+		'footer' => Array()
 	);
+	/* End ignore */
 	
 /*
  * =======================
@@ -464,6 +467,9 @@
 	$config['poster_ids'] = false;
 	// Number of characters in the poster ID (maximum is 40)
 	$config['poster_id_length'] = 5;
+	
+	// Page footer
+	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by or are the responsibility of their respective parties.';
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
