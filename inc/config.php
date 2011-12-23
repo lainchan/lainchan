@@ -469,7 +469,7 @@
 	$config['poster_id_length'] = 5;
 	
 	// Page footer
-	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by or are the responsibility of their respective parties.';
+	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
