@@ -86,13 +86,20 @@
 							'-E',
 							'-X', '0',
 							'-Y',
-							'-v posts/minute',
+							'-v posts/' . $settings['rate'],
+							'DEF:posts-second=' . $file . ':posts:AVERAGE',
+							'CDEF:posts-minute=posts-second,60,*',
+							'CDEF:posts-hour=posts-minute,60,*',
+							'CDEF:posts-day=posts-hour,24,*',
+							'CDEF:posts-week=posts-day,7,*',
+							'CDEF:posts-month=posts-day,28,*',
+							'CDEF:posts-year=posts-day,365,*',
 							'DEF:posts=' . $file . ':posts:AVERAGE',
 							'CDEF:posts-min=posts,60,*',
 							'LINE2:posts-min#663300:Posts',
-							'GPRINT:posts-min:MAX:Max\\: %5.2lf',
-							'GPRINT:posts-min:AVERAGE:Average\\: %5.2lf',
-							'GPRINT:posts-min:LAST:Current\\: %5.2lf posts/min',
+							'GPRINT:posts-' . $settings['rate'] . ':MAX:Max\\: %5.2lf',
+							'GPRINT:posts-' . $settings['rate'] . ':AVERAGE:Average\\: %5.2lf',
+							'GPRINT:posts-' . $settings['rate'] . ':LAST:Current\\: %5.2lf posts/' . $settings['rate'],
 							'HRULE:0#000000')))
 								error('RRDtool failed: ' . htmlentities(rrd_error()));
 					}
@@ -112,7 +119,7 @@
 						'-E',
 						'-X', '0',
 						'-Y',
-						'-v posts/minute');
+						'-v posts/' . $settings['rate']);
 					
 					$red = 0;
 					$green = 0;
@@ -130,9 +137,14 @@
 									str_pad(dechex($green*85), 2, '0', STR_PAD_LEFT) .
 									str_pad(dechex($blue*85), 2, '0', STR_PAD_LEFT);
 						
-						$options[] = 'DEF:posts' . $board . '=' . $settings['path'] . '/' . $board . '.rrd' . ':posts:AVERAGE';
-						$options[] = 'CDEF:posts' . $board . '-min=posts' . $board . ',60,*';
-						$options[] = 'LINE2:posts' . $board . '-min#' . $color . ':' .
+						$options[] = 'DEF:posts' . $board . '-second=' . $settings['path'] . '/' . $board . '.rrd' . ':posts:AVERAGE';
+						$options[] = 'CDEF:posts' . $board . '-minute=posts' . $board . '-second,60,*';
+						$options[] = 'CDEF:posts' . $board . '-hour=posts' . $board . '-minute,60,*';
+						$options[] = 'CDEF:posts' . $board . '-day=posts' . $board . '-hour,24,*';
+						$options[] = 'CDEF:posts' . $board . '-week=posts' . $board . '-day,7,*';
+						$options[] = 'CDEF:posts' . $board . '-month=posts' . $board . '-day,28,*';
+						$options[] = 'CDEF:posts' . $board . '-year=posts' . $board . '-day,365,*';
+						$options[] = 'LINE2:posts' . $board . '-' . $settings['rate'] . '#' . $color . ':' .
 							sprintf($config['board_abbreviation'], $board);
 						
 						// Randomize colors using this horrible undocumented algorithm I threw together while debugging

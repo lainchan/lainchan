@@ -58,21 +58,28 @@
 	);
 	
 	$theme['config'][] = Array(
-		'title' => 'Width',
+		'title' => 'Graph Width',
 		'name' => 'width',
 		'type' => 'text',
-		'comment' => '(graph width)',
 		'size' => 3,
 		'default' => '700'
 	);
 	
 	$theme['config'][] = Array(
-		'title' => 'Height',
+		'title' => 'Graph Height',
 		'name' => 'height',
 		'type' => 'text',
-		'comment' => '(graph height)',
 		'size' => 3,
 		'default' => '150'
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Graph Rate',
+		'name' => 'rate',
+		'type' => 'text',
+		'comment' => 'Graph posts per X? ("minute", "day", "year", etc.)',
+		'size' => 3,
+		'default' => 'hour'
 	);
 	
 	$theme['install_callback'] = 'rrdtool_install';
@@ -88,6 +95,9 @@
 			
 			if(!is_numeric($settings['height']) || $settings['height'] < 1)
 				return Array(false, 'Invalid height: <strong>' . $settings['height'] . '</strong>!');
+			
+			if(!in_array($settings['rate'], Array('second', 'minute', 'day', 'hour', 'week', 'month', 'year')))
+				return Array(false, 'Invalid rate: <strong>' . $settings['rate'] . '</strong>!');
 			
 			$job = '*/' . $settings['interval'] . ' * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
 			
