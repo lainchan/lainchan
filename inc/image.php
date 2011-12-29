@@ -163,7 +163,7 @@
 			return $this->image->destroy();
 		}
 		public function resize() {
-			$this->image = $this->original->clone();
+			$this->image = clone $this->original;
 			
 			$this->image->scaleImage($this->width, $this->height, false);
 		}
