@@ -79,12 +79,12 @@
 		
 		if(!isset($config['uri_thumb']))
 			$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
-		else
+		elseif(isset($board['dir']))
 			$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
 			
 		if(!isset($config['uri_img']))
 			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
-		else
+		elseif(isset($board['dir']))
 			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
 		
 		if(!isset($config['uri_stylesheets']))
