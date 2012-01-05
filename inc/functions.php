@@ -1285,6 +1285,21 @@
 		return $body . "\n";
 	}
 	
+	function markup_url($matches) {
+		$strip_from_end = Array('.', ',', ')');
+		
+		$url = $matches[0];
+		$after = '';
+		
+		$last = $url[strlen($url)-1];
+		if(in_array($last, $strip_from_end)) {
+			$after = $last;
+			$url = substr($url, 0, -1);
+		}
+		
+		return '<a target="_blank" rel="nofollow" href="' . $url . '">' . $url . '</a>' . $after;
+	}
+	
 	function markup(&$body, $track_cites = false) {
 		global $board, $config;
 		
@@ -1298,7 +1313,7 @@
 		}
 		
 		if($config['markup_urls']) {
-			$body = preg_replace($config['url_regex'], "<a target=\"_blank\" rel=\"nofollow\" href=\"$0\">$0</a>", $body, -1, $num_links);
+			$body = preg_replace_callback($config['url_regex'], 'markup_url', $body, -1, $num_links);
 			if($num_links > $config['max_links'])
 				error($config['error']['toomanylinks']);
 		}
