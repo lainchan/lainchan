@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  Copyright (c) 2010-2011 Tinyboard Development Group
+ *  Copyright (c) 2010-2012 Tinyboard Development Group
  *  
  *  WARNING: This is a project-wide configuration file and is overwritten when upgrading to a newer
  *  version of Tinyboard. Please leave this file unchanged, or it will be a lot harder for you to upgrade.
