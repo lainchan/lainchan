@@ -239,7 +239,7 @@
 		<p style="text-align:center">
 			<a href="?step=2"' .
 				(isset($__is_error) ? ' onclick="return confirm(\'Are you sure you want to continue when errors exist?\')"' : '') .
-			'>Continue' . (isset($__is_error) ? ' anyway' : '') . '.</a>
+			'>Continue' . (isset($__is_error) ? ' anyway' : '') . '</a>
 		</p>';
 		
 		echo Element('page.html', $page);
@@ -315,7 +315,7 @@
 			<label for="db_pass">Password:</label> 
 			<input type="password" id="db_pass" name="db[password]" value="" />
 		</fieldset>
-		<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/docs/config.html">edit your configuration files</a> after installing.</p>
+		<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/docs/config_basics.html">edit your configuration files</a> after installing.</p>
 		<fieldset>
 		<legend>Cookies</legend>
 			<label for="cookies_mod">Moderator cookie:</label> 
@@ -484,7 +484,7 @@
 		}
 		
 		$page['title'] = 'Installation complete';
-		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover. <a href="http://tinyboard.org/docs/config.html">How do I edit the config files?</a></p>';
+		$page['body'] = '<p style="text-align:center">Thank you for using Tinyboard. Please remember to report any bugs you discover. <a href="http://tinyboard.org/docs/config_basics.html">How do I edit the config files?</a></p>';
 		
 		if(!empty($sql_errors)) {
 			$page['body'] .= '<div class="ban"><h2>SQL errors</h2><p>SQL errors were encountered when trying to install the database. This may be the result of using a database which is already occupied with a Tinyboard installation; if so, you can probably ignore this.</p><p>The errors encountered were:</p><ul>' . $sql_errors . '</ul><p><a href="?step=5">Ignore errors and complete installation.</a></p></div>';
