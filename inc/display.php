@@ -188,7 +188,7 @@
 				// List successfully closed tags
 				if(preg_match_all('/(<\/([\w]+))>/', $body, $closed_tags)) {
 					for($x=0;$x<count($closed_tags[0]);$x++) {
-						unset($tags[array_search($closed_tags[1][$x], $tags)]);
+						unset($tags[array_search($closed_tags[2][$x], $tags)]);
 					}
 				}
 				
