@@ -1284,10 +1284,12 @@
 		
 		$body = preg_replace("/(^|\n)/", '$1&gt;', $body);
 		
+		$body .= "\n";
+		
 		if($config['minify_html'])
 			$body = str_replace("\n", '&#010;', $body);
 		
-		return $body . "\n";
+		return $body;
 	}
 	
 	function markup_url($matches) {
