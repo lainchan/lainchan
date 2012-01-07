@@ -731,7 +731,7 @@
 							'<td class="minimal"><a href="?/PM/' . $pm['id'] . '">' . $pm['id'] . '</a></td>' .
 							($pm['username'] ?
 								'<td class="minimal"><a href="?/new_PM/' . $pm['sender'] . '">' . $pm['username'] . '</a></td>'
-							: '<em>???</em>') .
+							: '<em>deleted?</em>') .
 							'<td class="minimal">' . strftime($config['post_date'], $pm['time']) . '</td>' .
 							'<td><a href="?/PM/' . $pm['id'] . '">' . pm_snippet($pm['message']) . '</a></td>' .
 						'</tr>';
