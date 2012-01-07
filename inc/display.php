@@ -99,7 +99,7 @@
 			'body'=>Element('login.html', Array(
 				'config'=>$config,
 				'error'=>$error,
-				'username'=>$username,
+				'username'=>utf8tohtml($username),
 				'redirect'=>$redirect
 				)
 			)
