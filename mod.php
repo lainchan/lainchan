@@ -87,7 +87,6 @@
 			
 			if(hasPermission($config['mod']['noticeboard'])) {
 				if(!$config['cache']['enabled'] || !($fieldset['Noticeboard'] = cache::get('noticeboard_preview'))) {
-				
 					$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
 					$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
@@ -115,27 +114,26 @@
 					if(!empty($_body)) {
 						$fieldset['Noticeboard'] .= '<ul>' . $_body . '</ul></li><li>';
 					}
-				
-					$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entries') . '</a></li>';
-				
-					$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
-					$query->bindValue(':id', $mod['id']);
-					$query->execute() or error(db_error($query));
-					$count = $query->fetch();
-					$count = $count['count'];
-				
-					$fieldset['Noticeboard'] .= '<li><a href="?/inbox">' . _('PM Inbox') . 
-						($count > 0
-						?
-							' <strong>(' . $count . ' unread)</strong>'
-						: '') .
-					'</a></li>';
-				
-					$fieldset['Noticeboard'] .= '<li><a href="?/news">' . _('News') . '</a></li>';
-				
 					if($config['cache']['enabled'])
 						cache::set('noticeboard_preview', $fieldset['Noticeboard']);
 				}
+				
+				$fieldset['Noticeboard'] .= '<a href="?/noticeboard">' . _('View all entries') . '</a></li>';
+			
+				$query = prepare("SELECT COUNT(*) AS `count` FROM `pms` WHERE `to` = :id AND `unread` = 1");
+				$query->bindValue(':id', $mod['id']);
+				$query->execute() or error(db_error($query));
+				$count = $query->fetch();
+				$count = $count['count'];
+			
+				$fieldset['Noticeboard'] .= '<li><a href="?/inbox">' . _('PM Inbox') . 
+					($count > 0
+					?
+						' <strong>(' . $count . ' unread)</strong>'
+					: '') .
+				'</a></li>';
+			
+				$fieldset['Noticeboard'] .= '<li><a href="?/news">' . _('News') . '</a></li>';
 			}
 			
 			
@@ -709,6 +707,12 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/inbox\/readall$/', $query, $match)) {
+			$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `to` = :id");
+			$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			header('Location: ?/inbox', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/inbox$/', $query, $match)) {
 			$query = prepare("SELECT `unread`,`pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC");
 			$query->bindValue(':mod', $mod['id'], PDO::PARAM_INT);
@@ -732,6 +736,10 @@
 						$unread_pms++;
 				}
 				$body .= '</table>';
+				
+				if($unread_pms) {
+					$body = '<p style="text-align:center" class="unimportant">(<a href="?/inbox/readall">Mark all as read</a>)</p>' . $body;
+				}
 			}
 			
 			
