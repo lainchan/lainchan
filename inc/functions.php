@@ -1276,11 +1276,16 @@
 	}
 	
 	function quote($body, $quote=true) {
+		global $config;
+		
 		$body = str_replace('<br/>', "\n", $body);
 		
 		$body = strip_tags($body);
 		
 		$body = preg_replace("/(^|\n)/", '$1&gt;', $body);
+		
+		if($config['minify_html'])
+			$body = str_replace("\n", '&#010;', $body);
 		
 		return $body . "\n";
 	}
