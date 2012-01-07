@@ -1023,6 +1023,13 @@
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 			while($_mod = $query->fetch()) {				
 				$type = $_mod['type'] == JANITOR ? 'Janitor' : ($_mod['type'] == MOD ? 'Mod' : 'Admin');
+				
+				$_mod['boards'] = explode(',', $_mod['boards']);
+				foreach($_mod['boards'] as &$_board) {
+					if($_board != '*')
+						$_board = '/' . $_board . '/';
+				}
+				
 				$body .= '<tr>' .
 					'<td>' .
 						$_mod['id'] .
@@ -1037,13 +1044,15 @@
 					'</td>' .
 					
 					'<td>' .
-						str_replace(',', ', ', $_mod['boards']) .
+						implode(', ', $_mod['boards']) .
 					'</td>' .
 					
 					'<td>' .
-						($_mod['last'] ?
-							'<span title="' . utf8tohtml($_mod['action']) . '">' . ago($_mod['last']) . '</span>'
-						: '<em>never</em>') .
+						(hasPermission($config['mod']['modlog']) ?
+							($_mod['last'] ?
+								'<span title="' . str_replace('"', '&quot;', utf8tohtml($_mod['action'])) . '">' . ago($_mod['last']) . '</span>'
+							: '<em>never</em>')
+						: '-') .
 					'</td>' .
 					
 					'<td style="white-space:nowrap">' .
