@@ -729,7 +729,9 @@
 				while($pm = $query->fetch()) {
 					$body .= '<tr' . ($pm['unread'] ? ' style="font-weight:bold"' : '') . '>' . 
 							'<td class="minimal"><a href="?/PM/' . $pm['id'] . '">' . $pm['id'] . '</a></td>' .
-							'<td class="minimal"><a href="?/new_PM/' . $pm['sender'] . '">' . $pm['username'] . '</a></td>' .
+							($pm['username'] ?
+								'<td class="minimal"><a href="?/new_PM/' . $pm['sender'] . '">' . $pm['username'] . '</a></td>'
+							: '<em>???</em>') .
 							'<td class="minimal">' . strftime($config['post_date'], $pm['time']) . '</td>' .
 							'<td><a href="?/PM/' . $pm['id'] . '">' . pm_snippet($pm['message']) . '</a></td>' .
 						'</tr>';
