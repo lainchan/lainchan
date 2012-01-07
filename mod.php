@@ -712,6 +712,8 @@
 			$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
+			modLog('Marked all PMs as read');
+			
 			header('Location: ?/inbox', true, $config['redirect_http']);
 		} elseif(preg_match('/^\/inbox$/', $query, $match)) {
 			$query = prepare("SELECT `unread`,`pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC");
