@@ -1018,7 +1018,7 @@
 		} elseif(preg_match('/^\/users$/', $query)) {
 			if(!hasPermission($config['mod']['manageusers'])) error($config['error']['noaccess']);
 			
-			$body = '<form action="" method="post"><table><tr><th>' . _('ID') . '</th><th>' . _('Username') . '</th><th>' . _('Type') . '</th><th>' . _('Boards') . '</th><th>' . _('Last action') . '</th><th>&hellip;</th></tr>';
+			$body = '<form action="" method="post"><table class="modlog" style="width:auto"><tr><th>' . _('ID') . '</th><th>' . _('Username') . '</th><th>' . _('Type') . '</th><th>' . _('Boards') . '</th><th>' . _('Last action') . '</th><th>&hellip;</th></tr>';
 			
 			$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 			while($_mod = $query->fetch()) {				
