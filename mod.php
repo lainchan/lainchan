@@ -1048,11 +1048,11 @@
 					'</td>' .
 					
 					'<td>' .
-						(hasPermission($config['mod']['modlog']) ?
-							($_mod['last'] ?
+						($_mod['last'] ?
+							(hasPermission($config['mod']['modlog']) ?
 								'<span title="' . str_replace('"', '&quot;', utf8tohtml($_mod['action'])) . '">' . ago($_mod['last']) . '</span>'
-							: '<em>never</em>')
-						: '-') .
+							: ago($_mod['last']))
+						: '<em>never</em>') .
 					'</td>' .
 					
 					'<td style="white-space:nowrap">' .
