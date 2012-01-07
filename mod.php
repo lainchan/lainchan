@@ -147,6 +147,8 @@
 			}
 			if(hasPermission($config['mod']['manageusers'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/users">' . _('Manage users') . '</a></li>';
+			} elseif(hasPermission($config['mod']['change_password'])) {
+				$fieldset['Administration'] .= 	'<li><a href="?/users/' . $user['id'] . '">' . _('Change own password') . '</a></li>';
 			}
 			if(hasPermission($config['mod']['modlog'])) {
 				$fieldset['Administration'] .= 	'<li><a href="?/log">' . _('Moderation log') . '</a></li>';
@@ -1243,7 +1245,10 @@
 						setCookies();
 					}
 					
-					header('Location: ?/users', true, $config['redirect_http']);
+					if(hasPermission($config['mod']['manageusers']))
+						header('Location: ?/users', true, $config['redirect_http']);
+					else
+						header('Location: ?/', true, $config['redirect_http']);
 					exit;
 				}
 				
