@@ -296,24 +296,33 @@
 						'<th>' . _('Action') . '</th>' . 
 					'</tr>';
 				while($log = $query->fetch()) {
-					$log['text'] = utf8tohtml($log['text']);
-					$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
+					$log_id = 'log_' . md5($log['text']);
 					
-					if(isset($boards[$log['board']])) {
-						if(preg_match('/post #(\d+)/', $log['text'], $match)) {
-							$post_query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $boards[$log['board']]));
-							$post_query->bindValue(':id', $match[1], PDO::PARAM_INT);
-							$post_query->execute() or error(db_error($query));
+					if($_log = cache::get($log_id))
+						$log['text'] = $_log;
+					else {
+					
+						$log['text'] = utf8tohtml($log['text']);
+						$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
+					
+						if(isset($boards[$log['board']])) {
+							if(preg_match('/post #(\d+)/', $log['text'], $match)) {
+								$post_query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $boards[$log['board']]));
+								$post_query->bindValue(':id', $match[1], PDO::PARAM_INT);
+								$post_query->execute() or error(db_error($query));
 							
-							if($post = $post_query->fetch()) {
-								$log['text'] = preg_replace('/post #(\d+)/', '<a href="' .
-										'?/' .
-										sprintf($config['board_path'], $boards[$log['board']]) .
-										$config['dir']['res'] .
-										($post['thread'] ?
-											sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
-										: sprintf($config['file_page'], $match[1])) .
-									'">$0</a>', $log['text']);
+								if($post = $post_query->fetch()) {
+									$log['text'] = preg_replace('/post #(\d+)/', '<a href="' .
+											'?/' .
+											sprintf($config['board_path'], $boards[$log['board']]) .
+											$config['dir']['res'] .
+											($post['thread'] ?
+												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
+											: sprintf($config['file_page'], $match[1])) .
+										'">$0</a>', $log['text']);
+								
+									cache::set($log_id, $log['text']);
+								}
 							}
 						}
 					}
