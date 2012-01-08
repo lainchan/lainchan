@@ -268,8 +268,10 @@
 				'mod'=>true
 				)
 			);
-		} elseif(preg_match('/^\/log$/', $query)) {
+		} elseif(preg_match('/^\/log(\/(\d+))?$/', $query, $match)) {
 			if(!hasPermission($config['mod']['modlog'])) error($config['error']['noaccess']);
+			
+			$page = isset($match[2]) ? $match[2] : 1;
 			
 			$boards = Array();
 			$_boards = listBoards();
@@ -277,31 +279,56 @@
 				$boards[$_b['id']] = $_b['uri'];
 			}
 			
-			$body = '<table class="modlog"><tr><th>' . _('User') . '</th><th>' . _('IP address') . '</th><th>' . _('Ago') . '</th><th>' . _('Board') . '</th><th>' . _('Action') . '</th></tr>';
-			
-			$query = prepare("SELECT `mods`.`id`,`username`,`ip`,`board`,`time`,`text` FROM `modlogs` INNER JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :limit");
+			$query = prepare("SELECT `mods`.`id`,`username`,`ip`,`board`,`time`,`text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
 			$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+			$query->bindValue(':offset', ($page - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			while($log = $query->fetch()) {
-				$log['text'] = utf8tohtml($log['text']);
-				$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
+			if(!$query->rowCount()) {
+				$body = '<p class="unimportant" style="text-align:center">(Nothing to display.)</p>';
+			} else {
+				$body = '<table class="modlog">' . 
+					'<tr>' . 
+						'<th>' . _('User') . '</th>' . 
+						'<th>' . _('IP address') . '</th>' .
+						'<th>' . _('Ago') . '</th>' . 
+						'<th>' . _('Board') . '</th>' . 
+						'<th>' . _('Action') . '</th>' . 
+					'</tr>';
+				while($log = $query->fetch()) {
+					$log['text'] = utf8tohtml($log['text']);
+					$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
 				
-				$body .= '<tr>' .
-				'<td class="minimal"><a href="?/users/' . $log['id'] . '">' . $log['username'] . '</a></td>' .
-				'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
-				'<td class="minimal">' . ago($log['time']) . '</td>' .
-				'<td class="minimal">' .
-					($log['board'] ?
-						(isset($boards[$log['board']]) ?
-							'<a href="?/' . $boards[$log['board']] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $boards[$log['board']]) . '</a></td>'
-						: '<em>deleted?</em>')
-					: '-') .
-				'<td>' . $log['text'] . '</td>' .
-				'</tr>';
-			}
+					$body .= '<tr>' .
+					'<td class="minimal">' .
+						($log['username'] ? 
+							'<a href="?/new_PM/' . $log['id'] . '">' . $log['username'] . '</a>'
+						: '<em>deleted?</em>') .
+					'</td>' .
+					'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
+					'<td class="minimal">' . ago($log['time']) . '</td>' .
+					'<td class="minimal">' .
+						($log['board'] ?
+							(isset($boards[$log['board']]) ?
+								'<a href="?/' . $boards[$log['board']] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $boards[$log['board']]) . '</a></td>'
+							: '<em>deleted?</em>')
+						: '-') .
+					'<td>' . $log['text'] . '</td>' .
+					'</tr>';
+				}
 			
-			$body .= '</table>';
+				$body .= '</table>';
+				
+				$query = prepare("SELECT COUNT(*) AS `count` FROM `modlogs`");
+				$query->execute() or error(db_error($query));
+				$count = $query->fetch();
+				
+				$body .= '<p class="unimportant" style="text-align:center;word-wrap:break-word">';
+				for($x = 0; $x < $count['count'] / $config['mod']['modlog_page']; $x ++) {
+					$body .= '<a href="?/log/' . ($x+1) . '">[' . ($x + 1) . ']</a> ';
+				}
+				$body .= '</p>';
+			}
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
