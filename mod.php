@@ -320,7 +320,7 @@
 											($post['thread'] ?
 												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
 											: sprintf($config['file_page'], $match[1])) .
-										'">$1/a>', $log['text']);
+										'">$1</a>', $log['text']);
 								}
 								
 								if($config['cache']['enabled'])
