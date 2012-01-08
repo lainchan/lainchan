@@ -321,6 +321,8 @@
 												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
 											: sprintf($config['file_page'], $match[1])) .
 										'">$1</a>', $log['text']);
+								} else {
+									$log['text'] = preg_replace('/post (#(\d+))/', 'post <s>$1</s>', $log['text']);
 								}
 								
 								if($config['cache']['enabled'])
