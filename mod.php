@@ -320,10 +320,10 @@
 												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
 											: sprintf($config['file_page'], $match[1])) .
 										'">$0</a>', $log['text']);
-									
-									if($config['cache']['enabled'])
-										cache::set($log_id, $log['text']);
 								}
+								
+								if($config['cache']['enabled'])
+									cache::set($log_id, $log['text']);
 							}
 						}
 					}
