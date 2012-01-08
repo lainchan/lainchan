@@ -298,7 +298,7 @@
 				while($log = $query->fetch()) {
 					$log_id = 'log_' . md5($log['text']);
 					
-					if($_log = cache::get($log_id))
+					if($config['cache']['enabled'] && $_log = cache::get($log_id))
 						$log['text'] = $_log;
 					else {
 					
@@ -320,8 +320,9 @@
 												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
 											: sprintf($config['file_page'], $match[1])) .
 										'">$0</a>', $log['text']);
-								
-									cache::set($log_id, $log['text']);
+									
+									if($config['cache']['enabled'])
+										cache::set($log_id, $log['text']);
 								}
 							}
 						}
