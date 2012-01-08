@@ -312,14 +312,15 @@
 								$post_query->execute() or error(db_error($query));
 							
 								if($post = $post_query->fetch()) {
-									$log['text'] = preg_replace('/post #(\d+)/', '<a href="' .
+									$log['text'] = preg_replace('/post (#(\d+))/',
+										'post <a href="' .
 											'?/' .
 											sprintf($config['board_path'], $boards[$log['board']]) .
 											$config['dir']['res'] .
 											($post['thread'] ?
 												sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
 											: sprintf($config['file_page'], $match[1])) .
-										'">$0</a>', $log['text']);
+										'">$1/a>', $log['text']);
 								}
 								
 								if($config['cache']['enabled'])
