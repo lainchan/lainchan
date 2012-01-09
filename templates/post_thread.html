@@ -2,13 +2,13 @@
 {# tabs and new lines will be ignored #}
 
 {% if index %}
-	<div id="thread_{{ post.id }}" itemscope itemid="/{{ board.uri }}/{{ post.id }}" itemtype="http://schema.org/CreativeWork">
+	<div id="thread_{{ post.id }}">
 {% endif %}
 
 {% if post.embed %}
 	{{ post.embed }}
 {% elseif post.file == 'deleted' %}
-	<img itemprop="image" src="{{ config.image_deleted }}" alt="" />
+	<img src="{{ config.image_deleted }}" alt="" />
 {% elseif post.file and post.file %}
 	<p class="fileinfo">File: <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
 	(
@@ -47,12 +47,12 @@
 		{{ config.uri_thumb }}{{ post.thumb }}
 	{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
 {% endif %}
-<div class="post op"{% if not index %} itemscope itemid="/{{ board.uri }}/{{ post.id }}" itemtype="http://schema.org/Article"{% endif %}><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
+<div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span itemprop="headline" class="subject">{{ post.subject }}</span> 
+			<span class="subject">{{ post.subject }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
@@ -73,12 +73,12 @@
 		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
 			 [<a style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]
 		{% endif %}
-		 <time itemprop="dateCreated" datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S%z') }}">{{ post.time|date(config.post_date) }}</time>
+		 <time datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S') }}">{{ post.time|date(config.post_date) }}</time>
 	</label>
 	{% if config.poster_ids %}
 		 ID: {{ post.ip|poster_id(post.id) }}
 	{% endif %}
-	 <a itemprop="url" class="post_no" href="{{ post.link }}">No.</a>
+	 <a class="post_no" href="{{ post.link }}">No.</a>
 	<a class="post_no"
 		{% if not index %}
 			 onclick="citeReply({{ post.id }});"
@@ -100,11 +100,11 @@
 		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Locked" />
 	{% endif %}
 	{% if index %}
-		<a itemprop="discussionUrl" href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
+		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
 	{% endif %}
 	{{ post.postControls }}
 	</p>
-	<p itemprop="description" class="body">
+	<p class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 	</p>
 	{% if post.omitted or post.omitted_images %}
@@ -128,9 +128,7 @@
 			{% endif %} omitted. Click reply to view.
 		</span>
 	{% endif %}
-<meta itemprop="genre" content="/{{ board.uri }}/" />
 {% if not index %}
-<meta itemprop="interactionCount" content="UserComments:{{ post.posts|count }}" />
 {% endif %}
 </div>{% endfilter %}
 {% set hr = post.hr %}
