@@ -32,7 +32,7 @@
 	<h1>{{ board.url }} - {{ board.name }}</h1>
 	<div class="title">{% if board.title %}{{ board.title }}{% endif %}<p>{% if mod %}<a href="?/">{% trans %}Return to dashboard{% endtrans %}</a>{% endif %}</p></div>
 	
-	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a rel="directory" class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
+	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
 	
 	{% include 'post_form.html' %}
 	
@@ -54,7 +54,7 @@
 			<input type="submit" name="report" value="{% trans %}Report{% endtrans %}" />
 	</div>
 	</form>
-	<a rel="directory" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
+	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2012 Tinyboard Development Group</p>
