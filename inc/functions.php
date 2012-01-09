@@ -864,7 +864,7 @@
 			
 			$thread->posts = array_reverse($thread->posts);
 			
-			$body .= '<div id="thread_' . $thread->id . '">' . $thread->build(true) . '</div>';
+			$body .= $thread->build(true);
 		}
 		
 		return Array(
