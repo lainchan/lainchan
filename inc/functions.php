@@ -1048,8 +1048,15 @@
 		}
 	}
 	
-	function createHiddenInputs() {
+	function createHiddenInputs($extra_salt = Array()) {
 		global $config;
+		
+		if(!empty($extra_salt)) {
+			// create a salted hash of the "extra salt"
+			$extra_salt = implode(':', $extra_salt);
+		} else { 
+			$extra_salt = '';
+		}
 		
 		$inputs = Array();
 		
@@ -1139,7 +1146,7 @@
 		$hash .= $config['cookies']['salt'];
 		
 		// Use SHA1 for the hash
-		$hash = sha1($hash);
+		$hash = sha1($hash . $extra_salt);
 		
 		// Append it to the HTML
 		$content .= '<input type="hidden" name="hash" value="' . $hash . '" />';
@@ -1147,13 +1154,20 @@
 		return $content;
 	}
 	
-	function checkSpam() {
+	function checkSpam($extra_salt = Array()) {
 		global $config;
 		
 		if(!isset($_POST['hash']))
 			return true;
 		
 		$hash = $_POST['hash'];
+		
+		if(!empty($extra_salt)) {
+			// create a salted hash of the "extra salt"
+			$extra_salt = implode(':', $extra_salt);
+		} else { 
+			$extra_salt = '';
+		}
 		
 		// Reconsturct the $inputs array
 		$inputs = Array();
@@ -1179,7 +1193,7 @@
 		$_hash .= $config['cookies']['salt'];
 		
 		// Use SHA1 for the hash
-		$_hash = sha1($_hash);
+		$_hash = sha1($_hash . $extra_salt);
 		
 		return $hash != $_hash;
 	}
@@ -1197,7 +1211,6 @@
 			$content['pages'] = $pages;
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
-			$content['hidden_inputs'] = createHiddenInputs();
 			file_write($filename, Element('index.html', $content));
 			
 			if(isset($md5) && $md5 == md5_file($filename)) {
@@ -1460,7 +1473,6 @@
 			'id' => $id,
 			'mod' => $mod,
 			'boardlist' => createBoardlist($mod),
-			'hidden_inputs' => $content['hidden_inputs'] = createHiddenInputs(),
 			'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 		));
 		

@@ -33,7 +33,8 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	public function getFunctions()
 	{
 		return Array(
-			'time' => new Twig_Filter_Function('time', array('needs_environment' => false))
+			'time' => new Twig_Filter_Function('time', array('needs_environment' => false)),
+			'createHiddenInputs' => new Twig_Filter_Function('createHiddenInputs', array('needs_environment' => false))
 		);
 	}
 	

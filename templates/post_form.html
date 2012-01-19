@@ -1,5 +1,5 @@
 <form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
-{{ hidden_inputs }}
+{{ createHiddenInputs([board.uri, id]) }}
 {% if id %}<input type="hidden" name="thread" value="{{ id }}" />{% endif %}
 <input type="hidden" name="board" value="{{ board.uri }}" />
 {% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}

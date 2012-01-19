@@ -197,7 +197,7 @@
 			}
 		}
 		
-		if(checkSpam())
+		if(checkSpam(Array($board['uri'], isset($post['thread']) ? $post['thread'] : null)))
 			error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {
@@ -250,7 +250,7 @@
 				error($config['error']['noimage']);
 		}
 		
-		$post['name'] = (!empty($_POST['name'])?$_POST['name']:$config['anonymous']);
+		$post['name'] = !empty($_POST['name']) ? $_POST['name'] : $config['anonymous'];
 		$post['subject'] = $_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
@@ -306,7 +306,7 @@
 		if($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
 			if(($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
 				$post['capcode'] = utf8tohtml($match[3]);
-				$post['name'] = !empty($match[2])?$match[2]:$config['anonymous'];
+				$post['name'] = !empty($match[2]) ? $match[2] : $config['anonymous'];
 			}
 		} else {
 			$post['capcode'] = false;
@@ -314,7 +314,7 @@
 		
 		$trip = generate_tripcode($post['name']);
 		$post['name'] = $trip[0];
-		$post['trip'] = (isset($trip[1])?$trip[1]:'');
+		$post['trip'] = isset($trip[1]) ? $trip[1] : '';
 		
 		if(strtolower($post['email']) == 'noko') {
 			$noko = true;
@@ -583,7 +583,7 @@
 			}
 		}
 		
-		buildThread(($OP?$id:$post['thread']));
+		buildThread($OP ? $id : $post['thread']);
 		
 		if(!$OP && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
 			bumpThread($post['thread']);
@@ -603,20 +603,20 @@
 			// Tell it to delete the cached post for referer
 			$js->{$_SERVER['HTTP_REFERER']} = true;
 			// Encode and set cookie
-			setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail']?$config['cookies']['path']:'/', null, false, false);
+			setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, false);
 		}
 		
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		if($config['always_noko'] || $noko) {
-			$redirect = $root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP?'#'.$id:'');
+			$redirect = $root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP ? $id:$post['thread']) . (!$OP ? '#' . $id : '');
 		} else {
 			$redirect = $root . $board['dir'] . $config['file_index'];
 			
 		}
 		
 		if($config['syslog'])
-			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP?'#'.$id:''));
+			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP ? '#' . $id : ''));
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
