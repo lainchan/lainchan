@@ -1921,7 +1921,7 @@
 				
 				rebuildThemes('boards');
 				
-				header('Location: ?/board/' . $board['uri'], true, $config['redirect_http']);
+				header('Location: ?/board/' . $b['uri'], true, $config['redirect_http']);
 			} else {
 				
 				$body .= form_newBoard();
