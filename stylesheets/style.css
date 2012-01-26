@@ -192,6 +192,7 @@ div.post {
 }
 div.post p.body {
 	word-wrap: break-word;
+	white-space: pre-wrap;
 }
 div.post.reply {
 	background: #D6DAF0;
