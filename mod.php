@@ -255,11 +255,11 @@
 			
 			$body = '<p style="text-align:center">' .
 			'<span class="heading" style="margin-bottom:6px">Are you sure you want to do that?</span>' .
-				'You clicked ' .
+				'We were unable to serve a confirmation dialog for ' .
 					'<strong>?/' . utf8tohtml($uri) . '</strong>' .
-				' but had Javascript disabled, so we weren\'t able to serve the confirmation dialog.' .
+				', probably due to Javascript being disabled.' .
 			'</p>' .
-			'<p style="text-align:center"><a style="margin:block;font-size:150%;font-weight:bold" href="?/' . utf8tohtml($uri) . '">Confirm.</a></p>';
+			'<p style="text-align:center"><a style="margin:block;font-size:150%;font-weight:bold" href="?/' . utf8tohtml($uri) . '">Confirm</a></p>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
