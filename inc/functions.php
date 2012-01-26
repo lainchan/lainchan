@@ -1283,7 +1283,7 @@
 			if(isset($filter[2]) && $filter[2]) {
 				$body = preg_replace($filter[0], $filter[1], $body);
 			} else {
-				$body = str_replace($filter[0], $filter[1], $body);
+				$body = str_ireplace($filter[0], $filter[1], $body);
 			}
 		}
 	}
