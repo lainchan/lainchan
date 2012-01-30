@@ -1306,6 +1306,8 @@
 	}
 	
 	function markup_url($matches) {
+		global $markup_urls;
+		
 		$url = $matches[0];
 		$after = '';
 		
@@ -1314,11 +1316,27 @@
 			$after = $match[1];
 		}
 		
+		$markup_urls[] = $url;
+		
 		return '<a target="_blank" rel="nofollow" href="' . $url . '">' . $url . '</a>' . $after;
 	}
 	
+	function unicodify($body) {
+		$body = str_replace('...', '&hellip;', $body);
+		$body = str_replace('&lt;--', '&larr;', $body);
+		$body = str_replace('--&gt;', '&rarr;', $body);
+		
+		// En and em- dashes are rendered exactly the same in
+		// most monospace fonts (they look the same in code
+		// editors).
+		$body = str_replace('---', '&ndash;', $body); // em dash
+		$body = str_replace('--', '&mdash;', $body); // en dash
+		
+		return $body;
+	}
+	
 	function markup(&$body, $track_cites = false) {
-		global $board, $config;
+		global $board, $config, $markup_urls;
 		
 		$body = utf8tohtml($body);
 		
@@ -1330,21 +1348,19 @@
 		}
 		
 		if($config['markup_urls']) {
+			$markup_urls = Array();
+			
 			$body = preg_replace_callback($config['url_regex'], 'markup_url', $body, -1, $num_links);
 			if($num_links > $config['max_links'])
 				error($config['error']['toomanylinks']);
-		}//exit;
-			
+		}
+		
 		if($config['auto_unicode']) {
-			$body = str_replace('...', '&hellip;', $body);
-			$body = str_replace('&lt;--', '&larr;', $body);
-			$body = str_replace('--&gt;', '&rarr;', $body);
-			
-			// En and em- dashes are rendered exactly the same in
-			// most monospace fonts (they look the same in code
-			// editors).
-			$body = str_replace('---', '&ndash;', $body); // em dash
-			$body = str_replace('--', '&mdash;', $body); // en dash
+			$body = unicodify($body);
+		
+			foreach($markup_urls as &$url) {
+				$body = str_replace(unicodify($url), $url, $body);
+			}
 		}
 		
 		// replace tabs with 8 spaces
