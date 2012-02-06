@@ -40,7 +40,8 @@
 		'allowed_ext' => Array(),
 		'allowed_ext_files' => Array(),
 		'file_icons' => Array(),
-		'footer' => Array()
+		'footer' => Array(),
+		'stylesheets' => Array()
 	);
 	/* End ignore */
 	
@@ -482,11 +483,8 @@
 	// $config['banner_height'] = 100;
 	
 	// Custom stylesheets available. The prefix for each stylesheet URI is defined below.
-	$config['stylesheets'] = Array(
-		// Stylesheet name => URI
-		'Yotsuba B' => 'default.css',
-		'Yotsuba' => 'yotsuba.css'
-	);
+	$config['stylesheets']['Yotsuba B'] = 'default.css';
+	$config['stylesheets']['Yotsuba'] = 'yotsuba.css';
 	// $config['stylesheets']['Futaba'] = 'futaba.css';
 	
 	// The prefix for each stylesheet URI. Defaults to $config['root']/stylesheets/
@@ -831,8 +829,6 @@
 	$config['mod']['rawhtml'] = MOD;
 	
 	/* Administration */
-	// Display the contents of instance-config.php
-	$config['mod']['show_config'] = ADMIN;
 	// View the report queue
 	$config['mod']['reports'] = JANITOR;
 	// Dismiss an abuse report
@@ -900,6 +896,11 @@
 	$config['mod']['news_custom'] = ADMIN;
 	// Delete news entries
 	$config['mod']['news_delete'] = ADMIN;
+	
+	// View the current configuration
+	$config['mod']['show_config'] = ADMIN;
+	// Edit the current configuration (via web interface)
+	$config['mod']['edit_config'] = ADMIN;
 	
 /*
  * ====================
