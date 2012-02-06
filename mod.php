@@ -1850,7 +1850,7 @@
 				}
 				
 				if(!empty($config_append)) {
-					$config_append = "\n// Changes made by web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
+					$config_append = "\n// Changes made via web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
 					if(@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
 						header('Location: ?/config' . $b['uri'], true, $config['redirect_http']);
 						exit;
