@@ -1855,6 +1855,8 @@
 						header('Location: ?/config' . $b['uri'], true, $config['redirect_http']);
 						exit;
 					} else {
+						$config_append = htmlentities($config_append);
+						
 						if($config['minify_html'])
 							$config_append = str_replace("\n", '&#010;', $config_append);
 						$page = Array();
@@ -1863,7 +1865,7 @@
 						$page['body'] = '
 							<p>Tinyboard could not write to <strong>inc/instance-config.php</strong> with the ammended configuration, probably due to a permissions error.</p>
 							<p>You may proceed with these changes manually by copying and pasting the following code to the bottom of <strong>inc/instance-config.php</strong>:</p>
-							<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . htmlentities($config_append) . '</textarea>
+							<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . $config_append . '</textarea>
 						';
 						echo Element('page.html', $page);
 						exit;
