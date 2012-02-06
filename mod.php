@@ -1942,7 +1942,11 @@
 			
 			do_array_part($config);
 			
-			$body = '<fieldset><legend>' . _('Configuration') . '</legend><table>' . $data . '</table></fieldset>';
+			
+			$body = (hasPermission($config['mod']['edit_config']) ?
+					'<p style="text-align:center" class="unimportant">' .
+						'<a href="?/config/edit">[Edit using web editor]</a>' : '') .
+					'<fieldset><legend>' . _('Configuration') . '</legend><table>' . $data . '</table></fieldset>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
