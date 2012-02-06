@@ -1855,6 +1855,8 @@
 						header('Location: ?/config' . $b['uri'], true, $config['redirect_http']);
 						exit;
 					} else {
+						if($config['minify_html'])
+							$config_append = str_replace("\n", '&#010;', $config_append);
 						$page = Array();
 						$page['title'] = 'Cannot write to file!';
 						$page['config'] = $config;
