@@ -1801,8 +1801,110 @@
 				'body'=>$body,
 				'mod'=>true
 			));
+		} elseif(preg_match('/^\/config\/edit$/', $query)) {
+			if(!hasPermission($config['mod']['edit_config']))
+				error($config['error']['noaccess']);
+			
+			// TODO: display "unset variables"
+			// $config_file = file_get_contents('inc/config.php');
+			// preg_match_all('/\$config\[\'(\w+)\']/', $config_file, $matches);
+			// $config_variables = array_unique($matches[1]);
+			
+			$body = '<fieldset><legend>' . _('Configuration') . '</legend><form action="" method="post"><table style="width:100%">';
+			
+			$var_force_string = Array('blotter');
+			$var_system = Array('version');
+			
+			if(isset($_POST['save_changes'])) {
+				$config_append = '';
+				
+				foreach($config as $name => $original_value) {
+					if(in_array($name, $var_system))
+						continue;
+					$type = gettype($original_value);
+					if($type == 'array' || $type == 'NULL')
+						continue;
+					
+					if($type == 'boolean' && in_array($name, $var_force_string))
+						$type = 'string';
+					
+					if(!isset($_POST[$name]) && $type != 'boolean')
+						continue;
+					
+					if($type == 'boolean')
+						$value = isset($_POST[$name]);
+					else
+						$value = $_POST[$name];
+					
+					if($value != $original_value) {
+						// value has been changed
+						$config_append .= "\$config['" . addslashes($name) . "'] = ";
+						if($type == 'boolean')
+							$config_append .= $value ? 'true' : 'false';
+						elseif($type == 'integer')
+							$config_append .= (int)$value;
+						elseif($type == 'string')
+							$config_append .= '\'' . addslashes($value) . '\'';
+						$config_append .= ";\n";
+					}
+				}
+				
+				if(!empty($config_append)) {
+					$config_append = "\n// Changes made by web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
+					if(@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
+						header('Location: ?/config' . $b['uri'], true, $config['redirect_http']);
+						exit;
+					} else {
+						$page = Array();
+						$page['title'] = 'Cannot write to file!';
+						$page['config'] = $config;
+						$page['body'] = '
+							<p>Tinyboard could not write to <strong>inc/instance-config.php</strong> with the ammended configuration, probably due to a permissions error.</p>
+							<p>You may proceed with these changes manually by copying and pasting the following code to the bottom of <strong>inc/instance-config.php</strong>:</p>
+							<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . htmlentities($config_append) . '</textarea>
+						';
+						echo Element('page.html', $page);
+						exit;
+					}
+				}
+			}
+			
+			foreach($config as $name => $value) {
+				$body .= '<tr>';
+				
+				$body .= '<th style="text-align:left" class="minimal">' . utf8tohtml($name) . '</th>';
+				$type = gettype($value);
+				if($type == 'array') {
+					$body .= '<td><a href="?/config/edit/' . utf8tohtml($name) . '">[edit]' . '</a></td>';
+				} else {
+					if($type == 'string' || $type == 'integer') {
+						$body .= '<td><input style="width:100%" type="text" name="' .utf8tohtml($name) . '" value="'. str_replace('"', '&quot;', utf8tohtml($value)) . '"' .
+								(in_array($name, $var_system) ? ' readonly="readonly"' : '') . '></td>';
+					} elseif($type == 'boolean') {
+						if(in_array($name, $var_force_string))
+							$body .= '<td><input style="width:100%" type="text" name="' . utf8tohtml($name) . '" value=""></td>';
+						else
+							$body .= '<td><input type="checkbox" name="' . utf8tohtml($name) . '" ' . ($value ? 'checked' : '') . '></td>';
+					} else {
+						$body .= '<td>' . utf8tohtml($value) . '</td>';
+					}
+				}
+				
+				$body .= '</tr>';
+			}
+			
+			$body .= '</table><div style="text-align:center"><input name="save_changes" type="submit" value="Save canges"></div></form></fieldset>';
+			
+			echo Element('page.html', Array(
+				'config'=>$config,
+				'title'=>_('Configuration'),
+				'body'=>$body,
+				'mod'=>true
+				)
+			);			
 		} elseif(preg_match('/^\/config$/', $query)) {
-			if(!hasPermission($config['mod']['show_config'])) error($config['error']['noaccess']);
+			if(!hasPermission($config['mod']['show_config']))
+				error($config['error']['noaccess']);
 			
 			// Show instance-config.php	
 			
@@ -1830,7 +1932,7 @@
 						
 						$data .= 
 								'<tr><th style="text-align:left;">' . 
-									$prefix . (gettype($name) == 'integer' ? '[]' : $name) .
+									$prefix . (gettype($name) == 'integer' ? '[]' : utf8tohtml($name)) .
 								'</th><td>' .
 									$value .
 								'</td></tr>';
@@ -1838,7 +1940,7 @@
 					}
 				}
 			
-			do_array_part($config);				
+			do_array_part($config);
 			
 			$body = '<fieldset><legend>' . _('Configuration') . '</legend><table>' . $data . '</table></fieldset>';
 			
