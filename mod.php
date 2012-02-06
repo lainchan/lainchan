@@ -1893,7 +1893,7 @@
 				$body .= '</tr>';
 			}
 			
-			$body .= '</table><div style="text-align:center"><input name="save_changes" type="submit" value="Save canges"></div></form></fieldset>';
+			$body .= '</table><div style="text-align:center"><input name="save_changes" type="submit" value="Save changes"></div></form></fieldset>';
 			
 			echo Element('page.html', Array(
 				'config'=>$config,
