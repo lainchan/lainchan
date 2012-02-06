@@ -38,6 +38,9 @@
 		
 		date_default_timezone_set($config['timezone']);
 		
+		if(!isset($config['blotter']))
+			$config['blotter'] = false;
+		
 		if(!isset($config['post_url']))
 			$config['post_url'] = $config['root'] . $config['file_post'];
 		
