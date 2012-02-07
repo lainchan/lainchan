@@ -23,45 +23,15 @@
 		public static function homepage($settings) {
 			global $config;
 			
-			// HTML5
-			$body = '<!DOCTYPE html><html>'
-			. '<head>'
-				. '<link rel="stylesheet" media="screen" href="' . $config['url_stylesheet'] . '"/>'
-				. '<title>' . $settings['title'] . '</title>'
-			. '</head><body>';
-			
-			$boardlist = createBoardlist();
-			$body .= '<div class="boardlist">' . $boardlist['top'] . '</div>';
-			
-			$body .= '<h1>' . $settings['title'] . '</h1>'
-				. '<div class="title">' . ($settings['subtitle'] ? utf8tohtml($settings['subtitle']) : '') . '</div>';
-			
-			$body .= '<div class="ban">';
-			
 			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
-			if($query->rowCount() == 0) {
-				$body .= '<p style="text-align:center" class="unimportant">(No news to show.)</p>';
-			} else {
-				// List news
-				while($news = $query->fetch()) {
-					$body .= '<h2 id="' . $news['id'] . '">' .
-						($news['subject'] ?
-							$news['subject']
-						:
-							'<em>no subject</em>'
-						) .
-					'<span class="unimportant"> &mdash; by ' .
-						$news['name'] .
-					' at ' .
-						strftime($config['post_date'], $news['time']) .
-					'</span></h2><p>' . $news['body'] . '</p>';
-				}
-			}
+			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			$body .= '</div>';
-			
-			// Finish page
-			$body .= '<hr/><p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a></body></html>';
+			return Element('themes/basic/index.html', Array(
+					'settings' => $settings,
+					'config' => $config,
+					'boardlist' => createBoardlist(),
+					'news' => $news
+				));
 			
 			return $body;
 		}

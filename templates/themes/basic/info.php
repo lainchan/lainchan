@@ -4,8 +4,8 @@
 	// Theme name
 	$theme['name'] = 'Basic';
 	// Description (you can use Tinyboard markup here)
-	$theme['description'] = 'Extremely basic news listing for the homepage. It\'s suggested that you enable boardlinks for this theme.';
-	$theme['version'] = 'v0.9';
+	$theme['description'] = 'Extremely basic news listing for the homepage. Enabling boardlinks is recommended for this theme.';
+	$theme['version'] = 'v0.9.1';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
