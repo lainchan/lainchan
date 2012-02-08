@@ -16,14 +16,16 @@
 			global $config;
 			
 			if($action == 'all' || $action == 'news')
-				file_write($config['dir']['home'] . $config['file_index'], Basic::homepage($settings));
+				file_write($config['dir']['home'] . $settings['file'], Basic::homepage($settings));
 		}
 		
 		// Build news page
 		public static function homepage($settings) {
 			global $config;
 			
-			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
+			$settings['no_recent'] = (int) $settings['no_recent'];
+			
+			$query = query("SELECT * FROM `news` ORDER BY `time` DESC" . ($settings['no_recent'] ? ' LIMIT ' . $settings['no_recent'] : '')) or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
 			return Element('themes/basic/index.html', Array(
