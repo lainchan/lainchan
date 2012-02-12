@@ -1056,7 +1056,9 @@
 				}
 				
 				foreach($filters as $name => $value) {
-					$like .= ' AND `' . $name . '` = '. $pdo->quote($value);
+					if(!empty($like))
+						$like .= ' AND ';
+					$like .= '`' . $name . '` = '. $pdo->quote($value);
 				}
 				
 				$like = str_replace('%', '%%', $like);
