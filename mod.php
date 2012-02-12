@@ -990,7 +990,7 @@
 			$body = '<div class="ban"><h2>Search</h2><form style="display:inline" action="?/search" method="post">' .
 				'<p><label style="display:inline" for="search">Phrase:</label> ' .
 					'<input id="search" name="search" type="text" size="35" ' .
-						(isset($_POST['search']) ? 'value="' . utf8tohtml($_POST['search']) . '" ' : '') .
+						(isset($_POST['search']) ? 'value="' . str_replace('"', '&quot;', utf8tohtml($_POST['search'])) . '" ' : '') .
 					'/>' .
 					'<input type="submit" value="Search" />' .
 				'</p></form>' .
@@ -1000,6 +1000,25 @@
 			if(isset($_POST['search']) && !empty($_POST['search'])) {
 				$phrase = &$_POST['search'];
 				$_body = '';
+				
+				$filters = Array();
+				
+				function search_filters($m) {
+					global $filters;
+					$name = $m[2];
+					$value = isset($m[4]) ? $m[4] : $m[3];
+					
+					if(!in_array($name, Array('id', 'thread', 'subject', 'email', 'name', 'trip', 'capcode', 'filename', 'filehash', 'ip'))) {
+						// unknown filter
+						return $m[0];
+					}
+					
+					$filters[$name] = $value;
+					
+					return $m[1];
+				}
+				
+				$phrase = trim(preg_replace_callback('/(^|\s)(\w+):("(.*)?"|[^\s]*)/', 'search_filters', $phrase));
 				
 				// Escape escape character
 				$phrase = str_replace('!', '!!', $phrase);
@@ -1036,7 +1055,13 @@
 					$like .= '`body` LIKE ' . $phrase . ' ESCAPE \'!\'';
 				}
 				
+				foreach($filters as $name => $value) {
+					$like .= ' AND `' . $name . '` = '. $pdo->quote($value);
+				}
+				
 				$like = str_replace('%', '%%', $like);
+				
+				// die(var_dump($like));
 				
 				$boards = listBoards();
 				foreach($boards as &$_b) {
