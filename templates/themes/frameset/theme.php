@@ -29,7 +29,6 @@
 		public static function homepage($settings) {
 			global $config;
 			
-			// HTML5
 			return Element('themes/frameset/frames.html', Array('config' => $config, 'settings' => $settings));
 		}
 		
