@@ -151,13 +151,19 @@
 		if($config['field_disable_password'])
 			$_POST['password'] = '';
 		
-		if(	!isset($_POST['name']) ||
-			!isset($_POST['email']) ||
-			!isset($_POST['subject']) ||
+		if(	!isset($_POST['subject']) ||
 			!isset($_POST['body']) ||
-			!isset($_POST['board']) ||
-			!isset($_POST['password'])
+			!isset($_POST['board'])
 			) error($config['error']['bot']);
+		
+		if(!isset($_POST['name']))
+			$_POST['name'] = $config['anonymous'];
+		
+		if(!isset($_POST['email']))
+			$_POST['email'] = '';
+		
+		if(!isset($_POST['password']))
+			$_POST['password'] = '';
 		
 		$post = Array('board' => $_POST['board']);
 		
