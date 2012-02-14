@@ -504,14 +504,19 @@
 	//);
 	
 	// Categories
-	// Required for the Categories theme. Array of the names of board groups in order, from $config['boards'].
-	//$config['categories'] = Array('groupname', 'name', 'anothername', 'kangaroos');
+	// Required for the Categories theme.
+	//$config['categories'] = Array(
+	//	'Group Name' => Array('a', 'b', 'c'),
+	//	'Another Group' => Array('d')
+	//);
 	
 	// Custom_categories
 	// Optional for the Categories theme. Array of name => (title, url) groups for categories with non-board links.
-	//$config['custom_categories'] = Array( 'Links' =>
-	//	Array('Tinyboard' => 'http://tinyboard.org',
-	//	'AnotherName' => 'url')
+	//$config['custom_categories'] = Array(
+	//	'Links' => Array(
+	//		'Tinyboard' => 'http://tinyboard.org',
+	//		'Donate' => 'donate.html'
+	//	)
 	//);
 	
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
