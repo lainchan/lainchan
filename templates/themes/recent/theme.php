@@ -18,129 +18,108 @@
 			global $config, $_theme;
 			
 			if($action == 'all') {
-				copy($config['dir']['themes'] . '/' . $_theme . '/recent.css', $config['dir']['home'] . 'recent.css');
+				copy('templates/themes/recent/recent.css', $config['dir']['home'] . $settings['css']);
 			}
 			
 			$this->excluded = explode(' ', $settings['exclude']);
 			
 			if($action == 'all' || $action == 'post')
-			//	file_put_contents($config['dir']['home'] . $config['file_index'], $this->homepage($settings));
-				file_write($config['dir']['home'] . 'recent.html', $this->homepage($settings));
+				file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
 		}
 		
 		// Build news page
 		public function homepage($settings) {
 			global $config, $board;
 			
-			// HTML5
-			$body = '<!DOCTYPE html><html>'
-			. '<head>'
-				. '<link rel="stylesheet" media="screen" href="' . $config['url_stylesheet'] . '"/>'
-				. '<link rel="stylesheet" media="screen" href="' . $config['root'] . 'recent.css"/>'
-				. '<title>' . $settings['title'] . '</title>'
-			. '</head><body>';
-			
-			$boardlist = createBoardlist();
-			$body .= '<div class="boardlist">' . $boardlist['top'] . '</div>';
-			
-			$body .= '<h1>' . $settings['title'] . '</h1>';
-			
+			$recent_images = Array();
+			$recent_posts = Array();
+			$stats = Array();
 			
 			$boards = listBoards();
 			
-			// Wrap
-			$body .= '<div class="box-wrap">';
+			$query = '';
+			foreach($boards as &$_board) {
+				if(in_array($_board['uri'], $this->excluded))
+					continue;
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_images'], $query);
+			$query = query($query) or error(db_error());
 			
-			// Recent images
-			$body .= '<div class="box left"><h2>Recent Images</h2><ul>';
-				$query = '';
-				foreach($boards as &$_board) {
-					if(in_array($_board['uri'], $this->excluded))
-						continue;
-					$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `file` IS NOT NULL UNION ALL ", $_board['uri'], $_board['uri']);
-				}
-				$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT 3', $query);
-				$query = query($query) or error(db_error());
+			while($post = $query->fetch()) {
+				openBoard($post['board']);
 				
-				while($post = $query->fetch()) {
-					openBoard($post['board']);
-					
-					$body .= '<li><a href="' . 
-						$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $post['id'] .
-					'"><img src="' . $config['uri_thumb'] . $post['thumb'] . '" style="width:' . $post['thumbwidth'] . 'px;height:' . $post['thumbheight'] . 'px;" /></a></li>';
-				}
-			$body .= '</ul></div>';
-			
-			// Latest posts
-			$body .= '<div class="box right"><h2>Latest Posts</h2><ul>';
-				$query = '';
-				foreach($boards as &$_board) {
-					if(in_array($_board['uri'], $this->excluded))
-						continue;
-					$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` UNION ALL ", $_board['uri'], $_board['uri']);
-				}
-				$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT 30', $query);
-				$query = query($query) or error(db_error());
+				// board settings won't be available in the template file, so generate links now
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+				$post['src'] = $config['uri_thumb'] . $post['thumb'];
 				
-				while($post = $query->fetch()) {
-					openBoard($post['board']);
-					
-					$body .= '<li><strong>' . $board['name'] . '</strong>: <a href="' . 
-						$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $post['id'] .
-					'">' . pm_snippet($post['body'], 30) . '</a></li>';
-				}
+				$recent_images[] = $post;
+			}
+			
+			
+			$query = '';
+			foreach($boards as &$_board) {
+				if(in_array($_board['uri'], $this->excluded))
+					continue;
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` UNION ALL ", $_board['uri'], $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_posts'], $query);
+			$query = query($query) or error(db_error());
+			
+			while($post = $query->fetch()) {
+				openBoard($post['board']);
 				
-			$body .= '</ul></div>';
-			
-			
-			// Stats
-			$body .= '<div class="box right"><h2>Stats</h2><ul>';
-			
-				// Total posts
-				$query = 'SELECT SUM(`top`) AS `count` FROM (';
-				foreach($boards as &$_board) {
-					if(in_array($_board['uri'], $this->excluded))
-						continue;
-					$query .= sprintf("SELECT MAX(`id`) AS `top` FROM `posts_%s` UNION ALL ", $_board['uri']);
-				}
-				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
-				$query = query($query) or error(db_error());
-				$res = $query->fetch();
-				$body .= '<li>Total posts: ' . number_format($res['count']) . '</li>';
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+				$post['snippet'] = pm_snippet($post['body'], 30);
+				$post['board_name'] = $board['name'];
 				
-				// Unique IPs
-				$query = 'SELECT COUNT(DISTINCT(`ip`)) AS `count` FROM (';
-				foreach($boards as &$_board) {
-					if(in_array($_board['uri'], $this->excluded))
-						continue;
-					$query .= sprintf("SELECT `ip` FROM `posts_%s` UNION ALL ", $_board['uri']);
-				}
-				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
-				$query = query($query) or error(db_error());
-				$res = $query->fetch();
-				$body .= '<li>Unique posters: ' . number_format($res['count']) . '</li>';
-				
-				// Active content
-				$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
-				foreach($boards as &$_board) {
-					if(in_array($_board['uri'], $this->excluded))
-						continue;
-					$query .= sprintf("SELECT `filesize` FROM `posts_%s` UNION ALL ", $_board['uri']);
-				}
-				$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
-				$query = query($query) or error(db_error());
-				$res = $query->fetch();
-				$body .= '<li>Active content: ' . format_bytes($res['count']) . '</li>';
-				
-			$body .= '</ul></div>';
+				$recent_posts[] = $post;
+			}
 			
-			// End wrap
-			$body .= '</div>';
+			// Total posts
+			$query = 'SELECT SUM(`top`) AS `count` FROM (';
+			foreach($boards as &$_board) {
+				if(in_array($_board['uri'], $this->excluded))
+					continue;
+				$query .= sprintf("SELECT MAX(`id`) AS `top` FROM `posts_%s` UNION ALL ", $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
+			$query = query($query) or error(db_error());
+			$res = $query->fetch();
+			$stats['total_posts'] = number_format($res['count']);
 			
-			// Finish page
-			$body .= '<hr/><p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a></body></html>';
+			// Unique IPs
+			$query = 'SELECT COUNT(DISTINCT(`ip`)) AS `count` FROM (';
+			foreach($boards as &$_board) {
+				if(in_array($_board['uri'], $this->excluded))
+					continue;
+				$query .= sprintf("SELECT `ip` FROM `posts_%s` UNION ALL ", $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
+			$query = query($query) or error(db_error());
+			$res = $query->fetch();
+			$stats['unique_posters'] = number_format($res['count']);
 			
-			return $body;
+			// Active content
+			$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
+			foreach($boards as &$_board) {
+				if(in_array($_board['uri'], $this->excluded))
+					continue;
+				$query .= sprintf("SELECT `filesize` FROM `posts_%s` UNION ALL ", $_board['uri']);
+			}
+			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
+			$query = query($query) or error(db_error());
+			$res = $query->fetch();
+			$stats['active_content'] = $res['count'];
+			
+			return Element('themes/recent/recent.html', Array(
+				'settings' => $settings,
+				'config' => $config,
+				'boardlist' => createBoardlist(),
+				'recent_images' => $recent_images,
+				'recent_posts' => $recent_posts,
+				'stats' => $stats
+			));
 		}
 	};
 	
