@@ -29,13 +29,11 @@
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
 			return Element('themes/basic/index.html', Array(
-					'settings' => $settings,
-					'config' => $config,
-					'boardlist' => createBoardlist(),
-					'news' => $news
-				));
-			
-			return $body;
+				'settings' => $settings,
+				'config' => $config,
+				'boardlist' => createBoardlist(),
+				'news' => $news
+			));
 		}
 	};
 	
