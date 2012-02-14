@@ -8,7 +8,7 @@
 'Group-ordered, category-aware modification of the Frameset theme, with removable sidebar frame.
 
 Requires $config[\'categories\'].';
-	$theme['version'] = 'v0.2.2';
+	$theme['version'] = 'v0.3';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
