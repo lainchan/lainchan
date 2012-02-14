@@ -17,6 +17,8 @@
 		public static function get($key) {
 			global $config, $debug;
 			
+			$key = $config['cache']['prefix'] . $key;
+			
 			$data = false;
 			switch($config['cache']['enabled']) {
 				case 'memcached':
@@ -45,6 +47,8 @@
 		public static function set($key, $value, $expires = false) {
 			global $config;
 			
+			$key = $config['cache']['prefix'] . $key;
+			
 			if(!$expires)
 				$expires = $config['cache']['timeout'];
 			
@@ -67,6 +71,8 @@
 		}
 		public static function delete($key) {
 			global $config;
+			
+			$key = $config['cache']['prefix'] . $key;
 			
 			switch($config['cache']['enabled']) {
 				case 'memcached':

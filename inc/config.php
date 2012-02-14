@@ -120,6 +120,9 @@
  	// Timeout for cached objects such as posts and HTML
 	$config['cache']['timeout'] = 43200; // 12 hours
 	
+	// Optional prefix if you're running multiple Tinyboard instances on the same machine
+	$config['cache']['prefix'] = '';
+	
 	// Memcached servers to use - http://www.php.net/manual/en/memcached.addservers.php
 	$config['cache']['memcached'] = Array(
 		Array('localhost', 11211)
