@@ -20,21 +20,37 @@
 			<li>
 				<a class="system" href="{{ settings.file_news }}">[News]</a>
 			</li>
+			<li>
+				<a class="system" href="javascript:parent.removeFrames()">[Remove Frames]</a>
+			</li>
 		</ul>
 	</fieldset>
 	
-	<fieldset>
-		<legend>Boards</legend>
-		<ul>
+	{% for category, boards in config.categories %}
+		<fieldset>
+			<legend>
+				{{ category }}
+			</legend>
 			{% for board in boards %}
 				<li>
-					<a href="{{ config.board_path|sprintf(board.uri) }}">
-						{{ board.title }}
-					</a>
+					{{ board }}
 				</li>
-			{% endfor %}
-		</ul>
-	</fieldset>
+			{% endif %}
+		</fieldset>
+	{% endif %}
+	
+	{% for category, links in config.custom_categories %}
+		<fieldset>
+			<legend>
+				{{ category }}
+			</legend>
+			{% for title, uri in links %}
+				<li>
+					<a href="{{ uri }}">{{ title }}</a>
+				</li>
+			{% endif %}
+		</fieldset>
+	{% endif %}
 </body>
 </html>
 {% endfilter %}

@@ -44,8 +44,6 @@
 				'config' => $config,
 				'news' => $news
 			));
-			
-			return $body;
 		}
 		
 		// Build sidebar
@@ -57,8 +55,6 @@
 				'config' => $config,
 				'boards' => listBoards()
 			));
-			
-			return $body;
 		}
 	};
 	
