@@ -1,0 +1,33 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+</head>
+<body>
+	<h1>{{ settings.title }}</h1>
+	<div class="title">{{ settings.subtitle }}</div>
+	
+	<div class="ban">
+		{% if news|count == 0 %}
+			<p style="text-align:center" class="unimportant">(No news to show.)</p>
+		{% else %}
+			{% for entry in news %}
+				<h2 id="{{ entry.id }}">
+					{% if entry.subject %}
+						{{ entry.subject }}
+					{% else %}
+						<em>no subject</em>
+					{% endif %}
+					<span class="unimportant"> &mdash; by {{ entry.name }} at {{ entry.time|date(config.post_date) }}</span>
+				</h2>
+				<p>{{ entry.body }}</p>
+			{% endfor %}
+		{% endif %}
+	</div>
+	
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2012 Tinyboard Development Group</p>
+</body>
+</html>
+{% endfilter %}
