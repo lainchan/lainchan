@@ -649,7 +649,7 @@
 	$config['dir']['themes'] = getcwd() . '/templates/themes';
 	// Same as above, but a URI (accessable by web interface, not locally)
 	$config['dir']['themes_uri'] = 'templates/themes';
-	// Homepage directory (deprecated)
+	// Homepage directory
 	$config['dir']['home'] = '';
 	
 	// Static images
