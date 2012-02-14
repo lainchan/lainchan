@@ -5,7 +5,7 @@
 	$theme['name'] = 'RecentPosts';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 'Show recent posts and images, like 4chan.';
-	$theme['version'] = 'v0.9.1';
+	$theme['version'] = 'v1.0';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
