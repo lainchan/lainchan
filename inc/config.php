@@ -712,6 +712,7 @@
 	$config['mod']['link_unlock'] = '[-Lock]';
 	$config['mod']['link_bumplock'] = '[Sage]';
 	$config['mod']['link_bumpunlock'] = '[-Sage]';
+	$config['mod']['link_editpost'] = '[Edit]';
 	$config['mod']['link_move'] = '[Move]';
 	
 	// Moderator capcodes
@@ -827,6 +828,8 @@
 	$config['mod']['bumplock'] = MOD;
 	// View whether a thread has been bumplocked ("-1" to allow non-mods to see too)
 	$config['mod']['view_bumplock'] = MOD;
+	// Edit posts (EXPERIMENTAL)
+	$config['mod']['editpost'] = DISABLED;
 	// "Move" a thread to another board (EXPERIMENTAL; has some known bugs)
 	$config['mod']['move'] = DISABLED;
 	// Post bypass unoriginal content check on robot-enabled boards

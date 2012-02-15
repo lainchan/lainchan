@@ -287,6 +287,10 @@
 				if(!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
 				
+				// Edit post
+				if(hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
+					$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				
 				if(!empty($built))
 					$built = '<span class="controls">' . $built . '</span>';
 			}
@@ -398,6 +402,10 @@
 				
 				if(hasPermission($config['mod']['move'], $board['uri'], $this->mod))
 					$built .= ' <a title="Move thread to another board" href="?/' . $board['uri'] . '/move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
+				
+				// Edit post
+				if(hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
+					$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 				
 				if(!empty($built))
 					$built = '<span class="controls op">' . $built . '</span>';

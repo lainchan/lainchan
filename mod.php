@@ -2106,6 +2106,99 @@
 			$page = buildThread($thread, true, $mod);
 			
 			echo $page;
+		} elseif(preg_match('/^\/' . $regex['board'] . 'edit\/(\d+)$/', $query, $matches)) {
+			// Edit post body
+			
+			$boardName = &$matches[1];
+			
+			// Open board
+			if(!openBoard($boardName))
+				error($config['error']['noboard']);
+			
+			if(!hasPermission($config['mod']['editpost'], $boardName)) error($config['error']['noaccess']);
+			
+			$postID = &$matches[2];
+			
+			$query = prepare(sprintf("SELECT `body_nomarkup`, `name`, `subject`, `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+			$query->bindValue(':id', $postID, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			$post = $query->fetch() or error($config['error']['invalidpost']);
+			
+			if(isset($_POST['submit']) && isset($_POST['body']) && isset($_POST['subject'])) {
+				if(mb_strlen($_POST['subject']) > 100)
+					error(sprintf($config['error']['toolong'], 'subject'));
+				
+				$body = $_POST['body'];
+				$body_nomarkup = $body;
+				
+				wordfilters($body);
+				$tracked_cites = markup($body, true);
+				
+				$query = prepare("DELETE FROM `cites` WHERE `board` = :board AND `post` = :post");
+				$query->bindValue(':board', $board['uri']);
+				$query->bindValue(':post', $postID, PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+			
+				$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = :body, `body_nomarkup` = :body_nomarkup, `subject` = :subject WHERE `id` = :id", $board['uri']));
+				$query->bindValue(':id', $postID, PDO::PARAM_INT);
+				$query->bindValue(':body', $body);
+				$query->bindValue(':body_nomarkup', $body_nomarkup);
+				$query->bindValue(':subject', utf8tohtml($_POST['subject']));
+				$query->execute() or error(db_error($query));
+				
+				if(isset($tracked_cites)) {
+					foreach($tracked_cites as $cite) {
+						$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+						$query->bindValue(':board', $board['uri']);
+						$query->bindValue(':post', $postID, PDO::PARAM_INT);
+						$query->bindValue(':target_board',$cite[0]);
+						$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
+					}
+				}
+		
+				// Record the action
+				modLog("Edited post #{$postID}");
+				
+				buildThread($post['thread'] ? $post['thread'] : $postID);
+				
+				// Rebuild board
+				buildIndex();
+			
+				// Redirect
+				header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+				exit;
+			}
+			
+			$body = '<form name="post" action="" method="post">' .
+					'<table>' .
+						'<tr>' .
+							'<th>Name</th>' .
+							'<td>' . utf8tohtml($post['name']) . '</td>' .
+						'</tr>' .
+						'<tr>' .
+							'<th>Subject</th>' .
+							'<td>' .
+								'<input style="float:left;" type="text" name="subject" size="25" maxlength="50" value="' . str_replace('"', '&quot;', $post['subject']) . '"/>' .
+								'<input style="margin-left:2px;" type="submit" name="submit" value="Edit Post"/>' .
+							'</td>' .
+						'</tr>' .
+						'<tr>' .
+							'<th>Body</th>' .
+							'<td>' .
+								'<textarea name="body" rows="8" cols="38">' .
+									utf8tohtml($post['body_nomarkup']) .
+								'</textarea>' .
+							'</td>' .
+						'</tr>' .
+					'</table>' .
+				'</form>';
+			
+			echo Element('page.html', Array(
+				'config' => $config,
+				'body' => $body,
+				'title' => 'Edit Post #' . $postID
+			));
 		} elseif(preg_match('/^\/' . $regex['board'] . 'deletefile\/(\d+)$/', $query, $matches)) {
 			// Delete file from post
 			
@@ -2127,7 +2220,6 @@
 			
 			// Rebuild board
 			buildIndex();
-			
 			
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
