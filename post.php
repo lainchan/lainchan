@@ -142,15 +142,6 @@
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	} elseif(isset($_POST['post'])) {
 		
-		if($config['field_disable_name'])
-			$_POST['name'] = $config['anonymous']; // "forced anonymous"
-		
-		if($config['field_disable_email'])
-			$_POST['email'] = '';
-		
-		if($config['field_disable_password'])
-			$_POST['password'] = '';
-		
 		if(	!isset($_POST['subject']) ||
 			!isset($_POST['body']) ||
 			!isset($_POST['board'])
@@ -250,31 +241,7 @@
 			}
 		}
 		
-		// Check for a file
-		if($OP && !isset($post['no_longer_require_an_image_for_op'])) {
-			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']) && $config['force_image_op'])
-				error($config['error']['noimage']);
-		}
-		
-		$post['name'] = !empty($_POST['name']) ? $_POST['name'] : $config['anonymous'];
-		$post['subject'] = $_POST['subject'];
-		$post['email'] = utf8tohtml($_POST['email']);
-		$post['body'] = $_POST['body'];
-		$post['password'] = $_POST['password'];
-		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name'])));
-		
-		$post['mod'] = isset($_POST['mod']) && $_POST['mod'];
-		if($post['has_file'])
-			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
-		
-		if(!($post['has_file'] || isset($post['embed'])) || (($OP && $config['force_body_op']) || (!$OP && $config['force_body']))) {
-			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
-			if(empty($stripped_whitespace )) {
-				error($config['error']['tooshort_body']);
-			}
-		}
-		
-		if($post['mod']) {
+		if($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
 			require 'inc/mod.php';
 			if(!$mod) {
 				// Liar. You're not a mod.
@@ -293,9 +260,43 @@
 				error($config['error']['noaccess']);
 		}
 		
+		if(!hasPermission($config['mod']['bypass_field_disable'], $board['uri'])) {
+			if($config['field_disable_name'])
+				$_POST['name'] = $config['anonymous']; // "forced anonymous"
+		
+			if($config['field_disable_email'])
+				$_POST['email'] = '';
+		
+			if($config['field_disable_password'])
+				$_POST['password'] = '';
+		}
+		
+		// Check for a file
+		if($OP && !isset($post['no_longer_require_an_image_for_op'])) {
+			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']) && $config['force_image_op'])
+				error($config['error']['noimage']);
+		}
+		
+		$post['name'] = !empty($_POST['name']) ? $_POST['name'] : $config['anonymous'];
+		$post['subject'] = $_POST['subject'];
+		$post['email'] = utf8tohtml($_POST['email']);
+		$post['body'] = $_POST['body'];
+		$post['password'] = $_POST['password'];
+		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name'])));
+		
+		if($post['has_file'])
+			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
+		
+		if(!($post['has_file'] || isset($post['embed'])) || (($OP && $config['force_body_op']) || (!$OP && $config['force_body']))) {
+			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
+			if(empty($stripped_whitespace )) {
+				error($config['error']['tooshort_body']);
+			}
+		}
+		
 		// Check if thread is locked
 		// but allow mods to post
-		if(!$OP && (!$mod || $mod['type'] < $config['mod']['postinlocked'])) {
+		if(!$OP && !hasPermission($config['mod']['postinlocked'], $board['uri'])) {
 			if($thread['locked'])
 				error($config['error']['locked']);
 		}
@@ -358,7 +359,7 @@
 			$post['tracked_cites'] = markup($post['body'], true);
 		
 		// Check for a flood
-		if(!($mod && $mod['type'] >= $config['mod']['flood']) && checkFlood($post)) {
+		if(!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
 			error($config['error']['flood']);
 		}
 		
@@ -560,7 +561,7 @@
 			));
 		}
 		
-		if(!($mod && $mod['type'] >= $config['mod']['postunoriginal']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
+		if(!hasPermission($config['mod']['postunoriginal'], $board['uri']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
 			undoImage($post);
 			if($config['robot_mute']) {
 				error(sprintf($config['error']['muted'], mute()));

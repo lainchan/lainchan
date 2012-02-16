@@ -4,7 +4,7 @@
 <input type="hidden" name="board" value="{{ board.uri }}" />
 {% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	<table>
-		{% if not config.field_disable_name %}<tr>
+		{% if not config.field_disable_name or post.mod|hasPermission(config.mod.bypass_field_disable, board.uri) %}<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
 			</th>
@@ -12,7 +12,7 @@
 				<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
 			</td>
 		</tr>{% endif %}
-		{% if not config.field_disable_email %}<tr>
+		{% if not config.field_disable_email or post.mod|hasPermission(config.mod.bypass_field_disable, board.uri) %}<tr>
 			<th>
 				{% trans %}Email{% endtrans %}
 			</th>
@@ -86,7 +86,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if not config.field_disable_password %}<tr>
+		{% if not config.field_disable_password or post.mod|hasPermission(config.mod.bypass_field_disable, board.uri) %}<tr>
 			<th>
 				{% trans %}Password{% endtrans %}
 			</th>

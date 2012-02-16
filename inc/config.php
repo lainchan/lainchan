@@ -832,6 +832,8 @@
 	$config['mod']['editpost'] = DISABLED;
 	// "Move" a thread to another board (EXPERIMENTAL; has some known bugs)
 	$config['mod']['move'] = DISABLED;
+	// Bypass "field_disable_*" (forced anonymity, etc.)
+	$config['mod']['bypass_field_disable'] = MOD;
 	// Post bypass unoriginal content check on robot-enabled boards
 	$config['mod']['postunoriginal'] = ADMIN;
 	// Bypass flood check
