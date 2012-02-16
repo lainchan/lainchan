@@ -2170,6 +2170,9 @@
 				exit;
 			}
 			
+			if($config['minify_html'])
+				$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+			
 			$body = '<form name="post" action="" method="post">' .
 					'<table>' .
 						'<tr>' .
