@@ -2170,6 +2170,8 @@
 				exit;
 			}
 			
+			$post['body_nomarkup'] = utf8tohtml($post['body_nomarkup']);
+			
 			if($config['minify_html'])
 				$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
 			
@@ -2190,7 +2192,7 @@
 							'<th>Body</th>' .
 							'<td>' .
 								'<textarea name="body" rows="8" cols="38">' .
-									utf8tohtml($post['body_nomarkup']) .
+									 . $post['body_nomarkup'] .
 								'</textarea>' .
 							'</td>' .
 						'</tr>' .
