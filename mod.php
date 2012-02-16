@@ -2192,7 +2192,7 @@
 							'<th>Body</th>' .
 							'<td>' .
 								'<textarea name="body" rows="8" cols="38">' .
-									 . $post['body_nomarkup'] .
+									 $post['body_nomarkup'] .
 								'</textarea>' .
 							'</td>' .
 						'</tr>' .
