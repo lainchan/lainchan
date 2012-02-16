@@ -404,6 +404,26 @@
 		return $ret;
 	}
 	
+	function hasPermission($action = null, $board = null, $_mod = null) {
+		global $config;
+		
+		if(isset($_mod))
+			$mod = &$_mod;
+		else
+			global $mod;
+		
+		if(isset($action) && $mod['type'] < $action)
+			return false;
+		
+		if(!isset($board))
+			return true;
+		
+		if(!$config['mod']['skip_per_board'] && !in_array('*', $mod['boards']) && !in_array($board, $mod['boards']))
+			return false;
+		
+		return true;
+	}
+	
 	function listBoards() {
 		global $config;
 		
