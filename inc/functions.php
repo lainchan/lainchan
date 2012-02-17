@@ -406,7 +406,7 @@
 	
 	function hasPermission($action = null, $board = null, $_mod = null) {
 		global $config;
-		
+			
 		if(isset($_mod))
 			$mod = &$_mod;
 		else
@@ -415,10 +415,13 @@
 		if(isset($action) && $mod['type'] < $action)
 			return false;
 		
-		if(!isset($board))
+		if(!isset($board) || $config['mod']['skip_per_board'])
 			return true;
 		
-		if(!$config['mod']['skip_per_board'] && !in_array('*', $mod['boards']) && !in_array($board, $mod['boards']))
+		if(!isest($mod['boards']))
+			return false;
+		
+		if(!in_array('*', $mod['boards']) && !in_array($board, $mod['boards']))
 			return false;
 		
 		return true;
