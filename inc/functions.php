@@ -418,7 +418,7 @@
 		if(!isset($board) || $config['mod']['skip_per_board'])
 			return true;
 		
-		if(!isest($mod['boards']))
+		if(!isset($mod['boards']))
 			return false;
 		
 		if(!in_array('*', $mod['boards']) && !in_array($board, $mod['boards']))
