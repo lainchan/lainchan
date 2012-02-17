@@ -43,14 +43,17 @@ function generatePassword() {
 }
 
 function dopost(form) {
-	localStorage.name = form.name.value.replace(/ ##.+$/, '');
-	if(form.email.value != 'sage')
-		localStorage.email = form.email.value;
+	if(form.elements['name']) {
+		localStorage.name = form.elements['name'].value.replace(/ ##.+$/, '');
+	}
+	if(form.elements['email'] && form.elements['email'].value != 'sage') {
+		localStorage.email = form.elements['email'].value;
+	}
 	
-	saved[document.location] = form.body.value;
+	saved[document.location] = form.elements['body'].value;
 	sessionStorage.body = JSON.stringify(saved);
 	
-	return form.body.value != "" || form.file.value != "";
+	return form.elements['body'].value != "" || form.elements['file'].value != "";
 }
 function citeReply(id) {
 	body = document.getElementById('body');
@@ -95,14 +98,16 @@ if(localStorage.stylesheet) {
 
 function rememberStuff() {
 	if(document.forms.post) {
-		if(!localStorage.password)
-			localStorage.password = generatePassword();
-		document.forms.post.password.value = localStorage.password;
+		if(document.forms.post.password) {
+			if(!localStorage.password)
+				localStorage.password = generatePassword();
+			document.forms.post.password.value = localStorage.password;
+		}
 		
-		if(localStorage.name)
-			document.forms.post.name.value = localStorage.name;
-		if(localStorage.email)
-			document.forms.post.email.value = localStorage.email;
+		if(localStorage.name && document.forms.post.elements['name'])
+			document.forms.post.elements['name'].value = localStorage.name;
+		if(localStorage.email && document.forms.post.elements['email'])
+			document.forms.post.elements['email'].value = localStorage.email;
 		
 		if (window.location.hash.indexOf('q') == 1)
 			citeReply(window.location.hash.substring(2));
