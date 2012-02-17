@@ -25,7 +25,7 @@
 		
 		$password = &$_POST['password'];
 		
-		if(empty($password))
+		if($password == '')
 			error($config['error']['invalidpassword']);
 		
 		$delete = Array();
@@ -53,7 +53,7 @@
 			$query->execute() or error(db_error($query));
 			
 			if($post = $query->fetch()) {
-				if(!empty($password) && $post['password'] != $password)
+				if($password != '' && $post['password'] != $password)
 					error($config['error']['invalidpassword']);
 				
 				if($post['time'] >= time() - $config['delete_time']) {
@@ -273,23 +273,23 @@
 		
 		// Check for a file
 		if($OP && !isset($post['no_longer_require_an_image_for_op'])) {
-			if(!isset($_FILES['file']['tmp_name']) || empty($_FILES['file']['tmp_name']) && $config['force_image_op'])
+			if(!isset($_FILES['file']['tmp_name']) || $_FILES['file']['tmp_name'] == '' && $config['force_image_op'])
 				error($config['error']['noimage']);
 		}
 		
-		$post['name'] = !empty($_POST['name']) ? $_POST['name'] : $config['anonymous'];
+		$post['name'] = $_POST['name'] != '' ? $_POST['name'] : $config['anonymous'];
 		$post['subject'] = $_POST['subject'];
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
 		$post['password'] = $_POST['password'];
-		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && !empty($_FILES['file']['tmp_name'])));
+		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
 		
 		if($post['has_file'])
 			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
 		
 		if(!($post['has_file'] || isset($post['embed'])) || (($OP && $config['force_body_op']) || (!$OP && $config['force_body']))) {
 			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
-			if(empty($stripped_whitespace )) {
+			if($stripped_whitespace == '') {
 				error($config['error']['tooshort_body']);
 			}
 		}
@@ -313,7 +313,7 @@
 		if($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
 			if(($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
 				$post['capcode'] = utf8tohtml($match[3]);
-				$post['name'] = !empty($match[2]) ? $match[2] : $config['anonymous'];
+				$post['name'] = $match[2] != '' ? $match[2] : $config['anonymous'];
 			}
 		} else {
 			$post['capcode'] = false;
