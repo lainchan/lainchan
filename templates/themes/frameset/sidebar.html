@@ -20,24 +20,21 @@
 			<li>
 				<a class="system" href="{{ settings.file_news }}">[News]</a>
 			</li>
-			<li>
-				<a class="system" href="javascript:parent.removeFrames()">[Remove Frames]</a>
-			</li>
 		</ul>
 	</fieldset>
 	
-	{% for category, boards in config.categories %}
+	{% for category, boards in categories %}
 		<fieldset>
 			<legend>
 				{{ category }}
 			</legend>
 			{% for board in boards %}
 				<li>
-					{{ board }}
+					<a href="{{ board.uri }}">{{ board.title }}</a>
 				</li>
-			{% endif %}
+			{% endfor %}
 		</fieldset>
-	{% endif %}
+	{% endfor %}
 	
 	{% for category, links in config.custom_categories %}
 		<fieldset>
@@ -48,9 +45,9 @@
 				<li>
 					<a href="{{ uri }}">{{ title }}</a>
 				</li>
-			{% endif %}
+			{% endfor %}
 		</fieldset>
-	{% endif %}
+	{% endfor %}
 </body>
 </html>
 {% endfilter %}
