@@ -2024,11 +2024,11 @@
 					error(sprintf($config['error']['required'], 'title'));
 				
 				// Check string lengths
-				if(mb_strlen($b['uri']) > 8)
+				if(mb_strlen($b['uri']) > 15)
 					error(sprintf($config['error']['toolong'], 'URI'));
-				if(mb_strlen($b['title']) > 20)
+				if(strlen($b['title']) > 40)
 					error(sprintf($config['error']['toolong'], 'title'));
-				if(mb_strlen($b['subtitle']) > 40)
+				if(strlen($b['subtitle']) > 120)
 					error(sprintf($config['error']['toolong'], 'subtitle'));
 				
 				if(!preg_match('/^\w+$/', $b['uri']))
