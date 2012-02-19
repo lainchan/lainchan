@@ -34,6 +34,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	{
 		return Array(
 			'time' => new Twig_Filter_Function('time', array('needs_environment' => false)),
+			'timezone' => new Twig_Filter_Function('twig_timezone_function', array('needs_environment' => false)),
 			'createHiddenInputs' => new Twig_Filter_Function('createHiddenInputs', array('needs_environment' => false))
 		);
 	}
@@ -47,6 +48,11 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	{
 		return 'tinyboard';
 	}
+}
+
+function twig_timezone_function() {
+	// there's probably a much easier way of doing this
+	return sprintf("%s%02d", ($hr = (int)floor(($tz = date('Z')) / 3600)) > 0 ? '+' : '-', abs($hr)) . ':' . sprintf("%02d", (($tz / 3600) - $hr) * 60);
 }
 
 function twig_remove_whitespace_filter($data) {
