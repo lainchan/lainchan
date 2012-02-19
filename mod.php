@@ -1590,7 +1590,11 @@
 				$query->bindValue(':board', $board['uri']);
 				$query->execute() or error(db_error($query));
 				
+				$_board = $board;
+				
 				rebuildThemes('boards');
+				
+				$board = $_board;
 				
 				header('Location: ?/', true, $config['redirect_http']);
 			} else {
@@ -1611,7 +1615,11 @@
 						cache::delete('all_boards');
 					}
 					
+					$_board = $board;
+					
 					rebuildThemes('boards');
+					
+					$board = $_board;
 					
 					openBoard($board['uri']);
 				}
