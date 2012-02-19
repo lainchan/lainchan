@@ -226,7 +226,6 @@ function init() {
 		highlightReply(window.location.hash.substring(1));
 	
 	{% endraw %}{% if config.inline_expanding %}{% raw %}init_expanding();{% endraw %}{% endif %}{% raw %}
-	{% endraw %}{% if config.javascript_local_time %}{% raw %}init_localtime();{% endraw %}{% endif %}{% raw %}
 }
 
 var RecaptchaOptions = {

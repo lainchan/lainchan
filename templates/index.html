@@ -40,6 +40,11 @@
 	<input type="hidden" name="board" value="{{ board.uri }}" />
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	{{ body }}
+	
+	{% if config.javascript_local_time %}
+	<script>{% raw %}init_localtime();{% endraw %}</script>
+	{% endif %}
+	
 	<div class="delete">
 		{% trans %}Delete Post{% endtrans %} [<input title="Delete file only" type="checkbox" name="file" id="delete_file" />
 		 <label for="delete_file">{% trans %}File{% endtrans %}</label>] <label for="password">{% trans %}Password{% endtrans %}</label> 
