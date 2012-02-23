@@ -97,7 +97,7 @@
 		<img class="icon" title="Locked" src="{{ config.image_locked }}" alt="Locked" />
 	{% endif %}
 	{% if post.bumplocked and (config.mod.view_bumplock < 0 or (post.mod and post.mod|hasPermission(config.mod.view_bumplock, board.uri))) %}
-		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Locked" />
+		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Bumplocked" />
 	{% endif %}
 	{% if index %}
 		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>
