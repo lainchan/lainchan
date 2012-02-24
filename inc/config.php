@@ -67,10 +67,9 @@
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
 	$config['tmp'] = '/tmp';
 	
-	// The HTTP status code to use when redirecting.
-	// Should be 3xx (redirection). http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-	// "302" is strongly recommended. (This shouldn't even be configurable... It's not like it's going to change or anything.)
-	$config['redirect_http'] = 302;
+	// The HTTP status code to use when redirecting. http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+	// Can be either 303 "See Other" or 302 "Found". (303 is more correct but both should work.)
+	$config['redirect_http'] = 303;
 	
 	// A small file in the main directory indicating that the script has been ran and the board(s) have been generated.
 	// This keeps the script from querying the database and causing strain when not needed.
