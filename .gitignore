@@ -2,13 +2,16 @@
 *.html
 
 # instance-config
-inc/instance-config.php
+/inc/instance-config.php
 
 # .installed
-.installed
+/.installed
 
 # script file
-main.js
+/main.js
+
+# templates cache
+/templates/cache
 
 # other stuff
 .DS_Store?
