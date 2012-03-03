@@ -23,18 +23,31 @@
 		</ul>
 	</fieldset>
 	
-	<fieldset>
-		<legend>Boards</legend>
-		<ul>
+	{% for category, boards in categories %}
+		<fieldset>
+			<legend>
+				{{ category }}
+			</legend>
 			{% for board in boards %}
 				<li>
-					<a href="{{ config.board_path|sprintf(board.uri) }}">
-						{{ board.title }}
-					</a>
+					<a href="{{ board.uri }}">{{ board.title }}</a>
 				</li>
 			{% endfor %}
-		</ul>
-	</fieldset>
+		</fieldset>
+	{% endfor %}
+	
+	{% for category, links in config.custom_categories %}
+		<fieldset>
+			<legend>
+				{{ category }}
+			</legend>
+			{% for title, uri in links %}
+				<li>
+					<a href="{{ uri }}">{{ title }}</a>
+				</li>
+			{% endfor %}
+		</fieldset>
+	{% endfor %}
 </body>
 </html>
 {% endfilter %}
