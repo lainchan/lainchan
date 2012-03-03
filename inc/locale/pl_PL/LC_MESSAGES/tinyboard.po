@@ -1,0 +1,367 @@
+# Polish Tinyboard Translation
+# Copyright (C) 2011 Marcin Łabanowski
+# Ten plik jest wydany na takiej samej licencji co paczka PACKAGE.
+# Marcin Łabanowski (2011) <marcin@6irc.net>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.9.5+piwnichan\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-03 09:44+0100\n"
+"PO-Revision-Date: 2012-03-03 10:21+0100\n"
+"Last-Translator: Marcin \"czaks\" Łabanowski <marcin@6irc.net>\n"
+"Language-Team: POLISH <pl@li.org>\n"
+"Language: Polish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /var/www/html/Tinyboard/inc/functions.php:918
+#: /var/www/html/Tinyboard/inc/functions.php:932
+msgid "Previous"
+msgstr "Wstecz"
+
+#: /var/www/html/Tinyboard/inc/functions.php:937
+#: /var/www/html/Tinyboard/inc/functions.php:946
+msgid "Next"
+msgstr "Dalej"
+
+#: /var/www/html/Tinyboard/inc/mod.php:129
+msgid "Create new board"
+msgstr "Stwórz nowy board"
+
+#: /var/www/html/Tinyboard/inc/mod.php:138
+#: /var/www/html/Tinyboard/mod.php:1723 /var/www/html/Tinyboard/mod.php:2918
+msgid "all boards"
+msgstr "wszystkie boardy"
+
+#: /var/www/html/Tinyboard/inc/display.php:97
+msgid "Login"
+msgstr "Logowanie"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:48
+#: /var/www/html/Tinyboard/mod.php:557 /var/www/html/Tinyboard/mod.php:640
+#: /var/www/html/Tinyboard/mod.php:723
+msgid "Name"
+msgstr "Nazwa"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:62
+msgid "Email"
+msgstr "E-mail"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:96
+#: /var/www/html/Tinyboard/mod.php:643 /var/www/html/Tinyboard/mod.php:729
+msgid "Subject"
+msgstr "Temat"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:110
+msgid "Spoiler Image"
+msgstr "Spoiler obrazek"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:119
+msgid "Comment"
+msgstr "Komentarz"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:133
+msgid "Verification"
+msgstr "Weryfikacja"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:149
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:197
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:203
+msgid "File"
+msgstr "Plik"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:163
+msgid "Embed"
+msgstr "Osadź"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:179
+msgid "Flags"
+msgstr "Flagi"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:188
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:191
+msgid "Sticky"
+msgstr "Przyklejony"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:200
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:203
+msgid "Lock"
+msgstr "Zablokowany"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:212
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:215
+msgid "Raw HTML"
+msgstr "Czysty HTML"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:230
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:198
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:204
+msgid "Password"
+msgstr "Hasło"
+
+#: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:236
+msgid "(For file deletion.)"
+msgstr "(do usuwania postów)"
+
+#: /var/www/html/Tinyboard/templates/cache/96/13/d13c7abb8d82989e547dc9be1787.php:420
+msgid "Expand"
+msgstr "Rozwiń"
+
+#: /var/www/html/Tinyboard/templates/cache/96/13/d13c7abb8d82989e547dc9be1787.php:430
+#: /var/www/html/Tinyboard/templates/cache/96/13/d13c7abb8d82989e547dc9be1787.php:466
+msgid "Quick"
+msgstr "Szybka"
+
+#: /var/www/html/Tinyboard/templates/cache/96/13/d13c7abb8d82989e547dc9be1787.php:457
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: /var/www/html/Tinyboard/templates/cache/96/13/d13c7abb8d82989e547dc9be1787.php:476
+msgid "Reply"
+msgstr "Odpowiedź"
+
+#: /var/www/html/Tinyboard/templates/cache/c9/45/de4b7a1b91ef4b1ce35c7a930347.php:82
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:144
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:144
+msgid "Return to dashboard"
+msgstr "Powróć na tablicę"
+
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:194
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:200
+msgid "Delete Post"
+msgstr "Usuń post"
+
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:202
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:208
+msgid "Delete"
+msgstr "Usuń"
+
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:207
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:213
+#: /var/www/html/Tinyboard/mod.php:1691
+msgid "Reason"
+msgstr "Powód"
+
+#: /var/www/html/Tinyboard/templates/cache/56/25/feb68d2e52b15e0d38ae0093f0f4.php:211
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:217
+msgid "Report"
+msgstr "Zgłoszenie"
+
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:150
+msgid "Posting mode: Reply"
+msgstr "Tryb postowania: Odpowiedź"
+
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:153
+#: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:224
+msgid "Return"
+msgstr "Powrót"
+
+#: /var/www/html/Tinyboard/mod.php:104 /var/www/html/Tinyboard/mod.php:666
+#: /var/www/html/Tinyboard/mod.php:752
+msgid "no subject"
+msgstr "brak tematu"
+
+#: /var/www/html/Tinyboard/mod.php:121
+msgid "View all entries"
+msgstr "Zobacz wszystkie wpisy"
+
+#: /var/www/html/Tinyboard/mod.php:129 /var/www/html/Tinyboard/mod.php:813
+msgid "PM Inbox"
+msgstr "Wiadomości prywatne"
+
+#: /var/www/html/Tinyboard/mod.php:136 /var/www/html/Tinyboard/mod.php:764
+msgid "News"
+msgstr "Aktualności"
+
+#: /var/www/html/Tinyboard/mod.php:141 /var/www/html/Tinyboard/mod.php:1504
+msgid "Report queue"
+msgstr "Kolejna zgłoszeń"
+
+#: /var/www/html/Tinyboard/mod.php:144 /var/www/html/Tinyboard/mod.php:1772
+msgid "Ban list"
+msgstr "Lista banów"
+
+#: /var/www/html/Tinyboard/mod.php:147 /var/www/html/Tinyboard/mod.php:1178
+msgid "Manage users"
+msgstr "Zarządzaj użytkownikami"
+
+#: /var/www/html/Tinyboard/mod.php:149
+msgid "Change own password"
+msgstr "Zmień swoje hasło"
+
+#: /var/www/html/Tinyboard/mod.php:152 /var/www/html/Tinyboard/mod.php:367
+msgid "Moderation log"
+msgstr "Log moderacji"
+
+#: /var/www/html/Tinyboard/mod.php:155
+msgid "Rebuild static files"
+msgstr "Przebuduj pliki statyczne"
+
+#: /var/www/html/Tinyboard/mod.php:158
+msgid "Clear cache"
+msgstr "Wyczyść pamięć podręczną"
+
+#: /var/www/html/Tinyboard/mod.php:161
+msgid "Show configuration"
+msgstr "Pokaż konfigurację"
+
+#: /var/www/html/Tinyboard/mod.php:165 /var/www/html/Tinyboard/mod.php:599
+msgid "Manage themes"
+msgstr "Zarządzaj dodatkami"
+
+#: /var/www/html/Tinyboard/mod.php:170
+msgid "Phrase:"
+msgstr "Wyrażenie:"
+
+#: /var/www/html/Tinyboard/mod.php:172
+msgid "Search"
+msgstr "Szukaj"
+
+#: /var/www/html/Tinyboard/mod.php:174
+msgid ""
+"(Search is case-insensitive, and based on keywords. To match exact phrases, "
+"use \"quotes\". Use an asterisk (*) for wildcard.)"
+msgstr ""
+"(Szukanie jest niezależne od wielkości znaków i jest bazowane na słowach "
+"kluczowych. Aby dopasować dokładne frazy użyj \"cudzysłowi\". Używaj "
+"gwiazdki (*) jako znak wieloznaczny."
+
+#: /var/www/html/Tinyboard/mod.php:233
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: /var/www/html/Tinyboard/mod.php:245
+msgid "Dashboard"
+msgstr "Tablica"
+
+#: /var/www/html/Tinyboard/mod.php:292
+msgid "User"
+msgstr "Użytkownik"
+
+#: /var/www/html/Tinyboard/mod.php:293 /var/www/html/Tinyboard/mod.php:1691
+msgid "IP address"
+msgstr "Adres IP"
+
+#: /var/www/html/Tinyboard/mod.php:294
+msgid "Ago"
+msgstr "temu"
+
+#: /var/www/html/Tinyboard/mod.php:295 /var/www/html/Tinyboard/mod.php:1691
+msgid "Board"
+msgstr "Board"
+
+#: /var/www/html/Tinyboard/mod.php:296
+msgid "Action"
+msgstr "Akcja"
+
+#: /var/www/html/Tinyboard/mod.php:561
+msgid "Version"
+msgstr "Wersja"
+
+#: /var/www/html/Tinyboard/mod.php:565
+msgid "Description"
+msgstr "Opis"
+
+#: /var/www/html/Tinyboard/mod.php:569
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: /var/www/html/Tinyboard/mod.php:577
+msgid "Actions"
+msgstr "Akcje"
+
+#: /var/www/html/Tinyboard/mod.php:579
+msgid "Use theme"
+msgstr "Użyj dodatku"
+
+#: /var/www/html/Tinyboard/mod.php:580
+msgid "Reconfigure"
+msgstr "Rekonfiguruj"
+
+#: /var/www/html/Tinyboard/mod.php:580
+msgid "Install"
+msgstr "Instaluj"
+
+#: /var/www/html/Tinyboard/mod.php:583
+msgid "Rebuild"
+msgstr "Przebuduj"
+
+#: /var/www/html/Tinyboard/mod.php:584
+msgid "Uninstall"
+msgstr "Odinstaluj"
+
+#: /var/www/html/Tinyboard/mod.php:595
+msgid "Uninstall all themes."
+msgstr "Odinstaluj wszystkie dodatki"
+
+#: /var/www/html/Tinyboard/mod.php:646 /var/www/html/Tinyboard/mod.php:732
+msgid "Body"
+msgstr "Zawartość"
+
+#: /var/www/html/Tinyboard/mod.php:649
+msgid "Post to noticeboard"
+msgstr "Postuj na tablicy ogłoszeń"
+
+#: /var/www/html/Tinyboard/mod.php:682
+msgid "Noticeboard"
+msgstr "Tablica ogłoszeń"
+
+#: /var/www/html/Tinyboard/mod.php:735
+msgid "Post to news"
+msgstr "Postuj do aktualności"
+
+#: /var/www/html/Tinyboard/mod.php:783
+msgid "No private messages for you."
+msgstr "Brak prywatnych wiadomości dla ciebie."
+
+#: /var/www/html/Tinyboard/mod.php:813
+msgid "empty"
+msgstr "puste"
+
+#: /var/www/html/Tinyboard/mod.php:813
+msgid "unread"
+msgstr "nieprzeczytane"
+
+#: /var/www/html/Tinyboard/mod.php:1111
+msgid "ID"
+msgstr "ID"
+
+#: /var/www/html/Tinyboard/mod.php:1111
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: /var/www/html/Tinyboard/mod.php:1111
+msgid "Type"
+msgstr "Typ"
+
+#: /var/www/html/Tinyboard/mod.php:1111
+msgid "Boards"
+msgstr "Boardy"
+
+#: /var/www/html/Tinyboard/mod.php:1111
+msgid "Last action"
+msgstr "Ostatnia akcja"
+
+#: /var/www/html/Tinyboard/mod.php:1171
+msgid "Create new user"
+msgstr "Stwórz nowego użytkownika"
+
+#: /var/www/html/Tinyboard/mod.php:1691
+msgid "Set"
+msgstr "Ustawione"
+
+#: /var/www/html/Tinyboard/mod.php:1691
+msgid "Expires"
+msgstr "Wygasa"
+
+#: /var/www/html/Tinyboard/mod.php:1691
+msgid "Staff"
+msgstr "Ekipa"
+
+#: /var/www/html/Tinyboard/mod.php:1848 /var/www/html/Tinyboard/mod.php:1939
+#: /var/www/html/Tinyboard/mod.php:1988 /var/www/html/Tinyboard/mod.php:1992
+msgid "Configuration"
+msgstr "Konfiguracja"
