@@ -177,7 +177,7 @@
 			
 			if($mod['type'] >= ADMIN && $config['check_updates']) {
 				if(!$config['version'])
-					error('Could not find current version! (Check .installed)');
+					error(_('Could not find current version! (Check .installed)'));
 				if(isset($_COOKIE['update'])) {
 					$latest = unserialize($_COOKIE['update']);
 				} else {
@@ -525,9 +525,9 @@
 			if(!hasPermission($config['mod']['themes'])) error($config['error']['noaccess']);
 			
 			if(!is_dir($config['dir']['themes']))
-				error('Themes directory doesn\'t exist!');
+				error(_('Themes directory doesn\'t exist!'));
 			if(!$dir = opendir($config['dir']['themes']))
-				error('Cannot open themes directory; check permissions.');
+				error(_('Cannot open themes directory; check permissions.'));
 			
 			if(isset($match[2])) {
 				$_theme = &$match[2];
@@ -1459,7 +1459,7 @@
 						// Changed own password. Update cookies
 						
 						if(!login($_mod['username'], $_mod['password'], false, true))
-							error('Could not re-login after changing password. (?)');
+							error(_('Could not re-login after changing password. (?)'));
 						
 						setCookies();
 					}
@@ -1886,7 +1886,7 @@
 		);
 		} elseif(preg_match('/^\/flush$/', $query)) {
 			if(!hasPermission($config['mod']['rebuild'])) error($config['error']['noaccess']);
-			if(!$config['cache']['enabled']) error('Cache is not enabled.');
+			if(!$config['cache']['enabled']) error(_('Cache is not enabled.'));
 			
 			if(cache::flush()) {
 				$body = 'Successfully invalidated all items in cache.';
@@ -2171,7 +2171,7 @@
 				modLog("Created a new board: {$b['title']}");
 				
 				// Open the board
-				openBoard($b['uri']) or error("Couldn't open board after creation.");
+				openBoard($b['uri']) or error(_("Couldn't open board after creation."));
 				
 				// Create the posts table
 				query(Element('posts.sql', Array('board' => $board['uri']))) or error(db_error());
@@ -2675,7 +2675,7 @@
 				$shadow = isset($_POST['shadow']);
 				
 				if($targetBoard == $boardName)
-					error("Target and source board are the same.");
+					error(_("Target and source board are the same."));
 				
 				// copy() if leaving a shadow thread behind. otherwise, rename().
 				$clone = $shadow ? 'copy' : 'rename';
@@ -2792,7 +2792,7 @@
 			
 				$boards = listBoards();
 				if(count($boards) <= 1)
-					error('No board to move to; there is only one.');
+					error(_('No board to move to; there is only one.'));
 				
 				$__boards = '';
 				foreach($boards as &$_board) {
