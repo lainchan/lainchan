@@ -1,18 +1,18 @@
 {% filter remove_whitespace %}
 {# Automatically removes unnecessary whitespace #}
 <div class="ban">
-	<h2>You are banned! ;_;</h2>
+	<h2>{% trans %}You are banned! ;_;{% endtrans %}</h2>
 	<p>
-		You have been banned from
+		{% trans %}You have been banned from
 			{% if ban.uri %}
 				 <strong>{{ config.board_abbreviation|sprintf(ban.uri) }}</strong>
 			{% else %}
-				 all boards
+				 {% trans %}all boards{% endtrans %}
 			{% endif %}
 			{% if ban.reason %}
-				 for the following reason:
+				 {% trans %}for the following reason:{% endtrans %}
 			{% else %}
-				 for an unspecified reason.
+				 {% trans %}for an unspecified reason.{% endtrans %}
 			{% endif %}
 	</p>
 	{% if ban.reason %}
@@ -21,10 +21,10 @@
 		</p>
 	{% endif %}
 	<p>
-		Your ban was filed on 
-			<strong>{{ ban.set|date(config.ban_date) }}</strong> and <span id="expires">
+		{% trans %}Your ban was filed on{% endtrans %} 
+			<strong>{{ ban.set|date(config.ban_date) }}</strong> {% trans %}and{% endtrans %} <span id="expires">
 		{% if ban.expires %}
-			expires <span id="countdown">{{ ban.expires|until }}</span> from now, which is on 
+			{% trans %}expires{% endtrans %} <span id="countdown">{{ ban.expires|until }}</span> {% trans %}from now, which is on{% endtrans %} 
 			<strong>
 				{{ ban.expires|date(config.ban_date) }}
 			</strong>
@@ -38,7 +38,7 @@
 					var now = new Date().getTime();
 					var diff = Math.round((end - now) / 1000);
 					if (diff < 0) {
-						document.getElementById("expires").innerHTML = "has since expired. Refresh the page to continue.";
+						document.getElementById("expires").innerHTML = "{% trans %}has since expired. Refresh the page to continue.{% endtrans %}";
 						clearInterval(int);
 						return "";
 					} else if (diff < 60) {
@@ -61,10 +61,10 @@
 				var int = setInterval(updateExpiresTime, 1000);
 			</script>
 		{% else %}
-			<em>will not expire</em>.
+			<em>{% trans %}will not expire{% endtrans %}</em>.
 		{% endif %}
 		</span>
 	</p>
-	<p>Your IP address is <strong>{{ ban.ip }}</strong>.</p>
+	<p>{% trans %}Your IP address is{% endtrans %} <strong>{{ ban.ip }}</strong>.</p>
 </div>
 {% endfilter %}
