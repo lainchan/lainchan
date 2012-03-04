@@ -451,7 +451,7 @@
  * ====================
  */
  	
- 	// Locale (en, ru_RU)
+ 	// Locale (en, ru_RU.UTF-8, fi_FI.UTF-8, pl_PL.UTF-8)
  	$config['locale'] = 'en';
  	
  	// Timezone
@@ -584,57 +584,57 @@
  */
  
 	// Error messages
-	$config['error']['lurk']		= 'Lurk some more before posting.';
-	$config['error']['bot']			= 'You look like a bot.';
-	$config['error']['referer']		= 'Your browser sent an invalid or no HTTP referer.';
-	$config['error']['toolong']		= 'The %s field was too long.';
-	$config['error']['toolong_body']	= 'The body was too long.';
-	$config['error']['tooshort_body']	= 'The body was too short or empty.';
-	$config['error']['noimage']		= 'You must upload an image.';
-	$config['error']['nomove']		= 'The server failed to handle your upload.';
-	$config['error']['fileext']		= 'Unsupported image format.';
-	$config['error']['noboard']		= 'Invalid board!';
-	$config['error']['nonexistant']		= 'Thread specified does not exist.';
-	$config['error']['locked']		= 'Thread locked. You may not reply at this time.';
-	$config['error']['nopost']		= 'You didn\'t make a post.';
-	$config['error']['flood']		= 'Flood detected; Post discarded.';
-	$config['error']['spam']		= 'Your request looks automated; Post discarded.';
-	$config['error']['unoriginal']		= 'Unoriginal content!';
-	$config['error']['muted']		= 'Unoriginal content! You have been muted for %d seconds.';
-	$config['error']['youaremuted']		= 'You are muted! Expires in %d seconds.';
-	$config['error']['dnsbl']		= 'Your IP address is listed in %s.';
-	$config['error']['toomanylinks']	= 'Too many links; flood detected.';
-	$config['error']['toomanycites']	= 'Too many cites; post discarded.';
-	$config['error']['toomanycross']	= 'Too many cross-board links; post discarded.';
-	$config['error']['nodelete']		= 'You didn\'t select anything to delete.';
-	$config['error']['noreport']		= 'You didn\'t select anything to report.';
-	$config['error']['toomanyreports']	= 'You can\'t report that many posts at once.';
-	$config['error']['invalidpassword']	= 'Wrong password…';
-	$config['error']['invalidimg']		= 'Invalid image.';
-	$config['error']['unknownext']		= 'Unknown file extension.';
-	$config['error']['filesize']		= 'Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes';
-	$config['error']['maxsize']		= 'The file was too big.';
-	$config['error']['invalidzip']		= 'Invalid archive!';
-	$config['error']['fileexists']		= 'That file <a href="%s">already exists</a>!';
-	$config['error']['delete_too_soon']	= 'You\'ll have to wait another %s before deleting that.';
-	$config['error']['mime_exploit']	= 'MIME type detection XSS exploit (IE) detected; post discarded.';
-	$config['error']['invalid_embed']	= 'Couldn\'t make sense of the URL of the video you tried to embed.';
-	$config['error']['captcha']		= 'You seem to have mistyped the verification.';
+	$config['error']['lurk']		= _('Lurk some more before posting.');
+	$config['error']['bot']			= _('You look like a bot.');
+	$config['error']['referer']		= _('Your browser sent an invalid or no HTTP referer.');
+	$config['error']['toolong']		= _('The %s field was too long.');
+	$config['error']['toolong_body']	= _('The body was too long.');
+	$config['error']['tooshort_body']	= _('The body was too short or empty.');
+	$config['error']['noimage']		= _('You must upload an image.');
+	$config['error']['nomove']		= _('The server failed to handle your upload.');
+	$config['error']['fileext']		= _('Unsupported image format.');
+	$config['error']['noboard']		= _('Invalid board!');
+	$config['error']['nonexistant']		= _('Thread specified does not exist.');
+	$config['error']['locked']		= _('Thread locked. You may not reply at this time.');
+	$config['error']['nopost']		= _('You didn\'t make a post.');
+	$config['error']['flood']		= _('Flood detected; Post discarded.');
+	$config['error']['spam']		= _('Your request looks automated; Post discarded.');
+	$config['error']['unoriginal']		= _('Unoriginal content!');
+	$config['error']['muted']		= _('Unoriginal content! You have been muted for %d seconds.');
+	$config['error']['youaremuted']		= _('You are muted! Expires in %d seconds.');
+	$config['error']['dnsbl']		= _('Your IP address is listed in %s.');
+	$config['error']['toomanylinks']	= _('Too many links; flood detected.');
+	$config['error']['toomanycites']	= _('Too many cites; post discarded.');
+	$config['error']['toomanycross']	= _('Too many cross-board links; post discarded.');
+	$config['error']['nodelete']		= _('You didn\'t select anything to delete.');
+	$config['error']['noreport']		= _('You didn\'t select anything to report.');
+	$config['error']['toomanyreports']	= _('You can\'t report that many posts at once.');
+	$config['error']['invalidpassword']	= _('Wrong password…');
+	$config['error']['invalidimg']		= _('Invalid image.');
+	$config['error']['unknownext']		= _('Unknown file extension.');
+	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
+	$config['error']['maxsize']		= _('The file was too big.');
+	$config['error']['invalidzip']		= _('Invalid archive!');
+	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
+	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
+	$config['error']['mime_exploit']	= _('MIME type detection XSS exploit (IE) detected; post discarded.');
+	$config['error']['invalid_embed']	= _('Couldn\'t make sense of the URL of the video you tried to embed.');
+	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
 	
 	// Moderator errors
-	$config['error']['invalid']		= 'Invalid username and/or password.';
-	$config['error']['notamod']		= 'You are not a mod…';
-	$config['error']['invalidafter']	= 'Invalid username and/or password. Your user may have been deleted or changed.';
-	$config['error']['malformed']		= 'Invalid/malformed cookies.';
-	$config['error']['missedafield']	= 'Your browser didn\'t submit an input when it should have.';
-	$config['error']['required']		= 'The %s field is required.';
-	$config['error']['invalidfield']	= 'The %s field was invalid.';
-	$config['error']['boardexists']		= 'There is already a %s board.';
-	$config['error']['noaccess']		= 'You don\'t have permission to do that.';
-	$config['error']['invalidpost']		= 'That post doesn\'t exist…';
-	$config['error']['404']			= 'Page not found.';
-	$config['error']['modexists']		= 'That mod <a href="?/users/%d">already exists</a>!';
-	$config['error']['invalidtheme']	= 'That theme doesn\'t exist!';
+	$config['error']['invalid']		= _('Invalid username and/or password.');
+	$config['error']['notamod']		= _('You are not a mod…');
+	$config['error']['invalidafter']	= _('Invalid username and/or password. Your user may have been deleted or changed.');
+	$config['error']['malformed']		= _('Invalid/malformed cookies.');
+	$config['error']['missedafield']	= _('Your browser didn\'t submit an input when it should have.');
+	$config['error']['required']		= _('The %s field is required.');
+	$config['error']['invalidfield']	= _('The %s field was invalid.');
+	$config['error']['boardexists']		= _('There is already a %s board.');
+	$config['error']['noaccess']		= _('You don\'t have permission to do that.');
+	$config['error']['invalidpost']		= _('That post doesn\'t exist…');
+	$config['error']['404']			= _('Page not found.');
+	$config['error']['modexists']		= _('That mod <a href="?/users/%d">already exists</a>!');
+	$config['error']['invalidtheme']	= _('That theme doesn\'t exist!');
 
 /*
  * =========================
