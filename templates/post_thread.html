@@ -10,10 +10,10 @@
 {% elseif post.file == 'deleted' %}
 	<img src="{{ config.image_deleted }}" alt="" />
 {% elseif post.file and post.file %}
-	<p class="fileinfo">File: <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
+	<p class="fileinfo">{% trans %}File:{% endtrans %} <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
 	(
 		{% if post.thumb == 'spoiler' %}
-			Spoiler Image, 
+			{% trans %}Spoiler Image{% endtrans %}, 
 		{% endif %}
 		{{ post.filesize|filesize }}
 		{% if post.filex and post.filey %}
@@ -110,22 +110,22 @@
 	{% if post.omitted or post.omitted_images %}
 		<span class="omitted">
 			{% if post.omitted %}
-				{{ post.omitted }} post
-				{% if post.omitted != 1 %}
-					s
-				{% endif %}
+				{% trans %}
+					1 post
+				{% plural post.omitted %}
+					{{ count }} posts
+				{% endtrans %}
 				{% if post.omitted_images %}
-					 and 
+					 {% trans %}and{% endtrans %} 
 				{% endif %}
 			{% endif %}
 			{% if post.omitted_images %}
-				{{ post.omitted_images }} image repl
-				{% if post.omitted_images == 1 %}
-					y
-				{% else %}
-					ies
-				{% endif %}
-			{% endif %} omitted. Click reply to view.
+				{% trans %}
+					1 image reply
+				{% plural post.omitted_images %}
+					{{ count }} image replies
+				{% endtrans %}
+			{% endif %} {% trans %}omitted. Click reply to view.{% endtrans %}
 		</span>
 	{% endif %}
 {% if not index %}
