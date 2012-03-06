@@ -215,6 +215,7 @@ span.omitted {
 }
 br.clear {
 	clear: left;
+	display: block;
 }
 span.controls {
 	float: right;
