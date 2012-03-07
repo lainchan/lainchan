@@ -1477,7 +1477,7 @@
 	}
 
 	function utf8tohtml($utf8) {
-		return mb_encode_numericentity(htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8'), Array(0xff, 0xffff, 0, 0xffff), 'UTF-8');
+		return mb_encode_numericentity(htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8'), Array(0x80, 0xffff, 0, 0xffff), 'UTF-8');
 	}
 
 	function buildThread($id, $return=false, $mod=false) {
