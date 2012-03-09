@@ -3,7 +3,7 @@
 <div class="ban">
 	<h2>{% trans %}You are banned! ;_;{% endtrans %}</h2>
 	<p>
-		{% trans %}You have been banned from
+		{% trans %}You have been banned from{% endtrans %}
 			{% if ban.uri %}
 				 <strong>{{ config.board_abbreviation|sprintf(ban.uri) }}</strong>
 			{% else %}
@@ -68,3 +68,4 @@
 	<p>{% trans %}Your IP address is{% endtrans %} <strong>{{ ban.ip }}</strong>.</p>
 </div>
 {% endfilter %}
+
