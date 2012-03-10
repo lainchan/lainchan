@@ -177,7 +177,7 @@
 				$this->image->setFormat('gif');
 				
 				$keep_frames = Array();
-				for($i = 1; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
+				for($i = 0; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
 					$keep_frames[] = $i;
 				
 				$i = 0;
