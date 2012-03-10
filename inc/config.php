@@ -411,9 +411,6 @@
 	// WARNING: Currently strips animated GIFs too
 	$config['redraw_image'] = false;
 	
-	// Redrawing configuration
-	$config['jpeg_quality']	= 100;
-	
 /*
  * ====================
  *  Board settings
