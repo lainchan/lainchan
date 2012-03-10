@@ -69,6 +69,10 @@
 			return $thumb;
 		}
 		
+		public function to($dst) {
+			$this->image->to($dst);
+		}
+		
 		public function delete() {
 			file_unlink($this->src);
 		}

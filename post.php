@@ -454,6 +454,9 @@
 			// Move the uploaded file
 			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
+			$post['filehash'] = $config['file_hash']($post['file']);
+			$post['filesize'] = filesize($post['file']);
+			
 			if($is_an_image) {
 				// Check IE MIME type detection XSS exploit
 				$buffer = file_get_contents($post['file'], null, null, null, 255);
@@ -532,6 +535,11 @@
 				
 					$thumb->_destroy();
 				}
+				
+				if($config['redraw_image']) {
+					$image->to($post['file']);
+				}
+				
 				$image->destroy();
 			} else {
 				// not an image
@@ -543,9 +551,6 @@
 				$post['thumbwidth'] = $size[0];
 				$post['thumbheight'] = $size[1];
 			}
-			
-			$post['filehash'] = $config['file_hash']($post['file']);
-			$post['filesize'] = filesize($post['file']);
 		}
 		
 		if($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
