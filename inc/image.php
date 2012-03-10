@@ -155,7 +155,10 @@
 			}
 		}
 		public function to($src) {
-			$this->image->writeImage($src);
+			if(preg_match('/\.gif$/', $src))
+				$this->image->writeImages($src, true);
+			else
+				$this->image->writeImage($src);
 		}
 		public function width() {
 			return $this->image->getImageWidth();
@@ -167,9 +170,37 @@
 			return $this->image->destroy();
 		}
 		public function resize() {
-			$this->image = clone $this->original;
+			global $config;
 			
-			$this->image->scaleImage($this->width, $this->height, false);
+			if($config['thumb_ext'] == 'gif') {
+				$this->image = new Imagick();
+				$this->image->setFormat('gif');
+				
+				$keep_frames = Array();
+				for($i = 1; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
+					$keep_frames[] = $i;
+				
+				$i = 0;
+				$delay = 0;
+				foreach($this->original as $frame) {
+					$delay += $frame->getImageDelay();
+					
+					//if($i < $config['thumb_keep_animation_frames']) {
+					if(in_array($i, $keep_frames)) {
+						$frame->scaleImage($this->width, $this->height, false);
+						$frame->setImagePage($this->width, $this->height, 0, 0);
+						$frame->setImageDelay($delay);
+						$delay = 0;
+						
+						$this->image->addImage(clone $frame->getImage());
+					}
+					$i++;
+				}		
+			} else {
+				$this->image = clone $this->original;
+				// only resize one frame
+				$this->image->scaleImage($this->width, $this->height, false);
+			}
 		}
 	}
 	
