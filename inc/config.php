@@ -402,15 +402,9 @@
 	// Display the file's original filename
 	$config['show_filename']= true;
 	
-	/**
-		Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
-		WARNING: Currently strips animated GIFs too :(
-		
-		Note: Currently not implemented anymore. Will be added back at a later date.
-	**/
+	// Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
+	// WARNING: Currently strips animated GIFs too
 	$config['redraw_image'] = false;
-	// Temporary fix for the animation-stripping bug
-	$config['redraw_gifs'] = false;
 	
 	// Redrawing configuration
 	$config['jpeg_quality']	= 100;
