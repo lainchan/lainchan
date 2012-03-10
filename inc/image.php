@@ -192,7 +192,7 @@
 						$frame->setImageDelay($delay);
 						$delay = 0;
 						
-						$this->image->addImage(clone $frame->getImage());
+						$this->image->addImage($frame->getImage());
 					}
 					$i++;
 				}		
