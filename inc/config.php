@@ -346,6 +346,11 @@
 	// Thumbnail extension, empty for inherited (png recommended)
 	$config['thumb_ext'] = 'png';
 	
+	// EXPERIMENTAL:
+	// Maximum amount of frames to resize (more frames means more processing power). "1" means no animated thumbnails.
+	// Requires $config['thumb_ext'] to be 'gif' $config['imagick'] to be enabled.
+	$config['thumb_keep_animation_frames'] = 1;
+	
 	// Use Imagick instead of GD (some further config options below are ignored if set)
 	$config['imagick'] = false;
 	
