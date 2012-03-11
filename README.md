@@ -25,7 +25,9 @@ Installation
 -------------
 1.	Download and extract Tinyboard to your web directory or get the latest
 	development version with:
+	
 	```git clone git://github.com/savetheinternet/Tinyboard.git```
+	
 2.	Navigate to ```install.php``` in your web browser and follow the
 	prompts.
 3.	Tinyboard should now be installed. Log in to ```mod.php``` with the
