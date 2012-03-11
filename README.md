@@ -19,7 +19,7 @@ it need one.
 
 Contributing
 ------------
-Use GitHub to submit a pull request. If you need help wdeveloping a patch, join
+Use GitHub to submit a pull request. If you need help developing a patch, join
 our IRC channel.
 
 Installation
