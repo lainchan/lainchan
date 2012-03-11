@@ -1334,13 +1334,8 @@
 	function markup_url($matches) {
 		global $markup_urls;
 		
-		$url = $matches[0];
-		$after = '';
-		
-		if(preg_match('/([)\]][.,!;]?|[.,!;][)\]]?)$/', $url, $match)) {
-			$url = substr($url, 0, 0 - strlen($match[1]));
-			$after = $match[1];
-		}
+		$url = $matches[1];
+		$after = $matches[2];
 		
 		$markup_urls[] = $url;
 		
@@ -1376,7 +1371,13 @@
 		if($config['markup_urls']) {
 			$markup_urls = Array();
 			
-			$body = preg_replace_callback($config['url_regex'], 'markup_url', $body, -1, $num_links);
+			$body = preg_replace_callback(
+					'/((?:https?:\/\/|ftp:\/\/|irc:\/\/)[^\s<>()"]*?(?:\([^\s<>()"]*?\)[^\s<>()"]*?)*)((?:\s|<|>|"|\.||\]|!|\?|,|&#44;|&quot;)*(?:[\s<>()"]|$))/',
+					'markup_url',
+					$body,
+					-1,
+					$num_links);
+			
 			if($num_links > $config['max_links'])
 				error($config['error']['toomanylinks']);
 		}
