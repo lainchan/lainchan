@@ -14,7 +14,7 @@ Requirements
 4.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) with appropriate <del>[driver for your database](http://www.php.net/manual/en/pdo.drivers.php)</del> (only MySQL is supported at the moment)
 
 We try to make sure Tinyboard is compatible with all major web servers and
-operating systems. Tinyboard does not include an Apache .htaccess file nor does
+operating systems. Tinyboard does not include an Apache ```.htaccess``` file nor does
 it need one.
 
 Contributing
@@ -23,6 +23,16 @@ Contributing
 
 Installation
 -------------
+1.	Download and extract Tinyboard to your web directory or get the latest
+	development version with:
+	```git clone git://github.com/savetheinternet/Tinyboard.git
+	```
+2.	Navigate to ```install.php``` in your web browser and follow the
+	prompts.
+3.	Tinyboard should now be installed. Log in to ```mod.php``` with the
+	default username and password combination: **admin / password**. (You
+	should probably change that.)
+
 See <http://tinyboard.org/docs/installation.html>.
 
 Support
@@ -35,8 +45,8 @@ find support from a variety of sources:
 
 *	If you're unsure about how to enable or configure certain features, make
 	sure you have read the comments in ```inc/config.php```.
-*	Documentation can be found at <http://tinyboard.org/docs/>.
-*	You may join Tinyboard's IRC channel for support and general queries: 
+*	Documentation can be found [here](http://tinyboard.org/docs/).
+*	You can join Tinyboard's IRC channel for support and general queries: 
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
 
 License
