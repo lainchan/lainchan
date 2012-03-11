@@ -19,7 +19,8 @@ it need one.
 
 Contributing
 ------------
-
+Use GitHub to submit a pull request. If you need help wdeveloping a patch, join
+our IRC channel.
 
 Installation
 -------------
@@ -33,8 +34,6 @@ Installation
 3.	Tinyboard should now be installed. Log in to ```mod.php``` with the
 	default username and password combination: **admin / password**. (You
 	should probably change that.)
-
-See <http://tinyboard.org/docs/installation.html>.
 
 Support
 --------
