@@ -155,7 +155,7 @@
 			}
 		}
 		public function to($src) {
-			if(preg_match('/\.gif$/', $src))
+			if(preg_match('/\.gif$/i', $src))
 				$this->image->writeImages($src, true);
 			else
 				$this->image->writeImage($src);
@@ -172,7 +172,7 @@
 		public function resize() {
 			global $config;
 			
-			if(preg_match('/\.gif$/', $src)) {
+			if(preg_match('/\.gif$/i', $src)) {
 				$this->image = new Imagick();
 				$this->image->setFormat('gif');
 				
