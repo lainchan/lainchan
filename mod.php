@@ -268,6 +268,102 @@
 				'mod'=>true
 				)
 			);
+		} elseif(preg_match('/^\/upgrade$/', $query)) {
+			if($mod['type'] != ADMIN)
+				error($config['error']['noaccess']);
+			
+			if(!extension_loaded('curl'))
+				error('You need the cURL PHP extension to do that.');
+			
+			if(!class_exists('ZipArchive'))
+				error('You need <a href="http://php.net/manual/en/class.ziparchive.php">the ZipArchive class</a> to do that.');
+			
+			if(!in_array('zip', stream_get_wrappers()))
+				error('You need the zip:// stream wrapper to do that.');
+			
+			$temp = tempnam($config['tmp'], 'tinyboard');
+			
+			$fp = fopen($temp, 'w+');
+			
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, 'https://github.com/savetheinternet/Tinyboard/zipball/master');
+			curl_setopt($curl, CURLOPT_FAILONERROR, true);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 45);
+			curl_setopt($curl, CURLOPT_FILE, $fp);
+			curl_setopt($curl, CURLOPT_WRITEHEADER, $header = tmpfile());
+			curl_setopt($curl, CURLOPT_HEADER, true);
+			
+			curl_exec($curl);
+			
+			if(curl_errno($curl))
+				error('Failed downloading newest revision: ' . curl_error($curl));
+			
+			curl_close($curl);
+			
+			fflush($fp);
+			fclose($fp);
+			
+			fseek($header, 0);
+			$version = false;
+			while($line = fgets($header)) {
+				if(preg_match('/^Content-Disposition: attachment; filename=savetheinternet-Tinyboard-(.+)\.zip\s?$/', $line, $m)) {
+					$version = $m[1];
+				}
+			}
+			fclose($header);
+			
+			$zip = new ZipArchive();
+			if(!$zip->open($temp))
+				error('Could not make sense of the ZIP archive.');
+			
+			$version = preg_replace('/^savetheinternet-Tinyboard-(\w+)\//', '$1', $dir = $zip->getNameIndex(0));
+			
+			$errors = Array();
+			for($i = 1; $i < $zip->numFiles; $i++) {
+				$filename = str_replace($dir, '', $zip->getNameIndex($i));
+				
+				if($filename == 'inc/instance-config.php')
+					continue; // don't override config
+				
+				// are we able to write here?
+				if(!((file_exists($filename) && is_writable($filename)) || (!file_exists($filename) && is_writable($dirname)))) {
+					// nope
+					$errors[] = 'Cannot write to ' . $filename . '!';
+				}
+			}
+			
+			if($errors) {
+				$body = '<div class="ban"><h2>Error(s) upgrading</h2><p>Tinyboard can not self-upgrade until the following is fixed:</p><ul>';
+				foreach($errors as $error) {
+					$body .= '<li>' . $error . '</li>';
+				}
+				$body .= '</ul><p>Please fix the above errors and refresh to try again.</p></div>';
+				
+				echo Element('page.html', Array(
+					'config' => $config,
+					'title' => 'Error(s) upgrading',
+					'body' => $body
+				));
+				exit;
+			}
+			
+			$zip->close();
+			
+			// For some reason, reading the ZIP entries in PHP doesn't seem to work very well.
+			// Use bash instead.
+			shell_exec('TEMP_DIR=$(mktemp -d); unzip -q "' . $temp . '" -d $TEMP_DIR -x "' . $dir . 'inc/instance-config.php"; mv -v $TEMP_DIR/' . $dir . '* "' . getcwd() . '"; rm -rf $TEMP_DIR');
+			
+			unlink($temp);	
+			
+			echo Element('page.html', Array(
+				'config' => $config,
+				'title' => 'Upgraded',
+				'body' => '<p style="text-align:center">Upgrading seems to have gone okay. You are now at revision <strong>' . $version . '</strong>.</p>'
+			));		
 		} elseif(preg_match('/^\/log(\/(\d+))?$/', $query, $match)) {
 			if(!hasPermission($config['mod']['modlog'])) error($config['error']['noaccess']);
 			
