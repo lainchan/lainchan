@@ -27,20 +27,23 @@ Installation
 1.	Download and extract Tinyboard to your web directory or get the latest
 	development version with:
 
- 	 git clone git://github.com/savetheinternet/Tinyboard.git
+        git clone git://github.com/savetheinternet/Tinyboard.git
 	
 2.	Navigate to ```install.php``` in your web browser and follow the
 	prompts.
 3.	Tinyboard should now be installed. Log in to ```mod.php``` with the
-	default username and password combination: **admin / password**. (You
-	should probably change that.)
+	default username and password combination: **admin / password**.
+
+Please remember to change the administrator account password.
+
+See also: [Configuration Basics](http://tinyboard.org/docs/config_basics.html).
 
 Support
 --------
 Tinyboard is still beta software -- there are bound to be bugs. If you find a
 bug, please report it.
 
-If you need assistance with installing, configuring or using Tinyboard, you may
+If you need assistance with installing, configuring, or using Tinyboard, you may
 find support from a variety of sources:
 
 *	If you're unsure about how to enable or configure certain features, make
@@ -48,6 +51,7 @@ find support from a variety of sources:
 *	Documentation can be found [here](http://tinyboard.org/docs/).
 *	You can join Tinyboard's IRC channel for support and general queries: 
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
+*	Tinyboard has a general support board at [tinyboard.org/demo/sup/](http://tinyboard.org/demo/sup/).
 
 License
 --------
