@@ -354,7 +354,7 @@
 			$zip->close();
 			
 			// For some reason, reading the ZIP entries in PHP doesn't seem to work very well.
-			// Use bash instead.
+			// Use shell instead.
 			shell_exec('TEMP_DIR=$(mktemp -d); unzip -q "' . $temp . '" -d $TEMP_DIR -x "' . $dir . 'inc/instance-config.php"; mv -v $TEMP_DIR/' . $dir . '* "' . getcwd() . '"; rm -rf $TEMP_DIR');
 			
 			unlink($temp);	
