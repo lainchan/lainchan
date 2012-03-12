@@ -65,7 +65,7 @@
 	$config['verbose_errors'] = true;
 	
 	// Directory where temporary files will be created. Not really used much yet except for some experimental stuff.
-	$config['tmp'] = '/tmp';
+	$config['tmp'] = sys_get_temp_dir();
 	
 	// The HTTP status code to use when redirecting. http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	// Can be either 303 "See Other" or 302 "Found". (303 is more correct but both should work.)
