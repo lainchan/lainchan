@@ -172,7 +172,7 @@
 		public function resize() {
 			global $config;
 			
-			if($config['thumb_ext'] == 'gif') {
+			if(preg_match('/\.gif$/', $src)) {
 				$this->image = new Imagick();
 				$this->image->setFormat('gif');
 				
