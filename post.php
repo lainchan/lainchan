@@ -527,7 +527,12 @@
 					$post['thumbwidth'] = $image->size->width;
 					$post['thumbheight'] = $image->size->height;
 				} else {
-					$thumb = $image->resize($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'], $config['thumb_width'], $config['thumb_height']);
+					$thumb = $image->resize(
+						$config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'],
+						$OP ? $config['thumb_op_width'] : $config['thumb_width'],
+						$OP ? $config['thumb_op_height'] : $config['thumb_height']
+					);
+					
 					$thumb->to($post['thumb']);
 				
 					$post['thumbwidth'] = $thumb->width;

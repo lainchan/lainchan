@@ -91,18 +91,18 @@
 	
 	// SQL driver ("mysql", "pgsql", "sqlite", "dblib", etc)
 	// http://www.php.net/manual/en/pdo.drivers.php
-	$config['db']['type']		= 'mysql';
+	$config['db']['type'] = 'mysql';
 	// Hostname or IP address
-	$config['db']['server']		= 'localhost';
+	$config['db']['server'] = 'localhost';
 	// Login
-	$config['db']['user']		= '';
-	$config['db']['password']	= '';
+	$config['db']['user'] = '';
+	$config['db']['password'] = '';
 	// Tinyboard database
-	$config['db']['database']	= '';
+	$config['db']['database'] = '';
 	// Use a persistent connection (experimental)
-	$config['db']['persistent']	= false;
+	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
-	$config['db']['dsn']		= '';
+	$config['db']['dsn'] = '';
 	// Timeout duration in seconds (not all drivers support this)
 	$config['db']['timeout'] = 5;
 	
@@ -135,22 +135,22 @@
  */
  
 	// Used for moderation login
-	$config['cookies']['mod']	= 'mod';
+	$config['cookies']['mod'] = 'mod';
 	// Used for communicating with Javascript; telling it when posts were successful.
 	// Rebuild Javascript file after changing this value or it won't work.
-	$config['cookies']['js']	= 'serv';
+	$config['cookies']['js'] = 'serv';
 	// Cookies "path". Defaults to $config['root']. If $config['root'] is a URL, you need to set this. Should be '/' or '/board/', depending on your installation.
 	// $config['cookies']['path'] = '/';
 	// Where to set the 'path' parameter to $config['cookies']['path'] when creating cookies. Recommended.
-	$config['cookies']['jail']	= true;
+	$config['cookies']['jail'] = true;
 	// How long should the cookies last (in seconds)
-	$config['cookies']['expire']	= 15778463; //6 months
+	$config['cookies']['expire'] = 15778463; //6 months
 	// Make this something long and random for security
-	$config['cookies']['salt']	= 'abcdefghijklmnopqrstuvwxyz09123456789!@#$%^&*()';
+	$config['cookies']['salt'] = 'abcdefghijklmnopqrstuvwxyz09123456789!@#$%^&*()';
 	// How long should moderators should remain logged in (0=browser session) (in seconds)
-	$config['mod']['expire']	= 15778463; //6 months
+	$config['mod']['expire'] = 15778463; //6 months
 	// Used to salt secure tripcodes (##trip) and poster IDs (if enabled)
-	$config['secure_trip_salt']	= ')(*&^%$#@!98765432190zyxwvutsrqponmlkjihgfedcba';
+	$config['secure_trip_salt'] = ')(*&^%$#@!98765432190zyxwvutsrqponmlkjihgfedcba';
 
 /*
  * ====================
@@ -159,11 +159,11 @@
  */
 	
 	// How many seconds between each post
-	$config['flood_time']		= 10;
+	$config['flood_time'] = 10;
 	// How many seconds between each post with exactly the same content and same IP
-	$config['flood_time_ip']	= 120;
+	$config['flood_time_ip'] = 120;
 	// Same as above but different IP address
-	$config['flood_time_same']	= 30;
+	$config['flood_time_same'] = 30;
 	
 	// DNS blacklists (DNSBL) http://www.dnsbl.info/dnsbl-list.php
 	$config['dnsbl'][] = 'tor.dnsbl.sectoor.de'; // Tor exit nodes
@@ -176,8 +176,8 @@
 	$config['dnsbl_exceptions'][] = '127.0.0.1';
 	
 	// Spam filter
-	$config['spam']['hidden_inputs_min']	= 4;
-	$config['spam']['hidden_inputs_max']	= 12;
+	$config['spam']['hidden_inputs_min'] = 4;
+	$config['spam']['hidden_inputs_max'] = 12;
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
 	$config['spam']['hidden_input_names'] = Array(
 		'user',
@@ -340,9 +340,12 @@
  * ====================
  */
  	
-	// For resizing, max values
+	// For resizing, max thumbnail size
 	$config['thumb_width'] = 255;
-	$config['thumb_height']	= 255;
+	$config['thumb_height'] = 255;
+	// Max thumbnail size for thread images
+	$config['thumb_op_width'] = 255;
+	$config['thumb_op_height'] = 255;
 	
 	// Thumbnail extension, empty for inherited (png recommended)
 	$config['thumb_ext'] = 'png';
@@ -373,7 +376,7 @@
 	
 	// An alternative function for generating a filename, instead of the default UNIX timestamp.
 	// http://tinyboard.org/wiki/index.php?title=Filenames
-	// $config['filename_func'] = 'some_function_you_have_created';	
+	// $config['filename_func'] = 'some_function_you_have_created';
 	
 	// Non-image file icons
 	$config['file_icons']['default'] = 'file.png';
@@ -393,10 +396,10 @@
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
 	// sha1_file, md5_file, etc. You can also define your own similar function.
-	$config['file_hash']	= 'sha1_file';
+	$config['file_hash'] = 'sha1_file';
 	
 	// Maximum image upload size in bytes
-	$config['max_filesize']	= 10*1024*1024; // 10MB
+	$config['max_filesize'] = 10*1024*1024; // 10MB
 	// Maximum image dimensions
 	$config['max_width'] = 10000;
 	$config['max_height'] = $config['max_width']; // 1:1
@@ -632,27 +635,27 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	$config['root']		= (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
+	$config['root']	 = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
-	$config['root_file']	= false;
+	$config['root_file'] = false;
 	
-	$config['file_index']	= 'index.html';
-	$config['file_page']	= '%d.html';
-	$config['file_mod']	= 'mod.php';
-	$config['file_post']	= 'post.php';
-	$config['file_script']	= 'main.js';
+	$config['file_index'] = 'index.html';
+	$config['file_page'] = '%d.html';
+	$config['file_mod'] = 'mod.php';
+	$config['file_post'] = 'post.php';
+	$config['file_script'] = 'main.js';
 	
 	// Board directory, followed by a forward-slash (/). (%s is board abbreviation)
-	$config['board_path']	= '%s/';
+	$config['board_path'] = '%s/';
 	
-	$config['dir']['img']	= 'src/';
-	$config['dir']['thumb']	= 'thumb/';
-	$config['dir']['res']	= 'res/';
+	$config['dir']['img'] = 'src/';
+	$config['dir']['thumb'] = 'thumb/';
+	$config['dir']['res'] = 'res/';
 	// For load balancing, having a seperate server (and domain/subdomain) for serving static content is possible.
 	// This can either be a directory or a URL (eg. http://static.example.org/)
-	//$config['dir']['static']	= $config['root'] . 'static/';
+	//$config['dir']['static'] = $config['root'] . 'static/';
 	// Where to store the .html templates. This folder and templates must exist or fatal errors will be thrown.
 	$config['dir']['template'] = getcwd() . '/templates';
 	// For the themes (homepages, etc.)
@@ -664,8 +667,8 @@
 	
 	// Static images
 	// These can be URLs OR base64 (data URI scheme)
-	//$config['image_sticky']		= $config['dir']['static'] . 'sticky.gif';
-	//$config['image_locked']		= $config['dir']['static'] . 'locked.gif';
+	//$config['image_sticky']	= $config['dir']['static'] . 'sticky.gif';
+	//$config['image_locked']	= $config['dir']['static'] . 'locked.gif';
 	//$config['image_bumplocked']	= $config['dir']['static'] . 'sage.gif';
 	//$config['image_deleted']	= $config['dir']['static'] . 'deleted.';
 	//$config['image_zip']		= $config['dir']['static'] . 'zip.';
@@ -740,11 +743,11 @@
 	
 	// Enable IP range bans (eg. "127.*.0.1", "127.0.0.*", and "12*.0.0.1" all match "127.0.0.1").
 	// A little more load on the database
-	$config['ban_range']	= true;
+	$config['ban_range'] = true;
 	
 	// Enable CDIR netmask bans (eg. "10.0.0.0/8" for 10.0.0.0.0 - 10.255.255.255). Useful for stopping persistent spammers.
 	// Again, a little more database load.
-	$config['ban_cidr']	= true;
+	$config['ban_cidr'] = true;
 	
 	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
 	$config['mod']['dns_lookup'] = true;
@@ -953,9 +956,9 @@
 	//);
 	
 	// Complex regular expression to catch URLs
-	$config['url_regex']	= '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
+	$config['url_regex'] = '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
 	// INSANE regular expression for IPv6 addresses
-	$config['ipv6_regex']	= '((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';	
+	$config['ipv6_regex'] = '((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
 	
 	
 	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
