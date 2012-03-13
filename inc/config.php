@@ -41,7 +41,8 @@
 		'allowed_ext_files' => Array(),
 		'file_icons' => Array(),
 		'footer' => Array(),
-		'stylesheets' => Array()
+		'stylesheets' => Array(),
+		'additional_javascript' => Array()
 	);
 	/* End ignore */
 	
@@ -522,6 +523,9 @@
 	
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = false;
+	
+	// Additional Javascript files to include on board index and thread pages.
+	// $config['additional_javascript'][] = 'something.js';
 	
 /*
  * ====================
