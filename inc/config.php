@@ -522,7 +522,7 @@
 	//);
 	
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
-	$config['minify_html'] = false;
+	$config['minify_html'] = true;
 	
 	// Additional Javascript files to include on board index and thread pages.
 	// $config['additional_javascript'][] = 'something.js';
