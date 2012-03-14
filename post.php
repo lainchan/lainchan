@@ -161,7 +161,11 @@
 		if(isset($_POST['thread'])) {
 			$OP = false;
 			$post['thread'] = round($_POST['thread']);
-		} else $OP = true;
+		} elseif($config['quick_reply'] && isset($_POST['quick-reply'])) {
+			$OP = false;
+			$post['thread'] = round($_POST['quick-reply']);
+		} else
+			$OP = true;
 		
 		if(!(($OP && $_POST['post'] == $config['button_newtopic']) ||
 		    (!$OP && $_POST['post'] == $config['button_reply'])))
@@ -194,7 +198,7 @@
 			}
 		}
 		
-		if(checkSpam(Array($board['uri'], isset($post['thread']) ? $post['thread'] : null)))
+		if(checkSpam(Array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null)))
 			error($config['error']['spam']);
 		
 		if($config['robot_enable'] && $config['robot_mute']) {

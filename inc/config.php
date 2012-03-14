@@ -209,7 +209,8 @@
 		'embed',
 		'recaptcha_challenge_field',
 		'recaptcha_response_field',
-		'spoiler'
+		'spoiler',
+		'quick-reply'
 	);
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
@@ -333,6 +334,10 @@
 	$config['field_disable_email'] = false;
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
+	
+	// Allows quick-reply.js to work (https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/forced-anon.js).
+	// This will make your imageboard more vulnerable to flood attacks.
+	$config['quick_reply'] = false;
 	
 /*
  * ====================
