@@ -635,7 +635,10 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	$config['root']	 = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
+	if(isset($_SERVER['REQUEST_URI']))
+		$config['root']	 = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
+	else
+		$config['root'] = '/'; // CLI mode
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
