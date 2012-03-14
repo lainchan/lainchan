@@ -2,13 +2,6 @@
 <?php
 	require dirname(__FILE__) . '/inc/cli.php';
 	
-	$mod = Array(
-		'id' => -1,
-		'type' => ADMIN,
-		'username' => '?',
-		'boards' => Array('*')
-	);
-	
 	$start = microtime(true);
 	
 	echo "== Tinyboard {$config['version']} ==\n";	
