@@ -1,28 +1,36 @@
 ﻿<?php
+	set_time_limit(0);
+	$kusabaxc = Array();
+	
+	
 	/* Config */
 	
-	$kusabaxc = Array('db' => Array('timeout' => 5, 'persistent' => false));
+	// Path to KusabaX configuration file
+	$kusabaxc['config'] = '../kusabax/config.php';
+		
+	/* End config */
+	
+	$kusabaxc['config'] = '/home/savetheinternet/public_html/kusabax/config.php';
+	
+	
+	if(!isset($kusabaxc['config']) || empty($kusabaxc['config']))
+		error('Did you forget to configure the script?');
+	
+	// Load KusabaX config
+	require $kusabaxc['config'];
+	
+	if(KU_DBTYPE != 'mysql' && KU_DBTYPE != 'mysqli')
+		error('Database type <strong>' . KU_DBTYPE . '</strong> not supported!');
+	
 	$kusabaxc['db']['type']		= 'mysql';
-	$kusabaxc['db']['server']	= 'localhost';
-	$kusabaxc['db']['user']		= '';
-	$kusabaxc['db']['password']	= '';
-	$kusabaxc['db']['database']	= '';
-	// KusabaX table prefix
-	$kusabaxc['db']['prefix']	= '';
-	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
+	$kusabaxc['db']['server']	= KU_DBHOST;
+	$kusabaxc['db']['user']		= KU_DBUSERNAME;
+	$kusabaxc['db']['password']	= KU_DBPASSWORD;
+	$kusabaxc['db']['database']	= KU_DBDATABASE;
 	$kusabaxc['db']['dsn']		= '';
-	// From your KusabaX config; needed to decode IP addresses
-	$kusabaxc['randomseed']		= ''; //KU_RANDOMSEED
-	// KusabaX directory (without trailing slash)
-	$kusabaxc['root'] = '/var/www/kusabax';
+	$kusabaxc['db']['timeout']	= 5;
+	$kusabaxc['db']['persistent']	= false;
 	
-	/* End Config */
-	
-	if(empty($kusabaxc['db']['user']))
-		die('Did you forget to configure the script?');
-	
-	// Infinite timeout
-	set_time_limit(0);
 	
 	// KusabaX functions
 	function md5_decrypt($enc_text, $password, $iv_len = 16) {
@@ -75,6 +83,8 @@
 	$__temp = $config['db'];
 	$config['db'] = $kusabaxc['db'];
 	
+	sql_open();
+	
 	// Get databse link
 	$kusabax = $pdo;
 	// Clear
@@ -84,7 +94,7 @@
 	$config['db'] = $__temp;
 	unset($__temp);
 	
-	$k_query = $kusabax->query('SELECT * FROM `' . $kusabaxc['db']['prefix'] . 'boards`');
+	$k_query = $kusabax->query('SELECT * FROM `' . KU_DBPREFIX . 'boards`');
 	$boards = listBoards();
 	
 	// Copy boards table, briefly
@@ -121,9 +131,8 @@
 		openBoard($board['name']);
 	}
 	
-	
-	$k_query = $kusabax->query('SELECT * FROM `' . $kusabaxc['db']['prefix'] . 'posts` WHERE `IS_DELETED` = 0');
-	while($post = $k_query->fetch()) {
+	$k_query = $kusabax->query('SELECT `' . KU_DBPREFIX . 'posts`.*, `' . KU_DBPREFIX . '`.`type` FROM `' . KU_DBPREFIX . 'posts` LEFT JOIN `' . KU_DBPREFIX . 'staff` ON `posterauthority` = `' . KU_DBPREFIX . 'staff`.`id` WHERE `IS_DELETED` = 0') or error(db_error($kusabax));
+	while($post = $k_query->fetch(PDO::FETCH_ASSOC)) {
 		if(!isset($kusabax_boards[(int)$post['boardid']])) {
 			// Board doesn't exist...
 			continue;
@@ -132,7 +141,10 @@
 		
 		$log[] = 'Replicating post <strong>' . $post['id'] . '</strong> on /' . $board . '/';
 		
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES (:id, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :bump, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES
+			(
+				:id, :thread, :subject, :email, :name, :trip, :capcode, :body, NULL, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed
+			)", $board));
 		
 		// Post ID
 		$query->bindValue(':id', $post['id'], PDO::PARAM_INT);
@@ -146,7 +158,7 @@
 		// Name
 		if(empty($post['name']))
 			$post['name'] = $config['anonymous'];
-		$query->bindValue(':name', $post['name'], PDO::PARAM_INT);
+		$query->bindValue(':name', trim($post['name']), PDO::PARAM_STR);
 		
 		// Trip
 		if(empty($post['tripcode']))
@@ -155,13 +167,15 @@
 			$query->bindValue(':trip', $post['tripcode'], PDO::PARAM_STR);
 		
 		// Email
-		$query->bindValue(':email', $post['email'], PDO::PARAM_STR);
+		$query->bindValue(':email', trim($post['email']), PDO::PARAM_STR);
 		
 		// Subject
-		$query->bindValue(':subject', $post['subject'], PDO::PARAM_STR);
+		$query->bindValue(':subject', trim($post['subject']), PDO::PARAM_STR);
 		
 		// Body (`message`)
 		$query->bindValue(':body', convert_markup($post['message']), PDO::PARAM_STR);
+		
+		$embed_code = false;
 		
 		// File
 		if(empty($post['file']) || $post['file'] == 'removed') {
@@ -177,6 +191,31 @@
 			$query->bindValue(':thumb', null, PDO::PARAM_NULL);
 			$query->bindValue(':thumbwidth', null, PDO::PARAM_NULL);
 			$query->bindValue(':thumbheight', null, PDO::PARAM_NULL);
+		} elseif($post['file_size'] == 0 && empty($post['file_md5'])) {
+			// embed
+			$query->bindValue(':file', null, PDO::PARAM_NULL);
+			$query->bindValue(':width', null, PDO::PARAM_NULL);
+			$query->bindValue(':height', null, PDO::PARAM_NULL);
+			$query->bindValue(':filesize', null, PDO::PARAM_NULL);
+			$query->bindValue(':filename', null, PDO::PARAM_NULL);
+			$query->bindValue(':filehash', null, PDO::PARAM_NULL);
+			$query->bindValue(':thumb', null, PDO::PARAM_NULL);
+			$query->bindValue(':thumbwidth', null, PDO::PARAM_NULL);
+			$query->bindValue(':thumbheight', null, PDO::PARAM_NULL);
+			
+			if($post['file_type'] == 'you') {
+				// youtube
+				
+				foreach($config['embedding'] as $embed) {
+					if(strpos($embed[0], 'youtube\.com') !== false) {
+						$embed_code = preg_replace($embed[0], $embed[1], 'http://youtube.com/watch?v=' . $post['file']);
+						$embed_code = str_replace('%%tb_width%%', $config['embed_width'], $embed_code);
+						$embed_code = str_replace('%%tb_height%%', $config['embed_height'], $embed_code);
+						
+						$query->bindValue(':embed', $embed_code, PDO::PARAM_STR);
+					}
+				}
+			}
 		} else {
 			$query->bindValue(':file', $post['file'] . '.' . $post['file_type'], PDO::PARAM_STR);
 			$query->bindValue(':width', $post['image_w'], PDO::PARAM_INT);
@@ -191,8 +230,8 @@
 			$query->bindValue(':thumbheight', $post['thumb_h'], PDO::PARAM_INT);
 			
 			// Copy file
-			$file_path = $kusabaxc['root'] . '/' . $board . '/src/' . $post['file'] . '.' . $post['file_type'];
-			$thumb_path = $kusabaxc['root'] . '/' . $board . '/thumb/' . $post['file'] . 's.' . $post['file_type'];
+			$file_path = KU_BOARDSDIR . $board . '/src/' . $post['file'] . '.' . $post['file_type'];
+			$thumb_path = KU_BOARDSDIR . $board . '/thumb/' . $post['file'] . 's.' . $post['file_type'];
 			
 			$to_file_path = sprintf($config['board_path'], $board) . $config['dir']['img'] . $post['file'] . '.' . $post['file_type'];
 			$to_thumb_path = sprintf($config['board_path'], $board) . $config['dir']['thumb'] . $post['file'] . '.' . $post['file_type'];
@@ -214,8 +253,11 @@
 			}
 		}
 		
+		if(!$embed_code)
+			$query->bindValue(':embed', null, PDO::PARAM_NULL);
+		
 		// IP
-		$ip = md5_decrypt($post['ip'], $kusabaxc['randomseed']);
+		$ip = md5_decrypt($post['ip'], KU_RANDOMSEED);
 		if(!preg_match('/^\d+\.\d+\.\d+\.\d+$/', $ip)) {
 			// Invalid IP address. Wrong KU_RANDOMSEED?
 			
@@ -236,17 +278,21 @@
 		// Sticky
 		$query->bindValue(':sticky', $post['stickied'], PDO::PARAM_INT);
 		
-		// Stuff we can't do (yet)
-		$query->bindValue(':embed', null, PDO::PARAM_NULL);
+		// Impossible
 		$query->bindValue(':password', null, PDO::PARAM_NULL);
-		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		
+		if($post['posterauthority']) {
+			$query->bindValue(':capcode', $post['type'] == 1 ? 'Admin' : 'Mod', PDO::PARAM_STR);
+		} else {
+			$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		}
 		
 		// Insert post
 		$query->execute() or $log[] = 'Error: ' . db_error($query);
 	}
 	
 	// News
-	$k_query = $kusabax->query('SELECT * FROM `' . $kusabaxc['db']['prefix'] . 'front` WHERE `page` = 0');
+	$k_query = $kusabax->query('SELECT * FROM `' . KU_DBPREFIX . 'front` WHERE `page` = 0');
 	while($news = $k_query->fetch()) {
 		// Check if already exists
 		$query = prepare("SELECT 1 FROM `news` WHERE `body` = :body AND `time` = :time");
@@ -264,7 +310,7 @@
 		$query->execute() or $log[] = 'Error: ' . db_error($query);
 	}
 	
-	$page['body'] = '<div class="ban"><h2>Migrating…</h2><p>';
+	$page['body'] = '<div class="ban"><h2>Migrating&hellip;</h2><p>';
 	foreach($log as &$l) {
 		$page['body'] .= $l . '<br/>';
 	}
