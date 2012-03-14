@@ -2,6 +2,7 @@
 
 /*
  *  This script will look for Tinyboard in the following places (in order):
+ *    - $TINYBOARD_PATH environment varaible
  *    - ./
  *    - ./Tinyboard/
  *    - ../
@@ -9,7 +10,9 @@
 
 $shell_path = getcwd();
 
-if(file_exists('inc/functions.php'))
+if(getenv('TINYBOARD_PATH') !== false)
+	$dir = getenv('TINYBOARD_PATH');
+elseif(file_exists('inc/functions.php'))
 	$dir = false;
 elseif(file_exists('Tinyboard') && is_dir('Tinyboard') && file_exists('Tinyboard/inc/functions.php'))
 	$dir = 'Tinyboard';
@@ -21,8 +24,12 @@ else
 if($dir && !chdir($dir))
 	die('Could not change directory to ' . $dir . '!');
 
-// follow symlink
-chdir(realpath('inc') . '/..');
+if(!getenv('TINYBOARD_PATH')) {
+	// follow symlink
+	chdir(realpath('inc') . '/..');
+}
+
+echo 'Tinyboard: ' . getcwd() . "\n";
 
 require 'inc/functions.php';
 require 'inc/display.php';
