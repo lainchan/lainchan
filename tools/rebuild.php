@@ -7,7 +7,14 @@
 	require 'inc/user.php';
 	require 'inc/mod.php';
 	
-	set_time_limit($config['mod']['rebuild_timelimit']);
+	require dirname(__FILE__) . '/inc/cli.php';
+	
+	$mod = Array(
+		'id' => -1,
+		'type' => ADMIN,
+		'username' => '?',
+		'boards' => Array('*')
+	);
 	
 	$start = microtime(true);
 	
@@ -71,5 +78,5 @@
 	
 	printf("Complete! Took %g seconds\n", microtime(true) - $start);
 	
-	// modLog('Rebuilt everything using tools/rebuild.php');
+	modLog('Rebuilt everything using tools/rebuild.php');
 
