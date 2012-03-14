@@ -60,6 +60,8 @@
 	echo "Generating Javascript file...\n";
 	buildJavascript();
 	
+	$main_js = $config['file_script'];
+	
 	$boards = listBoards();
 	
 	foreach($boards as &$board) {
@@ -68,6 +70,12 @@
 		
 		echo "Creating index pages...\n";
 		buildIndex();
+		
+		if($config['file_script'] != $main_js) {
+			// different javascript file
+			echo "Generating Javascript file...\n";
+			buildJavascript();
+		}
 		
 		$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 		while($post = $query->fetch()) {
