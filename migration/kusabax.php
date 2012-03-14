@@ -5,13 +5,17 @@
 	
 	/* Config */
 	
-	// Path to KusabaX configuration file
-	$kusabaxc['config'] = '../kusabax/config.php';
+	// Path to KusabaX configuration file (config.php)
+	$kusabaxc['config'] = '';
 		
 	/* End config */
 	
-	$kusabaxc['config'] = '/home/savetheinternet/public_html/kusabax/config.php';
 	
+	require 'inc/functions.php';
+	require 'inc/display.php';
+	require 'inc/template.php';
+	require 'inc/database.php';
+	require 'inc/user.php';
 	
 	if(!isset($kusabaxc['config']) || empty($kusabaxc['config']))
 		error('Did you forget to configure the script?');
@@ -65,11 +69,6 @@
 		return $body;
 	}
 	
-	require 'inc/functions.php';
-	require 'inc/display.php';
-	require 'inc/template.php';
-	require 'inc/database.php';
-	require 'inc/user.php';
 	$step = isset($_GET['step']) ? round($_GET['step']) : 0;
 	$page = Array(
 		'config' => $config,
