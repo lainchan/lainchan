@@ -433,7 +433,7 @@
 							'<a href="?/new_PM/' . $log['id'] . '">' . $log['username'] . '</a>'
 						: '<em>' . ($log['id'] < 0 ? 'system' : 'deleted?') . '</em>') .
 					'</td>' .
-					'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
+					'<td class="minimal">' . ($log['id'] < 0 ? '&ndash;' : '<a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a>') . '</td>' .
 					'<td class="minimal">' . ago($log['time']) . '</td>' .
 					'<td class="minimal">' .
 						($log['board'] ?
