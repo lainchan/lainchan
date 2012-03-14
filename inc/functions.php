@@ -100,7 +100,9 @@
 		if(!isset($config['url_stylesheet']))
 			$config['url_stylesheet'] = $config['uri_stylesheets'] . 'style.css';
 		if(!isset($config['url_javascript']))
-			$config['url_javascript'] = $config['root'] . 'main.js';
+			$config['url_javascript'] = $config['root'] . $config['file_script'];
+		if(!isset($config['additional_javascript_url']))
+			$config['additional_javascript_url'] = $config['root'];
 		
 		if($config['root_file']) {
 			chdir($config['root_file']);
@@ -1266,10 +1268,22 @@
 				'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
 		}
 		
-		file_write($config['file_script'], Element('main.js', Array(
+		$script = Element('main.js', Array(
 			'config' => $config,
 			'stylesheets' => $stylesheets
-		)));
+		));
+		if($config['additional_javascript_compile']) {
+			foreach($config['additional_javascript'] as $file) {
+				$script .= file_get_contents($file);
+			}
+		}
+		
+		if($config['minify_js']) {
+			require_once 'inc/contrib/minify/JSMin.php';		
+			$script = JSMin::minify($script);
+		}
+		
+		file_write($config['file_script'], $script);
 	}
 	
 	function checkDNSBL() {

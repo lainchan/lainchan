@@ -1,0 +1,11 @@
+<div class="delete">
+	{% trans %}Delete Post{% endtrans %} [<input title="Delete file only" type="checkbox" name="file" id="delete_file" />
+	 <label for="delete_file">{% trans %}File{% endtrans %}</label>] <label for="password">{% trans %}Password{% endtrans %}</label> 
+		<input id="password" type="password" name="password" size="12" maxlength="18" />
+		<input type="submit" name="delete" value="{% trans %}Delete{% endtrans %}" />
+</div>
+<div class="delete" style="clear:both">
+	<label for="reason">{% trans %}Reason{% endtrans %}</label> 
+		<input id="reason" type="text" name="reason" size="20" maxlength="30" />
+		<input type="submit" name="report" value="{% trans %}Report{% endtrans %}" />
+</div>
