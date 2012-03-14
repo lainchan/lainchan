@@ -272,6 +272,20 @@
 			if($mod['type'] != ADMIN)
 				error($config['error']['noaccess']);
 			
+			if(is_dir('.git')) {
+				// use git instead
+				
+				$body = '<div class="ban"><h2>git pull</h2>';
+				$body .= '<p>' . str_replace("\n", '<br/>', shell_exec('git pull')) . '</p>';
+				$body .= '</div>';
+				echo Element('page.html', Array(
+					'config' => $config,
+					'title' => 'Upgraded',
+					'body' => $body
+				));
+				exit;
+			}
+			
 			if(!extension_loaded('curl'))
 				error('You need the cURL PHP extension to do that.');
 			
