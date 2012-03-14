@@ -375,7 +375,7 @@
 				$boards[$_b['id']] = $_b['uri'];
 			}
 			
-			$query = prepare("SELECT `mods`.`id`,`username`,`ip`,`board`,`time`,`text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
+			$query = prepare("SELECT `mod` as `id`, `username`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
 			$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 			$query->bindValue(':offset', ($page - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
@@ -431,7 +431,7 @@
 					'<td class="minimal">' .
 						($log['username'] ? 
 							'<a href="?/new_PM/' . $log['id'] . '">' . $log['username'] . '</a>'
-						: '<em>deleted?</em>') .
+						: '<em>' . ($log['id'] < 0 ? 'system' : 'deleted?') . '</em>') .
 					'</td>' .
 					'<td class="minimal"><a href="?/IP/' . $log['ip'] . '">' . $log['ip'] . '</a></td>' .
 					'<td class="minimal">' . ago($log['time']) . '</td>' .
