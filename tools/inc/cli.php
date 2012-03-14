@@ -8,6 +8,7 @@
  *    - ../
  */
 
+set_time_limit(0);
 $shell_path = getcwd();
 
 if(getenv('TINYBOARD_PATH') !== false)
@@ -56,21 +57,33 @@ function get_httpd_privileges() {
 	if(!is_writable('.'))
 		die("get_httpd_privileges(): web directory is not writable\n");
 	
-	if(!is_writable('inc/'))
-		die("get_httpd_privileges(): inc/ directory is not writable\n");
-	
 	$filename = '.' . md5(rand()) . '.php';
+	$inc_filename = '.' . md5(rand()) . '.php';
 	
 	echo "Copying rebuilder to web directory...\n";
 	
-	copy($shell_path . '/' . $_SERVER['PHP_SELF'], $filename);
-	copy(__FILE__, 'inc/cli.php');
+	// replace "/inc/cli.php" with its new filename
+	passthru("cat " . escapeshellarg($shell_path . '/' . $_SERVER['PHP_SELF']) . " | sed \"s/'\/inc\/cli\.php'/'\/{$inc_filename}'/\" > {$filename}");
+	
+	// copy environment
+	$inc_header = "<?php\n";
+	
+	$env = explode("\n", shell_exec('printenv | grep ^TINYBOARD'));
+	foreach($env as $line) {
+		if(!empty($line))
+			$inc_header .= "putenv('" . addslashes($line) . "');\n";
+	}
+	
+	// copy this file
+	file_put_contents($inc_filename, $inc_header . substr($inc = file_get_contents(__FILE__), strpos($inc, "\n")));
 	
 	chmod($filename, 0666);
-	chmod('inc/cli.php', 0666);
+	chmod($inc_filename, 0666);
 	
 	if(preg_match('/^https?:\/\//', $config['root'])) {
 		$url = $config['root'] . $filename;
+	} elseif($host = getenv('TINYBOARD_HOST')) {
+		$url = 'http://' . $host . $config['root'] . $filename;
 	} else {
 		// assume localhost
 		$url = 'http://localhost' . $config['root'] . $filename;
@@ -81,7 +94,7 @@ function get_httpd_privileges() {
 	passthru('curl -s -N ' . escapeshellarg($url));
 	
 	unlink($filename);
-	unlink('inc/cli.php');
+	unlink($inc_filename);
 	
 	exit(0);
 }
