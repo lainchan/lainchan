@@ -17,7 +17,7 @@ $(document).ready(function(){
 		return; // not index
 	
 	txt_new_topic = $('form[name=post] input[type=submit]').val();
-	txt_new_reply = 'New Reply';
+	txt_new_reply = txt_new_topic == 'Submit' ? txt_new_topic : 'New Reply';
 	
 	undo_quick_reply = function() {
 		$('div.banner').remove();
