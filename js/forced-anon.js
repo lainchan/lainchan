@@ -1,3 +1,16 @@
+/*
+ * forced-anon.js
+ * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/forced-anon.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ *
+ * Usage:
+ *   $config['additional_javascript'][] = $config['root'] . 'jquery.min.js';
+ *   $config['additional_javascript'][] = $config['root'] . 'forced-anon.js';
+ *
+ */
+
 $(document).ready(function(){
 	var enable_fa = function() {
 		$('p.intro label').each(function() {
