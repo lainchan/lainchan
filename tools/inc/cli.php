@@ -30,7 +30,7 @@ if(!getenv('TINYBOARD_PATH')) {
 	chdir(realpath('inc') . '/..');
 }
 
-echo 'Tinyboard: ' . getcwd() . "\n";
+putenv('TINYBOARD_PATH=' . getcwd());
 
 require 'inc/functions.php';
 require 'inc/display.php';
@@ -47,7 +47,7 @@ $mod = Array(
 );
 
 function get_httpd_privileges() {
-	global $config, $shell_path;
+	global $config, $shell_path, $argv;
 	
 	if(php_sapi_name() != 'cli')
 		die("get_httpd_privileges(): invoked from HTTP client.\n");
@@ -65,14 +65,17 @@ function get_httpd_privileges() {
 	// replace "/inc/cli.php" with its new filename
 	passthru("cat " . escapeshellarg($shell_path . '/' . $_SERVER['PHP_SELF']) . " | sed \"s/'\/inc\/cli\.php'/'\/{$inc_filename}'/\" > {$filename}");
 	
-	// copy environment
 	$inc_header = "<?php\n";
 	
+	// copy environment
 	$env = explode("\n", shell_exec('printenv | grep ^TINYBOARD'));
 	foreach($env as $line) {
 		if(!empty($line))
 			$inc_header .= "putenv('" . addslashes($line) . "');\n";
 	}
+	
+	// copy command line arguments
+	$inc_header .= "\$argv = " . var_export($argv, true) . ";\n";
 	
 	// copy this file
 	file_put_contents($inc_filename, $inc_header . substr($inc = file_get_contents(__FILE__), strpos($inc, "\n")));
