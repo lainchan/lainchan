@@ -6,8 +6,8 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
- *   $config['additional_javascript'][] = $config['root'] . 'jquery.min.js';
- *   $config['additional_javascript'][] = $config['root'] . 'forced-anon.js';
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/forced-anon.js';
  *
  */
 

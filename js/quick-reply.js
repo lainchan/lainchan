@@ -7,8 +7,8 @@
  *
  * Usage:
  *   $config['quick_reply'] = true;
- *   $config['additional_javascript'][] = $config['root'] . 'jquery.min.js';
- *   $config['additional_javascript'][] = $config['root'] . 'quick-reply.js';
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/quick-reply.js';
  *
  */
 
