@@ -17,10 +17,9 @@ $(document).ready(function(){
 	if($('div.banner').length == 0)
 		return; // not index
 	
-	setInterval(function() {
-		if($(window).scrollTop() + $(window).height() < $('div.post.reply:last').position().top + $('div.post.reply:last').height())
-			return; // not scrolled past last reply
-		
+	var poll_interval;
+	
+	var poll = function() {
 		$.ajax({
 			url: document.location,
 			success: function(data) {
@@ -32,6 +31,20 @@ $(document).ready(function(){
 				});
 			}
 		});
-	}, 5000);
+		
+		poll_interval = setTimeout(poll, 5000);
+	};
+	
+	$(window).scroll(function() {
+		if($(this).scrollTop() + $(this).height() < $('div.post.reply:last').position().top + $('div.post.reply:last').height()) {
+			clearTimeout(poll_interval);
+			poll_interval = false;
+			return;
+		}
+		
+		if(poll_interval === false) {
+			poll_interval = setTimeout(poll, 1500);
+		}
+	}).trigger('scroll');
 });
 
