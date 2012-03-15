@@ -6,8 +6,9 @@
 	/* Config */
 	
 	// Path to KusabaX configuration file (config.php)
+	// Warning: This script will ignore anything past the first `require`. This is only a problem if you've extensively modified your config.php
 	$kusabaxc['config'] = '';
-		
+	
 	/* End config */
 	
 	
@@ -20,8 +21,25 @@
 	if(!isset($kusabaxc['config']) || empty($kusabaxc['config']))
 		error('Did you forget to configure the script?');
 	
+	if(!file_exists($kusabaxc['config']) || !is_readable($kusabaxc['config']))
+		error('Kusaba X config file doesn\'t exist or I can\'t read it.');
+	
+	$temp = tempnam($config['tmp'], 'kusabax');
+	
+	$raw_config = file_get_contents($kusabaxc['config']);
+	
+	// replace __FILE__ with the actual filename
+	$raw_config = str_replace('__FILE__', '\'' . addslashes(realpath($kusabaxc['config'])) . '\'', $raw_config);
+	
+	// remove anything after the first `require`
+	$raw_config = substr($raw_config, 0, strpos($raw_config, 'require KU_ROOTDIR'));
+	
+	file_put_contents($temp, $raw_config);
+	
 	// Load KusabaX config
-	require $kusabaxc['config'];
+	require $temp;
+	
+	unlink($temp);
 	
 	if(KU_DBTYPE != 'mysql' && KU_DBTYPE != 'mysqli')
 		error('Database type <strong>' . KU_DBTYPE . '</strong> not supported!');
