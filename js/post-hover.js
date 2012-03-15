@@ -20,17 +20,26 @@ $(document).ready(function(){
 		}
 		
 		var post = $('div.post#reply_' + id);
+		if(post.length == 0)
+			return;
+		
 		$(this).hover(function(e) {
-			post.clone()
-				.attr('id', 'post-hover-' + id)
-				.addClass('post-hover')
-				.css('position', 'absolute')
-				.css('left', e.pageX + 15)
-				.css('top', e.pageY - post.height() - 15)
-				.css('border-style', 'solid')
-				.css('box-shadow', '1px 1px 1px #999')
-				.insertAfter($(this).parent());
+			if($(window).scrollTop() <= post.offset().top + post.height()) {
+				// post is in view
+				post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-right-color'));
+			} else {
+				post.clone()
+					.attr('id', 'post-hover-' + id)
+					.addClass('post-hover')
+					.css('position', 'absolute')
+					.css('left', e.pageX + 15)
+					.css('top', e.pageY - post.height() - 15)
+					.css('border-style', 'solid')
+					.css('box-shadow', '1px 1px 1px #999')
+					.insertAfter($(this).parent());
+			}
 		}, function() {
+			post.attr('style', '');
 			$('.post-hover').remove();
 		}).mousemove(function(e) {
 			$('#post-hover-' + id)
