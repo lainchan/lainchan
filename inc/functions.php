@@ -1682,19 +1682,19 @@
 		if(!$config['dns_system']) {
 			$ip_addr = gethostbyname($host);
 			if($ip_addr == $host)
-				return false;
+				$ip_addr = false;
 		} else {
 			$resp = shell_exec('host -W 1 ' . $host);
 			if(preg_match('/has address ([^\s]+)$/', $resp, $m))
 				$ip_addr = $m[1];
 			else
-				return false;
+				$ip_addr = false;
 		}
 		
 		if($config['cache']['enabled'])
 			cache::set('dns_' . $host, $ip_addr, 3600);
 		
-		return $host;
+		return $ip_addr;
 	}
 
 
