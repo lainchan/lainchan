@@ -18,7 +18,7 @@ $(document).ready(function(){
 		var submitButton;
 		
 		if(this.checked) {
-			var post_form = $('<form class="post-actions" method="post" style="margin:4px 0">' +
+			var post_form = $('<form class="post-actions" method="post" style="margin:10px 0 0 0">' +
 				'<div style="text-align:right">' +
 					(!thread ? '<hr>' : '') +
 					
@@ -54,6 +54,8 @@ $(document).ready(function(){
 					
 					return true;
 				});
+			
+			post_form.find('input[type="password"]').val(localStorage.password);
 			
 			if(thread) {
 				post_form.prependTo($(this).parent().parent().find('p.body'));
