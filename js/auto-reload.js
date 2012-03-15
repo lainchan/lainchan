@@ -18,6 +18,9 @@ $(document).ready(function(){
 		return; // not index
 	
 	setInterval(function() {
+		if($(window).scrollTop() + $(window).height() < $('div.post.reply:last').position().top + $('div.post.reply:last').height())
+			return; // not scrolled past last reply
+		
 		$.ajax({
 			url: document.location,
 			success: function(data) {
@@ -29,6 +32,6 @@ $(document).ready(function(){
 				});
 			}
 		});
-	}, 6000);
+	}, 5000);
 });
 
