@@ -26,7 +26,7 @@ $(document).ready(function(){
 				$(data).find('div.post.reply').each(function() {
 					var id = $(this).attr('id');
 					if($('#' + id).length == 0) {
-						$(this).insertAfter($('div.reply:last').next()).after('<br class="clear">');
+						$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
 					}
 				});
 			}
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	};
 	
 	$(window).scroll(function() {
-		if($(this).scrollTop() + $(this).height() < $('div.post.reply:last').position().top + $('div.post.reply:last').height()) {
+		if($(this).scrollTop() + $(this).height() < $('div.post:last').position().top + $('div.post:last').height()) {
 			clearTimeout(poll_interval);
 			poll_interval = false;
 			return;
