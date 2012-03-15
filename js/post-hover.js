@@ -32,19 +32,19 @@ $(document).ready(function(){
 					.attr('id', 'post-hover-' + id)
 					.addClass('post-hover')
 					.css('position', 'absolute')
-					.css('left', e.pageX + 15)
-					.css('top', e.pageY - post.height() - 15)
 					.css('border-style', 'solid')
 					.css('box-shadow', '1px 1px 1px #999')
 					.insertAfter($(this).parent());
+				$(this).trigger('mousemove');
 			}
 		}, function() {
 			post.attr('style', '');
 			$('.post-hover').remove();
 		}).mousemove(function(e) {
+			var top = e.pageY - post.height() - 15;
 			$('#post-hover-' + id)
-				.css('left', e.pageX + 15)
-				.css('top', e.pageY - post.height() - 15);
+				.css('left', $(this).width() + e.pageX)
+				.css('top', top > $(window).scrollTop() ? top : $(window).scrollTop());
 		});
 	});
 });
