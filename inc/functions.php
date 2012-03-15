@@ -88,7 +88,7 @@
 			$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
 		elseif(isset($board['dir']))
 			$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
-			
+		
 		if(!isset($config['uri_img']))
 			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
 		elseif(isset($board['dir']))
@@ -1302,8 +1302,8 @@
 		
 		foreach($config['dnsbl'] as &$blacklist) {
 			$lookup = $ip . '.' . $blacklist;
-			$host = gethostbyname($lookup);
-			if($host != $lookup) {
+			$host = DNS($lookup);
+			if($host !== false) {
 				// On NXDOMAIN (meaning it's not in the blacklist), gethostbyname() returns the host unchanged.
 				if(preg_match('/^127\.0\.0\./', $host) && $host != '127.0.0.10')
 					error(sprintf($config['error']['dnsbl'], $blacklist));
@@ -1672,4 +1672,29 @@
 		return $host;
 	}
 	
-?>
+	function DNS($host) {
+		global $config;
+		
+		if($config['cache']['enabled'] && ($host = cache::get('dns_' . $host))) {
+			return $host;
+		}
+		
+		if(!$config['dns_system']) {
+			$ip_addr = gethostbyname($host);
+			if($ip_addr == $host)
+				return false;
+		} else {
+			$resp = shell_exec('host -W 1 ' . $host);
+			if(preg_match('/has address ([^\s]+)$/', $resp, $m))
+				$ip_addr = $m[1];
+			else
+				return false;
+		}
+		
+		if($config['cache']['enabled'])
+			cache::set('dns_' . $ip_addr, $host, 3600);
+		
+		return $host;
+	}
+
+
