@@ -45,10 +45,6 @@
 	<input type="hidden" name="board" value="{{ board.uri }}" />
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
 	{{ body }}
-	
-	{% if config.javascript_local_time %}
-	<script>{% raw %}init_localtime();{% endraw %}</script>
-	{% endif %}
 	{% include 'report_delete.html' %}
 	</form>
 	<div class="pages">{{ btn.prev }} {% for page in pages %}

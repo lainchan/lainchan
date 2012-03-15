@@ -464,9 +464,6 @@
 	// http://www.php.net/manual/en/function.strftime.php
 	$config['post_date'] = '%m/%d/%y (%a) %H:%M:%S';
 	
-	// Automatically convert all post times to users' local time using Javascript.
-	$config['javascript_local_time'] = false;
-	
 	// Same as above, but used for "you are banned' pages.
 	$config['ban_date'] = '%A %e %B, %Y';
 	
