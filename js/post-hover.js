@@ -21,7 +21,7 @@ $(document).ready(function(){
 		
 		var post = $('div.post#reply_' + id);
 		$(this).hover(function() {
-			post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-color'));
+			post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-right-color'));
 		}, function() {
 			post.attr('style', '');
 		});
