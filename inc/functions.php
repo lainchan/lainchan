@@ -1675,8 +1675,8 @@
 	function DNS($host) {
 		global $config;
 		
-		if($config['cache']['enabled'] && ($host = cache::get('dns_' . $host))) {
-			return $host;
+		if($config['cache']['enabled'] && ($ip_addr = cache::get('dns_' . $host))) {
+			return $ip_addr;
 		}
 		
 		if(!$config['dns_system']) {
@@ -1692,7 +1692,7 @@
 		}
 		
 		if($config['cache']['enabled'])
-			cache::set('dns_' . $ip_addr, $host, 3600);
+			cache::set('dns_' . $host, $ip_addr, 3600);
 		
 		return $host;
 	}
