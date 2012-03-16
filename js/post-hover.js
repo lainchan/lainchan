@@ -12,6 +12,7 @@
  */
 
 $(document).ready(function(){
+	var dont_fetch_again = [];
 	$('p.body a:not([rel="nofollow"])').each(function() {
 		var id;
 		
@@ -43,6 +44,12 @@ $(document).ready(function(){
 				start_hover(this);
 			} else {
 				var link = this;
+				
+				if($.inArray($(this).attr('href'), dont_fetch_again) != -1) {
+					return;
+				}
+				
+				dont_fetch_again.push($(this).attr('href'));
 				$.ajax({
 					url: $(this).attr('href'),
 					context: document.body,
