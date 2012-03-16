@@ -14,7 +14,7 @@
 			$this->format = $format;
 			
 			if($config['imagick']) {
-				$classname = 'ImageImagick';
+				$classname = $config['imagick_convert'] ? 'ImageConvert' : 'ImageImagick';
 			} else {
 				$classname = 'Image' . strtoupper($this->format);
 				if(!class_exists($classname)) {
@@ -39,7 +39,7 @@
 			global $config;
 			
 			if($config['imagick']) {
-				$classname = 'ImageImagick';
+				$classname = $config['imagick_convert'] ? 'ImageConvert' : 'ImageImagick';
 			} else {
 				$classname = 'Image' . strtoupper($extension);
 				if(!class_exists($classname)) {
@@ -200,12 +200,52 @@
 				}		
 			} else {
 				$this->image = clone $this->original;
-				// only resize one frame
 				$this->image->scaleImage($this->width, $this->height, false);
 			}
 		}
 	}
 	
+	
+	class ImageConvert extends ImageBase {
+		public $width, $height, $temp;
+		
+		public function init() {
+			global $config;
+			
+			$this->temp = tempnam($config['tmp'], 'imagick');
+			
+		}
+		public function from() {			
+			if(!$size = @getimagesize($this->src))
+				return $this->image = false;
+			
+			$this->width = $size[0];
+			$this->height = $size[1];
+			
+			// mark as valid
+			$this->image = true;
+		}
+		public function to($src) {
+			rename($this->temp, $src);
+		}
+		public function width() {
+			return $this->width;
+		}
+		public function height() {
+			return $this->height;
+		}
+		public function destroy() {
+			unlink($this->temp);
+		}
+		public function resize() {
+			global $config;
+			
+			$quality = $config['thumb_quality'] * 10;
+			
+			if(shell_exec("convert -flatten -filter Point -resize {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src) . " " . escapeshellarg($this->temp)))
+				error('Failed to resize image!');
+		}
+	}
 	
 	class ImagePNG extends ImageBase {
 		public function from() {

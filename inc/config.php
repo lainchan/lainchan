@@ -102,7 +102,7 @@
 	// Use a persistent connection (experimental)
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
-	$config['db']['dsn'] = '';
+	$config['db']['dsn'] = 'charset=UTF-8';
 	// Timeout duration in seconds (not all drivers support this)
 	$config['db']['timeout'] = 5;
 	
@@ -362,6 +362,9 @@
 	
 	// Use Imagick instead of GD (some further config options below are ignored if set)
 	$config['imagick'] = false;
+	
+	// Use the command line version of ImagickMagick rather than the PHP bindings.
+	$config['imagick_convert'] = false;
 	
 	// Regular expression to check for IE MIME type detection XSS exploit. To disable, comment the line out
 	// https://github.com/savetheinternet/Tinyboard/issues/20
