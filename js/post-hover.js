@@ -42,8 +42,6 @@ $(document).ready(function(){
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
-						.css('left', e.pageX)
-						.css('top', top > $(window).scrollTop() ? top : $(window).scrollTop())
 						.insertAfter($(link).parent());
 					$(link).trigger('mousemove');
 				}
@@ -52,10 +50,9 @@ $(document).ready(function(){
 			post = $('div.post#reply_' + id);
 			console.log(post);
 			if(post.length > 0) {
-				start_hover(this);
+				start_hover(this, e);
 			} else {
 				var link = this;
-				
 				if($.inArray($(this).attr('href'), dont_fetch_again) != -1) {
 					return;
 				}
