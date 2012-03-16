@@ -48,6 +48,7 @@
 			}
 			
 			$thumb = new $classname(false);
+			$thumb->src = $this->src;
 			$thumb->original_width = $this->size->width;
 			$thumb->original_height = $this->size->height;
 			
@@ -105,7 +106,7 @@
 				$this->init();
 			
 			if($img !== false) {
-				$this->src = &$img->src;
+				$this->src = $img->src;
 				$this->from();
 			}
 		}
