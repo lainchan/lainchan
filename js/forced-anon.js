@@ -12,7 +12,7 @@
  */
 
 $(document).ready(function(){
-	var enable_fa = function() {
+	enable_fa = function() {
 		$('p.intro label').each(function() {
 			if($(this).children('a.capcode').length == 0) {
 				var id = $(this).parent().children('a.post_no:eq(1)').text();

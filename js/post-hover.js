@@ -55,6 +55,8 @@ $(document).ready(function(){
 					context: document.body,
 					success: function(data) {
 						post = $('div.post:first').prepend($(data).find('div.post#reply_' + id).css('display', 'none').addClass('hidden')).find('div.post#reply_' + id);
+						if(localStorage['forcedanon'])
+							enable_fa();
 						start_hover(link, post);
 					}
 				});
