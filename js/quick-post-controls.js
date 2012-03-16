@@ -39,7 +39,7 @@ $(document).ready(function(){
 			'</form>');
 			post_form
 				.attr('action', $('form:first').attr('action'))
-				.append($('input[name=board]:first'))
+				.append($('input[name=board]:first').clone())
 				.find('input:not([type="checkbox"]):not([type="submit"]):not([type="hidden"])').keypress(function(e) {
 					if(e.which == 13) {
 						e.preventDefault();
