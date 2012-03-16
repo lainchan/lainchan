@@ -54,8 +54,10 @@ $(document).ready(function(){
 					url: $(this).attr('href'),
 					context: document.body,
 					success: function(data) {
-						post = $('div.post:first').prepend($(data).find('div.post#reply_' + id).css('display', 'none').addClass('hidden')).find('div.post#reply_' + id);
-						if(localStorage['forcedanon'])
+						post = $('div.post:first')
+								.prepend($(data).find('div.post#reply_' + id).css('display', 'none').addClass('hidden'))
+								.find('div.post#reply_' + id);
+						if(typeof window.enable_fa == 'function' && localStorage['forcedanon']) 
 							enable_fa();
 						start_hover(link, post);
 					}
