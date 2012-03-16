@@ -22,8 +22,10 @@ $(document).ready(function(){
 		
 		var post = false;
 		var hovering = false;
+		var hovered_at;
 		$(this).hover(function(e) {
 			hovering = true;
+			hovered_at = {'x': e.pageX, 'y': e.pageY};
 			
 			var start_hover = function(link) {
 				if(post.is(':visible') &&
@@ -33,8 +35,6 @@ $(document).ready(function(){
 					// post is in view
 					post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-right-color'));
 				} else {
-					var top = e.pageY - post.height() - 15;
-					
 					post.clone()
 						.attr('id', 'post-hover-' + id)
 						.addClass('post-hover')
@@ -48,26 +48,28 @@ $(document).ready(function(){
 			};
 			
 			post = $('div.post#reply_' + id);
-			console.log(post);
 			if(post.length > 0) {
-				start_hover(this, e);
+				start_hover(this);
 			} else {
 				var link = this;
-				if($.inArray($(this).attr('href'), dont_fetch_again) != -1) {
+				var url = $(this).attr('href').replace(/#.*$/, '');
+				
+				if($.inArray(url, dont_fetch_again) != -1) {
 					return;
 				}
+				dont_fetch_again.push(url);
 				
-				dont_fetch_again.push($(this).attr('href'));
 				$.ajax({
-					url: $(this).attr('href'),
+					url: url,
 					context: document.body,
 					success: function(data) {
-						post = $('div.post:first')
-								.prepend($(data).find('div.post#reply_' + id).css('display', 'none').addClass('hidden'))
-								.find('div.post#reply_' + id);
+						$('div.post:first').prepend($(data).find('div.post.reply').css('display', 'none').addClass('hidden'));
+						
 						if(typeof window.enable_fa == 'function' && localStorage['forcedanon']) 
 							enable_fa();
-						if(hovering)
+						
+						post = $('div.post#reply_' + id);
+						if(hovering && post.length > 0)
 							start_hover(link);
 					}
 				});
@@ -84,9 +86,11 @@ $(document).ready(function(){
 		}).mousemove(function(e) {
 			if(!post)
 				return;
-			var top = e.pageY - post.height() - 15;
+			
+			var top = (e.pageY ? e.pageY : hovered_at['y']) - 10;
+			
 			$('#post-hover-' + id)
-				.css('left', e.pageX)
+				.css('left', (e.pageX ? e.pageX : hovered_at['x']))
 				.css('top', top > $(window).scrollTop() ? top : $(window).scrollTop());
 		});
 	});
