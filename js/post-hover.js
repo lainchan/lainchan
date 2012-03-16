@@ -27,6 +27,8 @@ $(document).ready(function(){
 					// post is in view
 					post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-right-color'));
 				} else {
+					var top = e.pageY - post.height() - 15;
+					
 					post.clone()
 						.attr('id', 'post-hover-' + id)
 						.addClass('post-hover')
@@ -34,6 +36,8 @@ $(document).ready(function(){
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
+						.css('left', e.pageX)
+						.css('top', top > $(window).scrollTop() ? top : $(window).scrollTop())
 						.insertAfter($(link).parent());
 					$(link).trigger('mousemove');
 				}
@@ -59,7 +63,7 @@ $(document).ready(function(){
 								.find('div.post#reply_' + id);
 						if(typeof window.enable_fa == 'function' && localStorage['forcedanon']) 
 							enable_fa();
-						start_hover(link, post);
+						start_hover(link);
 					}
 				});
 			}
