@@ -102,7 +102,7 @@
 	// Use a persistent connection (experimental)
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
-	$config['db']['dsn'] = 'charset=UTF-8';
+	$config['db']['dsn'] = 'charset=UTF8';
 	// Timeout duration in seconds (not all drivers support this)
 	$config['db']['timeout'] = 5;
 	
