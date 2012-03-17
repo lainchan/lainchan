@@ -823,7 +823,7 @@
  	// Set any of the below to "DISABLED" to make them unavailable for everyone.
  
 	// Don't worry about per-board moderators. Let all mods moderate any board.
-	$config['mod']['skip_per_board'] = true;
+	$config['mod']['skip_per_board'] = false;
 	
 	/* Post Controls */
 	// View IP addresses
