@@ -219,15 +219,17 @@
 			$this->temp = tempnam($config['tmp'], 'imagick');
 			
 		}
-		public function from() {			
-			if(!$size = @getimagesize($this->src))
-				return $this->image = false;
-			
-			$this->width = $size[0];
-			$this->height = $size[1];
-			
-			// mark as valid
-			$this->image = true;
+		public function from() {	
+			$size = trim(shell_exec('identify -format "%w %h" ' . escapeshellarg($this->src . '[0]')));	
+			if(preg_match('/^(\d+) (\d+)$/', $size, $m)) {
+				$this->width = $m[1];
+				$this->height = $m[2];
+				
+				$this->image = true;
+			} else {
+				// mark as invalid
+				$this->image = false;
+			}
 		}
 		public function to($src) {
 			rename($this->temp, $src);
@@ -247,7 +249,7 @@
 			
 			$quality = $config['thumb_quality'] * 10;
 			
-			if(shell_exec("convert -flatten -antialias -filter Point -scale {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)))
+			if(shell_exec("convert -flatten -antialias -filter Point -scale {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 				error('Failed to resize image!');
 		}
 	}
