@@ -1292,6 +1292,7 @@
 	function checkDNSBL() {
 		global $config;
 		
+		
 		if(isIPv6())
 			return; // No IPv6 support yet.
 		
@@ -1303,13 +1304,32 @@
 		
 		$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
 		
-		foreach($config['dnsbl'] as &$blacklist) {
-			$lookup = $ip . '.' . $blacklist;
-			$host = DNS($lookup);
-			if($host !== false) {
-				// On NXDOMAIN (meaning it's not in the blacklist), gethostbyname() returns the host unchanged.
-				if(preg_match('/^127\.0\.0\./', $host) && $host != '127.0.0.10')
-					error(sprintf($config['error']['dnsbl'], $blacklist));
+		foreach($config['dnsbl'] as $blacklist) {
+			if(!is_array($blacklist) == 1)
+				$blacklist = Array($blacklist);
+			
+			if(($lookup = str_replace('%', $ip, $blacklist[0])) == $blacklist[0])
+				$lookup = $ip . '.' . $blacklist[0];
+			
+			if(!$ip = DNS($lookup))
+				continue; // not in list
+			
+			$blacklist_name = isset($blacklist[2]) ? $blacklist[2] : $blacklist[0];
+			
+			if(!isset($blacklist[1])) {
+				// If you're listed at all, you're blocked.
+				error(sprintf($config['error']['dnsbl'], $blacklist_name));
+			} elseif(is_array($blacklist[1])) {
+				foreach($blacklist[1] as $octet) {
+					if($ip == $octet || $ip == '127.0.0.' . $octet)
+						error(sprintf($config['error']['dnsbl'], $blacklist_name));
+				}
+			} elseif(is_callable($blacklist[1])) {
+				if($blacklist[1]($ip))
+					error(sprintf($config['error']['dnsbl'], $blacklist_name));
+			} else {
+				if($ip == $blacklist[1] || $ip == '127.0.0.' . $blacklist_name)
+					error(sprintf($config['error']['dnsbl'], $blacklist_name));
 			}
 		}
 	}

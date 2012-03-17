@@ -165,12 +165,29 @@
 	// Same as above but different IP address
 	$config['flood_time_same'] = 30;
 	
-	// DNS blacklists (DNSBL) http://www.dnsbl.info/dnsbl-list.php
-	$config['dnsbl'][] = 'tor.dnsbl.sectoor.de'; // Tor exit nodes
-	//$config['dnsbl'][] = 'dnsbl.sorbs.net';
-	// A better way to check for Tor exit nodes (https://www.torproject.org/projects/tordnsel.html.en):
-	// server-port.reverse-server-ip.ip-port.exitlist.torproject.org
-	// $config['dnsbl'][] = $_SERVER['PORT'] . '.' . '4.3.2.1' . '.ip-port.exitlist.torproject.org';
+	// DNS blacklists (DNSBL) http://tinyboard.org/docs/dnsbl.html
+	
+	// http://www.sectoor.de/tor.php
+	//$config['dnsbl'][] = Array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
+	
+	// http://www.sorbs.net/using.shtml
+	// $config['dnsbl'][] = Array('dnsbl.sorbs.net', Array(2, 3, 4, 5, 6, 7, 8, 9));
+	
+	// http://www.projecthoneypot.org/httpbl.php
+	// $config['dnsbl'][] = Array('<your access key>.%.dnsbl.httpbl.org', function($ip) {
+	//	$octets = explode('.', $ip);
+	//	
+	//	// days since last activity
+	//	if($octets[1] > 14)
+	//		return false;
+	//	
+	//	// "thread score" (http://www.projecthoneypot.org/threat_info.php)
+	//	if($octets[2] < 5)
+	//		return false;
+	//	
+	//	return true;
+	// }, 'dnsbl.httpbl.org'); // hide our access key
+	
 	
 	// Skip checking certain IP addresses against blacklists (for troubleshooting or whatever)
 	$config['dnsbl_exceptions'][] = '127.0.0.1';
