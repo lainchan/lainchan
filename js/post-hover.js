@@ -90,11 +90,20 @@ $(document).ready(function(){
 			if(!post)
 				return;
 			
+			var hover = $('#post-hover-' + id);
+			if(hover.length == 0)
+				return;
+			
 			var top = (e.pageY ? e.pageY : hovered_at['y']) - 10;
 			
-			$('#post-hover-' + id)
-				.css('left', (e.pageX ? e.pageX : hovered_at['x']))
-				.css('top', top > $(window).scrollTop() ? top : $(window).scrollTop());
+			if(e.pageY < $(window).scrollTop() + 15) {
+				top = $(window).scrollTop();
+			} else if(e.pageY > $(window).scrollTop() + $(window).height() - hover.height() - 15) {
+				top = $(window).scrollTop() + $(window).height() - hover.height() - 15;
+			}
+			
+			
+			hover.css('left', (e.pageX ? e.pageX : hovered_at['x'])).css('top', top);
 		});
 	});
 });
