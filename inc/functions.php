@@ -418,6 +418,9 @@
 		else
 			global $mod;
 		
+		if(!is_array($mod))
+			return false;
+		
 		if(isset($action) && $mod['type'] < $action)
 			return false;
 		
