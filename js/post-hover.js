@@ -63,7 +63,10 @@ $(document).ready(function(){
 					url: url,
 					context: document.body,
 					success: function(data) {
-						$('div.post:first').prepend($(data).find('div.post.reply').css('display', 'none').addClass('hidden'));
+						$(data).find('div.post.reply').each(function() {
+							if($('#' + $(this).attr('id')).length == 0)
+								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
+						});
 						
 						if(typeof window.enable_fa == 'function' && localStorage['forcedanon']) 
 							enable_fa();
