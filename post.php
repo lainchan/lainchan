@@ -471,7 +471,7 @@
 				
 				require_once 'inc/image.php';
 				
-				if($config['imagick']) {
+				if($config['thumb_method'] == 'imagick') {
 					// This is tricky, because Imagick won't let us find
 					// an image's dimensions without loading it all into
 					// memory first, unlike GD which provides the
