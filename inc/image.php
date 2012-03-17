@@ -242,14 +242,14 @@
 			return $this->height;
 		}
 		public function destroy() {
-			unlink($this->temp);
+			@unlink($this->temp);
 		}
 		public function resize() {
 			global $config;
 			
 			$quality = $config['thumb_quality'] * 10;
 			
-			if(shell_exec("convert -flatten -antialias -filter Point -scale {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+			if(shell_exec("convert -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 				error('Failed to resize image!');
 		}
 	}
