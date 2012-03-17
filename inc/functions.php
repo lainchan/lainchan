@@ -1328,7 +1328,7 @@
 				if($blacklist[1]($ip))
 					error(sprintf($config['error']['dnsbl'], $blacklist_name));
 			} else {
-				if($ip == $blacklist[1] || $ip == '127.0.0.' . $blacklist_name)
+				if($ip == $blacklist[1] || $ip == '127.0.0.' . $blacklist[1])
 					error(sprintf($config['error']['dnsbl'], $blacklist_name));
 			}
 		}
