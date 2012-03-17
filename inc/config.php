@@ -168,7 +168,7 @@
 	// DNS blacklists (DNSBL) http://tinyboard.org/docs/dnsbl.html
 	
 	// http://www.sectoor.de/tor.php
-	//$config['dnsbl'][] = Array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
+	$config['dnsbl'][] = Array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
 	
 	// http://www.sorbs.net/using.shtml
 	// $config['dnsbl'][] = Array('dnsbl.sorbs.net', Array(2, 3, 4, 5, 6, 7, 8, 9));
