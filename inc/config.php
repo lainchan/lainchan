@@ -360,11 +360,13 @@
 	// Requires $config['thumb_ext'] to be 'gif' $config['imagick'] to be enabled.
 	$config['thumb_keep_animation_frames'] = 1;
 	
-	// Use Imagick instead of GD (some further config options below are ignored if set)
-	$config['imagick'] = false;
-	
-	// Use the command line version of ImagickMagick rather than the PHP bindings.
-	$config['imagick_convert'] = false;
+	// Thumbnailing method:
+	//	- 'gd'		PHP GD (default). Only handles the most basic image formats (GIF, JPEG, PNG). This is a prerequisite
+	//			for Tinyboard no matter what method you choose.
+	//	- 'imagick'	PHP's ImageMagick bindings. Fast and efficient, supporting many image formats. A  few minor bugs.
+	//			http://pecl.php.net/package/imagick
+	//	- 'convert'	The command line version of ImageMagick (`convert`). Fixes most of the bugs in PHP Imagick.
+	$config['thumb_method'] = 'gd';
 	
 	// Regular expression to check for IE MIME type detection XSS exploit. To disable, comment the line out
 	// https://github.com/savetheinternet/Tinyboard/issues/20
