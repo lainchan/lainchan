@@ -231,6 +231,7 @@
 		}
 		public function to($src) {
 			rename($this->temp, $src);
+			chmod($src, 0664);
 		}
 		public function width() {
 			return $this->width;
