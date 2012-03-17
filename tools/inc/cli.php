@@ -20,10 +20,10 @@ elseif(file_exists('Tinyboard') && is_dir('Tinyboard') && file_exists('Tinyboard
 elseif(file_exists('../inc/functions.php'))
 	$dir = '..';
 else
-	die('Could not locate Tinyboard directory!');
+	die("Could not locate Tinyboard directory!\n");
 
 if($dir && !chdir($dir))
-	die('Could not change directory to ' . $dir . '!');
+	die("Could not change directory to {$dir}\n");
 
 if(!getenv('TINYBOARD_PATH')) {
 	// follow symlink
