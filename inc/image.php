@@ -13,8 +13,10 @@
 			$this->src = $src;
 			$this->format = $format;
 			
-			if($config['imagick']) {
-				$classname = $config['imagick_convert'] ? 'ImageConvert' : 'ImageImagick';
+			if($config['thumb_method'] == 'imagick') {
+				$classname = 'ImageImagick';
+			} elseif($config['thumb_method'] == 'convert') {
+				$classname = 'ImageConvert';
 			} else {
 				$classname = 'Image' . strtoupper($this->format);
 				if(!class_exists($classname)) {
@@ -38,8 +40,10 @@
 		public function resize($extension, $max_width, $max_height) {
 			global $config;
 			
-			if($config['imagick']) {
-				$classname = $config['imagick_convert'] ? 'ImageConvert' : 'ImageImagick';
+			if($config['thumb_method'] == 'imagick') {
+				$classname = 'ImageImagick';
+			} elseif($config['thumb_method'] == 'convert') {
+				$classname = 'ImageConvert';
 			} else {
 				$classname = 'Image' . strtoupper($extension);
 				if(!class_exists($classname)) {
@@ -242,7 +246,7 @@
 			
 			$quality = $config['thumb_quality'] * 10;
 			
-			if(shell_exec("convert -flatten -filter Point -resize {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src) . " " . escapeshellarg($this->temp)))
+			if(shell_exec("convert -flatten -filter Point -resize {$this->width}x{$this->height} -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)))
 				error('Failed to resize image!');
 		}
 	}
