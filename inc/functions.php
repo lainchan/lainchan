@@ -5,6 +5,7 @@
 		exit;
 	}
 	
+	require 'inc/events.php';
 	require 'contrib/gettext/gettext.inc';
 	
 	register_shutdown_function('fatal_error_handler');
@@ -14,6 +15,13 @@
 	function loadConfig() {
 		global $board, $config, $__ip, $debug, $__version;
 		
+		reset_events();
+		
+		if(!defined('PHP_VERSION_ID')) {
+			$version = explode('.', PHP_VERSION);
+			define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+		}
+
 		if(!isset($_SERVER['REMOTE_ADDR']))
 			$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 		

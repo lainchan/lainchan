@@ -595,6 +595,11 @@
 				$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		
+		if($error = event('post', $post)) {
+			undoImage($post);
+			error($error);
+		}
+		
 		$id = post($post, $OP);
 		
 		if(isset($post['tracked_cites'])) {
@@ -643,7 +648,6 @@
 		if($config['syslog'])
 			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP ? '#' . $id : ''));
 		
-		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
 	} else {
 		if(!file_exists($config['has_installed'])) {

@@ -956,6 +956,23 @@
 	
 /*
  * ====================
+ *  Events (PHP 5.3.0+)
+ * ====================
+ */
+
+	// event_handler('post', function($post) {
+	// 	// do something
+	// });
+	
+	// event_handler('post', function($post) {
+	// 	// do something else
+	// 	
+	// 	// return an error (reject post)
+	// 	return 'Sorry, you cannot post that!';
+	// });
+
+/*
+ * ====================
  *  Other/uncategorized
  * ====================
  */
