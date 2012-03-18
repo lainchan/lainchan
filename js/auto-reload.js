@@ -33,7 +33,7 @@ $(document).ready(function(){
 			}
 		});
 		
-		poll_interval = setTimeout(poll, 500);
+		poll_interval = setTimeout(poll, 5000);
 	};
 	
 	$(window).scroll(function() {
