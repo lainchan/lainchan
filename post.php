@@ -552,7 +552,6 @@
 					if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
 						error($config['error']['nomove']);
 				}
-				
 				$image->destroy();
 			} else {
 				// not an image
@@ -648,6 +647,7 @@
 		if($config['syslog'])
 			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP ? '#' . $id : ''));
 		
+		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);
 	} else {
 		if(!file_exists($config['has_installed'])) {
