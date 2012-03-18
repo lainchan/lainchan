@@ -8,8 +8,6 @@ function event() {
 	$event = $args[0];
 	$args = array_splice($args, 1);
 	
-	rebuildThemes($event);
-	
 	if(!isset($events[$event]))
 		return false;
 	
