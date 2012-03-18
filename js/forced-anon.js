@@ -11,24 +11,26 @@
  *
  */
 
-$(document).ready(function(){
-	enable_fa = function() {
-		$('p.intro label').each(function() {
-			if($(this).children('a.capcode').length == 0) {
-				var id = $(this).parent().children('a.post_no:eq(1)').text();
-				
-				if($(this).children('a.email').length != 0)
-					var p = $(this).children('a.email');
-				else
-					var p = $(this);
-				
-				old_info[id] = {'name': p.children('span.name').text(), 'trip': p.children('span.trip').text()};
-				
-				p.children('span.name').text('Anonymous');
-				if(p.children('span.trip').length != 0)
-					p.children('span.trip').text('');
-			}
-		});
+$(document).ready(function() {
+	var force_anon = function() {
+		if($(this).children('a.capcode').length == 0) {
+			var id = $(this).parent().children('a.post_no:eq(1)').text();
+			
+			if($(this).children('a.email').length != 0)
+				var p = $(this).children('a.email');
+			else
+				var p = $(this);
+			
+			old_info[id] = {'name': p.children('span.name').text(), 'trip': p.children('span.trip').text()};
+			
+			p.children('span.name').text('Anonymous');
+			if(p.children('span.trip').length != 0)
+				p.children('span.trip').text('');
+		}
+	};
+		
+	var enable_fa = function() {
+		$('p.intro label').each(force_anon);
 	};
 	
 	var disable_fa = function() {
@@ -75,5 +77,9 @@ $(document).ready(function(){
 	if(forced_anon)
 		enable_fa();
 	
+	$(document).bind('new_post', function(e, post) {
+		if(forced_anon)
+			$(post).find('p.intro label').each(force_anon);
+	});
 });
 

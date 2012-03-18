@@ -27,12 +27,13 @@ $(document).ready(function(){
 					var id = $(this).attr('id');
 					if($('#' + id).length == 0) {
 						$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
+						$(document).trigger('new_post', this);
 					}
 				});
 			}
 		});
 		
-		poll_interval = setTimeout(poll, 5000);
+		poll_interval = setTimeout(poll, 500);
 	};
 	
 	$(window).scroll(function() {

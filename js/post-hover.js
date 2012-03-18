@@ -13,17 +13,19 @@
 
 $(document).ready(function(){
 	var dont_fetch_again = [];
-	$('p.body a:not([rel="nofollow"])').each(function() {
+	var init_hover = function() {
+		var link = $(this);
+		
 		var id;
 		
-		if(id = $(this).text().match(/^>>(\d+)$/)) {
+		if(id = $(link).text().match(/^>>(\d+)$/)) {
 			id = id[1];
 		}
 		
 		var post = false;
 		var hovering = false;
 		var hovered_at;
-		$(this).hover(function(e) {
+		$(link).hover(function(e) {
 			hovering = true;
 			hovered_at = {'x': e.pageX, 'y': e.pageY};
 			
@@ -52,7 +54,7 @@ $(document).ready(function(){
 				start_hover(this);
 			} else {
 				var link = this;
-				var url = $(this).attr('href').replace(/#.*$/, '');
+				var url = $(link).attr('href').replace(/#.*$/, '');
 				
 				if($.inArray(url, dont_fetch_again) != -1) {
 					return;
@@ -64,12 +66,9 @@ $(document).ready(function(){
 					context: document.body,
 					success: function(data) {
 						$(data).find('div.post.reply').each(function() {
-							if($('#' + $(this).attr('id')).length == 0)
-								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
+							if($('#' + $(link).attr('id')).length == 0)
+								$('div.post:first').prepend($(link).css('display', 'none').addClass('hidden'));
 						});
-						
-						if(typeof window.enable_fa == 'function' && localStorage['forcedanon']) 
-							enable_fa();
 						
 						post = $('div.post#reply_' + id);
 						if(hovering && post.length > 0)
@@ -105,6 +104,13 @@ $(document).ready(function(){
 			
 			hover.css('left', (e.pageX ? e.pageX : hovered_at['x'])).css('top', top);
 		});
+	};
+	
+	$('p.body a:not([rel="nofollow"])').each(init_hover);
+	
+	// allow to work with auto-reload.js, etc.
+	$(document).bind('new_post', function(e, post) {
+		$(post).find('p.body a:not([rel="nofollow"])').each(init_hover);
 	});
 });
 
