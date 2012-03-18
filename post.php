@@ -587,8 +587,9 @@
 			}
 		}
 		
-		// Remove DIR_* before inserting them into the database.
+		// Remove board directories before inserting them into the database.
 		if($post['has_file']) {
+			$post['file_path'] = $post['file'];
 			$post['file'] = substr_replace($post['file'], '', 0, mb_strlen($board['dir'] . $config['dir']['img']));
 			if($is_an_image && $post['thumb'] != 'spoiler')
 				$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
