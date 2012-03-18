@@ -181,7 +181,7 @@
 	//	if($octets[1] > 14)
 	//		return false;
 	//	
-	//	// "thread score" (http://www.projecthoneypot.org/threat_info.php)
+	//	// "threat score" (http://www.projecthoneypot.org/threat_info.php)
 	//	if($octets[2] < 5)
 	//		return false;
 	//	
