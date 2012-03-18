@@ -216,8 +216,7 @@
 		public function init() {
 			global $config;
 			
-			$this->temp = tempnam($config['tmp'], 'imagick');
-			
+			$this->temp = false;
 		}
 		public function from() {	
 			$size = trim(shell_exec('identify -format "%w %h" ' . escapeshellarg($this->src . '[0]')));	
@@ -232,8 +231,13 @@
 			}
 		}
 		public function to($src) {
-			rename($this->temp, $src);
-			chmod($src, 0664);
+			if(!$this->temp) {
+				// $config['redraw_image']
+				shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
+			} else {
+				rename($this->temp, $src);
+				chmod($src, 0664);
+			}
 		}
 		public function width() {
 			return $this->width;
@@ -243,9 +247,17 @@
 		}
 		public function destroy() {
 			@unlink($this->temp);
+			$this->temp = false;
 		}
 		public function resize() {
 			global $config;
+			
+			if($this->temp) {
+				// remove old
+				$this->destroy();
+			}
+			
+			$this->temp = tempnam($config['tmp'], 'imagick');
 			
 			$quality = $config['thumb_quality'] * 10;
 			

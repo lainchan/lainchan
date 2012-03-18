@@ -455,15 +455,18 @@
 			
 			// Truncate filename if it is too long
 			$post['filename'] = substr($post['filename'], 0, $config['max_filename_len']);
-			// Move the uploaded file
-			if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file'])) error($config['error']['nomove']);
 			
-			$post['filehash'] = $config['file_hash']($post['file']);
-			$post['filesize'] = filesize($post['file']);
+			$upload = $_FILES['file']['tmp_name'];
+			
+			if(!is_readable($upload))
+				error($config['error']['nomove']);
+			
+			$post['filehash'] = $config['file_hash']($upload);
+			$post['filesize'] = filesize($upload);
 			
 			if($is_an_image) {
 				// Check IE MIME type detection XSS exploit
-				$buffer = file_get_contents($post['file'], null, null, null, 255);
+				$buffer = file_get_contents($upload, null, null, null, 255);
 				if(preg_match($config['ie_mime_type_detection'], $buffer)) {
 					undoImage($post);
 					error($config['error']['mime_exploit']);
@@ -482,9 +485,9 @@
 					// PHP's memory limit.
 					
 					// first try GD's getimagesize()
-					if($size = @getimagesize($post['file'])) {
+					if($size = @getimagesize($upload)) {
 						if($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-							file_unlink($post['file']);
+
 							error($config['error']['maxsize']);
 						}
 					} else {
@@ -493,18 +496,16 @@
 					}
 				} else {
 					// find dimensions of an image using GD
-					if(!$size = @getimagesize($post['file'])) {
-						file_unlink($post['file']);
+					if(!$size = @getimagesize($upload)) {
 						error($config['error']['invalidimg']);
 					}
 					if($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-						file_unlink($post['file']);
 						error($config['error']['maxsize']);
 					}
 				}
 				
 				// create image object
-				$image = new Image($post['file'], $post['extension']);
+				$image = new Image($upload, $post['extension']);
 				
 				if($image->size->width > $config['max_width'] || $image->size->height > $config['max_height']) {
 					$image->delete();
@@ -526,7 +527,7 @@
 					$post['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'])) {
 				
 					// Copy, because there's nothing to resize
-					copy($post['file'], $post['thumb']);
+					copy($upload, $post['thumb']);
 				
 					$post['thumbwidth'] = $image->size->width;
 					$post['thumbheight'] = $image->size->height;
@@ -547,6 +548,9 @@
 				
 				if($config['redraw_image']) {
 					$image->to($post['file']);
+				} else {
+					if(!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
+						error($config['error']['nomove']);
 				}
 				
 				$image->destroy();
