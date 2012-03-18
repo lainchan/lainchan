@@ -389,6 +389,8 @@
 			}
 			purge($path);
 		}
+		
+		event('write', $path);
 	}
 	
 	function file_unlink($path) {
@@ -415,6 +417,9 @@
 			}
 			purge($path);
 		}
+		
+		event('unlink', $path);
+		
 		return $ret;
 	}
 	
@@ -470,7 +475,12 @@
 		$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		return (bool)$query->fetch();
+		$flood = (bool)$query->fetch();
+		
+		if(event('check-flood', $post))
+			return true;
+		
+		return $flood;
 	}
 	
 	function until($timestamp) {
@@ -533,6 +543,9 @@
 			return;
 		}		
 		
+		if(event('check-ban', $board))
+			return true;
+		
 		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `uri`, `bans`.`id` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` WHERE (`board` IS NULL OR `uri` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
@@ -577,6 +590,9 @@
 	function threadLocked($id) {
 		global $board;
 		
+		if(event('check-locked', $id))
+			return true;
+		
 		$query = prepare(sprintf("SELECT `locked` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error());
@@ -586,11 +602,14 @@
 			return false;
 		}
 		
-		return (bool) $post['locked'];
+		return (bool)$post['locked'];
 	}
 	
 	function threadSageLocked($id) {
 		global $board;
+		
+		if(event('check-sage-locked', $id))
+			return true;
 		
 		$query = prepare(sprintf("SELECT `sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -706,6 +725,10 @@
 	
 	function bumpThread($id) {
 		global $board;
+		
+		if(event('bump', $id))
+			return true;
+		
 		$query = prepare(sprintf("UPDATE `posts_%s` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 		$query->bindValue(':time', time(), PDO::PARAM_INT);
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -1005,6 +1028,9 @@
 		if(empty($body))
 			return true;
 		
+		if(event('check-robot', $body))
+			return true;
+		
 		$body = makerobot($body);
 		$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
 		$query->bindValue(':hash', $body);
@@ -1034,6 +1060,10 @@
 	
 	function muteTime() {
 		global $config;
+		
+		if($time = event('mute-time'))
+			return $time;
+		
 		// Find number of mutes in the past X hours
 		$query = prepare("SELECT COUNT(*) as `count` FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
 		$query->bindValue(':time', time()-($config['robot_mute_hour']*3600), PDO::PARAM_INT);
@@ -1534,6 +1564,9 @@
 		global $board, $config;
 		$id = round($id);
 		
+		if(event('build-thread', $id))
+			return;
+		
 		if($config['cache']['enabled'] && !$mod) {
 			// Clear cache
 			cache::delete("thread_index_{$board['uri']}_{$id}");
@@ -1590,12 +1623,18 @@
 	function poster_id($ip, $thread) {
 		global $config;
 		
+		if($id = event('poster-id', $ip, $thread))
+			return $id;
+		
 		// Confusing, hard to brute-force, but simple algorithm
 		return substr(sha1(sha1($ip . $config['secure_trip_salt'] . $thread) . $config['secure_trip_salt']), 0, $config['poster_id_length']);
 	}
  
 	function generate_tripcode($name) {
 		global $config;
+		
+		if($trip = event('tripcode', $name))
+			return $trip;
 		
 		if(!preg_match('/^([^#]+)?(##|#)(.+)$/', $name, $match))
 			return Array($name);
