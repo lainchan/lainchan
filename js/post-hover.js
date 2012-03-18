@@ -53,8 +53,7 @@ $(document).ready(function(){
 			if(post.length > 0) {
 				start_hover(this);
 			} else {
-				var link = this;
-				var url = $(link).attr('href').replace(/#.*$/, '');
+				var url = link.attr('href').replace(/#.*$/, '');
 				
 				if($.inArray(url, dont_fetch_again) != -1) {
 					return;
@@ -66,13 +65,15 @@ $(document).ready(function(){
 					context: document.body,
 					success: function(data) {
 						$(data).find('div.post.reply').each(function() {
-							if($('#' + $(link).attr('id')).length == 0)
-								$('div.post:first').prepend($(link).css('display', 'none').addClass('hidden'));
+							if($('#' + $(this).attr('id')).length == 0)
+								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
+
 						});
 						
 						post = $('div.post#reply_' + id);
-						if(hovering && post.length > 0)
+						if(hovering && post.length > 0) {
 							start_hover(link);
+						}
 					}
 				});
 			}
