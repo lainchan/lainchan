@@ -100,5 +100,6 @@
 	if(!$options['quiet'])
 		printf("Complete! Took %g seconds\n", microtime(true) - $start);
 	
+	unset($board);
 	modLog('Rebuilt everything using tools/rebuild.php');
 
