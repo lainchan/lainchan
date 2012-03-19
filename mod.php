@@ -344,7 +344,7 @@
 					continue; // don't override config
 				
 				// are we able to write here?
-				if(!((file_exists($filename) && is_writable($filename)) || (!file_exists($filename) && is_writable($dirname)))) {
+				if(!((file_exists($filename) && is_writable($filename)) || (!file_exists($filename) && is_writable(dirname($filename))))) {
 					// nope
 					$errors[] = 'Cannot write to ' . $filename . '!';
 				}
