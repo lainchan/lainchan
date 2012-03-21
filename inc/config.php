@@ -20,33 +20,8 @@
  *  More information: http://tinyboard.org/wiki/index.php?title=Config
  *
  */
-	
-	/* Ignore this */
-	$config = Array(
-		'db' => Array(),
-		'cache' => Array(),
-		'cookies' => Array(),
-		'error' => Array(),
-		'dir' => Array(),
-		'mod' => Array(),
-		'spam' => Array(),
-		'flood_filters' => Array(),
-		'wordfilters' => Array(),
-		'custom_capcode' => Array(),
-		'custom_tripcode' => Array(),
-		'dnsbl' => Array(),
-		'dnsbl_exceptions' => Array(),
-		'remote' => Array(),
-		'allowed_ext' => Array(),
-		'allowed_ext_files' => Array(),
-		'file_icons' => Array(),
-		'footer' => Array(),
-		'stylesheets' => Array(),
-		'additional_javascript' => Array(),
-		'markup' => Array()
-	);
-	/* End ignore */
-	
+
+
 /*
  * =======================
  *  General/misc settings
