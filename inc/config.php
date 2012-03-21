@@ -344,7 +344,7 @@
 	
 	// Highlight PHP code wrapped in <code> tags (PHP 5.3.0+)
 	// $config['markup'][] = Array(
-	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/s',
+	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/ms',
 	// 	function($matches) {
 	// 		return '<code>' . highlight_string(html_entity_decode($matches[1]), true) . '</code>';
 	// 	}
