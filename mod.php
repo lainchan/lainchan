@@ -350,12 +350,16 @@
 				}
 			}
 			
+			$zip->close();
+			
 			if($errors) {
 				$body = '<div class="ban"><h2>Error(s) upgrading</h2><p>Tinyboard can not self-upgrade until the following is fixed:</p><ul>';
 				foreach($errors as $error) {
 					$body .= '<li>' . $error . '</li>';
 				}
 				$body .= '</ul><p>Please fix the above errors and refresh to try again.</p></div>';
+				
+				unlink($temp);
 				
 				echo Element('page.html', Array(
 					'config' => $config,
@@ -365,13 +369,11 @@
 				exit;
 			}
 			
-			$zip->close();
-			
 			// For some reason, reading the ZIP entries in PHP doesn't seem to work very well.
 			// Use shell instead.
 			shell_exec('TEMP_DIR=$(mktemp -d); unzip -q ' . escapeshellarg($temp) . ' -d $TEMP_DIR -x "' . escapeshellarg($dir) . 'inc/instance-config.php"; mv -v $TEMP_DIR/' . escapeshellarg($dir) . '* "' . getcwd() . '"; rm -rf $TEMP_DIR');
 			
-			unlink($temp);	
+			unlink($temp);
 			
 			echo Element('page.html', Array(
 				'config' => $config,
