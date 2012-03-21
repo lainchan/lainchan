@@ -1440,11 +1440,12 @@
 		
 		$body = utf8tohtml($body);
 		
-		if($config['wiki_markup']) {
-			$body = preg_replace("/(^|\n)==(.+?)==\n?/m", "<span class=\"heading\">$2</span>", $body);
-			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
-			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
-			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
+		foreach($config['markup'] as $markup) {
+			if(is_string($markup[1])) {
+				$body = preg_replace($markup[0], $markup[1], $body);
+			} elseif(is_callable($markup[1])) {
+				$body = preg_replace_callback($markup[0], $markup[1], $body);
+			}
 		}
 		
 		if($config['markup_urls']) {

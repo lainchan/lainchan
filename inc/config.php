@@ -42,7 +42,8 @@
 		'file_icons' => Array(),
 		'footer' => Array(),
 		'stylesheets' => Array(),
-		'additional_javascript' => Array()
+		'additional_javascript' => Array(),
+		'markup' => Array()
 	);
 	/* End ignore */
 	
@@ -319,8 +320,6 @@
 	
 	// Automatically convert things like "..." to Unicode characters ("…")
 	$config['auto_unicode'] = true;
-	// Use some Wiki-like syntax (''em'', '''strong''', ==Heading==, etc)
-	$config['wiki_markup'] = true;
 	// Whether to turn URLs into functional links
 	$config['markup_urls'] = true;
 	
@@ -358,10 +357,30 @@
 	
 /*
  * ====================
+ *  Markup settings
+ * ====================
+ */
+
+	// "Wiki" markup syntax ($config['wiki_markup'] in pervious versions):
+	$config['markup'][] = Array("/'''(.+?)'''/m", "<strong>\$1</strong>");
+	$config['markup'][] = Array("/''(.+?)''/m", "<em>\$1</em>");
+	$config['markup'][] = Array("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">\$1</span>");
+	$config['markup'][] = Array("/(^|\n)==(.+?)==\n?/m", "<span class=\"heading\">\$2</span>");
+	
+	// Highlight PHP code wrapped in <code> tags (PHP 5.3.0+)
+	$config['markup'][] = Array(
+		'/^&lt;code&gt;(.+)&lt;\/code&gt;/s',
+		function($matches) {
+			return '<code>' . highlight_string(html_entity_decode($matches[1]), true) . '</code>';
+		}
+	);
+	
+/*
+ * ====================
  *  Image settings
  * ====================
  */
- 	
+ 
 	// For resizing, max thumbnail size
 	$config['thumb_width'] = 255;
 	$config['thumb_height'] = 255;
