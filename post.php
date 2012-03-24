@@ -595,10 +595,12 @@
 				$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
 		}
 		
+		$post = (object)$post;
 		if($error = event('post', $post)) {
-			undoImage($post);
+			undoImage((array)$post);
 			error($error);
 		}
+		$post = (array)$post;
 		
 		$id = post($post, $OP);
 		

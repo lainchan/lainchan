@@ -6,6 +6,7 @@ function event() {
 	$args = func_get_args();
 	
 	$event = $args[0];
+	
 	$args = array_splice($args, 1);
 	
 	if(!isset($events[$event]))
