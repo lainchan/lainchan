@@ -275,6 +275,10 @@
 				if(hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['uri'] . '/deletebyip/' . $this->id);
 				
+				// Delete all posts by IP (global)
+				if(hasPermission($config['mod']['deletebyip_global'], $board['uri'], $this->mod))
+					$built .= ' ' . confirmLink($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['uri'] . '/deletebyip/' . $this->id . '/global');
+				
 				// Ban
 				if(hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
 					$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
@@ -367,6 +371,10 @@
 				// Delete all posts by IP
 				if(hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
 					$built .= ' ' . confirmLink($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['uri'] . '/deletebyip/' . $this->id);
+				
+				// Delete all posts by IP (global)
+				if(hasPermission($config['mod']['deletebyip_global'], $board['uri'], $this->mod))
+					$built .= ' ' . confirmLink($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['uri'] . '/deletebyip/' . $this->id . '/global');
 				
 				// Ban
 				if(hasPermission($config['mod']['ban'], $board['uri'], $this->mod))

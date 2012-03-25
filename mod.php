@@ -2481,11 +2481,13 @@
 			
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
-		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)$/', $query, $matches)) {
+		} elseif(preg_match('/^\/' . $regex['board'] . 'deletebyip\/(\d+)(\/global)?$/', $query, $matches)) {
 			// Delete all posts by an IP
 			
 			$boardName = &$matches[1];
 			$post = &$matches[2];
+			$global = isset($matches[3]) && $matches[3] == '/global';
+			
 			// Open board
 			if(!openBoard($boardName))
 				error($config['error']['noboard']);
@@ -2499,9 +2501,13 @@
 			
 			$ip = $post['ip'];
 			
-			$boards = listBoards();
+			if($global)
+				$boards = listBoards();
+			else
+				$boards = Array(Array('uri' => $board['uri']));
+			
 			$query = '';
-			foreach($boards as &$_board) {
+			foreach($boards as $_board) {
 				$query .= sprintf("SELECT `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', '', $query);
