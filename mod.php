@@ -1642,7 +1642,8 @@
 				if($report = $query->fetch()) {
 					modLog('Dismissed a report for post #' . $report['post'], $report['board']);
 					
-					$query = prepare("DELETE FROM `reports` WHERE `post` = :post");
+					$query = prepare("DELETE FROM `reports` WHERE `post` = :post AND `board` = :board");
+					$query->bindValue(':board', $report['board'], PDO::PARAM_INT);
 					$query->bindValue(':post', $report['post'], PDO::PARAM_INT);
 					$query->execute() or error(db_error($query));
 				}
