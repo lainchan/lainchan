@@ -10,19 +10,14 @@
  *
  */
 
-$(document).ready(function(){
-	/* This needs to be expanded upon: */
-	var is_mobile = navigator.userAgent.match(/iPhone|iPod|iPad|Android/i);
-	
-	if(is_mobile) {
-		$('span.spoiler').each(function() {
-			$(this).click(function() {
-				if($(this).hasClass('show'))
-					$(this).css('color', 'black').removeClass('show');
-				else
-					$(this).css('color', 'white').addClass('show');
-			});
-		});
+onready(function(){
+	if(navigator.userAgent.match(/iPhone|iPod|iPad|Android/i)) {
+		var spoilers = document.getElementsByClassName('spoiler');
+		for(var i = 0; i < spoilers.length; i++) {
+			spoilers[i].onmousedown = function() {
+				this.style.color = 'white';
+			};
+		}
 	}
 });
 
