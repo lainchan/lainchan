@@ -2088,6 +2088,8 @@
 								$value = '<span style="color:maroon;">' . utf8tohtml(substr($value, 0, 110) . (mb_strlen($value) > 110 ? '&hellip;' : '')) . '</span>';
 						} elseif(gettype($value) == 'integer') {
 							$value = '<span style="color:black;">' . $value . '</span>';
+						} elseif(is_object($value) && get_class($value) == 'Closure') {
+							$value = '[callback]';
 						}
 						
 						$data .= 

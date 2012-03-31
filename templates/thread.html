@@ -35,8 +35,15 @@
 	{{ boardlist.top }}
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	{% if config.url_banner %}<img class="banner" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
-	<h1>{{ board.url }} - {{ board.name }}</h1>
-	<div class="title">{% if board.title %}{{ board.title }}{% endif %}<p>{% if mod %}<a href="?/">{% trans %}Return to dashboard{% endtrans %}</a>{% endif %}</p></div>
+	<header>
+		<h1>{{ board.url }} - {{ board.name }}</h1>
+		<div class="subtitle">
+			{% if board.title %}
+				{{ board.title }}
+			{% endif %}
+			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
+		</div>
+	</header>
 	
 	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
 	
@@ -53,8 +60,10 @@
 	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
-	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2012 Tinyboard Development Group</p>
-	{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
+	<footer>
+		<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2012 Tinyboard Development Group</p>
+		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
+	</footer>>
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>

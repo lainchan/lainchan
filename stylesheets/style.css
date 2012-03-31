@@ -38,22 +38,24 @@ p.intro label {
 h2 {
 	color: #AF0A0F;
 	font-size: 11pt;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
-h1 {
+header {
+	margin: 1em 0;
+}
+header h1 {
 	font-family: tahoma;
 	letter-spacing: -2px;
 	font-size: 20pt;
-	margin-bottom: 0;
+	margin: 0;
 }
-div.title, h1 {
+header div.subtitle, h1 {
 	color: #AF0A0F;
 	text-align: center;
 }
-div.title {
+header div.subtitle {
 	font-size: 8pt;
-	margin-bottom: 2em;
 }
 form {
 	margin-bottom: 4em;
