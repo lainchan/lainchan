@@ -12,7 +12,7 @@
  *
  */
 
-$(document).ready(function(){
+onload(function(){
 	var iso8601 = function(s) {
 		s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
 		s = s.replace(/-/,"/").replace(/-/,"/");
@@ -24,19 +24,22 @@ $(document).ready(function(){
 		return [Math.pow(10, count - num.toString().length), num].join('').substr(1);
 	};
 	
-	$('time').each(function() {
-		if(!$(this).text().match(/^\d+\/\d+\/\d+ \(\w+\) \d+:\d+:\d+$/))
-			return;
+	var times = document.getElementsByTagName('time');
+	
+	for(var i = 0; i < times.length; i++) {
+		if(!times[i].innerHTML.match(/^\d+\/\d+\/\d+ \(\w+\) \d+:\d+:\d+$/))
+			continue;
 		
-		var t = iso8601($(this).attr('datetime'));
+		var t = iso8601(times[i].getAttribute('datetime'));
 		
-		$(this).text(
+		
+		
+		times[i].innerHTML =
 			// date
 			zeropad(t.getMonth() + 1, 2) + "/" + zeropad(t.getDate(), 2) + "/" + t.getFullYear().toString().substring(2) +
 			" (" + ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][t.getDay()]  + ") " +
 			// time
-			zeropad(t.getHours(), 2) + ":" + zeropad(t.getMinutes(), 2) + ":" + zeropad(t.getSeconds(), 2)
-		);
-	});
+			zeropad(t.getHours(), 2) + ":" + zeropad(t.getMinutes(), 2) + ":" + zeropad(t.getSeconds(), 2);
+	};
 });
 
