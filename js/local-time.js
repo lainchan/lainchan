@@ -10,7 +10,7 @@
  *
  */
 
-onload(function(){
+onready(function(){
 	var iso8601 = function(s) {
 		s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
 		s = s.replace(/-/,"/").replace(/-/,"/");

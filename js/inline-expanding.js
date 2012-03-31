@@ -10,7 +10,7 @@
  *
  */
 
-onload(function(){
+onready(function(){
 	var link = document.getElementsByTagName('a');
 	
 	for(var i = 0; i < link.length; i++) {
