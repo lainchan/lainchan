@@ -326,7 +326,7 @@
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 	
-	// Allows quick-reply.js to work (https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/forced-anon.js).
+	// Allows js/quick-reply.js to work
 	// This will make your imageboard more vulnerable to flood attacks.
 	$config['quick_reply'] = false;
 	
@@ -544,17 +544,27 @@
 	
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
-	// Minify Javascript using http://code.google.com/p/minify/
-	$config['minify_js'] = false;
-	
+
+/*
+ * ====================
+ *  Javascript
+ * ====================
+ */
+
 	// Additional Javascript files to include on board index and thread pages.
-	// $config['additional_javascript'][] = 'something.js';
-	// Where these script files are located (defaults to $config['root']).
+	// $config['additional_javascript'][] = 'js/jquery.min.js';
+	// $config['additional_javascript'][] = 'js/auto-reload.js';
+	// $config['additional_javascript'][] = 'js/local-time.js';
+	 
+	// Where these script files are located on the web (defaults to $config['root']).
 	// $config['additional_javascript_url'] = '/js/';
 	
 	// Compile all additional scripts into one file ($config['file_script']) instead of including them seperately.
 	$config['additional_javascript_compile'] = false;
 	
+	// Minify Javascript using http://code.google.com/p/minify/
+	$config['minify_js'] = false;
+
 /*
  * ====================
  *  Video embedding
