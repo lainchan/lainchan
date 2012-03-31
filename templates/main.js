@@ -136,38 +136,6 @@ function rememberStuff() {
 	}
 }
 
-function init_expanding() {
-	link = document.getElementsByTagName('a');
-	for ( i in link ) {
-		if(typeof link[i] == "object" && link[i].childNodes[0].src && link[i].className != 'file') {
-			link[i].onclick = function(e) {
-				if(e.which == 2) {
-					return true;
-				}
-				if(!this.tag) {
-					this.tag = this.childNodes[0].src;
-					this.childNodes[0].src = this.href;
-					this.childNodes[0].style.width = 'auto';
-					this.childNodes[0].style.height = 'auto';
-					this.childNodes[0].style.opacity = '0.4';
-					this.childNodes[0].style.filter = 'alpha(opacity=40)';
-					this.childNodes[0].onload = function() {
-						this.style.opacity = '1';
-						this.style.filter = '';
-					}
-				} else {
-					this.childNodes[0].src = this.tag;
-					this.childNodes[0].style.width = 'auto';
-					this.childNodes[0].style.height = 'auto';
-					this.tag = '';
-				}
-				return false;
-			}
-			
-		}
-	}
-}
-
 function init() {
 	newElement = document.createElement('div');
 	newElement.className = 'styles';
@@ -189,8 +157,6 @@ function init() {
 	
 	if(window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
-	
-	{% endraw %}{% if config.inline_expanding %}{% raw %}init_expanding();{% endraw %}{% endif %}{% raw %}
 }
 
 var RecaptchaOptions = {

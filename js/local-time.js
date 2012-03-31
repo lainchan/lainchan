@@ -6,8 +6,6 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
- *   $config['quick_reply'] = true;
- *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/local-time.js';
  *
  */

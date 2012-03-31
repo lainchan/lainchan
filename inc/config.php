@@ -326,10 +326,6 @@
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 	
-	// Allows js/quick-reply.js to work
-	// This will make your imageboard more vulnerable to flood attacks.
-	$config['quick_reply'] = false;
-	
 /*
  * ====================
  *  Markup settings
@@ -473,9 +469,6 @@
  	// Timezone
 	$config['timezone'] = 'America/Los_Angeles';
 	
-	// Inline expanding of images with Javascript
-	$config['inline_expanding'] = true;
- 	
  	// The format string passed to strftime() for post times
 	// http://www.php.net/manual/en/function.strftime.php
 	$config['post_date'] = '%m/%d/%y (%a) %H:%M:%S';
@@ -552,9 +545,12 @@
  */
 
 	// Additional Javascript files to include on board index and thread pages.
+	$config['additional_javascript'][] = 'js/inline-expanding.js';
+	// $config['additional_javascript'][] = 'js/local-time.js';
+	
+	// Some scripts require jQuery. Check the comments in script files to see what's needed.
 	// $config['additional_javascript'][] = 'js/jquery.min.js';
 	// $config['additional_javascript'][] = 'js/auto-reload.js';
-	// $config['additional_javascript'][] = 'js/local-time.js';
 	 
 	// Where these script files are located on the web (defaults to $config['root']).
 	// $config['additional_javascript_url'] = '/js/';
@@ -564,6 +560,10 @@
 	
 	// Minify Javascript using http://code.google.com/p/minify/
 	$config['minify_js'] = false;
+
+	// Allows js/quick-reply.js to work
+	// This will make your imageboard more vulnerable to flood attacks.
+	$config['quick_reply'] = false;
 
 /*
  * ====================
