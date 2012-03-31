@@ -1,6 +1,6 @@
 /*
  * fix-report-delete-submit.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/fix-report-delete-submit.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/fix-report-delete-submit.js
  *
  * Fixes a known bug regarding the delete/report submit buttons.
  *

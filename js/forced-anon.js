@@ -1,6 +1,6 @@
 /*
  * forced-anon.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/forced-anon.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/forced-anon.js
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>

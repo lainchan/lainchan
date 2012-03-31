@@ -1,6 +1,6 @@
 /*
  * post-hover.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/post-hover.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/post-hover.js
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>

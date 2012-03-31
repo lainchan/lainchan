@@ -1,6 +1,6 @@
 /*
  * quick-reply.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/quick-reply.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/quick-reply.js
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>

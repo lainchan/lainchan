@@ -1,6 +1,6 @@
 /*
  * local-time.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/local-time.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/local-time.js
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>

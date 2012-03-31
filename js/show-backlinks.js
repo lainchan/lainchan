@@ -1,6 +1,6 @@
 /*
  * show-backlinks.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/show-backlinks.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/show-backlinks.js
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>

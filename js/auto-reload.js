@@ -1,6 +1,6 @@
 /*
  * auto-reload.js
- * https://github.com/savetheinternet/Tinyboard-Tools/blob/master/js/auto-reload.js
+ * https://github.com/savetheinternet/Tinyboard/blob/master/js/auto-reload.js
  *
  * Brings AJAX to Tinyboard.
  *
