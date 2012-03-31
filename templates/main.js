@@ -1,5 +1,13 @@
-{% raw %}function get_cookie(cookie_name)
-{
+{% raw %}
+
+var selectedstyle = '{% endraw %}{{ config.default_stylesheet.0 }}{% raw %}';
+var styles = [
+	{% endraw %}{% for stylesheet in stylesheets %}{% raw %}['{% endraw %}{{ stylesheet.name }}{% raw %}', '{% endraw %}{{ stylesheet.uri }}{% raw %}']{% endraw %}{% if not loop.last %}{% raw %},
+	{% endraw %}{% endif %}{% endfor %}{% raw %}
+];
+var saved = {};
+
+function get_cookie(cookie_name) {
 	var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
 	if(results)
 		return (unescape(results[2]));
@@ -7,9 +15,8 @@
 		return null;
 }
 
-function highlightReply(id)
-{
-	if(window.event !== undefined && event.which == 2) {
+function highlightReply(id) {
+	if(typeof window.event != "undefined" && event.which == 2) {
 		// don't highlight on middle click
 		return true;
 	}
@@ -21,23 +28,18 @@ function highlightReply(id)
 			divs[i].className = divs[i].className.replace(/highlighted/, '');
 	}
 	if (id) {
-		post = document.getElementById('reply_'+id);
+		var post = document.getElementById('reply_'+id);
 		if(post)
 			post.className += ' highlighted';
 	}
 }
-function focusId(id)
-{
-	document.getElementById(id).focus();
-	init();
-}
 
 function generatePassword() {
-	pass = '';
-	chars = '{% endraw %}{{ config.genpassword_chars }}{% raw %}';
-	for(i=0;i<8;i++) {
-		rnd = Math.floor(Math.random() * chars.length);
-		pass += chars.substring(rnd,rnd + 1);
+	var pass = '';
+	var chars = '{% endraw %}{{ config.genpassword_chars }}{% raw %}';
+	for(var i = 0; i < 8; i++) {
+		var rnd = Math.floor(Math.random() * chars.length);
+		pass += chars.substring(rnd, rnd + 1);
 	}
 	return pass;
 }
@@ -56,30 +58,23 @@ function dopost(form) {
 	return form.elements['body'].value != "" || form.elements['file'].value != "";
 }
 function citeReply(id) {
-	body = document.getElementById('body');
+	var body = document.getElementById('body');
 	
 	if (document.selection) {
 		// IE
 		body.focus();
-		sel = document.selection.createRange();
+		var sel = document.selection.createRange();
 		sel.text = '>>' + id + '\n';
 	} else if (body.selectionStart || body.selectionStart == '0') {
 		// Mozilla
-		start = body.selectionStart;
-		end = body.selectionEnd;
+		var start = body.selectionStart;
+		var end = body.selectionEnd;
 		body.value = body.value.substring(0, start) + '>>' + id + '\n' + body.value.substring(end, body.value.length);
 	} else {
 		// ???
 		body.value += '>>' + id + '\n';
 	}
 }
-
-var selectedstyle = '{% endraw %}{{ config.default_stylesheet.0 }}{% raw %}';
-var styles = [
-	{% endraw %}{% for stylesheet in stylesheets %}{% raw %}['{% endraw %}{{ stylesheet.name }}{% raw %}', '{% endraw %}{{ stylesheet.uri }}{% raw %}']{% endraw %}{% if not loop.last %}{% raw %},
-	{% endraw %}{% endif %}{% endfor %}{% raw %}
-];
-var saved = {};
 
 function changeStyle(x) {
 	localStorage.stylesheet = styles[x][1];
@@ -88,7 +83,7 @@ function changeStyle(x) {
 }
 
 if(localStorage.stylesheet) {
-	for(x=0;x<styles.length;x++) {
+	for(var x = 0; x < styles.length ; x++) {
 		if(styles[x][1] == localStorage.stylesheet) {
 			changeStyle(x);
 			break;
@@ -113,10 +108,10 @@ function rememberStuff() {
 			citeReply(window.location.hash.substring(2));
 		
 		if(sessionStorage.body) {
-			saved = JSON.parse(sessionStorage.body);
+			var saved = JSON.parse(sessionStorage.body);
 			if(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}')) {
 				// Remove successful posts
-				successful = JSON.parse(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}'));
+				var successful = JSON.parse(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}'));
 				for (var url in successful) {
 					saved[url] = null;
 				}
@@ -137,11 +132,11 @@ function rememberStuff() {
 }
 
 function init() {
-	newElement = document.createElement('div');
+	var newElement = document.createElement('div');
 	newElement.className = 'styles';
 	
 	for(x=0;x<styles.length;x++) {
-		style = document.createElement('a');
+		var style = document.createElement('a');
 		style.innerHTML = '[' + styles[x][0] + ']';
 		style.href = 'javascript:changeStyle(' + x + ');';
 		if(selectedstyle == styles[x][0])
