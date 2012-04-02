@@ -11,7 +11,7 @@
  */
 
 onready(function(){
-	if(navigator.userAgent.match(/iPhone|iPod|iPad|Android|Opera Mini/i)) {
+	if(navigator.userAgent.match(/iPhone|iPod|iPad|Android|Opera Mini|Blackberry|PlayBook/i)) {
 		var spoilers = document.getElementsByClassName('spoiler');
 		for(var i = 0; i < spoilers.length; i++) {
 			spoilers[i].onmousedown = function() {
