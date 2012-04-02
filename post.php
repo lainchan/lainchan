@@ -624,6 +624,8 @@
 		if($OP)
 			clean();
 		
+		event('post-after', $post);
+		
 		buildIndex();
 		
 		if(isset($_SERVER['HTTP_REFERER'])) {
