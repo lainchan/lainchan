@@ -2811,6 +2811,7 @@
 					markup($post['body']);
 					
 					$botID = post($post, false);
+					buildThread($postID);
 					
 					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['dir']['res'] . sprintf($config['file_page'], $postID) . '#' . $botID, true, $config['redirect_http']);
 				} else {
