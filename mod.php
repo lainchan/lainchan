@@ -1175,8 +1175,6 @@
 				
 				$like = str_replace('%', '%%', $like);
 				
-				// die(var_dump($like));
-				
 				$boards = listBoards();
 				foreach($boards as &$_b) {
 					openBoard($_b['uri']);
@@ -2744,12 +2742,40 @@
 					$replies[] = $post;
 				}
 				
+				$newIDs = Array($postID => $newID);
+				
 				openBoard($targetBoard);
 				foreach($replies as &$post) {
-					post($post, false);
+					$query = prepare("SELECT `target` FROM `cites` WHERE `target_board` = :board AND `board` = :board AND `post` = :post");
+					$query->bindValue(':board', $boardName);
+					$query->bindValue(':post', $post['id'], PDO::PARAM_INT);
+					$query->execute() or error(db_error($qurey));
+					while($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+						if(isset($newIDs[$cite['target']])) {
+							$post['body_nomarkup'] = preg_replace(
+									'/(>>(>\/' . preg_quote($boardName, '/') . '\/)?)' . preg_quote($cite['target'], '/') . '/',
+									'>>' . $newIDs[$cite['target']],
+									$post['body_nomarkup']);
+							
+							$post['body'] = $post['body_nomarkup'];
+							$post['tracked_cites'] = markup($post['body'], true);
+						}
+					}
+					
+					$newIDs[$post['id']] = $newPostID = post($post, false);
+					
 					if($post['has_file']) {
 						$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
 						$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+					}
+					
+					foreach($post['tracked_cites'] as $cite) {
+						$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+						$query->bindValue(':board', $board['uri']);
+						$query->bindValue(':post', $newPostID, PDO::PARAM_INT);
+						$query->bindValue(':target_board',$cite[0]);
+						$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
+						$query->execute() or error(db_error($query));
 					}
 				}
 				
@@ -2791,8 +2817,8 @@
 					deletePost($postID);
 					buildIndex();
 					
-					openBoard($targetBoard);					
-					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['dir']['res'] . sprintf($config['file_page'], $newID), true, $config['redirect_http']);
+					openBoard($targetBoard);
+					header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . sprintf($config['file_page'], $newID), true, $config['redirect_http']);
 				}
 			} else {
 			
