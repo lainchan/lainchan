@@ -332,7 +332,7 @@
 			$host = &$purge[0];
 			$port = &$purge[1];
 			$http_host = isset($purge[2]) ? $purge[2] : $_SERVER['HTTP_HOST'];
-			$request = "PURGE {$uri} HTTP/1.0\r\nHost: {$http_host}\r\nUser-Agent: Tinyboard\r\nConnection: Close\r\n\r\n";
+			$request = "PURGE {$uri} HTTP/1.1\r\nHost: {$http_host}\r\nUser-Agent: Tinyboard\r\nConnection: Close\r\n\r\n";
 			if($fp = fsockopen($host, $port, $errno, $errstr, $config['purge_timeout'])) {
 				fwrite($fp, $request);
 				fclose($fp);
