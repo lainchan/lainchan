@@ -2758,9 +2758,9 @@
 									$post['body_nomarkup']);
 							
 							$post['body'] = $post['body_nomarkup'];
-							$post['tracked_cites'] = markup($post['body'], true);
 						}
 					}
+					$post['tracked_cites'] = markup($post['body'], true);
 					
 					$newIDs[$post['id']] = $newPostID = post($post, false);
 					
