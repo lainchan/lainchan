@@ -3,11 +3,7 @@
 	require 'inc/display.php';
 	require 'inc/template.php';
 	require 'inc/database.php';
-	require 'inc/user.php';
-	
-	// Check if banned
-	checkBan();
-			
+	require 'inc/user.php';	
 	require 'inc/mod.php';
 	
 	if (get_magic_quotes_gpc()) {
