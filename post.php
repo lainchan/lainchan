@@ -18,9 +18,7 @@
 	if(isset($_POST['delete'])) {
 		// Delete
 		
-		if(	!isset($_POST['board']) ||
-			!isset($_POST['password'])
-			)
+		if(!isset($_POST['board'], $_POST['password']))
 			error($config['error']['bot']);
 		
 		$password = &$_POST['password'];
@@ -82,10 +80,7 @@
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	
 	} elseif(isset($_POST['report'])) {
-		if(	!isset($_POST['board']) ||
-			!isset($_POST['password']) ||
-			!isset($_POST['reason'])
-			)
+		if(!isset($_POST['board'], $_POST['password'], $_POST['reason']))
 			error($config['error']['bot']);
 		
 		$report = Array();
@@ -142,10 +137,8 @@
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	} elseif(isset($_POST['post'])) {
 		
-		if(	!isset($_POST['subject']) ||
-			!isset($_POST['body']) ||
-			!isset($_POST['board'])
-			) error($config['error']['bot']);
+		if(!isset($_POST['subject'], $_POST['body'], $_POST['board']))
+			error($config['error']['bot']);
 		
 		if(!isset($_POST['name']))
 			$_POST['name'] = $config['anonymous'];

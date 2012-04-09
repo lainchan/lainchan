@@ -1743,8 +1743,8 @@
 				'<table>' .
 				
 				'<tr><th>URI</th><td>' . $board['uri'] . '</td>' .
-				'<tr><th>Title</th><td><input size="20" maxlength="20" type="text" name="title" value="' . $board['name'] . '" /></td></tr>' .
-				'<tr><th>Subtitle</th><td><input size="20" maxlength="40" type="text" name="subtitle" value="' .
+				'<tr><th>Title</th><td><input size="20" type="text" name="title" value="' . $board['name'] . '" /></td></tr>' .
+				'<tr><th>Subtitle</th><td><input size="20" type="text" name="subtitle" value="' .
 					(isset($board['title']) ? $board['title'] : '') . '" /></td></tr>' .
 				
 				'</table>' .
@@ -2139,14 +2139,6 @@
 					error(sprintf($config['error']['required'], 'URI'));
 				if(empty($b['title']))
 					error(sprintf($config['error']['required'], 'title'));
-				
-				// Check string lengths
-				if(mb_strlen($b['uri']) > 15)
-					error(sprintf($config['error']['toolong'], 'URI'));
-				if(strlen($b['title']) > 40)
-					error(sprintf($config['error']['toolong'], 'title'));
-				if(strlen($b['subtitle']) > 120)
-					error(sprintf($config['error']['toolong'], 'subtitle'));
 				
 				if(!preg_match('/^\w+$/', $b['uri']))
 					error(sprintf($config['error']['invalidfield'], 'URI'));

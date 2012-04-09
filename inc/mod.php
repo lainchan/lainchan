@@ -213,17 +213,17 @@
 						'<table>' .
 						'<tr>' . 
 							'<th><label for="board">URI</label></th>' .
-							'<td><input type="text" name="uri" id="board" size="10" maxlength="15" />' .
+							'<td><input type="text" name="uri" id="board" size="10" />' .
 							' <span class="unimportant">(eg. "b"; "mu")</span></td>' .
 						'</tr>' . 
 						'<tr>' . 
 							'<th><label for="title">Title</label></th>' .
-							'<td><input type="text" name="title" id="title" size="25" maxlength="40" />' .
+							'<td><input type="text" name="title" id="title" size="25" />' .
 							' <span class="unimportant">(eg. "Random")</span></td>' .
 						'</tr>' . 
 						'<tr>' . 
 							'<th><label for="subtitle">Subtitle</label></th>' .
-							'<td><input type="text" name="subtitle" id="subtitle" size="25" maxlength="120" />' .
+							'<td><input type="text" name="subtitle" id="subtitle" size="25" />' .
 							' <span class="unimportant">(optional)</span></td>' .
 						'</tr>' . 
 						'<tr>' . 

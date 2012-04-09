@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `bans` (
 
 CREATE TABLE IF NOT EXISTS `boards` (
   `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `uri` varchar(15) NOT NULL,
-  `title` varchar(40) NOT NULL,
-  `subtitle` varchar(120) DEFAULT NULL,
+  `uri` varchar(50) NOT NULL,
+  `title` TINYTEXT NOT NULL,
+  `subtitle` TINYTEXT DEFAULT NULL,
   PRIMARY KEY (`uri`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;

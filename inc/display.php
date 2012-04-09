@@ -122,7 +122,7 @@
 		$body = html_entity_decode($body, ENT_COMPAT, 'UTF-8');
 		
 		// calculate strlen() so we can add "..." after if needed
-		$strlen = strlen($body);
+		$strlen = mb_strlen($body);
 		
 		$body = substr($body, 0, $len);
 		

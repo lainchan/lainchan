@@ -1,6 +1,6 @@
 <?php
 	// Installation/upgrade file	
-	define('VERSION', 'v0.9.5');
+	define('VERSION', 'v0.9.6-dev-1');
 	
 	require 'inc/functions.php';
 	require 'inc/display.php';
@@ -168,9 +168,14 @@
 				query("ALTER TABLE  `boards` 
 					CHANGE  `uri`  `uri` VARCHAR( 15 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 					CHANGE  `title`  `title` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-					CHANGE  `subtitle`  `subtitle` VARCHAR( 120 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL");
+					CHANGE  `subtitle`  `subtitle` VARCHAR( 120 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
 			case 'v0.9.5-dev-3':
 				// v0.9.5
+			case 'v0.9.5':
+				query("ALTER TABLE  `boards` 
+					CHANGE  `uri`  `uri` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+					CHANGE  `title`  `title` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+					CHANGE  `subtitle`  `subtitle` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
 			case false:
 				// Update version number
 				file_write($config['has_installed'], VERSION);
