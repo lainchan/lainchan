@@ -708,8 +708,15 @@
 			$query->bindValue(':thumbwidth', $post['thumbwidth'], PDO::PARAM_INT);
 			$query->bindValue(':thumbheight', $post['thumbheight'], PDO::PARAM_INT);
 			$query->bindValue(':file', $post['file']);
-			$query->bindValue(':width', $post['width'], PDO::PARAM_INT);
-			$query->bindValue(':height', $post['height'], PDO::PARAM_INT);
+			
+			if(isset($post['width'], $post['height'])) {
+				$query->bindValue(':width', $post['width'], PDO::PARAM_INT);
+				$query->bindValue(':height', $post['height'], PDO::PARAM_INT);
+			} else {
+				$query->bindValue(':width', null, PDO::PARAM_NULL);
+				$query->bindValue(':height', null, PDO::PARAM_NULL);
+			}
+			
 			$query->bindValue(':filesize', $post['filesize'], PDO::PARAM_INT);
 			$query->bindValue(':filename', $post['filename']);
 			$query->bindValue(':filehash', $post['filehash']);
