@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   `subtitle` TINYTEXT DEFAULT NULL,
   PRIMARY KEY (`uri`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `boards`
