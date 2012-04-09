@@ -6,7 +6,7 @@
 	}
 	
 	require 'inc/events.php';
-	require 'contrib/gettext/gettext.inc';
+	require 'lib/gettext/gettext.inc';
 	
 	register_shutdown_function('fatal_error_handler');
 	mb_internal_encoding('UTF-8');
@@ -156,7 +156,7 @@
 			openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
 		
 		if($config['recaptcha'])
-			require_once 'inc/contrib/recaptcha/recaptchalib.php';
+			require_once 'inc/lib/recaptcha/recaptchalib.php';
 		if($config['cache']['enabled'])
 			require_once 'inc/cache.php';
 	}
@@ -1334,7 +1334,7 @@
 		}
 		
 		if($config['minify_js']) {
-			require_once 'inc/contrib/minify/JSMin.php';		
+			require_once 'inc/lib/minify/JSMin.php';		
 			$script = JSMin::minify($script);
 		}
 		

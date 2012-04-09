@@ -5,7 +5,7 @@
 		exit;
 	}
 	
-	require 'contrib/Twig/Autoloader.php';
+	require 'lib/Twig/Autoloader.php';
 	Twig_Autoloader::register();
 	
 	Twig_Autoloader::autoload('Twig_Extensions_Node_Trans');
