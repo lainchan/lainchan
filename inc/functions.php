@@ -15,13 +15,10 @@
 	function loadConfig() {
 		global $board, $config, $__ip, $debug, $__version;
 		
+		$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
+		
 		reset_events();
 		
-		if(!defined('PHP_VERSION_ID')) {
-			$version = explode('.', PHP_VERSION);
-			define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
-		}
-
 		if(!isset($_SERVER['REMOTE_ADDR']))
 			$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 		
@@ -33,9 +30,11 @@
 		}
 		
 		require 'inc/config.php';
-		if (file_exists('inc/instance-config.php')) {
-			require 'inc/instance-config.php';
-		}
+		if(!file_exists('inc/instance-config.php'))
+			$error('Tinyboard is not configured! Create inc/instance-config.php.');
+		
+		require 'inc/instance-config.php';
+		
 		if(isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
 			require $board['dir'] . '/config.php';
 		}
@@ -137,7 +136,6 @@
 			$_SERVER['REMOTE_ADDR'] = $m[2];
 		
 		if(_setlocale(LC_ALL, $config['locale']) === false) {
-			$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
 			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
 		}
 		
@@ -193,9 +191,7 @@
 	}
 	
 	function _syslog($priority, $message) {
-		if(	isset($_SERVER['REMOTE_ADDR']) &&
-			isset($_SERVER['REQUEST_METHOD']) &&
-			isset($_SERVER['REQUEST_URI'])) {
+		if(isset($_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'])) {
 			// CGI
 			syslog($priority, $message . ' - client: ' . $_SERVER['REMOTE_ADDR'] . ', request: "' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . '"');
 		} else {
@@ -203,52 +199,55 @@
 		}
 	}
 	
-	function loadThemeConfig($_theme) {
-		global $config;
-		
-		if(!file_exists($config['dir']['themes'] . '/' . $_theme . '/info.php'))
-			return false;
-		
-		// Load theme information into $theme
-		include $config['dir']['themes'] . '/' . $_theme . '/info.php';
-		return $theme;
-	}
-	
-	function rebuildTheme($theme, $action) {
-		global $config, $_theme;
-		$_theme = $theme;
-		
-		$theme = loadThemeConfig($_theme);
-		
-		if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
-			require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
-			$theme['build_function']($action, themeSettings($_theme));
-		}
-	}
-	
+
 	function rebuildThemes($action) {
-		global $config, $_theme;
-		
 		// List themes
 		$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 		while($theme = $query->fetch()) {
 			rebuildTheme($theme['theme'], $action);
 		}
 	}
+
+
+	function loadThemeConfig($_theme) {
+		global $config;
 	
+		if(!file_exists($config['dir']['themes'] . '/' . $_theme . '/info.php'))
+			return false;
+	
+		// Load theme information into $theme
+		include $config['dir']['themes'] . '/' . $_theme . '/info.php';
+	
+		return $theme;
+	}
+
+	function rebuildTheme($theme, $action) {
+		global $config, $_theme;
+		$_theme = $theme;
+	
+		$theme = loadThemeConfig($_theme);
+	
+		if(file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
+			require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
+		
+			$theme['build_function']($action, themeSettings($_theme));
+		}
+	}
+
+
 	function themeSettings($theme) {
 		$query = prepare("SELECT `name`, `value` FROM `theme_settings` WHERE `theme` = :theme AND `name` IS NOT NULL");
 		$query->bindValue(':theme', $theme);
 		$query->execute() or error(db_error($query));
-		
+	
 		$settings = Array();
 		while($s = $query->fetch()) {
 			$settings[$s['name']] = $s['value'];
 		}
-		
+	
 		return $settings;
 	}
-	
+
 	function sprintf3($str, $vars, $delim = '%') {
 		$replaces = array();
 		foreach($vars as $k => $v) {
