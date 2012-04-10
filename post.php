@@ -4,6 +4,7 @@
 	require 'inc/template.php';
 	require 'inc/database.php';
 	require 'inc/user.php';
+	require 'inc/filters.php';
 	
 	// Fix for magic quotes
 	if (get_magic_quotes_gpc()) {
@@ -152,16 +153,16 @@
 		$post = Array('board' => $_POST['board']);
 		
 		if(isset($_POST['thread'])) {
-			$OP = false;
+			$post['op'] = false;
 			$post['thread'] = round($_POST['thread']);
 		} elseif($config['quick_reply'] && isset($_POST['quick-reply'])) {
-			$OP = false;
+			$post['op'] = false;
 			$post['thread'] = round($_POST['quick-reply']);
 		} else
-			$OP = true;
+			$post['op'] = true;
 		
-		if(!(($OP && $_POST['post'] == $config['button_newtopic']) ||
-		    (!$OP && $_POST['post'] == $config['button_reply'])))
+		if(!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
+		    (!$post['op'] && $_POST['post'] == $config['button_reply'])))
 			error($config['error']['bot']);
 		
 		// Check the referrer
@@ -199,7 +200,7 @@
 		}
 		
 		//Check if thread exists
-		if(!$OP) {
+		if(!$post['op']) {
 			$query = prepare(sprintf("SELECT `sticky`,`locked`,`sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
 			$query->execute() or error(db_error());
@@ -245,8 +246,8 @@
 				error($config['error']['notamod']);
 			}
 			
-			$post['sticky'] = $OP && isset($_POST['sticky']);
-			$post['locked'] = $OP && isset($_POST['lock']);
+			$post['sticky'] = $post['op'] && isset($_POST['sticky']);
+			$post['locked'] = $post['op'] && isset($_POST['lock']);
 			$post['raw'] = isset($_POST['raw']);
 			
 			if($post['sticky'] && !hasPermission($config['mod']['sticky'], $board['uri']))
@@ -269,7 +270,7 @@
 		}
 		
 		// Check for a file
-		if($OP && !isset($post['no_longer_require_an_image_for_op'])) {
+		if($post['op'] && !isset($post['no_longer_require_an_image_for_op'])) {
 			if(!isset($_FILES['file']['tmp_name']) || $_FILES['file']['tmp_name'] == '' && $config['force_image_op'])
 				error($config['error']['noimage']);
 		}
@@ -279,12 +280,12 @@
 		$post['email'] = utf8tohtml($_POST['email']);
 		$post['body'] = $_POST['body'];
 		$post['password'] = $_POST['password'];
-		$post['has_file'] = !isset($post['embed']) && (($OP && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
+		$post['has_file'] = !isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
 		
 		if($post['has_file'])
 			$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
 		
-		if(!($post['has_file'] || isset($post['embed'])) || (($OP && $config['force_body_op']) || (!$OP && $config['force_body']))) {
+		if(!($post['has_file'] || isset($post['embed'])) || (($post['op'] && $config['force_body_op']) || (!$post['op'] && $config['force_body']))) {
 			$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
 			if($stripped_whitespace == '') {
 				error($config['error']['tooshort_body']);
@@ -293,7 +294,7 @@
 		
 		// Check if thread is locked
 		// but allow mods to post
-		if(!$OP && !hasPermission($config['mod']['postinlocked'], $board['uri'])) {
+		if(!$post['op'] && !hasPermission($config['mod']['postinlocked'], $board['uri'])) {
 			if($thread['locked'])
 				error($config['error']['locked']);
 		}
@@ -360,85 +361,7 @@
 			error($config['error']['flood']);
 		}
 		
-		// Custom anti-spam filters
-		if(isset($config['flood_filters'])) {
-			foreach($config['flood_filters'] as &$filter) {
-				unset($did_not_match);
-				// Set up default stuff
-				if(!isset($filter['action']))
-					$filter['action'] = 'reject';
-				if(!isset($filter['message']))
-					$filter['message'] = 'Posting throttled by flood filter.';
-				
-				foreach($filter['condition'] as $condition => $value) {
-					if($condition == 'posts_in_past_x_minutes' && isset($value[0]) && isset($value[1])) {
-						// Check if there's been X posts in the past X minutes (on this board)
-						
-						$query = prepare(sprintf("SELECT COUNT(*) AS `posts` FROM `posts_%s` WHERE `time` >= :time", $board['uri']));	
-						$query->bindValue(':time', time() - ($value[1] * 60), PDO::PARAM_INT);
-						$query->execute() or error(db_error($query));
-						if(($count = $query->fetch()) && $count['posts'] >= $value[0]) {
-							// Matched filter
-							continue;
-						}
-					} elseif($condition == 'threads_with_no_replies_in_past_x_minutes' && isset($value[0]) && isset($value[1])) {
-						// Check if there's been X new empty threads posted in the past X minutes (on this board)
-						
-						// Confusing query. I couldn't think of anything simpler...
-						$query = prepare(sprintf("SELECT ((SELECT COUNT(*) FROM `posts_%s` WHERE `thread` IS NULL AND `time` >= :time) - COUNT(DISTINCT(`threads`.`id`))) AS `posts` FROM `posts_%s` AS `threads` INNER JOIN `posts_%s` AS `replies` ON `replies`.`thread` = `threads`.`id` WHERE `threads`.`thread` IS NULL AND `threads`.`time` >= :time", $board['uri'], $board['uri'], $board['uri']));	
-						$query->bindValue(':time', time() - ($value[1] * 60), PDO::PARAM_INT);
-						$query->execute() or error(db_error($query));
-						if(($count = $query->fetch()) && $count['posts'] >= $value[0]) {
-							// Matched filter
-							continue;
-						}
-					} elseif($condition == 'name') {
-						if(preg_match($value, $post['name']))
-							continue;
-					} elseif($condition == 'trip') {
-						if(preg_match($value, $post['trip']))
-							continue;
-					} elseif($condition == 'email') {
-						if(preg_match($value, $post['email']))
-							continue;
-					} elseif($condition == 'subject') {
-						if(preg_match($value, $post['subject']))
-							continue;
-					} elseif($condition == 'body') {
-						if(preg_match($value, $post['body_nomarkup']))
-							continue;
-					} elseif($condition == 'extension') {
-						if($post['has_file'] && preg_match($value, $post['extension']))
-							continue;
-					} elseif($condition == 'filename') {
-						if($post['has_file'] && preg_match($value, $post['filename']))
-							continue;
-					} elseif($condition == 'has_file') {
-						if($value == $post['has_file'])
-							continue;
-					} elseif($condition == 'ip') {
-						if(preg_match($value, $_SERVER['REMOTE_ADDR']))
-							continue;
-					} elseif($condition == 'OP') {
-						// Am I OP?
-						if($value == $OP)
-							continue;
-					} else {
-						// Unknown block
-						continue;
-					}
-					
-					$did_not_match = true;
-					break;
-				}
-				if(!isset($did_not_match)) {
-					// Matched filter!
-					if(isset($filter) && $filter['action'] == 'reject') {
-						error($filter['message']);
-					}
-				}
-			}
-		}
+		do_filters($post);
 		
 		if($post['has_file']) {
 			if(!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
@@ -527,8 +450,8 @@
 				} else {
 					$thumb = $image->resize(
 						$config['thumb_ext'] ? $config['thumb_ext'] : $post['extension'],
-						$OP ? $config['thumb_op_width'] : $config['thumb_width'],
-						$OP ? $config['thumb_op_height'] : $config['thumb_height']
+						$post['op'] ? $config['thumb_op_width'] : $config['thumb_width'],
+						$post['op'] ? $config['thumb_op_height'] : $config['thumb_height']
 					);
 					
 					$thumb->to($post['thumb']);
@@ -595,7 +518,7 @@
 		}
 		$post = (array)$post;
 		
-		$id = post($post, $OP);
+		$id = post($post);
 		
 		if(isset($post['tracked_cites'])) {
 			foreach($post['tracked_cites'] as $cite) {
@@ -608,13 +531,13 @@
 			}
 		}
 		
-		buildThread($OP ? $id : $post['thread']);
+		buildThread($post['op'] ? $id : $post['thread']);
 		
-		if(!$OP && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
+		if(!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || numPosts($post['thread']) < $config['reply_limit'])) {
 			bumpThread($post['thread']);
 		}
 		
-		if($OP)
+		if($post['op'])
 			clean();
 		
 		event('post-after', $post);
@@ -636,14 +559,16 @@
 		$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 		
 		if($config['always_noko'] || $noko) {
-			$redirect = $root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP ? $id:$post['thread']) . (!$OP ? '#' . $id : '');
+			$redirect = $root . $board['dir'] . $config['dir']['res'] .
+				sprintf($config['file_page'], $post['op'] ? $id:$post['thread']) . (!$post['op'] ? '#' . $id : '');
 		} else {
 			$redirect = $root . $board['dir'] . $config['file_index'];
 			
 		}
 		
 		if($config['syslog'])
-			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $OP?$id:$post['thread']) . (!$OP ? '#' . $id : ''));
+			_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] .
+				sprintf($config['file_page'], $post['op'] ? $id : $post['thread']) . (!$$post['op'] ? '#' . $id : ''));
 		
 		rebuildThemes('post');
 		header('Location: ' . $redirect, true, $config['redirect_http']);

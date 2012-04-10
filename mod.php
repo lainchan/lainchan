@@ -2683,6 +2683,7 @@
 				if(!$post = $query->fetch()) {
 					error($config['error']['nonexistant']);
 				}
+				$post['op'] = true;
 				
 				if($post['file']) {
 					$post['has_file'] = true;
@@ -2699,7 +2700,7 @@
 				if(!openBoard($targetBoard))
 					error($config['error']['noboard']);
 				
-				$newID = post($post, true);
+				$newID = post($post);
 				
 				if($post['has_file']) {
 					$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
@@ -2748,9 +2749,10 @@
 							$post['body'] = $post['body_nomarkup'];
 						}
 					}
+					$post['op'] = false;
 					$post['tracked_cites'] = markup($post['body'], true);
 					
-					$newIDs[$post['id']] = $newPostID = post($post, false);
+					$newIDs[$post['id']] = $newPostID = post($post);
 					
 					if($post['has_file']) {
 						$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
@@ -2793,12 +2795,13 @@
 						'password' => '',
 						'has_file' => false,
 						// attach to original thread
-						'thread' => $postID
+						'thread' => $postID,
+						'op' => false
 					);
 					
 					markup($post['body']);
 					
-					$botID = post($post, false);
+					$botID = post($post);
 					buildThread($postID);
 					
 					header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['dir']['res'] . sprintf($config['file_page'], $postID) . '#' . $botID, true, $config['redirect_http']);

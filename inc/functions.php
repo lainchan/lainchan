@@ -641,7 +641,7 @@
 		} else return false;
 	}
 	
-	function post($post, $OP) {
+	function post($post) {
 		global $pdo, $board;
 		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 		
@@ -695,7 +695,7 @@
 			$query->bindValue(':embed', NULL, PDO::PARAM_NULL);
 		}
 		
-		if($OP) {
+		if($post['op']) {
 			// No parent thread, image
 			$query->bindValue(':thread', null, PDO::PARAM_NULL);
 		} else {
