@@ -1451,6 +1451,7 @@
 	function markup(&$body, $track_cites = false) {
 		global $board, $config, $markup_urls;
 		
+		$body = str_replace("\r", '', $body);
 		$body = utf8tohtml($body);
 		
 		foreach($config['markup'] as $markup) {
@@ -1557,10 +1558,7 @@
 			}
 		}
 		
-
-		$body = str_replace("\r", '', $body);
-		
-		$body = preg_replace("/(^|\n)([\s]+)?(&gt;)([^\n]+)?($|\n)/m", '$1$2<span class="quote">$3$4</span>$5', $body);
+		$body = preg_replace("/^\s*&gt;.*$/m", '<span class="quote">$0</span>', $body);
 		
 		if($config['strip_superfluous_returns'])
 			$body = preg_replace('/\s+$/', '', $body);

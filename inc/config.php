@@ -333,10 +333,10 @@
  */
 
 	// "Wiki" markup syntax ($config['wiki_markup'] in pervious versions):
-	$config['markup'][] = Array("/'''(.+?)'''/m", "<strong>\$1</strong>");
-	$config['markup'][] = Array("/''(.+?)''/m", "<em>\$1</em>");
-	$config['markup'][] = Array("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">\$1</span>");
-	$config['markup'][] = Array("/(^|\n)==(.+?)==\n?/m", "<span class=\"heading\">\$2</span>");
+	$config['markup'][] = Array("/'''(.+?)'''/", "<strong>\$1</strong>");
+	$config['markup'][] = Array("/''(.+?)''/", "<em>\$1</em>");
+	$config['markup'][] = Array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
+	$config['markup'][] = Array("/^\s*==(.+?)==\s*$/m", "<span class=\"heading\">\$1</span>");
 	
 	// Highlight PHP code wrapped in <code> tags (PHP 5.3.0+)
 	// $config['markup'][] = Array(
