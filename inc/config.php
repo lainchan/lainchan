@@ -17,7 +17,7 @@
  *  Some directives are commented out. This is either because they are optional and examples, or because
  *  they are "optionally configurable", and given their default values by Tinyboard's code later if unset.
  *
- *  More information: http://tinyboard.org/wiki/index.php?title=Config
+ *  More information: http://tinyboard.org/docs/?p=Config
  *
  */
 
@@ -141,7 +141,7 @@
 	// Same as above but different IP address
 	$config['flood_time_same'] = 30;
 	
-	// DNS blacklists (DNSBL) http://tinyboard.org/docs/dnsbl.html
+	// DNS blacklists (DNSBL) http://tinyboard.org/docs/?p=Config/DNSBL
 	
 	// http://www.sectoor.de/tor.php
 	$config['dnsbl'][] = Array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
@@ -966,6 +966,8 @@
  *  Events (PHP 5.3.0+)
  * ====================
  */
+
+	// http://tinyboard.org/docs/?p=Events
 
 	// event_handler('post', function($post) {
 	// 	// do something

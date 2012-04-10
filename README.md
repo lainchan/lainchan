@@ -36,7 +36,7 @@ Installation
 
 Please remember to change the administrator account password.
 
-See also: [Configuration Basics](http://tinyboard.org/docs/config_basics.html).
+See also: [Configuration Basics](http://tinyboard.org/docs/?p=Config).
 
 Support
 --------
