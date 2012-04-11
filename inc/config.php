@@ -19,6 +19,8 @@
  *
  *  More information: http://tinyboard.org/docs/?p=Config
  *
+ *  Tinyboard documentation: http://tinyboard.org/docs/
+ *
  */
 
 
@@ -100,8 +102,8 @@
 	$config['cache']['prefix'] = '';
 	
 	// Memcached servers to use - http://www.php.net/manual/en/memcached.addservers.php
-	$config['cache']['memcached'] = Array(
-		Array('localhost', 11211)
+	$config['cache']['memcached'] = array(
+		array('localhost', 11211)
 	);
 	
 /*
@@ -144,13 +146,13 @@
 	// DNS blacklists (DNSBL) http://tinyboard.org/docs/?p=Config/DNSBL
 	
 	// http://www.sectoor.de/tor.php
-	$config['dnsbl'][] = Array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
+	$config['dnsbl'][] = array('tor.dnsbl.sectoor.de', 1); // Tor exit servers
 	
 	// http://www.sorbs.net/using.shtml
-	// $config['dnsbl'][] = Array('dnsbl.sorbs.net', Array(2, 3, 4, 5, 6, 7, 8, 9));
+	// $config['dnsbl'][] = array('dnsbl.sorbs.net', array(2, 3, 4, 5, 6, 7, 8, 9));
 	
 	// http://www.projecthoneypot.org/httpbl.php
-	// $config['dnsbl'][] = Array('<your access key>.%.dnsbl.httpbl.org', function($ip) {
+	// $config['dnsbl'][] = array('<your access key>.%.dnsbl.httpbl.org', function($ip) {
 	//	$octets = explode('.', $ip);
 	//	
 	//	// days since last activity
@@ -172,7 +174,7 @@
 	$config['spam']['hidden_inputs_min'] = 4;
 	$config['spam']['hidden_inputs_max'] = 12;
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
-	$config['spam']['hidden_input_names'] = Array(
+	$config['spam']['hidden_input_names'] = array(
 		'user',
 		'username',
 		'login',
@@ -185,7 +187,7 @@
 		'message'
 	);
 	// Always update this when adding new valid fields to the post form, or EVERYTHING WILL BE DETECTED AS SPAM!
-	$config['spam']['valid_inputs'] = Array(
+	$config['spam']['valid_inputs'] = array(
 		'hash',
 		'board',
 		'thread',
@@ -208,10 +210,10 @@
 	
 	// Custom flood filters. Detect flood attacks and reject new posts if there's a positive match.
 	// See http://tinyboard.org/wiki/index.php?title=Flood_filters for more information.
-	//$config['flood_filters'][] = Array(
-	//	'condition' => Array(
+	//$config['flood_filters'][] = array(
+	//	'condition' => array(
 	//		// 100 posts in the past 5 minutes (~20 p/m)
-	//		'posts_in_past_x_minutes' => Array(100, 5)
+	//		'posts_in_past_x_minutes' => array(100, 5)
 	//	),
 	//	// Don't allow the user to post
 	//	'action' => 'reject',
@@ -220,10 +222,10 @@
 	//);
 	
 	// Another filter
-	//$config['flood_filters'][] = Array(
-	//	'condition' => Array(
+	//$config['flood_filters'][] = array(
+	//	'condition' => array(
 	//		// 10 new empty threads in the past 2 minutes
-	//		'threads_with_no_replies_in_past_x_minutes' => Array(10, 2),
+	//		'threads_with_no_replies_in_past_x_minutes' => array(10, 2),
 	//		// Allow replies, but not new threads (ie. reject topics only).
 	//		'OP' => true
 	//	),
@@ -300,10 +302,10 @@
 	
 	// Wordfilters are used to automatically replace certain words/phrases with something else.
 	// For a normal string replacement:
-	// $config['wordfilters'][] = Array('cat', 'dog');
+	// $config['wordfilters'][] = array('cat', 'dog');
 	
 	// Advanced raplcement (regular expressions):
-	// $config['wordfilters'][] = Array('/cat/', 'dog', true); // 'true' means it's a regular expression
+	// $config['wordfilters'][] = array('/cat/', 'dog', true); // 'true' means it's a regular expression
 	
 	// Always act as if they had typed "noko" in the email field no mattter what
 	$config['always_noko'] = false;
@@ -333,13 +335,13 @@
  */
 
 	// "Wiki" markup syntax ($config['wiki_markup'] in pervious versions):
-	$config['markup'][] = Array("/'''(.+?)'''/", "<strong>\$1</strong>");
-	$config['markup'][] = Array("/''(.+?)''/", "<em>\$1</em>");
-	$config['markup'][] = Array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
-	$config['markup'][] = Array("/^\s*==(.+?)==\s*$/m", "<span class=\"heading\">\$1</span>");
+	$config['markup'][] = array("/'''(.+?)'''/", "<strong>\$1</strong>");
+	$config['markup'][] = array("/''(.+?)''/", "<em>\$1</em>");
+	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
+	$config['markup'][] = array("/^\s*==(.+?)==\s*$/m", "<span class=\"heading\">\$1</span>");
 	
 	// Highlight PHP code wrapped in <code> tags (PHP 5.3.0+)
-	// $config['markup'][] = Array(
+	// $config['markup'][] = array(
 	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/ms',
 	// 	function($matches) {
 	// 		return highlight_string(html_entity_decode($matches[1]), true);
@@ -507,29 +509,29 @@
 	// $config['uri_stylesheets'] = 'http://static.example.org/stylesheets/';
 	
 	// The default stylesheet to use
-	$config['default_stylesheet'] = Array('Yotsuba B', $config['stylesheets']['Yotsuba B']);
+	$config['default_stylesheet'] = array('Yotsuba B', $config['stylesheets']['Yotsuba B']);
 	
 	// Boardlinks
 	// You can group, order and place the boardlist at the top of every page, using the following template.	
-	//$config['boards'] = Array(
-	//	Array('a', 'b'),
-	//	Array('c', 'd', 'e', 'f', 'g'),
-	//	Array('h', 'i', 'j'),
-	//	Array('k', Array('l', 'm')),
-	//	Array('status' => 'http://status.example.org/')
+	//$config['boards'] = array(
+	//	array('a', 'b'),
+	//	array('c', 'd', 'e', 'f', 'g'),
+	//	array('h', 'i', 'j'),
+	//	array('k', array('l', 'm')),
+	//	array('status' => 'http://status.example.org/')
 	//);
 	
 	// Categories
 	// Required for the Categories theme.
-	//$config['categories'] = Array(
-	//	'Group Name' => Array('a', 'b', 'c'),
-	//	'Another Group' => Array('d')
+	//$config['categories'] = array(
+	//	'Group Name' => array('a', 'b', 'c'),
+	//	'Another Group' => array('d')
 	//);
 	
 	// Custom_categories
-	// Optional for the Categories theme. Array of name => (title, url) groups for categories with non-board links.
-	//$config['custom_categories'] = Array(
-	//	'Links' => Array(
+	// Optional for the Categories theme. array of name => (title, url) groups for categories with non-board links.
+	//$config['custom_categories'] = array(
+	//	'Links' => array(
 	//		'Tinyboard' => 'http://tinyboard.org',
 	//		'Donate' => 'donate.html'
 	//	)
@@ -576,24 +578,24 @@
 	
 	// Custom embedding (YouTube, vimeo, etc.)
 	// It's very important that you match the full string (with ^ and $) or things will not work correctly.
-	$config['embedding'] = Array(
-		Array(
+	$config['embedding'] = array(
+		array(
 			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9\-_]{10,11})(&.+)?$/i',
 			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/$2?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" width="%%tb_width%%" height="%%tb_height%%" allowscriptaccess="always" allowfullscreen="true"></embed></object>'
 		),
-		Array(
+		array(
 			'/^https?:\/\/(\w+\.)?vimeo\.com\/(\d{2,10})(\?.+)?$/i',
 			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=$2&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=$2&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="%%tb_width%%" height="%%tb_height%%"></embed></object>'
 		),
-		Array(
+		array(
 			'/^https?:\/\/(\w+\.)?dailymotion\.com\/video\/([a-zA-Z0-9]{2,10})(_.+)?$/i',
 			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.dailymotion.com/swf/video/$2"></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><param name="wmode" value="transparent"></param><embed type="application/x-shockwave-flash" src="http://www.dailymotion.com/swf/video/$2" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></embed></object>'
 		),
-		Array(
+		array(
 			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?.+)?$/i',
 			'<div style="float:left;margin:10px 20px;width:%%tb_width%%px;height:%%tb_height%%px"><embed flashVars="playerVars=showStats=no|autoPlay=no" src="http://www.metacafe.com/fplayer/$2/$3.swf" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowFullScreen="true" allowScriptAccess="always" name="Metacafe_$2" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed></div>'
 		),
-		Array(
+		array(
 			'/^https?:\/\/video\.google\.com\/videoplay\?docid=(\d+)([&#](.+)?)?$/i',
 			'<embed src="http://video.google.com/googleplayer.swf?docid=$1&hl=en&fs=true" style="width:%%tb_width%%px;height:%%tb_height%%px;float:left;margin:10px 20px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
 		)
@@ -767,14 +769,14 @@
 	//$config['custom_capcode']['Custom'] ='<a class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</a>';
 	
 	// "## Mod" makes everything purple, including the name and tripcode
-	//$config['custom_capcode']['Mod'] = Array(
+	//$config['custom_capcode']['Mod'] = array(
 	//	'<a class="capcode" style="color:purple"> ## %s</a>',
 	//	'color:purple', // Change name style; optional
 	//	'color:purple' // Change tripcode style; optional
 	//);
 	
 	// "## Admin" makes everything red and bold, including the name and tripcode
-	//$config['custom_capcode']['Admin'] = Array(
+	//$config['custom_capcode']['Admin'] = array(
 	//	'<a class="capcode" style="color:red;font-weight:bold"> ## %s</a>',
 	//	'color:red;font-weight:bold', // Change name style; optional
 	//	'color:red;font-weight:bold' // Change tripcode style; optional
@@ -996,18 +998,18 @@
 	
  	// If you use Varnish, Squid, or any similar caching reverse-proxy in front of Tinyboard,
 	// you can configure Tinyboard to PURGE files when they're written to
-	//$config['purge'] = Array(
-	//	Array('127.0.0.1', 80)
-	//	Array('127.0.0.1', 80, 'example.org')
+	//$config['purge'] = array(
+	//	array('127.0.0.1', 80)
+	//	array('127.0.0.1', 80, 'example.org')
 	//);
 	// Connection timeout, in seconds
 	$config['purge_timeout'] = 3;
 	
 	// Remote servers
 	// http://tinyboard.org/wiki/index.php?title=Multiple_Servers
-	//$config['remote']['static'] = Array(
+	//$config['remote']['static'] = array(
 	//	'host' => 'static.example.org',
-	//	'auth' => Array(
+	//	'auth' => array(
 	//		'method' => 'plain',
 	//		'username' => 'username',
 	//		'password' => 'password!123'
@@ -1019,11 +1021,4 @@
 	$config['url_regex'] = '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
 	// INSANE regular expression for IPv6 addresses
 	$config['ipv6_regex'] = '((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
-	
-	
-	if($_SERVER['SCRIPT_FILENAME'] == str_replace('\\', '/', __FILE__)) {
-		// You cannot request this file directly.
-		header('Location: ../', true, 302);
-		exit;
-	}
-?>
+

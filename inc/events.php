@@ -1,5 +1,14 @@
 <?php
 
+/*
+ *  Copyright (c) 2010-2012 Tinyboard Development Group
+ */
+
+if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+	// You cannot request this file directly.
+	exit;
+}
+
 function event() {
 	global $events;
 	
