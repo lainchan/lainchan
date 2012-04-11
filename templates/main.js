@@ -9,7 +9,7 @@ var saved = {};
 
 function get_cookie(cookie_name) {
 	var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
-	if(results)
+	if (results)
 		return (unescape(results[2]));
 	else
 		return null;
@@ -29,7 +29,7 @@ function highlightReply(id) {
 	}
 	if (id) {
 		var post = document.getElementById('reply_'+id);
-		if(post)
+		if (post)
 			post.className += ' highlighted';
 	}
 }
@@ -37,7 +37,7 @@ function highlightReply(id) {
 function generatePassword() {
 	var pass = '';
 	var chars = '{% endraw %}{{ config.genpassword_chars }}{% raw %}';
-	for(var i = 0; i < 8; i++) {
+	for (var i = 0; i < 8; i++) {
 		var rnd = Math.floor(Math.random() * chars.length);
 		pass += chars.substring(rnd, rnd + 1);
 	}
@@ -45,10 +45,10 @@ function generatePassword() {
 }
 
 function dopost(form) {
-	if(form.elements['name']) {
+	if (form.elements['name']) {
 		localStorage.name = form.elements['name'].value.replace(/ ##.+$/, '');
 	}
-	if(form.elements['email'] && form.elements['email'].value != 'sage') {
+	if (form.elements['email'] && form.elements['email'].value != 'sage') {
 		localStorage.email = form.elements['email'].value;
 	}
 	
@@ -92,39 +92,39 @@ if(localStorage.stylesheet) {
 }
 
 function rememberStuff() {
-	if(document.forms.post) {
-		if(document.forms.post.password) {
-			if(!localStorage.password)
+	if (document.forms.post) {
+		if (document.forms.post.password) {
+			if (!localStorage.password)
 				localStorage.password = generatePassword();
 			document.forms.post.password.value = localStorage.password;
 		}
 		
-		if(localStorage.name && document.forms.post.elements['name'])
+		if (localStorage.name && document.forms.post.elements['name'])
 			document.forms.post.elements['name'].value = localStorage.name;
-		if(localStorage.email && document.forms.post.elements['email'])
+		if (localStorage.email && document.forms.post.elements['email'])
 			document.forms.post.elements['email'].value = localStorage.email;
 		
 		if (window.location.hash.indexOf('q') == 1)
 			citeReply(window.location.hash.substring(2));
 		
-		if(sessionStorage.body) {
+		if (sessionStorage.body) {
 			var saved = JSON.parse(sessionStorage.body);
-			if(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}')) {
+			if (get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}')) {
 				// Remove successful posts
 				var successful = JSON.parse(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}'));
-				for (var url in successful) {
+				for(var url in successful) {
 					saved[url] = null;
 				}
 				sessionStorage.body = JSON.stringify(saved);
 				
 				document.cookie = '{% endraw %}{{ config.cookies.js }}{% raw %}={};expires=0;path=/;';
 			}
-			if(saved[document.location]) {
+			if (saved[document.location]) {
 				document.forms.post.body.value = saved[document.location];
 			}
 		}
 		
-		if(localStorage.body) {
+		if (localStorage.body) {
 			document.forms.post.body.value = localStorage.body;
 			localStorage.body = '';
 		}
@@ -135,7 +135,7 @@ function init() {
 	var newElement = document.createElement('div');
 	newElement.className = 'styles';
 	
-	for(x=0;x<styles.length;x++) {
+	for(x = 0; x < styles.length; x++) {
 		var style = document.createElement('a');
 		style.innerHTML = '[' + styles[x][0] + ']';
 		style.href = 'javascript:changeStyle(' + x + ');';

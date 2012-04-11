@@ -829,6 +829,8 @@
 			else return false;
 		}
 		
+		$ids = array();
+		
 		// Delete posts and maybe replies
 		while($post = $query->fetch()) {
 			if(!$post['thread']) {
@@ -846,15 +848,17 @@
 				// Delete file
 				file_unlink($board['dir'] . $config['dir']['img'] . $post['file']);
 			}
+			
+			$ids[] = (int)$post['id'];
+			
 		}
 		
 		$query = prepare(sprintf("DELETE FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board AND `target` = :id");
+		$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
 		$query->bindValue(':board', $board['uri']);
-		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		while($cite = $query->fetch()) {
 			if($board['uri'] != $cite['board']) {
