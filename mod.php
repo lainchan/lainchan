@@ -450,9 +450,7 @@ if(!$mod) {
 				'<td class="minimal">' . ago($log['time']) . '</td>' .
 				'<td class="minimal">' .
 					($log['board'] ?
-						(isset($boards[$log['board']]) ?
-							'<a href="?/' . sprintf($config['board_path'], $boards[$log['board']]) . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $boards[$log['board']]) . '</a></td>'
-						: '<em>deleted?</em>')
+						'<a href="?/' . sprintf($config['board_path'], $log['board']) . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $$log['board']) . '</a></td>'
 					: '-') .
 				'<td>' . $log['text'] . '</td>' .
 				'</tr>';
