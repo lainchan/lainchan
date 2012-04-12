@@ -94,8 +94,16 @@ function mod_view_thread($boardName, $thread) {
 function mod_page_ip($ip) {
 	global $config, $mod;
 	
-	if(filter_var($ip, FILTER_VALIDATE_IP) === false)
+	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
 		error("Invalid IP address.");
+	
+	if (isset($_POST['ban_id'], $_POST['unban'])) {
+		require_once 'inc/mod/ban.php';
+		
+		unban($_POST['ban_id']);
+		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+		return;
+	}
 	
 	$args = array();
 	$args['ip'] = $ip;
@@ -134,6 +142,11 @@ function mod_page_ip($ip) {
 	
 	$args['boards'] = $boards;
 	
+	$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+	$query->bindValue(':ip', $ip);
+	$query->execute() or error(db_error($query));
+	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);	
+	
 	mod_page("IP: $ip", 'mod/view_ip.html', $args);
 }
 
@@ -147,8 +160,7 @@ function mod_page_ban() {
 	
 	ban($_POST['ip'], $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
 	
-	
-	if(isset($_POST['redirect']))
+	if (isset($_POST['redirect']))
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
 	else
 		header('Location: ?/', true, $config['redirect_http']);

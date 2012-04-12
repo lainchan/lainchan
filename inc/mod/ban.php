@@ -10,7 +10,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 }
 
 function parse_time($str) {
-	if(empty($str))
+	if (empty($str))
 		return false;
 	
 	if (($time = @strtotime($str)) !== false)
@@ -55,16 +55,18 @@ function parse_time($str) {
 function ban($mask, $reason, $length, $board) {
 	global $mod;
 	
-	$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, UNIX_TIMESTAMP(), :expires, :reason, :board)");
+	$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :time, :expires, :reason, :board)");
 	$query->bindValue(':ip', $mask);
 	$query->bindValue(':mod', $mod['id']);
-	if ($reason !== '')
+	$query->bindValue(':time', time());
+	if ($reason !== '') {
+		markup($reason);
 		$query->bindValue(':reason', $reason);
-	else
+	} else
 		$query->bindValue(':reason', null, PDO::PARAM_NULL);
 	
 	if ($length > 0)
-		$query->bindValue(':expires', time() + $length);
+		$query->bindValue(':expires', $length);
 	else
 		$query->bindValue(':expires', null, PDO::PARAM_NULL);
 	
@@ -75,3 +77,10 @@ function ban($mask, $reason, $length, $board) {
 	
 	$query->execute() or error(db_error($query));
 }
+
+function unban($id) {
+	$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+}
+
