@@ -194,7 +194,6 @@ class ImageImagick extends ImageBase {
 			foreach($this->original as $frame) {
 				$delay += $frame->getImageDelay();
 				
-				//if($i < $config['thumb_keep_animation_frames']) {
 				if(in_array($i, $keep_frames)) {
 					// $frame->scaleImage($this->width, $this->height, false);
 					$frame->sampleImage($this->width, $this->height);

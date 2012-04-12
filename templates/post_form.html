@@ -1,49 +1,60 @@
 <form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
-{{ createHiddenInputs([board.uri, id]) }}
-{% if id %}<input type="hidden" name="thread" value="{{ id }}" />{% endif %}
-<input type="hidden" name="board" value="{{ board.uri }}" />
-{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
+{{ hiddenInputs([board.uri, id]) }}
+{% if id %}<input type="hidden" name="thread" value="{{ id }}">{% endif %}
+{{ hiddenInputs([board.uri, id]) }}
+<input type="hidden" name="board" value="{{ board.uri }}">
+{{ hiddenInputs([board.uri, id]) }}
+{% if mod %}<input type="hidden" name="mod" value="1">{% endif %}
 	<table>
 		{% if not config.field_disable_name or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
-				<input type="text" name="name" size="25" maxlength="50" autocomplete="off" />
+				<input type="text" name="name" size="25" maxlength="50" autocomplete="off">
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>{% endif %}
 		{% if not config.field_disable_email or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Email{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
-				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" />
+				<input type="text" name="email" size="25" maxlength="40" autocomplete="off">
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>{% endif %}
 		<tr>
 			<th>
 				{% trans %}Subject{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
-				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" />
-				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox" /> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
+				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off">
+				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox"> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
 			</td>
 		</tr>
 		<tr>
 			<th>
 				{% trans %}Comment{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
 				<textarea name="body" id="body" rows="5" cols="35"></textarea>
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>
 		{% if config.recaptcha %}
 		<tr>
 			<th>
 				{% trans %}Verification{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
 				<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>
 		{% endif %}
@@ -52,16 +63,19 @@
 				{% trans %}File{% endtrans %}
 			</th>
 			<td>
-				<input type="file" name="file" />
+				<input type="file" name="file">
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>
 		{% if config.enable_embedding %}
 		<tr>
 			<th>
 				{% trans %}Embed{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
-				<input type="text" name="embed" size="30" maxlength="120" autocomplete="off" />
+				<input type="text" name="embed" size="30" maxlength="120" autocomplete="off">
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>
 		{% endif %}
@@ -73,15 +87,15 @@
 			<td>
 				{% if not id and post.mod|hasPermission(config.mod.sticky, board.uri) %}<div>
 					<label for="sticky">{% trans %}Sticky{% endtrans %}</label>
-					<input title="{% trans %}Sticky{% endtrans %}" type="checkbox" name="sticky" id="sticky" /><br />
+					<input title="{% trans %}Sticky{% endtrans %}" type="checkbox" name="sticky" id="sticky"><br>
 				</div>{% endif %}
 				{% if not id and post.mod|hasPermission(config.mod.lock, board.uri) %}<div>
-					<label for="lock">{% trans %}Lock{% endtrans %}</label><br />
-					<input title="{% trans %}Lock{% endtrans %}" type="checkbox" name="lock" id="lock" />
+					<label for="lock">{% trans %}Lock{% endtrans %}</label><br>
+					<input title="{% trans %}Lock{% endtrans %}" type="checkbox" name="lock" id="lock">
 				</div>{% endif %}
 				{% if post.mod|hasPermission(config.mod.rawhtml, board.uri) %}<div>
-					<label for="raw">{% trans %}Raw HTML{% endtrans %}</label><br />
-					<input title="{% trans %}Raw HTML{% endtrans %}" type="checkbox" name="raw" id="raw" />
+					<label for="raw">{% trans %}Raw HTML{% endtrans %}</label><br>
+					<input title="{% trans %}Raw HTML{% endtrans %}" type="checkbox" name="raw" id="raw">
 				</div>{% endif %}
 			</td>
 		</tr>
@@ -89,13 +103,18 @@
 		{% if not config.field_disable_password or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Password{% endtrans %}
+				{{ hiddenInputs([board.uri, id]) }}
 			</th>
 			<td>
-				<input type="password" name="password" size="12" maxlength="18" autocomplete="off" /> 
+				<input type="password" name="password" size="12" maxlength="18" autocomplete="off"> 
 				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
+				{{ hiddenInputs([board.uri, id]) }}
 			</td>
 		</tr>{% endif %}
 	</table>
+{{ hiddenInputs([board.uri, id]) }}
+<input type="hidden" name="hash" value="{{ hiddenInputsHash([board.uri, id]) }}">
+{{ hiddenInputs([board.uri, id], true) }}
 </form>
 
 <script type="text/javascript">{% raw %}

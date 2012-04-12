@@ -35,7 +35,8 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 		return Array(
 			'time' => new Twig_Filter_Function('time', array('needs_environment' => false)),
 			'timezone' => new Twig_Filter_Function('twig_timezone_function', array('needs_environment' => false)),
-			'createHiddenInputs' => new Twig_Filter_Function('createHiddenInputs', array('needs_environment' => false))
+			'hiddenInputs' => new Twig_Filter_Function('hiddenInputs', array('needs_environment' => false)),
+			'hiddenInputsHash' => new Twig_Filter_Function('hiddenInputsHash', array('needs_environment' => false))
 		);
 	}
 	
