@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-2');
+define('VERSION', 'v0.9.6-dev-3');
 
 require 'inc/functions.php';
 
@@ -184,7 +184,30 @@ if(file_exists($config['has_installed'])) {
 				  `passed` smallint(6) NOT NULL,
 				  PRIMARY KEY (`hash`),
 				  KEY `board` (`board`,`thread`)
-				) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
+		case 'v0.9.6-dev-2':
+			query("ALTER TABLE `boards`
+				DROP `id`,
+				CHANGE  `uri`  `uri` VARCHAR( 120 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL") or error(db_error());
+			query("ALTER TABLE  `bans` CHANGE  `board`  `board` VARCHAR( 120 ) NULL DEFAULT NULL") or error(db_error());
+			query("ALTER TABLE  `reports` CHANGE  `board`  `board` VARCHAR( 120 ) NULL DEFAULT NULL") or error(db_error());
+			query("ALTER TABLE  `modlogs` CHANGE  `board`  `board` VARCHAR( 120 ) NULL DEFAULT NULL") or error(db_error());
+			foreach($boards as $board) {
+				$query = prepare("UPDATE `bans` SET `board` = :newboard WHERE `board` = :oldboard");
+				$query->bindValue(':newboard', $board['uri']);
+				$query->bindValue(':oldboard', $board['id']);
+				$query->execute() or error(db_error($query));
+				
+				$query = prepare("UPDATE `modlogs` SET `board` = :newboard WHERE `board` = :oldboard");
+				$query->bindValue(':newboard', $board['uri']);
+				$query->bindValue(':oldboard', $board['id']);
+				$query->execute() or error(db_error($query));
+				
+				$query = prepare("UPDATE `reports` SET `board` = :newboard WHERE `board` = :oldboard");
+				$query->bindValue(':newboard', $board['uri']);
+				$query->bindValue(':oldboard', $board['id']);
+				$query->execute() or error(db_error($query));
+			}
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

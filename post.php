@@ -126,7 +126,7 @@ if(isset($_POST['delete'])) {
 			$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
 			$query->bindValue(':time', time(), PDO::PARAM_INT);
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
-			$query->bindValue(':board', $board['id'], PDO::PARAM_INT);
+			$query->bindValue(':board', $board['uri'], PDO::PARAM_INT);
 			$query->bindValue(':post', $id, PDO::PARAM_INT);
 			$query->bindValue(':reason', $reason, PDO::PARAM_STR);
 			$query->execute() or error(db_error($query));

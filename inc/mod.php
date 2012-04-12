@@ -96,7 +96,7 @@ function modLog($action, $_board=null) {
 	if(isset($_board))
 		$query->bindValue(':board', $_board);
 	elseif(isset($board))
-		$query->bindValue(':board', $board['id']);
+		$query->bindValue(':board', $board['uri']);
 	else
 		$query->bindValue(':board', null, PDO::PARAM_NULL);
 	$query->execute() or error(db_error($query));
@@ -125,7 +125,7 @@ function ulBoards() {
 				$b['title'] .
 				(isset($b['subtitle']) ? '<span class="unimportant"> — ' . $b['subtitle'] . '</span>' : '') . 
 					($mod['type'] >= $config['mod']['manageboards'] ?
-						' <a href="?/board/' . $b['uri'] . '" class="unimportant">[manage]</a>' : '') .
+						' <a href="?/' . $b['uri'] . '/edit" class="unimportant">[manage]</a>' : '') .
 			'</li>';
 	}
 	
@@ -139,10 +139,10 @@ function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $boar
 	global $config, $mod;
 	
 	$boards = listBoards();
-	$__boards = '<li><input type="radio" checked="checked" name="board_id" id="board_*" value="-1"/> <label style="display:inline" for="board_*"><em>' . _('all boards') . '</em></label></li>';
+	$__boards = '<li><input type="radio" checked="checked" name="board" id="board_*" value=""/> <label style="display:inline" for="board_*"><em>' . _('all boards') . '</em></label></li>';
 	foreach($boards as &$_board) {
 		$__boards .= '<li>' .
-					'<input type="radio" name="board_id" id="board_' . $_board['uri'] . '" value="' . $_board['id'] . '">' .
+					'<input type="radio" name="board" id="board_' . $_board['uri'] . '" value="' . $_board['uri'] . '">' .
 					'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
 						($_board['uri'] == '*' ?
 							'<em>"*"</em>'

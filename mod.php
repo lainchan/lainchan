@@ -1541,20 +1541,21 @@ if(!$mod) {
 		$body = '';
 		$reports = 0;
 		
-		$query = prepare("SELECT `reports`.*, `boards`.`uri` FROM `reports` INNER JOIN `boards` ON `board` = `boards`.`id` ORDER BY `time` DESC LIMIT :limit");
+		$query = prepare("SELECT * FROM `reports` ORDER BY `time` DESC LIMIT :limit");
 		$query->bindValue(':limit', $config['mod']['recent_reports'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
 		while($report = $query->fetch()) {
-			$p_query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `id` = :id", $report['uri']));
+			$p_query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `id` = :id", $report['board']));
 			$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
-			$p_query->execute() or error(db_error($query));
+			$p_query->execute() or error(db_error($p_query));
 			
 			if(!$post = $p_query->fetch()) {
 				// Invalid report (post has since been deleted)
-				$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id");
+				$p_query = prepare("DELETE FROM `reports` WHERE `post` = :id AND `board` = :board");
 				$p_query->bindValue(':id', $report['post'], PDO::PARAM_INT);
-				$p_query->execute() or error(db_error($query));
+				$p_query->bindValue(':board', $report['board']);
+				$p_query->execute() or error(db_error($p_query));
 				continue;
 			}
 			
@@ -1646,7 +1647,7 @@ if(!$mod) {
 		
 		// Redirect
 		header('Location: ?/reports', true, $config['redirect_http']);
-	} elseif(preg_match('/^\/board\/(\w+)(\/delete)?$/', $query, $matches)) {
+	} elseif(preg_match('/^\/(\w+)\/edit(\/delete)?$/', $query, $matches)) {
 		if(!hasPermission($config['mod']['manageboards'])) error($config['error']['noaccess']);
 		
 		if(!openBoard($matches[1]))
@@ -1666,12 +1667,12 @@ if(!$mod) {
 			
 			// Clear reports
 			$query = prepare("DELETE FROM `reports` WHERE `board` = :id");
-			$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+			$query->bindValue(':id', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			// Delete from table
-			$query = prepare("DELETE FROM `boards` WHERE `id` = :id");
-			$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+			$query = prepare("DELETE FROM `boards` WHERE `uri` = :uri");
+			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			if($config['cache']['enabled']) {
@@ -1711,7 +1712,7 @@ if(!$mod) {
 			header('Location: ?/', true, $config['redirect_http']);
 		} else {
 			if(isset($_POST['title']) && isset($_POST['subtitle'])) {
-				$query = prepare("UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `id` = :id");
+				$query = prepare("UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri");
 				$query->bindValue(':title', utf8tohtml($_POST['title'], true));
 				
 				if(!empty($_POST['subtitle']))
@@ -1719,7 +1720,7 @@ if(!$mod) {
 				else
 					$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
 				
-				$query->bindValue(':id', $board['id'], PDO::PARAM_INT);
+				$query->bindValue(':id', $board['uri'], PDO::PARAM_INT);
 				$query->execute() or error(db_error($query));
 				
 				if($config['cache']['enabled']) {
@@ -1761,7 +1762,7 @@ if(!$mod) {
 			
 			// Delete button
 			(hasPermission($config['mod']['deleteboard']) ?
-				'<p style="text-align:center"><a href="?/board/' . $board['uri'] . '/delete">Delete board</a></p>'
+				'<p style="text-align:center"><a href="?/' . $board['uri'] . '/edit/delete">Delete board</a></p>'
 			:'') .
 			
 			'</fieldset>';
@@ -1786,12 +1787,12 @@ if(!$mod) {
 			}
 		}
 		if(hasPermission($config['mod']['view_banexpired'])) {
-			$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
+			$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
 			$query->bindValue(':time', time(), PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 		} else {
 			// Filter out expired bans
-			$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
+			$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
 			$query->bindValue(':time', time(), PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 		}
@@ -1829,8 +1830,8 @@ if(!$mod) {
 				
 				
 				'<td style="white-space: nowrap">' .
-				(isset($ban['uri']) ?
-					sprintf($config['board_abbreviation'], $ban['uri'])
+				(isset($ban['board']) ?
+					sprintf($config['board_abbreviation'], $ban['board'])
 				:
 					'<em>' . _('all boards') . '</em>'
 				) . '</td>' .
@@ -2152,7 +2153,7 @@ if(!$mod) {
 				error(sprintf($config['error']['boardexists'], sprintf($config['board_abbreviation'], $b['uri'])));
 			}
 			
-			$query = prepare("INSERT INTO `boards` VALUES (NULL, :uri, :title, :subtitle)");
+			$query = prepare("INSERT INTO `boards` VALUES (:uri, :title, :subtitle)");
 			$query->bindValue(':uri', $b['uri']);
 			$query->bindValue(':title', $b['title']);
 			if(!empty($b['subtitle'])) {
@@ -2179,7 +2180,7 @@ if(!$mod) {
 			
 			rebuildThemes('boards');
 			
-			header('Location: ?/board/' . $b['uri'], true, $config['redirect_http']);
+			header('Location: ?/' . $b['uri'] . '/' . $config['file_index'], true, $config['redirect_http']);
 		} else {
 			
 			$body .= form_newBoard();
@@ -2536,8 +2537,7 @@ if(!$mod) {
 		if(isset($_POST['new_ban'])) {
 			if(	!isset($_POST['ip']) ||
 				!isset($_POST['reason']) ||
-				!isset($_POST['length']) ||
-				!isset($_POST['board_id'])
+				!isset($_POST['length'])
 			)	error($config['error']['missedafield']);
 			
 			// Check required fields
@@ -2600,10 +2600,10 @@ if(!$mod) {
 				$query->bindValue(':reason', null, PDO::PARAM_NULL);
 			}
 			
-			if($_POST['board_id'] < 0) {
+			if($_POST['board'] == '') {
 				$query->bindValue(':board', null, PDO::PARAM_NULL);
 			} else {
-				$query->bindValue(':board', (int)$_POST['board_id'], PDO::PARAM_INT);
+				$query->bindValue(':board', $_POST['board'], PDO::PARAM_INT);
 			}
 			
 			// Record the action
@@ -3036,7 +3036,7 @@ if(!$mod) {
 			}
 		
 			if(hasPermission($config['mod']['view_ban'])) {
-				$query = prepare("SELECT `bans`.*, `username`, `uri` FROM `bans` LEFT JOIN `boards` ON `boards`.`id` = `board` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+				$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 				$query->bindValue(':ip', $ip);
 				$query->execute() or error(db_error($query));
 			
@@ -3060,11 +3060,7 @@ if(!$mod) {
 						// Board
 						'<tr><th>Board</th><td>' .
 						(isset($ban['board']) ?
-							(isset($ban['uri']) ?
-								sprintf($config['board_abbreviation'], $ban['uri'])
-							:
-								'<em>deleted?</em>'
-							)
+							sprintf($config['board_abbreviation'], $ban['board'])
 						:
 							'<em>' . _('all boards') . '</em>'
 						) .

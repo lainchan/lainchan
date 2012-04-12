@@ -100,7 +100,7 @@ class Filter {
 				if($all_boards)
 					$query->bindValue(':board', null, PDO::PARAM_NULL);
 				else
-					$query->bindValue(':board', $board['id']);
+					$query->bindValue(':board', $board['uri']);
 				
 				$query->execute() or error(db_error($query));
 				

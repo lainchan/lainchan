@@ -4,8 +4,8 @@
 	<h2>{% trans %}You are banned! ;_;{% endtrans %}</h2>
 	<p>
 		{% trans %}You have been banned from{% endtrans %}
-			{% if ban.uri %}
-				 <strong>{{ config.board_abbreviation|sprintf(ban.uri) }}</strong>
+			{% if ban.board %}
+				 <strong>{{ config.board_abbreviation|sprintf(ban.board) }}</strong>
 			{% else %}
 				 {% trans %}all boards{% endtrans %}
 			{% endif %}

@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 09, 2011 at 04:03 AM
--- Server version: 5.1.58
--- PHP Version: 5.3.6
+-- Generation Time: Apr 12, 2012 at 11:22 PM
+-- Server version: 5.1.61
+-- PHP Version: 5.3.3-7+squeeze8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,6 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `antispam`
+--
+
+CREATE TABLE IF NOT EXISTS `antispam` (
+  `board` varchar(255) NOT NULL,
+  `thread` int(11) DEFAULT NULL,
+  `hash` bigint(20) NOT NULL,
+  `created` int(11) NOT NULL,
+  `expires` int(11) DEFAULT NULL,
+  `passed` smallint(6) NOT NULL,
+  PRIMARY KEY (`hash`),
+  KEY `board` (`board`,`thread`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bans`
 --
 
@@ -33,10 +50,10 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
   `reason` text,
-  `board` smallint(6) DEFAULT NULL,
+  `board` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `ip` (`ip`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -45,20 +62,33 @@ CREATE TABLE IF NOT EXISTS `bans` (
 --
 
 CREATE TABLE IF NOT EXISTS `boards` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `uri` varchar(50) NOT NULL,
-  `title` TINYTEXT NOT NULL,
-  `subtitle` TINYTEXT DEFAULT NULL,
-  PRIMARY KEY (`uri`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `uri` varchar(120) NOT NULL,
+  `title` tinytext NOT NULL,
+  `subtitle` tinytext,
+  PRIMARY KEY (`uri`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `boards`
 --
 
-INSERT INTO `boards` (`id`, `uri`, `title`, `subtitle`) VALUES
-(1, 'b', 'Beta', 'In development.');
+INSERT INTO `boards` (`uri`, `title`, `subtitle`) VALUES
+('b', 'Beta', 'In development.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cites`
+--
+
+CREATE TABLE IF NOT EXISTS `cites` (
+  `board` varchar(8) NOT NULL,
+  `post` int(11) NOT NULL,
+  `target_board` varchar(8) NOT NULL,
+  `target` int(11) NOT NULL,
+  KEY `target` (`target_board`,`target`),
+  KEY `post` (`board`,`post`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -85,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
 CREATE TABLE IF NOT EXISTS `modlogs` (
   `mod` int(11) NOT NULL,
   `ip` varchar(45) NOT NULL,
-  `board` int(11) DEFAULT NULL,
+  `board` varchar(120) DEFAULT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL,
   KEY `time` (`time`)
@@ -183,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` int(11) NOT NULL,
   `ip` varchar(45) NOT NULL,
-  `board` smallint(6) NOT NULL,
+  `board` varchar(120) DEFAULT NULL,
   `post` int(11) NOT NULL,
   `reason` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -212,39 +242,6 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   `value` text,
   KEY `theme` (`theme`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cites`
---
-
-CREATE TABLE IF NOT EXISTS `cites` (
-  `board` varchar(8) NOT NULL,
-  `post` int(11) NOT NULL,
-  `target_board` varchar(8) NOT NULL,
-  `target` int(11) NOT NULL,
-  KEY `target` (`target_board`,`target`),
-  KEY `post` (`board`,`post`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `antispam`
---
-
-CREATE TABLE IF NOT EXISTS `antispam` (
-  `board` varchar(255) NOT NULL,
-  `thread` int(11) DEFAULT NULL,
-  `hash` bigint(20) NOT NULL,
-  `created` int(11) NOT NULL,
-  `expires` int(11) DEFAULT NULL,
-  `passed` smallint(6) NOT NULL,
-  PRIMARY KEY (`hash`),
-  KEY `board` (`board`,`thread`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
