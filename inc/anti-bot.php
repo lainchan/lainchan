@@ -177,7 +177,7 @@ function _create_antibot($board, $thread) {
 	
 	$antibot = new AntiBot(array($board, $thread));
 	
-	query('DELETE FROM `antispam` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error($query));
+	query('DELETE FROM `antispam` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
 	
 	if($thread)
 		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread');
