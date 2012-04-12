@@ -277,9 +277,12 @@ function setupBoard($array) {
 	
 	$board = array(
 		'uri' => $array['uri'],
-		'name' => $array['title'],
-		'title' => $array['subtitle']
+		'title' => $array['title'],
+		'subtitle' => $array['subtitle']
 	);
+	
+	// older versions
+	$board['name'] = &$board['title'];
 	
 	$board['dir'] = sprintf($config['board_path'], $board['uri']);
 	$board['url'] = sprintf($config['board_abbreviation'], $board['uri']);

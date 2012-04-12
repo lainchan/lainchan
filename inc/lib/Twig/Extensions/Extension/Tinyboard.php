@@ -64,7 +64,7 @@ function twig_date_filter($date, $format) {
 	return strftime($format, $date);
 }
 
-function twig_hasPermission_filter($mod, $permission, $board) {
+function twig_hasPermission_filter($mod, $permission, $board = false) {
 	return hasPermission($permission, $board, $mod);
 }
 
