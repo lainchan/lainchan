@@ -1907,9 +1907,8 @@ if(!$mod) {
 		$body = '<div class="ban"><h2>Rebuilding&hellip;</h2><p>';
 		
 		$body .= 'Clearing template cache&hellip;<br/>';
-		$twig = new Twig_Environment($loader, array(
-			'cache' => "{$config['dir']['template']}/cache"
-		));
+		
+		load_twig();
 		$twig->clearCacheFiles();
 	
 		$body .= 'Regenerating theme files&hellip;<br/>';
