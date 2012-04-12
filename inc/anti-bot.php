@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -16,9 +16,9 @@ class AntiBot {
 	
 	public static function randomString($length, $uppercase = false, $special_chars = false) {
 		$chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		if($uppercase)
+		if ($uppercase)
 			$chars .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		if($special_chars)
+		if ($special_chars)
 			$chars .= ' ~!@#$%^&*()_+,./;\'[]\\{}|:"<>?=-` ';
 		
 		$chars = str_split($chars);
@@ -26,15 +26,15 @@ class AntiBot {
 		$ch = array();
 		
 		// fill up $ch until we reach $length
-		while(count($ch) < $length) {
+		while (count($ch) < $length) {
 			$n = $length - count($ch);
 			$keys = array_rand($chars, $n > count($chars) ? count($chars) : $n);
-			if($n == 1) {
+			if ($n == 1) {
 				$ch[] = $chars[$keys];
 				break;
 			}
 			shuffle($keys);
-			foreach($keys as $key)
+			foreach ($keys as $key)
 				$ch[] = $chars[$key];
 		}
 		
@@ -46,8 +46,8 @@ class AntiBot {
 	public static function make_confusing($string) {
 		$chars = str_split($string);
 		
-		foreach($chars as &$c) {
-			if(rand(0, 2) != 0)
+		foreach ($chars as &$c) {
+			if (rand(0, 2) != 0)
 				continue;
 			$c = mb_encode_numericentity($c, array(0, 0xffff, 0, 0xffff), 'UTF-8');
 		}
@@ -58,7 +58,7 @@ class AntiBot {
 	public function __construct(array $salt = array()) {
 		global $config;
 		
-		if(!empty($salt)) {
+		if (!empty($salt)) {
 			// create a salted hash of the "extra salt"
 			$this->salt = implode(':', $salt);
 		} else { 
@@ -70,21 +70,21 @@ class AntiBot {
 		$input_count = rand($config['spam']['hidden_inputs_min'], $config['spam']['hidden_inputs_max']);
 		$hidden_input_names_x = 0;
 		
-		for($x = 0; $x < $input_count ; $x++) {
-			if($hidden_input_names_x === false || rand(0, 2) == 0) {
+		for ($x = 0; $x < $input_count ; $x++) {
+			if ($hidden_input_names_x === false || rand(0, 2) == 0) {
 				// Use an obscure name
 				$name = $this->randomString(rand(10, 40));
 			} else {
 				// Use a pre-defined confusing name
 				$name = $config['spam']['hidden_input_names'][$hidden_input_names_x++];
-				if($hidden_input_names_x >= count($config['spam']['hidden_input_names']))
+				if ($hidden_input_names_x >= count($config['spam']['hidden_input_names']))
 					$hidden_input_names_x = false;
 			}
 			
-			if(rand(0, 2) == 0) {
+			if (rand(0, 2) == 0) {
 				// Value must be null
 				$this->inputs[$name] = '';
-			} elseif(rand(0, 4) == 0) {
+			} elseif (rand(0, 4) == 0) {
 				// Numeric value
 				$this->inputs[$name] = (string)rand(0, 100);
 			} else {
@@ -111,11 +111,11 @@ class AntiBot {
 		
 		$html = '';
 		
-		if($count === false) {
+		if ($count === false) {
 			$count = rand(1, count($this->inputs) / 15);
 		}
 		
-		if($count === true) {
+		if ($count === true) {
 			// all elements
 			$inputs = array_slice($this->inputs, $this->index);
 		} else {
@@ -123,11 +123,11 @@ class AntiBot {
 		}
 		$this->index += count($inputs);
 		
-		foreach($inputs as $name => $value) {
+		foreach ($inputs as $name => $value) {
 			$element = false;
-			while(!$element) {
+			while (!$element) {
 				$element = $elements[array_rand($elements)];
-				if(strpos($element, 'textarea') !== false && $value == '') {
+				if (strpos($element, 'textarea') !== false && $value == '') {
 					// There have been some issues with mobile web browsers and empty <textarea>'s.
 					$element = false;
 				}
@@ -135,12 +135,12 @@ class AntiBot {
 			
 			$element = str_replace('%name%', utf8tohtml($name), $element);
 			
-			if(rand(0, 2) == 0)
+			if (rand(0, 2) == 0)
 				$value = $this->make_confusing($value);
 			else
 				$value = utf8tohtml($value);
 			
-			if(strpos($element, 'textarea') === false)
+			if (strpos($element, 'textarea') === false)
 				$value = str_replace('"', '&quot;', $value);
 			
 			$element = str_replace('%value%', $value, $element);
@@ -161,7 +161,7 @@ class AntiBot {
 		
 		$hash = '';
 		// Iterate through each input
-		foreach($inputs as $name => $value) {
+		foreach ($inputs as $name => $value) {
 			$hash .= $name . '=' . $value;
 		}
 		// Add a salt to the hash
@@ -179,13 +179,13 @@ function _create_antibot($board, $thread) {
 	
 	query('DELETE FROM `antispam` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
 	
-	if($thread)
+	if ($thread)
 		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread');
 	else
 		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` IS NULL');
 	
 	$query->bindValue(':board', $board);
-	if($thread)
+	if ($thread)
 		$query->bindValue(':thread', $thread);
 	$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
 	$query->execute() or error(db_error($query));
@@ -196,7 +196,7 @@ function _create_antibot($board, $thread) {
 	$query->bindValue(':hash', $antibot->hash());
 	$query->execute() or error(db_error($query));
 	
-	if($query->rowCount() == 0) {
+	if ($query->rowCount() == 0) {
 		// there was no database entry for this hash. most likely expired.
 		return true;
 	}
@@ -207,12 +207,12 @@ function _create_antibot($board, $thread) {
 function checkSpam(array $extra_salt = array()) {
 	global $config, $pdo;
 	
-	if(!isset($_POST['hash']))
+	if (!isset($_POST['hash']))
 		return true;
 	
 	$hash = $_POST['hash'];
 	
-	if(!empty($extra_salt)) {
+	if (!empty($extra_salt)) {
 		// create a salted hash of the "extra salt"
 		$extra_salt = implode(':', $extra_salt);
 	} else { 
@@ -222,8 +222,8 @@ function checkSpam(array $extra_salt = array()) {
 	// Reconsturct the $inputs array
 	$inputs = array();
 	
-	foreach($_POST as $name => $value) {
-		if(in_array($name, $config['spam']['valid_inputs']))
+	foreach ($_POST as $name => $value) {
+		if (in_array($name, $config['spam']['valid_inputs']))
 			continue;
 		
 		$inputs[$name] = $value;
@@ -235,7 +235,7 @@ function checkSpam(array $extra_salt = array()) {
 	$_hash = '';
 	
 	// Iterate through each input
-	foreach($inputs as $name => $value) {
+	foreach ($inputs as $name => $value) {
 		$_hash .= $name . '=' . $value;
 	}
 	
@@ -245,13 +245,13 @@ function checkSpam(array $extra_salt = array()) {
 	// Use SHA1 for the hash
 	$_hash = sha1($_hash . $extra_salt);
 	
-	if($hash != $_hash)
+	if ($hash != $_hash)
 		return true;
 	
 	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = CRC32(:hash)');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
-	if($query->rowCount() == 0) {
+	if ($query->rowCount() == 0) {
 		// there was no database entry for this hash. most likely expired.
 		return true;
 	}
@@ -261,7 +261,7 @@ function checkSpam(array $extra_salt = array()) {
 	$query->execute() or error(db_error($query));
 	$passed = $query->fetchColumn(0);
 	
-	if($passed > $config['spam']['hidden_inputs_max_pass'])
+	if ($passed > $config['spam']['hidden_inputs_max_pass'])
 		return true;
 	
 	return false;

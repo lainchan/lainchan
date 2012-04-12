@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -13,7 +13,7 @@ if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 function mkhash($username, $password, $salt = false) {
 	global $config;
 	
-	if(!$salt) {
+	if (!$salt) {
 		// create some sort of salt for the hash
 		$salt = substr(base64_encode(sha1(rand() . time(), true) . $config['cookies']['salt']), 0, 15);
 		
@@ -23,7 +23,7 @@ function mkhash($username, $password, $salt = false) {
 	// generate hash (method is not important as long as it's strong)
 	$hash = substr(base64_encode(md5($username . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
 	
-	if(isset($generated_salt))
+	if (isset($generated_salt))
 		return Array($hash, $salt);
 	else
 		return $hash;
@@ -33,7 +33,7 @@ function login($username, $password, $makehash=true) {
 	global $mod;
 	
 	// SHA1 password
-	if($makehash) {
+	if ($makehash) {
 		$password = sha1($password);
 	}
 	
@@ -42,7 +42,7 @@ function login($username, $password, $makehash=true) {
 	$query->bindValue(':password', $password);
 	$query->execute() or error(db_error($query));
 	
-	if($user = $query->fetch()) {
+	if ($user = $query->fetch()) {
 		return $mod = Array(
 			'id' => $user['id'],
 			'type' => $user['type'],
@@ -55,7 +55,7 @@ function login($username, $password, $makehash=true) {
 
 function setCookies() {
 	global $mod, $config;
-	if(!$mod)
+	if (!$mod)
 		error('setCookies() was called for a non-moderator!');
 	
 	setcookie($config['cookies']['mod'],
@@ -79,7 +79,7 @@ function create_pm_header() {
 	$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if($pm = $query->fetch()) {
+	if ($pm = $query->fetch()) {
 		return Array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
 	}
 	
@@ -93,15 +93,15 @@ function modLog($action, $_board=null) {
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':text', $action);
-	if(isset($_board))
+	if (isset($_board))
 		$query->bindValue(':board', $_board);
-	elseif(isset($board))
+	elseif (isset($board))
 		$query->bindValue(':board', $board['uri']);
 	else
 		$query->bindValue(':board', null, PDO::PARAM_NULL);
 	$query->execute() or error(db_error($query));
 	
-	if($config['syslog'])
+	if ($config['syslog'])
 		_syslog(LOG_INFO, '[mod/' . $mod['username'] . ']: ' . $action);
 }
 
@@ -115,7 +115,7 @@ function ulBoards() {
 	// List of boards
 	$boards = listBoards();
 	
-	foreach($boards as &$b) {
+	foreach ($boards as &$b) {
 		$body .= '<li>' . 
 			'<a href="?/' .
 					sprintf($config['board_path'], $b['uri']) . $config['file_index'] .
@@ -129,7 +129,7 @@ function ulBoards() {
 			'</li>';
 	}
 	
-	if($mod['type'] >= $config['mod']['newboard']) {
+	if ($mod['type'] >= $config['mod']['newboard']) {
 		$body .= '<li style="margin-top:15px;"><a href="?/new"><strong>' . _('Create new board') . '</strong></a></li>';
 	}
 	return $body;
@@ -140,7 +140,7 @@ function form_newBan($ip=null, $reason='', $continue=false, $delete=false, $boar
 	
 	$boards = listBoards();
 	$__boards = '<li><input type="radio" checked="checked" name="board" id="board_*" value=""/> <label style="display:inline" for="board_*"><em>' . _('all boards') . '</em></label></li>';
-	foreach($boards as &$_board) {
+	foreach ($boards as &$_board) {
 		$__boards .= '<li>' .
 					'<input type="radio" name="board" id="board_' . $_board['uri'] . '" value="' . $_board['uri'] . '">' .
 					'<label style="display:inline" for="board_' . $_board['uri'] . '"> ' .
@@ -247,7 +247,7 @@ function removeBan($id) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	//if($config['memcached']['enabled']) {
+	//if ($config['memcached']['enabled']) {
 		// Remove cached ban
 		// TODO
 	//	$memcached->delete("ban_{$id}");
@@ -257,10 +257,10 @@ function removeBan($id) {
 
 // Validate session
 
-if(isset($_COOKIE[$config['cookies']['mod']])) {
+if (isset($_COOKIE[$config['cookies']['mod']])) {
 	// Should be username:hash:salt
 	$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
-	if(count($cookie) != 3) {
+	if (count($cookie) != 3) {
 		destroyCookies();
 		error($config['error']['malformed']);
 	}
@@ -271,7 +271,7 @@ if(isset($_COOKIE[$config['cookies']['mod']])) {
 	$user = $query->fetch();
 	
 	// validate password hash
-	if($cookie[1] != mkhash($cookie[0], $user['password'], $cookie[2])) {
+	if ($cookie[1] != mkhash($cookie[0], $user['password'], $cookie[2])) {
 		// Malformed cookies
 		destroyCookies();
 		error($config['error']['malformed']);

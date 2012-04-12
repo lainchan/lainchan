@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -36,15 +36,15 @@ function load_twig() {
 function Element($templateFile, array $options) {
 	global $config, $debug, $twig;
 	
-	if(!$twig)
+	if (!$twig)
 		load_twig();
 	
-	if(function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod']))) {
+	if (function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod']))) {
 		$options['pm'] = create_pm_header();
 	}
 	
-	if(isset($options['body']) && $config['debug']) {
-		if(isset($debug['start'])) {
+	if (isset($options['body']) && $config['debug']) {
+		if (isset($debug['start'])) {
 			$debug['time'] = '~' . round((microtime(true) - $debug['start']) * 1000, 2) . 'ms';
 			unset($debug['start']);
 		}
@@ -57,10 +57,10 @@ function Element($templateFile, array $options) {
 	}
 	
 	// Read the template file
-	if(@file_get_contents("{$config['dir']['template']}/${templateFile}")) {
+	if (@file_get_contents("{$config['dir']['template']}/${templateFile}")) {
 		$body = $twig->render($templateFile, $options);
 		
-		if($config['minify_html'] && preg_match('/\.html$/', $templateFile)) {
+		if ($config['minify_html'] && preg_match('/\.html$/', $templateFile)) {
 			$body = trim(preg_replace("/[\t\r\n]/", '', $body));
 		}
 		

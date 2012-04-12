@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -14,7 +14,7 @@ class Cache {
 	public static function init() {
 		global $config;
 		
-		switch($config['cache']['enabled']) {
+		switch ($config['cache']['enabled']) {
 			case 'memcached':
 				self::$cache = new Memcached();
 				self::$cache->addServers($config['cache']['memcached']);
@@ -30,9 +30,9 @@ class Cache {
 		$key = $config['cache']['prefix'] . $key;
 		
 		$data = false;
-		switch($config['cache']['enabled']) {
+		switch ($config['cache']['enabled']) {
 			case 'memcached':
-				if(!self::$cache)
+				if (!self::$cache)
 					self::init();
 				$data = self::$cache->get($key);
 				break;
@@ -48,7 +48,7 @@ class Cache {
 		}
 		
 		// debug
-		if($data && $config['debug']) {
+		if ($data && $config['debug']) {
 			$debug['cached'][] = $key;
 		}
 		
@@ -59,12 +59,12 @@ class Cache {
 		
 		$key = $config['cache']['prefix'] . $key;
 		
-		if(!$expires)
+		if (!$expires)
 			$expires = $config['cache']['timeout'];
 		
-		switch($config['cache']['enabled']) {
+		switch ($config['cache']['enabled']) {
 			case 'memcached':
-				if(!self::$cache)
+				if (!self::$cache)
 					self::init();
 				self::$cache->set($key, $value, $expires);
 				break;
@@ -84,9 +84,9 @@ class Cache {
 		
 		$key = $config['cache']['prefix'] . $key;
 		
-		switch($config['cache']['enabled']) {
+		switch ($config['cache']['enabled']) {
 			case 'memcached':
-				if(!self::$cache)
+				if (!self::$cache)
 					self::init();
 				self::$cache->delete($key);
 				break;
@@ -104,9 +104,9 @@ class Cache {
 	public static function flush() {
 		global $config;
 		
-		switch($config['cache']['enabled']) {
+		switch ($config['cache']['enabled']) {
 			case 'memcached':
-				if(!self::$cache)
+				if (!self::$cache)
 					self::init();
 				return self::$cache->flush();
 			case 'apc':

@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -17,25 +17,25 @@ class Image {
 		$this->src = $src;
 		$this->format = $format;
 		
-		if($config['thumb_method'] == 'imagick') {
+		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
-		} elseif($config['thumb_method'] == 'convert') {
+		} elseif ($config['thumb_method'] == 'convert') {
 			$classname = 'ImageConvert';
 		} else {
 			$classname = 'Image' . strtoupper($this->format);
-			if(!class_exists($classname)) {
+			if (!class_exists($classname)) {
 				error('Unsupported file format: ' . $this->format);
 			}
 		}
 		
 		$this->image = new $classname($this);
-		if(!$this->image->valid()) {
+		if (!$this->image->valid()) {
 			$this->delete();
 			error($config['error']['invalidimg']);
 		}
 		
 		$this->size = (object)Array('width' => $this->image->_width(), 'height' => $this->image->_height());
-		if($this->size->width < 1 || $this->size->height < 1) {
+		if ($this->size->width < 1 || $this->size->height < 1) {
 			$this->delete();
 			error($config['error']['invalidimg']);
 		}
@@ -44,13 +44,13 @@ class Image {
 	public function resize($extension, $max_width, $max_height) {
 		global $config;
 		
-		if($config['thumb_method'] == 'imagick') {
+		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
-		} elseif($config['thumb_method'] == 'convert') {
+		} elseif ($config['thumb_method'] == 'convert') {
 			$classname = 'ImageConvert';
 		} else {
 			$classname = 'Image' . strtoupper($extension);
-			if(!class_exists($classname)) {
+			if (!class_exists($classname)) {
 				error('Unsupported file format: ' . $extension);
 			}
 		}
@@ -63,7 +63,7 @@ class Image {
 		$x_ratio = $max_width / $this->size->width;
 		$y_ratio = $max_height / $this->size->height;
 		
-		if(($this->size->width <= $max_width) && ($this->size->height <= $max_height)) {
+		if (($this->size->width <= $max_width) && ($this->size->height <= $max_height)) {
 			$width = $this->size->width;
 			$height = $this->size->height;
 		} elseif (($x_ratio * $this->size->height) < $max_height) {
@@ -110,29 +110,29 @@ class ImageBase extends ImageGD {
 	}
 	
 	public function __construct($img) {
-		if(method_exists($this, 'init'))
+		if (method_exists($this, 'init'))
 			$this->init();
 		
-		if($img !== false) {
+		if ($img !== false) {
 			$this->src = $img->src;
 			$this->from();
 		}
 	}
 	
 	public function _width() {
-		if(method_exists($this, 'width'))
+		if (method_exists($this, 'width'))
 			return $this->width();
 		// use default GD functions
 		return imagesx($this->image);
 	}
 	public function _height() {
-		if(method_exists($this, 'height'))
+		if (method_exists($this, 'height'))
 			return $this->height();
 		// use default GD functions
 		return imagesy($this->image);
 	}
 	public function _destroy() {
-		if(method_exists($this, 'destroy'))
+		if (method_exists($this, 'destroy'))
 			return $this->destroy();
 		// use default GD functions
 		return imagedestroy($this->image);
@@ -142,7 +142,7 @@ class ImageBase extends ImageGD {
 		$this->width = $width;
 		$this->height = $height;
 		
-		if(method_exists($this, 'resize'))
+		if (method_exists($this, 'resize'))
 			$this->resize();
 		else
 			// use default GD functions
@@ -164,7 +164,7 @@ class ImageImagick extends ImageBase {
 		}
 	}
 	public function to($src) {
-		if(preg_match('/\.gif$/i', $src))
+		if (preg_match('/\.gif$/i', $src))
 			$this->image->writeImages($src, true);
 		else
 			$this->image->writeImage($src);
@@ -181,20 +181,20 @@ class ImageImagick extends ImageBase {
 	public function resize() {
 		global $config;
 		
-		if(preg_match('/\.gif$/i', $this->src) && $config['thumb_ext'] == 'gif') {
+		if (preg_match('/\.gif$/i', $this->src) && $config['thumb_ext'] == 'gif') {
 			$this->image = new Imagick();
 			$this->image->setFormat('gif');
 			
 			$keep_frames = Array();
-			for($i = 0; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
+			for ($i = 0; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
 				$keep_frames[] = $i;
 			
 			$i = 0;
 			$delay = 0;
-			foreach($this->original as $frame) {
+			foreach ($this->original as $frame) {
 				$delay += $frame->getImageDelay();
 				
-				if(in_array($i, $keep_frames)) {
+				if (in_array($i, $keep_frames)) {
 					// $frame->scaleImage($this->width, $this->height, false);
 					$frame->sampleImage($this->width, $this->height);
 					$frame->setImagePage($this->width, $this->height, 0, 0);
@@ -223,7 +223,7 @@ class ImageConvert extends ImageBase {
 	}
 	public function from() {	
 		$size = trim(shell_exec('identify -format "%w %h" ' . escapeshellarg($this->src . '[0]')));	
-		if(preg_match('/^(\d+) (\d+)$/', $size, $m)) {
+		if (preg_match('/^(\d+) (\d+)$/', $size, $m)) {
 			$this->width = $m[1];
 			$this->height = $m[2];
 			
@@ -234,7 +234,7 @@ class ImageConvert extends ImageBase {
 		}
 	}
 	public function to($src) {
-		if(!$this->temp) {
+		if (!$this->temp) {
 			// $config['redraw_image']
 			shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
 		} else {
@@ -255,7 +255,7 @@ class ImageConvert extends ImageBase {
 	public function resize() {
 		global $config;
 		
-		if($this->temp) {
+		if ($this->temp) {
 			// remove old
 			$this->destroy();
 		}
@@ -264,7 +264,7 @@ class ImageConvert extends ImageBase {
 		
 		$quality = $config['thumb_quality'] * 10;
 		
-		if(shell_exec("convert -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+		if (shell_exec("convert -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 			error('Failed to resize image!');
 	}
 }
@@ -288,10 +288,10 @@ class ImagePNG extends ImageBase {
 
 class ImageGIF extends ImageBase {
 	public function from() {
-		$this->image = @imagecreatefromgif($this->src);
+		$this->image = @imagecreatefromgif ($this->src);
 	}
 	public function to($src) {
-		imagegif($this->image, $src);
+		imagegif ($this->image, $src);
 	}
 	public function resize() {
 		$this->GD_create();
@@ -436,7 +436,7 @@ function imagebmp(&$img, $filename='') {
 
 	// is faster than chr()
 	$arrChr = array();
-	for($i=0; $i<256; $i++){
+	for ($i=0; $i<256; $i++){
 	$arrChr[$i] = chr($i);
 	}
 
@@ -472,7 +472,7 @@ function imagebmp(&$img, $filename='') {
 	}
 
 	// see imagegif
-	if($filename == '') {
+	if ($filename == '') {
 		echo $result;
 	} else {
 		$file = fopen($filename, 'wb');

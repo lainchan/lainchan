@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -21,13 +21,13 @@ class PreparedQueryDebug {
 	public function __call($function, $args) {
 		global $config, $debug;
 		
-		if($config['debug'] && $function == 'execute') {
+		if ($config['debug'] && $function == 'execute') {
 			$start = microtime(true);
 		}
 		
 		$return = call_user_func_array(array($this->query, $function), $args);
 		
-		if($config['debug'] && $function == 'execute') {
+		if ($config['debug'] && $function == 'execute') {
 			$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
 			
 			$debug['sql'][] = Array(
@@ -43,15 +43,15 @@ class PreparedQueryDebug {
 
 function sql_open() {
 	global $pdo, $config;
-	if($pdo) return true;
+	if ($pdo) return true;
 	
 	$dsn = $config['db']['type'] . ':host=' . $config['db']['server'] . ';dbname=' . $config['db']['database'];
-	if(!empty($config['db']['dsn']))
+	if (!empty($config['db']['dsn']))
 		$dsn .= ';' . $config['db']['dsn'];
 	try {
 		$options = Array(PDO::ATTR_TIMEOUT => $config['db']['timeout']);
 		$options = Array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-		if($config['db']['persistent'])
+		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
 		return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
 	} catch(PDOException $e) {
@@ -71,7 +71,7 @@ function prepare($query) {
 	
 	sql_open();
 	
-	if($config['debug'])
+	if ($config['debug'])
 		return new PreparedQueryDebug($query);
 	return $pdo->prepare($query);
 }
@@ -81,10 +81,10 @@ function query($query) {
 	
 	sql_open();
 	
-	if($config['debug']) {
+	if ($config['debug']) {
 		$start = microtime(true);
 		$query = $pdo->query($query);
-		if(!$query)
+		if (!$query)
 			return false;
 		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
 		$debug['sql'][] = Array(
@@ -100,7 +100,7 @@ function query($query) {
 
 function db_error($PDOStatement=null) {
 	global $pdo;
-	if(isset($PDOStatement)) {
+	if (isset($PDOStatement)) {
 		$err = $PDOStatement->errorInfo();
 		return $err[2];
 	} else {

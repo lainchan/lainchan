@@ -4,38 +4,38 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
 
 class Remote {
 	public function __construct($config) {
-		foreach($config as $name => $value) {
+		foreach ($config as $name => $value) {
 			$this->{$name} = $value;
 		}
 		
 		$methods = Array();
 		
-		if(!isset($this->auth['method']))
+		if (!isset($this->auth['method']))
 			error('Unspecified authentication method.');
 		
 		// Connect
 		$this->connection = ssh2_connect($this->host, isset($this->port) ? $this->port : 22, $methods);
 		
-		switch($this->auth['method']) {
+		switch ($this->auth['method']) {
 			case 'pubkey':
 				
-				if(!isset($this->auth['public']))
+				if (!isset($this->auth['public']))
 					error('Public key filename not specified.');
-				if(!isset($this->auth['private']))
+				if (!isset($this->auth['private']))
 					error('Private key filename not specified.');
 				
-				if(!ssh2_auth_pubkey_file($this->connection, $this->auth['username'], $this->auth['public'], $this->auth['private'], isset($this->auth['passphrase']) ? $this->auth['passphrase']: null))
+				if (!ssh2_auth_pubkey_file($this->connection, $this->auth['username'], $this->auth['public'], $this->auth['private'], isset($this->auth['passphrase']) ? $this->auth['passphrase']: null))
 					error('Public key authentication failed.');
 				break;
 			case 'plain':
-				if(!ssh2_auth_password($this->connection, $this->auth['username'], $this->auth['password']))
+				if (!ssh2_auth_password($this->connection, $this->auth['username'], $this->auth['password']))
 					error('Plain-text authentication failed.');
 				break;
 			default:
@@ -47,7 +47,7 @@ class Remote {
 	public function write($data, $remote_path) {
 		global $config;
 		
-		switch($this->type) {
+		switch ($this->type) {
 			case 'sftp':
 				$sftp = ssh2_sftp($this->connection);
 				file_write('ssh2.sftp://' . $sftp . $remote_path, $data, true);

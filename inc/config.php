@@ -156,11 +156,11 @@
 	//	$octets = explode('.', $ip);
 	//	
 	//	// days since last activity
-	//	if($octets[1] > 14)
+	//	if ($octets[1] > 14)
 	//		return false;
 	//	
 	//	// "threat score" (http://www.projecthoneypot.org/threat_info.php)
-	//	if($octets[2] < 5)
+	//	if ($octets[2] < 5)
 	//		return false;
 	//	
 	//	return true;
@@ -696,7 +696,7 @@
 	
 	// The root directory, including the trailing slash, for Tinyboard.
 	// examples: '/', 'http://boards.chan.org/', '/chan/'
-	if(isset($_SERVER['REQUEST_URI']))
+	if (isset($_SERVER['REQUEST_URI']))
 		$config['root']	 = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
 	else
 		$config['root'] = '/'; // CLI mode
@@ -855,7 +855,7 @@
 	$config['mod']['snippet_length'] = 75;
 	
 	// Probably best not to change these:
-	if(!defined('JANITOR')) {
+	if (!defined('JANITOR')) {
 		define('JANITOR',	0,	true);
 		define('MOD',		1,	true);
 		define('ADMIN',		2,	true);

@@ -4,7 +4,7 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
-if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
+if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	// You cannot request this file directly.
 	exit;
 }
@@ -18,13 +18,13 @@ function event() {
 	
 	$args = array_splice($args, 1);
 	
-	if(!isset($events[$event]))
+	if (!isset($events[$event]))
 		return false;
 	
-	foreach($events[$event] as $callback) {
-		if(!is_callable($callback))
+	foreach ($events[$event] as $callback) {
+		if (!is_callable($callback))
 			error('Event handler for ' . $event . ' is not callable!');
-		if($error = call_user_func_array($callback, $args))
+		if ($error = call_user_func_array($callback, $args))
 			return $error;
 	}
 	
@@ -34,7 +34,7 @@ function event() {
 function event_handler($event, $callback) {
 	global $events;
 	
-	if(!isset($events[$event]))
+	if (!isset($events[$event]))
 		$events[$event] = Array();
 	
 	$events[$event][] = $callback;
