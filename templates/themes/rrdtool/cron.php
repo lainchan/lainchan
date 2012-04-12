@@ -3,10 +3,7 @@
 	chdir(str_replace('\\', '/', dirname(__FILE__)) . '/../../../');
 	
 	require 'inc/functions.php';
-	require 'inc/display.php';
-	require 'inc/template.php';
-	require 'inc/database.php';
 	
-	require 'theme.php';
+	require dirname(__FILE__) . '/theme.php';
 	rebuildTheme('rrdtool', 'cron');
-?>
+
