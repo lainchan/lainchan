@@ -1,0 +1,18 @@
+{% for board_posts in posts %}
+	<fieldset>
+		<legend>
+			<a href="?/{{ config.board_path|sprintf(board.uri) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(board_posts.board.uri) }}</a>
+			 - 
+			 {{ board_posts.board.title }}
+		</legend>
+		{{ board_posts.posts|join('<hr>') }}
+	</fieldset>
+{% endfor %}
+
+{% set redirect = '?/IP/' ~ ip %}
+
+<fieldset>
+	<legend>New ban</legend>
+	{% include 'mod/ban_form.html' %}
+</fieldset>
+

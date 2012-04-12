@@ -94,12 +94,17 @@ function mod_view_thread($boardName, $thread) {
 function mod_page_ip($ip) {
 	global $config, $mod;
 	
+	if(filter_var($ip, FILTER_VALIDATE_IP) === false)
+		error("Invalid IP address.");
+	
 	$args = array();
 	$args['ip'] = $ip;
 	$args['posts'] = array();
 	
 	$boards = listBoards();
 	foreach ($boards as $board) {
+		openBoard($board['uri']);
+		
 		$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
 		$query->bindValue(':ip', $ip);
 		$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
@@ -122,11 +127,30 @@ function mod_page_ip($ip) {
 			}
 			
 			if (!isset($args['posts'][$board['uri']]))
-				$args['posts'][$board['uri']] = array();
-			$args['posts'][$board['uri']][] = $po->build(true);
+				$args['posts'][$board['uri']] = array('board' => $board, 'posts' => array());
+			$args['posts'][$board['uri']]['posts'][] = $po->build(true);
 		}
 	}
 	
+	$args['boards'] = $boards;
+	
 	mod_page("IP: $ip", 'mod/view_ip.html', $args);
+}
+
+function mod_page_ban() {
+	if(!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board']))
+		error($config['error']['missedafield']);
+	
+	$ip = $_POST['ip'];
+	
+	require_once 'inc/mod/ban.php';
+	
+	ban($_POST['ip'], $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+	
+	
+	if(isset($_POST['redirect']))
+		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
+	else
+		header('Location: ?/', true, $config['redirect_http']);
 }
 

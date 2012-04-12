@@ -1,0 +1,81 @@
+<fieldset>
+	<legend>Boards</legend>
+	
+	<ul>
+		{% for board in boards %}
+			<li>
+				<a href="?/{{ config.board_path|sprintf(board.uri) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(board.uri) }}</a>
+					 - 
+				{{ board.title }}
+				{% if board.subtitle %}
+					 <small>&mdash; {{ board.subtitle }}</small>
+				{% endif %}
+				
+				{% if mod|hasPermission(config.mod.manageboards) %}
+					 <a href="?/manage/{{ board.uri }}"><small>[manage]</small></a>
+				{% endif %}
+			</li>
+		{% endfor %}
+		
+		{% if mod|hasPermission(config.mod.newboard) %}
+			<li style="margin-top:15px"><a href="?/new_board"><strong>Create new board</strong></a></li>
+		{% endif %}
+	</ul>
+</fieldset>
+
+{% if mod|hasPermission(config.mod.noticeboard) %}
+	<fieldset>
+		<legend>Noticeboard</legend>
+	
+		{# TODO #}
+	</fieldset>
+{% endif %}
+
+<fieldset>
+	<legend>Administration</legend>
+	
+	<ul>
+		{% if mod|hasPermission(config.mod.reports) %}
+			<li><a href="?/reports">Report queue</a></li>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.view_banlist) %}
+			<li><a href="?/bans">Ban list</a></li>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.manageusers) %}
+			<li><a href="?/users">Manage users</a></li>
+		{% elseif mod|hasPermission(config.mod.change_password) %}
+			<li><a href="?/users/{{ mod.id }}">Change password</a></li>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.modlog) %}
+			<li><a href="?/log">Moderation log</a></li>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.rebuild) %}
+			<li><a href="?/rebuild">Rebuild</a></li>
+			{% if config.cache.enabled %}
+				<li><a href="?/flushcache">Clear cache</a></li>
+			{% endif %}
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.show_config) %}
+			<li><a href="?/config">Configuration</a></li>
+		{% endif %}
+	</ul>
+</fieldset>
+
+{% if mod|hasPermission(config.mod.themes) %}
+	<fieldset>
+		<legend>Themes</legend>
+	
+		{# TODO #}
+	</fieldset>
+{% endif %}
+
+<fieldset>
+	<legend>Search</legend>
+	
+	{# TODO #}
+</fieldset>

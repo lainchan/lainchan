@@ -25,10 +25,11 @@ $pages = array(
 	'!^/$!'		=> 'dashboard',		// dashboard
 	
 	'!^/IP/(.+)$!'	=> 'ip',		// view ip address
+	'!^/ban$!'	=> 'ban',		// new ban
 	
 	// This should always be at the end:
 	'!^/(\w+)/' . preg_quote($config['file_index'], '!') . '?$!'					=> 'view_board',
-	'!^/(\w+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!/'	=> 'view_board',
+	'!^/(\w+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_board',
 	'!^/(\w+)/' . preg_quote($config['dir']['res'], '!') .
 			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_thread',
 );
