@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-1');
+define('VERSION', 'v0.9.6-dev-2');
 
 require 'inc/functions.php';
 
@@ -174,6 +174,17 @@ if(file_exists($config['has_installed'])) {
 				CHANGE  `uri`  `uri` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 				CHANGE  `title`  `title` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 				CHANGE  `subtitle`  `subtitle` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL") or error(db_error());
+		case 'v0.9.6-dev-1':
+			query("CREATE TABLE IF NOT EXISTS `antispam` (
+				  `board` varchar(255) NOT NULL,
+				  `thread` int(11) DEFAULT NULL,
+				  `hash` bigint(20) NOT NULL,
+				  `created` int(11) NOT NULL,
+				  `expires` int(11) DEFAULT NULL,
+				  `passed` smallint(6) NOT NULL,
+				  PRIMARY KEY (`hash`),
+				  KEY `board` (`board`,`thread`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

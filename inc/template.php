@@ -24,7 +24,7 @@ function load_twig() {
 	
 	$loader = new Twig_Loader_Filesystem($config['dir']['template']);
 	$loader->setPaths($config['dir']['template']);
-	$twig = new Twig_Environment($loader, Array(
+	$twig = new Twig_Environment($loader, array(
 		'autoescape' => false,
 		'cache' => "{$config['dir']['template']}/cache",
 		'debug' => ($config['debug'] ? true : false),

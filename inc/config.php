@@ -170,9 +170,33 @@
 	// Skip checking certain IP addresses against blacklists (for troubleshooting or whatever)
 	$config['dnsbl_exceptions'][] = '127.0.0.1';
 	
-	// Spam filter
+	/*
+	 * Introduction to Tinyboard's spam filter:
+	 *
+	 * In simple terms, whenever a posting form on a page is generated (which happens whenever a
+	 * post is made), Tinyboard will add a random amount of hidden, obscure fields to it to
+	 * confuse bots and upset hackers. These fields and their respective obscure values are
+	 * validated upon posting with a 160-bit "hash". That hash can only be used as many times
+	 * as you specify; otherwise, flooding bots could just keep reusing the same hash.
+	 * Once a new set of inputs (and the hash) are generated, old hashes for the same thread
+	 * and board are set to expire. Because you have to reload the page to get the new set
+	 * of inputs and hash, if they expire too quickly and more than one person is viewing the
+	 * page at a given time, Tinyboard would return false positives (depending on how long the
+	 * user sits on the page before posting). If your imageboard is quite fast/popular, set
+	 * $config['spam']['hidden_inputs_max_pass'] and $config['spam']['hidden_inputs_expire'] to
+	 * something higher to avoid false positives.
+	 *
+	 * See also: http://tinyboard.org/docs/?p=Your_request_looks_automated
+	 *
+	 */
+	
+	// Number of hidden fields to generate
 	$config['spam']['hidden_inputs_min'] = 4;
 	$config['spam']['hidden_inputs_max'] = 12;
+	// How many times can a "hash" be used to post?
+	$config['spam']['hidden_inputs_max_pass'] = 30;
+	// How soon after regeneration do hashes expire (in seconds)?
+	$config['spam']['hidden_inputs_expire'] = 60 * 60 * 2; // two hours
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
 	$config['spam']['hidden_input_names'] = array(
 		'user',

@@ -5,11 +5,12 @@
  */
 
 require 'inc/functions.php';
+require 'inc/anti-bot.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
 	function strip_array($var) {
-		return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
+		return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
 	}
 	
 	$_GET = strip_array($_GET);
@@ -192,7 +193,26 @@ if(isset($_POST['delete'])) {
 		}
 	}
 	
-	if(checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null)))
+	if($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
+		require 'inc/mod.php';
+		if(!$mod) {
+			// Liar. You're not a mod.
+			error($config['error']['notamod']);
+		}
+		
+		$post['sticky'] = $post['op'] && isset($_POST['sticky']);
+		$post['locked'] = $post['op'] && isset($_POST['lock']);
+		$post['raw'] = isset($_POST['raw']);
+		
+		if($post['sticky'] && !hasPermission($config['mod']['sticky'], $board['uri']))
+			error($config['error']['noaccess']);
+		if($post['locked'] && !hasPermission($config['mod']['lock'], $board['uri']))
+			error($config['error']['noaccess']);
+		if($post['raw'] && !hasPermission($config['mod']['rawhtml'], $board['uri']))
+			error($config['error']['noaccess']);
+	}
+	
+	if(!$post['mod'] && checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null)))
 		error($config['error']['spam']);
 	
 	if($config['robot_enable'] && $config['robot_mute']) {
@@ -237,25 +257,6 @@ if(isset($_POST['delete'])) {
 		if(!isset($post['embed'])) {
 			error($config['error']['invalid_embed']);
 		}
-	}
-	
-	if($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
-		require 'inc/mod.php';
-		if(!$mod) {
-			// Liar. You're not a mod.
-			error($config['error']['notamod']);
-		}
-		
-		$post['sticky'] = $post['op'] && isset($_POST['sticky']);
-		$post['locked'] = $post['op'] && isset($_POST['lock']);
-		$post['raw'] = isset($_POST['raw']);
-		
-		if($post['sticky'] && !hasPermission($config['mod']['sticky'], $board['uri']))
-			error($config['error']['noaccess']);
-		if($post['locked'] && !hasPermission($config['mod']['lock'], $board['uri']))
-			error($config['error']['noaccess']);
-		if($post['raw'] && !hasPermission($config['mod']['rawhtml'], $board['uri']))
-			error($config['error']['noaccess']);
 	}
 	
 	if(!hasPermission($config['mod']['bypass_field_disable'], $board['uri'])) {

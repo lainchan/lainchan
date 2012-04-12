@@ -1,35 +1,35 @@
 <form name="post" onsubmit="return dopost(this);" enctype="multipart/form-data" action="{{ config.post_url }}" method="post">
-{{ hiddenInputs([board.uri, id]) }}
+{{ antibot.html() }}
 {% if id %}<input type="hidden" name="thread" value="{{ id }}">{% endif %}
-{{ hiddenInputs([board.uri, id]) }}
+{{ antibot.html() }}
 <input type="hidden" name="board" value="{{ board.uri }}">
-{{ hiddenInputs([board.uri, id]) }}
+{{ antibot.html() }}
 {% if mod %}<input type="hidden" name="mod" value="1">{% endif %}
 	<table>
 		{% if not config.field_disable_name or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<input type="text" name="name" size="25" maxlength="50" autocomplete="off">
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>{% endif %}
 		{% if not config.field_disable_email or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Email{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<input type="text" name="email" size="25" maxlength="40" autocomplete="off">
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>{% endif %}
 		<tr>
 			<th>
 				{% trans %}Subject{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off">
@@ -39,22 +39,22 @@
 		<tr>
 			<th>
 				{% trans %}Comment{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<textarea name="body" id="body" rows="5" cols="35"></textarea>
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>
 		{% if config.recaptcha %}
 		<tr>
 			<th>
 				{% trans %}Verification{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>
 		{% endif %}
@@ -64,18 +64,18 @@
 			</th>
 			<td>
 				<input type="file" name="file">
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>
 		{% if config.enable_embedding %}
 		<tr>
 			<th>
 				{% trans %}Embed{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<input type="text" name="embed" size="30" maxlength="120" autocomplete="off">
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>
 		{% endif %}
@@ -103,18 +103,17 @@
 		{% if not config.field_disable_password or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Password{% endtrans %}
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</th>
 			<td>
 				<input type="password" name="password" size="12" maxlength="18" autocomplete="off"> 
 				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
-				{{ hiddenInputs([board.uri, id]) }}
+				{{ antibot.html() }}
 			</td>
 		</tr>{% endif %}
 	</table>
-{{ hiddenInputs([board.uri, id]) }}
-<input type="hidden" name="hash" value="{{ hiddenInputsHash([board.uri, id]) }}">
-{{ hiddenInputs([board.uri, id], true) }}
+{{ antibot.html(true) }}
+<input type="hidden" name="hash" value="{{ antibot.hash() }}">
 </form>
 
 <script type="text/javascript">{% raw %}

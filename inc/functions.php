@@ -13,7 +13,6 @@ require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
-require_once 'inc/anti-bot.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
 // the user is not currently logged in as a moderator
@@ -210,6 +209,11 @@ function _syslog($priority, $message) {
 	}
 }
 
+function create_antibot($board, $thread = null) {
+	require_once 'inc/anti-bot.php';
+	
+	return _create_antibot($board, $thread);
+}
 
 function rebuildThemes($action) {
 	// List themes
@@ -1175,6 +1179,7 @@ function buildIndex() {
 		$content['pages'] = $pages;
 		$content['pages'][$page-1]['selected'] = true;
 		$content['btn'] = getPageButtons($content['pages']);
+		$content['antibot'] = create_antibot($board['uri']);
 		file_write($filename, Element('index.html', $content));
 		
 		if(isset($md5) && $md5 == md5_file($filename)) {
@@ -1492,6 +1497,7 @@ function buildThread($id, $return=false, $mod=false) {
 		'config' => $config,
 		'id' => $id,
 		'mod' => $mod,
+		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 	));

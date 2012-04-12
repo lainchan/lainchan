@@ -12,8 +12,7 @@ if(realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 $hidden_inputs_twig = array();
 
 class AntiBot {
-	public $inputs = array(), $index = 0;
-	private $salt;
+	public $salt, $inputs = array(), $index = 0;
 	
 	public static function randomString($length, $uppercase = false, $special_chars = false) {
 		$chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -90,12 +89,14 @@ class AntiBot {
 				$this->inputs[$name] = (string)rand(0, 100);
 			} else {
 				// Obscure value
-				$this->inputs[$name] = $this->randomString(rand(5, 100));
+				$this->inputs[$name] = $this->randomString(rand(5, 100), true, true);
 			}
 		}
 	}
 	
 	public function html($count = false) {
+		global $config;
+		
 		$elements = array(
 			'<input type="hidden" name="%name%" value="%value%">',
 			'<input type="hidden" value="%value%" name="%name%">',
@@ -110,7 +111,11 @@ class AntiBot {
 		
 		$html = '';
 		
-		if($count == 0) {
+		if($count === false) {
+			$count = rand(1, count($this->inputs) / 15);
+		}
+		
+		if($count === true) {
 			// all elements
 			$inputs = array_slice($this->inputs, $this->index);
 		} else {
@@ -134,7 +139,10 @@ class AntiBot {
 				$value = $this->make_confusing($value);
 			else
 				$value = utf8tohtml($value);
-				
+			
+			if(strpos($element, 'textarea') === false)
+				$value = str_replace('"', '&quot;', $value);
+			
 			$element = str_replace('%value%', $value, $element);
 			
 			$html .= $element;
@@ -162,36 +170,42 @@ class AntiBot {
 		// Use SHA1 for the hash
 		return sha1($hash . $this->salt);
 	}
-};;
-
-
-function hiddenInputs(array $salt, $print_the_rest = false) {
-	global $hidden_inputs_twig;
-	
-	$salt_str = implode(':', $salt);
-	
-	if(!isset($hidden_inputs_twig[$salt_str]))
-		$hidden_inputs_twig[$salt_str] = new AntiBot($salt);
-	
-	if($print_the_rest)
-		return $hidden_inputs_twig[$salt_str]->html(0);
-	else
-		return $hidden_inputs_twig[$salt_str]->html(rand(1, 5));
 }
 
-function hiddenInputsHash(array $salt) {
-	global $hidden_inputs_twig;
+function _create_antibot($board, $thread) {
+	global $config;
 	
-	$salt_str = implode(':', $salt);
+	$antibot = new AntiBot(array($board, $thread));
 	
-	if(!isset($hidden_inputs_twig[$salt_str]))
-		$hidden_inputs_twig[$salt_str] = new AntiBot($salt);
+	query('DELETE FROM `antispam` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error($query));
 	
-	return $hidden_inputs_twig[$salt_str]->hash();
+	if($thread)
+		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread');
+	else
+		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` IS NULL');
+	
+	$query->bindValue(':board', $board);
+	if($thread)
+		$query->bindValue(':thread', $thread);
+	$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
+	$query->execute() or error(db_error($query));
+	
+	$query = prepare('INSERT INTO `antispam` VALUES (:board, :thread, CRC32(:hash), UNIX_TIMESTAMP(), NULL, 0)');
+	$query->bindValue(':board', $board);
+	$query->bindValue(':thread', $thread);
+	$query->bindValue(':hash', $antibot->hash());
+	$query->execute() or error(db_error($query));
+	
+	if($query->rowCount() == 0) {
+		// there was no database entry for this hash. most likely expired.
+		return true;
+	}
+	
+	return $antibot;
 }
 
 function checkSpam(array $extra_salt = array()) {
-	global $config;
+	global $config, $pdo;
 	
 	if(!isset($_POST['hash']))
 		return true;
@@ -231,6 +245,25 @@ function checkSpam(array $extra_salt = array()) {
 	// Use SHA1 for the hash
 	$_hash = sha1($_hash . $extra_salt);
 	
-	return $hash != $_hash;
+	if($hash != $_hash)
+		return true;
+	
+	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = CRC32(:hash)');
+	$query->bindValue(':hash', $hash);
+	$query->execute() or error(db_error($query));
+	if($query->rowCount() == 0) {
+		// there was no database entry for this hash. most likely expired.
+		return true;
+	}
+	
+	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = CRC32(:hash)');
+	$query->bindValue(':hash', $hash);
+	$query->execute() or error(db_error($query));
+	$passed = $query->fetchColumn(0);
+	
+	if($passed > $config['spam']['hidden_inputs_max_pass'])
+		return true;
+	
+	return false;
 }
 

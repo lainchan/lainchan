@@ -228,6 +228,23 @@ CREATE TABLE IF NOT EXISTS `cites` (
   KEY `post` (`board`,`post`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `antispam`
+--
+
+CREATE TABLE IF NOT EXISTS `antispam` (
+  `board` varchar(255) NOT NULL,
+  `thread` int(11) DEFAULT NULL,
+  `hash` bigint(20) NOT NULL,
+  `created` int(11) NOT NULL,
+  `expires` int(11) DEFAULT NULL,
+  `passed` smallint(6) NOT NULL,
+  PRIMARY KEY (`hash`),
+  KEY `board` (`board`,`thread`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

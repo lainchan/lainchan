@@ -9,7 +9,7 @@ require 'inc/mod.php';
 
 if (get_magic_quotes_gpc()) {
 	function strip_array($var) {
-		return is_array($var) ? array_map("strip_array", $var) : stripslashes($var);
+		return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
 	}
 	
 	$_GET = strip_array($_GET);
@@ -1698,6 +1698,10 @@ if(!$mod) {
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			
+			$query = prepare("DELETE FROM `antispam` WHERE `board` = :board");
+			$query->bindValue(':board', $board['uri']);
+			$query->execute() or error(db_error($query));
+			
 			$_board = $board;
 			
 			rebuildThemes('boards');
@@ -2209,7 +2213,6 @@ if(!$mod) {
 		$page['pages'][$page_no-1]['selected'] = true;
 		$page['btn'] = getPageButtons($page['pages'], true);
 		$page['mod'] = true;
-		
 		echo Element('index.html', $page);
 	} elseif(preg_match('/^\/' . $regex['board'] . $regex['res'] . $regex['page'] . '$/', $query, $matches)) {
 		// View thread
@@ -2354,7 +2357,8 @@ if(!$mod) {
 		if(!openBoard($boardName))
 			error($config['error']['noboard']);
 		
-		if(!hasPermission($config['mod']['delete'], $boardName)) error($config['error']['noaccess']);
+		if(!hasPermission($config['mod']['delete'], $boardName))
+			error($config['error']['noaccess']);
 		
 		$post = &$matches[2];
 		
