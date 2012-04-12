@@ -21,16 +21,16 @@ if (get_magic_quotes_gpc()) {
 $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 
 $pages = array(
-	'/^$/'			=> ':?/',		// redirect to dashboard
-	'/^\/$/'		=> 'dashboard',		// dashboard
+	'!^$!'		=> ':?/',		// redirect to dashboard
+	'!^/$!'		=> 'dashboard',		// dashboard
 	
-	'/^\/IP\/(.+)$/'	=> 'ip',		// view ip address
+	'!^/IP/(.+)$!'	=> 'ip',		// view ip address
 	
 	// This should always be at the end:
-	'/^\/(\w+)\/' . preg_quote($config['file_index'], '/') . '?$/'					=> 'view_board',
-	'/^\/(\w+)\/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '/')) . '$/'	=> 'view_board',
-	'/^\/(\w+)\/' . preg_quote($config['dir']['res'], '/') .
-			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '/')) . '$/'	=> 'view_thread',
+	'!^/(\w+)/' . preg_quote($config['file_index'], '!') . '?$!'					=> 'view_board',
+	'!^/(\w+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!/'	=> 'view_board',
+	'!^/(\w+)/' . preg_quote($config['dir']['res'], '!') .
+			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_thread',
 );
 
 if (!$mod)
