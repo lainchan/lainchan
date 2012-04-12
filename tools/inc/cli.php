@@ -33,10 +33,6 @@ if(!getenv('TINYBOARD_PATH')) {
 putenv('TINYBOARD_PATH=' . getcwd());
 
 require 'inc/functions.php';
-require 'inc/display.php';
-require 'inc/template.php';
-require 'inc/database.php';
-require 'inc/user.php';
 require 'inc/mod.php';
 
 $mod = Array(
