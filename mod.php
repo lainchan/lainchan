@@ -4,6 +4,8 @@
  *  Copyright (c) 2010-2012 Tinyboard Development Group
  */
 
+// WARNING: This file is currently a clusterfuck of code. I will be rewriting it very soon.
+
 require 'inc/functions.php';
 require 'inc/mod.php';
 
