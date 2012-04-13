@@ -1554,7 +1554,7 @@ if(!$mod) {
 			}
 			
 			$reports++;
-			openBoard($report['uri']);
+			openBoard($report['board']);
 			
 			if(!$post['thread']) {
 				$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
@@ -1565,7 +1565,7 @@ if(!$mod) {
 			$append_html =
 				'<div class="report">' .
 					'<hr/>' .
-					'Board: <a href="?/' . $report['uri'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['uri']) . '</a><br/>' .
+					'Board: <a href="?/' . $report['board'] . '/' . $config['file_index'] . '">' . sprintf($config['board_abbreviation'], $report['board']) . '</a><br/>' .
 					'Reason: ' . $report['reason'] . '<br/>' .
 					'Report date: ' . strftime($config['post_date'], $report['time']) . '<br/>' .
 					(hasPermission($config['mod']['show_ip']) ?
