@@ -9,9 +9,73 @@
 	</fieldset>
 {% endfor %}
 
-{% set redirect = '?/IP/' ~ ip %}
+{% if mod|hasPermission(config.mod.view_notes) %}
+	<fieldset>
+		<legend>
+			{{ notes|count }} note{% if notes|count != 1 %}s{% endif %} on record
+		</legend>
+		
+		{% if notes|count > 0 %}
+			<table class="modlog">
+				<tr>
+					<th>Staff</th>
+					<th>Note</th>
+					<th>Date</th>
+					{% if mod|hasPermission(config.mod.remove_notes) %}
+						<th>Actions</th>
+					{% endif %}
+				</tr>
+				{% for note in notes %}
+					<tr>
+						<td class="minimal">
+							{% if note.username %}
+								<a href="?/new_PM/{{ note.username }}">{{ note.username }}</a>
+							{% else %}
+								<em>deleted?</em>
+							{% endif %}
+						</td>
+						<td>
+							{{ note.body }}
+						</td>
+						<td class="minimal">
+							{{ note.time|date(config.post_date) }}
+						</td>
+						{% if mod|hasPermission(config.mod.remove_notes) %}
+							<td class="minimal">
+								<a href="?/IP/{{ ip }}/remove_note/{{ note.id }}"><small>[remove]</small></a>
+							</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.create_notes) %}
+			<form action="" method="post" style="margin:0">
+				<table>
+					<tr>
+						<th>Staff</th>
+						<td>{{ mod.username }}</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="note">Note</label>
+						</th>
+						<td>
+							<textarea id="note" name="note" rows="5" cols="30"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="New note"></td>
+					</tr>
+				</table>
+			</form>
+		{% endif %}
+	</fieldset>
+{% endif %}
 
-{% if bans|count > 0 %}
+{% if bans|count > 0 and mod|hasPermission(config.mod.view_ban) %}
 	<fieldset>
 		<legend>Ban{% if bans|count != 1 %}s{% endif %} on record</legend>
 		
@@ -84,8 +148,10 @@
 	</fieldset>
 {% endif %}
 
-<fieldset>
-	<legend>New ban</legend>
-	{% include 'mod/ban_form.html' %}
-</fieldset>
-
+{% if mod|hasPermission(config.mod.ban) %}
+	<fieldset>
+		<legend>New ban</legend>
+		{% set redirect = '?/IP/' ~ ip %}
+		{% include 'mod/ban_form.html' %}
+	</fieldset>
+{% endif %}

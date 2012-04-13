@@ -21,11 +21,18 @@ if (get_magic_quotes_gpc()) {
 $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 
 $pages = array(
-	'!^$!'		=> ':?/',		// redirect to dashboard
-	'!^/$!'		=> 'dashboard',		// dashboard
+	'!^$!'					=> ':?/',		// redirect to dashboard
+	'!^/$!'					=> 'dashboard',		// dashboard
+	'!^/log$!'				=> 'log',		// modlog
+	'!^/log/(\d+)/$!'			=> 'log',		// modlog
 	
-	'!^/IP/(.+)$!'	=> 'ip',		// view ip address
-	'!^/ban$!'	=> 'ban',		// new ban
+	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
+	
+	'!^/ban$!'				=> 'ban',		// new ban
+	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address
+	'!^/IP/([\w.:]+)/remove_note/(\d+)$!'	=> 'ip_remove_note',	// remove note from ip address
+	
+	'!^/(\w+)/delete/(\d+)$!'		=> 'delete',		// delete post
 	
 	// This should always be at the end:
 	'!^/(\w+)/' . preg_quote($config['file_index'], '!') . '?$!'					=> 'view_board',

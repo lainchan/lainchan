@@ -52,7 +52,11 @@ function mod_login() {
 	if (isset($_POST['username']))
 		$args['username'] = $_POST['username'];
 
-	mod_page('Dashboard', 'mod/login.html', $args);
+	mod_page('Login', 'mod/login.html', $args);
+}
+
+function mod_confirm($request) {
+	mod_page('Confirm action', 'mod/confirm.html', array('request' => $request));
 }
 
 function mod_dashboard() {
@@ -61,6 +65,21 @@ function mod_dashboard() {
 	$args['boards'] = listBoards();
 	
 	mod_page('Dashboard', 'mod/dashboard.html', $args);
+}
+
+function mod_log($page_no = 1) {
+	global $config;
+	
+	if (!hasPermission($config['mod']['modlog']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT `username`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	mod_page('Moderation log', 'mod/log.html', array('logs' => $logs));
 }
 
 function mod_view_board($boardName, $page_no = 1) {
@@ -91,6 +110,20 @@ function mod_view_thread($boardName, $thread) {
 	echo $page;
 }
 
+function mod_ip_remove_note($ip, $id) {
+	global $config, $mod;
+	
+	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
+		error("Invalid IP address.");
+	
+	$query = prepare('DELETE FROM `ip_notes` WHERE `ip` = :ip AND `id` = :id');
+	$query->bindValue(':ip', $ip);
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	
+	header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+}
+
 function mod_page_ip($ip) {
 	global $config, $mod;
 	
@@ -101,6 +134,21 @@ function mod_page_ip($ip) {
 		require_once 'inc/mod/ban.php';
 		
 		unban($_POST['ban_id']);
+		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+		return;
+	}
+	
+	if (isset($_POST['note'])) {
+		// TODO: permissions
+		
+		markup($_POST['note']);
+		$query = prepare('INSERT INTO `ip_notes` VALUES (NULL, :ip, :mod, :time, :body)');
+		$query->bindValue(':ip', $ip);
+		$query->bindValue(':mod', $mod['id']);
+		$query->bindValue(':time', time());
+		$query->bindValue(':body', $_POST['note']);
+		$query->execute() or error(db_error($query));
+		
 		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
 		return;
 	}
@@ -145,14 +193,26 @@ function mod_page_ip($ip) {
 	$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
 	$query->bindValue(':ip', $ip);
 	$query->execute() or error(db_error($query));
-	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);	
+	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$query = prepare("SELECT `ip_notes`.*, `username` FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+	$query->bindValue(':ip', $ip);
+	$query->execute() or error(db_error($query));
+	$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
 	mod_page("IP: $ip", 'mod/view_ip.html', $args);
 }
 
-function mod_page_ban() {
-	if(!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board']))
-		error($config['error']['missedafield']);
+function mod_ban() {
+	if (!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
+		mod_page("New ban", 'mod/ban_form.html', array());
+		return;
+	}
+	
+	$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+	$query->bindValue(':ip', $ip);
+	$query->execute() or error(db_error($query));
+	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
 	$ip = $_POST['ip'];
 	
@@ -164,5 +224,25 @@ function mod_page_ban() {
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
 	else
 		header('Location: ?/', true, $config['redirect_http']);
+}
+
+function mod_delete($board, $post) {
+	global $config, $mod;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['delete'], $board))
+		error($config['error']['noaccess']);
+	
+	// Delete post
+	deletePost($post);
+	// Record the action
+	modLog("Deleted post #{$post}");
+	// Rebuild board
+	buildIndex();
+	
+	// Redirect
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 

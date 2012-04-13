@@ -55,6 +55,8 @@ function parse_time($str) {
 function ban($mask, $reason, $length, $board) {
 	global $mod;
 	
+	// TODO: permissions
+	
 	$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :time, :expires, :reason, :board)");
 	$query->bindValue(':ip', $mask);
 	$query->bindValue(':mod', $mod['id']);
@@ -79,6 +81,8 @@ function ban($mask, $reason, $length, $board) {
 }
 
 function unban($id) {
+	// TODO: permissions
+	
 	$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
