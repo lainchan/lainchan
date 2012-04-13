@@ -1714,7 +1714,7 @@ if(!$mod) {
 				else
 					$query->bindValue(':subtitle', null, PDO::PARAM_NULL);
 				
-				$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
+				$query->bindValue(':uri', $board['uri']);
 				$query->execute() or error(db_error($query));
 				
 				if($config['cache']['enabled']) {
