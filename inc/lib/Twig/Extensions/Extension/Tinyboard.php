@@ -10,19 +10,21 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	public function getFilters()
 	{
 		return Array(
-			'filesize' => new Twig_Filter_Function('format_bytes', Array('needs_environment' => false)),
-			'truncate' => new Twig_Filter_Function('twig_truncate_filter', array('needs_environment' => false)),
-			'truncate_body' => new Twig_Filter_Function('truncate', array('needs_environment' => false)),
-			'extension' => new Twig_Filter_Function('twig_extension_filter', array('needs_environment' => false)),
-			'sprintf' => new Twig_Filter_Function('sprintf', array('needs_environment' => false)),
-			'capcode' => new Twig_Filter_Function('capcode', array('needs_environment' => false)),
-			'hasPermission' => new Twig_Filter_Function('twig_hasPermission_filter', array('needs_environment' => false)),
-			'date' => new Twig_Filter_Function('twig_date_filter', array('needs_environment' => false)),
-			'poster_id' => new Twig_Filter_Function('poster_id', array('needs_environment' => false)),
-			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter', array('needs_environment' => false)),
-			'count' => new Twig_Filter_Function('count', array('needs_environment' => false)),
-			'ago' => new Twig_Filter_Function('ago', array('needs_environment' => false)),
-			'until' => new Twig_Filter_Function('until', array('needs_environment' => false))
+			'filesize' => new Twig_Filter_Function('format_bytes'),
+			'truncate' => new Twig_Filter_Function('twig_truncate_filter'),
+			'truncate_body' => new Twig_Filter_Function('truncate'),
+			'extension' => new Twig_Filter_Function('twig_extension_filter'),
+			'sprintf' => new Twig_Filter_Function('sprintf'),
+			'capcode' => new Twig_Filter_Function('capcode'),
+			'hasPermission' => new Twig_Filter_Function('twig_hasPermission_filter'),
+			'date' => new Twig_Filter_Function('twig_date_filter'),
+			'poster_id' => new Twig_Filter_Function('poster_id'),
+			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter'),
+			'count' => new Twig_Filter_Function('count'),
+			'ago' => new Twig_Filter_Function('ago'),
+			'until' => new Twig_Filter_Function('until'),
+			'split' => new Twig_Filter_Function('twig_split_filter'),
+			'push' => new Twig_Filter_Function('twig_push_filter'),
 		);
 	}
 	
@@ -34,10 +36,10 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	public function getFunctions()
 	{
 		return Array(
-			'time' => new Twig_Filter_Function('time', array('needs_environment' => false)),
-			'timezone' => new Twig_Filter_Function('twig_timezone_function', array('needs_environment' => false)),
-			'hiddenInputs' => new Twig_Filter_Function('hiddenInputs', array('needs_environment' => false)),
-			'hiddenInputsHash' => new Twig_Filter_Function('hiddenInputsHash', array('needs_environment' => false))
+			'time' => new Twig_Filter_Function('time'),
+			'timezone' => new Twig_Filter_Function('twig_timezone_function'),
+			'hiddenInputs' => new Twig_Filter_Function('hiddenInputs'),
+			'hiddenInputsHash' => new Twig_Filter_Function('hiddenInputsHash'),
 		);
 	}
 	
@@ -55,6 +57,15 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 function twig_timezone_function() {
 	// there's probably a much easier way of doing this
 	return sprintf("%s%02d", ($hr = (int)floor(($tz = date('Z')) / 3600)) > 0 ? '+' : '-', abs($hr)) . ':' . sprintf("%02d", (($tz / 3600) - $hr) * 60);
+}
+
+function twig_split_filter($str, $delim) {
+	return explode($delim, $str);
+}
+
+function twig_push_filter($array, $value) {
+	array_push($array, $value);
+	return $array;
 }
 
 function twig_remove_whitespace_filter($data) {

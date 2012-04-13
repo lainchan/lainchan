@@ -250,3 +250,15 @@ function mod_delete($board, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
+function mod_users() {
+	global $config;
+	if(!hasPermission($config['mod']['manageusers']))
+		error($config['error']['noaccess']);
+	
+	$args = array();
+	$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
+	$args['users'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	mod_page("Manage users", 'mod/users.html', $args);
+}
+

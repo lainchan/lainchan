@@ -23,10 +23,12 @@ $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 $pages = array(
 	'!^$!'					=> ':?/',		// redirect to dashboard
 	'!^/$!'					=> 'dashboard',		// dashboard
+	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
 	'!^/log$!'				=> 'log',		// modlog
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
+
+	'!^/users$!'				=> 'users',		// manage users
 	
-	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
 	
 	'!^/ban$!'				=> 'ban',		// new ban
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address
