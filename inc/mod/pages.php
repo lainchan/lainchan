@@ -252,13 +252,42 @@ function mod_delete($board, $post) {
 
 function mod_users() {
 	global $config;
-	if(!hasPermission($config['mod']['manageusers']))
+	
+	if (!hasPermission($config['mod']['manageusers']))
 		error($config['error']['noaccess']);
 	
 	$args = array();
 	$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 	$args['users'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	mod_page("Manage users", 'mod/users.html', $args);
+	mod_page('Manage users', 'mod/users.html', $args);
+}
+
+function mod_new_pm($username) {
+	global $config, $mod;
+	
+	if (!hasPermission($config['mod']['create_pm']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT `id` FROM `mods` WHERE `username` = :username");
+	$query->bindValue(':username', $username);
+	$query->execute() or error(db_error($query));
+	if (!$id = $query->fetchColumn(0))
+		error($config['error']['404']);
+	
+	if (isset($_POST['message'])) {
+		markup($_POST['message']);
+		
+		$query = prepare("INSERT INTO `pms` VALUES (NULL, :me, :id, :message, :time, 1)");
+		$query->bindValue(':me', $mod['id']);
+		$query->bindValue(':id', $id);
+		$query->bindValue(':message', $_POST['message']);
+		$query->bindValue(':time', time());
+		$query->execute() or error(db_error($query));
+		
+		header('Location: ?/', true, $config['redirect_http']);
+	}
+	
+	mod_page("New PM for {$username}", 'mod/new_pm.html', array('username' => $username, 'id' => $id));
 }
 

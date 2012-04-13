@@ -1,0 +1,54 @@
+<table class="modlog" style="width:auto">
+	<tr>
+		<th>ID</th>
+		<th>Username</th>
+		<th>Type</th>
+		<th>Boards</th>
+		<th>Last action</th>
+		<th>&hellip;</th>
+	</tr>
+	
+	{% for user in users %}
+		<tr>
+			<td><small>{{ user.id }}</small></td>
+			<td>{{ user.username }}</td>
+			<td>
+				{% if user.type == constant('JANITOR') %}Janitor
+				{% elseif user.type == constant('MOD') %}Mod
+				{% elseif user.type == constant('ADMIN') %}Admin
+				{% endif %}
+			</td>
+			<td>
+				{# This is really messy, but IMO it beats doing it in PHP. #}
+				{% set boards = user.boards|split(',') %}
+				{% set _boards = [] %}
+				{% for board in boards %}
+					{% set _boards = _boards|push(board == '*' ? '*' : config.board_abbreviation|sprintf(board)) %}
+				{% endfor %}
+				{% set _boards = _boards|sort %}
+				{{ _boards|join(', ') }}
+			</td>
+			<td>
+				{% if mod|hasPermission(config.mod.modlog) %}
+					<span title="{{ user.action|e }}">{{ user.last|ago }}</span>
+				{% else %}
+					&ndash;
+				{% endif %}
+			</td>
+			<td>
+				{% if mod|hasPermission(config.mod.promoteusers) and user.type < constant('ADMIN') %}
+					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/promote" title="Promote">&#9650;</a> 
+				{% endif %}
+				{% if mod|hasPermission(config.mod.promoteusers) and user.type > constant('JANITOR') %}
+					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/demote" title="Demote">&#9660;</a> 
+				{% endif %}
+				{% if mod|hasPermission(config.editusers) or (mod|hasPermission(config.change_password) and mod.id == user.id) %}
+					<a class="unimportant" style="margin-left:5px;float:right" href="?/users/{{ user.id }}">[edit]</a> 
+				{% endif %}
+				{% if mod|hasPermission(config.mod.create_pm) %}
+					<a class="unimportant" style="margin-left:5px;float:right" href="?/new_PM/{{ user.username }}">[PM]</a>
+				{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+</table>

@@ -28,7 +28,7 @@ $pages = array(
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
 
 	'!^/users$!'				=> 'users',		// manage users
-	
+	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
 	
 	'!^/ban$!'				=> 'ban',		// new ban
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address
