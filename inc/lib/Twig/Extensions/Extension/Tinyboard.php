@@ -21,6 +21,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'poster_id' => new Twig_Filter_Function('poster_id', array('needs_environment' => false)),
 			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter', array('needs_environment' => false)),
 			'count' => new Twig_Filter_Function('count', array('needs_environment' => false)),
+			'ago' => new Twig_Filter_Function('ago', array('needs_environment' => false)),
 			'until' => new Twig_Filter_Function('until', array('needs_environment' => false))
 		);
 	}

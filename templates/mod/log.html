@@ -1,11 +1,33 @@
 <table class="modlog">
 	<tr>
-		<th>
-		
-		</th>
+		<th>Staff</th>
+		<th>IP address</th>
+		<th>Ago</th>
+		<th>Board</th>
+		<th>Action</th>
 	</tr>
 	{% for log in logs %}
-		
+		<tr>
+			<td class="minimal">
+				<a href="?/new_PM/{{ log.username }}">{{ log.username }}</a>
+			</td>
+			<td class="minimal">
+				<a href="?/IP/{{ log.ip }}">{{ log.ip }}</a>
+			</td>
+			<td class="minimal">
+				<span title="{{ log.time|date(config.post_date) }}">{{ log.time|ago }}</span>
+			</td>
+			<td class="minimal">
+				{% if log.board %}
+					<a href="?/{{ config.board_path|sprintf(log.board) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(log.board) }}</a>
+				{% else %}
+					-
+				{% endif %}
+			</td>
+			<td>
+				{{ log.text }}
+			</td>
+		</tr>
 	{% endfor %}
 </table>
 
