@@ -79,7 +79,11 @@ function mod_log($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	mod_page('Moderation log', 'mod/log.html', array('logs' => $logs));
+	$query = prepare("SELECT COUNT(*) AS `count` FROM `modlogs`");
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn(0);
+	
+	mod_page('Moderation log', 'mod/log.html', array('logs' => $logs, 'count' => $count));
 }
 
 function mod_view_board($boardName, $page_no = 1) {

@@ -24,7 +24,7 @@ $pages = array(
 	'!^$!'					=> ':?/',		// redirect to dashboard
 	'!^/$!'					=> 'dashboard',		// dashboard
 	'!^/log$!'				=> 'log',		// modlog
-	'!^/log/(\d+)/$!'			=> 'log',		// modlog
+	'!^/log/(\d+)$!'			=> 'log',		// modlog
 	
 	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
 	
