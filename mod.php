@@ -384,12 +384,6 @@ if(!$mod) {
 		
 		$page = isset($match[2]) ? $match[2] : 1;
 		
-		$boards = array();
-		$_boards = listBoards();
-		foreach($_boards as &$_b) {
-			$boards[$_b['id']] = $_b['uri'];
-		}
-		
 		$query = prepare("SELECT `mod` as `id`, `username`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
 		$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 		$query->bindValue(':offset', ($page - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
@@ -416,9 +410,9 @@ if(!$mod) {
 					$log['text'] = utf8tohtml($log['text']);
 					$log['text'] = preg_replace('/(\d+\.\d+\.\d+\.\d+)/', '<a href="?/IP/$1">$1</a>', $log['text']);
 				
-					if(isset($boards[$log['board']])) {
+					if(isset($log['board'])) {
 						if(preg_match('/post #(\d+)/', $log['text'], $match)) {
-							$post_query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $boards[$log['board']]));
+							$post_query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $log['board']));
 							$post_query->bindValue(':id', $match[1], PDO::PARAM_INT);
 							$post_query->execute() or error(db_error($query));
 						
@@ -426,7 +420,7 @@ if(!$mod) {
 								$log['text'] = preg_replace('/post (#(\d+))/',
 									'post <a href="' .
 										'?/' .
-										sprintf($config['board_path'], $boards[$log['board']]) .
+										sprintf($config['board_path'], $log['board']) .
 										$config['dir']['res'] .
 										($post['thread'] ?
 											sprintf($config['file_page'], $post['thread']) . '#' . $match[1]
