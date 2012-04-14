@@ -30,7 +30,11 @@
 			</td>
 			<td>
 				{% if mod|hasPermission(config.mod.modlog) %}
-					<span title="{{ user.action|e }}">{{ user.last|ago }}</span>
+					{% if user.last %}
+						<span title="{{ user.action|e }}">{{ user.last|ago }}</span>
+					{% else %}
+						<em>never</em>
+					{% endif %}
 				{% else %}
 					&ndash;
 				{% endif %}

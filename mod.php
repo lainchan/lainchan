@@ -28,7 +28,10 @@ $pages = array(
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
 
 	'!^/users$!'				=> 'users',		// manage users
+	'!^/users/(\d+)/(promote|demote)$!'	=> 'user_promote',	// prmote/demote user
 	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
+	
+	'!^/rebuild$!'				=> 'rebuild',		// rebuild static files
 	
 	'!^/ban$!'				=> 'ban',		// new ban
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address

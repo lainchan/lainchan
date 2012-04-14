@@ -143,7 +143,12 @@ function mod_page_ip($ip) {
 	}
 	
 	if (isset($_POST['note'])) {
-		// TODO: permissions
+		if (hasPermission($config['mod']['create_notes'])) {
+			$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+			$query->bindValue(':ip', $ip);
+			$query->execute() or error(db_error($query));
+			$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
+		}
 		
 		markup($_POST['note']);
 		$query = prepare('INSERT INTO `ip_notes` VALUES (NULL, :ip, :mod, :time, :body)');
@@ -194,20 +199,30 @@ function mod_page_ip($ip) {
 	
 	$args['boards'] = $boards;
 	
-	$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
-	$query->bindValue(':ip', $ip);
-	$query->execute() or error(db_error($query));
-	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	$query = prepare("SELECT `ip_notes`.*, `username` FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
-	$query->bindValue(':ip', $ip);
-	$query->execute() or error(db_error($query));
-	$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	if (hasPermission($config['mod']['view_ban'])) {
+		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+		$query->bindValue(':ip', $ip);
+		$query->execute() or error(db_error($query));
+		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	if (hasPermission($config['mod']['view_notes'])) {
+		$query = prepare("SELECT `ip_notes`.*, `username` FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+		$query->bindValue(':ip', $ip);
+		$query->execute() or error(db_error($query));
+		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	}
 	
 	mod_page("IP: $ip", 'mod/view_ip.html', $args);
 }
 
 function mod_ban() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['ban']))
+		error($config['error']['noaccess']);
+	
 	if (!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
 		mod_page("New ban", 'mod/ban_form.html', array());
 		return;
@@ -263,6 +278,19 @@ function mod_users() {
 	mod_page('Manage users', 'mod/users.html', $args);
 }
 
+function mod_user_promote($uid, $action) {
+	global $config;
+	
+	if (!hasPermission($config['mod']['promoteusers']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("UPDATE `mods` SET `type` = `type` " . ($action == 'promote' ? "+1 WHERE `type` < " . (int)ADMIN : "-1 WHERE `type` > " . (int)JANITOR) . " AND `id` = :id");
+	$query->bindValue(':id', $uid);
+	$query->execute() or error(db_error($query));
+	
+	header('Location: ?/users', true, $config['redirect_http']);
+}
+
 function mod_new_pm($username) {
 	global $config, $mod;
 	
@@ -272,8 +300,16 @@ function mod_new_pm($username) {
 	$query = prepare("SELECT `id` FROM `mods` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
-	if (!$id = $query->fetchColumn(0))
-		error($config['error']['404']);
+	if (!$id = $query->fetchColumn(0)) {
+		// Old style ?/PM: by user ID
+		$query = prepare("SELECT `username` FROM `mods` WHERE `id` = :username");
+		$query->bindValue(':username', $username);
+		$query->execute() or error(db_error($query));
+		if ($username = $query->fetchColumn(0))
+			header('Location: ?/new_PM/' . $username, true, $config['redirect_http']);
+		else
+			error($config['error']['404']);
+	}
 	
 	if (isset($_POST['message'])) {
 		markup($_POST['message']);
@@ -289,5 +325,14 @@ function mod_new_pm($username) {
 	}
 	
 	mod_page("New PM for {$username}", 'mod/new_pm.html', array('username' => $username, 'id' => $id));
+}
+
+function mod_rebuild() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['rebuild']))
+		error($config['error']['noaccess']);
+	
+	mod_page("Rebuild", 'mod/rebuild.html', array('boards' => listBoards()));
 }
 

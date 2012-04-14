@@ -26,7 +26,7 @@ function load_twig() {
 	$loader->setPaths($config['dir']['template']);
 	$twig = new Twig_Environment($loader, array(
 		'autoescape' => false,
-		//'cache' => "{$config['dir']['template']}/cache",
+		'cache' => "{$config['dir']['template']}/cache",
 		'debug' => ($config['debug'] ? true : false),
 	));
 	$twig->addExtension(new Twig_Extensions_Extension_Tinyboard());
