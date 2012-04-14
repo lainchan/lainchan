@@ -117,6 +117,9 @@ function mod_view_thread($boardName, $thread) {
 function mod_ip_remove_note($ip, $id) {
 	global $config, $mod;
 	
+	if (!hasPermission($config['mod']['remove_notes']))
+			error($config['error']['noaccess']);
+	
 	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
 		error("Invalid IP address.");
 	
@@ -135,6 +138,9 @@ function mod_page_ip($ip) {
 		error("Invalid IP address.");
 	
 	if (isset($_POST['ban_id'], $_POST['unban'])) {
+		if (!hasPermission($config['mod']['unban']))
+			error($config['error']['noaccess']);
+		
 		require_once 'inc/mod/ban.php';
 		
 		unban($_POST['ban_id']);
@@ -143,12 +149,8 @@ function mod_page_ip($ip) {
 	}
 	
 	if (isset($_POST['note'])) {
-		if (hasPermission($config['mod']['create_notes'])) {
-			$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
-			$query->bindValue(':ip', $ip);
-			$query->execute() or error(db_error($query));
-			$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
-		}
+		if (!hasPermission($config['mod']['create_notes']))
+			error($config['error']['noaccess']);
 		
 		markup($_POST['note']);
 		$query = prepare('INSERT INTO `ip_notes` VALUES (NULL, :ip, :mod, :time, :body)');
@@ -328,10 +330,56 @@ function mod_new_pm($username) {
 }
 
 function mod_rebuild() {
-	global $config;
+	global $config, $twig;
 	
 	if (!hasPermission($config['mod']['rebuild']))
 		error($config['error']['noaccess']);
+	
+	if (isset($_POST['rebuild'])) {
+		$log = array();
+		$boards = listBoards();
+		$rebuilt_scripts = array();
+		
+		if (isset($_POST['rebuild_cache'])) {
+			$log[] = 'Clearing template cache';
+			load_twig();
+			$twig->clearCacheFiles();
+		}
+		
+		if (isset($_POST['rebuild_themes'])) {
+			$log[] = 'Regenerating theme files';
+			rebuildThemes('all');
+		}
+		
+		if (isset($_POST['rebuild_javascript'])) {
+			$log[] = 'Rebuilding <strong>' . $config['file_script'] . '</strong>';
+			buildJavascript();
+			$rebuilt_scripts[] = $config['file_script'];
+		}
+		
+		foreach ($boards as $board) {
+			if (!(isset($_POST['boards_all']) || isset($_POST['boards_' . $board['uri']])))
+				continue;
+			
+			openBoard($board['uri']);
+			$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Creating index pages';
+			
+			if (!in_array($config['file_script'], $rebuilt_scripts)) {
+				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding <strong>' . $config['file_script'] . '</strong>';
+				buildJavascript();
+				$rebuilt_scripts[] = $config['file_script'];
+			}
+			
+			$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+			while($post = $query->fetch()) {
+				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding thread #' . $post['id'];
+				buildThread($post['id']);
+			}
+		}
+		
+		mod_page("Rebuild", 'mod/rebuilt.html', array('logs' => $log));
+		return;
+	}
 	
 	mod_page("Rebuild", 'mod/rebuild.html', array('boards' => listBoards()));
 }
