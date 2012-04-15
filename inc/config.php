@@ -194,9 +194,9 @@
 	$config['spam']['hidden_inputs_min'] = 4;
 	$config['spam']['hidden_inputs_max'] = 12;
 	// How many times can a "hash" be used to post?
-	$config['spam']['hidden_inputs_max_pass'] = 30;
+	$config['spam']['hidden_inputs_max_pass'] = 12;
 	// How soon after regeneration do hashes expire (in seconds)?
-	$config['spam']['hidden_inputs_expire'] = 60 * 60 * 2; // two hours
+	$config['spam']['hidden_inputs_expire'] = 60 * 60 * 3; // three hours
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
 	$config['spam']['hidden_input_names'] = array(
 		'user',
