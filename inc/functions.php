@@ -1242,14 +1242,14 @@ function checkDNSBL() {
 	if (in_array($_SERVER['REMOTE_ADDR'], $config['dnsbl_exceptions']))
 		return;
 	
-	$ip = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
+	$ipaddr = ReverseIPOctets($_SERVER['REMOTE_ADDR']);
 	
 	foreach ($config['dnsbl'] as $blacklist) {
-		if (!is_array($blacklist) == 1)
+		if (!is_array($blacklist))
 			$blacklist = array($blacklist);
 		
-		if (($lookup = str_replace('%', $ip, $blacklist[0])) == $blacklist[0])
-			$lookup = $ip . '.' . $blacklist[0];
+		if (($lookup = str_replace('%', $ipaddr, $blacklist[0])) == $blacklist[0])
+			$lookup = $ipaddr . '.' . $blacklist[0];
 		
 		if (!$ip = DNS($lookup))
 			continue; // not in list
