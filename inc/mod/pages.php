@@ -358,7 +358,7 @@ function mod_rebuild() {
 		}
 		
 		foreach ($boards as $board) {
-			if (!(isset($_POST['boards_all']) || isset($_POST['boards_' . $board['uri']])))
+			if (!(isset($_POST['boards_all']) || isset($_POST['board_' . $board['uri']])))
 				continue;
 			
 			openBoard($board['uri']);
