@@ -2,7 +2,7 @@
 	{% set username = 'me' %}
 {% endif %}#}
 
-<form action="" method="post">
+<form action="?/new_PM/{{ username|e }}" method="post">
 	<table>
 		<tr>
 			<th>To</th>
@@ -14,7 +14,7 @@
 		</tr>
 		<tr>
 			<th>Message</th>
-			<td><textarea name="message" rows="10" cols="40"></textarea></td>
+			<td><textarea name="message" rows="10" cols="40">{{ message }}</textarea></td>
 		</tr>
 	</table>
 

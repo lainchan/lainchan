@@ -26,16 +26,18 @@ $pages = array(
 	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
 	'!^/log$!'				=> 'log',		// modlog
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
-
+	
 	'!^/users$!'				=> 'users',		// manage users
 	'!^/users/(\d+)/(promote|demote)$!'	=> 'user_promote',	// prmote/demote user
 	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
+	'!^/PM/(\d+)(/reply)?$!'		=> 'pm',		// read a pm
 	
 	'!^/rebuild$!'				=> 'rebuild',		// rebuild static files
 	
 	'!^/ban$!'				=> 'ban',		// new ban
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address
 	'!^/IP/([\w.:]+)/remove_note/(\d+)$!'	=> 'ip_remove_note',	// remove note from ip address
+	'!^/bans$!'				=> 'bans',		// ban list
 	
 	'!^/(\w+)/delete/(\d+)$!'		=> 'delete',		// delete post
 	

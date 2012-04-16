@@ -1,0 +1,74 @@
+{% if bans|count == 0 %}
+	<p style="text-align:center" class="unimportant">(There are no active bans.)</p>
+{% else %}
+	<form action="" method="post">
+		<table class="mod">
+			<tr>
+				<th>{% trans %}IP address{% endtrans %}</th>
+				<th>{% trans %}Reason{% endtrans %}</th>
+				<th>{% trans %}Board{% endtrans %}</th>
+				<th>{% trans %}Set{% endtrans %}</th>
+				<th>{% trans %}Expires{% endtrans %}</th>
+				<th>{% trans %}Staff{% endtrans %}</th>
+			</tr>
+			{% for ban in bans %}
+				<tr{% if ban.expires != 0 and ban.expires < time() %} style="text-decoration:line-through"{% endif %}>
+					<td style="white-space: nowrap">
+						<input type="checkbox" name="ban_{{ ban.id }}"> 
+						{% if ban.real_ip %}
+							<a href="?/IP/{{ ban.ip }}">{{ ban.ip }}</a>
+						{% else %}
+							{{ ban.ip|e }}
+						{% endif %}
+					</td>
+					<td>
+						{% if ban.reason %}
+							{{ ban.reason }}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+					<td  style="white-space: nowrap">
+						{% if ban.board %}
+							{{ config.board_abbreviation|sprintf(ban.board) }}
+						{% else %}
+							<em>{% trans %}all boards{% endtrans %}
+						{% endif %}					
+					</td>
+					<td style="white-space: nowrap">
+						{{ ban.set|date(config.post_date) }}
+					</td>
+					<td style="white-space: nowrap">
+						{% if ban.expires == 0 %}
+							<em>never</em>
+						{% else %}
+							{{ ban.expires|date(config.post_date) }} 
+							{% if ban.expires > time() %}
+								<small>({{ ban.expires|until }})</small>
+							{% endif %}
+						{% endif %}
+					</td>
+					<td>
+						{% if ban.username %}
+							{% if mod|hasPermission(config.mod.view_banstaff) %}
+								<a href="?/new_PM/{{ ban.username|e }}">{{ ban.username|e }}</a>
+							{% else %}
+								{% if mod|hasPermission(config.mod.view_banquestionmark) %}
+									<em>?</em>
+								{% else %}
+							
+								{% endif %}
+							{% endif %}
+						{% else %}
+							<em>deleted?</em>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+		
+		<p style="text-align:center">
+			<input type="submit" name="unban" value="Unban selected">
+		</p>
+	</form>
+{% endif %}

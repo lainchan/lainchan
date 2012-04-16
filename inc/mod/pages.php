@@ -39,7 +39,7 @@ function mod_login() {
 			
 			$args['error'] = $config['error']['invalid'];
 		} else {
-			modLog("Logged in.");
+			modLog('Logged in');
 			
 			// Login successful
 			// Set cookies
@@ -101,6 +101,7 @@ function mod_view_board($boardName, $page_no = 1) {
 	$page['btn'] = getPageButtons($page['pages'], true);
 	$page['mod'] = true;
 	$page['config'] = $config;
+	
 	echo Element('index.html', $page);
 }
 
@@ -127,6 +128,8 @@ function mod_ip_remove_note($ip, $id) {
 	$query->bindValue(':ip', $ip);
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
+	
+	modLog("Removed a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 	
 	header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
 }
@@ -160,6 +163,8 @@ function mod_page_ip($ip) {
 		$query->bindValue(':body', $_POST['note']);
 		$query->execute() or error(db_error($query));
 		
+		modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+		
 		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
 		return;
 	}
@@ -177,8 +182,9 @@ function mod_page_ip($ip) {
 		$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		while ($post = $query->fetch()) {
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			if (!$post['thread']) {
+				// TODO: There is no reason why this should be such a fucking mess.
 				$po = new Thread(
 					$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'],
 					$post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
@@ -230,13 +236,6 @@ function mod_ban() {
 		return;
 	}
 	
-	$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
-	$query->bindValue(':ip', $ip);
-	$query->execute() or error(db_error($query));
-	$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
-	
-	$ip = $_POST['ip'];
-	
 	require_once 'inc/mod/ban.php';
 	
 	ban($_POST['ip'], $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
@@ -245,6 +244,51 @@ function mod_ban() {
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
 	else
 		header('Location: ?/', true, $config['redirect_http']);
+}
+
+function mod_bans() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['view_banlist']))
+		error($config['error']['noaccess']);
+	
+	if (isset($_POST['unban'])) {
+		if (!hasPermission($config['mod']['unban']))
+			error($config['error']['noaccess']);
+		
+		$unban = array();
+		foreach ($_POST as $name => $unused) {
+			if (preg_match('/^ban_(\d+)$/', $name, $match))
+				$unban[] = $match[1];
+		}
+		
+		query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		
+		foreach ($unban as $id) {
+			modLog("Removed ban #{$id}");
+		}
+		
+		header('Location: ?/bans', true, $config['redirect_http']);
+	}
+	
+	if ($config['mod']['view_banexpired']) {
+		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	} else {
+		// Filter out expired bans
+		$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	}
+	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	foreach ($bans as &$ban) {
+		if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
+			$ban['real_ip'] = true;
+	}
+	
+	mod_page('Ban list', 'mod/ban_list.html', array('bans' => $bans));
 }
 
 function mod_delete($board, $post) {
@@ -290,7 +334,46 @@ function mod_user_promote($uid, $action) {
 	$query->bindValue(':id', $uid);
 	$query->execute() or error(db_error($query));
 	
+	modLog(($action == 'promote' ? 'Promoted' : 'Demoted') . " user #{$uid}");
+	
 	header('Location: ?/users', true, $config['redirect_http']);
+}
+
+function mod_pm($id, $reply = false) {
+	global $mod, $config;
+	
+	$query = prepare("SELECT `mods`.`username`, `mods_to`.`username` AS `to_username`, `pms`.* FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` LEFT JOIN `mods` AS `mods_to` ON `mods_to`.`id` = `to` WHERE `pms`.`id` = :id");
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	
+	if ((!$pm = $query->fetch(PDO::FETCH_ASSOC)) || ($pm['to'] != $mod['id'] && !hasPermission($config['mod']['master_pm'])))
+		error($config['error']['404']);
+	
+	if (isset($_POST['delete'])) {
+		$query = prepare("DELETE FROM `pms` WHERE `id` = :id");
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+		
+		header('Location: ?/', true, $config['redirect_http']);
+		return;
+	}
+	
+	if ($pm['unread'] && $pm['to'] == $mod['id']) {
+		$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+		
+		modLog('Read a PM');
+	}
+	
+	if ($reply) {
+		if (!$pm['to_username'])
+			error($config['error']['404']); // deleted?
+		
+		mod_page("New PM for {$pm['to_username']}", 'mod/new_pm.html', array('username' => $pm['to_username'], 'id' => $pm['to'], 'message' => quote($pm['message'])));
+	} else {
+		mod_page("Private message &ndash; #$id", 'mod/pm.html', $pm);
+	}
 }
 
 function mod_new_pm($username) {
@@ -322,6 +405,8 @@ function mod_new_pm($username) {
 		$query->bindValue(':message', $_POST['message']);
 		$query->bindValue(':time', time());
 		$query->execute() or error(db_error($query));
+		
+		modLog('Sent a PM to ' . utf8tohtml($username));
 		
 		header('Location: ?/', true, $config['redirect_http']);
 	}
@@ -371,7 +456,7 @@ function mod_rebuild() {
 			}
 			
 			$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
-			while($post = $query->fetch()) {
+			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding thread #' . $post['id'];
 				buildThread($post['id']);
 			}

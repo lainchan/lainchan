@@ -68,15 +68,18 @@ form table input {
 }
 input[type="text"], input[type="password"], textarea {
 	border: 1px solid #a9a9a9;
-	text-indent: 0px;
+	text-indent: 0;
 	text-shadow: none;
 	text-transform: none;
 	word-spacing: normal;
 }
 form table tr td {
 	text-align: left;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
+}
+form table.mod tr td {
+	padding: 2px;
 }
 form table tr th {
 	text-align: left;
@@ -102,7 +105,7 @@ form table tr td div label {
 }
 p.fileinfo {
 	display: block;
-	margin: 0px;
+	margin: 0;
 	padding-right: 7em;
 }
 div.banner {
@@ -326,7 +329,7 @@ div.pages form input {
 hr {
 	border: none;
 	border-top: 1px solid #B7C5D9;
-	height: 0px;
+	height: 0;
 	clear: left;
 }
 div.boardlist {
@@ -349,7 +352,7 @@ table.modlog {
 }
 table.modlog tr td {
 	text-align: left;
-	margin: 0px;
+	margin: 0;
 	padding: 4px 15px 0 0;
 }
 table.modlog tr th {
