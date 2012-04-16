@@ -210,7 +210,7 @@ function _syslog($priority, $message) {
 }
 
 function create_antibot($board, $thread = null) {
-	require_once dirname(__FILE__) . '/inc/anti-bot.php';
+	require_once dirname(__FILE__) . '/anti-bot.php';
 	
 	return _create_antibot($board, $thread);
 }
