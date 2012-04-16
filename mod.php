@@ -40,6 +40,7 @@ $pages = array(
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address
 	'!^/IP/([\w.:]+)/remove_note/(\d+)$!'	=> 'ip_remove_note',	// remove note from ip address
 	'!^/bans$!'				=> 'bans',		// ban list
+	'!^/bans/(\d+)$!'			=> 'bans',		// ban list
 	
 	'!^/(\w+)/delete/(\d+)$!'		=> 'delete',		// delete post
 	

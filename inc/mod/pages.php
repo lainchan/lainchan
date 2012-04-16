@@ -246,7 +246,7 @@ function mod_ban() {
 		header('Location: ?/', true, $config['redirect_http']);
 }
 
-function mod_bans() {
+function mod_bans($page_no = 1) {
 	global $config;
 	
 	if (!hasPermission($config['mod']['view_banlist']))
@@ -272,23 +272,27 @@ function mod_bans() {
 	}
 	
 	if ($config['mod']['view_banexpired']) {
-		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC");
-		$query->bindValue(':time', time(), PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
+		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC LIMIT :offset, :limit");
 	} else {
 		// Filter out expired bans
-		$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC");
-		$query->bindValue(':time', time(), PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
+		$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
 	}
+	$query->bindValue(':time', time(), PDO::PARAM_INT);
+	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
 	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$query = prepare("SELECT COUNT(*) FROM `bans`");
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn(0);
 	
 	foreach ($bans as &$ban) {
 		if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
 			$ban['real_ip'] = true;
 	}
 	
-	mod_page('Ban list', 'mod/ban_list.html', array('bans' => $bans));
+	mod_page('Ban list', 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
 }
 
 function mod_delete($board, $post) {

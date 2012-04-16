@@ -826,6 +826,8 @@
 	
 	// How many actions to show per page in the moderation log
 	$config['mod']['modlog_page'] = 350;
+	// How many bans to show per page in the ban list
+	$config['mod']['banlist_page'] = 350;
 	
 	// Maximum number of results to display for a search, per board
 	$config['mod']['search_results'] = 75;
