@@ -313,6 +313,7 @@ function mod_lock($board, $unlock, $post) {
 	$query->bindValue(':locked', $unlock ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if($query->rowCount()) {
+		modLog(($unlock ? 'Unlocked' : 'Locked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -334,6 +335,7 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if($query->rowCount()) {
+		modLog(($unlock ? 'Unstickied' : 'Stickied') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -355,6 +357,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if($query->rowCount()) {
+		modLog(($unlock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -380,6 +383,85 @@ function mod_delete($board, $post) {
 	
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
+function mod_user($uid) {
+	global $config, $mod;
+	
+	if (!hasPermission($config['mod']['editusers']) && !(hasPermission($config['mod']['change_password']) && $uid == $mod['id']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare('SELECT * FROM `mods` WHERE `id` = :id');
+	$query->bindValue(':id', $uid);
+	$query->execute() or error(db_error($query));
+	if (!$user = $query->fetch(PDO::FETCH_ASSOC))
+		error($config['error']['404']);
+	
+	if (hasPermission($config['mod']['editusers']) && isset($_POST['username'], $_POST['password'])) {
+		if (isset($_POST['allboards'])) {
+			$boards = array('*');
+		} else {
+			$_boards = listBoards();
+			foreach ($_boards as &$board) {
+				$board = $board['uri'];
+			}
+		
+			$boards = array();
+			foreach ($_POST as $name => $value) {
+				if (preg_match('/^board_(\w+)$/', $name, $matches) && in_array($matches[1], $_boards))
+					$boards[] = $matches[1];
+			}
+		}
+		
+		$query = prepare('UPDATE `mods` SET `username` = :username, `boards` = :boards WHERE `id` = :id');
+		$query->bindValue(':id', $uid);
+		$query->bindValue(':username', $_POST['username']);
+		$query->bindValue(':boards', implode(',', $boards));
+		$query->execute() or error(db_error($query));
+		
+		if ($_POST['password'] != '') {
+			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
+			$query->bindValue(':id', $uid);
+			$query->bindValue(':password', $_POST['password']);
+			$query->execute() or error(db_error($query));
+			
+			if ($uid == $mod['id']) {
+				login($_POST['username'], $_POST['password']);
+				setCookies();
+			}
+		}
+		
+		header('Location: ?/users', true, $config['redirect_http']);
+		return;
+	}
+	
+	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
+		if ($_POST['password'] != '') {
+			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
+			$query->bindValue(':id', $uid);
+			$query->bindValue(':password', $_POST['password']);
+			$query->execute() or error(db_error($query));
+			
+			login($_POST['username'], $_POST['password']);
+			setCookies();
+		}
+		
+		header('Location: ?/users', true, $config['redirect_http']);
+		return;
+	}
+	
+	if (hasPermission($config['mod']['modlog'])) {
+		$query = prepare('SELECT * FROM `modlogs` WHERE `mod` = :id ORDER BY `time` DESC LIMIT 5');
+		$query->bindValue(':id', $uid);
+		$query->execute() or error(db_error($query));
+		$log = $query->fetchAll(PDO::FETCH_ASSOC);
+	} else {
+		$log = array();
+	}
+	
+	$user['boards'] = explode(',', $user['boards']);
+	
+	mod_page('Edit user', 'mod/user.html', array('user' => $user, 'logs' => $log, 'boards' => listBoards()));
 }
 
 function mod_users() {

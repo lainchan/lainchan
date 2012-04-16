@@ -1,0 +1,93 @@
+<form action="?/users/{{ mod.id }}" method="post">
+	<table>
+		<tr>
+			<th>Username</th>
+			<td>
+				{% if mod|hasPermission(config.mod.editusers) %}
+					<input size="20" maxlength="30" type="text" name="username" value="{{ user.username|e }}" autocomplete="off">
+				{% else %}
+					{{ user.username|e }}
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th>Password <small style="font-weight:normal">(new; optional)</small></th>
+			<td>
+				{% if mod|hasPermission(config.mod.editusers) or (mod|hasPermission(config.mod.change_password) and user.id == mod.id) %}
+					<input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off">
+				{% else %}
+					-
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th>Boards</th>
+			<td>
+				<ul style="padding:0 5px;list-style:none">
+					<li>
+						<input type="checkbox" id="allboards" name="allboards"
+						{% if '*' in user.boards %} checked{% endif %}
+						{% if not mod|hasPermission(config.mod.editusers) %}
+						 disabled
+						{% endif %}
+						> 
+						<label for="allboards">"*" - All boards</label>
+					</li>
+					{% for board in boards %}
+						<li>
+							<input type="checkbox" id="board_{{ board.uri }}" name="board_{{ board.uri }}"
+								{% if board.uri in user.boards %} checked{% endif %}
+								{% if not mod|hasPermission(config.mod.editusers) %}
+								 disabled
+								{% endif %}
+								> 
+							<label for="board_{{ board.uri }}">
+								{{ config.board_abbreviation|sprintf(board.uri) }}
+								 - 
+								{{ board.title }}
+							</label>
+						</li>
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+	</table>
+	
+	<ul style="padding:0;text-align:center">
+		<li><input type="submit" value="Save changes"></li>
+		{% if mod|hasPermission(config.mod.deleteusers) %}
+		<li><input type="submit" value="Delete user"></li>
+		{% endif %}
+	</ul>
+</form>
+
+{% if logs|count > 0  %}
+	<table class="modlog" style="width:600px">
+		<tr>
+			<th>IP address</th>			
+			<th>Time</th>
+			<th>Board</th>
+			<th>Action</th>
+		</tr>
+		{% for log in logs %}
+			<tr>
+				<td class="minimal">
+					<a href="?/IP/{{ log.ip }}">{{ log.ip }}</a>
+				</td>
+				<td class="minimal">
+					<span title="{{ log.time|date(config.post_date) }}">{{ log.time|ago }}</span>
+				</td>
+				<td class="minimal">
+					{% if log.board %}
+						<a href="?/{{ config.board_path|sprintf(log.board) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(log.board) }}</a>
+					{% else %}
+						-
+					{% endif %}
+				</td>
+				<td>
+					{{ log.text }}
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endif %}

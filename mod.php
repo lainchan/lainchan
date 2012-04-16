@@ -28,6 +28,7 @@ $pages = array(
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
 	
 	'!^/users$!'				=> 'users',		// manage users
+	'!^/users/(\d+)$!'			=> 'user',		// edit user
 	'!^/users/(\d+)/(promote|demote)$!'	=> 'user_promote',	// prmote/demote user
 	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
 	'!^/PM/(\d+)(/reply)?$!'		=> 'pm',		// read a pm
