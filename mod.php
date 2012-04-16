@@ -43,10 +43,17 @@ $pages = array(
 	'!^/bans/(\d+)$!'			=> 'bans',		// ban list
 	
 	'!^/(\w+)/delete/(\d+)$!'		=> 'delete',		// delete post
+	'!^/(\w+)/(un)?lock/(\d+)$!'		=> 'lock',		// lock thread
+	'!^/(\w+)/(un)?sticky/(\d+)$!'		=> 'sticky',		// sticky thread
+	'!^/(\w+)/bump(un)?lock/(\d+)$!'	=> 'bumplock',		// "bumplock" thread
+	
+	// these pages aren't listed in the dashboard without $config['debug']
+	'!^/debug/antispam$!'			=> 'debug_antispam',
 	
 	// This should always be at the end:
-	'!^/(\w+)/' . preg_quote($config['file_index'], '!') . '?$!'					=> 'view_board',
-	'!^/(\w+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_board',
+	'!^/(\w+)/$!'											=> 'view_board',
+	'!^/(\w+)/' . preg_quote($config['file_index'], '!') . '$!'					=> 'view_board',
+	'!^/(\w+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'		=> 'view_board',
 	'!^/(\w+)/' . preg_quote($config['dir']['res'], '!') .
 			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_thread',
 );

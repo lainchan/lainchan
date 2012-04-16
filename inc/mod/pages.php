@@ -15,6 +15,7 @@ function mod_page($title, $template, $args) {
 	echo Element('page.html', array(
 		'config' => $config,
 		'mod' => $mod,
+		'hide_dashboard_link' => $template == 'mod/dashboard.html',
 		'title' => $title,
 		'body' => Element($template,
 				array_merge(
@@ -262,10 +263,12 @@ function mod_bans($page_no = 1) {
 				$unban[] = $match[1];
 		}
 		
-		query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		if (!empty($unban)) {
+			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
 		
-		foreach ($unban as $id) {
-			modLog("Removed ban #{$id}");
+			foreach ($unban as $id) {
+				modLog("Removed ban #{$id}");
+			}
 		}
 		
 		header('Location: ?/bans', true, $config['redirect_http']);
@@ -278,8 +281,8 @@ function mod_bans($page_no = 1) {
 		$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
 	}
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
-	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
-	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':limit', $config['mod']['banlist_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['banlist_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
 	
@@ -293,6 +296,58 @@ function mod_bans($page_no = 1) {
 	}
 	
 	mod_page('Ban list', 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
+}
+
+
+function mod_lock($board, $unlock, $post) {
+	global $config;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['lock'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('UPDATE `posts_%s` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query->bindValue(':id', $post);
+	$query->bindValue(':locked', $unlock ? 0 : 1);
+	$query->execute() or error(db_error($query));
+	
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
+function mod_sticky($board, $unsticky, $post) {
+	global $config;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['sticky'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('UPDATE `posts_%s` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query->bindValue(':id', $post);
+	$query->bindValue(':sticky', $unsticky ? 0 : 1);
+	$query->execute() or error(db_error($query));
+	
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
+function mod_bumplock($board, $unbumplock, $post) {
+	global $config;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['bumplock'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('UPDATE `posts_%s` SET `sage` = :bumplock WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query->bindValue(':id', $post);
+	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
+	$query->execute() or error(db_error($query));
+	
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
 function mod_delete($board, $post) {
@@ -597,6 +652,21 @@ function mod_report_dismiss($id, $all = false) {
 		modLog("Dismissed a report for post #{$id}", $board);
 	
 	header('Location: ?/reports', true, $config['redirect_http']);
+}
+
+function mod_debug_antispam() {
+	$args = array();
+	
+	$query = query('SELECT COUNT(*) FROM `antispam`') or error(db_error());
+	$args['total'] = number_format($query->fetchColumn(0));
+	
+	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL') or error(db_error());
+	$args['expiring'] = number_format($query->fetchColumn(0));
+	
+	$query = query('SELECT * FROM `antispam` /* WHERE `passed` > 0 */ ORDER BY `passed` DESC LIMIT 25') or error(db_error());
+	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	mod_page("Debug: Anti-spam", 'mod/debug/antispam.html', $args);
 }
 
 

@@ -80,7 +80,7 @@ function ban($mask, $reason, $length, $board) {
 	
 	$query->execute() or error(db_error($query));
 	
-	modLog('Created a new ban (<small>#' . $pdo->lastInsertId() . '</small>) for <strong>' . utf8tohtml($mask) . '</strong> with ' . ($reason ? 'reason: <small>' . $reason . '</small>' : 'no reason'));
+	modLog('Created a new ban (<small>#' . $pdo->lastInsertId() . '</small>) for <strong>' . utf8tohtml($mask) . '</strong> with ' . ($reason ? 'reason: ' . utf8tohtml($reason) . '' : 'no reason'));
 }
 
 function unban($id) {

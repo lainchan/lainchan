@@ -79,3 +79,13 @@
 	
 	{# TODO #}
 </fieldset>
+
+{% if config.debug %}
+	<fieldset>
+		<legend>Debug</legend>
+		<ul>
+			<li><a href="?/debug/antispam">Anti-spam</a></li>
+		</ul>
+	</fieldset>
+{% endif %}
+

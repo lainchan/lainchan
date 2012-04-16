@@ -17,7 +17,7 @@
 			{% if subtitle %}
 				{{ subtitle }}
 			{% endif %}
-			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
+			{% if mod and not hide_dashboard_link %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
 		</div>
 	</header>
 	{{ body }}
