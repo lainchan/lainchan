@@ -447,18 +447,24 @@ function mod_rebuild() {
 				continue;
 			
 			openBoard($board['uri']);
-			$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Creating index pages';
 			
-			if (!in_array($config['file_script'], $rebuilt_scripts)) {
+			if (isset($_POST['rebuild_index'])) {
+				buildIndex();
+				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Creating index pages';
+			}
+			
+			if (isset($_POST['rebuild_javascript']) && !in_array($config['file_script'], $rebuilt_scripts)) {
 				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding <strong>' . $config['file_script'] . '</strong>';
 				buildJavascript();
 				$rebuilt_scripts[] = $config['file_script'];
 			}
 			
-			$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
-			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-				$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding thread #' . $post['id'];
-				buildThread($post['id']);
+			if (isset($_POST['rebuild_thread'])) {
+				$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+				while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+					$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding thread #' . $post['id'];
+					buildThread($post['id']);
+				}
 			}
 		}
 		
