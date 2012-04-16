@@ -312,6 +312,10 @@ function mod_lock($board, $unlock, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':locked', $unlock ? 0 : 1);
 	$query->execute() or error(db_error($query));
+	if($query->rowCount()) {
+		buildThread($post);
+		buildIndex();
+	}
 	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
@@ -329,6 +333,10 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
+	if($query->rowCount()) {
+		buildThread($post);
+		buildIndex();
+	}
 	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
@@ -346,6 +354,10 @@ function mod_bumplock($board, $unbumplock, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
+	if($query->rowCount()) {
+		buildThread($post);
+		buildIndex();
+	}
 	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
