@@ -33,6 +33,8 @@ $pages = array(
 	'!^/PM/(\d+)(/reply)?$!'		=> 'pm',		// read a pm
 	
 	'!^/rebuild$!'				=> 'rebuild',		// rebuild static files
+	'!^/reports$!'				=> 'reports',		// report queue
+	'!^/reports/(\d+)/dismiss(all)?$!'	=> 'report_dismiss',	// dismiss a report
 	
 	'!^/ban$!'				=> 'ban',		// new ban
 	'!^/IP/([\w.:]+)$!'			=> 'ip',		// view ip address

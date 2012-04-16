@@ -469,3 +469,124 @@ function mod_rebuild() {
 	mod_page("Rebuild", 'mod/rebuild.html', array('boards' => listBoards()));
 }
 
+function mod_reports() {
+	global $config, $mod;
+	
+	if (!hasPermission($config['mod']['reports']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT * FROM `reports` ORDER BY `time` DESC LIMIT :limit");
+	$query->bindValue(':limit', $config['mod']['recent_reports'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$reports = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$report_queries = array();
+	foreach ($reports as $report) {
+		if (!isset($report_queries[$report['board']]))
+			$report_queries[$report['board']] = array();
+		$report_queries[$report['board']][] = $report['post'];
+	}
+	
+	$report_posts = array();
+	foreach ($report_queries as $board => $posts) {
+		$report_posts[$board] = array();
+		
+		$query = query(sprintf('SELECT * FROM `posts_%s` WHERE `id` = ' . implode(' OR `id` = ', $posts), $board)) or error(db_error());
+		while ($post = $query->fetch()) {
+			$report_posts[$board][$post['id']] = $post;
+		}
+	}
+	
+	$body = '';
+	foreach ($reports as $report) {
+		if (!isset($report_posts[$report['board']][$report['post']])) {
+			// // Invalid report (post has since been deleted)
+			$query = prepare("DELETE FROM `reports` WHERE `post` = :id AND `board` = :board");
+			$query->bindValue(':id', $report['post'], PDO::PARAM_INT);
+			$query->bindValue(':board', $report['board']);
+			$query->execute() or error(db_error($query));
+			continue;
+		}
+		
+		openBoard($report['board']);
+		
+		$post = &$report_posts[$report['board']][$report['post']];
+		
+		if (!$post['thread']) {
+			// Still need to fix this:
+			$po = new Thread(
+				$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'],
+				$post['capcode'], $post['body'], $post['time'], $post['thumb'],
+				$post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
+				$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'],
+				$post['locked'], $post['sage'], $post['embed'], '?/', $mod, false
+			);
+		} else {
+			$po = new Post(
+				$post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'],
+				$post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
+				$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod
+			);
+		}
+		
+		// a little messy and inefficient
+		$append_html = Element('mod/report.html', array('report' => $report, 'config' => $config, 'mod' => $mod));
+		
+		// Bug fix for https://github.com/savetheinternet/Tinyboard/issues/21
+		$po->body = truncate($po->body, $po->link(), $config['body_truncate'] - substr_count($append_html, '<br>'));
+		
+		if (mb_strlen($po->body) + mb_strlen($append_html) > $config['body_truncate_char']) {
+			// still too long; temporarily increase limit in the config
+			$__old_body_truncate_char = $config['body_truncate_char'];
+			$config['body_truncate_char'] = mb_strlen($po->body) + mb_strlen($append_html);
+		}
+		
+		$po->body .= $append_html;
+		
+		$body .= $po->build(true) . '<hr>';
+		
+		if(isset($__old_body_truncate_char))
+			$config['body_truncate_char'] = $__old_body_truncate_char;
+	}
+	
+	mod_page("Report queue", 'mod/reports.html', array('reports' => $body));
+}
+
+function mod_report_dismiss($id, $all = false) {
+	global $config;
+	
+	$query = prepare("SELECT `post`, `board`, `ip` FROM `reports` WHERE `id` = :id");
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	if ($report = $query->fetch(PDO::FETCH_ASSOC)) {
+		$ip = $report['ip'];
+		$board = $report['board'];
+		$post = $report['post'];
+	} else
+		error($config['error']['404']);
+	
+	if (!$all && !hasPermission($config['mod']['report_dismiss'], $board))
+		error($config['error']['noaccess']);
+	
+	if ($all && !hasPermission($config['mod']['report_dismiss_ip'], $board))
+		error($config['error']['noaccess']);
+	
+	if ($all) {
+		$query = prepare("DELETE FROM `reports` WHERE `ip` = :ip");
+		$query->bindValue(':ip', $ip);
+	} else {
+		$query = prepare("DELETE FROM `reports` WHERE `id` = :id");
+		$query->bindValue(':id', $id);
+	}
+	$query->execute() or error(db_error($query));
+	
+	
+	if ($all)
+		modLog("Dismissed all reports by <a href=\"?/IP/$ip\">$ip</a>");
+	else
+		modLog("Dismissed a report for post #{$id}", $board);
+	
+	header('Location: ?/reports', true, $config['redirect_http']);
+}
+
+
