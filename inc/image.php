@@ -57,6 +57,7 @@ class Image {
 		
 		$thumb = new $classname(false);
 		$thumb->src = $this->src;
+		$thumb->format = $this->format;
 		$thumb->original_width = $this->size->width;
 		$thumb->original_height = $this->size->height;
 		
@@ -75,6 +76,7 @@ class Image {
 		}
 		
 		$thumb->_resize($this->image->image, $width, $height);
+		
 		return $thumb;
 	}
 	
@@ -181,7 +183,7 @@ class ImageImagick extends ImageBase {
 	public function resize() {
 		global $config;
 		
-		if (preg_match('/\.gif$/i', $this->src) && $config['thumb_ext'] == 'gif') {
+		if ($this->format == 'gif' && $config['thumb_ext'] == 'gif') {
 			$this->image = new Imagick();
 			$this->image->setFormat('gif');
 			
@@ -264,8 +266,15 @@ class ImageConvert extends ImageBase {
 		
 		$quality = $config['thumb_quality'] * 10;
 		
-		if (shell_exec("convert -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " . escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
-			error('Failed to resize image!');
+		if ($this->format == 'gif' && $config['thumb_ext'] == 'gif' && $config['thumb_keep_animation_frames'] > 1) {
+			if (shell_exec("convert -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
+				escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+				error('Failed to resize image!');
+		} else {
+			if (shell_exec("convert -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " .
+				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+				error('Failed to resize image!');
+		}
 	}
 }
 
