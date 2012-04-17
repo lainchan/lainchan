@@ -431,10 +431,10 @@
 	$config['spoiler_image'] = 'static/spoiler.png';
 	
 	// Thumbnail quality (compression level), from 0 to 9
-	$config['thumb_quality'] = 7;
+	$config['thumb_quality'] = 8;
 	
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use that as a thumbnail instead of resizing/redrawing
-	$config['minimum_copy_resize'] = true;
+	$config['minimum_copy_resize'] = false;
 	
 	// Store image hash in the database for r9k-like boards implementation soon
 	// Function name for hashing
