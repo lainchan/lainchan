@@ -857,6 +857,11 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 		if (!$post['thread']) {
 			// Delete thread HTML page
 			file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
+			
+			$antispam_query = prepare('DELETE FROM `antispam` WHERE `board` = :board AND `thread` = :thread');
+			$antispam_query->bindValue(':board', $board['uri']);
+			$antispam_query->bindValue(':thread', $post['id']);
+			$antispam_query->execute() or error(db_error($antispam_query));
 		} elseif ($query->rowCount() == 1) {
 			// Rebuild thread
 			$rebuild = &$post['thread'];
