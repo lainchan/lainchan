@@ -190,7 +190,7 @@ function _create_antibot($board, $thread) {
 	$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
 	$query->execute() or error(db_error($query));
 	
-	$query = prepare('INSERT INTO `antispam` VALUES (:board, :thread, CRC32(:hash), UNIX_TIMESTAMP(), NULL, 0)');
+	$query = prepare('INSERT INTO `antispam` VALUES (:board, :thread, :hash, UNIX_TIMESTAMP(), NULL, 0)');
 	$query->bindValue(':board', $board);
 	$query->bindValue(':thread', $thread);
 	$query->bindValue(':hash', $antibot->hash());
