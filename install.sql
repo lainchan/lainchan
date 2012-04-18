@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `antispam` (
   `board` varchar(255) NOT NULL,
   `thread` int(11) DEFAULT NULL,
-  `hash` bigint(20) NOT NULL,
+  `hash` char(40) NOT NULL,
   `created` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
   `passed` smallint(6) NOT NULL,

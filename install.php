@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-3');
+define('VERSION', 'v0.9.6-dev-4');
 
 require 'inc/functions.php';
 
@@ -208,6 +208,8 @@ if (file_exists($config['has_installed'])) {
 				$query->bindValue(':oldboard', $board['id']);
 				$query->execute() or error(db_error($query));
 			}
+		case 'v0.9.6-dev-3':
+			query("ALTER TABLE  `antispam` CHANGE  `hash`  `hash` CHAR( 40 ) NOT NULL") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
