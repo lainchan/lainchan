@@ -248,7 +248,7 @@ function checkSpam(array $extra_salt = array()) {
 	if ($hash != $_hash)
 		return true;
 	
-	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = CRC32(:hash)');
+	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() == 0) {
@@ -256,7 +256,7 @@ function checkSpam(array $extra_salt = array()) {
 		return true;
 	}
 	
-	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = CRC32(:hash)');
+	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
 	$passed = $query->fetchColumn(0);
