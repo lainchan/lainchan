@@ -19,7 +19,9 @@
 				{% else %}
 					-
 				{% endif %}</td>
-			<td>{{ hash.hash }}</td>
+			<td>
+				<small>{{ hash.hash|upper }}</small>
+			</td>
 			<td>
 				<span title="{{ hash.created|date(config.post_date) }}">{{ hash.created|ago }} ago</span>
 			</td>
@@ -40,3 +42,24 @@
 	Total: <strong>{{ total }}</strong> (<strong>{{ expiring }}</strong> set to expire)
 </p>
 
+<form method="post" action="?/debug/antispam">
+	<table class="modlog" style="width:1%;white-space:nowrap;margin:auto">
+		<tr>
+			<th>Board</th>
+			<th>Thread</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" name="board" style="width:90px" value="{{ board }}">
+			</td>
+			<td>
+				<input type="text" name="thread" style="width:90px" value="{{ thread }}">
+			</td>
+			<td>
+				<input type="submit" name="filter" value="Filter"> 
+				<input type="submit" name="purge" value="Purge">
+			</td>
+		</tr>
+	</table>
+</form>

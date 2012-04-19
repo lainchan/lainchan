@@ -435,7 +435,7 @@ function mod_user($uid) {
 		return;
 	}
 	
-	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
+	if (hasPermission($config['dmod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
 		if ($_POST['password'] != '') {
 			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
@@ -749,15 +749,34 @@ function mod_report_dismiss($id, $all = false) {
 }
 
 function mod_debug_antispam() {
+	global $pdo, $config;
+	
 	$args = array();
 	
-	$query = query('SELECT COUNT(*) FROM `antispam`') or error(db_error());
+	if (isset($_POST['board'], $_POST['thread'])) {
+		$where = '`board` = ' . $pdo->quote($_POST['board']);
+		if($_POST['thread'] != '')
+			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
+		
+		if (isset($_POST['purge'])) {
+			$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
+			$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
+			$query->execute() or error(db_error());
+		}
+		
+		$args['board'] = $_POST['board'];
+		$args['thread'] = $_POST['thread'];
+	} else {
+		$where = '';
+	}
+	
+	$query = query('SELECT COUNT(*) FROM `antispam`' . ($where ? " WHERE $where" : '')) or error(db_error());
 	$args['total'] = number_format($query->fetchColumn(0));
 	
-	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL') or error(db_error());
+	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
 	$args['expiring'] = number_format($query->fetchColumn(0));
 	
-	$query = query('SELECT * FROM `antispam` /* WHERE `passed` > 0 */ ORDER BY `passed` DESC LIMIT 25') or error(db_error());
+	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
 	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
 	mod_page("Debug: Anti-spam", 'mod/debug/antispam.html', $args);
