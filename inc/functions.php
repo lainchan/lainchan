@@ -336,7 +336,7 @@ function boardTitle($uri) {
 function purge($uri) {
 	global $config, $debug;
 	
-	if (preg_match($config['referer_match'], $config['root'])) {
+	if (preg_match($config['referer_match'], $config['root']) && isset($_SERVER['REQUEST_URI'])) {
 		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 	} else {
 		$uri = $config['root'] . $uri;
