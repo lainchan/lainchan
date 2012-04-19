@@ -338,6 +338,7 @@ function boardTitle($uri) {
 
 function purge($uri) {
 	global $config, $debug;
+	
 	if (preg_match($config['referer_match'], $config['root'])) {
 		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 	} else {
@@ -351,7 +352,7 @@ function purge($uri) {
 	foreach ($config['purge'] as &$purge) {
 		$host = &$purge[0];
 		$port = &$purge[1];
-		$http_host = isset($purge[2]) ? $purge[2] : $_SERVER['HTTP_HOST'];
+		$http_host = isset($purge[2]) ? $purge[2] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost');
 		$request = "PURGE {$uri} HTTP/1.1\r\nHost: {$http_host}\r\nUser-Agent: Tinyboard\r\nConnection: Close\r\n\r\n";
 		if ($fp = fsockopen($host, $port, $errno, $errstr, $config['purge_timeout'])) {
 			fwrite($fp, $request);
@@ -402,7 +403,7 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 	if (!fclose($fp))
 		error('Unable to close file: ' . $path);
 	
-	if (!$skip_purge && isset($config['purge']) && isset($_SERVER['HTTP_HOST'])) {
+	if (!$skip_purge && isset($config['purge'])) {
 		// Purge cache
 		if (basename($path) == $config['file_index']) {
 			// Index file (/index.html); purge "/" as well
