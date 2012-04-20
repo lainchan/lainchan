@@ -468,7 +468,6 @@ if (isset($_POST['delete'])) {
 			
 			if ($config['redraw_image']) {
 				$image->to($post['file']);
-			} else {
 				$dont_copy_file = true;
 			}
 			$image->destroy();
