@@ -374,13 +374,54 @@ function mod_ban_post($board, $delete, $post) {
 	if (!hasPermission($config['mod']['delete'], $board))
 		error($config['error']['noaccess']);
 	
-	$query = prepare(sprintf('SELECT `ip` FROM `posts_%s` WHERE `id` = :id', $board));
+	$query = prepare(sprintf('SELECT `ip`, `thread` FROM `posts_%s` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
-	if(!$ip = $query->fetchColumn(0))
+	if(!$_post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['404']);
 	
-	mod_page("New ban", 'mod/ban_form.html', array());
+	$thread = $_post['thread'];
+	$ip = $_post['ip'];
+	
+	if (isset($_POST['new_ban'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
+		require_once 'inc/mod/ban.php';
+		
+		if (isset($_POST['ip']))
+			$ip = $_POST['ip'];
+		
+		ban($ip, $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+		
+		if (isset($_POST['public_message'], $_POST['message'])) {
+			// public ban message
+			$query = prepare(sprintf('UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id', $board));
+			$query->bindValue(':id', $post);
+			$query->bindValue(':body', sprintf($config['mod']['ban_message'], utf8tohtml($_POST['message'])));
+			$query->execute() or error(db_error($query));
+			
+			modLog("Attached a public ban message to post #{$post}: " . utf8tohtml($_POST['message']));
+			buildThread($thread ? $thread : $post);
+			buildIndex();
+		} elseif (isset($_POST['delete'])) {
+			// Delete post
+			deletePost($post);
+			modLog("Deleted post #{$post}");
+			// Rebuild board
+			buildIndex();
+		}
+		
+		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+	}
+	
+	$args = array(
+		'ip' => $ip,
+		'hide_ip' => !hasPermission($config['mod']['show_ip'], $board),
+		'post' => $post,
+		'board' => $board,
+		'delete' => (bool)$delete,
+		'boards' => listBoards()
+	);
+	
+	mod_page("New ban", 'mod/ban_form.html', $args);
 }
 
 function mod_delete($board, $post) {

@@ -1,15 +1,29 @@
-<form action="?/ban" method="post">
+{% if post and board %}
+	{% set action = '?/' ~ board ~ '/ban/' ~ post %}
+{% else %}
+	{% set action = '?/ban' %}
+{% endif %}
+
+<form action="{{ action }}" method="post">
 	{% if redirect %}
 		<input type="hidden" name="redirect" value="{{ redirect|e }}">
 	{% endif %}
+	{% if post and board %}
+		<input type="hidden" name="delete" value="{% if delete %}1{% else %}0{% endif %}">
+	{% endif %}
 	
 	<table>
+		
 		<tr>
 			<th>
 				<label for="ip">IP <span class="unimportant">(or subnet)</span></label>
 			</th>
 			<td>
-				<input type="text" name="ip" id="ip" size="30" maxlength="40" value="{{ ip }}">
+				{% if not hide_ip %}
+					<input type="text" name="ip" id="ip" size="30" maxlength="40" value="{{ ip }}">
+				{% else %}
+					<em>hidden</em>
+				{% endif %}
 			</td>
 		</tr>
 		<tr>
@@ -20,6 +34,24 @@
 				<textarea name="reason" id="reason" rows="5" cols="30">{{ reason|e }}</textarea>
 			</td>
 		</tr>
+		{% if post and board and not delete %}
+			<tr>
+				<th>
+					<label for="reason">Message</label>
+				</th>
+				<td>
+					<input type="checkbox" id="public_message" name="public_message"> 
+					<input type="text" name="message" id="message" size="35" maxlength="200" value="{{ config.mod.default_ban_message|e }}"> 
+					<span class="unimportant">(public; attached to post)</span>
+					<script type="text/javascript">
+						document.getElementById('message').disabled = true;
+						document.getElementById('public_message').onchange = function() {
+							document.getElementById('message').disabled = !this.checked;
+						}
+					</script>
+				</td>
+			</tr>
+		{% endif %}
 		<tr>
 			<th>
 				<label for="length">Length</label>

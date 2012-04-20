@@ -44,7 +44,7 @@ $pages = array(
 	'!^/bans/(\d+)$!'			=> 'bans',		// ban list
 	
 	'!^/(\w+)/delete/(\d+)$!'		=> 'delete',		// delete post
-	'!^/(\w+)/ban/(&delete/)?(\d+)$!'	=> 'ban_post',		// ban poster
+	'!^/(\w+)/ban(&delete)?/(\d+)$!'	=> 'ban_post',		// ban poster
 	'!^/(\w+)/(un)?lock/(\d+)$!'		=> 'lock',		// lock thread
 	'!^/(\w+)/(un)?sticky/(\d+)$!'		=> 'sticky',		// sticky thread
 	'!^/(\w+)/bump(un)?lock/(\d+)$!'	=> 'bumplock',		// "bumplock" thread
