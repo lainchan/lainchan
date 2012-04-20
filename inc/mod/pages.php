@@ -365,6 +365,24 @@ function mod_bumplock($board, $unbumplock, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
+function mod_ban_post($board, $delete, $post) {
+	global $config, $mod;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['delete'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('SELECT `ip` FROM `posts_%s` WHERE `id` = :id', $board));
+	$query->bindValue(':id', $post);
+	$query->execute() or error(db_error($query));
+	if(!$ip = $query->fetchColumn(0))
+		error($config['error']['404']);
+	
+	mod_page("New ban", 'mod/ban_form.html', array());
+}
+
 function mod_delete($board, $post) {
 	global $config, $mod;
 	
