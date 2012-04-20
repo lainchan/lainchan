@@ -61,9 +61,23 @@ function mod_confirm($request) {
 }
 
 function mod_dashboard() {
+	global $config;
+	
 	$args = array();
 	
 	$args['boards'] = listBoards();
+	
+	if(hasPermission($config['mod']['noticeboard'])) {
+		if(!$config['cache']['enabled'] || !$args['noticeboard'] = cache::get('noticeboard_preview')) {
+			$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
+			$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			$args['noticeboard'] = $query->fetchAll(PDO::FETCH_ASSOC);
+			
+			if($config['cache']['enabled'])
+				cache::set('noticeboard_preview', $args['noticeboard']);
+		}
+	}
 	
 	mod_page('Dashboard', 'mod/dashboard.html', $args);
 }

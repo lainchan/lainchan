@@ -1,5 +1,5 @@
 <fieldset>
-	<legend>Boards</legend>
+	<legend>{% trans 'Boards' %}</legend>
 	
 	<ul>
 		{% for board in boards %}
@@ -12,79 +12,108 @@
 				{% endif %}
 				
 				{% if mod|hasPermission(config.mod.manageboards) %}
-					 <a href="?/manage/{{ board.uri }}"><small>[manage]</small></a>
+					 <a href="?/manage/{{ board.uri }}"><small>[{% trans 'manage' %}]</small></a>
 				{% endif %}
 			</li>
 		{% endfor %}
 		
 		{% if mod|hasPermission(config.mod.newboard) %}
-			<li style="margin-top:15px"><a href="?/new_board"><strong>Create new board</strong></a></li>
+			<li style="margin-top:15px"><a href="?/new_board"><strong>{% trans 'Create new board' %}</strong></a></li>
 		{% endif %}
 	</ul>
 </fieldset>
 
 {% if mod|hasPermission(config.mod.noticeboard) %}
 	<fieldset>
-		<legend>Noticeboard</legend>
-	
-		{# TODO #}
+		<legend>{% trans 'Noticeboard' %}</legend>
+		<ul>
+			{% if noticeboard %}
+				<li>
+					{% trans 'Latest posts:' %}
+					<ul>
+						{% for post in noticeboard %}
+							<li>
+								<a href="?/noticeboard#{{ post.id }}">
+									{% if post.subject %}
+										{{ post.subject|e }}
+									{% else %}
+										<em>{% trans 'no subject' %}</em>
+									{% endif %}
+								</a> 
+								<small class="unimportant">
+									&mdash; by 
+									{% if post.username %}
+										{{ post.username }}
+									{% else %}
+										<em>deleted?</em>
+									{% endif %} 
+									at 
+									{{ notice.time|date(config.post_date) }} 
+								</small>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endif %}
+			<li><a href="?/noticeboard">{% trans 'View all entries' %}</a></li>
+		</ul>
 	</fieldset>
 {% endif %}
 
 <fieldset>
-	<legend>Administration</legend>
+	<legend>{% trans 'Administration' %}</legend>
 	
 	<ul>
 		{% if mod|hasPermission(config.mod.reports) %}
-			<li><a href="?/reports">Report queue</a></li>
+			<li><a href="?/reports">{% trans 'Report queue' %}</a></li>
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.view_banlist) %}
-			<li><a href="?/bans">Ban list</a></li>
+			<li><a href="?/bans">{% trans 'Ban list' %}</a></li>
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.manageusers) %}
-			<li><a href="?/users">Manage users</a></li>
+			<li><a href="?/users">{% trans 'Manage users' %}</a></li>
 		{% elseif mod|hasPermission(config.mod.change_password) %}
-			<li><a href="?/users/{{ mod.id }}">Change password</a></li>
+			<li><a href="?/users/{{ mod.id }}">{% trans 'Change password' %}</a></li>
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.modlog) %}
-			<li><a href="?/log">Moderation log</a></li>
+			<li><a href="?/log">{% trans 'Moderation log' %}</a></li>
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.rebuild) %}
-			<li><a href="?/rebuild">Rebuild</a></li>
+			<li><a href="?/rebuild">{% trans 'Rebuild' %}</a></li>
 			{% if config.cache.enabled %}
-				<li><a href="?/flushcache">Clear cache</a></li>
+				<li><a href="?/flushcache">{% trans 'Clear cache' %}</a></li>
 			{% endif %}
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.show_config) %}
-			<li><a href="?/config">Configuration</a></li>
+			<li><a href="?/config">{% trans 'Configuration' %}</a></li>
 		{% endif %}
 	</ul>
 </fieldset>
 
 {% if mod|hasPermission(config.mod.themes) %}
 	<fieldset>
-		<legend>Themes</legend>
+		<legend>{% trans 'Themes' %}</legend>
 	
 		{# TODO #}
 	</fieldset>
 {% endif %}
 
 <fieldset>
-	<legend>Search</legend>
+	<legend>{% trans 'Search' %}</legend>
 	
 	{# TODO #}
 </fieldset>
 
 {% if config.debug %}
 	<fieldset>
-		<legend>Debug</legend>
+		<legend>{% trans 'Debug' %}</legend>
 		<ul>
-			<li><a href="?/debug/antispam">Anti-spam</a></li>
+			<li><a href="?/debug/antispam">{% trans 'Anti-spam' %}</a></li>
 		</ul>
 	</fieldset>
 {% endif %}
