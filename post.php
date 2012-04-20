@@ -469,19 +469,22 @@ if (isset($_POST['delete'])) {
 			if ($config['redraw_image']) {
 				$image->to($post['file']);
 			} else {
-				if (!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
-					error($config['error']['nomove']);
+				$dont_copy_file = true;
 			}
 			$image->destroy();
 		} else {
 			// not an image
-			
 			//copy($config['file_thumb'], $post['thumb']);
 			$post['thumb'] = 'file';
 			
 			$size = @getimagesize($config['file_thumb']);
 			$post['thumbwidth'] = $size[0];
 			$post['thumbheight'] = $size[1];
+		}
+		
+		if (!isset($dont_copy_file) || !$dont_copy_file) {
+			if (!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
+				error($config['error']['nomove']);
 		}
 	}
 	
