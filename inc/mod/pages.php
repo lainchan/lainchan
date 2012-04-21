@@ -85,6 +85,9 @@ function mod_dashboard() {
 function mod_noticeboard($page_no = 1) {
 	global $config, $pdo, $mod;
 	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
 	if (!hasPermission($config['mod']['noticeboard']))
 		error($config['error']['noaccess']);
 	
@@ -113,7 +116,7 @@ function mod_noticeboard($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$noticeboard = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	if (empty($noticeboard))
+	if (empty($noticeboard) && $page_no > 1)
 		error($config['error']['404']);
 	
 	$query = prepare("SELECT COUNT(*) FROM `noticeboard`");
@@ -126,6 +129,9 @@ function mod_noticeboard($page_no = 1) {
 function mod_log($page_no = 1) {
 	global $config;
 	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
 	if (!hasPermission($config['mod']['modlog']))
 		error($config['error']['noaccess']);
 	
@@ -135,7 +141,7 @@ function mod_log($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	if (empty($logs))
+	if (empty($logs) && $page_no > 1)
 		error($config['error']['404']);
 	
 	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
@@ -308,6 +314,9 @@ function mod_ban() {
 function mod_bans($page_no = 1) {
 	global $config;
 	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
 	if (!hasPermission($config['mod']['view_banlist']))
 		error($config['error']['noaccess']);
 	
@@ -344,7 +353,7 @@ function mod_bans($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	if (empty($bans))
+	if (empty($bans) && $page_no > 1)
 		error($config['error']['404']);
 	
 	$query = prepare("SELECT COUNT(*) FROM `bans`");
@@ -498,6 +507,26 @@ function mod_delete($board, $post) {
 	deletePost($post);
 	// Record the action
 	modLog("Deleted post #{$post}");
+	// Rebuild board
+	buildIndex();
+	
+	// Redirect
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
+function mod_deletefile($board, $post) {
+	global $config, $mod;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['deletefile'], $board))
+		error($config['error']['noaccess']);
+	
+	// Delete file
+	deleteFile($post);
+	// Record the action
+	modLog("Deleted file from post #{$post}");
 	// Rebuild board
 	buildIndex();
 	
@@ -699,6 +728,11 @@ function mod_rebuild() {
 		$rebuilt_scripts = array();
 		
 		if (isset($_POST['rebuild_cache'])) {
+			if ($config['cache']['enabled']) {
+				$log[] = 'Flushing cache';
+				Cache::flush();
+			}
+			
 			$log[] = 'Clearing template cache';
 			load_twig();
 			$twig->clearCacheFiles();
