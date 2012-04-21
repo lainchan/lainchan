@@ -196,11 +196,6 @@ function _create_antibot($board, $thread) {
 	$query->bindValue(':hash', $antibot->hash());
 	$query->execute() or error(db_error($query));
 	
-	if ($query->rowCount() == 0) {
-		// there was no database entry for this hash. most likely expired.
-		return true;
-	}
-	
 	return $antibot;
 }
 
