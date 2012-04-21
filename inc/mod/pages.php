@@ -508,7 +508,7 @@ function mod_user($uid) {
 		return;
 	}
 	
-	if (hasPermission($config['dmod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
+	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
 		if ($_POST['password'] != '') {
 			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
 			$query->bindValue(':id', $uid);

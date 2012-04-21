@@ -27,7 +27,7 @@
 	<fieldset>
 		<legend>{% trans 'Noticeboard' %}</legend>
 		<ul>
-			{% if noticeboard %}
+			{% if noticeboard|count > 0 %}
 				<li>
 					{% trans 'Latest posts:' %}
 					<ul>
