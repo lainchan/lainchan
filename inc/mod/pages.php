@@ -534,6 +534,68 @@ function mod_deletefile($board, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
+function mod_deletebyip($boardName, $post, $global = false) {
+	global $config, $mod, $board;
+	
+	$global = (bool)$global;
+	
+	if (!openBoard($boardName))
+		error($config['error']['noboard']);
+	
+	if (!$global && !hasPermission($config['mod']['deletebyip'], $boardName))
+		error($config['error']['noaccess']);
+	
+	if ($global && !hasPermission($config['mod']['deletebyip_global'], $boardName))
+		error($config['error']['noaccess']);
+	
+	// Find IP address
+	$query = prepare(sprintf('SELECT `ip` FROM `posts_%s` WHERE `id` = :id', $boardName));
+	$query->bindValue(':id', $post);
+	$query->execute() or error(db_error($query));
+	if (!$ip = $query->fetchColumn(0))
+		error($config['error']['invalidpost']);
+	
+	$boards = $global ? listBoards() : array(array('uri' => $boardName));
+	
+	$query = '';
+	foreach ($boards as $_board) {
+		$query .= sprintf("SELECT `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
+	}
+	$query = preg_replace('/UNION ALL $/', '', $query);
+	
+	$query = prepare($query);
+	$query->bindValue(':ip', $ip);
+	$query->execute() or error(db_error($query));
+	
+	if ($query->rowCount() < 1)
+		error($config['error']['invalidpost']);
+	
+	$boards = array();
+	while ($post = $query->fetch()) {
+		openBoard($post['board']);
+		$boards[] = $post['board'];
+		
+		deletePost($post['id'], false);
+	}
+	
+	$boards = array_unique($boards);
+	
+	foreach ($boards as $_board) {
+		openBoard($_board);
+		buildIndex();
+	}
+	
+	if ($global) {
+		$board = false;
+	}
+	
+	// Record the action
+	modLog("Deleted all posts by IP address: <a href=\"?/IP/$ip\">$ip</a>");
+	
+	// Redirect
+	header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+}
+
 function mod_user($uid) {
 	global $config, $mod;
 	
