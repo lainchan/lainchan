@@ -75,7 +75,7 @@
 
 {% if count > bans|count %}
 	<p class="unimportant" style="text-align:center;word-wrap:break-word">
-		{% for i in range(0, count / config.mod.modlog_page) %}
+		{% for i in range(0, (count - 1) / config.mod.modlog_page) %}
 			<a href="?/bans/{{ i + 1 }}">[{{ i + 1 }}]</a> 
 		{% endfor %}
 	</p>

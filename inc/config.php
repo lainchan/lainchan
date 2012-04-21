@@ -832,8 +832,8 @@
 	// Maximum number of results to display for a search, per board
 	$config['mod']['search_results'] = 75;
 	
-	// Maximum number of notices to display on the moderator noticeboard
-	$config['mod']['noticeboard_display'] = 50;
+	// How many entries to show per page in the moderator noticeboard
+	$config['mod']['noticeboard_page'] = 50;
 	// Number of entries to summarize and display on the dashboard
 	$config['mod']['noticeboard_dashboard'] = 5;
 	

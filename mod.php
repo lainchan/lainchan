@@ -24,8 +24,6 @@ $pages = array(
 	'!^$!'					=> ':?/',		// redirect to dashboard
 	'!^/$!'					=> 'dashboard',		// dashboard
 	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
-	'!^/log$!'				=> 'log',		// modlog
-	'!^/log/(\d+)$!'			=> 'log',		// modlog
 	
 	'!^/users$!'				=> 'users',		// manage users
 	'!^/users/(\d+)$!'			=> 'user',		// edit user
@@ -33,6 +31,10 @@ $pages = array(
 	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
 	'!^/PM/(\d+)(/reply)?$!'		=> 'pm',		// read a pm
 	
+	'!^/noticeboard$!'			=> 'noticeboard',	// view noticeboard
+	'!^/noticeboard/(\d+)$!'		=> 'noticeboard',	// view noticeboard
+	'!^/log$!'				=> 'log',		// modlog
+	'!^/log/(\d+)$!'			=> 'log',		// modlog
 	'!^/rebuild$!'				=> 'rebuild',		// rebuild static files
 	'!^/reports$!'				=> 'reports',		// report queue
 	'!^/reports/(\d+)/dismiss(all)?$!'	=> 'report_dismiss',	// dismiss a report

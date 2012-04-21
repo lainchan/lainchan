@@ -67,19 +67,60 @@ function mod_dashboard() {
 	
 	$args['boards'] = listBoards();
 	
-	if(hasPermission($config['mod']['noticeboard'])) {
-		if(!$config['cache']['enabled'] || !$args['noticeboard'] = cache::get('noticeboard_preview')) {
+	if (hasPermission($config['mod']['noticeboard'])) {
+		if (!$config['cache']['enabled'] || !$args['noticeboard'] = cache::get('noticeboard_preview')) {
 			$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
 			$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			$args['noticeboard'] = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			if($config['cache']['enabled'])
+			if ($config['cache']['enabled'])
 				cache::set('noticeboard_preview', $args['noticeboard']);
 		}
 	}
 	
 	mod_page('Dashboard', 'mod/dashboard.html', $args);
+}
+
+function mod_noticeboard($page_no = 1) {
+	global $config, $pdo, $mod;
+	
+	if (!hasPermission($config['mod']['noticeboard']))
+		error($config['error']['noaccess']);
+	
+	if (isset($_POST['subject'], $_POST['body'])) {
+		if (!hasPermission($config['mod']['noticeboard_post']))
+			error($config['error']['noaccess']);
+		
+		markup($_POST['body']);
+		
+		$query = prepare('INSERT INTO `noticeboard` VALUES (NULL, :mod, :time, :subject, :body)');
+		$query->bindValue(':mod', $mod['id']);
+		$query->bindvalue(':time', time());
+		$query->bindValue(':subject', $_POST['subject']);
+		$query->bindValue(':body', $_POST['body']);
+		$query->execute() or error(db_error($query));
+		
+		if($config['cache']['enabled'])
+			cache::delete('noticeboard_preview');
+		
+		header('Location: ?/noticeboard#' . $pdo->lastInsertId(), true, $config['redirect_http']);
+	}
+	
+	$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :offset, :limit");
+	$query->bindValue(':limit', $config['mod']['noticeboard_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['noticeboard_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$noticeboard = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($noticeboard))
+		error($config['error']['404']);
+	
+	$query = prepare("SELECT COUNT(*) FROM `noticeboard`");
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn(0);
+	
+	mod_page('Noticeboard', 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
 }
 
 function mod_log($page_no = 1) {
@@ -94,7 +135,10 @@ function mod_log($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	$query = prepare("SELECT COUNT(*) AS `count` FROM `modlogs`");
+	if (empty($logs))
+		error($config['error']['404']);
+	
+	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn(0);
 	
@@ -299,6 +343,9 @@ function mod_bans($page_no = 1) {
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['banlist_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($bans))
+		error($config['error']['404']);
 	
 	$query = prepare("SELECT COUNT(*) FROM `bans`");
 	$query->execute() or error(db_error($query));
