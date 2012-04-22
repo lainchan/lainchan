@@ -6,6 +6,7 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/show-backlinks.js';
  *
  */
