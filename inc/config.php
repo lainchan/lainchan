@@ -525,7 +525,7 @@
 	// $config['banner_height'] = 100;
 	
 	// Custom stylesheets available. The prefix for each stylesheet URI is defined below.
-	$config['stylesheets']['Yotsuba B'] = 'default.css';
+	$config['stylesheets']['Yotsuba B'] = ''; // default
 	$config['stylesheets']['Yotsuba'] = 'yotsuba.css';
 	// $config['stylesheets']['Futaba'] = 'futaba.css';
 	
