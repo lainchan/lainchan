@@ -44,7 +44,7 @@ div.post.reply {
 }
 div.post.reply.highlighted {
 	background: transparent;
-	border: transparent 0px solid;
+	border: transparent 1px solid;
 }
 div.post.reply p.body a:link, div.post.reply p.body a:visited {
 	color: #CCCCCC;
