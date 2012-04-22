@@ -1,11 +1,70 @@
 {% raw %}
 
-var selectedstyle = '{% endraw %}{{ config.default_stylesheet.0 }}{% raw %}';
-var styles = [
-	{% endraw %}{% for stylesheet in stylesheets %}{% raw %}['{% endraw %}{{ stylesheet.name }}{% raw %}', '{% endraw %}{{ stylesheet.uri }}{% raw %}']{% endraw %}{% if not loop.last %}{% raw %},
-	{% endraw %}{% endif %}{% endfor %}{% raw %}
-];
 var saved = {};
+
+
+var selectedstyle = '{% endraw %}{{ config.default_stylesheet.0|addslashes }}{% raw %}';
+var styles = {
+	{% endraw %}
+	{% for stylesheet in stylesheets %}{% raw %}'{% endraw %}{{ stylesheet.name|addslashes }}{% raw %}' : '{% endraw %}{{ stylesheet.uri|addslashes }}{% raw %}',
+	{% endraw %}{% endfor %}{% raw %}
+};
+
+function changeStyle(styleName, link) {
+	localStorage.stylesheet = styleName;
+	
+	if (!document.getElementById('stylesheet')) {
+		var s = document.createElement('link');
+		s.rel = 'stylesheet';
+		s.type = 'text/css';
+		s.id = 'stylesheet';
+		var x = document.getElementsByTagName('head')[0];
+		x.appendChild(s);
+	}
+	
+	document.getElementById('stylesheet').href = styles[styleName];
+	selectedstyle = styleName;
+	
+	if (document.getElementsByClassName('styles').length != 0) {
+		var styleLinks = document.getElementsByClassName('styles')[0].childNodes;
+		for (i = 0; i < styleLinks.length; i++) {
+			styleLinks[i].className = '';
+		}
+	}
+	
+	if (link) {
+		link.className = 'selected';
+	}
+}
+
+if (localStorage.stylesheet) {
+	for (styleName in styles) {
+		if (styleName == localStorage.stylesheet) {
+			changeStyle(styleName);
+			break;
+		}
+	}
+}
+
+function init_stylechooser() {
+	var newElement = document.createElement('div');
+	newElement.className = 'styles';
+	
+	for (styleName in styles) {
+		var style = document.createElement('a');
+		style.innerHTML = '[' + styleName + ']';
+		style.onclick = function() {
+			changeStyle(this.innerHTML.substring(1, this.innerHTML.length - 1), this);
+		};
+		if (styleName == selectedstyle) {
+			style.className = 'selected';
+		}
+		style.href = 'javascript:void(0);';
+		newElement.appendChild(style);
+	}	
+	
+	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild.nextSibling);
+}
 
 function get_cookie(cookie_name) {
 	var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
@@ -16,7 +75,7 @@ function get_cookie(cookie_name) {
 }
 
 function highlightReply(id) {
-	if(typeof window.event != "undefined" && event.which == 2) {
+	if (typeof window.event != "undefined" && event.which == 2) {
 		// don't highlight on middle click
 		return true;
 	}
@@ -57,6 +116,7 @@ function dopost(form) {
 	
 	return form.elements['body'].value != "" || form.elements['file'].value != "";
 }
+
 function citeReply(id) {
 	var body = document.getElementById('body');
 	
@@ -73,21 +133,6 @@ function citeReply(id) {
 	} else {
 		// ???
 		body.value += '>>' + id + '\n';
-	}
-}
-
-function changeStyle(x) {
-	localStorage.stylesheet = styles[x][1];
-	document.getElementById('stylesheet').href = styles[x][1];
-	selectedstyle = styles[x][0];
-}
-
-if(localStorage.stylesheet) {
-	for(var x = 0; x < styles.length ; x++) {
-		if(styles[x][1] == localStorage.stylesheet) {
-			changeStyle(x);
-			break;
-		}
 	}
 }
 
@@ -112,7 +157,7 @@ function rememberStuff() {
 			if (get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}')) {
 				// Remove successful posts
 				var successful = JSON.parse(get_cookie('{% endraw %}{{ config.cookies.js }}{% raw %}'));
-				for(var url in successful) {
+				for (var url in successful) {
 					saved[url] = null;
 				}
 				sessionStorage.body = JSON.stringify(saved);
@@ -132,25 +177,13 @@ function rememberStuff() {
 }
 
 function init() {
-	var newElement = document.createElement('div');
-	newElement.className = 'styles';
+	init_stylechooser();
 	
-	for(x = 0; x < styles.length; x++) {
-		var style = document.createElement('a');
-		style.innerHTML = '[' + styles[x][0] + ']';
-		style.href = 'javascript:changeStyle(' + x + ');';
-		if(selectedstyle == styles[x][0])
-			style.className = 'selected';
-		newElement.appendChild(style);
-	}	
-	
-	document.getElementsByTagName('body')[0].insertBefore(newElement, document.getElementsByTagName('body')[0].lastChild.nextSibling)
-	
-	if(document.forms.postcontrols) {
+	if (document.forms.postcontrols) {
 		document.forms.postcontrols.password.value = localStorage.password;
 	}
 	
-	if(window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
+	if (window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
 }
 
@@ -164,7 +197,7 @@ function onready(fnc) {
 }
 
 function ready() {
-	for(var i = 0; i < onready_callbacks.length; i++) {
+	for (var i = 0; i < onready_callbacks.length; i++) {
 		onready_callbacks[i]();
 	}
 }
@@ -174,3 +207,4 @@ onready(init);
 {% endraw %}{% if config.google_analytics %}{% raw %}
 
 var _gaq = _gaq || [];_gaq.push(['_setAccount', '{% endraw %}{{ config.google_analytics }}{% raw %}']);{% endraw %}{% if config.google_analytics_domain %}{% raw %}_gaq.push(['_setDomainName', '{% endraw %}{{ config.google_analytics_domain }}{% raw %}']){% endraw %}{% endif %}{% if not config.google_analytics_domain %}{% raw %}_gaq.push(['_setDomainName', 'none']){% endraw %}{% endif %}{% raw %};_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();{% endraw %}{% endif %}
+
