@@ -7,8 +7,10 @@
 	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
 </head>
 <body>
-	<h1>{{ settings.title }}</h1>
-	<div class="title">{{ settings.subtitle }}</div>
+	<header>
+		<h1>{{ settings.title }}</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
 	
 	<div class="ban">
 		{% if news|count == 0 %}
