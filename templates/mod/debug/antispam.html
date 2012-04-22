@@ -20,7 +20,7 @@
 					-
 				{% endif %}</td>
 			<td>
-				<small>{{ hash.hash|upper }}</small>
+				<small><code>{{ hash.hash }}</code></small>
 			</td>
 			<td>
 				<span title="{{ hash.created|date(config.post_date) }}">{{ hash.created|ago }} ago</span>
