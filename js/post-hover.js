@@ -11,49 +11,51 @@
  *
  */
 
-$(document).ready(function(){
+onready(function(){
 	var dont_fetch_again = [];
-	var init_hover = function() {
-		var link = $(this);
+	init_hover = function() {
+		var $link = $(this);
 		
 		var id;
 		
-		if(id = $(link).text().match(/^>>(\d+)$/)) {
+		if(id = $link.text().match(/^>>(\d+)$/)) {
 			id = id[1];
 		}
 		
-		var post = false;
+		var $post = false;
 		var hovering = false;
 		var hovered_at;
-		$(link).hover(function(e) {
+		$link.hover(function(e) {
 			hovering = true;
 			hovered_at = {'x': e.pageX, 'y': e.pageY};
 			
-			var start_hover = function(link) {
-				if(post.is(':visible') &&
-						post.offset().top + post.height() >= $(window).scrollTop() &&
-						post.offset().top <= $(window).scrollTop() + $(window).height()
+			var start_hover = function($link) {
+				if($post.is(':visible') &&
+						$post.offset().top + $post.height() >= $(window).scrollTop() &&
+						$post.offset().top <= $(window).scrollTop() + $(window).height()
 						) {
 					// post is in view
-					post.attr('style', 'border-style: none dashed dashed none; background: ' + post.css('border-right-color'));
+					$post.attr('style', 'border-style: none dashed dashed none; background: ' + $post.css('border-right-color'));
 				} else {
-					post.clone()
+					var $newPost = $post.clone();
+					$newPost.find('span.mentioned').remove();
+					$newPost
 						.attr('id', 'post-hover-' + id)
 						.addClass('post-hover')
 						.css('position', 'absolute')
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
-						.insertAfter($(link).parent());
-					$(link).trigger('mousemove');
+						.insertAfter($link.parent());
+					$link.trigger('mousemove');
 				}
 			};
 			
-			post = $('div.post#reply_' + id);
-			if(post.length > 0) {
-				start_hover(this);
+			$post = $('div.post#reply_' + id);
+			if($post.length > 0) {
+				start_hover($(this));
 			} else {
-				var url = link.attr('href').replace(/#.*$/, '');
+				var url = $link.attr('href').replace(/#.*$/, '');
 				
 				if($.inArray(url, dont_fetch_again) != -1) {
 					return;
@@ -70,40 +72,40 @@ $(document).ready(function(){
 
 						});
 						
-						post = $('div.post#reply_' + id);
-						if(hovering && post.length > 0) {
-							start_hover(link);
+						$post = $('div.post#reply_' + id);
+						if(hovering && $post.length > 0) {
+							start_hover($link);
 						}
 					}
 				});
 			}
 		}, function() {
 			hovering = false;
-			if(!post)
+			if(!$post)
 				return;
 			
-			post.attr('style', '');
-			if(post.hasClass('hidden'))
-				post.css('display', 'none');
+			$post.attr('style', '');
+			if($post.hasClass('hidden'))
+				$post.css('display', 'none');
 			$('.post-hover').remove();
 		}).mousemove(function(e) {
-			if(!post)
+			if(!$post)
 				return;
 			
-			var hover = $('#post-hover-' + id);
-			if(hover.length == 0)
+			var $hover = $('#post-hover-' + id);
+			if($hover.length == 0)
 				return;
 			
 			var top = (e.pageY ? e.pageY : hovered_at['y']) - 10;
 			
 			if(e.pageY < $(window).scrollTop() + 15) {
 				top = $(window).scrollTop();
-			} else if(e.pageY > $(window).scrollTop() + $(window).height() - hover.height() - 15) {
-				top = $(window).scrollTop() + $(window).height() - hover.height() - 15;
+			} else if(e.pageY > $(window).scrollTop() + $(window).height() - $hover.height() - 15) {
+				top = $(window).scrollTop() + $(window).height() - $hover.height() - 15;
 			}
 			
 			
-			hover.css('left', (e.pageX ? e.pageX : hovered_at['x'])).css('top', top);
+			$hover.css('left', (e.pageX ? e.pageX : hovered_at['x'])).css('top', top);
 		});
 	};
 	
