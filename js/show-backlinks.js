@@ -30,7 +30,7 @@ onready(function(){
 		
 			$mentioned = $post.find('p.intro span.mentioned');
 			if($mentioned.length == 0)
-				$mentioned = $('<span class="mentioned"></span>').appendTo($post.find('p.intro'));
+				$mentioned = $('<span class="mentioned unimportant"></span>').appendTo($post.find('p.intro'));
 			
 			if ($mentioned.find('a.mentioned-' + reply_id).length != 0)
 				return;
