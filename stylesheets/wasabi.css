@@ -192,7 +192,8 @@ div.post.reply p.body {
 	padding-bottom: 0.3em;
 }
 div.post.reply.highlighted {
-	background: greenyellow;
+	background-color: #FFF;
+	border-color: #CCC;
 }
 div.post.reply p.body a {
 	color: #D00;
@@ -216,7 +217,7 @@ span.trip {
 	color: #228854;
 }
 span.quote {
-	color: #789922;
+	color: #3C6D8A;
 }
 span.omitted {
 	display: block;
