@@ -7,32 +7,44 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   // $config['additional_javascript'][] = 'js/post-hover'; (optional; must come first)
  *   $config['additional_javascript'][] = 'js/show-backlinks.js';
  *
  */
 
-$(document).ready(function(){
-	$('div.post.reply').each(function() {
+onready(function(){
+	var showBackLinks = function() {
 		var reply_id = $(this).attr('id').replace(/^reply_/, '');
 		
 		$(this).find('p.body a:not([rel="nofollow"])').each(function() {
-			var id, post, mentioned;
+			var id, post, $mentioned;
 		
 			if(id = $(this).text().match(/^>>(\d+)$/))
 				id = id[1];
 			else
 				return;
 		
-			post = $('#reply_' + id);
-			if(post.length == 0)
+			$post = $('#reply_' + id);
+			if($post.length == 0)
 				return;
 		
-			mentioned = post.find('p.intro span.mentioned');
-			if(mentioned.length == 0)
-				mentioned = $('<span class="mentioned"></span>').appendTo(post.find('p.intro'));
-		
-			mentioned.append('<a onclick="highlightReply(\'' + reply_id + '\');" href="#' + reply_id + '">&gt;&gt;' + reply_id + '</a>');
+			$mentioned = $post.find('p.intro span.mentioned');
+			if($mentioned.length == 0)
+				$mentioned = $('<span class="mentioned"></span>').appendTo($post.find('p.intro'));
+			
+			if ($mentioned.find('a.mentioned-' + reply_id).length != 0)
+				return;
+			
+			var $link = $('<a class="mentioned-' + reply_id + '" onclick="highlightReply(\'' + reply_id + '\');" href="#' + reply_id + '">&gt;&gt;' +
+				reply_id + '</a>');
+			$link.appendTo($mentioned)
+			
+			if (window.init_hover) {
+				$link.each(init_hover);
+			}
 		});
-	});
+	};
+	
+	$('div.post.reply').each(showBackLinks);
 });
 
