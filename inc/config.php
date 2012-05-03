@@ -786,22 +786,22 @@
 	$config['mod']['link_move'] = '[Move]';
 	
 	// Moderator capcodes
-	$config['capcode'] = ' <a class="capcode">## %s</a>';
+	$config['capcode'] = ' <span class="capcode">## %s</span>';
 	
 	// Custom capcodes, by example:
 	// "## Custom" becomes lightgreen, italic and bold
-	//$config['custom_capcode']['Custom'] ='<a class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</a>';
+	//$config['custom_capcode']['Custom'] ='<span class="capcode" style="color:lightgreen;font-style:italic;font-weight:bold"> ## %s</span>';
 	
 	// "## Mod" makes everything purple, including the name and tripcode
 	//$config['custom_capcode']['Mod'] = array(
-	//	'<a class="capcode" style="color:purple"> ## %s</a>',
+	//	'<span class="capcode" style="color:purple"> ## %s</span>',
 	//	'color:purple', // Change name style; optional
 	//	'color:purple' // Change tripcode style; optional
 	//);
 	
 	// "## Admin" makes everything red and bold, including the name and tripcode
 	//$config['custom_capcode']['Admin'] = array(
-	//	'<a class="capcode" style="color:red;font-weight:bold"> ## %s</a>',
+	//	'<span class="capcode" style="color:red;font-weight:bold"> ## %s</span>',
 	//	'color:red;font-weight:bold', // Change name style; optional
 	//	'color:red;font-weight:bold' // Change tripcode style; optional
 	//);
