@@ -1,9 +1,7 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 
-{% if index %}
-	<div id="thread_{{ post.id }}">
-{% endif %}
+<div id="thread_{{ post.id }}">
 
 {% if post.embed %}
 	{{ post.embed }}
@@ -136,6 +134,4 @@
 	{% include 'post_reply.html' %}
 {% endfor %}
 <br class="clear"/>{% if hr %}<hr/>{% endif %}
-{% if index %}
-	</div>
-{% endif %}
+</div>

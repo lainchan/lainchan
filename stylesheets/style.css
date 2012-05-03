@@ -10,18 +10,20 @@ body {
 table * {
 	margin: 0;
 }
-a:link, a:visited {
+a, a:visited {
 	text-decoration: underline;
 	color: #34345C;
 }
-a:link:hover, a:visited:hover {
+a:hover {
 	color: #ff0000;
 }
 a.post_no {
-	color: black;
 	text-decoration: none;
 	margin: 0;
 	padding: 0;
+}
+a.post_no:not(:hover) {
+	color: black;
 }
 p.intro a.post_no, p.intro a.email {
 	margin: 0;
@@ -164,7 +166,7 @@ p.intro span.name {
 	color: #117743;
 	font-weight: bold;
 }
-p.intro a.capcode, p.intro a.nametag {
+p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
 	color: #F00000;
 	margin-left: 0;
 }
@@ -311,7 +313,7 @@ div.pages a.selected {
 	color: black;
 	font-weight: bolder;
 }
-div.pages a:link {
+div.pages a {
 	text-decoration: none;
 }
 div.pages form {
@@ -382,4 +384,20 @@ div.blotter {
 	color: red;
 	font-weight: bold;
 	text-align: center;
+}
+
+/* Uboachan stuff */
+div.styles-sidebar {
+	text-align: center;
+	padding-bottom: 0px;
+}
+div.styles-sidebar a {
+	margin: 0 5px;
+}
+div.styles-sidebar a.selected {
+	text-decoration: none;
+}
+.category {
+	background: #98E;
+	color: black;
 }
