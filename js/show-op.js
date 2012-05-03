@@ -23,8 +23,6 @@ $(document).ready(function(){
 			OP = $('div.post.op a.post_no:eq(1)').text();
 		}
 		
-		console.log(OP);
-		
 		$(this).find('p.body a:not([rel="nofollow"])').each(function() {
 			var postID;
 			
