@@ -1,9 +1,15 @@
-<form action="?/users/{{ mod.id }}" method="post">
+{% if new %}
+	{% set action = '?/users/new' %}
+{% else %}
+	{% set action = '?/users/' ~ user.id %}
+{% endif %}
+
+<form action="{{ action }}" method="post">
 	<table>
 		<tr>
-			<th>Username</th>
+			<th>{% trans 'Username' %}</th>
 			<td>
-				{% if mod|hasPermission(config.mod.editusers) %}
+				{% if new or mod|hasPermission(config.mod.editusers) %}
 					<input size="20" maxlength="30" type="text" name="username" value="{{ user.username|e }}" autocomplete="off">
 				{% else %}
 					{{ user.username|e }}
@@ -11,17 +17,38 @@
 			</td>
 		</tr>
 		<tr>
-			<th>Password <small style="font-weight:normal">(new; optional)</small></th>
+			<th>{% trans 'Password' %}{% if not new %} <small style="font-weight:normal">({% trans 'new; optional' %})</small>{% endif %}</th>
 			<td>
-				{% if mod|hasPermission(config.mod.editusers) or (mod|hasPermission(config.mod.change_password) and user.id == mod.id) %}
+				{% if new or (mod|hasPermission(config.mod.editusers) or (mod|hasPermission(config.mod.change_password) and user.id == mod.id)) %}
 					<input size="20" maxlength="30" type="password" name="password" value="" autocomplete="off">
 				{% else %}
 					-
 				{% endif %}
 			</td>
 		</tr>
+		{% if new %}
+			<tr>
+				<th>{% trans 'Class' %}</th>
+				<td>
+					<ul style="padding:5px 8px;list-style:none">
+						<li>
+							<input type="radio" name="type" id="janitor" value="{{ constant('JANITOR') }}"> 
+							<label for="janitor">{% trans 'Janitor' %}</label>
+						</li>
+						<li>
+							<input type="radio" name="type" id="mod" value="{{ constant('MOD') }}" checked> 
+							<label for="mod">{% trans 'Mod' %}</label>
+						</li>
+						<li>
+							<input type="radio" name="type" id="admin" value="{{ constant('Admin') }}"> 
+							<label for="admin">{% trans 'Admin' %}</label>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		{% endif %}
 		<tr>
-			<th>Boards</th>
+			<th>{% trans 'Boards' %}</th>
 			<td>
 				<ul style="padding:0 5px;list-style:none">
 					<li>
@@ -31,7 +58,7 @@
 						 disabled
 						{% endif %}
 						> 
-						<label for="allboards">"*" - All boards</label>
+						<label for="allboards">"*" - {% trans 'All boards' %}</label>
 					</li>
 					{% for board in boards %}
 						<li>
@@ -44,7 +71,7 @@
 							<label for="board_{{ board.uri }}">
 								{{ config.board_abbreviation|sprintf(board.uri) }}
 								 - 
-								{{ board.title }}
+								{{ board.title|e }}
 							</label>
 						</li>
 					{% endfor %}
@@ -53,10 +80,14 @@
 		</tr>
 	</table>
 	
-	<ul style="padding:0;text-align:center">
-		<li><input type="submit" value="Save changes"></li>
-		{% if mod|hasPermission(config.mod.deleteusers) %}
-		<li><input type="submit" value="Delete user"></li>
+	<ul style="padding:0;text-align:center;list-style:none">
+		{% if new %}
+			<li><input type="submit" value="{% trans 'Create user' %}"></li>
+		{% else %}
+			<li><input type="submit" value="{% trans 'Save changes' %}"></li>
+			{% if mod|hasPermission(config.mod.deleteusers) %}
+				<li><input name="delete" onclick="return confirm('Are you sure you want to permanently delete this user?');" type="submit" value="{% trans 'Delete user' %}"></li>
+			{% endif %}
 		{% endif %}
 	</ul>
 </form>
@@ -64,10 +95,10 @@
 {% if logs|count > 0  %}
 	<table class="modlog" style="width:600px">
 		<tr>
-			<th>IP address</th>			
-			<th>Time</th>
-			<th>Board</th>
-			<th>Action</th>
+			<th>{% trans 'IP address' %}</th>			
+			<th>{% trans 'Time' %}</th>
+			<th>{% trans 'Board' %}</th>
+			<th>{% trans 'Action' %}</th>
 		</tr>
 		{% for log in logs %}
 			<tr>
@@ -91,3 +122,4 @@
 		{% endfor %}
 	</table>
 {% endif %}
+

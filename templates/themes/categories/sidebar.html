@@ -31,7 +31,7 @@
 			</legend>
 			{% for board in boards %}
 				<li>
-					<a href="{{ board.uri }}">{{ board.title }}</a>
+					<a href="{{ board.uri }}">{{ board.title|e }}</a>
 				</li>
 			{% endfor %}
 		</fieldset>

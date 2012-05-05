@@ -15,7 +15,7 @@
 		public static function build($action, $settings) {
 			global $config;
 			
-			if($action == 'all' || $action == 'news')
+			if ($action == 'all' || $action == 'news')
 				file_write($config['dir']['home'] . $settings['file'], Basic::homepage($settings));
 		}
 		

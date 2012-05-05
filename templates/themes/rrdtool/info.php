@@ -28,7 +28,7 @@
 	
 	$__boards = listBoards();
 	$__default_boards = Array();
-	foreach($__boards as $__board)
+	foreach ($__boards as $__board)
 		$__default_boards[] = $__board['uri'];
 	
 	$theme['config'][] = Array(
@@ -83,31 +83,31 @@
 	);
 	
 	$theme['install_callback'] = 'rrdtool_install';
-	if(!function_exists('rrdtool_install')) {
+	if (!function_exists('rrdtool_install')) {
 		function rrdtool_install($settings) {
 			global $config;
 			
-			if(!is_numeric($settings['interval']) || $settings['interval'] < 1 || $settings['interval'] > 86400)
+			if (!is_numeric($settings['interval']) || $settings['interval'] < 1 || $settings['interval'] > 86400)
 				return Array(false, 'Invalid interval: <strong>' . $settings['interval'] . '</strong>. Must be an integer greater than 1 and less than 86400.');
 			
-			if(!is_numeric($settings['width']) || $settings['width'] < 1)
+			if (!is_numeric($settings['width']) || $settings['width'] < 1)
 				return Array(false, 'Invalid width: <strong>' . $settings['width'] . '</strong>!');
 			
-			if(!is_numeric($settings['height']) || $settings['height'] < 1)
+			if (!is_numeric($settings['height']) || $settings['height'] < 1)
 				return Array(false, 'Invalid height: <strong>' . $settings['height'] . '</strong>!');
 			
-			if(!in_array($settings['rate'], Array('second', 'minute', 'day', 'hour', 'week', 'month', 'year')))
+			if (!in_array($settings['rate'], Array('second', 'minute', 'day', 'hour', 'week', 'month', 'year')))
 				return Array(false, 'Invalid rate: <strong>' . $settings['rate'] . '</strong>!');
 			
 			$job = '*/' . $settings['interval'] . ' * * * * php -q ' . str_replace('\\', '/', dirname(__FILE__)) . '/cron.php' . PHP_EOL;
 			
-			if(function_exists('system')) {
+			if (function_exists('system')) {
 				$crontab = tempnam($config['tmp'], 'tinyboard-rrdtool');
 				file_write($crontab, $job);
 				@system('crontab ' . escapeshellarg($crontab), $ret);
 				unlink($crontab);
 				
-				if($ret === 0)
+				if ($ret === 0)
 					return ''; // it seems to install okay?
 			}
 			

@@ -1,15 +1,15 @@
 {% if bans|count == 0 %}
-	<p style="text-align:center" class="unimportant">(There are no active bans.)</p>
+	<p style="text-align:center" class="unimportant">({% trans 'There are no active bans.' %})</p>
 {% else %}
 	<form action="" method="post">
 		<table class="mod">
 			<tr>
-				<th>{% trans %}IP address{% endtrans %}</th>
-				<th>{% trans %}Reason{% endtrans %}</th>
-				<th>{% trans %}Board{% endtrans %}</th>
-				<th>{% trans %}Set{% endtrans %}</th>
-				<th>{% trans %}Expires{% endtrans %}</th>
-				<th>{% trans %}Staff{% endtrans %}</th>
+				<th>{% trans 'IP address' %}</th>
+				<th>{% trans 'Reason' %}</th>
+				<th>{% trans 'Board' %}</th>
+				<th>{% trans 'Set' %}</th>
+				<th>{% trans 'Expires' %}</th>
+				<th>{% trans 'Staff' %}</th>
 			</tr>
 			{% for ban in bans %}
 				<tr{% if ban.expires != 0 and ban.expires < time() %} style="text-decoration:line-through"{% endif %}>
@@ -32,7 +32,7 @@
 						{% if ban.board %}
 							{{ config.board_abbreviation|sprintf(ban.board) }}
 						{% else %}
-							<em>{% trans %}all boards{% endtrans %}
+							<em>{% trans 'all boards' %}</em>
 						{% endif %}					
 					</td>
 					<td style="white-space: nowrap">
@@ -40,7 +40,7 @@
 					</td>
 					<td style="white-space: nowrap">
 						{% if ban.expires == 0 %}
-							<em>never</em>
+							<em>{% trans 'never' %}</em>
 						{% else %}
 							{{ ban.expires|date(config.post_date) }} 
 							{% if ban.expires > time() %}
@@ -59,8 +59,10 @@
 							
 								{% endif %}
 							{% endif %}
+						{% elseif ban.mod == -1 %}
+							<em>system</em>
 						{% else %}
-							<em>deleted?</em>
+							<em>{% trans 'deleted?' %}</em>
 						{% endif %}
 					</td>
 				</tr>
@@ -68,7 +70,7 @@
 		</table>
 		
 		<p style="text-align:center">
-			<input type="submit" name="unban" value="Unban selected">
+			<input type="submit" name="unban" value="{% trans 'Unban selected' %}">
 		</p>
 	</form>
 {% endif %}

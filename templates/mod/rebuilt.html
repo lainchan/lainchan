@@ -1,12 +1,12 @@
 <div class="ban">
-	<h2>Rebuilt</h2>
+	<h2>{% trans 'Rebuilt' %}</h2>
 	<ul>
 		{% for log in logs %}
 			<li>{{ log }}</li>
 		{% endfor %}
 	</ul>
 	<p>
-		<a href="?/rebuild">Go back and rebuild again</a>.
+		<a href="?/rebuild">{% trans 'Go back and rebuild again' %}</a>.
 	</p>
 </div>
 

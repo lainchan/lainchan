@@ -6,30 +6,30 @@
 			<li>
 				<a href="?/{{ config.board_path|sprintf(board.uri) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(board.uri) }}</a>
 					 - 
-				{{ board.title }}
+				{{ board.title|e }}
 				{% if board.subtitle %}
-					 <small>&mdash; {{ board.subtitle }}</small>
+					 <small>&mdash; {{ board.subtitle|e }}</small>
 				{% endif %}
 				
 				{% if mod|hasPermission(config.mod.manageboards) %}
-					 <a href="?/manage/{{ board.uri }}"><small>[{% trans 'manage' %}]</small></a>
+					 <a href="?/edit/{{ board.uri }}"><small>[{% trans 'edit' %}]</small></a>
 				{% endif %}
 			</li>
 		{% endfor %}
 		
 		{% if mod|hasPermission(config.mod.newboard) %}
-			<li style="margin-top:15px"><a href="?/new_board"><strong>{% trans 'Create new board' %}</strong></a></li>
+			<li style="margin-top:15px"><a href="?/new-board"><strong>{% trans 'Create new board' %}</strong></a></li>
 		{% endif %}
 	</ul>
 </fieldset>
 
-{% if mod|hasPermission(config.mod.noticeboard) %}
-	<fieldset>
-		<legend>{% trans 'Noticeboard' %}</legend>
-		<ul>
+<fieldset>
+	<legend>{% trans 'Messages' %}</legend>
+	<ul>
+		{% if mod|hasPermission(config.mod.noticeboard) %}
 			{% if noticeboard|count > 0 %}
 				<li>
-					{% trans 'Latest posts:' %}
+					{% trans 'Noticeboard' %}:
 					<ul>
 						{% for post in noticeboard %}
 							<li>
@@ -43,7 +43,7 @@
 								<small class="unimportant">
 									&mdash; by 
 									{% if post.username %}
-										{{ post.username }}
+										{{ post.username|e }}
 									{% else %}
 										<em>deleted?</em>
 									{% endif %} 
@@ -56,9 +56,18 @@
 				</li>
 			{% endif %}
 			<li><a href="?/noticeboard">{% trans 'View all entries' %}</a></li>
-		</ul>
-	</fieldset>
-{% endif %}
+		{% endif %}
+		<li><a href="?/news">{% trans 'News' %}</a></li>
+		<li>
+			<a href="?/inbox">
+				{% trans 'PM inbox' %}
+				{% if unread_pms > 0 %}
+					 <strong>({{ unread_pms }} unread)</strong>
+				{% endif %}
+			</a>
+		</li>
+	</ul>
+</fieldset>
 
 <fieldset>
 	<legend>{% trans 'Administration' %}</legend>
@@ -114,4 +123,25 @@
 		</ul>
 	</fieldset>
 {% endif %}
+
+{% if newer_release %}
+	<fieldset>
+		<legend>Update</legend>
+		<ul>
+			<li>
+				A newer version of Tinyboard 
+				(<strong>v{{ newer_release.massive }}.{{ newer_release.major }}.{{ newer_release.minor }}</strong>) is available! 
+				See <a href="http://tinyboard.org">http://tinyboard.org/</a> for upgrade instructions.
+			</li>
+		</ul>
+	</fieldset>
+{% endif %}
+
+<fieldset>
+	<legend>{% trans 'User account' %}</legend>
+	
+	<ul>
+		<li><a href="?/logout">{% trans 'Logout' %}</a></li>
+	</ul>
+</fieldset>
 

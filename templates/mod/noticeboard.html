@@ -40,13 +40,13 @@
 				<em>{% trans 'no subject' %}</em>
 			{% endif %} 
 			<small class="unimportant">
-				&mdash; by 
+				&mdash; {% trans 'by' %} 
 				{% if post.username %}
-					{{ post.username }}
+					{{ post.username|e }}
 				{% else %}
-					<em>deleted?</em>
+					<em>{% trans 'deleted?' %}</em>
 				{% endif %} 
-				at 
+				{% trans 'at' %} 
 				{{ notice.time|date(config.post_date) }} 
 			</small>
 		</h2>

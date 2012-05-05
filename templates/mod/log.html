@@ -1,15 +1,21 @@
 <table class="modlog">
 	<tr>
-		<th>Staff</th>
-		<th>IP address</th>
-		<th>Time</th>
-		<th>Board</th>
-		<th>Action</th>
+		<th>{% trans 'Staff' %}</th>
+		<th>{% trans 'IP address' %}</th>
+		<th>{% trans 'Time' %}</th>
+		<th>{% trans 'Board' %}</th>
+		<th>{% trans 'Action' %}</th>
 	</tr>
 	{% for log in logs %}
 		<tr>
 			<td class="minimal">
-				<a href="?/new_PM/{{ log.username }}">{{ log.username }}</a>
+				{% if log.username %}
+					<a href="?/new_PM/{{ log.username|e }}">{{ log.username|e }}</a>
+				{% elseif log.mod == -1 %}
+					<em>system</em>
+				{% else %}
+					<em>{% trans 'deleted?' %}</em>
+				{% endif %}
 			</td>
 			<td class="minimal">
 				<a href="?/IP/{{ log.ip }}">{{ log.ip }}</a>

@@ -44,9 +44,9 @@
 	$theme['build_function'] = 'basic_build';
 	$theme['install_callback'] = 'build_install';
 
-	if(!function_exists('build_install')) {
+	if (!function_exists('build_install')) {
 		function build_install($settings) {
-			if(!is_numeric($settings['no_recent']) || $settings['no_recent'] < 0)
+			if (!is_numeric($settings['no_recent']) || $settings['no_recent'] < 0)
 				return Array(false, '<strong>' . utf8tohtml($settings['no_recent']) . '</strong> is not a non-negative integer.');
 		}
 	}

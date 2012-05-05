@@ -1,11 +1,11 @@
 <form action="" method="post">
 	<table>
 		<tr>
-			<th>From</th>
+			<th>{% trans 'From' %}</th>
 			{% if username %}
 				<td><a href="?/new_PM/{{ username|e }}">{{ username|e }}</a></td>
 			{% else %}
-				<td><em>deleted?</em></td>
+				<td><em>{% trans 'deleted?' %}</em></td>
 			{% endif %}
 		</tr>
 		{% if to != mod.id %}
@@ -14,27 +14,27 @@
 				{% if to_username %}
 					<td><a href="?/new_PM/{{ to_username|e }}">{{ to_username|e }}</a></td>
 				{% else %}
-					<td><em>deleted?</em></td>
+					<td><em>{% trans 'deleted?' %}</em></td>
 				{% endif %}
 			</tr>
 		{% endif %}
 		<tr>
-			<th>Date</th>
+			<th>{% trans 'Date' %}</th>
 			<td>{{ time|date(config.post_date) }}</td>
 		</tr>
 		<tr>
-			<th>Message</th>
+			<th>{% trans 'Message' %}</th>
 			<td>{{ message }}</td>
 		</tr>
 	</table>
 	
 	<ul style="list-style:none;text-align:center;padding:0">
 		<li style="padding:5px 0">
-			<input type="submit" name="delete" value="Delete forever">
+			<input type="submit" name="delete" value="{% trans 'Delete forever' %}">
 		</li>
 		<li style="padding:5px 0">
 			<a href="?/PM/{{ id }}/reply">
-				Reply with quote
+				{% trans 'Reply with quote' %}
 			</a>
 		</li>
 	</ul>

@@ -32,7 +32,30 @@ function loadConfig() {
 	if (!isset($_SERVER['REMOTE_ADDR']))
 		$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 	
-	$arrays = array('db', 'cache', 'cookies', 'error', 'dir', 'mod', 'spam', 'flood_filters', 'wordfilters', 'custom_capcode', 'custom_tripcode', 'dnsbl', 'dnsbl_exceptions', 'remote', 'allowed_ext', 'allowed_ext_files', 'file_icons', 'footer', 'stylesheets', 'additional_javascript', 'markup');
+	$arrays = array(
+		'db',
+		'cache',
+		'cookies',
+		'error',
+		'dir',
+		'mod',
+		'spam',
+		'flood_filters',
+		'wordfilters',
+		'custom_capcode',
+		'custom_tripcode',
+		'dnsbl',
+		'dnsbl_exceptions',
+		'remote',
+		'allowed_ext',
+		'allowed_ext_files',
+		'file_icons',
+		'footer',
+		'stylesheets',
+		'additional_javascript',
+		'markup',
+		'custom_pages'
+	);
 	
 	$config = array();
 	foreach ($arrays as $key) {

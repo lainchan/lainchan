@@ -1,7 +1,3 @@
-{#{% if id == mod.id %}
-	{% set username = 'me' %}
-{% endif %}#}
-
 <form action="?/new_PM/{{ username|e }}" method="post">
 	<table>
 		<tr>
@@ -18,5 +14,5 @@
 		</tr>
 	</table>
 
-	<p style="text-align:center"><input type="submit" value="Send message"></p>
+	<p style="text-align:center"><input type="submit" value="{% trans 'Send message' %}"></p>
 </form>

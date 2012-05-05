@@ -816,8 +816,6 @@
 	
 	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
 	$config['mod']['dns_lookup'] = true;
-	// Show ban form on the IP summary page
-	$config['mod']['ip_banform'] = true;
 	// How many recent posts, per board, to show in the IP summary page
 	$config['mod']['ip_recentposts'] = 5;
 	
@@ -828,6 +826,9 @@
 	$config['mod']['modlog_page'] = 350;
 	// How many bans to show per page in the ban list
 	$config['mod']['banlist_page'] = 350;
+	
+	// Number of news entries to display per page
+	$config['mod']['news_page'] = 40;
 	
 	// Maximum number of results to display for a search, per board
 	$config['mod']['search_results'] = 75;

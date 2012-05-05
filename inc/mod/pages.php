@@ -9,7 +9,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
-function mod_page($title, $template, $args) {
+function mod_page($title, $template, $args, $subtitle = false) {
 	global $config, $mod;
 	
 	echo Element('page.html', array(
@@ -17,6 +17,7 @@ function mod_page($title, $template, $args) {
 		'mod' => $mod,
 		'hide_dashboard_link' => $template == 'mod/dashboard.html',
 		'title' => $title,
+		'subtitle' => $subtitle,
 		'body' => Element($template,
 				array_merge(
 					array('config' => $config, 'mod' => $mod), 
@@ -28,6 +29,8 @@ function mod_page($title, $template, $args) {
 }
 
 function mod_login() {
+	global $config;
+	
 	$args = array();
 	
 	if (isset($_POST['login'])) {
@@ -60,8 +63,14 @@ function mod_confirm($request) {
 	mod_page('Confirm action', 'mod/confirm.html', array('request' => $request));
 }
 
+function mod_logout() {
+	destroyCookies();
+	
+	header('Location: ?/', true, $config['redirect_http']);
+}
+
 function mod_dashboard() {
-	global $config;
+	global $config, $mod;
 	
 	$args = array();
 	
@@ -79,7 +88,178 @@ function mod_dashboard() {
 		}
 	}
 	
+	$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
+	$query->bindValue(':id', $mod['id']);
+	$query->execute() or error(db_error($query));
+	$args['unread_pms'] = $query->fetchColumn(0);
+	
+	if ($mod['type'] >= ADMIN && $config['check_updates']) {
+		if (!$config['version'])
+			error(_('Could not find current version! (Check .installed)'));
+		
+		if (isset($_COOKIE['update'])) {
+			$latest = unserialize($_COOKIE['update']);
+		} else {
+			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
+			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
+				eval($code);
+				if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+					$current = array(
+						'massive' => (int) $matches[1],
+						'major' => (int) $matches[2],
+						'minor' => (int) $matches[3]
+					);
+					if (isset($m[4])) { 
+						// Development versions are always ahead in the versioning numbers
+						$current['minor'] --;
+					}
+					// Check if it's newer
+					if (!(	$latest['massive'] > $current['massive'] ||
+						$latest['major'] > $current['major'] ||
+							($latest['massive'] == $current['massive'] &&
+								$latest['major'] == $current['major'] &&
+								$latest['minor'] > $current['minor']
+							)))
+						$latest = false;
+				} else {
+					$latest = false;
+				}
+			} else {
+				// Couldn't get latest version
+				$latest = false;
+			}
+	
+			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, true);
+		}
+		
+		if ($latest)
+			$args['newer_release'] = $latest;
+	}
+			
 	mod_page('Dashboard', 'mod/dashboard.html', $args);
+}
+
+function mod_edit_board($boardName) {
+	global $board, $config;
+	
+	if (!openBoard($boardName))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['manageboards'], $board['uri']))
+			error($config['error']['noaccess']);
+	
+	if (isset($_POST['title'], $_POST['subtitle'])) {
+		if (isset($_POST['delete'])) {
+			if (!hasPermission($config['mod']['manageboards'], $board['uri']))
+				error($config['error']['deleteboard']);
+			
+			$query = prepare('DELETE FROM `boards` WHERE `uri` = :uri');
+			$query->bindValue(':uri', $board['uri']);
+			$query->execute() or error(db_error($query));
+			
+			modLog('Deleted board: ' . sprintf($config['board_abbreviation'], $board['uri']), false);
+			
+			// Delete entire board directory
+			rrmdir($board['uri'] . '/');
+			
+			// Delete posting table
+			$query = query(sprintf('DROP TABLE IF EXISTS `posts_%s`', $board['uri'])) or error(db_error());
+			
+			// Clear reports
+			$query = prepare('DELETE FROM `reports` WHERE `board` = :id');
+			$query->bindValue(':id', $board['uri'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			// Delete from table
+			$query = prepare('DELETE FROM `boards` WHERE `uri` = :uri');
+			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			
+			if ($config['cache']['enabled']) {
+				cache::delete('board_' . $board['uri']);
+				cache::delete('all_boards');
+			}
+			
+			$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board");
+			$query->bindValue(':board', $board['uri']);
+			$query->execute() or error(db_error($query));
+			while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+				if ($board['uri'] != $cite['board']) {
+					if (!isset($tmp_board))
+						$tmp_board = $board;
+					openBoard($cite['board']);
+					rebuildPost($cite['post']);
+				}
+			}
+			
+			$query = prepare('DELETE FROM `cites` WHERE `board` = :board OR `target_board` = :board');
+			$query->bindValue(':board', $board['uri']);
+			$query->execute() or error(db_error($query));
+			
+			$query = prepare('DELETE FROM `antispam` WHERE `board` = :board');
+			$query->bindValue(':board', $board['uri']);
+			$query->execute() or error(db_error($query));
+		} else {
+			$query = prepare('UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
+			$query->bindValue(':uri', $board['uri']);
+			$query->bindValue(':title', $_POST['title']);
+			$query->bindValue(':subtitle', $_POST['subtitle']);
+			$query->execute() or error(db_error($query));
+		}
+		
+		rebuildThemes('boards');
+		
+		header('Location: ?/', true, $config['redirect_http']);
+	} else {
+		mod_page('Edit board: ' . sprintf($config['board_abbreviation'], $board['uri']), 'mod/board.html', array('board' => $board));
+	}
+}
+
+function mod_new_board() {
+	global $config, $board;
+	
+	if (!hasPermission($config['mod']['newboard']))
+		error($config['error']['noaccess']);
+	
+	if (isset($_POST['uri'], $_POST['title'], $_POST['subtitle'])) {
+		if ($_POST['uri'] == '')
+			error(sprintf($config['error']['required'], 'URI'));
+		
+		if ($_POST['title'] == '')
+			error(sprintf($config['error']['required'], 'title'));
+		
+		if (!preg_match('/^\w+$/', $_POST['uri']))
+			error(sprintf($config['error']['invalidfield'], 'URI'));
+		
+		if (openBoard($_POST['uri'])) {
+			error(sprintf($config['error']['boardexists'], $board['url']));
+		}
+		
+		$query = prepare('INSERT INTO `boards` VALUES (:uri, :title, :subtitle)');
+		$query->bindValue(':uri', $_POST['uri']);
+		$query->bindValue(':title', $_POST['title']);
+		$query->bindValue(':subtitle', $_POST['subtitle']);
+		$query->execute() or error(db_error($query));
+		
+		modLog('Created a new board: ' . sprintf($config['board_abbreviation'], $_POST['uri']));
+		
+		if (!openBoard($_POST['uri']))
+			error(_("Couldn't open board after creation."));
+		
+		query(Element('posts.sql', array('board' => $board['uri']))) or error(db_error());
+		
+		if ($config['cache']['enabled'])
+				cache::delete('all_boards');
+		
+		// Build the board
+		buildIndex();
+		
+		rebuildThemes('boards');
+		
+		header('Location: ?/' . $board['uri'] . '/' . $config['file_index'], true, $config['redirect_http']);
+	}
+	
+	mod_page('New board', 'mod/board.html', array('new' => true));
 }
 
 function mod_noticeboard($page_no = 1) {
@@ -104,8 +284,10 @@ function mod_noticeboard($page_no = 1) {
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
 		
-		if($config['cache']['enabled'])
+		if ($config['cache']['enabled'])
 			cache::delete('noticeboard_preview');
+		
+		modLog('Posted a noticeboard entry');
 		
 		header('Location: ?/noticeboard#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 	}
@@ -126,6 +308,78 @@ function mod_noticeboard($page_no = 1) {
 	mod_page('Noticeboard', 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
 }
 
+function mod_noticeboard_delete($id) {
+	global $config;
+	
+	if (!hasPermission($config['mod']['noticeboard_delete']))
+			error($config['error']['noaccess']);
+	
+	$query = prepare('DELETE FROM `noticeboard` WHERE `id` = :id');
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	
+	modLog('Deleted a noticeboard entry');
+	
+	header('Location: ?/noticeboard', true, $config['redirect_http']);
+}
+
+function mod_news($page_no = 1) {
+	global $config, $pdo, $mod;
+	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
+	if (isset($_POST['subject'], $_POST['body'])) {
+		if (!hasPermission($config['mod']['news']))
+			error($config['error']['noaccess']);
+		
+		markup($_POST['body']);
+		
+		$query = prepare('INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)');
+		$query->bindValue(':name', isset($_POST['name']) && hasPermission($config['mod']['news_custom']) ? $_POST['name'] : $mod['username']);
+		$query->bindvalue(':time', time());
+		$query->bindValue(':subject', $_POST['subject']);
+		$query->bindValue(':body', $_POST['body']);
+		$query->execute() or error(db_error($query));
+		
+		modLog('Posted a news entry');
+		
+		rebuildThemes('news');
+		
+		header('Location: ?/news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
+	}
+	
+	$query = prepare("SELECT * FROM `news` ORDER BY `id` DESC LIMIT :offset, :limit");
+	$query->bindValue(':limit', $config['mod']['news_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['news_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$news = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($news) && $page_no > 1)
+		error($config['error']['404']);
+	
+	$query = prepare("SELECT COUNT(*) FROM `news`");
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn(0);
+	
+	mod_page('News', 'mod/news.html', array('news' => $news, 'count' => $count));
+}
+
+function mod_news_delete($id) {
+	global $config;
+	
+	if (!hasPermission($config['mod']['news_delete']))
+			error($config['error']['noaccess']);
+	
+	$query = prepare('DELETE FROM `news` WHERE `id` = :id');
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	
+	modLog('Deleted a news entry');
+	
+	header('Location: ?/news', true, $config['redirect_http']);
+}
+
 function mod_log($page_no = 1) {
 	global $config;
 	
@@ -135,7 +389,7 @@ function mod_log($page_no = 1) {
 	if (!hasPermission($config['mod']['modlog']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT `username`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
 	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -196,7 +450,7 @@ function mod_ip_remove_note($ip, $id) {
 	
 	modLog("Removed a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 	
-	header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+	header('Location: ?/IP/' . $ip . '#notes', true, $config['redirect_http']);
 }
 
 function mod_page_ip($ip) {
@@ -212,7 +466,8 @@ function mod_page_ip($ip) {
 		require_once 'inc/mod/ban.php';
 		
 		unban($_POST['ban_id']);
-		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+		
+		header('Location: ?/IP/' . $ip . '#bans', true, $config['redirect_http']);
 		return;
 	}
 	
@@ -230,13 +485,16 @@ function mod_page_ip($ip) {
 		
 		modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 		
-		header('Location: ?/IP/' . $ip, true, $config['redirect_http']);
+		header('Location: ?/IP/' . $ip . '#notes', true, $config['redirect_http']);
 		return;
 	}
 	
 	$args = array();
 	$args['ip'] = $ip;
 	$args['posts'] = array();
+	
+	if ($config['mod']['dns_lookup'])
+		$args['hostname'] = rDNS($ip);
 	
 	$boards = listBoards();
 	foreach ($boards as $board) {
@@ -287,7 +545,7 @@ function mod_page_ip($ip) {
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	mod_page("IP: $ip", 'mod/view_ip.html', $args);
+	mod_page("IP: $ip", 'mod/view_ip.html', $args, $args['hostname']);
 }
 
 function mod_ban() {
@@ -382,7 +640,7 @@ function mod_lock($board, $unlock, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':locked', $unlock ? 0 : 1);
 	$query->execute() or error(db_error($query));
-	if($query->rowCount()) {
+	if ($query->rowCount()) {
 		modLog(($unlock ? 'Unlocked' : 'Locked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
@@ -404,7 +662,7 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
-	if($query->rowCount()) {
+	if ($query->rowCount()) {
 		modLog(($unlock ? 'Unstickied' : 'Stickied') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
@@ -426,7 +684,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 	$query->bindValue(':id', $post);
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
-	if($query->rowCount()) {
+	if ($query->rowCount()) {
 		modLog(($unlock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
@@ -447,7 +705,7 @@ function mod_ban_post($board, $delete, $post) {
 	$query = prepare(sprintf('SELECT `ip`, `thread` FROM `posts_%s` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
-	if(!$_post = $query->fetch(PDO::FETCH_ASSOC))
+	if (!$_post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['404']);
 	
 	$thread = $_post['thread'];
@@ -624,11 +882,34 @@ function mod_user($uid) {
 			}
 		}
 		
+		if (isset($_POST['delete'])) {
+			if (!hasPermission($config['mod']['deleteusers']))
+				error($config['error']['noaccess']);
+			
+			$query = prepare('DELETE FROM `mods` WHERE `id` = :id');
+			$query->bindValue(':id', $uid);
+			$query->execute() or error(db_error($query));
+			
+			modLog('Deleted user ' . utf8tohtml($user['username']) . ' <small>(#' . $user['id'] . ')</small>');
+			
+			header('Location: ?/users', true, $config['redirect_http']);
+			
+			return;
+		}
+		
+		if ($_POST['username'] == '')
+			error(sprintf($config['error']['required'], 'username'));
+		
 		$query = prepare('UPDATE `mods` SET `username` = :username, `boards` = :boards WHERE `id` = :id');
 		$query->bindValue(':id', $uid);
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
+		
+		if ($user['username'] !== $_POST['username']) {
+			// account was renamed
+			modLog('Renamed user "' . utf8tohtml($user['username']) . '" <small>(#' . $user['id'] . ')</small> to "' . utf8tohtml($_POST['username']) . '"');
+		}
 		
 		if ($_POST['password'] != '') {
 			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
@@ -636,13 +917,19 @@ function mod_user($uid) {
 			$query->bindValue(':password', $_POST['password']);
 			$query->execute() or error(db_error($query));
 			
+			modLog('Changed password for ' . utf8tohtml($_POST['username']) . ' <small>(#' . $user['id'] . ')</small>');
+			
 			if ($uid == $mod['id']) {
 				login($_POST['username'], $_POST['password']);
 				setCookies();
 			}
 		}
 		
-		header('Location: ?/users', true, $config['redirect_http']);
+		if (hasPermission($config['mod']['manageusers']))
+			header('Location: ?/users', true, $config['redirect_http']);
+		else
+			header('Location: ?/', true, $config['redirect_http']);
+		
 		return;
 	}
 	
@@ -653,11 +940,17 @@ function mod_user($uid) {
 			$query->bindValue(':password', $_POST['password']);
 			$query->execute() or error(db_error($query));
 			
-			login($_POST['username'], $_POST['password']);
+			modLog('Changed own password');
+			
+			login($user['username'], $_POST['password']);
 			setCookies();
 		}
 		
-		header('Location: ?/users', true, $config['redirect_http']);
+		if (hasPermission($config['mod']['manageusers']))
+			header('Location: ?/users', true, $config['redirect_http']);
+		else
+			header('Location: ?/', true, $config['redirect_http']);
+		
 		return;
 	}
 	
@@ -674,6 +967,47 @@ function mod_user($uid) {
 	
 	mod_page('Edit user', 'mod/user.html', array('user' => $user, 'logs' => $log, 'boards' => listBoards()));
 }
+
+function mod_user_new() {
+	if (isset($_POST['username'], $_POST['password'], $_POST['type'])) {
+		if ($_POST['username'] == '')
+			error(sprintf($config['error']['required'], 'username'));
+		if ($_POST['password'] == '')
+			error(sprintf($config['error']['required'], 'password'));
+		
+		if (isset($_POST['allboards'])) {
+			$boards = array('*');
+		} else {
+			$_boards = listBoards();
+			foreach ($_boards as &$board) {
+				$board = $board['uri'];
+			}
+			
+			$boards = array();
+			foreach ($_POST as $name => $value) {
+				if (preg_match('/^board_(\w+)$/', $name, $matches) && in_array($matches[1], $_boards))
+					$boards[] = $matches[1];
+			}
+		}
+		
+		$_POST['type'] = (int) $_POST['type'];
+		if ($_POST['type'] !== JANITOR && $_POST['type'] !== MOD && $_POST['type'] !== ADMIN)
+			error(sprintf($config['error']['invalidfield'], 'type'));
+		
+		$query = prepare('INSERT INTO `mods` VALUES (NULL, :username, SHA1(:password), :type, :boards)');
+		$query->bindValue(':username', $_POST['username']);
+		$query->bindValue(':password', $_POST['password']);
+		$query->bindValue(':type', $_POST['type']);
+		$query->bindValue(':boards', implode(',', $boards));
+		$query->execute() or error(db_error($query));
+		
+		header('Location: ?/users', true, $config['redirect_http']);
+		return;
+	}
+		
+	mod_page('Edit user', 'mod/user.html', array('new' => true, 'boards' => listBoards()));
+}
+
 
 function mod_users() {
 	global $config;
@@ -734,11 +1068,37 @@ function mod_pm($id, $reply = false) {
 		if (!$pm['to_username'])
 			error($config['error']['404']); // deleted?
 		
-		mod_page("New PM for {$pm['to_username']}", 'mod/new_pm.html', array('username' => $pm['to_username'], 'id' => $pm['to'], 'message' => quote($pm['message'])));
+		mod_page("New PM for {$pm['to_username']}", 'mod/new_pm.html', array(
+			'username' => $pm['username'], 'id' => $pm['sender'], 'message' => quote($pm['message'])
+		));
 	} else {
 		mod_page("Private message &ndash; #$id", 'mod/pm.html', $pm);
 	}
 }
+
+function mod_inbox() {
+	global $config, $mod;
+	
+	$query = prepare('SELECT `unread`,`pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC');
+	$query->bindValue(':mod', $mod['id']);
+	$query->execute() or error(db_error($query));
+	$messages = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :mod AND `unread` = 1');
+	$query->bindValue(':mod', $mod['id']);
+	$query->execute() or error(db_error($query));
+	$unread = $query->fetchColumn(0);
+	
+	foreach ($messages as &$message) {
+		$message['snippet'] = pm_snippet($message['message']);
+	}
+	
+	mod_page('PM inbox (' . (count($messages) > 0 ? $unread . ' unread' : 'empty') . ')', 'mod/inbox.html', array(
+		'messages' => $messages,
+		'unread' => $unread
+	));
+}
+
 
 function mod_new_pm($username) {
 	global $config, $mod;
@@ -920,7 +1280,7 @@ function mod_reports() {
 		
 		$body .= $po->build(true) . '<hr>';
 		
-		if(isset($__old_body_truncate_char))
+		if (isset($__old_body_truncate_char))
 			$config['body_truncate_char'] = $__old_body_truncate_char;
 	}
 	
@@ -971,7 +1331,7 @@ function mod_debug_antispam() {
 	
 	if (isset($_POST['board'], $_POST['thread'])) {
 		$where = '`board` = ' . $pdo->quote($_POST['board']);
-		if($_POST['thread'] != '')
+		if ($_POST['thread'] != '')
 			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
 		
 		if (isset($_POST['purge'])) {

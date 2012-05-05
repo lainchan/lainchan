@@ -24,17 +24,28 @@ $pages = array(
 	'!^$!'					=> ':?/',		// redirect to dashboard
 	'!^/$!'					=> 'dashboard',		// dashboard
 	'!^/confirm/(.+)$!'			=> 'confirm',		// confirm action (if javascript didn't work)
+	'!^/logout$!'				=> 'logout',		// logout
 	
 	'!^/users$!'				=> 'users',		// manage users
 	'!^/users/(\d+)$!'			=> 'user',		// edit user
 	'!^/users/(\d+)/(promote|demote)$!'	=> 'user_promote',	// prmote/demote user
+	'!^/users/new$!'			=> 'user_new',		// create a new user
 	'!^/new_PM/([^/]+)$!'			=> 'new_pm',		// create a new pm
 	'!^/PM/(\d+)(/reply)?$!'		=> 'pm',		// read a pm
+	'!^/inbox$!'				=> 'inbox',		// pm inbox
 	
 	'!^/noticeboard$!'			=> 'noticeboard',	// view noticeboard
 	'!^/noticeboard/(\d+)$!'		=> 'noticeboard',	// view noticeboard
+	'!^/noticeboard/delete/(\d+)$!'		=> 'noticeboard_delete',// delete from noticeboard
 	'!^/log$!'				=> 'log',		// modlog
 	'!^/log/(\d+)$!'			=> 'log',		// modlog
+	'!^/news$!'				=> 'news',		// view news
+	'!^/news/(\d+)$!'			=> 'news',		// view news
+	'!^/news/delete/(\d+)$!'		=> 'news_delete',	// delete from news
+	
+	'!^/edit/(\w+)$!'			=> 'edit_board',	// edit board details
+	'!^/new-board$!'			=> 'new_board',		// create a new board
+	
 	'!^/rebuild$!'				=> 'rebuild',		// rebuild static files
 	'!^/reports$!'				=> 'reports',		// report queue
 	'!^/reports/(\d+)/dismiss(all)?$!'	=> 'report_dismiss',	// dismiss a report
@@ -64,8 +75,14 @@ $pages = array(
 			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!')) . '$!'	=> 'view_thread',
 );
 
-if (!$mod)
+
+if (!$mod) {
 	$pages = array('//' => 'login');
+} elseif (isset($_GET['status'], $_GET['r'])) {
+	header('Location: ' . $_GET['r'], true, (int)$_GET['stats']);
+} elseif (isset($config['mod']['custom_pages'])) {
+	$pages = array_merge($pages, $config['mod']['custom_pages']);
+}
 
 foreach ($pages as $uri => $handler) {
 	if (preg_match($uri, $query, $matches)) {
@@ -79,14 +96,20 @@ foreach ($pages as $uri => $handler) {
 			);
 		}
 		
-		if ($handler[0] == ':') {
-			header('Location: ' . substr($handler, 1),  true, $config['redirect_http']);
-		} elseif (is_callable("mod_page_$handler")) {
-			call_user_func_array("mod_page_$handler", $matches);
-		} elseif (is_callable("mod_$handler")) {
-			call_user_func_array("mod_$handler", $matches);
+		if (is_string($handler)) {
+			if ($handler[0] == ':') {
+				header('Location: ' . substr($handler, 1),  true, $config['redirect_http']);
+			} elseif (is_callable("mod_page_$handler")) {
+				call_user_func_array("mod_page_$handler", $matches);
+			} elseif (is_callable("mod_$handler")) {
+				call_user_func_array("mod_$handler", $matches);
+			} else {
+				error("Mod page '$handler' not found!");
+			}
+		} elseif (is_callable($handler)) {
+			call_user_func_array($handler, $matches);
 		} else {
-			error("Mod page '$handler' not found!");
+			error("Mod page '$handler' not a string, and not callable!");
 		}
 		
 		exit;

@@ -30,7 +30,7 @@
 			{% for board in boards %}
 				<li>
 					<a href="{{ config.board_path|sprintf(board.uri) }}">
-						{{ board.title }}
+						{{ board.title|e }}
 					</a>
 				</li>
 			{% endfor %}
