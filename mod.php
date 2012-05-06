@@ -79,7 +79,7 @@ $pages = array(
 if (!$mod) {
 	$pages = array('//' => 'login');
 } elseif (isset($_GET['status'], $_GET['r'])) {
-	header('Location: ' . $_GET['r'], true, (int)$_GET['stats']);
+	header('Location: ' . $_GET['r'], true, (int)$_GET['status']);
 } elseif (isset($config['mod']['custom_pages'])) {
 	$pages = array_merge($pages, $config['mod']['custom_pages']);
 }
