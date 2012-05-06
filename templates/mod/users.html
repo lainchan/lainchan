@@ -4,7 +4,9 @@
 		<th>{% trans 'Username' %}</th>
 		<th>{% trans 'Type' %}</th>
 		<th>{% trans 'Boards' %}</th>
-		<th>{% trans 'Last action' %}</th>
+		{% if mod|hasPermission(config.mod.modlog) %}
+			<th>{% trans 'Last action' %}</th>
+		{% endif %}
 		<th>&hellip;</th>
 	</tr>
 	
@@ -34,17 +36,15 @@
 					{{ _boards|join(', ') }}
 				{% endif %}
 			</td>
-			<td>
-				{% if mod|hasPermission(config.mod.modlog) %}
+			{% if mod|hasPermission(config.mod.modlog) %}
+				<td>
 					{% if user.last %}
 						<span title="{{ user.action|e }}">{{ user.last|ago }}</span>
 					{% else %}
 						<em>{% trans 'never' %}</em>
 					{% endif %}
-				{% else %}
-					&ndash;
-				{% endif %}
-			</td>
+				</td>
+			{% endif %}
 			<td>
 				{% if mod|hasPermission(config.mod.promoteusers) and user.type < constant('ADMIN') %}
 					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/promote" title="{% trans 'Promote' %}">&#9650;</a> 
