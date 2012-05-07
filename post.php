@@ -212,8 +212,11 @@ if (isset($_POST['delete'])) {
 			error($config['error']['noaccess']);
 	}
 	
-	if (!$post['mod'] && checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null)))
-		error($config['error']['spam']);
+	if (!$post['mod']) {
+		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null));
+		if ($post['antispam_hash'] === true)
+			error($config['error']['spam']);
+	}
 	
 	if ($config['robot_enable'] && $config['robot_mute']) {
 		checkMute();
@@ -535,6 +538,10 @@ if (isset($_POST['delete'])) {
 	$post = (array)$post;
 	
 	$id = post($post);
+	
+	if (isset($post['antispam_hash'])) {
+		incrementSpamHash($post['antispam_hash']);
+	}
 	
 	if (isset($post['tracked_cites'])) {
 		foreach ($post['tracked_cites'] as $cite) {

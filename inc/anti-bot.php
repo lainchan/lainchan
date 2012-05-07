@@ -243,22 +243,24 @@ function checkSpam(array $extra_salt = array()) {
 	if ($hash != $_hash)
 		return true;
 	
-	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = :hash');
+	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
-	if ($query->rowCount() == 0) {
+	if (($passed = $query->fetchColumn(0)) === false) {
 		// there was no database entry for this hash. most likely expired.
 		return true;
 	}
 	
-	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = :hash');
-	$query->bindValue(':hash', $hash);
-	$query->execute() or error(db_error($query));
-	$passed = $query->fetchColumn(0);
-	
 	if ($passed > $config['spam']['hidden_inputs_max_pass'])
 		return true;
 	
-	return false;
+	return $hash;
 }
+
+function incrementSpamHash($hash) {
+	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = :hash');
+	$query->bindValue(':hash', $hash);
+	$query->execute() or error(db_error($query));
+}
+
 
