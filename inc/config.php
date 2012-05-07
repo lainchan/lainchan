@@ -870,7 +870,20 @@
  *  Mod permissions
  * ====================
  */
- 	
+ 
+ 	// Capcode permissions
+	$config['mod']['capcode'] = array(
+	//	JANITOR		=> array('Janitor'),
+		MOD		=> array('Mod'),
+		ADMIN		=> true
+	);
+	
+	// Example: Allow mods to post with "## Moderator" as well
+	// $config['mod']['capcode'][MOD][] = 'Moderator';
+	
+	// Example: Allow janitors to post with any capcode
+	// $config['mod']['capcode'][JANITOR] = true;
+ 
  	// Set any of the below to "DISABLED" to make them unavailable for everyone.
  
 	// Don't worry about per-board moderators. Let all mods moderate any board.
