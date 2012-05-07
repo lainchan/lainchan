@@ -969,6 +969,11 @@ function mod_user($uid) {
 }
 
 function mod_user_new() {
+	global $pdo;
+	
+	if (!hasPermission($config['mod']['createusers']))
+		error($config['error']['noaccess']);
+	
 	if (isset($_POST['username'], $_POST['password'], $_POST['type'])) {
 		if ($_POST['username'] == '')
 			error(sprintf($config['error']['required'], 'username'));
@@ -1000,6 +1005,10 @@ function mod_user_new() {
 		$query->bindValue(':type', $_POST['type']);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
+		
+		$uid = $pdo->lastInsertId();
+		
+		modLog('Created a new user: ' . utf8tohtml($_POST['username']) . ' <small>(#' . $userID . ')</small>');
 		
 		header('Location: ?/users', true, $config['redirect_http']);
 		return;
@@ -1039,6 +1048,9 @@ function mod_user_promote($uid, $action) {
 
 function mod_pm($id, $reply = false) {
 	global $mod, $config;
+	
+	if ($reply && !hasPermission($config['mod']['create_pm']))
+		error($config['error']['noaccess']);
 	
 	$query = prepare("SELECT `mods`.`username`, `mods_to`.`username` AS `to_username`, `pms`.* FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` LEFT JOIN `mods` AS `mods_to` ON `mods_to`.`id` = `to` WHERE `pms`.`id` = :id");
 	$query->bindValue(':id', $id);
