@@ -56,8 +56,6 @@ function parse_time($str) {
 function ban($mask, $reason, $length, $board) {
 	global $mod, $pdo;
 	
-	// TODO: permissions
-	
 	$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :time, :expires, :reason, :board)");
 	$query->bindValue(':ip', $mask);
 	$query->bindValue(':mod', $mod['id']);
@@ -80,12 +78,14 @@ function ban($mask, $reason, $length, $board) {
 	
 	$query->execute() or error(db_error($query));
 	
-	modLog('Created a new ban (<small>#' . $pdo->lastInsertId() . '</small>) for <strong>' . utf8tohtml($mask) . '</strong> with ' . ($reason ? 'reason: ' . utf8tohtml($reason) . '' : 'no reason'));
+	modLog('Created a new ' .
+		($length > 0 ? preg_replace('/^(\d+) (\w+?)s?$/', '$1-$2', until($length)) : 'permanent') .
+		' ban (<small>#' . $pdo->lastInsertId() . '</small>) for ' .
+		(filter_var($mask, FILTER_VALIDATE_IP) !== false ? "<a href=\"?/IP/$mask\">$mask</a>" : utf8tohtml($mask)) .
+		' with ' . ($reason ? 'reason: ' . utf8tohtml($reason) . '' : 'no reason'));
 }
 
-function unban($id) {
-	// TODO: permissions
-	
+function unban($id) {	
 	$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
