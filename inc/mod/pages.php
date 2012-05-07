@@ -729,7 +729,7 @@ function mod_ban_post($board, $delete, $post) {
 			modLog("Attached a public ban message to post #{$post}: " . utf8tohtml($_POST['message']));
 			buildThread($thread ? $thread : $post);
 			buildIndex();
-		} elseif (isset($_POST['delete'])) {
+		} elseif (isset($_POST['delete']) && (int) $_POST['delete']) {
 			// Delete post
 			deletePost($post);
 			modLog("Deleted post #{$post}");
