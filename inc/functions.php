@@ -1396,8 +1396,10 @@ function markup(&$body, $track_cites = false) {
 	if ($config['auto_unicode']) {
 		$body = unicodify($body);
 	
-		foreach ($markup_urls as &$url) {
-			$body = str_replace(unicodify($url), $url, $body);
+		if ($config['markup_urls']) {
+			foreach ($markup_urls as &$url) {
+				$body = str_replace(unicodify($url), $url, $body);
+			}
 		}
 	}
 	
