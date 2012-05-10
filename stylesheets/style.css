@@ -14,7 +14,7 @@ a, a:visited {
 	text-decoration: underline;
 	color: #34345C;
 }
-a:hover {
+a:hover, p.intro a.post_no:hover {
 	color: #ff0000;
 }
 a.post_no {
@@ -22,8 +22,8 @@ a.post_no {
 	margin: 0;
 	padding: 0;
 }
-a.post_no:not(:hover) {
-	color: black;
+p.intro a.post_no {
+	color: inherit;
 }
 p.intro a.post_no, p.intro a.email {
 	margin: 0;
