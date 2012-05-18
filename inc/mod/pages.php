@@ -969,7 +969,7 @@ function mod_user($uid) {
 }
 
 function mod_user_new() {
-	global $pdo;
+	global $pdo, $config;
 	
 	if (!hasPermission($config['mod']['createusers']))
 		error($config['error']['noaccess']);
