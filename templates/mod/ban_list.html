@@ -4,10 +4,11 @@
 	<form action="" method="post">
 		<table class="mod">
 			<tr>
-				<th>{% trans 'IP address' %}</th>
+				<th>{% trans 'IP address/mask' %}</th>
 				<th>{% trans 'Reason' %}</th>
 				<th>{% trans 'Board' %}</th>
 				<th>{% trans 'Set' %}</th>
+				<th>{% trans 'Duration' %}</th>
 				<th>{% trans 'Expires' %}</th>
 				<th>{% trans 'Staff' %}</th>
 			</tr>
@@ -37,14 +38,22 @@
 					</td>
 					<td style="white-space: nowrap">
 						{{ ban.set|date(config.post_date) }}
+						 <small>({{ ban.set|ago }} ago)</small>
+					</td>
+					<td style="white-space: nowrap">
+						{% if ban.expires == 0 %}
+							-
+						{% else %}
+							{{ (ban.expires - ban.set + time()) | until }}
+						{% endif %}
 					</td>
 					<td style="white-space: nowrap">
 						{% if ban.expires == 0 %}
 							<em>{% trans 'never' %}</em>
 						{% else %}
-							{{ ban.expires|date(config.post_date) }} 
+							{{ ban.expires|date(config.post_date) }}
 							{% if ban.expires > time() %}
-								<small>({{ ban.expires|until }})</small>
+								 <small>({{ ban.expires|until }})</small>
 							{% endif %}
 						{% endif %}
 					</td>
