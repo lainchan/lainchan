@@ -175,11 +175,6 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			if ($config['cache']['enabled']) {
-				cache::delete('board_' . $board['uri']);
-				cache::delete('all_boards');
-			}
-			
 			$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board");
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
@@ -205,6 +200,11 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':title', $_POST['title']);
 			$query->bindValue(':subtitle', $_POST['subtitle']);
 			$query->execute() or error(db_error($query));
+		}
+		
+		if ($config['cache']['enabled']) {
+			cache::delete('board_' . $board['uri']);
+			cache::delete('all_boards');
 		}
 		
 		rebuildThemes('boards');
@@ -249,7 +249,7 @@ function mod_new_board() {
 		query(Element('posts.sql', array('board' => $board['uri']))) or error(db_error());
 		
 		if ($config['cache']['enabled'])
-				cache::delete('all_boards');
+			cache::delete('all_boards');
 		
 		// Build the board
 		buildIndex();
@@ -1189,7 +1189,7 @@ function mod_user_new() {
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
 		
-		$uid = $pdo->lastInsertId();
+		$userID = $pdo->lastInsertId();
 		
 		modLog('Created a new user: ' . utf8tohtml($_POST['username']) . ' <small>(#' . $userID . ')</small>');
 		
