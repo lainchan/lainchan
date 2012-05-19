@@ -741,7 +741,7 @@ function mod_move($originBoard, $postID) {
 		// create the new thread
 		$newID = post($post);
 		
-		if($post['has_file']) {
+		if ($post['has_file']) {
 			// copy image
 			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
 			$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
@@ -756,11 +756,11 @@ function mod_move($originBoard, $postID) {
 		
 		$replies = array();
 		
-		while($post = $query->fetch()) {
+		while ($post = $query->fetch()) {
 			$post['mod'] = true;
 			$post['thread'] = $newID;
 			
-			if($post['file']) {
+			if ($post['file']) {
 				$post['has_file'] = true;
 				$post['width'] = &$post['filewidth'];
 				$post['height'] = &$post['fileheight'];
@@ -778,15 +778,15 @@ function mod_move($originBoard, $postID) {
 		
 		openBoard($targetBoard);
 		
-		foreach($replies as &$post) {
+		foreach ($replies as &$post) {
 			$query = prepare('SELECT `target` FROM `cites` WHERE `target_board` = :board AND `board` = :board AND `post` = :post');
 			$query->bindValue(':board', $originBoard);
 			$query->bindValue(':post', $post['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($qurey));
 			
 			// correct >>X links
-			while($cite = $query->fetch(PDO::FETCH_ASSOC)) {
-				if(isset($newIDs[$cite['target']])) {
+			while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+				if (isset($newIDs[$cite['target']])) {
 					$post['body_nomarkup'] = preg_replace(
 							'/(>>(>\/' . preg_quote($originBoard, '/') . '\/)?)' . preg_quote($cite['target'], '/') . '/',
 							'>>' . $newIDs[$cite['target']],
@@ -804,13 +804,13 @@ function mod_move($originBoard, $postID) {
 			// insert reply
 			$newIDs[$post['id']] = $newPostID = post($post);
 			
-			if($post['has_file']) {
+			if ($post['has_file']) {
 				// copy image
 				$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
 				$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 			}
 			
-			foreach($post['tracked_cites'] as $cite) {
+			foreach ($post['tracked_cites'] as $cite) {
 				$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
 				$query->bindValue(':board', $board['uri']);
 				$query->bindValue(':post', $newPostID, PDO::PARAM_INT);
@@ -830,7 +830,7 @@ function mod_move($originBoard, $postID) {
 		// return to original board
 		openBoard($originBoard);
 		
-		if($shadow) {
+		if ($shadow) {
 			// lock old thread
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `locked` = 1 WHERE `id` = :id', $originBoard));
 			$query->bindValue(':id', $postID, PDO::PARAM_INT);
