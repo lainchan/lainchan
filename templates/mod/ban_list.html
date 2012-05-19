@@ -2,7 +2,7 @@
 	<p style="text-align:center" class="unimportant">({% trans 'There are no active bans.' %})</p>
 {% else %}
 	<form action="" method="post">
-		<table class="mod">
+		<table class="mod" style="width:100%">
 			<tr>
 				<th>{% trans 'IP address/mask' %}</th>
 				<th>{% trans 'Reason' %}</th>
@@ -54,7 +54,7 @@
 						{% else %}
 							{{ ban.expires|date(config.post_date) }}
 							{% if ban.expires > time() %}
-								 <small>({{ ban.expires|until }})</small>
+								 <small>(in {{ ban.expires|until }})</small>
 							{% endif %}
 						{% endif %}
 					</td>
