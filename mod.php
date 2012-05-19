@@ -63,6 +63,7 @@ $pages = array(
 	'/(\w+)/(un)?lock/(\d+)'		=> 'lock',		// lock thread
 	'/(\w+)/(un)?sticky/(\d+)'		=> 'sticky',		// sticky thread
 	'/(\w+)/bump(un)?lock/(\d+)'		=> 'bumplock',		// "bumplock" thread
+	'/(\w+)/move/(\d+)'			=> 'move',		// move thread
 	
 	// these pages aren't listed in the dashboard without $config['debug']
 	'/debug/antispam'			=> 'debug_antispam',
