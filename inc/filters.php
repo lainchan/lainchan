@@ -28,7 +28,7 @@ class Filter {
 			case 'name':
 				return preg_match($match, $post['name']);
 			case 'trip':
-				return preg_match($match, $post['trip']);
+				return $match === $post['trip'];
 			case 'email':
 				return preg_match($match, $post['email']);
 			case 'subject':
