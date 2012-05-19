@@ -37,8 +37,9 @@
 						{% endif %}					
 					</td>
 					<td style="white-space: nowrap">
-						{{ ban.set|date(config.post_date) }}
-						 <small>({{ ban.set|ago }} ago)</small>
+						<span title="{{ ban.set|date(config.post_date) }}">
+							{{ ban.set|ago }} ago
+						</span>
 					</td>
 					<td style="white-space: nowrap">
 						{% if ban.expires == 0 %}
