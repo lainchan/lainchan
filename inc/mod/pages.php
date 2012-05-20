@@ -1595,13 +1595,13 @@ function mod_config() {
 			}
 		}
 		
-		if(!empty($config_append)) {
+		if (!empty($config_append)) {
 			$config_append = "\n// Changes made via web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
 		
-			if(!@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
+			if (!@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
 				$config_append = htmlentities($config_append);
 				
-				if($config['minify_html'])
+				if ($config['minify_html'])
 					$config_append = str_replace("\n", '&#010;', $config_append);
 				$page = array();
 				$page['title'] = 'Cannot write to file!';
