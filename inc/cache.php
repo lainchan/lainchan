@@ -48,7 +48,7 @@ class Cache {
 		}
 		
 		// debug
-		if ($data && $config['debug']) {
+		if ($data !== false && $config['debug']) {
 			$debug['cached'][] = $key;
 		}
 		

@@ -123,15 +123,30 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 }
 
 function create_pm_header() {
-	global $mod;
+	global $mod, $config;
+	
+	if ($config['cache']['enabled'] && ($header = cache::get('pm_unread_' . $mod['id'])) !== false) {
+		if ($header === true)
+			return false;
+	
+		return $header;
+	}
+	
 	$query = prepare("SELECT `id` FROM `pms` WHERE `to` = :id AND `unread` = 1");
 	$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if ($pm = $query->fetch()) {
-		return Array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
-	}
+	if ($pm = $query->fetch())
+		$header = Array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
+	else
+		$header = true;
 	
-	return false;
+	if ($config['cache']['enabled'])
+		cache::set('pm_unread_' . $mod['id'], $header);
+	
+	if ($header === true)
+		return false;
+	
+	return $header;
 }
 

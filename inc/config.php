@@ -38,7 +38,6 @@
 	$config['check_updates_time'] = 43200; // 12 hours
 	
 	// Shows some extra information at the bottom of pages. Good for debugging development.
-	// Also experimental.
 	$config['debug'] = false;
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
 	$config['verbose_errors'] = true;

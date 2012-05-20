@@ -88,10 +88,15 @@ function mod_dashboard() {
 		}
 	}
 	
-	$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
-	$query->bindValue(':id', $mod['id']);
-	$query->execute() or error(db_error($query));
-	$args['unread_pms'] = $query->fetchColumn(0);
+	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) === false) {
+		$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
+		$query->bindValue(':id', $mod['id']);
+		$query->execute() or error(db_error($query));
+		$args['unread_pms'] = $query->fetchColumn(0);
+		
+		if ($config['cache']['enabled'])
+			cache::set('pm_unreadcount_' . $mod['id'], $args['unread_pms']);
+	}
 	
 	if ($mod['type'] >= ADMIN && $config['check_updates']) {
 		if (!$config['version'])
@@ -1247,6 +1252,11 @@ function mod_pm($id, $reply = false) {
 		$query->bindValue(':id', $id);
 		$query->execute() or error(db_error($query));
 		
+		if ($config['cache']['enabled']) {
+			cache::delete('pm_unread_' . $mod['id']);
+			cache::delete('pm_unreadcount_' . $mod['id']);
+		}
+		
 		header('Location: ?/', true, $config['redirect_http']);
 		return;
 	}
@@ -1255,6 +1265,11 @@ function mod_pm($id, $reply = false) {
 		$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
 		$query->bindValue(':id', $id);
 		$query->execute() or error(db_error($query));
+		
+		if ($config['cache']['enabled']) {
+			cache::delete('pm_unread_' . $mod['id']);
+			cache::delete('pm_unreadcount_' . $mod['id']);
+		}
 		
 		modLog('Read a PM');
 	}
@@ -1324,6 +1339,11 @@ function mod_new_pm($username) {
 		$query->bindValue(':message', $_POST['message']);
 		$query->bindValue(':time', time());
 		$query->execute() or error(db_error($query));
+		
+		if ($config['cache']['enabled']) {
+			cache::delete('pm_unread_' . $id);
+			cache::delete('pm_unreadcount_' . $id);
+		}
 		
 		modLog('Sent a PM to ' . utf8tohtml($username));
 		
