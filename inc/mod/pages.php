@@ -1539,6 +1539,91 @@ function mod_report_dismiss($id, $all = false) {
 	header('Location: ?/reports', true, $config['redirect_http']);
 }
 
+
+function mod_config() {
+	global $config, $mod;
+	
+	if (!hasPermission($config['mod']['edit_config']))
+		error($config['error']['noaccess']);
+	
+	require_once 'inc/mod/config-editor.php';
+	
+	$conf = config_vars();
+	
+	foreach ($conf as &$var) {
+		if (is_array($var['name'])) {
+			$c = &$config;
+			foreach ($var['name'] as $n)
+				$c = &$c[$n];
+		} else {
+			$c = $config[$var['name']];
+		}
+		
+		$var['value'] = $c;
+	}
+	unset($var);
+	
+	if (isset($_POST['save'])) {
+		$config_append = '';
+		
+		foreach ($conf as $var) {
+			$field_name = 'cf_' . (is_array($var['name']) ? implode('/', $var['name']) : $var['name']);
+			
+			if ($var['type'] == 'boolean')
+				$value = isset($_POST[$field_name]);
+			elseif (isset($_POST[$field_name]))
+				$value = $_POST[$field_name];
+			else
+				continue; // ???
+			
+			if (!settype($value, $var['type']))
+				continue; // invalid
+			
+			if ($value != $var['value']) {
+				// This value has been changed.
+				
+				$config_append .= '$config';
+				
+				if (is_array($var['name'])) {
+					foreach ($var['name'] as $name)
+						$config_append .= '[' . var_export($name, true) . ']';
+				} else {
+					$config_append .= '[' . var_export($var['name'], true) . ']';
+				}
+				
+				$config_append .= ' = ' . var_export($value, true) . ";\n";
+			}
+		}
+		
+		if(!empty($config_append)) {
+			$config_append = "\n// Changes made via web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
+		
+			if(!@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
+				$config_append = htmlentities($config_append);
+				
+				if($config['minify_html'])
+					$config_append = str_replace("\n", '&#010;', $config_append);
+				$page = array();
+				$page['title'] = 'Cannot write to file!';
+				$page['config'] = $config;
+				$page['body'] = '
+					<p style="text-align:center">Tinyboard could not write to <strong>inc/instance-config.php</strong> with the ammended configuration, probably due to a permissions error.</p>
+					<p style="text-align:center">You may proceed with these changes manually by copying and pasting the following code to the end of <strong>inc/instance-config.php</strong>:</p>
+					<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . $config_append . '</textarea>
+				';
+				echo Element('page.html', $page);
+				exit;
+			}
+		}
+		
+		header('Location: ?/', true, $config['redirect_http']);
+		
+		exit;
+	}
+	
+	mod_page('Config editor', 'mod/config-editor.html', array('conf' => $conf));
+}
+
 function mod_debug_antispam() {
 	global $pdo, $config;
 	

@@ -388,19 +388,15 @@ div.blotter {
 	font-weight: bold;
 	text-align: center;
 }
-
-/* Uboachan stuff */
-div.styles-sidebar {
-	text-align: center;
-	padding-bottom: 0px;
+table.mod.config-editor {
+	font-size: 9pt;
+	width: 100%;
 }
-div.styles-sidebar a {
-	margin: 0 5px;
+table.mod.config-editor td {
+	text-align: left;
+	padding: 5px;
+	border-bottom: 1px solid #98e;
 }
-div.styles-sidebar a.selected {
-	text-decoration: none;
-}
-.category {
-	background: #98E;
-	color: black;
+table.mod.config-editor input[type="text"] {
+	width: 98%;
 }

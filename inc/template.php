@@ -27,7 +27,7 @@ function load_twig() {
 	$twig = new Twig_Environment($loader, array(
 		'autoescape' => false,
 		'cache' => "{$config['dir']['template']}/cache",
-		'debug' => ($config['debug'] ? true : false),
+		'debug' => $config['debug']
 	));
 	$twig->addExtension(new Twig_Extensions_Extension_Tinyboard());
 	$twig->addExtension(new Twig_Extensions_Extension_I18n());

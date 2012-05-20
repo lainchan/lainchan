@@ -65,6 +65,8 @@ $pages = array(
 	'/(\w+)/bump(un)?lock/(\d+)'		=> 'bumplock',		// "bumplock" thread
 	'/(\w+)/move/(\d+)'			=> 'move',		// move thread
 	
+	'/config'				=> 'config',		// config editor
+	
 	// these pages aren't listed in the dashboard without $config['debug']
 	'/debug/antispam'			=> 'debug_antispam',
 	
