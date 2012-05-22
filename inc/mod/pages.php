@@ -863,6 +863,8 @@ function mod_move($originBoard, $postID) {
 			$botID = post($post);
 			buildThread($postID);
 			
+			buildIndex();
+			
 			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] .sprintf($config['file_page'], $postID) .
 				'#' . $botID, true, $config['redirect_http']);
 		} else {
