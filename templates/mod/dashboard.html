@@ -74,7 +74,11 @@
 	
 	<ul>
 		{% if mod|hasPermission(config.mod.reports) %}
-			<li><a href="?/reports">{% trans 'Report queue' %}</a></li>
+			<li>
+				{% if reports > 0 %}<strong>{% endif %}
+					<a href="?/reports">{% trans 'Report queue' %} ({{ reports }})</a>
+				{% if reports > 0 %}</strong>{% endif %}
+			</li>
 		{% endif %}
 		
 		{% if mod|hasPermission(config.mod.view_banlist) %}

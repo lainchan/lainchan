@@ -56,11 +56,11 @@ function mod_login() {
 	if (isset($_POST['username']))
 		$args['username'] = $_POST['username'];
 
-	mod_page('Login', 'mod/login.html', $args);
+	mod_page(_('Login'), 'mod/login.html', $args);
 }
 
 function mod_confirm($request) {
-	mod_page('Confirm action', 'mod/confirm.html', array('request' => $request));
+	mod_page(_('Confirm action'), 'mod/confirm.html', array('request' => $request));
 }
 
 function mod_logout() {
@@ -97,6 +97,9 @@ function mod_dashboard() {
 		if ($config['cache']['enabled'])
 			cache::set('pm_unreadcount_' . $mod['id'], $args['unread_pms']);
 	}
+	
+	$query = query('SELECT COUNT(*) FROM `reports`') or error(db_error($query));
+	$args['reports'] = $query->fetchColumn(0);
 	
 	if ($mod['type'] >= ADMIN && $config['check_updates']) {
 		if (!$config['version'])
@@ -141,7 +144,7 @@ function mod_dashboard() {
 			$args['newer_release'] = $latest;
 	}
 			
-	mod_page('Dashboard', 'mod/dashboard.html', $args);
+	mod_page(_('Dashboard'), 'mod/dashboard.html', $args);
 }
 
 function mod_edit_board($boardName) {
@@ -216,7 +219,7 @@ function mod_edit_board($boardName) {
 		
 		header('Location: ?/', true, $config['redirect_http']);
 	} else {
-		mod_page('Edit board: ' . sprintf($config['board_abbreviation'], $board['uri']), 'mod/board.html', array('board' => $board));
+		mod_page(sprintf('%s: ' . $config['board_abbreviation'], _('Edit board'), $board['uri']), 'mod/board.html', array('board' => $board));
 	}
 }
 
@@ -264,7 +267,7 @@ function mod_new_board() {
 		header('Location: ?/' . $board['uri'] . '/' . $config['file_index'], true, $config['redirect_http']);
 	}
 	
-	mod_page('New board', 'mod/board.html', array('new' => true));
+	mod_page(_('New board'), 'mod/board.html', array('new' => true));
 }
 
 function mod_noticeboard($page_no = 1) {
@@ -310,7 +313,7 @@ function mod_noticeboard($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn(0);
 	
-	mod_page('Noticeboard', 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
+	mod_page(_('Noticeboard'), 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
 }
 
 function mod_noticeboard_delete($id) {
@@ -367,7 +370,7 @@ function mod_news($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn(0);
 	
-	mod_page('News', 'mod/news.html', array('news' => $news, 'count' => $count));
+	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count));
 }
 
 function mod_news_delete($id) {
@@ -407,7 +410,7 @@ function mod_log($page_no = 1) {
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn(0);
 	
-	mod_page('Moderation log', 'mod/log.html', array('logs' => $logs, 'count' => $count));
+	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count));
 }
 
 function mod_view_board($boardName, $page_no = 1) {
@@ -550,7 +553,7 @@ function mod_page_ip($ip) {
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	mod_page("IP: $ip", 'mod/view_ip.html', $args, $args['hostname']);
+	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
 function mod_ban() {
@@ -560,7 +563,7 @@ function mod_ban() {
 		error($config['error']['noaccess']);
 	
 	if (!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
-		mod_page("New ban", 'mod/ban_form.html', array());
+		mod_page(_('New ban'), 'mod/ban_form.html', array());
 		return;
 	}
 	
@@ -628,7 +631,7 @@ function mod_bans($page_no = 1) {
 			$ban['real_ip'] = true;
 	}
 	
-	mod_page('Ban list', 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
+	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
 }
 
 
@@ -880,7 +883,7 @@ function mod_move($originBoard, $postID) {
 	if (count($boards) <= 1)
 		error(_('Impossible to move thread; there is only one board.'));
 	
-	mod_page("Move thread", 'mod/move.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards));
+	mod_page(_('Move thread'), 'mod/move.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards));
 }
 
 function mod_ban_post($board, $delete, $post) {
@@ -939,7 +942,7 @@ function mod_ban_post($board, $delete, $post) {
 		'boards' => listBoards()
 	);
 	
-	mod_page("New ban", 'mod/ban_form.html', $args);
+	mod_page(_('New ban'), 'mod/ban_form.html', $args);
 }
 
 function mod_delete($board, $post) {
@@ -1155,7 +1158,7 @@ function mod_user($uid) {
 	
 	$user['boards'] = explode(',', $user['boards']);
 	
-	mod_page('Edit user', 'mod/user.html', array('user' => $user, 'logs' => $log, 'boards' => listBoards()));
+	mod_page(_('Edit user'), 'mod/user.html', array('user' => $user, 'logs' => $log, 'boards' => listBoards()));
 }
 
 function mod_user_new() {
@@ -1204,7 +1207,7 @@ function mod_user_new() {
 		return;
 	}
 		
-	mod_page('Edit user', 'mod/user.html', array('new' => true, 'boards' => listBoards()));
+	mod_page(_('Edit user'), 'mod/user.html', array('new' => true, 'boards' => listBoards()));
 }
 
 
@@ -1218,7 +1221,7 @@ function mod_users() {
 	$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
 	$args['users'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	mod_page('Manage users', 'mod/users.html', $args);
+	mod_page(_('Manage users'), 'mod/users.html', $args);
 }
 
 function mod_user_promote($uid, $action) {
@@ -1280,11 +1283,11 @@ function mod_pm($id, $reply = false) {
 		if (!$pm['to_username'])
 			error($config['error']['404']); // deleted?
 		
-		mod_page("New PM for {$pm['to_username']}", 'mod/new_pm.html', array(
+		mod_page(sprintf('%s %s', _('New PM for'), $pm['to_username']), 'mod/new_pm.html', array(
 			'username' => $pm['username'], 'id' => $pm['sender'], 'message' => quote($pm['message'])
 		));
 	} else {
-		mod_page("Private message &ndash; #$id", 'mod/pm.html', $pm);
+		mod_page(sprintf('%s &ndash; #%d', _('Private message'), $id), 'mod/pm.html', $pm);
 	}
 }
 
@@ -1305,7 +1308,7 @@ function mod_inbox() {
 		$message['snippet'] = pm_snippet($message['message']);
 	}
 	
-	mod_page('PM inbox (' . (count($messages) > 0 ? $unread . ' unread' : 'empty') . ')', 'mod/inbox.html', array(
+	mod_page(sprintf('%s (%s)', _('PM inbox'), count($messages) > 0 ? $unread . ' unread' : 'empty'), 'mod/inbox.html', array(
 		'messages' => $messages,
 		'unread' => $unread
 	));
@@ -1352,7 +1355,7 @@ function mod_new_pm($username) {
 		header('Location: ?/', true, $config['redirect_http']);
 	}
 	
-	mod_page("New PM for {$username}", 'mod/new_pm.html', array('username' => $username, 'id' => $id));
+	mod_page(sprintf('%s %s', _('New PM for'), $username), 'mod/new_pm.html', array('username' => $username, 'id' => $id));
 }
 
 function mod_rebuild() {
@@ -1414,11 +1417,11 @@ function mod_rebuild() {
 			}
 		}
 		
-		mod_page("Rebuild", 'mod/rebuilt.html', array('logs' => $log));
+		mod_page(_('Rebuild'), 'mod/rebuilt.html', array('logs' => $log));
 		return;
 	}
 	
-	mod_page("Rebuild", 'mod/rebuild.html', array('boards' => listBoards()));
+	mod_page(_('Rebuild'), 'mod/rebuild.html', array('boards' => listBoards()));
 }
 
 function mod_reports() {
@@ -1449,6 +1452,7 @@ function mod_reports() {
 		}
 	}
 	
+	$count = 0;
 	$body = '';
 	foreach ($reports as $report) {
 		if (!isset($report_posts[$report['board']][$report['post']])) {
@@ -1499,9 +1503,11 @@ function mod_reports() {
 		
 		if (isset($__old_body_truncate_char))
 			$config['body_truncate_char'] = $__old_body_truncate_char;
+		
+		$count++;
 	}
 	
-	mod_page("Report queue", 'mod/reports.html', array('reports' => $body));
+	mod_page(sprintf('%s (%d)', _('Report queue'), $count), 'mod/reports.html', array('reports' => $body, 'count' => $count));
 }
 
 function mod_report_dismiss($id, $all = false) {
@@ -1623,7 +1629,7 @@ function mod_config() {
 		exit;
 	}
 	
-	mod_page('Config editor', 'mod/config-editor.html', array('conf' => $conf));
+	mod_page(_('Config editor'), 'mod/config-editor.html', array('conf' => $conf));
 }
 
 function mod_debug_antispam() {
@@ -1657,7 +1663,6 @@ function mod_debug_antispam() {
 	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
 	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	mod_page("Debug: Anti-spam", 'mod/debug/antispam.html', $args);
+	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
 }
-
 
