@@ -537,7 +537,7 @@ if (isset($_POST['delete'])) {
 	}
 	$post = (array)$post;
 	
-	$id = post($post);
+	$post['id'] = $id = post($post);
 	
 	if (isset($post['antispam_hash'])) {
 		incrementSpamHash($post['antispam_hash']);
