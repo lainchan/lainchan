@@ -803,12 +803,8 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
-	
-	if ($query->rowCount() < 1) {
+	if (!$post = $query->fetch())
 		error($config['error']['invalidpost']);
-	}
-	
-	$post = $query->fetch();
 	
 	if ($post['file'] == 'deleted' && !$post['thread'])
 		return; // Can't delete OP's image completely.
@@ -827,13 +823,14 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 		// Set file to 'deleted'
 		$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
 	}
-	// Update database
 	
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
 	if ($post['thread'])
 		buildThread($post['thread']);
+	else
+		buildThread($id);
 }
 
 // rebuild post (markup)
