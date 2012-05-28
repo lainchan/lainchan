@@ -978,6 +978,8 @@ function mod_deletefile($board, $post) {
 	deleteFile($post);
 	// Record the action
 	modLog("Deleted file from post #{$post}");
+	// Rebuild thread
+	buildThread($post);
 	// Rebuild board
 	buildIndex();
 	
@@ -1217,11 +1219,10 @@ function mod_users() {
 	if (!hasPermission($config['mod']['manageusers']))
 		error($config['error']['noaccess']);
 	
-	$args = array();
 	$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
-	$args['users'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	$users = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	mod_page(_('Manage users'), 'mod/users.html', $args);
+	mod_page(sprintf('%s (%d)', _('Manage users'), count($users)), 'mod/users.html', array('users' => $users));
 }
 
 function mod_user_promote($uid, $action) {
