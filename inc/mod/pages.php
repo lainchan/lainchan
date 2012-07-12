@@ -707,7 +707,7 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount()) {
-		modLog(($unlock ? 'Unstickied' : 'Stickied') . " thread #{$post}");
+		modLog(($unsticky ? 'Unstickied' : 'Stickied') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -729,7 +729,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount()) {
-		modLog(($unlock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
+		modLog(($unbumplock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
