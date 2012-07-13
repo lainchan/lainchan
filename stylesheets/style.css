@@ -263,11 +263,11 @@ span.heading {
 	color: #AF0A0F;
 	font-size: 11pt;
 	font-weight: bold;
-	display: block;
 }
 span.spoiler {
 	background: black;
 	color: black;
+	padding: 0px 1px;
 }
 div.post.reply p.body span.spoiler a {
 	color: black;
