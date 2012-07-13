@@ -20,7 +20,7 @@
 				, {{ post.ratio }}
 			{% endif %}
 		{% endif %}
-		{% if config.show_filename %}
+		{% if config.show_filename and post.filename %}
 			, 
 			{% if post.filename|length > config.max_filename_display %}
 				<span title="{{ post.filename }}">{{ post.filename|truncate(config.max_filename_display) }}</span>
