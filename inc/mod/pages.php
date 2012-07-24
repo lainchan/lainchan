@@ -1406,6 +1406,8 @@ function mod_rebuild() {
 		error($config['error']['noaccess']);
 	
 	if (isset($_POST['rebuild'])) {
+		set_time_limit($config['mod']['rebuild_timelimit']);
+		
 		$log = array();
 		$boards = listBoards();
 		$rebuilt_scripts = array();
