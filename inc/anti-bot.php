@@ -19,7 +19,7 @@ class AntiBot {
 		if ($uppercase)
 			$chars .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		if ($special_chars)
-			$chars .= ' ~!@#$%^&*()_+,./;\'[]\\{}|:"<>?=-` ';
+			$chars .= ' ~!@#$%^&*()_+,./;\'[]\\{}|:<>?=-` ';
 		
 		$chars = str_split($chars);
 		
