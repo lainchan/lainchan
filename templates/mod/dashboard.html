@@ -10,7 +10,6 @@
 				{% if board.subtitle %}
 					 <small>&mdash; {{ board.subtitle|e }}</small>
 				{% endif %}
-				
 				{% if mod|hasPermission(config.mod.manageboards) %}
 					 <a href="?/edit/{{ board.uri }}"><small>[{% trans 'edit' %}]</small></a>
 				{% endif %}
@@ -78,38 +77,29 @@
 				{% if reports > 0 %}</strong>{% endif %}
 			</li>
 		{% endif %}
-		
 		{% if mod|hasPermission(config.mod.view_banlist) %}
 			<li><a href="?/bans">{% trans 'Ban list' %}</a></li>
 		{% endif %}
-		
 		{% if mod|hasPermission(config.mod.manageusers) %}
 			<li><a href="?/users">{% trans 'Manage users' %}</a></li>
 		{% elseif mod|hasPermission(config.mod.change_password) %}
 			<li><a href="?/users/{{ mod.id }}">{% trans 'Change password' %}</a></li>
 		{% endif %}
-		
+		{% if mod|hasPermission(config.mod.themes) %}
+			<li><a href="?/themes">{% trans 'Manage themes' %}</a></li>
+		{% endif %}
 		{% if mod|hasPermission(config.mod.modlog) %}
 			<li><a href="?/log">{% trans 'Moderation log' %}</a></li>
 		{% endif %}
-		
 		{% if mod|hasPermission(config.mod.rebuild) %}
 			<li><a href="?/rebuild">{% trans 'Rebuild' %}</a></li>
 		{% endif %}
-		
 		{% if mod|hasPermission(config.mod.show_config) %}
 			<li><a href="?/config">{% trans 'Configuration' %}</a></li>
 		{% endif %}
+		
 	</ul>
 </fieldset>
-
-{% if mod|hasPermission(config.mod.themes) %}
-	<fieldset>
-		<legend>{% trans 'Themes' %}</legend>
-	
-		{# TODO #}
-	</fieldset>
-{% endif %}
 
 <fieldset>
 	<legend>{% trans 'Search' %}</legend>

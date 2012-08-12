@@ -1667,3 +1667,130 @@ function mod_debug_antispam() {
 	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
 }
 
+function mod_themes_list() {
+	global $config;
+
+	if (!hasPermission($config['mod']['themes']))
+		error($config['error']['noaccess']);
+
+	if(!is_dir($config['dir']['themes']))
+		error(_('Themes directory doesn\'t exist!'));
+	if(!$dir = opendir($config['dir']['themes']))
+		error(_('Cannot open themes directory; check permissions.'));
+
+	$query = query('SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL') or error(db_error());
+	$themes_in_use = $query->fetchAll(PDO::FETCH_COLUMN);
+
+	// Scan directory for themes
+	$themes = array();
+	while ($file = readdir($dir)) {
+		if ($file[0] != '.' && is_dir($config['dir']['themes'] . '/' . $file)) {
+			$themes[$file] = loadThemeConfig($file);
+		}
+	}
+	closedir($dir);
+
+	mod_page(_('Manage themes'), 'mod/themes.html', array(
+		'themes' => $themes,
+		'themes_in_use' => $themes_in_use,
+	));
+}
+
+function mod_theme_configure($theme_name) {
+	global $config;
+
+	if (!hasPermission($config['mod']['themes']))
+		error($config['error']['noaccess']);
+
+	if(!$theme = loadThemeConfig($theme_name)) {
+		error($config['error']['invalidtheme']);
+	}
+
+	if(isset($_POST['install'])) {
+		// Check if everything is submitted
+		foreach($theme['config'] as &$conf) {
+			if(!isset($_POST[$conf['name']]) && $conf['type'] != 'checkbox')
+				error(sprintf($config['error']['required'], $c['title']));
+		}
+		
+		// Clear previous settings
+		$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+		$query->bindValue(':theme', $theme_name);
+		$query->execute() or error(db_error($query));
+		
+		foreach($theme['config'] as &$conf) {
+			$query = prepare("INSERT INTO `theme_settings` VALUES(:theme, :name, :value)");
+			$query->bindValue(':theme', $theme_name);
+			$query->bindValue(':name', $conf['name']);
+			$query->bindValue(':value', $_POST[$conf['name']]);
+			$query->execute() or error(db_error($query));
+		}
+		
+		$query = prepare("INSERT INTO `theme_settings` VALUES(:theme, NULL, NULL)");
+		$query->bindValue(':theme', $theme_name);
+		$query->execute() or error(db_error($query));
+		
+		$result = true;
+		$message = false;
+		if(isset($theme['install_callback'])) {
+			$ret = $theme['install_callback'](themeSettings($theme_name));
+			if($ret && !empty($ret)) {
+				if(is_array($ret) && count($ret) == 2) {
+					$result = $ret[0];
+					$message = $ret[1];
+				}
+			}
+		}
+		
+		if(!$result) {
+			// Install failed
+			$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+			$query->bindValue(':theme', $theme_name);
+			$query->execute() or error(db_error($query));
+		}
+		
+		// Build themes
+		rebuildThemes('all');
+		
+		mod_page(sprintf(_($result ? 'Installed theme: %s' : 'Installation failed: %s'), $theme['name']), 'mod/theme_installed.html', array(
+			'theme_name' => $theme_name,
+			'theme' => $theme,
+			'result' => $result,
+			'message' => $message,
+		));
+	}
+
+	$settings = themeSettings($theme_name);
+
+	mod_page(sprintf(_('Configuring theme: %s'), $theme['name']), 'mod/theme_config.html', array(
+		'theme_name' => $theme_name,
+		'theme' => $theme,
+		'settings' => $settings,
+	));
+}
+
+function mod_theme_uninstall($theme_name) {
+	global $config;
+
+	if (!hasPermission($config['mod']['themes']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+	$query->bindValue(':theme', $theme_name);
+	$query->execute() or error(db_error($query));
+
+	header('Location: ?/themes', true, $config['redirect_http']);
+}
+
+function mod_theme_rebuild($theme_name) {
+	global $config;
+
+	if (!hasPermission($config['mod']['themes']))
+		error($config['error']['noaccess']);
+	
+	rebuildTheme($theme_name, 'all');
+
+	mod_page(sprintf(_('Rebuilt theme: %s'), $theme_name), 'mod/theme_rebuilt.html', array(
+		'theme_name' => $theme_name,
+	));
+}
