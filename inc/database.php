@@ -73,6 +73,7 @@ function prepare($query) {
 	
 	if ($config['debug'])
 		return new PreparedQueryDebug($query);
+
 	return $pdo->prepare($query);
 }
 
@@ -93,19 +94,19 @@ function query($query) {
 			'time' => '~' . $time
 		);
 		return $query;
-	} else {
-		return $pdo->query($query);
 	}
+
+	return $pdo->query($query);
 }
 
 function db_error($PDOStatement=null) {
 	global $pdo;
+
 	if (isset($PDOStatement)) {
 		$err = $PDOStatement->errorInfo();
 		return $err[2];
-	} else {
-		$err = $pdo->errorInfo();
-		return $err[2];
 	}
-}
 
+	$err = $pdo->errorInfo();
+	return $err[2];
+}

@@ -202,59 +202,56 @@ function _create_antibot($board, $thread) {
 
 function checkSpam(array $extra_salt = array()) {
 	global $config, $pdo;
-	
+
 	if (!isset($_POST['hash']))
 		return true;
-	
+
 	$hash = $_POST['hash'];
-	
+
 	if (!empty($extra_salt)) {
 		// create a salted hash of the "extra salt"
 		$extra_salt = implode(':', $extra_salt);
 	} else { 
 		$extra_salt = '';
 	}
-	
+
 	// Reconsturct the $inputs array
 	$inputs = array();
-	
+
 	foreach ($_POST as $name => $value) {
 		if (in_array($name, $config['spam']['valid_inputs']))
 			continue;
-		
+
 		$inputs[$name] = $value;
 	}
-	
+
 	// Sort the inputs in alphabetical order (A-Z)
 	ksort($inputs);
-	
+
 	$_hash = '';
-	
+
 	// Iterate through each input
 	foreach ($inputs as $name => $value) {
 		$_hash .= $name . '=' . $value;
 	}
-	
+
 	// Add a salt to the hash
 	$_hash .= $config['cookies']['salt'];
-	
+
 	// Use SHA1 for the hash
 	$_hash = sha1($_hash . $extra_salt);
-	
+
 	if ($hash != $_hash)
 		return true;
-	
+
 	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
-	if (($passed = $query->fetchColumn(0)) === false) {
+	if ((($passed = $query->fetchColumn(0)) === false) || ($passed > $config['spam']['hidden_inputs_max_pass'])) {
 		// there was no database entry for this hash. most likely expired.
 		return true;
 	}
-	
-	if ($passed > $config['spam']['hidden_inputs_max_pass'])
-		return true;
-	
+
 	return $hash;
 }
 
@@ -263,5 +260,3 @@ function incrementSpamHash($hash) {
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
 }
-
-
