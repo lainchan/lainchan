@@ -1,0 +1,163 @@
+{% for board_posts in posts %}
+	<fieldset>
+		<legend>
+			<a href="?/{{ config.board_path|sprintf(board_posts.board.uri) }}{{ config.file_index }}">
+				{{ config.board_abbreviation|sprintf(board_posts.board.uri) }}
+				 - 
+				 {{ board_posts.board.title|e }}
+			</a>
+		</legend>
+		{{ board_posts.posts|join('<hr>') }}
+	</fieldset>
+{% endfor %}
+
+{% if mod|hasPermission(config.mod.view_notes) %}
+	<fieldset id="notes">
+		<legend>
+			{% set notes_on_record = 'note' ~ (notes|count != 1 ? 's' : '') ~ ' on record' %}
+			<legend>{{ notes|count }} {% trans notes_on_record %}</legend>
+		</legend>
+		
+		{% if notes|count > 0 %}
+			<table class="modlog">
+				<tr>
+					<th>{% trans 'Staff' %}</th>
+					<th>{% trans 'Note' %}</th>
+					<th>{% trans 'Date' %}</th>
+					{% if mod|hasPermission(config.mod.remove_notes) %}
+						<th>{% trans 'Actions' %}</th>
+					{% endif %}
+				</tr>
+				{% for note in notes %}
+					<tr>
+						<td class="minimal">
+							{% if note.username %}
+								<a href="?/new_PM/{{ note.username|e }}">{{ note.username|e }}</a>
+							{% else %}
+								<em>{% trans 'deleted?' %}</em>
+							{% endif %}
+						</td>
+						<td>
+							{{ note.body }}
+						</td>
+						<td class="minimal">
+							{{ note.time|date(config.post_date) }}
+						</td>
+						{% if mod|hasPermission(config.mod.remove_notes) %}
+							<td class="minimal">
+								<a href="?/IP/{{ ip }}/remove_note/{{ note.id }}">
+									<small>[{% trans 'remove' %}]</small>
+								</a>
+							</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+		
+		{% if mod|hasPermission(config.mod.create_notes) %}
+			<form action="" method="post" style="margin:0">
+				<table>
+					<tr>
+						<th>{% trans 'Staff' %}</th>
+						<td>{{ mod.username|e }}</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="note">{% trans 'Note' %}</label>
+						</th>
+						<td>
+							<textarea id="note" name="note" rows="5" cols="30"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="{% trans 'New note' %}"></td>
+					</tr>
+				</table>
+			</form>
+		{% endif %}
+	</fieldset>
+{% endif %}
+
+{% if bans|count > 0 and mod|hasPermission(config.mod.view_ban) %}
+	<fieldset id="bans">
+		{% set bans_on_record = 'ban' ~ (bans|count != 1 ? 's' : '') ~ ' on record' %}
+		<legend>{{ bans|count }} {% trans bans_on_record %}</legend>
+		
+		{% for ban in bans %}
+			<form action="" method="post" style="text-align:center">
+				<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px">
+					<tr>
+						<th>{% trans 'Status' %}</th>
+						<td>
+							{% if config.mod.view_banexpired and ban.expires != 0 and ban.expires < time() %}
+								{% trans 'Expired' %}
+							{% else %}
+								{% trans 'Active' %}
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>{% trans 'IP' %}</th>
+						<td>{{ ban.ip }}</td>
+					</tr>
+					<tr>
+						<th>{% trans 'Reason' %}</th>
+						<td>
+							{% if ban.reason %}
+								{{ ban.reason }}
+							{% else %}
+								<em>{% trans 'no reason' %}</em>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>{% trans 'Board' %}</th>
+						<td>
+							{% if ban.board %}
+								{{ config.board_abbreviation|sprintf(ban.board) }}
+							{% else %}
+								<em>{% trans 'all boards' %}</em>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>{% trans 'Set' %}</th>
+						<td>{{ ban.set|date(config.post_date) }}</td>
+					</tr>
+					<tr>
+						<th>{% trans 'Expires' %}</th>
+						<td>
+							{% if ban.expires %}
+								{{ ban.expires|date(config.post_date) }}
+							{% else %}
+								<em>{% trans 'never' %}</em>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>{% trans 'Staff' %}</th>
+						<td>
+							{% if ban.username %}
+								{{ ban.username|e }}
+							{% else %}
+								<em>{% trans 'deleted?' %}</em>
+							{% endif %}
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="ban_id" value="{{ ban.id }}">
+				<input type="submit" name="unban" value="{% trans 'Remove ban' %}">
+			</form>
+		{% endfor %}
+	</fieldset>
+{% endif %}
+
+{% if mod|hasPermission(config.mod.ban) %}
+	<fieldset>
+		<legend>{% trans 'New ban' %}</legend>
+		{% set redirect = '?/IP/' ~ ip ~ '#bans' %}
+		{% include 'mod/ban_form.html' %}
+	</fieldset>
+{% endif %}

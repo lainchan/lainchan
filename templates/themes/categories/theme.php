@@ -15,13 +15,13 @@
 		public static function build($action, $settings) {
 			global $config;
 			
-			if($action == 'all')
+			if ($action == 'all')
 				file_write($config['dir']['home'] . $settings['file_main'], Categories::homepage($settings));
 			
-			if($action == 'all' || $action == 'boards')
+			if ($action == 'all' || $action == 'boards')
 				file_write($config['dir']['home'] . $settings['file_sidebar'], Categories::sidebar($settings));
 			
-			if($action == 'all' || $action == 'news')
+			if ($action == 'all' || $action == 'news')
 				file_write($config['dir']['home'] . $settings['file_news'], Categories::news($settings));
 		}
 		
@@ -52,10 +52,10 @@
 			
 			$categories = $config['categories'];
 			
-			foreach($categories as &$boards) {
-				foreach($boards as &$board) {
+			foreach ($categories as &$boards) {
+				foreach ($boards as &$board) {
 					$title = boardTitle($board);
-					if(!$title)
+					if (!$title)
 						$title = $board; // board doesn't exist, but for some reason you want to display it anyway
 					$board = Array('title' => $title, 'uri' => sprintf($config['board_path'], $board));
 				}

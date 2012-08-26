@@ -32,7 +32,30 @@ function loadConfig() {
 	if (!isset($_SERVER['REMOTE_ADDR']))
 		$_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 	
-	$arrays = array('db', 'cache', 'cookies', 'error', 'dir', 'mod', 'spam', 'flood_filters', 'wordfilters', 'custom_capcode', 'custom_tripcode', 'dnsbl', 'dnsbl_exceptions', 'remote', 'allowed_ext', 'allowed_ext_files', 'file_icons', 'footer', 'stylesheets', 'additional_javascript', 'markup');
+	$arrays = array(
+		'db',
+		'cache',
+		'cookies',
+		'error',
+		'dir',
+		'mod',
+		'spam',
+		'flood_filters',
+		'wordfilters',
+		'custom_capcode',
+		'custom_tripcode',
+		'dnsbl',
+		'dnsbl_exceptions',
+		'remote',
+		'allowed_ext',
+		'allowed_ext_files',
+		'file_icons',
+		'footer',
+		'stylesheets',
+		'additional_javascript',
+		'markup',
+		'custom_pages'
+	);
 	
 	$config = array();
 	foreach ($arrays as $key) {
@@ -277,9 +300,12 @@ function setupBoard($array) {
 	
 	$board = array(
 		'uri' => $array['uri'],
-		'name' => $array['title'],
-		'title' => $array['subtitle']
+		'title' => $array['title'],
+		'subtitle' => $array['subtitle']
 	);
+	
+	// older versions
+	$board['name'] = &$board['title'];
 	
 	$board['dir'] = sprintf($config['board_path'], $board['uri']);
 	$board['url'] = sprintf($config['board_abbreviation'], $board['uri']);
@@ -690,13 +716,13 @@ function post(array $post) {
 	$query->bindValue(':password', $post['password']);		
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 	
-	if ($post['mod'] && $post['sticky']) {
+	if ($post['op'] && $post['mod'] && $post['sticky']) {
 		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 	}
 	
-	if ($post['mod'] && $post['locked']) {
+	if ($post['op'] && $post['mod'] && $post['locked']) {
 		$query->bindValue(':locked', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':locked', 0, PDO::PARAM_INT);
@@ -777,12 +803,8 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
-	
-	if ($query->rowCount() < 1) {
+	if (!$post = $query->fetch())
 		error($config['error']['invalidpost']);
-	}
-	
-	$post = $query->fetch();
 	
 	if ($post['file'] == 'deleted' && !$post['thread'])
 		return; // Can't delete OP's image completely.
@@ -801,13 +823,14 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 		// Set file to 'deleted'
 		$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
 	}
-	// Update database
 	
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
 	if ($post['thread'])
 		buildThread($post['thread']);
+	else
+		buildThread($id);
 }
 
 // rebuild post (markup)
@@ -1179,6 +1202,7 @@ function buildIndex() {
 	global $board, $config;
 	
 	$pages = getPages();
+	$antibot = create_antibot($board['uri']);
 
 	$page = 1;
 	while ($page <= $config['max_pages'] && $content = index($page)) {
@@ -1188,7 +1212,7 @@ function buildIndex() {
 		$content['pages'] = $pages;
 		$content['pages'][$page-1]['selected'] = true;
 		$content['btn'] = getPageButtons($content['pages']);
-		$content['antibot'] = create_antibot($board['uri']);
+		$content['antibot'] = $antibot;
 		file_write($filename, Element('index.html', $content));
 		
 		if (isset($md5) && $md5 == md5_file($filename)) {
@@ -1370,8 +1394,10 @@ function markup(&$body, $track_cites = false) {
 	if ($config['auto_unicode']) {
 		$body = unicodify($body);
 	
-		foreach ($markup_urls as &$url) {
-			$body = str_replace(unicodify($url), $url, $body);
+		if ($config['markup_urls']) {
+			foreach ($markup_urls as &$url) {
+				$body = str_replace(unicodify($url), $url, $body);
+			}
 		}
 	}
 	

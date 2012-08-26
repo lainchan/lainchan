@@ -1,0 +1,95 @@
+{% if bans|count == 0 %}
+	<p style="text-align:center" class="unimportant">({% trans 'There are no active bans.' %})</p>
+{% else %}
+	<form action="" method="post">
+		<table class="mod" style="width:100%">
+			<tr>
+				<th>{% trans 'IP address/mask' %}</th>
+				<th>{% trans 'Reason' %}</th>
+				<th>{% trans 'Board' %}</th>
+				<th>{% trans 'Set' %}</th>
+				<th>{% trans 'Duration' %}</th>
+				<th>{% trans 'Expires' %}</th>
+				<th>{% trans 'Staff' %}</th>
+			</tr>
+			{% for ban in bans %}
+				<tr{% if ban.expires != 0 and ban.expires < time() %} style="text-decoration:line-through"{% endif %}>
+					<td style="white-space: nowrap">
+						<input type="checkbox" name="ban_{{ ban.id }}"> 
+						{% if ban.real_ip %}
+							<a href="?/IP/{{ ban.ip }}">{{ ban.ip }}</a>
+						{% else %}
+							{{ ban.ip|e }}
+						{% endif %}
+					</td>
+					<td>
+						{% if ban.reason %}
+							{{ ban.reason }}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+					<td  style="white-space: nowrap">
+						{% if ban.board %}
+							{{ config.board_abbreviation|sprintf(ban.board) }}
+						{% else %}
+							<em>{% trans 'all boards' %}</em>
+						{% endif %}					
+					</td>
+					<td style="white-space: nowrap">
+						<span title="{{ ban.set|date(config.post_date) }}">
+							{{ ban.set|ago }} ago
+						</span>
+					</td>
+					<td style="white-space: nowrap">
+						{% if ban.expires == 0 %}
+							-
+						{% else %}
+							{{ (ban.expires - ban.set + time()) | until }}
+						{% endif %}
+					</td>
+					<td style="white-space: nowrap">
+						{% if ban.expires == 0 %}
+							<em>{% trans 'never' %}</em>
+						{% else %}
+							{{ ban.expires|date(config.post_date) }}
+							{% if ban.expires > time() %}
+								 <small>(in {{ ban.expires|until }})</small>
+							{% endif %}
+						{% endif %}
+					</td>
+					<td>
+						{% if ban.username %}
+							{% if mod|hasPermission(config.mod.view_banstaff) %}
+								<a href="?/new_PM/{{ ban.username|e }}">{{ ban.username|e }}</a>
+							{% else %}
+								{% if mod|hasPermission(config.mod.view_banquestionmark) %}
+									<em>?</em>
+								{% else %}
+							
+								{% endif %}
+							{% endif %}
+						{% elseif ban.mod == -1 %}
+							<em>system</em>
+						{% else %}
+							<em>{% trans 'deleted?' %}</em>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+		
+		<p style="text-align:center">
+			<input type="submit" name="unban" value="{% trans 'Unban selected' %}">
+		</p>
+	</form>
+{% endif %}
+
+{% if count > bans|count %}
+	<p class="unimportant" style="text-align:center;word-wrap:break-word">
+		{% for i in range(0, (count - 1) / config.mod.modlog_page) %}
+			<a href="?/bans/{{ i + 1 }}">[{{ i + 1 }}]</a> 
+		{% endfor %}
+	</p>
+{% endif %}
+

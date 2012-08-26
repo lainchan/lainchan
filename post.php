@@ -281,7 +281,7 @@ if (isset($_POST['delete'])) {
 	
 	$post['name'] = $_POST['name'] != '' ? $_POST['name'] : $config['anonymous'];
 	$post['subject'] = $_POST['subject'];
-	$post['email'] = utf8tohtml($_POST['email']);
+	$post['email'] = str_replace(' ', '%20', htmlspecialchars($_POST['email']));
 	$post['body'] = $_POST['body'];
 	$post['password'] = $_POST['password'];
 	$post['has_file'] = !isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
@@ -313,13 +313,23 @@ if (isset($_POST['delete'])) {
 			)));
 	}
 	
-	if ($mod && $mod['type'] >= MOD && preg_match('/^((.+) )?## (.+)$/', $post['name'], $match)) {
-		if (($mod['type'] == MOD && $match[3] == 'Mod') || $mod['type'] >= ADMIN) {
-			$post['capcode'] = utf8tohtml($match[3]);
-			$post['name'] = $match[2] != '' ? $match[2] : $config['anonymous'];
+	
+	$post['capcode'] = false;
+	
+	if ($mod && preg_match('/^((.+) )?## (.+)$/', $post['name'], $matches)) {
+		$name = $matches[2] != '' ? $matches[2] : $config['anonymous'];
+		$cap = $matches[3];
+		
+		if (isset($config['mod']['capcode'][$mod['type']])) {
+			if (	$config['mod']['capcode'][$mod['type']] === true ||
+				(is_array($config['mod']['capcode'][$mod['type']]) &&
+					in_array($cap, $config['mod']['capcode'][$mod['type']])
+				)) {
+				
+				$post['capcode'] = utf8tohtml($cap);
+				$post['name'] = $name;
+			}
 		}
-	} else {
-		$post['capcode'] = false;
 	}
 	
 	$trip = generate_tripcode($post['name']);
@@ -527,7 +537,11 @@ if (isset($_POST['delete'])) {
 	}
 	$post = (array)$post;
 	
-	$id = post($post);
+	$post['id'] = $id = post($post);
+	
+	if (isset($post['antispam_hash'])) {
+		incrementSpamHash($post['antispam_hash']);
+	}
 	
 	if (isset($post['antispam_hash'])) {
 		incrementSpamHash($post['antispam_hash']);

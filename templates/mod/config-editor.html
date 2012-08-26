@@ -1,0 +1,56 @@
+<form method="post" action="">
+	<table class="mod config-editor">
+		<tr>
+			<th class="minimal">Name</th>
+			<th>Value</th>
+			<th class="minimal">Type</th>
+			<th>Description</th>
+		</tr>
+		{% for var in conf if var.type != 'array' %}
+			{% if var.name|count == 1 %}
+				{% set name = 'cf_' ~ var.name %}
+			{% else %}
+				{% set name = 'cf_' ~ var.name|join('/') %}
+			{% endif %}
+			
+			<tr>
+				<th class="minimal">
+					{% if var.name|count == 1 %}
+						{{ var.name }}
+					{% else %}
+						{{ var.name|join(' &rarr; ') }}
+					{% endif %}
+				</th>
+				
+				<td>
+					{% if var.type == 'string' %}
+						<input name="{{ name }}" type="text" value="{{ var.value|e }}">
+					{% elseif var.type == 'integer' %}
+						<input name="{{ name }}" type="number" value="{{ var.value|e }}">
+					{% elseif var.type == 'boolean' %}
+						<input name="{{ name }}" type="checkbox" {% if var.value %}checked{% endif %}>
+					{% else %}
+						?
+					{% endif %}
+					
+					{% if var.type == 'integer' or var.type == 'boolean' %}
+					 <small>Default: <code>{{ var.default }}</code></small>
+					{% endif %}
+				</td>
+				
+				<td class="minimal">
+					{{ var.type|e }}
+				</td>
+				
+				<td>
+					{{ var.comment|join('<br>') }}
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	
+	<ul style="padding:0;text-align:center;list-style:none">
+		<li><input name="save" type="submit" value="{% trans 'Save changes' %}"></li>
+	</ul>
+</form>
+

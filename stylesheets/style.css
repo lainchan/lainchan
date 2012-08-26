@@ -70,15 +70,18 @@ form table input {
 }
 input[type="text"], input[type="password"], textarea {
 	border: 1px solid #a9a9a9;
-	text-indent: 0px;
+	text-indent: 0;
 	text-shadow: none;
 	text-transform: none;
 	word-spacing: normal;
 }
 form table tr td {
 	text-align: left;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
+}
+form table.mod tr td {
+	padding: 2px;
 }
 form table tr th {
 	text-align: left;
@@ -104,7 +107,7 @@ form table tr td div label {
 }
 p.fileinfo {
 	display: block;
-	margin: 0px;
+	margin: 0;
 	padding-right: 7em;
 }
 div.banner {
@@ -263,11 +266,11 @@ span.heading {
 	color: #AF0A0F;
 	font-size: 11pt;
 	font-weight: bold;
-	display: block;
 }
 span.spoiler {
 	background: black;
 	color: black;
+	padding: 0px 1px;
 }
 div.post.reply p.body span.spoiler a {
 	color: black;
@@ -328,7 +331,7 @@ div.pages form input {
 hr {
 	border: none;
 	border-top: 1px solid #B7C5D9;
-	height: 0px;
+	height: 0;
 	clear: left;
 }
 div.boardlist {
@@ -351,7 +354,7 @@ table.modlog {
 }
 table.modlog tr td {
 	text-align: left;
-	margin: 0px;
+	margin: 0;
 	padding: 4px 15px 0 0;
 }
 table.modlog tr th {
@@ -385,19 +388,15 @@ div.blotter {
 	font-weight: bold;
 	text-align: center;
 }
-
-/* Uboachan stuff */
-div.styles-sidebar {
-	text-align: center;
-	padding-bottom: 0px;
+table.mod.config-editor {
+	font-size: 9pt;
+	width: 100%;
 }
-div.styles-sidebar a {
-	margin: 0 5px;
+table.mod.config-editor td {
+	text-align: left;
+	padding: 5px;
+	border-bottom: 1px solid #98e;
 }
-div.styles-sidebar a.selected {
-	text-decoration: none;
-}
-.category {
-	background: #98E;
-	color: black;
+table.mod.config-editor input[type="text"] {
+	width: 98%;
 }

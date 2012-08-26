@@ -27,7 +27,7 @@ function load_twig() {
 	$twig = new Twig_Environment($loader, array(
 		'autoescape' => false,
 		'cache' => "{$config['dir']['template']}/cache",
-		'debug' => ($config['debug'] ? true : false),
+		'debug' => $config['debug']
 	));
 	$twig->addExtension(new Twig_Extensions_Extension_Tinyboard());
 	$twig->addExtension(new Twig_Extensions_Extension_I18n());
@@ -39,7 +39,7 @@ function Element($templateFile, array $options) {
 	if (!$twig)
 		load_twig();
 	
-	if (function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod']))) {
+	if (function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod'])) && !preg_match('!^mod/!', $templateFile)) {
 		$options['pm'] = create_pm_header();
 	}
 	

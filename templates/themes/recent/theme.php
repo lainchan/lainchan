@@ -17,13 +17,13 @@
 		public function build($action, $settings) {
 			global $config, $_theme;
 			
-			if($action == 'all') {
+			if ($action == 'all') {
 				copy('templates/themes/recent/recent.css', $config['dir']['home'] . $settings['css']);
 			}
 			
 			$this->excluded = explode(' ', $settings['exclude']);
 			
-			if($action == 'all' || $action == 'post')
+			if ($action == 'all' || $action == 'post')
 				file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
 		}
 		
@@ -38,15 +38,15 @@
 			$boards = listBoards();
 			
 			$query = '';
-			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], $this->excluded))
+			foreach ($boards as &$_board) {
+				if (in_array($_board['uri'], $this->excluded))
 					continue;
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_images'], $query);
 			$query = query($query) or error(db_error());
 			
-			while($post = $query->fetch()) {
+			while ($post = $query->fetch()) {
 				openBoard($post['board']);
 				
 				// board settings won't be available in the template file, so generate links now
@@ -58,15 +58,15 @@
 			
 			
 			$query = '';
-			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], $this->excluded))
+			foreach ($boards as &$_board) {
+				if (in_array($_board['uri'], $this->excluded))
 					continue;
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_posts'], $query);
 			$query = query($query) or error(db_error());
 			
-			while($post = $query->fetch()) {
+			while ($post = $query->fetch()) {
 				openBoard($post['board']);
 				
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
@@ -78,8 +78,8 @@
 			
 			// Total posts
 			$query = 'SELECT SUM(`top`) AS `count` FROM (';
-			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], $this->excluded))
+			foreach ($boards as &$_board) {
+				if (in_array($_board['uri'], $this->excluded))
 					continue;
 				$query .= sprintf("SELECT MAX(`id`) AS `top` FROM `posts_%s` UNION ALL ", $_board['uri']);
 			}
@@ -90,8 +90,8 @@
 			
 			// Unique IPs
 			$query = 'SELECT COUNT(DISTINCT(`ip`)) AS `count` FROM (';
-			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], $this->excluded))
+			foreach ($boards as &$_board) {
+				if (in_array($_board['uri'], $this->excluded))
 					continue;
 				$query .= sprintf("SELECT `ip` FROM `posts_%s` UNION ALL ", $_board['uri']);
 			}
@@ -102,8 +102,8 @@
 			
 			// Active content
 			$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
-			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], $this->excluded))
+			foreach ($boards as &$_board) {
+				if (in_array($_board['uri'], $this->excluded))
 					continue;
 				$query .= sprintf("SELECT `filesize` FROM `posts_%s` UNION ALL ", $_board['uri']);
 			}

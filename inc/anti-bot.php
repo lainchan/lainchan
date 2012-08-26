@@ -19,7 +19,7 @@ class AntiBot {
 		if ($uppercase)
 			$chars .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		if ($special_chars)
-			$chars .= ' ~!@#$%^&*()_+,./;\'[]\\{}|:"<>?=-` ';
+			$chars .= ' ~!@#$%^&*()_+,./;\'[]\\{}|:<>?=-` ';
 		
 		$chars = str_split($chars);
 		
@@ -48,8 +48,9 @@ class AntiBot {
 		
 		foreach ($chars as &$c) {
 			if (rand(0, 2) != 0)
-				continue;
-			$c = mb_encode_numericentity($c, array(0, 0xffff, 0, 0xffff), 'UTF-8');
+				$c = utf8tohtml($c);
+			else
+				$c = mb_encode_numericentity($c, array(0, 0xffff, 0, 0xffff), 'UTF-8');
 		}
 		
 		return implode('', $chars);

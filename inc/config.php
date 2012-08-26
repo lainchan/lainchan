@@ -38,7 +38,6 @@
 	$config['check_updates_time'] = 43200; // 12 hours
 	
 	// Shows some extra information at the bottom of pages. Good for debugging development.
-	// Also experimental.
 	$config['debug'] = false;
 	// For development purposes. Turns 'display_errors' on. Not recommended for production.
 	$config['verbose_errors'] = true;
@@ -362,7 +361,7 @@
 	$config['markup'][] = array("/'''(.+?)'''/", "<strong>\$1</strong>");
 	$config['markup'][] = array("/''(.+?)''/", "<em>\$1</em>");
 	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
-	$config['markup'][] = array("/^\s*==(.+?)==\s*$/m", "<span class=\"heading\">\$1</span>");
+	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 	
 	// Highlight PHP code wrapped in <code> tags (PHP 5.3.0+)
 	// $config['markup'][] = array(
@@ -816,8 +815,6 @@
 	
 	// Do a DNS lookup on IP addresses to get their hostname on the IP summary page
 	$config['mod']['dns_lookup'] = true;
-	// Show ban form on the IP summary page
-	$config['mod']['ip_banform'] = true;
 	// How many recent posts, per board, to show in the IP summary page
 	$config['mod']['ip_recentposts'] = 5;
 	
@@ -826,12 +823,17 @@
 	
 	// How many actions to show per page in the moderation log
 	$config['mod']['modlog_page'] = 350;
+	// How many bans to show per page in the ban list
+	$config['mod']['banlist_page'] = 350;
+	
+	// Number of news entries to display per page
+	$config['mod']['news_page'] = 40;
 	
 	// Maximum number of results to display for a search, per board
 	$config['mod']['search_results'] = 75;
 	
-	// Maximum number of notices to display on the moderator noticeboard
-	$config['mod']['noticeboard_display'] = 50;
+	// How many entries to show per page in the moderator noticeboard
+	$config['mod']['noticeboard_page'] = 50;
 	// Number of entries to summarize and display on the dashboard
 	$config['mod']['noticeboard_dashboard'] = 5;
 	
@@ -867,7 +869,20 @@
  *  Mod permissions
  * ====================
  */
- 	
+ 
+ 	// Capcode permissions
+	$config['mod']['capcode'] = array(
+	//	JANITOR		=> array('Janitor'),
+		MOD		=> array('Mod'),
+		ADMIN		=> true
+	);
+	
+	// Example: Allow mods to post with "## Moderator" as well
+	// $config['mod']['capcode'][MOD][] = 'Moderator';
+	
+	// Example: Allow janitors to post with any capcode
+	// $config['mod']['capcode'][JANITOR] = true;
+ 
  	// Set any of the below to "DISABLED" to make them unavailable for everyone.
  
 	// Don't worry about per-board moderators. Let all mods moderate any board.
@@ -1043,6 +1058,4 @@
 	
 	// Complex regular expression to catch URLs
 	$config['url_regex'] = '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
-	// INSANE regular expression for IPv6 addresses
-	$config['ipv6_regex'] = '((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
 
