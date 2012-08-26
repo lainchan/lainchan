@@ -281,7 +281,7 @@ if (isset($_POST['delete'])) {
 	
 	$post['name'] = $_POST['name'] != '' ? $_POST['name'] : $config['anonymous'];
 	$post['subject'] = $_POST['subject'];
-	$post['email'] = utf8tohtml($_POST['email']);
+	$post['email'] = str_replace(' ', '%20', htmlspecialchars($_POST['email']));
 	$post['body'] = $_POST['body'];
 	$post['password'] = $_POST['password'];
 	$post['has_file'] = !isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
