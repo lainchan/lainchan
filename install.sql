@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `antispam` (
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `ip` varchar(45) NOT NULL,
   `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
   `set` int(11) NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `cites` (
 --
 
 CREATE TABLE IF NOT EXISTS `ip_notes` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `ip` varchar(45) NOT NULL,
   `mod` int(11) DEFAULT NULL,
   `time` int(11) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
 --
 
 CREATE TABLE IF NOT EXISTS `mods` (
-  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
   `password` char(40) NOT NULL COMMENT 'SHA1',
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `mutes` (
 --
 
 CREATE TABLE IF NOT EXISTS `news` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `time` int(11) NOT NULL,
   `subject` text NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `news` (
 --
 
 CREATE TABLE IF NOT EXISTS `noticeboard` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `mod` int(11) NOT NULL,
   `time` int(11) NOT NULL,
   `subject` text NOT NULL,
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
 --
 
 CREATE TABLE IF NOT EXISTS `pms` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `sender` int(11) NOT NULL,
   `to` int(11) NOT NULL,
   `message` text NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `pms` (
 --
 
 CREATE TABLE IF NOT EXISTS `reports` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `time` int(11) NOT NULL,
   `ip` varchar(45) NOT NULL,
   `board` varchar(120) DEFAULT NULL,

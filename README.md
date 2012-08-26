@@ -21,11 +21,11 @@ it need one.
 
 Contributing
 ------------
-* Use GitHub to submit a pull request.
-* Send feedbacks
-* Fix bugs or add features
-* Write/Edit the Wiki
-If you need help developing a patch, join our IRC channel.
+You can contribute to Tinyboard by:
+*	Developing patches/improvements/translations and using GitHub to submit pull requests
+*	Providing feedback and suggestions
+*	Writing/editing documentation
+If you need help developing a patch, please join our IRC channel.
 
 Installation
 -------------
