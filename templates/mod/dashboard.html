@@ -54,7 +54,7 @@
 					</ul>
 				</li>
 			{% endif %}
-			<li><a href="?/noticeboard">{% trans 'View all entries' %}</a></li>
+			<li><a href="?/noticeboard">{% trans 'View all noticeboard entries' %}</a></li>
 		{% endif %}
 		<li><a href="?/news">{% trans 'News' %}</a></li>
 		<li>
@@ -104,7 +104,16 @@
 <fieldset>
 	<legend>{% trans 'Search' %}</legend>
 	
-	{# TODO #}
+	<ul>
+		<li>
+			<form style="display:inline" action="?/search" method="post">
+				<label style="display:inline" for="search">{% trans 'Phrase:' %}</label> 
+				<input id="search" name="search" type="text" size="35">
+				<input type="submit" value="{% trans 'Search' %}">
+			</form>
+			<p class="unimportant">{% trans '(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk (*) for wildcard.)' %}</p>
+		</li>
+	</ul>
 </fieldset>
 
 {% if config.debug %}

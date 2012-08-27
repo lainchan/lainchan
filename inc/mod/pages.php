@@ -328,6 +328,9 @@ function mod_noticeboard_delete($id) {
 	
 	modLog('Deleted a noticeboard entry');
 	
+	if ($config['cache']['enabled'])
+		cache::delete('noticeboard_preview');
+	
 	header('Location: ?/noticeboard', true, $config['redirect_http']);
 }
 
@@ -564,7 +567,7 @@ function mod_page_ip($ip) {
 	}
 	
 	$args['boards'] = $boards;
-	
+	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
 		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
