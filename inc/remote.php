@@ -15,7 +15,7 @@ class Remote {
 			$this->{$name} = $value;
 		}
 		
-		$methods = Array();
+		$methods = array();
 		
 		if (!isset($this->auth['method']))
 			error('Unspecified authentication method.');

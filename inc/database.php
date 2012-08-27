@@ -30,7 +30,7 @@ class PreparedQueryDebug {
 		if ($config['debug'] && $function == 'execute') {
 			$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
 			
-			$debug['sql'][] = Array(
+			$debug['sql'][] = array(
 				'query' => $this->query->queryString,
 				'rows' => $this->query->rowCount(),
 				'time' => '~' . $time
@@ -91,7 +91,7 @@ function query($query) {
 		if (!$query)
 			return false;
 		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
-		$debug['sql'][] = Array(
+		$debug['sql'][] = array(
 			'query' => $query->queryString,
 			'rows' => $query->rowCount(),
 			'time' => '~' . $time

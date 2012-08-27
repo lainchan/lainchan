@@ -24,7 +24,7 @@ function mkhash($username, $password, $salt = false) {
 	$hash = substr(base64_encode(md5($username . $config['cookies']['salt'] . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
 	
 	if (isset($generated_salt))
-		return Array($hash, $salt);
+		return array($hash, $salt);
 	else
 		return $hash;
 }
@@ -43,7 +43,7 @@ function login($username, $password, $makehash=true) {
 	$query->execute() or error(db_error($query));
 	
 	if ($user = $query->fetch()) {
-		return $mod = Array(
+		return $mod = array(
 			'id' => $user['id'],
 			'type' => $user['type'],
 			'username' => $username,
@@ -114,7 +114,7 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 		error($config['error']['malformed']);
 	}
 	
-	$mod = Array(
+	$mod = array(
 		'id' => $user['id'],
 		'type' => $user['type'],
 		'username' => $cookie[0],
@@ -137,7 +137,7 @@ function create_pm_header() {
 	$query->execute() or error(db_error($query));
 	
 	if ($pm = $query->fetch())
-		$header = Array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
+		$header = array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
 	else
 		$header = true;
 	

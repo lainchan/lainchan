@@ -20,7 +20,7 @@ class Cache {
 				self::$cache->addServers($config['cache']['memcached']);
 				break;
 			case 'php':
-				self::$cache = Array();
+				self::$cache = array();
 				break;
 		}
 	}
@@ -112,7 +112,7 @@ class Cache {
 			case 'apc':
 				return apc_clear_cache('user');
 			case 'php':
-				self::$cache[$key] = Array();
+				self::$cache[$key] = array();
 				break;
 		}
 		

@@ -42,7 +42,7 @@ function doBoardListPart($list, $root) {
 function createBoardlist($mod=false) {
 	global $config;
 	
-	if (!isset($config['boards'])) return Array('top'=>'','bottom'=>'');
+	if (!isset($config['boards'])) return array('top'=>'','bottom'=>'');
 	
 	$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
 	if (!preg_match('/\] $/', $body))
@@ -50,7 +50,7 @@ function createBoardlist($mod=false) {
 	
 	$body = trim($body);
 	
-	return Array(
+	return array(
 		'top' => '<div class="boardlist">' . $body . '</div>',
 		'bottom' => '<div class="boardlist bottom">' . $body . '</div>'
 	);
@@ -69,7 +69,7 @@ function error($message, $priority = true) {
 		die('Error: ' . $message . "\n");
 	}
 	
-	die(Element('page.html', Array(
+	die(Element('page.html', array(
 		'config'=>$config,
 		'title'=>'Error',
 		'subtitle'=>'An error has occured.',
@@ -130,7 +130,7 @@ function capcode($cap) {
 	if (!$cap)
 		return false;
 	
-	$capcode = Array();
+	$capcode = array();
 	if (isset($config['custom_capcode'][$cap])) {
 		if (is_array($config['custom_capcode'][$cap])) {
 			$capcode['cap'] = sprintf($config['custom_capcode'][$cap][0], $cap);
@@ -174,7 +174,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 		// Open tags
 		if (preg_match_all('/<([\w]+)[^>]*>/', $body, $open_tags)) {
 			
-			$tags = Array();
+			$tags = array();
 			for ($x=0;$x<count($open_tags[0]);$x++) {
 				if (!preg_match('/\/(\s+)?>$/', $open_tags[0][$x]))
 					$tags[] = $open_tags[1][$x];
@@ -300,7 +300,7 @@ class Post {
 	public function build($index=false) {
 		global $board, $config;
 		
-		return Element('post_reply.html', Array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
+		return Element('post_reply.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 	}
 };
 
@@ -328,7 +328,7 @@ class Thread {
 		$this->filename = $filename;
 		$this->omitted = 0;
 		$this->omitted_images = 0;
-		$this->posts = Array();
+		$this->posts = array();
 		$this->ip = $ip;
 		$this->sticky = $sticky;
 		$this->locked = $locked;
@@ -425,7 +425,7 @@ class Thread {
 	public function build($index=false) {
 		global $board, $config, $debug;
 		
-		$built = Element('post_thread.html', Array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
+		$built = Element('post_thread.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 		
 		if (!$this->mod && $index && $config['cache']['enabled']) {
 			cache::set($this->cache_key($index), $built);

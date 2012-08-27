@@ -85,7 +85,6 @@ $pages = array(
 );
 
 
-
 if (!$mod) {
 	$pages = array('!!' => 'login');
 } elseif (isset($_GET['status'], $_GET['r'])) {

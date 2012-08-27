@@ -34,7 +34,7 @@ class Image {
 			error($config['error']['invalidimg']);
 		}
 		
-		$this->size = (object)Array('width' => $this->image->_width(), 'height' => $this->image->_height());
+		$this->size = (object)array('width' => $this->image->_width(), 'height' => $this->image->_height());
 		if ($this->size->width < 1 || $this->size->height < 1) {
 			$this->delete();
 			error($config['error']['invalidimg']);
@@ -187,7 +187,7 @@ class ImageImagick extends ImageBase {
 			$this->image = new Imagick();
 			$this->image->setFormat('gif');
 			
-			$keep_frames = Array();
+			$keep_frames = array();
 			for ($i = 0; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
 				$keep_frames[] = $i;
 			

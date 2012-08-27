@@ -1678,9 +1678,9 @@ function mod_themes_list() {
 	if (!hasPermission($config['mod']['themes']))
 		error($config['error']['noaccess']);
 
-	if(!is_dir($config['dir']['themes']))
+	if (!is_dir($config['dir']['themes']))
 		error(_('Themes directory doesn\'t exist!'));
-	if(!$dir = opendir($config['dir']['themes']))
+	if (!$dir = opendir($config['dir']['themes']))
 		error(_('Cannot open themes directory; check permissions.'));
 
 	$query = query('SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL') or error(db_error());
@@ -1707,14 +1707,14 @@ function mod_theme_configure($theme_name) {
 	if (!hasPermission($config['mod']['themes']))
 		error($config['error']['noaccess']);
 
-	if(!$theme = loadThemeConfig($theme_name)) {
+	if (!$theme = loadThemeConfig($theme_name)) {
 		error($config['error']['invalidtheme']);
 	}
 
-	if(isset($_POST['install'])) {
+	if (isset($_POST['install'])) {
 		// Check if everything is submitted
-		foreach($theme['config'] as &$conf) {
-			if(!isset($_POST[$conf['name']]) && $conf['type'] != 'checkbox')
+		foreach ($theme['config'] as &$conf) {
+			if (!isset($_POST[$conf['name']]) && $conf['type'] != 'checkbox')
 				error(sprintf($config['error']['required'], $c['title']));
 		}
 		
@@ -1723,7 +1723,7 @@ function mod_theme_configure($theme_name) {
 		$query->bindValue(':theme', $theme_name);
 		$query->execute() or error(db_error($query));
 		
-		foreach($theme['config'] as &$conf) {
+		foreach ($theme['config'] as &$conf) {
 			$query = prepare("INSERT INTO `theme_settings` VALUES(:theme, :name, :value)");
 			$query->bindValue(':theme', $theme_name);
 			$query->bindValue(':name', $conf['name']);
@@ -1737,17 +1737,17 @@ function mod_theme_configure($theme_name) {
 		
 		$result = true;
 		$message = false;
-		if(isset($theme['install_callback'])) {
+		if (isset($theme['install_callback'])) {
 			$ret = $theme['install_callback'](themeSettings($theme_name));
-			if($ret && !empty($ret)) {
-				if(is_array($ret) && count($ret) == 2) {
+			if ($ret && !empty($ret)) {
+				if (is_array($ret) && count($ret) == 2) {
 					$result = $ret[0];
 					$message = $ret[1];
 				}
 			}
 		}
 		
-		if(!$result) {
+		if (!$result) {
 			// Install failed
 			$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
 			$query->bindValue(':theme', $theme_name);

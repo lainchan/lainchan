@@ -6,7 +6,7 @@ define('VERSION', 'v0.9.6-dev-6');
 require 'inc/functions.php';
 
 $step = isset($_GET['step']) ? round($_GET['step']) : 0;
-$page = Array(
+$page = array(
 	'config' => $config,
 	'title' => 'Install',
 	'body' => '',
@@ -92,7 +92,7 @@ if (file_exists($config['has_installed'])) {
 			}
 		case 'v0.9.3-dev-6':
 			// change to MyISAM
-			$tables = Array(
+			$tables = array(
 				'bans', 'boards', 'ip_notes', 'modlogs', 'mods', 'mutes', 'noticeboard', 'pms', 'reports', 'robot', 'theme_settings', 'news'
 			);
 			foreach ($boards as &$board) {
@@ -527,7 +527,7 @@ if ($step == 0) {
 	preg_match_all("/(^|\n)((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
 	$queries = $queries[2];
 	
-	$queries[] = Element('posts.sql', Array('board' => 'b'));
+	$queries[] = Element('posts.sql', array('board' => 'b'));
 	
 	$sql_errors = '';
 	foreach ($queries as &$query) {
