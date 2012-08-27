@@ -12,11 +12,11 @@ body {
 	background-position: right bottom, 0% 0%, 0% 0%;
 }
 
-a:link, a:visited, div.post.reply p.body a {
+a:link, a:visited, div.post.reply div.body a {
 	color:#ff9100;
 	text-decoration: none;
 }
-a:link:hover, a:visited:hover, div.post.reply p.body a:hover {
+a:link:hover, a:visited:hover, div.post.reply div.body a:hover {
 	color:#ffff00;
 }
 

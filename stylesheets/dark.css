@@ -46,10 +46,10 @@ div.post.reply.highlighted {
 	background: transparent;
 	border: transparent 1px solid;
 }
-div.post.reply p.body a:link, div.post.reply p.body a:visited {
+div.post.reply div.body a:link, div.post.reply div.body a:visited {
 	color: #CCCCCC;
 }
-div.post.reply p.body a:link:hover, div.post.reply p.body a:visited:hover {
+div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
 	color: #FF0000;
 }
 p.intro span.subject {
