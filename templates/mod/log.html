@@ -10,10 +10,7 @@
 		<tr>
 			<td class="minimal">
 				{% if log.username %}
-					{{ log.username|e }} 
-					<small>
-						<a href="?/new_PM/{{ log.username|e }}">[PM]</a>{% if not username %} <a href="?/log:{{ log.username|e }}">[&hellip;]</a>{% endif %}
-					</small>
+					<a href="?/log:{{ log.username|e }}">{{ log.username|e }}</a>
 				{% elseif log.mod == -1 %}
 					<em>system</em>
 				{% else %}

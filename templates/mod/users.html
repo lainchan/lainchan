@@ -52,6 +52,9 @@
 				{% if mod|hasPermission(config.mod.promoteusers) and user.type > constant('JANITOR') %}
 					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/demote" title="{% trans 'Demote' %}">&#9660;</a> 
 				{% endif %}
+				{% if mod|hasPermission(config.mod.modlog) %}
+					<a class="unimportant" style="margin-left:5px;float:right" href="?/log:{{ user.username|e }}">[{% trans 'log' %}]</a> 
+				{% endif %}
 				{% if mod|hasPermission(config.mod.editusers) or (mod|hasPermission(config.mod.change_password) and mod.id == user.id) %}
 					<a class="unimportant" style="margin-left:5px;float:right" href="?/users/{{ user.id }}">[{% trans 'edit' %}]</a> 
 				{% endif %}
