@@ -432,7 +432,8 @@ function mod_user_log($username, $page_no = 1) {
 	if (empty($logs) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
+	$query = prepare("SELECT COUNT(*) FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `username` = :username");
+	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn(0);
 	
