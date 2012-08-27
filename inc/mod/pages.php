@@ -413,6 +413,32 @@ function mod_log($page_no = 1) {
 	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count));
 }
 
+function mod_user_log($username, $page_no = 1) {
+	global $config;
+	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
+	if (!hasPermission($config['mod']['modlog']))
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `username` = :username ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query->bindValue(':username', $username);
+	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($logs) && $page_no > 1)
+		error($config['error']['404']);
+	
+	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn(0);
+	
+	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'username' => $username));
+}
+
 function mod_view_board($boardName, $page_no = 1) {
 	global $config, $mod;
 	

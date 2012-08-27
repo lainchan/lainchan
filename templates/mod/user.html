@@ -121,5 +121,8 @@
 			</tr>
 		{% endfor %}
 	</table>
+	<p style="text-align:center" class="unimportant">
+		<a href="?/log:{{ user.username|e }}">{% trans 'View more logs for this user.' %}</a>
+	</p>
 {% endif %}
 

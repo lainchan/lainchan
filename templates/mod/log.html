@@ -10,7 +10,10 @@
 		<tr>
 			<td class="minimal">
 				{% if log.username %}
-					<a href="?/new_PM/{{ log.username|e }}">{{ log.username|e }}</a>
+					{{ log.username|e }} 
+					<small>
+						<a href="?/new_PM/{{ log.username|e }}">[PM]</a>{% if not username %} <a href="?/log:{{ log.username|e }}">[&hellip;]</a>{% endif %}
+					</small>
 				{% elseif log.mod == -1 %}
 					<em>system</em>
 				{% else %}
@@ -40,7 +43,7 @@
 {% if count > logs|count %}
 	<p class="unimportant" style="text-align:center;word-wrap:break-word">
 		{% for i in range(0, (count - 1) / config.mod.modlog_page) %}
-			<a href="?/log/{{ i + 1 }}">[{{ i + 1 }}]</a> 
+			<a href="?/log{% if username %}:{{ username }}{% endif %}/{{ i + 1 }}">[{{ i + 1 }}]</a> 
 		{% endfor %}
 	</p>
 {% endif %}
