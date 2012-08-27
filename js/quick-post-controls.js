@@ -58,7 +58,7 @@ $(document).ready(function(){
 			post_form.find('input[type="password"]').val(localStorage.password);
 			
 			if(thread) {
-				post_form.prependTo($(this).parent().parent().find('p.body'));
+				post_form.prependTo($(this).parent().parent().find('div.body'));
 			} else {
 				post_form.appendTo($(this).parent().parent());
 				//post_form.insertBefore($(this));
