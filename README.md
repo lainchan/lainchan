@@ -13,7 +13,8 @@ Requirements
 2.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
 	(--enable-mbstring)
 3.	[PHP-GD](http://php.net/manual/en/book.image.php)
-4.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) with appropriate <del>[driver for your database](http://www.php.net/manual/en/pdo.drivers.php)</del> (only MySQL is supported at the moment)
+4.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) 
+	(only MySQL is supported at the moment)
 
 We try to make sure Tinyboard is compatible with all major web servers and
 operating systems. Tinyboard does not include an Apache ```.htaccess``` file nor does

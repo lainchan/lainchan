@@ -49,8 +49,11 @@ function sql_open() {
 	if (!empty($config['db']['dsn']))
 		$dsn .= ';' . $config['db']['dsn'];
 	try {
-		$options = Array(PDO::ATTR_TIMEOUT => $config['db']['timeout']);
-		$options = Array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+		$options = array(
+			PDO::ATTR_TIMEOUT => $config['db']['timeout'],
+			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+		);
 		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
 		return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
