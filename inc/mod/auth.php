@@ -21,7 +21,7 @@ function mkhash($username, $password, $salt = false) {
 	}
 	
 	// generate hash (method is not important as long as it's strong)
-	$hash = substr(base64_encode(md5($username . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
+	$hash = substr(base64_encode(md5($username . $config['cookies']['salt'] . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
 	
 	if (isset($generated_salt))
 		return Array($hash, $salt);
