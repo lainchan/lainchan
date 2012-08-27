@@ -102,9 +102,9 @@
 	{% endif %}
 	{{ post.postControls }}
 	</p>
-	<p class="body">
+	<div class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
-	</p>
+	</div>
 	{% if post.omitted or post.omitted_images %}
 		<span class="omitted">
 			{% if post.omitted %}

@@ -91,9 +91,9 @@
 	</a>
 	{% endif %}
 	{{ post.postControls }}
-	<p class="body">
+	<div class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
-	</p>
+	</div>
 </div>
 <br/>
 {% endfilter %}

@@ -182,7 +182,7 @@ div.delete {
 div.post.reply p {
 	margin: 0.3em 0 0 0;
 }
-div.post.reply p.body {
+div.post.reply div.body {
 	margin-left: 1.8em;
 	margin-top: 0.8em;
 	padding-right: 3em;
@@ -191,13 +191,13 @@ div.post.reply p.body {
 div.post.reply.highlighted {
 	background: #D6BAD0;
 }
-div.post.reply p.body a {
+div.post.reply div.body a {
 	color: #D00;
 }
 div.post {
 	max-width: 97%;
 }
-div.post p.body {
+div.post div.body {
 	word-wrap: break-word;
 	white-space: pre-wrap;
 }
@@ -272,10 +272,10 @@ span.spoiler {
 	color: black;
 	padding: 0px 1px;
 }
-div.post.reply p.body span.spoiler a {
+div.post.reply div.body span.spoiler a {
 	color: black;
 }
-span.spoiler:hover, div.post.reply p.body span.spoiler:hover a {
+span.spoiler:hover, div.post.reply div.body span.spoiler:hover a {
 	color: white;
 }
 div.styles {
