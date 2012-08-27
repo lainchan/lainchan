@@ -5,6 +5,7 @@
 {% endif %}
 
 <form action="{{ action }}" method="post">
+	<input type="hidden" name="token" value="{{ token }}">
 	{% if redirect %}
 		<input type="hidden" name="redirect" value="{{ redirect|e }}">
 	{% endif %}

@@ -60,7 +60,7 @@ function mod_login() {
 }
 
 function mod_confirm($request) {
-	mod_page(_('Confirm action'), 'mod/confirm.html', array('request' => $request));
+	mod_page(_('Confirm action'), 'mod/confirm.html', array('request' => $request, 'token' => make_secure_link_token($request)));
 }
 
 function mod_logout() {
@@ -563,7 +563,7 @@ function mod_ban() {
 		error($config['error']['noaccess']);
 	
 	if (!isset($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
-		mod_page(_('New ban'), 'mod/ban_form.html', array());
+		mod_page(_('New ban'), 'mod/ban_form.html', array('token' => make_secure_link_token('ban')));
 		return;
 	}
 	
@@ -883,10 +883,12 @@ function mod_move($originBoard, $postID) {
 	if (count($boards) <= 1)
 		error(_('Impossible to move thread; there is only one board.'));
 	
-	mod_page(_('Move thread'), 'mod/move.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards));
+	$security_token = make_secure_link_token($originBoard . '/move/' . $postID);
+	
+	mod_page(_('Move thread'), 'mod/move.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards, 'token' => $security_token));
 }
 
-function mod_ban_post($board, $delete, $post) {
+function mod_ban_post($board, $delete, $post, $token = false) {
 	global $config, $mod;
 	
 	if (!openBoard($board))
@@ -894,6 +896,8 @@ function mod_ban_post($board, $delete, $post) {
 	
 	if (!hasPermission($config['mod']['delete'], $board))
 		error($config['error']['noaccess']);
+	
+	$security_token = make_secure_link_token($board . '/ban' . ($delete ? '&delete' : '') . '/' . $post);
 	
 	$query = prepare(sprintf('SELECT `ip`, `thread` FROM `posts_%s` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $post);
@@ -903,7 +907,7 @@ function mod_ban_post($board, $delete, $post) {
 	
 	$thread = $_post['thread'];
 	$ip = $_post['ip'];
-	
+
 	if (isset($_POST['new_ban'], $_POST['reason'], $_POST['length'], $_POST['board'])) {
 		require_once 'inc/mod/ban.php';
 		
@@ -939,7 +943,8 @@ function mod_ban_post($board, $delete, $post) {
 		'post' => $post,
 		'board' => $board,
 		'delete' => (bool)$delete,
-		'boards' => listBoards()
+		'boards' => listBoards(),
+		'token' => $security_token
 	);
 	
 	mod_page(_('New ban'), 'mod/ban_form.html', $args);

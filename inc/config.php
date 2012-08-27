@@ -686,6 +686,7 @@
 	$config['error']['404']			= _('Page not found.');
 	$config['error']['modexists']		= _('That mod <a href="?/users/%d">already exists</a>!');
 	$config['error']['invalidtheme']	= _('That theme doesn\'t exist!');
+	$config['error']['csrf']		= _('Invalid security token! Please go back and try again.');
 
 /*
  * =========================
@@ -754,9 +755,6 @@
  *  Mod settings
  * ====================
  */
- 
- 	// Server-side confirm button for actions like deleting posts, for when Javascript is disabled or the DOM isn't loaded.
-	$config['mod']['server-side_confirm'] = true;
 	
 	// Whether or not to lock moderator sessions to the IP address that was logged in with.
 	$config['mod']['lock_ip'] = true;

@@ -150,3 +150,9 @@ function create_pm_header() {
 	return $header;
 }
 
+function make_secure_link_token($uri) {
+	global $mod, $config;
+	return substr(sha1($config['cookies']['salt'] . '-' . $uri . '-' . $mod['id']), 0, 8);
+}
+
+
