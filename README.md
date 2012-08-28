@@ -26,6 +26,7 @@ You can contribute to Tinyboard by:
 *	Developing patches/improvements/translations and using GitHub to submit pull requests
 *	Providing feedback and suggestions
 *	Writing/editing documentation
+
 If you need help developing a patch, please join our IRC channel.
 
 Installation
