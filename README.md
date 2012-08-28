@@ -58,7 +58,7 @@ find support from a variety of sources:
 *	Documentation can be found [here](http://tinyboard.org/docs/).
 *	You can join Tinyboard's IRC channel for support and general queries: 
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
-*	Tinyboard has a general support board at [tinyboard.org/demo/sup/](http://tinyboard.org/demo/sup/).
+*	You can find enterprise-grade support at [tinyboard.org](http://tinyboard.org/#support).
 
 License
 --------
