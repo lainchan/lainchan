@@ -348,6 +348,10 @@
 	$config['field_disable_name'] = false;
 	// When true, no email will be able to be set.
 	$config['field_disable_email'] = false;
+	// When true, no subject will be able to be set.
+	$config['field_disable_subject'] = false;
+	// When true, no subject will be able to be set in replies.
+	$config['field_disable_reply_subject'] = false;
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 	
