@@ -218,6 +218,7 @@ function create_antibot($board, $thread = null) {
 function rebuildThemes($action) {
 	// List themes
 	$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
+
 	while ($theme = $query->fetch()) {
 		rebuildTheme($theme['theme'], $action);
 	}
@@ -301,6 +302,7 @@ function setupBoard($array) {
 
 function openBoard($uri) {
 	global $config;
+
 	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
 		setupBoard($board);
 		return true;
@@ -315,7 +317,9 @@ function openBoard($uri) {
 			cache::set('board_' . $uri, $board);
 		setupBoard($board);
 		return true;
-	} else return false;
+	}
+
+	return false;
 }
 
 function boardTitle($uri) {
@@ -330,7 +334,9 @@ function boardTitle($uri) {
 	
 	if ($title = $query->fetch()) {
 		return $title['title'];
-	} else return false;
+	}
+
+	return false;
 }
 
 function purge($uri) {
@@ -520,9 +526,9 @@ function until($timestamp) {
 		return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
 	} elseif ($difference < 60*60*24*365) {
 		return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
-	} else {
-		return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
 	}
+
+	return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
 }
 
 function ago($timestamp) {
@@ -537,9 +543,9 @@ function ago($timestamp) {
 		return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
 	} elseif ($difference < 60*60*24*365) {
 		return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
-	} else {
-		return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
 	}
+
+	return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
 }
 
 function displayBan($ban) {
@@ -657,7 +663,9 @@ function threadExists($id) {
 	
 	if ($query->rowCount()) {
 		return true;
-	} else return false;
+	}
+
+	return false;
 }
 
 function post(array $post) {
@@ -818,10 +826,7 @@ function rebuildPost($id) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if (!$post = $query->fetch())
-		return false;
-	
-	if (!$post['body_nomarkup'])
+	if ((!$post = $query->fetch()) || !$post['body_nomarkup'])
 		return false;
 	
 	markup($body = &$post['body_nomarkup']);
@@ -1078,10 +1083,7 @@ function makerobot($body) {
 }
 
 function checkRobot($body) {
-	if (empty($body))
-		return true;
-	
-	if (event('check-robot', $body))
+	if (empty($body) || event('check-robot', $body))
 		return true;
 	
 	$body = makerobot($body);
@@ -1091,14 +1093,13 @@ function checkRobot($body) {
 	
 	if ($query->fetch()) {
 		return true;
-	} else {
-		// Insert new hash
-		
-		$query = prepare("INSERT INTO `robot` VALUES (:hash)");
-		$query->bindValue(':hash', $body);
-		$query->execute() or error(db_error($query));
-		return false;
 	}
+
+	// Insert new hash
+	$query = prepare("INSERT INTO `robot` VALUES (:hash)");
+	$query->bindValue(':hash', $body);
+	$query->execute() or error(db_error($query));
+	return false;
 }
 
 function numPosts($id) {
@@ -1173,7 +1174,6 @@ function checkMute() {
 		}
 	}
 }
-
 
 function buildIndex() {
 	global $board, $config;
@@ -1510,11 +1510,11 @@ function buildThread($id, $return=false, $mod=false) {
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
 	));
-	
+
 	if ($return)
 		return $body;
-	else
-		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
+
+	file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
 }
 
  function rrmdir($dir) {
@@ -1608,8 +1608,6 @@ function fraction($numerator, $denominator, $sep) {
 	return "{$numerator}{$sep}{$denominator}";
 }
 
-
-
 function getPostByHash($hash) {
 	global $board;
 	$query = prepare(sprintf("SELECT `id`,`thread` FROM `posts_%s` WHERE `filehash` = :hash", $board['uri']));
@@ -1680,4 +1678,3 @@ function DNS($host) {
 	
 	return $ip_addr;
 }
-
