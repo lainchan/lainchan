@@ -1,6 +1,8 @@
-Tinyboard -- A lightweight PHP imageboard.
+Tinyboard - A lightweight PHP imageboard.
 ==========================================
 
+About
+------------
 Tinyboard is a light-weight, fast, highly configurable and user-friendly
 imageboard software package released under a non-restrictive open-source
 license. It is written in PHP and has few dependencies.
@@ -19,8 +21,11 @@ it need one.
 
 Contributing
 ------------
-Use GitHub to submit a pull request. If you need help developing a patch, join
-our IRC channel.
+* Use GitHub to submit a pull request.
+* Send feedbacks
+* Fix bugs or add features
+* Write/Edit the Wiki
+If you need help developing a patch, join our IRC channel.
 
 Installation
 -------------
