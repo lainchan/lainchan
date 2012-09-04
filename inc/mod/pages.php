@@ -1052,7 +1052,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	
 	$query = '';
 	foreach ($boards as $_board) {
-		$query .= sprintf("SELECT `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
+		$query .= sprintf("SELECT `thread`, `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
 	}
 	$query = preg_replace('/UNION ALL $/', '', $query);
 	
@@ -1063,18 +1063,27 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	if ($query->rowCount() < 1)
 		error($config['error']['invalidpost']);
 	
-	$boards = array();
+	set_time_limit($config['mod']['rebuild_timelimit']);
+	
+	$threads_to_rebuild = array();
+	$threads_deleted = array();
 	while ($post = $query->fetch()) {
 		openBoard($post['board']);
-		$boards[] = $post['board'];
 		
-		deletePost($post['id'], false);
+		deletePost($post['id'], false, false);
+
+		if ($post['thread'])
+			$threads_to_rebuild[$post['board']][$post['thread']] = true;
+		else
+			$threads_deleted[$post['board']][$post['id']] = true;
 	}
 	
-	$boards = array_unique($boards);
-	
-	foreach ($boards as $_board) {
+	foreach ($threads_to_rebuild as $_board => $_threads) {
 		openBoard($_board);
+		foreach ($_threads as $_thread => $_dummy) {
+			if ($_dummy && !isset($threads_deleted[$_board][$_thread]))
+				buildThread($_thread);
+		}
 		buildIndex();
 	}
 	
