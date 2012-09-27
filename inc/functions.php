@@ -973,10 +973,10 @@ function index($page, $mod=false) {
 			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod
 		);
 		
-		if (!$mod && $config['cache']['enabled'] && $cached_stuff = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
-			$post_count = $cached_stuff[0];	
-			$thread->posts = json_decode($cached_stuff[1]);
-		} else {
+		// if (!$mod && $config['cache']['enabled'] && $cached_stuff = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
+		// 	$post_count = $cached_stuff[0];	
+		//	$thread->posts = json_decode($cached_stuff[1]);
+		//} else {
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
@@ -995,7 +995,7 @@ function index($page, $mod=false) {
 			}
 			
 			$post_count = $posts->rowCount();
-		}
+		//}
 		
 		if ($post_count == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
 			$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
@@ -1009,8 +1009,8 @@ function index($page, $mod=false) {
 			$thread->omitted_images = $c['num'] - $num_images;
 		}
 		
-		if ($config['cache']['enabled'])
-			cache::set("thread_index_{$board['uri']}_{$th['id']}", json_encode(array($posts->rowCount(), $thread->posts)));
+		// if ($config['cache']['enabled'])
+		//	cache::set("thread_index_{$board['uri']}_{$th['id']}", json_encode(array($posts->rowCount(), $thread->posts)));
 		
 		$thread->posts = array_reverse($thread->posts);
 		
