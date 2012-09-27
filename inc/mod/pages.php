@@ -1013,8 +1013,14 @@ function mod_deletefile($board, $post) {
 	deleteFile($post);
 	// Record the action
 	modLog("Deleted file from post #{$post}");
+	
+	$query = prepare(sprintf('SELECT `thread` FROM `posts_%s` WHERE `id` = :id', $board));
+	$query->bindValue(':id', $post);
+	$query->execute() or error(db_error($query));
+	$thread = $query->fetchColumn();
+	
 	// Rebuild thread
-	buildThread($post);
+	buildThread($thread ? $thread : $post);
 	// Rebuild board
 	buildIndex();
 	

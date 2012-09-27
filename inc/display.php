@@ -285,7 +285,7 @@ class Post {
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
@@ -383,7 +383,7 @@ class Thread {
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && $this->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
 			
 			// Sticky
 			if (hasPermission($config['mod']['sticky'], $board['uri'], $this->mod))
