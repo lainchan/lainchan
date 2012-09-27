@@ -967,34 +967,31 @@ function index($page, $mod=false) {
 	if ($query->rowcount() < 1 && $page > 1)
 		return false;
 	while ($th = $query->fetch()) {
-		if (!$mod && $config['cache']['enabled']) {
-			if ($built = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {					
-				$body .= $built;
-				continue;
-			}
-		}
-		
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
 			$th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'],
 			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod
 		);
 		
-		$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
-		$posts->bindValue(':id', $th['id']);
-		$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
-		$posts->execute() or error(db_error($posts));
+		if (!$mod && $config['cache']['enabled'] && $cached_replies = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {		
+			$thread->posts = json_decode($cached_replies);
+		} else {
+			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
+			$posts->bindValue(':id', $th['id']);
+			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
+			$posts->execute() or error(db_error($posts));
 		
-		$num_images = 0;
-		while ($po = $posts->fetch()) {
-			if ($po['file'])
-				$num_images++;
+			$num_images = 0;
+			while ($po = $posts->fetch()) {
+				if ($po['file'])
+					$num_images++;
 			
-			$thread->add(new Post(
-				$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
-				$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
-				$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
-			);
+				$thread->add(new Post(
+					$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
+					$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
+					$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
+				);
+			}
 		}
 		
 		if ($posts->rowCount() == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
@@ -1009,14 +1006,17 @@ function index($page, $mod=false) {
 			$thread->omitted_images = $c['num'] - $num_images;
 		}
 		
+		if ($config['cache']['enabled'])
+			cache::set("thread_index_{$board['uri']}_{$th['id']}", json_encode($thread->posts));
+		
 		$thread->posts = array_reverse($thread->posts);
 		
 		$body .= $thread->build(true);
 	}
 	
 	return array(
-		'board'=>$board,
-		'body'=>$body,
+		'board' => $board,
+		'body' => $body,
 		'post_url' => $config['post_url'],
 		'config' => $config,
 		'boardlist' => createBoardlist($mod)
