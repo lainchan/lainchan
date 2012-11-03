@@ -350,8 +350,8 @@ class Thread {
 			// Fix internal links
 			// Very complicated regex
 			$this->body = preg_replace(
-				'/<a(([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), '\w+') . ')/',
-				'<a href="?/$3',
+				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), '\w+') . ')/',
+				'<a $1href="?/$4',
 				$this->body
 			);
 	}
