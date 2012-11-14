@@ -1651,6 +1651,20 @@ function getPostByHash($hash) {
 	return false;
 }
 
+function getPostByHashInThread($hash, $thread) {
+	global $board;
+	$query = prepare(sprintf("SELECT `id`,`thread` FROM `posts_%s` WHERE `filehash` = :hash AND ( `thread` = :thread OR `id` = :thread )", $board['uri']));
+	$query->bindValue(':hash', $hash, PDO::PARAM_STR);
+	$query->bindValue(':thread', $thread, PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	
+	if ($post = $query->fetch()) {
+		return $post;
+	}
+	
+	return false;
+}
+
 function undoImage(array $post) {
 	if (!$post['has_file'])
 		return;
