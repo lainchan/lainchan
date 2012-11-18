@@ -6,6 +6,7 @@
 	<title>{{ settings.title }}</title>
 	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
 	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.css }}"/>
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
 </head>
 <body>
 	{{ boardlist.top }}
