@@ -437,7 +437,7 @@ msgstr "Temat"
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:112
 #: ../../../../templates/cache/cf/0c/61af144f478f5c035cb3a2799e48.php:117
 msgid "Spoiler Image"
-msgstr "Spoiler obrazek"
+msgstr "Schowaj obrazek"
 
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:119
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:121
