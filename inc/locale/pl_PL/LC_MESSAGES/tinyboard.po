@@ -604,7 +604,7 @@ msgstr "Aktualności"
 #: /var/www/html/Tinyboard/mod.php:141 /var/www/html/Tinyboard/mod.php:1614
 #: ../../../../inc/mod/pages.php:1557
 msgid "Report queue"
-msgstr "Kolejna zgłoszeń"
+msgstr "Kolejka zgłoszeń"
 
 #: /var/www/html/Tinyboard/mod.php:144 /var/www/html/Tinyboard/mod.php:1882
 #: ../../../../inc/mod/pages.php:664
