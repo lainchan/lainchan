@@ -275,6 +275,7 @@
 	$config['imgcaptcha_height'] = 96;
 
 	// JESLI DODAJESZ IMGKAPCZE, NIE ZAPOMNIJ O TYM
+	// Wymagane tez jQuery - o tam, nizej.
 	//$config['additional_javascript'][] = 'js/imgcaptcha.js';
 /*
  * ====================
