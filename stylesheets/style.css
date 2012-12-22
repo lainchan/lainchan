@@ -427,7 +427,7 @@ table.mod.config-editor input[type="text"] {
   width: 7px;
   background: url('img/arrow.png') right center no-repeat;
 }
-.desktop-style .sub .sub:hover {
+.desktop-style .sub .sub:hover, .desktop-style .sub .sub.hover {
   display: inline;
   text-indent: 0px;
   background: inherit;
