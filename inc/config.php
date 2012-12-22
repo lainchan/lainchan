@@ -264,6 +264,11 @@
 	$config['recaptcha_public'] = '6LcXTcUSAAAAAKBxyFWIt2SO8jwx4W7wcSMRoN3f';
 	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
 	
+	$config['imgcaptcha'] = false;
+	$config['imgcaptcha_key'] = "cos losowego";
+	$config['imgcaptcha_list'] = "/sciezka/do/pliku.txt";
+	$config['imgcaptcha_images'] = "/sciezka/do/obrazkow"; // without a slash at the end
+	$config['imgcaptcha_question'] = "Was ist das?";
 /*
  * ====================
  *  Post settings
