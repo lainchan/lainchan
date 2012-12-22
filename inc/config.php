@@ -269,6 +269,10 @@
 	$config['imgcaptcha_list'] = "/sciezka/do/pliku.txt";
 	$config['imgcaptcha_images'] = "/sciezka/do/obrazkow"; // without a slash at the end
 	$config['imgcaptcha_question'] = "Was ist das?";
+	$config['imgcaptcha_time_limit'] = 90; // Kapcza wazna przez 90 sekund po wejsciu
+	$config['imgcaptcha_filler'] = "/plik/kliknijmie.png";
+	$config['imgcaptcha_width'] = 128;
+	$config['imgcaptcha_height'] = 96;
 /*
  * ====================
  *  Post settings
