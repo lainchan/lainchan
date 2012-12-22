@@ -273,6 +273,9 @@
 	$config['imgcaptcha_filler'] = "/plik/kliknijmie.png";
 	$config['imgcaptcha_width'] = 128;
 	$config['imgcaptcha_height'] = 96;
+
+	// JESLI DODAJESZ IMGKAPCZE, NIE ZAPOMNIJ O TYM
+	//$config['additional_javascript'][] = 'js/imgcaptcha.js';
 /*
  * ====================
  *  Post settings
