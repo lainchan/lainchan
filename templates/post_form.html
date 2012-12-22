@@ -58,6 +58,21 @@
 			</td>
 		</tr>
 		{% endif %}
+		{% if config.imgcaptcha %}
+		<tr>
+			<th>
+				{% trans %}Verification{% endtrans %}
+				{{ antibot.html() }}
+			</th>
+			<td>
+				<input type="hidden" name="imgcaptcha_hash" id="imgcaptcha_hash" value="kucaj stad, kucu hakierze">
+				<img src="{{ config.imgcaptcha_filler }}" width="{{ config.imgcaptcha_width }}px" height="{{ config.imgcaptcha_height }}px" id="imgcaptcha_img"></img><br>
+				{{ config.imgcaptcha_question }} <input type="text" name="imgcaptcha_verify" id="imgcaptcha_verify" value=""></input><br>
+				<a href="javascript:ic_odswiezKapcze()">Odswiez</a>
+				{{ antibot.html() }}
+			</td>
+		</tr>
+		{% endif %}
 		<tr>
 			<th>
 				{% trans %}File{% endtrans %}

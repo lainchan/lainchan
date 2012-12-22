@@ -227,6 +227,8 @@
 		'embed',
 		'recaptcha_challenge_field',
 		'recaptcha_response_field',
+		'imgcaptcha_hash',
+		'imgcaptcha_verify',
 		'spoiler',
 		'quick-reply'
 	);
@@ -262,6 +264,19 @@
 	$config['recaptcha_public'] = '6LcXTcUSAAAAAKBxyFWIt2SO8jwx4W7wcSMRoN3f';
 	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
 	
+	$config['imgcaptcha'] = false;
+	$config['imgcaptcha_key'] = "cos losowego"; // max 32 znaki
+	$config['imgcaptcha_list'] = "/sciezka/do/pliku.txt";
+	$config['imgcaptcha_images'] = "/sciezka/do/obrazkow"; // without a slash at the end
+	$config['imgcaptcha_question'] = "Was ist das?";
+	$config['imgcaptcha_time_limit'] = 90; // Kapcza wazna przez 90 sekund po wejsciu
+	$config['imgcaptcha_filler'] = "/plik/kliknijmie.png";
+	$config['imgcaptcha_width'] = 128;
+	$config['imgcaptcha_height'] = 96;
+
+	// JESLI DODAJESZ IMGKAPCZE, NIE ZAPOMNIJ O TYM
+	// Wymagane tez jQuery - o tam, nizej.
+	//$config['additional_javascript'][] = 'js/imgcaptcha.js';
 /*
  * ====================
  *  Post settings
