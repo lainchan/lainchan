@@ -65,9 +65,9 @@
 				{{ antibot.html() }}
 			</th>
 			<td>
-				<input type="hidden" name="imgcaptcha_hash" id="imgcaptcha_hash" value="kucaj stad, kucu hakierze">
-				<img src="" width="128px" height="96px" id="imgcaptcha_img"></img><br>
-				{% config.imgcaptcha_question %} <input type="text" name="imgcaptcha_verify" id="imgcaptcha_verify" value=""></input><br>
+				<input type="hidden" name="ac_hash" id="ac_hash" value="kucaj stad, kucu hakierze">
+				<img src="" width="128px" height="96px" id="ac_img"></img><br>
+				{% config.imgcaptcha_question %} <input type="text" name="ac_verify" id="ac_verify" value=""></input><br>
 				<a href="javascript:ic_odswiezKapcze()">Odswiez</a>
 				{{ antibot.html() }}
 			</td>

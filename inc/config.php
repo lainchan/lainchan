@@ -227,6 +227,8 @@
 		'embed',
 		'recaptcha_challenge_field',
 		'recaptcha_response_field',
+		'imgcaptcha_hash',
+		'imgcaptcha_verify',
 		'spoiler',
 		'quick-reply'
 	);
