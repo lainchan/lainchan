@@ -186,7 +186,7 @@ class ImageImagick extends ImageBase {
 	public function resize() {
 		global $config;
 		
-		if ($this->format == 'gif' && $config['thumb_ext'] == 'gif') {
+		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '')) {
 			$this->image = new Imagick();
 			$this->image->setFormat('gif');
 			
@@ -274,7 +274,7 @@ class ImageConvert extends ImageBase {
 		
 		$quality = $config['thumb_quality'] * 10;
 		
-		if ($this->format == 'gif' && $config['thumb_ext'] == 'gif' && $config['thumb_keep_animation_frames'] > 1) {
+		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
 				escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 				error('Failed to resize image!');
