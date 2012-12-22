@@ -265,7 +265,7 @@
 	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
 	
 	$config['imgcaptcha'] = false;
-	$config['imgcaptcha_key'] = "cos losowego";
+	$config['imgcaptcha_key'] = "cos losowego"; // max 32 znaki
 	$config['imgcaptcha_list'] = "/sciezka/do/pliku.txt";
 	$config['imgcaptcha_images'] = "/sciezka/do/obrazkow"; // without a slash at the end
 	$config['imgcaptcha_question'] = "Was ist das?";
