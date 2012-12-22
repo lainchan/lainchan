@@ -39,7 +39,7 @@
   $converter = new Encryption;
   return $converter->encode($enctext);
  }
- function ac_verifyHash($enctext, $output) {
+ function ic_verifyHash($enctext, $output) {
   //print "VERIFY: " . $enctext . " " . $output . "<br>";
   $converter = new Encryption;
   $dectext = split(",,",$converter->decode($enctext));

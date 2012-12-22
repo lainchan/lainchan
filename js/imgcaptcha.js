@@ -3,9 +3,9 @@
 //}
 
 function imgcaptcha_odswiezKapcze() {
- $.get("/inc/imgcaptcha_p.php", function(data) {
+ $.get("/imgcaptcha_p.php", function(data) {
   $("#imgcaptcha_hash").val(data);
-  $("#imgcaptcha_img").prop("src","/inc/imgcaptcha_im.php?cr=" + data);
+  $("#imgcaptcha_img").prop("src","/imgcaptcha_im.php?cr=" + data);
  });
 }
 //function resetujKapcze() {
