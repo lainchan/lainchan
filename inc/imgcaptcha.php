@@ -1,19 +1,25 @@
 <?php
  // Wiem, ze ten kod to czysta ohyda. Coz.
- require("ic-encrypt.php");
+ require_once("inc/functions.php");
+ require_once("inc/ic-encrypt.php");
+
+ global $config;
+
  function getImages() {
-  $lines = split("\n",file_get_contents($config["imgcaptcha_list"]));
-  for($i=0;$i<count($lines);$i++) { $lines[$i] = split(",",$lines[$i]); }
+  global $config;
+  $lines = explode("\n",file_get_contents($config["imgcaptcha_list"]));
+  for($i=0;$i<count($lines);$i++) { $lines[$i] = explode(",",$lines[$i]);  }
   return $lines;
  }
  function getIPath($img) {
+  global $config;
   return $config["imgcaptcha_images"] . "/" . $img;
  }
  function pickImage($lines) {
   $src = FALSE;
   while($src == FALSE) {
    $pick = rand(0,count($lines)-1);
-   $src = imagecreatefrompng(getIPath($lines[$pick][0]));
+   if($lines[$pick][0] != "") $src = imagecreatefrompng(getIPath($lines[$pick][0]));
   }
   imagedestroy($src);
   return $pick;
@@ -33,16 +39,18 @@
   return $str;
  }
  function generateCaptchaHash() {
+  global $config;
   $lines = getImages();
   $pick = pickImage($lines);
   $enctext = $pick . ",," . time() . ",," . $_SERVER["REMOTE_ADDR"] . ",," . randString(12);
   $converter = new Encryption;
-  return $converter->encode($enctext);
+  return $converter->encode($config["imgcaptcha_key"],$enctext);
  }
  function ic_verifyHash($enctext, $output) {
+  global $config;
   //print "VERIFY: " . $enctext . " " . $output . "<br>";
   $converter = new Encryption;
-  $dectext = split(",,",$converter->decode($enctext));
+  $dectext = explode(",,",$converter->decode($config["imgcaptcha_key"],$enctext));
   if(count($dectext)<4) return true;
   $lines = getImages();
   $pick = $dectext[0];
@@ -56,14 +64,16 @@
  }
  function getPick($enctext)
  {
+  global $config;
   $converter = new Encryption;
-  $dectext = split(",,",$converter->decode($enctext));
+  $dectext = explode(",,",$converter->decode($config["imgcaptcha_key"],$enctext));
   if(count($dectext)<=1) return; //SC
   $lines = getImages();
   return $dectext[0];
  }
  function generateImage($enctext)
  {
+  global $config;
   $lines = getImages();
   $pick = getPick($enctext);
   if(!isset($lines[$pick])) return; //SC
