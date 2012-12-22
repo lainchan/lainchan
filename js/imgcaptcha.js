@@ -2,7 +2,7 @@
 // return Math.round(new Date().getTime() / 1000);
 //}
 
-function imgcaptcha_odswiezKapcze() {
+function ic_odswiezKapcze() {
  $.get("/imgcaptcha_p.php", function(data) {
   $("#imgcaptcha_hash").val(data);
   $("#imgcaptcha_img").prop("src","/imgcaptcha_im.php?cr=" + data);
