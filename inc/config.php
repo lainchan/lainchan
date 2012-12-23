@@ -467,6 +467,9 @@
 	$config['show_ratio'] = false;
 	// Display the file's original filename
 	$config['show_filename']= true;
+
+	// Image identification buttons using regex.info/exif, tineye and google images
+	$config['image_identification'] = false;
 	
 	// Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
 	// WARNING: Currently strips animated GIFs too
@@ -715,6 +718,11 @@
 		$config['root']	 = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/');
 	else
 		$config['root'] = '/'; // CLI mode
+
+	// The scheme and domain. This is needed to get absolute URL of some page (for instance image
+	// identification buttons). If you use the CLI tools, it would be wise to override this setting.
+	$config['domain']  = (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
+	$config['domain'] .=  isset ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
