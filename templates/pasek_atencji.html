@@ -1,0 +1,9 @@
+{% if config.pasek_atencji %}
+<div id="pasek_atencji" style="height: 1.5em; width: 90%; text-align: center; display: block;">
+
+</div>
+<form method="post" action="/atencja.php" id="pasek_atencji_forma" style="display: none;">
+ <input name="tekst" style="width: 90%; text-align: center;" value="" type="text">
+</form>
+<script type="text/javascript" src="/js/pasek_atencji.js"></script>
+{% endif %}
