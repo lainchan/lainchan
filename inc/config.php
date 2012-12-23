@@ -500,10 +500,10 @@
 	// How many reports you can create in the same request.
 	$config['report_limit'] = 3;
 
-	// Pasek atencji
-	// REMEMBER TO CHMOD atencja.txt PROPERLY
+	// Attention Whoring Bar
+	// REMEMBER TO CHMOD attentionbar.txt PROPERLY
 	// Oh, and add jQuery in additional_javascript.
-	$config['pasek_atencji'] = false;
+	$config['attention_bar'] = false;
 /*
  * ====================
  *  Display settings
