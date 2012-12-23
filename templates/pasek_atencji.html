@@ -1,9 +1,12 @@
 {% if config.pasek_atencji %}
-<div id="pasek_atencji" style="height: 1.5em; width: 90%; text-align: center; display: block;">
+<div id="pasek_atencji" style="height: 1.5em; width: 100%; padding: 0; margin: 0; text-align: center; display: block; onclick="pasekAtencjiKliku();">
 
 </div>
-<form method="post" action="/atencja.php" id="pasek_atencji_forma" style="display: none;">
- <input name="tekst" style="width: 90%; text-align: center;" value="" type="text">
+<form method="post" action="/atencja.php" id="pasek_atencji_forma" style="display: none; padding: 0; margin: 0;">
+ <input id="pasek_atencji_input" name="tekst" style="width: 100%; padding: 0; margin: 0; text-align: center;" value="" type="text">
 </form>
+<style>
+#pasek_atencji:hover { background-color: #fff; opacity: 0.8; }
+</style>
 <script type="text/javascript" src="/js/pasek_atencji.js"></script>
 {% endif %}
