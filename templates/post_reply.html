@@ -71,6 +71,17 @@
 					<span class="postfilename">{{ post.filename|bidi_cleanup }}</span>
 				{% endif %}
 			{% endif %}
+			{% if post.thumb != 'file' and config.image_identification %}
+				,
+				<span class='image_id'>
+				{% if post.file|extension == 'jpg' %}
+					 <a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">e</a>
+				{% endif %}
+				 <a href="http://www.google.com/searchbyimage?image_url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">g</a>
+				 <a href="http://www.tineye.com/search?url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">t</a>
+				</span>
+			{% endif %}
+
 		)
 		</span>
 </p>
