@@ -21,8 +21,8 @@ function phPostHandle(element) {
  var pbody = element.children("div.post.op").children("div.body");
  var pimage = element.children("a:first").children("img");
  var pbutton = element.children("div.post.op").children("p.intro").children("a.posthider");
- if(phPostHidden(id)) { element.addClass("post-hidden"); preplies.hide(); pbody.hide(); pimage.hide(); pbutton.text("[+]"); }
- else { element.removeClass("post-hidden"); preplies.show(); pbody.show(); pimage.show(); pbutton.text("[-]"); }
+ if(phPostHidden(id)) { element.addClass("thread-hidden"); preplies.hide(); pbody.hide(); pimage.hide(); pbutton.text("[+]"); }
+ else { element.removeClass("thread-hidden"); preplies.show(); pbody.show(); pimage.show(); pbutton.text("[-]"); }
 }
 
 $(document).ready(function(){
