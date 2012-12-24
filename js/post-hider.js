@@ -2,11 +2,11 @@ function phGetCookieName(id) {
   return "ph_hide_" + id;
 }
 function phPostHidden(id) {
-  return ($.cookie(phGetCookieName(id)) != null);
+  return (localStorage.getItem(phGetCookieName(id)) != null);
 }
 function phPostToggle(id) {
- if(phPostHidden(id)) { $.cookie(phGetCookieName(id),null); }
- else { $.cookie(phGetCookieName(id),"yes"); }
+ if(phPostHidden(id)) { localStorage.removeItem(phGetCookieName(id)); }
+ else { localStorage.setItem(phGetCookieName(id),"yes"); }
 }
 function phGetInnerText(id) {
  if(phPostHidden(id)) { return "[+]"; }
