@@ -21,8 +21,9 @@ function phPostHandle(element) {
  var pbody = element.children("div.post.op").children("div.body");
  var pimage = element.children("a:first").children("img");
  var pbutton = element.children("div.post.op").children("p.intro").children("a.posthider");
- if(phPostHidden(id)) { element.addClass("thread-hidden"); preplies.hide(); pbody.hide(); pimage.hide(); pbutton.text("[+]"); }
- else { element.removeClass("thread-hidden"); preplies.show(); pbody.show(); pimage.show(); pbutton.text("[-]"); }
+ var pomitted = element.children("div.post.op").children("span.omitted");
+ if(phPostHidden(id)) { element.addClass("thread-hidden"); pomitted.hide(); preplies.hide(); pbody.hide(); pimage.hide(); pbutton.text("[+]"); }
+ else { element.removeClass("thread-hidden"); pomitted.show(); preplies.show(); pbody.show(); pimage.show(); pbutton.text("[-]"); }
 }
 
 $(document).ready(function(){
