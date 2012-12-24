@@ -46,8 +46,8 @@
 		</div>
 	</header>
 	
-	{% include 'post_form.html' %}
 	{% include 'attention_bar.html' %}
+	{% include 'post_form.html' %}
 	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
 	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
