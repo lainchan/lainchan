@@ -1,10 +1,6 @@
 {% if config.attention_bar %}
-<div id="attention_bar" style="height: 1.5em; width: 100%; padding: 0; margin: 0; text-align: center; display: block;></div>
-<form method="post" action="/attentionbar.php" id="attention_bar_form" style="display: none; padding: 0; margin: 0;">
- <input id="attention_bar_input" name="text" style="width: 100%; padding: 0; margin: 0; text-align: center;" value="" type="text">
+<div id="attention_bar"></div>
+<form method="post" action="{{ config.root }}attentionbar.php" id="attention_bar_form">
+  <input id="attention_bar_input" name="text" value="" type="text">
 </form>
-<style>
-#attention_bar:hover { background-color: #fff; opacity: 0.8; }
-</style>
-<script type="text/javascript" src="/js/attention-bar.js"></script>
 {% endif %}
