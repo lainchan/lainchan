@@ -16,10 +16,10 @@ class Image {
 		
 		$this->src = $src;
 		$this->format = $format;
-		
+
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
-		} elseif ($config['thumb_method'] == 'convert') {
+		} elseif ($config['thumb_method'] == 'convert' || $config['thumb_method'] == 'convert+gifsicle') {
 			$classname = 'ImageConvert';
 		} else {
 			$classname = 'Image' . strtoupper($this->format);
@@ -29,6 +29,7 @@ class Image {
 		}
 		
 		$this->image = new $classname($this);
+
 		if (!$this->image->valid()) {
 			$this->delete();
 			error($config['error']['invalidimg']);
@@ -44,10 +45,15 @@ class Image {
 	public function resize($extension, $max_width, $max_height) {
 		global $config;
 		
+		$gifsicle = false;
+
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
 		} elseif ($config['thumb_method'] == 'convert') {
 			$classname = 'ImageConvert';
+		} elseif ($config['thumb_method'] == 'convert+gifsicle') {
+			$classname = 'ImageConvert';
+			$gifsicle = true;
 		} else {
 			$classname = 'Image' . strtoupper($extension);
 			if (!class_exists($classname)) {
@@ -75,6 +81,9 @@ class Image {
 			$height = $max_height;
 		}
 		
+		if ($gifsicle) {
+			$thumb->gifsicle = 1;
+		}
 		$thumb->_resize($this->image->image, $width, $height);
 		
 		return $thumb;
@@ -219,7 +228,7 @@ class ImageImagick extends ImageBase {
 
 
 class ImageConvert extends ImageBase {
-	public $width, $height, $temp;
+	public $width, $height, $temp, $gifsicle;
 	
 	public function init() {
 		global $config;
@@ -275,9 +284,16 @@ class ImageConvert extends ImageBase {
 		$quality = $config['thumb_quality'] * 10;
 		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
-			if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
-				escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
-				error('Failed to resize image!');
+			if ($this->gifsicle) {
+				if (shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} " .
+					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+					error('Failed to resize image!');
+			}
+			else {
+				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
+					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+					error('Failed to resize image!');
+			}
 		} else {
 			if (shell_exec("convert -background transparent -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " .
 				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))

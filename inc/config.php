@@ -413,11 +413,16 @@
 	$config['thumb_keep_animation_frames'] = 1;
 	
 	// Thumbnailing method:
-	//	- 'gd'		PHP GD (default). Only handles the most basic image formats (GIF, JPEG, PNG). This is a prerequisite
-	//			for Tinyboard no matter what method you choose.
-	//	- 'imagick'	PHP's ImageMagick bindings. Fast and efficient, supporting many image formats. A  few minor bugs.
-	//			http://pecl.php.net/package/imagick
-	//	- 'convert'	The command line version of ImageMagick (`convert`). Fixes most of the bugs in PHP Imagick.
+	//	- 'gd'			PHP GD (default). Only handles the most basic image formats (GIF, JPEG, PNG).
+	//				This is a prerequisite for Tinyboard no matter what method you choose.
+	//	- 'imagick'		PHP's ImageMagick bindings. Fast and efficient, supporting many image formats. 
+	//				A few minor bugs. http://pecl.php.net/package/imagick
+	//	- 'convert'		The command line version of ImageMagick (`convert`). Fixes most of the bugs in
+	//				PHP Imagick.
+	//	- 'convert+gifsicle'	Same as above, with the exception of using `gifsicle` (command line application)
+	//				instead of `convert` for resizing gifs. It's faster and resulting animated gifs
+	//				have less artifacts than if resized with ImageMagick. 
+                               
 	$config['thumb_method'] = 'gd';
 	
 	// Strip EXIF metadata from JPEG files
