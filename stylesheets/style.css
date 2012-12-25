@@ -1,5 +1,5 @@
 body {
-	background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
+	background: #1E1E1E;
 	color: black;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 10pt;
@@ -53,7 +53,7 @@ h1 {
 	margin: 0;
 }
 header div.subtitle, h1 {
-	color: #AF0A0F;
+	/* color: #CCCCCC; */
 	text-align: center;
 }
 header div.subtitle {
@@ -104,6 +104,7 @@ form table tr td div label {
 }
 .unimportant, .unimportant * {
 	font-size: 10px;
+	/* color: #CCCCCC; */
 }
 p.fileinfo {
 	display: block;
@@ -281,7 +282,6 @@ span.spoiler:hover, div.post.reply div.body span.spoiler:hover a {
 div.styles {
 	float: right;
 	padding-bottom: 20px;
-
 }
 div.styles a {
 	margin: 0 10px;
@@ -347,7 +347,7 @@ div.boardlist a {
 	text-decoration: none;
 }
 div.report {
-	color: #333;
+	color: #AA0000;
 }
 table.modlog {
 	margin: auto;
@@ -456,3 +456,4 @@ table.mod.config-editor input[type="text"] {
 .thread-hidden {
   opacity: 0.5;
 }
+
