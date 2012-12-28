@@ -74,6 +74,7 @@
 			{% if post.thumb != 'file' and config.image_identification %}
 				,
 				<span class='image_id'>
+				 <a href="http://imgops.com/{{ config.domain }}{{ config.uri_img }}{{ post.file }}">io</a>
 				{% if post.file|extension == 'jpg' %}
 					 <a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">e</a>
 				{% endif %}
