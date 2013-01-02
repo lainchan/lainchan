@@ -409,6 +409,7 @@ table.mod.config-editor input[type="text"] {
   right: 0px;
   /*text-shadow: white 1px 0px 6px, white 1px 0px 6px, black 1px 0px 3px;*/
   margin-top: 0px;
+  z-index: 30;
 }
 .desktop-style div.boardlist:nth-child(1):hover {
   background-color: rgba(90%, 90%, 90%, 0.6);
