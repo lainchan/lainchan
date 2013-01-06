@@ -2,17 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}">
-	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
+	{% include 'header.html' %}
 	<title>{{ title }}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
-	{% if not nojavascript %}
-		<script type="text/javascript" src="{{ config.url_javascript }}"></script>
-		{% if not config.additional_javascript_compile %}
-		{% for javascript in config.additional_javascript %}<script type="text/javascript" src="{{ config.additional_javascript_url }}{{ javascript }}"></script>{% endfor %}
-		{% endif %}
-	{% endif %}
 </head>
 <body>
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr>{% endif %}
