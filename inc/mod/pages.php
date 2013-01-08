@@ -995,7 +995,11 @@ function mod_edit_post($board, $post) {
 	if (!hasPermission($config['mod']['editpost'], $board))
 		error($config['error']['noaccess']);
 
-	error("Unimplemented!");		
+	// error("Unimplemented!");		
+	$args = array(
+		'test' => 1
+	);
+	mod_page(_('Edit post'), 'mod/edit_post_form.html', $args);
 }
 
 function mod_delete($board, $post) {
