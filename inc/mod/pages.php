@@ -1013,6 +1013,11 @@ function mod_edit_post($board, $post) {
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
 
+		$thread = $_post['thread'];
+		buildThread($thread ? $thread : $post);
+		modLog("Edited post #{$post}");
+		buildIndex();
+
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);		
 	} else {
 		$args = array(
