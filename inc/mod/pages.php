@@ -995,11 +995,38 @@ function mod_edit_post($board, $post) {
 	if (!hasPermission($config['mod']['editpost'], $board))
 		error($config['error']['noaccess']);
 
-	// error("Unimplemented!");		
-	$args = array(
-		'test' => 1
-	);
-	mod_page(_('Edit post'), 'mod/edit_post_form.html', $args);
+	$security_token = make_secure_link_token($board . '/ban/' . $post);
+	
+	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $board));
+	$query->bindValue(':id', $post);
+	$query->execute() or error(db_error($query));
+
+	if (!$_post = $query->fetch(PDO::FETCH_ASSOC))
+		error($config['error']['404']);
+	
+	if(isset($_POST['mode']) && $_POST['mode'] == "edit")
+	{
+		$query = prepare(sprintf("UPDATE `posts_%s` SET `name` = :name,`email` = :email,`subject` = :subject,`body` = :body WHERE `id` = :id",$board));
+		$query->bindValue(':id', $post);
+		$query->bindValue('name', $_POST['name']);
+		$query->bindValue(':email', $_POST['email']);
+		$query->bindValue(':subject', $_POST['subject']);
+		$query->bindValue(':body', $_POST['body']);
+		$query->execute() or error(db_error($query));
+
+		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);		
+	} else {
+		$args = array(
+			'token' => $security_token,
+			'name' => $_post['name'],
+			'email' => $_post['email'],
+			'subject' => $_post['subject'],
+			'body' => $_post['body'],
+			'mode' => "edit"
+		);
+
+		mod_page(_('Edit post'), 'mod/edit_post_form.html', $args);
+	}
 }
 
 function mod_delete($board, $post) {
