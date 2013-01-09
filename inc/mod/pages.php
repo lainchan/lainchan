@@ -236,8 +236,8 @@ function mod_new_board() {
 		if ($_POST['title'] == '')
 			error(sprintf($config['error']['required'], 'title'));
 		
-		if (!preg_match('/^\w+$/', $_POST['uri']))
-			error(sprintf($config['error']['invalidfield'], 'URI'));
+		#if (!preg_match('/^\w+$/', $_POST['uri']))
+		#	error(sprintf($config['error']['invalidfield'], 'URI'));
 		
 		if (openBoard($_POST['uri'])) {
 			error(sprintf($config['error']['boardexists'], $board['url']));
