@@ -1,0 +1,40 @@
+<form name="post" enctype="multipart/form-data" action="{{ action }}" method="post">
+	<table>
+		<tr>
+			<th>
+				{% trans %}Name{% endtrans %}
+			</th>
+			<td>
+				<input type="text" name="name" size="25" maxlength="35" autocomplete="off" value="{{ name }}">
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Email{% endtrans %}
+			</th>
+			<td>
+				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" value="{{ email }}">
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Subject{% endtrans %}
+			</th>
+			<td>
+				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" value="{{ subject }}">
+			</td>
+		</tr>
+		<tr>
+			<th>
+				{% trans %}Comment{% endtrans %}
+			</th>
+			<td>
+				<textarea name="body" id="body" rows="5" cols="35">{{ body }}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th><input type="hidden" name="mode" value="{{ mode }}"></th>
+			<td><input name="sub" type="submit" value="{% trans 'Submit' %}"></td>
+		</tr>
+	</table>
+</form>

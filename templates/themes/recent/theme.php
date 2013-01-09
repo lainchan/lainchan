@@ -18,7 +18,7 @@
 			global $config, $_theme;
 			
 			if ($action == 'all') {
-				copy('templates/themes/recent/recent.css', $config['dir']['home'] . $settings['css']);
+				copy('templates/themes/recent/' . $settings['basecss'], $config['dir']['home'] . $settings['css']);
 			}
 			
 			$this->excluded = explode(' ', $settings['exclude']);

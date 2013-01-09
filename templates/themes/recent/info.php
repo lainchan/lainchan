@@ -55,6 +55,14 @@
 		'default' => 'recent.css',
 		'comment' => '(eg. "recent.css")'
 	);
+
+	$theme['config'][] = Array(
+		'title' => 'CSS stylesheet name',
+		'name' => 'basecss',
+		'type' => 'text',
+		'default' => 'recent.css',
+		'comment' => '(eg. "recent.css" - see templates/themes/recent for details)'
+	);
 	
 	// Unique function name for building everything
 	$theme['build_function'] = 'recentposts_build';
