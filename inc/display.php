@@ -155,6 +155,11 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 		$max_lines = $config['body_truncate'];
 	if ($max_chars === false)
 		$max_chars = $config['body_truncate_char'];
+	
+	// We don't want to risk truncating in the middle of an HTML comment.
+	// It's easiest just to remove them all first.
+	$body = preg_replace('/<!--.*?-->/s', '', $body);
+	
 	$original_body = $body;
 	
 	$lines = substr_count($body, '<br/>');
