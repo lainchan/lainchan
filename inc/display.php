@@ -216,7 +216,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 function secure_link_confirm($text, $title, $confirm_message, $href) {
 	global $config;
 
-	return '<a onclick="if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlentities(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlentities(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
 }
 function secure_link($href) {
 	return $href . '/' . make_secure_link_token($href);
