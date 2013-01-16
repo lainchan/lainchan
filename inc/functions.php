@@ -1343,7 +1343,7 @@ function quote($body, $quote=true) {
 }
 
 function markup_url($matches) {
-	global $markup_urls;
+	global $config, $markup_urls;
 	
 	$url = $matches[1];
 	$after = $matches[2];
