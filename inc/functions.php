@@ -1385,7 +1385,7 @@ function markup_url($matches) {
 	
 	$markup_urls[] = $url;
 	
-	return '<a target="_blank" rel="nofollow" href="' . $url . '">' . $url . '</a>' . $after;
+	return '<a target="_blank" rel="nofollow" href="http://www.nullrefer.com/?' . $url . '">' . $url . '</a>' . $after;
 }
 
 function unicodify($body) {
