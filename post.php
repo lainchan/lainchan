@@ -139,7 +139,7 @@ if (isset($_POST['delete'])) {
 	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 } elseif (isset($_POST['post'])) {
 	
-	if (!isset($_POST['subject'], $_POST['body'], $_POST['board']))
+	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
 	
 	if (!isset($_POST['name']))
@@ -147,6 +147,9 @@ if (isset($_POST['delete'])) {
 	
 	if (!isset($_POST['email']))
 		$_POST['email'] = '';
+	
+	if (!isset($_POST['subject']))
+		$_POST['subject'] = '';
 	
 	if (!isset($_POST['password']))
 		$_POST['password'] = '';
@@ -271,6 +274,9 @@ if (isset($_POST['delete'])) {
 	
 		if ($config['field_disable_password'])
 			$_POST['password'] = '';
+	
+		if ($config['field_disable_subject'] || (!$post['op'] && $config['field_disable_reply_subject']))
+			$_POST['subject'] = '';
 	}
 	
 	// Check for a file
