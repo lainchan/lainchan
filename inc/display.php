@@ -155,6 +155,11 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 		$max_lines = $config['body_truncate'];
 	if ($max_chars === false)
 		$max_chars = $config['body_truncate_char'];
+	
+	// We don't want to risk truncating in the middle of an HTML comment.
+	// It's easiest just to remove them all first.
+	$body = preg_replace('/<!--.*?-->/s', '', $body);
+	
 	$original_body = $body;
 	
 	$lines = substr_count($body, '<br/>');
@@ -165,7 +170,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			$body = $m[0];
 	}
 	
-	$body = substr($body, 0, $max_chars);
+	$body = mb_substr($body, 0, $max_chars);
 	
 	if ($body != $original_body) {
 		// Remove any corrupt tags at the end
@@ -190,9 +195,12 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			// remove broken HTML entity at the end (if existent)
 			$body = preg_replace('/&[^;]+$/', '', $body);
 			
+			$tags_no_close_needed = array("colgroup", "dd", "dt", "li", "optgroup", "option", "p", "tbody", "td", "tfoot", "th", "thead", "tr", "br", "img");
+			
 			// Close any open tags
 			foreach ($tags as &$tag) {
-				$body .= "</{$tag}>";
+				if (!in_array($tag, $tags_no_close_needed))
+					$body .= "</{$tag}>";
 			}
 		} else {
 			// remove broken HTML entity at the end (if existent)
