@@ -527,7 +527,7 @@ function checkFlood($post) {
 	
 	$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` != '' AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` != ''  AND `body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	$query->bindValue(':body', $post['body'], PDO::PARAM_INT);
+	$query->bindValue(':body', $post['body']);
 	$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
 	$query->bindValue(':floodsameiptime', time()-$config['flood_time_ip'], PDO::PARAM_INT);
 	$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
@@ -697,7 +697,7 @@ function threadExists($id) {
 
 function post(array $post) {
 	global $pdo, $board;
-	$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
+	$query = prepare(sprintf("INSERT INTO `posts_%s` (`id`, `thread`, `subject`, `email`, `name`, `trip`, `capcode`, `body`, `body_nomarkup`, `time`, `bump`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`, `filehash`, `password`, `ip`, `sticky`, `locked`, `sage`, `embed`) VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 	
 	// Basic stuff
 	if (!empty($post['subject'])) {

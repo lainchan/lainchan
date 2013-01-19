@@ -407,34 +407,12 @@ if (isset($_POST['delete'])) {
 			
 			require_once 'inc/image.php';
 			
-			if ($config['thumb_method'] == 'imagick') {
-				// This is tricky, because Imagick won't let us find
-				// an image's dimensions without loading it all into
-				// memory first, unlike GD which provides the
-				// getimagesize() to do exactly that. This section
-				// is why GD is required, even when using Imagick
-				// instead. There doesn't seem to be an alternative.
-				// Necessary for security, as Imagick even ignores
-				// PHP's memory limit.
-				
-				// first try GD's getimagesize()
-				if ($size = @getimagesize($upload)) {
-					if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-
-						error($config['error']['maxsize']);
-					}
-				} else {
-					// GD failed
-					// TODO?
-				}
-			} else {
-				// find dimensions of an image using GD
-				if (!$size = @getimagesize($upload)) {
-					error($config['error']['invalidimg']);
-				}
-				if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-					error($config['error']['maxsize']);
-				}
+			// find dimensions of an image using GD
+			if (!$size = @getimagesize($upload)) {
+				error($config['error']['invalidimg']);
+			}
+			if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
+				error($config['error']['maxsize']);
 			}
 			
 			// create image object
