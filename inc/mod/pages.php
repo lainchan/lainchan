@@ -64,6 +64,7 @@ function mod_confirm($request) {
 }
 
 function mod_logout() {
+	global $config;
 	destroyCookies();
 	
 	header('Location: ?/', true, $config['redirect_http']);
