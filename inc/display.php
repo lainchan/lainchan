@@ -170,7 +170,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			$body = $m[0];
 	}
 	
-	$body = substr($body, 0, $max_chars);
+	$body = mb_substr($body, 0, $max_chars);
 	
 	if ($body != $original_body) {
 		// Remove any corrupt tags at the end
