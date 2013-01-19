@@ -366,6 +366,10 @@
 	$config['field_disable_name'] = false;
 	// When true, no email will be able to be set.
 	$config['field_disable_email'] = false;
+	// When true, no subject will be able to be set.
+	$config['field_disable_subject'] = false;
+	// When true, no subject will be able to be set in replies.
+	$config['field_disable_reply_subject'] = false;
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 	
@@ -468,8 +472,10 @@
 	// Maximum image dimensions
 	$config['max_width'] = 10000;
 	$config['max_height'] = $config['max_width']; // 1:1
-	// Reject dupliate image uploads
+	// Reject duplicate image uploads
 	$config['image_reject_repost'] = true;
+	// Reject duplicate image uploads within the same thread. Doesn't change anything if image_reject_repost is true.
+	$config['image_reject_repost_in_thread'] = false;
 	
 	// Display the aspect ratio in a post's file info
 	$config['show_ratio'] = false;
@@ -704,6 +710,7 @@
 	$config['error']['maxsize']		= _('The file was too big.');
 	$config['error']['invalidzip']		= _('Invalid archive!');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
+	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
 	$config['error']['mime_exploit']	= _('MIME type detection XSS exploit (IE) detected; post discarded.');
 	$config['error']['invalid_embed']	= _('Couldn\'t make sense of the URL of the video you tried to embed.');

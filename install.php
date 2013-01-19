@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-6');
+define('VERSION', 'v0.9.6-dev-7');
 
 require 'inc/functions.php';
 
@@ -221,6 +221,11 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE  `reports` CHANGE  `id`  `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT") or error(db_error());
 			foreach ($boards as $board) {
 				query(sprintf("ALTER TABLE  `posts_%s` CHANGE `id`  `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT", $board['uri'])) or error(db_error());
+			}
+		case 'v0.9.6-dev-6':
+			foreach ($boards as &$_board) {
+				query(sprintf("CREATE INDEX `thread_id` ON `posts_%s` (`thread`, `id`)", $_board['uri'])) or error(db_error());
+				query(sprintf("ALTER TABLE `posts_%s` DROP INDEX `thread`", $_board['uri'])) or error(db_error());
 			}
 		case false:
 			// Update version number

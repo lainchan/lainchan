@@ -64,6 +64,7 @@ function mod_confirm($request) {
 }
 
 function mod_logout() {
+	global $config;
 	destroyCookies();
 	
 	header('Location: ?/', true, $config['redirect_http']);
@@ -706,7 +707,7 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount()) {
-		modLog(($unlock ? 'Unstickied' : 'Stickied') . " thread #{$post}");
+		modLog(($unsticky ? 'Unstickied' : 'Stickied') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -728,7 +729,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount()) {
-		modLog(($unlock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
+		modLog(($unbumplock ? 'Unbumplocked' : 'Bumplocked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -1067,13 +1068,6 @@ function mod_deletefile($board, $post) {
 	// Record the action
 	modLog("Deleted file from post #{$post}");
 	
-	$query = prepare(sprintf('SELECT `thread` FROM `posts_%s` WHERE `id` = :id', $board));
-	$query->bindValue(':id', $post);
-	$query->execute() or error(db_error($query));
-	$thread = $query->fetchColumn();
-	
-	// Rebuild thread
-	buildThread($thread ? $thread : $post);
 	// Rebuild board
 	buildIndex();
 	
@@ -1106,7 +1100,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	
 	$query = '';
 	foreach ($boards as $_board) {
-		$query .= sprintf("SELECT `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
+		$query .= sprintf("SELECT `thread`, `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
 	}
 	$query = preg_replace('/UNION ALL $/', '', $query);
 	
@@ -1117,18 +1111,27 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	if ($query->rowCount() < 1)
 		error($config['error']['invalidpost']);
 	
-	$boards = array();
+	set_time_limit($config['mod']['rebuild_timelimit']);
+	
+	$threads_to_rebuild = array();
+	$threads_deleted = array();
 	while ($post = $query->fetch()) {
 		openBoard($post['board']);
-		$boards[] = $post['board'];
 		
-		deletePost($post['id'], false);
+		deletePost($post['id'], false, false);
+
+		if ($post['thread'])
+			$threads_to_rebuild[$post['board']][$post['thread']] = true;
+		else
+			$threads_deleted[$post['board']][$post['id']] = true;
 	}
 	
-	$boards = array_unique($boards);
-	
-	foreach ($boards as $_board) {
+	foreach ($threads_to_rebuild as $_board => $_threads) {
 		openBoard($_board);
+		foreach ($_threads as $_thread => $_dummy) {
+			if ($_dummy && !isset($threads_deleted[$_board][$_thread]))
+				buildThread($_thread);
+		}
 		buildIndex();
 	}
 	
@@ -1460,6 +1463,8 @@ function mod_rebuild() {
 		error($config['error']['noaccess']);
 	
 	if (isset($_POST['rebuild'])) {
+		set_time_limit($config['mod']['rebuild_timelimit']);
+		
 		$log = array();
 		$boards = listBoards();
 		$rebuilt_scripts = array();

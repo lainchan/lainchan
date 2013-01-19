@@ -140,7 +140,7 @@ if (isset($_POST['delete'])) {
 	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 } elseif (isset($_POST['post'])) {
 	
-	if (!isset($_POST['subject'], $_POST['body'], $_POST['board']))
+	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
 	
 	if (!isset($_POST['name']))
@@ -148,6 +148,9 @@ if (isset($_POST['delete'])) {
 	
 	if (!isset($_POST['email']))
 		$_POST['email'] = '';
+	
+	if (!isset($_POST['subject']))
+		$_POST['subject'] = '';
 	
 	if (!isset($_POST['password']))
 		$_POST['password'] = '';
@@ -277,6 +280,9 @@ if (isset($_POST['delete'])) {
 	
 		if ($config['field_disable_password'])
 			$_POST['password'] = '';
+	
+		if ($config['field_disable_subject'] || (!$post['op'] && $config['field_disable_reply_subject']))
+			$_POST['subject'] = '';
 	}
 	
 	// Check for a file
@@ -413,34 +419,12 @@ if (isset($_POST['delete'])) {
 			
 			require_once 'inc/image.php';
 			
-			if ($config['thumb_method'] == 'imagick') {
-				// This is tricky, because Imagick won't let us find
-				// an image's dimensions without loading it all into
-				// memory first, unlike GD which provides the
-				// getimagesize() to do exactly that. This section
-				// is why GD is required, even when using Imagick
-				// instead. There doesn't seem to be an alternative.
-				// Necessary for security, as Imagick even ignores
-				// PHP's memory limit.
-				
-				// first try GD's getimagesize()
-				if ($size = @getimagesize($upload)) {
-					if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-
-						error($config['error']['maxsize']);
-					}
-				} else {
-					// GD failed
-					// TODO?
-				}
-			} else {
-				// find dimensions of an image using GD
-				if (!$size = @getimagesize($upload)) {
-					error($config['error']['invalidimg']);
-				}
-				if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
-					error($config['error']['maxsize']);
-				}
+			// find dimensions of an image using GD
+			if (!$size = @getimagesize($upload)) {
+				error($config['error']['invalidimg']);
+			}
+			if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
+				error($config['error']['maxsize']);
 			}
 			
 			// create image object
@@ -506,17 +490,34 @@ if (isset($_POST['delete'])) {
 		}
 	}
 	
-	if ($post['has_file'] && $config['image_reject_repost'] && $p = getPostByHash($post['filehash'])) {
-		undoImage($post);
-		error(sprintf($config['error']['fileexists'], 
-			$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
-			$board['dir'] . $config['dir']['res'] .
-				($p['thread'] ?
-					$p['thread'] . '.html#' . $p['id']
-				:
-					$p['id'] . '.html'
-				)
-		));
+	if ($post['has_file']) {
+		if ($config['image_reject_repost']) {
+			if ($p = getPostByHash($post['filehash'])) {
+				undoImage($post);
+				error(sprintf($config['error']['fileexists'], 
+					$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
+					$board['dir'] . $config['dir']['res'] .
+						($p['thread'] ?
+							$p['thread'] . '.html#' . $p['id']
+						:
+							$p['id'] . '.html'
+						)
+				));
+			}
+		} else if (!$post['op'] && $config['image_reject_repost_in_thread']) {
+			if ($p = getPostByHashInThread($post['filehash'], $post['thread'])) {
+				undoImage($post);
+				error(sprintf($config['error']['fileexistsinthread'], 
+					$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
+					$board['dir'] . $config['dir']['res'] .
+						($p['thread'] ?
+							$p['thread'] . '.html#' . $p['id']
+						:
+							$p['id'] . '.html'
+						)
+				));
+			}
+		}
 	}
 	
 	if (!hasPermission($config['mod']['postunoriginal'], $board['uri']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
