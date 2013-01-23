@@ -1510,7 +1510,7 @@ function buildThread($id, $return=false, $mod=false) {
 	if ($config['cache']['enabled'] && !$mod) {
 		// Clear cache
 		cache::delete("thread_index_{$board['uri']}_{$id}");
-		cache::delete("thread_index_{$board['uri']}_{$th['id']}_omitted");
+		cache::delete("thread_index_{$board['uri']}_{$id}_omitted");
 		cache::delete("thread_{$board['uri']}_{$id}");
 	}
 	
