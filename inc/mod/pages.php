@@ -986,18 +986,6 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 	mod_page(_('New ban'), 'mod/ban_form.html', $args);
 }
 
-function mod_edit_post($board, $post) {
-	global $config, $mod;
-
-	if (!openBoard($board))
-		error($config['error']['noboard']);
-
-	if (!hasPermission($config['mod']['editpost'], $board))
-		error($config['error']['noaccess']);
-
-	error("Unimplemented!");		
-}
-
 function mod_delete($board, $post) {
 	global $config, $mod;
 	

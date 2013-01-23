@@ -65,7 +65,6 @@ $pages = array(
 	'/([\w+.]+)/deletefile/(\d+)'		=> 'secure deletefile',	// delete file from post
 	'/([\w+.]+)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',	// delete all posts by IP address
 	'/([\w+.]+)/(un)?lock/(\d+)'		=> 'secure lock',	// lock thread
-	'/([\w+.]+)/edit/(\d+)'			=> 'secure edit_post',	// edit post
 	'/([\w+.]+)/(un)?sticky/(\d+)'		=> 'secure sticky',	// sticky thread
 	'/([\w+.]+)/bump(un)?lock/(\d+)'		=> 'secure bumplock',	// "bumplock" thread
 	
