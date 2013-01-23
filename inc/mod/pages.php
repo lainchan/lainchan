@@ -986,7 +986,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 	mod_page(_('New ban'), 'mod/ban_form.html', $args);
 }
 
-function mod_edit_post($board, $post) {
+function mod_edit_post($board, $postID) {
 	global $config, $mod;
 
 	if (!openBoard($board))
@@ -995,37 +995,33 @@ function mod_edit_post($board, $post) {
 	if (!hasPermission($config['mod']['editpost'], $board))
 		error($config['error']['noaccess']);
 
-	$security_token = make_secure_link_token($board . '/ban/' . $post);
+	$security_token = make_secure_link_token($board . '/edit/' . $postID);
 	
 	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $board));
-	$query->bindValue(':id', $post);
+	$query->bindValue(':id', $postID);
 	$query->execute() or error(db_error($query));
 
-	if (!$_post = $query->fetch(PDO::FETCH_ASSOC))
+	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['404']);
 	
-	if(isset($_POST['mode']) && $_POST['mode'] == "edit")
-	{
-		$query = prepare(sprintf("UPDATE `posts_%s` SET `name` = :name,`email` = :email,`subject` = :subject,`body` = :body WHERE `id` = :id",$board));
-		$query->bindValue(':id', $post);
+	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
+		$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
+		$query->bindValue(':id', $postID);
 		$query->bindValue('name', $_POST['name']);
 		$query->bindValue(':email', $_POST['email']);
 		$query->bindValue(':subject', $_POST['subject']);
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
-
-		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);		
+		
+		rebuildPost($postID);
+		buildIndex();
+		
+		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
-		$args = array(
-			'token' => $security_token,
-			'name' => $_post['name'],
-			'email' => $_post['email'],
-			'subject' => $_post['subject'],
-			'body' => $_post['body'],
-			'mode' => "edit"
-		);
-
-		mod_page(_('Edit post'), 'mod/edit_post_form.html', $args);
+		if ($config['minify_html'])
+			$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+		
+		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'post' => $post));
 	}
 }
 

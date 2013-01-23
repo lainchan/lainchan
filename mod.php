@@ -61,11 +61,11 @@ $pages = array(
 	'/ban'					=> 'secure_POST ban',	// new ban
 	'/(\w+)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', // ban poster
 	'/(\w+)/move/(\d+)'			=> 'secure_POST move',	// move thread
+	'/(\w+)/edit/(\d+)'			=> 'secure_POST edit_post', // edit post
 	'/(\w+)/delete/(\d+)'			=> 'secure delete',	// delete post
 	'/(\w+)/deletefile/(\d+)'		=> 'secure deletefile',	// delete file from post
 	'/(\w+)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',	// delete all posts by IP address
 	'/(\w+)/(un)?lock/(\d+)'		=> 'secure lock',	// lock thread
-	'/(\w+)/edit/(\d+)'			=> 'secure edit_post',	// edit post
 	'/(\w+)/(un)?sticky/(\d+)'		=> 'secure sticky',	// sticky thread
 	'/(\w+)/bump(un)?lock/(\d+)'		=> 'secure bumplock',	// "bumplock" thread
 	

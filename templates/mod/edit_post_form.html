@@ -1,11 +1,13 @@
-<form name="post" enctype="multipart/form-data" action="{{ action }}" method="post">
+<form action="" method="post">
+	<input type="hidden" name="token" value="{{ token }}">
+	
 	<table>
 		<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
 			</th>
 			<td>
-				<input type="text" name="name" size="25" maxlength="35" autocomplete="off" value="{{ name }}">
+				<input type="text" name="name" size="25" maxlength="35" autocomplete="off" value="{{ post.name }}">
 			</td>
 		</tr>
 		<tr>
@@ -13,7 +15,7 @@
 				{% trans %}Email{% endtrans %}
 			</th>
 			<td>
-				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" value="{{ email }}">
+				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" value="{{ post.email }}">
 			</td>
 		</tr>
 		<tr>
@@ -21,7 +23,8 @@
 				{% trans %}Subject{% endtrans %}
 			</th>
 			<td>
-				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" value="{{ subject }}">
+				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" value="{{ post.subject }}">
+				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% trans %}Update{% endtrans %}">
 			</td>
 		</tr>
 		<tr>
@@ -29,12 +32,8 @@
 				{% trans %}Comment{% endtrans %}
 			</th>
 			<td>
-				<textarea name="body" id="body" rows="5" cols="35">{{ body }}</textarea>
+				<textarea name="body" id="body" rows="5" cols="35">{{ post.body_nomarkup }}</textarea>
 			</td>
-		</tr>
-		<tr>
-			<th><input type="hidden" name="mode" value="{{ mode }}"></th>
-			<td><input name="sub" type="submit" value="{% trans 'Submit' %}"></td>
 		</tr>
 	</table>
 </form>
