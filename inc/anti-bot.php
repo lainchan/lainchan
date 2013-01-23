@@ -152,6 +152,10 @@ class AntiBot {
 		return $html;
 	}
 	
+	public function reset() {
+		$this->index = 0;
+	}
+	
 	public function hash() {
 		global $config;
 		
