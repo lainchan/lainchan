@@ -962,8 +962,8 @@
 	$config['mod']['bumplock'] = MOD;
 	// View whether a thread has been bumplocked ("-1" to allow non-mods to see too)
 	$config['mod']['view_bumplock'] = MOD;
-	// Edit posts (EXPERIMENTAL)
-	$config['mod']['editpost'] = DISABLED;
+	// Edit posts
+	$config['mod']['editpost'] = ADMIN;
 	// "Move" a thread to another board (EXPERIMENTAL; has some known bugs)
 	$config['mod']['move'] = DISABLED;
 	// Bypass "field_disable_*" (forced anonymity, etc.)

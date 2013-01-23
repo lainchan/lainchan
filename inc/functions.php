@@ -1213,18 +1213,17 @@ function buildIndex() {
 
 	$page = 1;
 	while ($page <= $config['max_pages'] && $content = index($page)) {
-		$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
-		if (file_exists($filename)) $md5 = md5_file($filename);
+		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
+		
+		$antibot->reset();
 		
 		$content['pages'] = $pages;
 		$content['pages'][$page-1]['selected'] = true;
 		$content['btn'] = getPageButtons($content['pages']);
 		$content['antibot'] = $antibot;
+
 		file_write($filename, Element('index.html', $content));
 		
-		if (isset($md5) && $md5 == md5_file($filename)) {
-			break;
-		}
 		$page++;
 	}
 	if ($page < $config['max_pages']) {
@@ -1364,8 +1363,8 @@ function unicodify($body) {
 	// En and em- dashes are rendered exactly the same in
 	// most monospace fonts (they look the same in code
 	// editors).
-	$body = str_replace('---', '&ndash;', $body); // em dash
-	$body = str_replace('--', '&mdash;', $body); // en dash
+	$body = str_replace('--', '&ndash;', $body); // en dash
+	$body = str_replace('---', '&mdash;', $body); // em dash
 	
 	return $body;
 }
