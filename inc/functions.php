@@ -974,44 +974,51 @@ function index($page, $mod=false) {
 			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod
 		);
 		
-		// if (!$mod && $config['cache']['enabled'] && $cached_stuff = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
-		// 	$post_count = $cached_stuff[0];	
-		//	$thread->posts = json_decode($cached_stuff[1]);
-		//} else {
+		if ($config['cache']['enabled'] && $replies = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
+			$replies = json_decode($replies, true);
+		} else {
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
+	
+			$replies = $posts->fetchAll(PDO::FETCH_ASSOC);
+			
+			if ($config['cache']['enabled'])
+				cache::set("thread_index_{$board['uri']}_{$th['id']}", json_encode($replies));
+		}
+
+		$num_images = 0;
+		foreach ($replies as $po) {
+			if ($po['file'])
+				$num_images++;
 		
-			$num_images = 0;
-			while ($po = $posts->fetch()) {
-				if ($po['file'])
-					$num_images++;
-			
-				$thread->add(new Post(
-					$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
-					$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
-					$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
-				);
-			}
-			
-			$post_count = $posts->rowCount();
-		//}
-		
-		if ($post_count == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-			$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
-			$count->bindValue(':thread', $th['id'], PDO::PARAM_INT);
-			$count->execute() or error(db_error($count));
-			
-			$c = $count->fetch();
-			$thread->omitted = $c['num'] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
-			
-			$c = $count->fetch();
-			$thread->omitted_images = $c['num'] - $num_images;
+			$thread->add(new Post(
+				$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
+				$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
+				$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
+			);
 		}
 		
-		// if ($config['cache']['enabled'])
-		//	cache::set("thread_index_{$board['uri']}_{$th['id']}", json_encode(array($posts->rowCount(), $thread->posts)));
+		$post_count = count($replies); // $posts->rowCount()
+		
+		if ($post_count == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
+			// Yeah, using two cache objects for one thread seems a little inefficient. This code is messy and dumb; please clean it up if you can.
+			if ($config['cache']['enabled'] && $count = cache::get("thread_index_{$board['uri']}_{$th['id']}_omitted")) {
+				$count = explode(',', $count);
+			} else {
+				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
+				$count->bindValue(':thread', $th['id'], PDO::PARAM_INT);
+				$count->execute() or error(db_error($count));
+				$count = $count->fetchAll(PDO::FETCH_COLUMN);
+				
+				if ($config['cache']['enabled'])
+					cache::set("thread_index_{$board['uri']}_{$th['id']}_omitted", implode(',', $count));
+			}
+			
+			$thread->omitted = $count[0] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
+			$thread->omitted_images = $count[1] - $num_images;
+		}
 		
 		$thread->posts = array_reverse($thread->posts);
 		
@@ -1503,6 +1510,7 @@ function buildThread($id, $return=false, $mod=false) {
 	if ($config['cache']['enabled'] && !$mod) {
 		// Clear cache
 		cache::delete("thread_index_{$board['uri']}_{$id}");
+		cache::delete("thread_index_{$board['uri']}_{$th['id']}_omitted");
 		cache::delete("thread_{$board['uri']}_{$id}");
 	}
 	
