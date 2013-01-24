@@ -297,7 +297,7 @@ class Post {
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls">' . $built . '</span>';
@@ -418,7 +418,7 @@ class Thread {
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls op">' . $built . '</span>';

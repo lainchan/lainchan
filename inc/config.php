@@ -861,6 +861,9 @@
 	// PM snippet (for ?/inbox) length in characters
 	$config['mod']['snippet_length'] = 75;
 	
+	// Edit raw HTML in posts by default
+	$config['mod']['raw_html_default'] = false;
+	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {
 		define('JANITOR',	0,	true);

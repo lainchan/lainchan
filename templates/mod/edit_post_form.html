@@ -32,8 +32,16 @@
 				{% trans %}Comment{% endtrans %}
 			</th>
 			<td>
-				<textarea name="body" id="body" rows="5" cols="35">{{ post.body_nomarkup }}</textarea>
+				<textarea name="body" id="body" rows="8" cols="35">{% if raw %}{{ post.body | e }}{% else %}{{ post.body_nomarkup }}{% endif %}</textarea>
 			</td>
 		</tr>
 	</table>
+	<p style="text-align:center">
+		{% if raw %}
+			{% trans %}Currently editing raw HTML.{% endtrans %} 
+			<a href="?/{{ board }}/edit/{{ post.id }}">{% trans %}Edit markup instead?{% endtrans %}</a>
+		{% else %}
+			<a href="?/{{ board }}/edit_raw/{{ post.id }}">{% trans %}Edit raw HTML instead?{% endtrans %}</a>
+		{% endif %}
+	</p>
 </form>
