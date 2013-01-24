@@ -1764,6 +1764,9 @@ function mod_debug_antispam() {
 	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
 	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
+	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `created` DESC LIMIT 20') or error(db_error());
+	$args['recent'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
 	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
 }
 
