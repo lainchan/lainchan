@@ -1922,3 +1922,27 @@ function mod_debug_recent_posts() {
 	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts));
 }
 
+function mod_debug_sql() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['debug_sql']))
+		error($config['error']['noaccess']);
+	
+	$args['security_token'] = make_secure_link_token('debug/sql');
+	
+	if (isset($_POST['query'])) {
+		$args['query'] = $_POST['query'];
+		if ($query = query($_POST['query'])) {
+			$args['result'] = $query->fetchAll(PDO::FETCH_ASSOC);
+			if (!empty($args['result']))
+				$args['keys'] = array_keys($args['result'][0]);
+			else
+				$args['result'] = 'empty';
+		} else {
+			$args['error'] = db_error();
+		}
+	}
+	
+	mod_page(_('Debug: SQL'), 'mod/debug/sql.html', $args);
+}
+

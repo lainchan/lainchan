@@ -1010,6 +1010,9 @@
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
 	
+	// Execute un-filtered SQL queries on the database (?/debug/sql)
+	$config['mod']['debug_sql'] = DISABLED;
+	
 /*
  * ====================
  *  Events (PHP 5.3.0+)
