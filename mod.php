@@ -79,6 +79,7 @@ $pages = array(
 	// these pages aren't listed in the dashboard without $config['debug']
 	'/debug/antispam'			=> 'debug_antispam',
 	'/debug/recent'				=> 'debug_recent_posts',
+	'/debug/sql'				=> 'secure_POST debug_sql',
 	
 	// This should always be at the end:
 	'/(\w+)/'										=> 'view_board',
