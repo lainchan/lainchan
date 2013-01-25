@@ -13,7 +13,7 @@
 	{% for post in posts %}
 		<tr>
 			<td class="minimal">
-				{{ post.time | ago }} ago
+				<small>{{ post.time | ago }} ago</small>
 			</td>
 			<td class="minimal">
 				<a href="?/{{ config.board_path|sprintf(post.board) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(post.board) }}</a>
@@ -29,51 +29,59 @@
 				</a>
 			</td>
 			<td class="minimal">
-				{% if post.thread %}
-					{{ post.thread }}
-				{% else %}
-					<small>(OP)</small>
-				{% endif %}
+				<small>
+					{% if post.thread %}
+						{{ post.thread }}
+					{% else %}
+						(OP)
+					{% endif %}
+				</small>
 			</td>
 			<td class="minimal">
-				<a href="?/IP/{{ post.ip }}">
-					{{ post.ip }}
-				</a>
-			</td>
-			<td class="minimal" >				
-				{% if post.email|length > 0 %}
-					{# start email #}
-					<a class="email" href="mailto:{{ post.email }}">
-				{% endif %}
-				{% set capcode = post.capcode|capcode %}
-				<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name }}</span>
-				{% if post.trip|length > 0 %}
-					<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
-				{% endif %}
-				{% if post.email|length > 0 %}
-					{# end email #}
+				{% if mod|hasPermission(config.mod.show_ip, post.board) %}
+					<a href="?/IP/{{ post.ip }}">
+						{{ post.ip }}
 					</a>
-				{% endif %}
-				{% if capcode %}
-					{{ capcode.cap }}
+				{% else %}
+					<em>hidden</em>
 				{% endif %}
 			</td>
 			<td class="minimal" >
+				<small>
+					{% if post.email|length > 0 %}
+						{# start email #}
+						<a class="email" href="mailto:{{ post.email }}">
+					{% endif %}
+					{% set capcode = post.capcode|capcode %}
+					<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name }}</span>
+					{% if post.trip|length > 0 %}
+						<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
+					{% endif %}
+					{% if post.email|length > 0 %}
+						{# end email #}
+						</a>
+					{% endif %}
+					{% if capcode %}
+						{{ capcode.cap }}
+					{% endif %}
+				</small>
+			</td>
+			<td class="minimal" >
 				{% if post.subject %}
-					{{ post.subject }}
+					<small>{{ post.subject }}</small>
 				{% else %}
 					&ndash;
 				{% endif %}
 			</td>
 			<td class="minimal">
 				{% if post.file %}
-					{{ post.file }} <small>({{ post.filesize | filesize }})</small>
+					<small>{{ post.file }} ({{ post.filesize | filesize }})</small>
 				{% else %}
 					&ndash;
 				{% endif %}
 			</td>
 			<td>
-				<em>{{ post.snippet }}</em>
+				<small><em>{{ post.snippet }}</em></small>
 			</td>
 		</tr>
 	{% endfor %}

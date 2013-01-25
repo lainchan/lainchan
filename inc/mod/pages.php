@@ -1901,7 +1901,7 @@ function mod_debug_antispam() {
 function mod_debug_recent_posts() {
 	global $pdo, $config;
 	
-	$limit = 150;
+	$limit = 500;
 	
 	$boards = listBoards();
 	
