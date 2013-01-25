@@ -10,17 +10,17 @@
 	<table class="modlog">
 		<tr>
 			{% for key in keys %}
-				<th>{{ key }}</th>
+				<th>{{ key | e }}</th>
 			{% endfor %}
 		</tr>
 		{% for row in result %}
 			<tr>
 				{% for col in row %}
-					<td>{{ col }}</td>
+					<td>{{ col | e }}</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
 	</table>
 {% elseif error %}
-	<p style="text-align:center;color:#d00">{{ error }}</p>
+	<p style="text-align:center;color:#d00">{{ error | e }}</p>
 {% endif %}
