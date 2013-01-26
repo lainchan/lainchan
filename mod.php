@@ -61,7 +61,7 @@ $pages = array(
 	'/ban'					=> 'secure_POST ban',	// new ban
 	'/([\w+.]+)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', // ban poster
 	'/([\w+.]+)/move/(\d+)'			=> 'secure_POST move',	// move thread
-	'/([\w+.]+)/edit/(\d+)'			=> 'secure_POST edit_post', // edit post
+	'/([\w+.])/edit(_raw)?/(\d+)'		=> 'secure_POST edit_post', // edit post
 	'/([\w+.]+)/delete/(\d+)'			=> 'secure delete',	// delete post
 	'/([\w+.]+)/deletefile/(\d+)'		=> 'secure deletefile',	// delete file from post
 	'/([\w+.]+)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',	// delete all posts by IP address
@@ -78,6 +78,8 @@ $pages = array(
 	
 	// these pages aren't listed in the dashboard without $config['debug']
 	'/debug/antispam'			=> 'debug_antispam',
+	'/debug/recent'				=> 'debug_recent_posts',
+	'/debug/sql'				=> 'secure_POST debug_sql',
 	
 	// This should always be at the end:
 	'/([\w+.]+)/'										=> 'view_board',

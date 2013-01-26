@@ -986,7 +986,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 	mod_page(_('New ban'), 'mod/ban_form.html', $args);
 }
 
-function mod_edit_post($board, $postID) {
+function mod_edit_post($board, $edit_raw_html, $postID) {
 	global $config, $mod;
 
 	if (!openBoard($board))
@@ -994,8 +994,11 @@ function mod_edit_post($board, $postID) {
 
 	if (!hasPermission($config['mod']['editpost'], $board))
 		error($config['error']['noaccess']);
+	
+	if ($edit_raw_html && !hasPermission($config['mod']['rawhtml'], $board))
+		error($config['error']['noaccess']);
 
-	$security_token = make_secure_link_token($board . '/edit/' . $postID);
+	$security_token = make_secure_link_token($board . '/edit' . ($edit_raw_html ? '_raw' : '') . '/' . $postID);
 	
 	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $postID);
@@ -1005,7 +1008,10 @@ function mod_edit_post($board, $postID) {
 		error($config['error']['404']);
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
-		$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
+		if ($edit_raw_html)
+			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body WHERE `id` = :id', $board));
+		else
+			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
 		$query->bindValue(':id', $postID);
 		$query->bindValue('name', $_POST['name']);
 		$query->bindValue(':email', $_POST['email']);
@@ -1013,15 +1019,19 @@ function mod_edit_post($board, $postID) {
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
 		
-		rebuildPost($postID);
+		if (!$edit_raw_html)
+			rebuildPost($postID);
+		
 		buildIndex();
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
-		if ($config['minify_html'])
+		if ($config['minify_html']) {
 			$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+			$post['body'] = str_replace("\n", '&#010;', $post['body']);
+		}
 		
-		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'post' => $post));
+		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
 	}
 }
 
@@ -1723,40 +1733,6 @@ function mod_config() {
 	mod_page(_('Config editor'), 'mod/config-editor.html', array('conf' => $conf));
 }
 
-function mod_debug_antispam() {
-	global $pdo, $config;
-	
-	$args = array();
-	
-	if (isset($_POST['board'], $_POST['thread'])) {
-		$where = '`board` = ' . $pdo->quote($_POST['board']);
-		if ($_POST['thread'] != '')
-			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
-		
-		if (isset($_POST['purge'])) {
-			$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
-			$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
-			$query->execute() or error(db_error());
-		}
-		
-		$args['board'] = $_POST['board'];
-		$args['thread'] = $_POST['thread'];
-	} else {
-		$where = '';
-	}
-	
-	$query = query('SELECT COUNT(*) FROM `antispam`' . ($where ? " WHERE $where" : '')) or error(db_error());
-	$args['total'] = number_format($query->fetchColumn(0));
-	
-	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
-	$args['expiring'] = number_format($query->fetchColumn(0));
-	
-	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
-	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
-	
-	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
-}
-
 function mod_themes_list() {
 	global $config;
 
@@ -1884,3 +1860,89 @@ function mod_theme_rebuild($theme_name) {
 		'theme_name' => $theme_name,
 	));
 }
+
+function mod_debug_antispam() {
+	global $pdo, $config;
+	
+	$args = array();
+	
+	if (isset($_POST['board'], $_POST['thread'])) {
+		$where = '`board` = ' . $pdo->quote($_POST['board']);
+		if ($_POST['thread'] != '')
+			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
+		
+		if (isset($_POST['purge'])) {
+			$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
+			$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
+			$query->execute() or error(db_error());
+		}
+		
+		$args['board'] = $_POST['board'];
+		$args['thread'] = $_POST['thread'];
+	} else {
+		$where = '';
+	}
+	
+	$query = query('SELECT COUNT(*) FROM `antispam`' . ($where ? " WHERE $where" : '')) or error(db_error());
+	$args['total'] = number_format($query->fetchColumn(0));
+	
+	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
+	$args['expiring'] = number_format($query->fetchColumn(0));
+	
+	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
+	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `created` DESC LIMIT 20') or error(db_error());
+	$args['recent'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
+}
+
+function mod_debug_recent_posts() {
+	global $pdo, $config;
+	
+	$limit = 500;
+	
+	$boards = listBoards();
+	
+	// Manually build an SQL query
+	$query = 'SELECT * FROM (';
+	foreach ($boards as $board) {
+		$query .= sprintf('SELECT *, %s AS `board` FROM `posts_%s` UNION ALL ', $pdo->quote($board['uri']), $board['uri']);
+	}
+	// Remove the last "UNION ALL" seperator and complete the query
+	$query = preg_replace('/UNION ALL $/', ') AS `all_posts` ORDER BY `time` DESC LIMIT ' . $limit, $query);
+	$query = query($query) or error(db_error());
+	$posts = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	foreach ($posts as &$post) {
+		$post['snippet'] = pm_snippet($post['body']);
+	}
+	
+	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts));
+}
+
+function mod_debug_sql() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['debug_sql']))
+		error($config['error']['noaccess']);
+	
+	$args['security_token'] = make_secure_link_token('debug/sql');
+	
+	if (isset($_POST['query'])) {
+		$args['query'] = $_POST['query'];
+		if ($query = query($_POST['query'])) {
+			$args['result'] = $query->fetchAll(PDO::FETCH_ASSOC);
+			if (!empty($args['result']))
+				$args['keys'] = array_keys($args['result'][0]);
+			else
+				$args['result'] = 'empty';
+		} else {
+			$args['error'] = db_error();
+		}
+	}
+	
+	mod_page(_('Debug: SQL'), 'mod/debug/sql.html', $args);
+}
+

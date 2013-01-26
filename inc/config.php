@@ -903,6 +903,9 @@
 	// PM snippet (for ?/inbox) length in characters
 	$config['mod']['snippet_length'] = 75;
 	
+	// Edit raw HTML in posts by default
+	$config['mod']['raw_html_default'] = false;
+	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {
 		define('JANITOR',	0,	true);
@@ -1048,6 +1051,9 @@
 	$config['mod']['show_config'] = ADMIN;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
+	
+	// Execute un-filtered SQL queries on the database (?/debug/sql)
+	$config['mod']['debug_sql'] = DISABLED;
 	
 /*
  * ====================
