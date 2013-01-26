@@ -1005,7 +1005,7 @@ function mod_edit_post($board, $postID) {
 		error($config['error']['404']);
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
-		$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body WHERE `id` = :id', $board));
+		$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
 		$query->bindValue(':id', $postID);
 		$query->bindValue('name', $_POST['name']);
 		$query->bindValue(':email', $_POST['email']);
@@ -1013,6 +1013,7 @@ function mod_edit_post($board, $postID) {
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
 		
+		rebuildPost($postID);
 		buildIndex();
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
