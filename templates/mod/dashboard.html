@@ -121,6 +121,10 @@
 		<legend>{% trans 'Debug' %}</legend>
 		<ul>
 			<li><a href="?/debug/antispam">{% trans 'Anti-spam' %}</a></li>
+			<li><a href="?/debug/recent">{% trans 'Recent posts' %}</a></li>
+			{% if mod|hasPermission(config.mod.debug_sql) %}
+				<li><a href="?/debug/sql">{% trans 'SQL' %}</a></li>
+			{% endif %}
 		</ul>
 	</fieldset>
 {% endif %}
