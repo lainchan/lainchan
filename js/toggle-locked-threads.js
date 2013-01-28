@@ -1,0 +1,63 @@
+/*
+ * toggle-locked-threads.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ *
+ * Usage:
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/toggle-locked-threads.js';
+ *
+ */
+
+$(document).ready(function(){
+	if($('div.banner').length != 0)
+		return; // not index
+	
+	var hide_locked_threads = localStorage['hidelockedthreads'] ? true : false;
+
+	$('<style type="text/css"> img.hidden{ opacity: 0.1; background: grey; border: 1px solid #000; } </style>').appendTo($('head'));
+	
+	var hideLockedThread = function($thread) {
+		$thread
+			.hide()
+			.addClass('hidden');
+	};
+	
+	var restoreLockedThread = function($thread) {
+		$thread
+			.show()
+			.removeClass('hidden');
+	};
+	
+	var getThreadFromIcon = function($icon) {
+		return $icon.parent().parent().parent()
+	};
+	
+	$('hr:first').before('<div id="toggle-locked-threads" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
+	$('div#toggle-locked-threads a')
+		.text((hide_locked_threads ? 'Show' : 'Hide') + ' locked threads')
+		.click(function() {
+			hide_locked_threads = !hide_locked_threads;
+			if (hide_locked_threads) {
+				$('img.icon[title="Locked"]').each(function() {
+					hideLockedThread(getThreadFromIcon($(this)));
+				});
+				localStorage.hidelockedthreads = true;
+			} else {
+				$('img.icon[title="Locked"]').each(function() {
+					restoreLockedThread(getThreadFromIcon($(this)));
+				});
+				delete localStorage.hidelockedthreads;
+			}
+			
+			$(this).text((hide_locked_threads ? 'Show' : 'Hide') + ' locked threads')
+		});
+	
+	if (hide_locked_threads) {
+		$('img.icon[title="Locked"]').each(function() {
+			hideLockedThread(getThreadFromIcon($(this)));
+		});
+	}
+});
+

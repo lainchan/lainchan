@@ -209,6 +209,8 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':title', $_POST['title']);
 			$query->bindValue(':subtitle', $_POST['subtitle']);
 			$query->execute() or error(db_error($query));
+			
+			modLog('Edited board information for ' . sprintf($config['board_abbreviation'], $board['uri']), false);
 		}
 		
 		if ($config['cache']['enabled']) {
@@ -864,6 +866,8 @@ function mod_move($originBoard, $postID) {
 			}
 		}
 		
+		modLog("Moved thread #${postID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${newID})", $originBoard);
+		
 		// build new hread
 		buildThread($newID);
 		buildIndex();
@@ -1019,8 +1023,12 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		$query->bindValue(':body', $_POST['body']);
 		$query->execute() or error(db_error($query));
 		
-		if (!$edit_raw_html)
+		if ($edit_raw_html) {
+			modLog("Edited raw HTML of post #{$postID}");
+		} else {
+			modLog("Edited post #{$postID}");
 			rebuildPost($postID);
+		}
 		
 		buildIndex();
 		
