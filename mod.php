@@ -91,7 +91,7 @@ $pages = array(
 
 
 if (!$mod) {
-	$pages = array('!!' => 'login');
+	$pages = array('!^(.+)?$!' => 'login');
 } elseif (isset($_GET['status'], $_GET['r'])) {
 	header('Location: ' . $_GET['r'], true, (int)$_GET['status']);
 	exit;

@@ -49,7 +49,7 @@ function login($username, $password, $makehash=true) {
 			'username' => $username,
 			'hash' => mkhash($username, $password),
 			'boards' => explode(',', $user['boards'])
-			);
+		);
 	} else return false;
 }
 
@@ -108,7 +108,7 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 	$user = $query->fetch();
 	
 	// validate password hash
-	if ($cookie[1] != mkhash($cookie[0], $user['password'], $cookie[2])) {
+	if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
 		// Malformed cookies
 		destroyCookies();
 		error($config['error']['malformed']);
