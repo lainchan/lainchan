@@ -19,6 +19,14 @@ class Cache {
 				self::$cache = new Memcached();
 				self::$cache->addServers($config['cache']['memcached']);
 				break;
+			case 'redis':
+				self::$cache = new Redis();
+				self::$cache->connect($config['cache']['redis'][0], $config['cache']['redis'][1]);
+				if ($config['cache']['redis'][2]) {
+					self::$cache->auth($config['cache']['redis'][2]);
+				}
+				self::$cache->select($config['cache']['redis'][3]) or die('cache select failure');
+				break;
 			case 'php':
 				self::$cache = array();
 				break;
@@ -45,6 +53,11 @@ class Cache {
 			case 'php':
 				$data = isset(self::$cache[$key]) ? self::$cache[$key] : false;
 				break;
+			case 'redis':
+				if (!self::$cache)
+					self::init();
+				$data = json_decode(self::$cache->get($key), true);
+				break;
 		}
 		
 		// debug
@@ -68,6 +81,11 @@ class Cache {
 					self::init();
 				self::$cache->set($key, $value, $expires);
 				break;
+			case 'redis':
+				if (!self::$cache)
+					self::init();
+				self::$cache->setex($key, $expires, json_encode($value));
+				break;
 			case 'apc':
 				apc_store($key, $value, $expires);
 				break;
@@ -86,6 +104,7 @@ class Cache {
 		
 		switch ($config['cache']['enabled']) {
 			case 'memcached':
+			case 'redis':
 				if (!self::$cache)
 					self::init();
 				self::$cache->delete($key);
@@ -114,6 +133,10 @@ class Cache {
 			case 'php':
 				self::$cache[$key] = array();
 				break;
+			case 'redis':
+				if (!self::$cache)
+					self::init();
+				return self::$cache->flushDB();
 		}
 		
 		return false;
