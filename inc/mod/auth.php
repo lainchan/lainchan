@@ -100,8 +100,8 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 	if (count($cookie) != 3) {
 		// Malformed cookies
 		destroyCookies();
-		// error($config['error']['malformed']);
 		mod_login();
+		exit;
 	}
 	
 	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username LIMIT 1");
@@ -113,8 +113,8 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 	if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
 		// Malformed cookies
 		destroyCookies();
-		// error($config['error']['malformed']);
 		mod_login();
+		exit;
 	}
 	
 	$mod = array(
