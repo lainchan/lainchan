@@ -28,7 +28,7 @@ function mod_page($title, $template, $args, $subtitle = false) {
 	);
 }
 
-function mod_login() {
+function mod_login($redirect = false) {
 	global $config;
 	
 	$args = array();
@@ -49,7 +49,10 @@ function mod_login() {
 			// Set cookies
 			setCookies();
 			
-			header('Location: ?/', true, $config['redirect_http']);
+			if ($redirect)
+				header('Location: ?' . $redirect, true, $config['redirect_http']);
+			else
+				header('Location: ?/', true, $config['redirect_http']);
 		}
 	}
 	
