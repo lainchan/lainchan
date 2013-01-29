@@ -98,8 +98,10 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 	// Should be username:hash:salt
 	$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
 	if (count($cookie) != 3) {
+		// Malformed cookies
 		destroyCookies();
-		error($config['error']['malformed']);
+		// error($config['error']['malformed']);
+		mod_login();
 	}
 	
 	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username LIMIT 1");
@@ -111,7 +113,8 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 	if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
 		// Malformed cookies
 		destroyCookies();
-		error($config['error']['malformed']);
+		// error($config['error']['malformed']);
+		mod_login();
 	}
 	
 	$mod = array(

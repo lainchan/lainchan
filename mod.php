@@ -5,8 +5,8 @@
  */
 
 require 'inc/functions.php';
-require 'inc/mod/auth.php';
 require 'inc/mod/pages.php';
+require 'inc/mod/auth.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
