@@ -1832,6 +1832,7 @@ function mod_theme_configure($theme_name) {
 			'result' => $result,
 			'message' => $message,
 		));
+		return;
 	}
 
 	$settings = themeSettings($theme_name);
