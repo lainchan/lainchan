@@ -118,7 +118,7 @@ function pm_snippet($body, $len=null) {
 	// calculate strlen() so we can add "..." after if needed
 	$strlen = mb_strlen($body);
 	
-	$body = substr($body, 0, $len);
+	$body = mb_substr($body, 0, $len);
 	
 	// Re-escape the characters.
 	return '<em>' . utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '') . '</em>';
