@@ -114,26 +114,37 @@ function mod_dashboard() {
 		} else {
 			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
 			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
-				eval($code);
-				if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
-					$current = array(
-						'massive' => (int) $matches[1],
-						'major' => (int) $matches[2],
-						'minor' => (int) $matches[3]
+				$ver = strtok($code, "\n");
+				
+				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
+					$latest = array(
+						'massive' => $matches[1],
+						'major' => $matches[2],
+						'minor' => $matches[3]
 					);
-					if (isset($m[4])) { 
-						// Development versions are always ahead in the versioning numbers
-						$current['minor'] --;
-					}
-					// Check if it's newer
-					if (!(	$latest['massive'] > $current['massive'] ||
-						$latest['major'] > $current['major'] ||
-							($latest['massive'] == $current['massive'] &&
-								$latest['major'] == $current['major'] &&
-								$latest['minor'] > $current['minor']
-							)))
+					if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+						$current = array(
+							'massive' => (int) $matches[1],
+							'major' => (int) $matches[2],
+							'minor' => (int) $matches[3]
+						);
+						if (isset($m[4])) { 
+							// Development versions are always ahead in the versioning numbers
+							$current['minor'] --;
+						}
+						// Check if it's newer
+						if (!(	$latest['massive'] > $current['massive'] ||
+							$latest['major'] > $current['major'] ||
+								($latest['massive'] == $current['massive'] &&
+									$latest['major'] == $current['major'] &&
+									$latest['minor'] > $current['minor']
+								)))
+							$latest = false;
+					} else {
 						$latest = false;
+					}
 				} else {
+					// Couldn't get latest version
 					$latest = false;
 				}
 			} else {
