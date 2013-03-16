@@ -600,6 +600,15 @@ function mod_page_ip($ip) {
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	if (hasPermission($config['mod']['modlog_ip'])) {
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query->bindValue(':search', '%' . $ip . '%');
+		$query->execute() or error(db_error($query));
+		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	} else {
+		$args['logs'] = array();
+	}
+	
 	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 

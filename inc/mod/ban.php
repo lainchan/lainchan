@@ -80,16 +80,25 @@ function ban($mask, $reason, $length, $board) {
 	
 	modLog('Created a new ' .
 		($length > 0 ? preg_replace('/^(\d+) (\w+?)s?$/', '$1-$2', until($length)) : 'permanent') .
-		' ban (<small>#' . $pdo->lastInsertId() . '</small>) for ' .
+		' ban on ' .
+		($board ? '/' . $board . '/' : 'all boards') .
+		' for ' .
 		(filter_var($mask, FILTER_VALIDATE_IP) !== false ? "<a href=\"?/IP/$mask\">$mask</a>" : utf8tohtml($mask)) .
+		' (<small>#' . $pdo->lastInsertId() . '</small>)' .
 		' with ' . ($reason ? 'reason: ' . utf8tohtml($reason) . '' : 'no reason'));
 }
 
-function unban($id) {	
+function unban($id) {
+	$query = prepare("SELECT `ip` FROM `bans` WHERE `id` = :id");
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	$mask = $query->fetchColumn();
+		
 	$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	
-	modLog("Removed ban #{$id}");
+	if ($mask)
+		modLog("Removed ban #{$id} for " . (filter_var($mask, FILTER_VALIDATE_IP) !== false ? "<a href=\"?/IP/$mask\">$mask</a>" : utf8tohtml($mask)));
 }
 

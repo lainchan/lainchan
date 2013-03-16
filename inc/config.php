@@ -986,6 +986,9 @@
 	$config['mod']['createusers'] = ADMIN;
 	// View the moderation log
 	$config['mod']['modlog'] = ADMIN;
+	// View relevant moderation log entries on IP address pages (ie. ban history, etc.)
+	// Warning: Can be pretty resource exhaustive if your mod logs are huge.
+	$config['mod']['modlog_ip'] = MOD;
 	// Create a PM (viewing mod usernames)
 	$config['mod']['create_pm'] = JANITOR;
 	// Read any PM, sent to or from anybody
