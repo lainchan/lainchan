@@ -204,7 +204,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			}
 		} else {
 			// remove broken HTML entity at the end (if existent)
-			$body = preg_replace('/&[^;]+$/', '', $body);
+			$body = preg_replace('/&[^;]*$/', '', $body);
 		}
 		
 		$body .= '<span class="toolong">Post too long. Click <a href="' . $url . '">here</a> to view the full text.</span>';
