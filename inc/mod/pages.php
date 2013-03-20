@@ -912,7 +912,7 @@ function mod_move($originBoard, $postID) {
 				'mod' => true,
 				'subject' => '',
 				'email' => '',
-				'name' => $config['mod']['shadow_name'],
+				'name' => (!$config['mod']['shadow_name'] ? $config['anonymous'] : $config['mod']['shadow_name']),
 				'capcode' => $config['mod']['shadow_capcode'],
 				'trip' => '',
 				'password' => '',

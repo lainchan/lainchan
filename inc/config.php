@@ -858,8 +858,8 @@
 	$config['mod']['shadow_mesage'] = 'Moved to %s.';
 	// Capcode to use when posting the above message.
 	$config['mod']['shadow_capcode'] = 'Mod';
-	// Name to use when posting the above message.
-	$config['mod']['shadow_name'] = $config['anonymous'];
+	// Name to use when posting the above message. If false, the default board name will be used. If something else, that will be used.
+	$config['mod']['shadow_name'] = false;
 	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
