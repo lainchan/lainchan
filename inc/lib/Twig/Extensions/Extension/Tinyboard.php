@@ -25,6 +25,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'until' => new Twig_Filter_Function('until'),
 			'split' => new Twig_Filter_Function('twig_split_filter'),
 			'push' => new Twig_Filter_Function('twig_push_filter'),
+			'bidi_cleanup' => new Twig_Filter_Function('bidi_cleanup'),
 			'addslashes' => new Twig_Filter_Function('addslashes')
 		);
 	}
