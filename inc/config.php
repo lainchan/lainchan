@@ -686,6 +686,7 @@
 	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
 	
 	// Moderator errors
+	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');
 	$config['error']['invalid']		= _('Invalid username and/or password.');
 	$config['error']['notamod']		= _('You are not a mod…');
 	$config['error']['invalidafter']	= _('Invalid username and/or password. Your user may have been deleted or changed.');
@@ -768,6 +769,9 @@
  *  Mod settings
  * ====================
  */
+ 
+ 	// Limit how many bans can be removed via the ban list. (Set too -1 to remove limit.)
+	$config['mod']['unban_limit'] = 5;
 	
 	// Whether or not to lock moderator sessions to the IP address that was logged in with.
 	$config['mod']['lock_ip'] = true;
