@@ -45,7 +45,7 @@ $pages = array(
 	'/news/(\d+)'				=> 'news',		// view news
 	'/news/delete/(\d+)'			=> 'news_delete',	// delete from news
 	
-	'/edit/(\w+)'				=> 'edit_board',	// edit board details
+	'/edit/([\w+.]+)'				=> 'edit_board',	// edit board details
 	'/new-board'				=> 'new_board',		// create a new board
 	
 	'/rebuild'				=> 'rebuild',		// rebuild static files
