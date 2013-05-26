@@ -900,8 +900,8 @@
 	$config['mod']['shadow_mesage'] = 'Moved to %s.';
 	// Capcode to use when posting the above message.
 	$config['mod']['shadow_capcode'] = 'Mod';
-	// Name to use when posting the above message.
-	$config['mod']['shadow_name'] = $config['anonymous'];
+	// Name to use when posting the above message. If false, the default board name will be used. If something else, that will be used.
+	$config['mod']['shadow_name'] = false;
 	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
@@ -1028,6 +1028,9 @@
 	$config['mod']['createusers'] = ADMIN;
 	// View the moderation log
 	$config['mod']['modlog'] = ADMIN;
+	// View relevant moderation log entries on IP address pages (ie. ban history, etc.)
+	// Warning: Can be pretty resource exhaustive if your mod logs are huge.
+	$config['mod']['modlog_ip'] = MOD;
 	// Create a PM (viewing mod usernames)
 	$config['mod']['create_pm'] = JANITOR;
 	// Read any PM, sent to or from anybody

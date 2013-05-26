@@ -114,26 +114,37 @@ function mod_dashboard() {
 		} else {
 			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
 			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
-				eval($code);
-				if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
-					$current = array(
-						'massive' => (int) $matches[1],
-						'major' => (int) $matches[2],
-						'minor' => (int) $matches[3]
+				$ver = strtok($code, "\n");
+				
+				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
+					$latest = array(
+						'massive' => $matches[1],
+						'major' => $matches[2],
+						'minor' => $matches[3]
 					);
-					if (isset($m[4])) { 
-						// Development versions are always ahead in the versioning numbers
-						$current['minor'] --;
-					}
-					// Check if it's newer
-					if (!(	$latest['massive'] > $current['massive'] ||
-						$latest['major'] > $current['major'] ||
-							($latest['massive'] == $current['massive'] &&
-								$latest['major'] == $current['major'] &&
-								$latest['minor'] > $current['minor']
-							)))
+					if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+						$current = array(
+							'massive' => (int) $matches[1],
+							'major' => (int) $matches[2],
+							'minor' => (int) $matches[3]
+						);
+						if (isset($m[4])) { 
+							// Development versions are always ahead in the versioning numbers
+							$current['minor'] --;
+						}
+						// Check if it's newer
+						if (!(	$latest['massive'] > $current['massive'] ||
+							$latest['major'] > $current['major'] ||
+								($latest['massive'] == $current['massive'] &&
+									$latest['major'] == $current['major'] &&
+									$latest['minor'] > $current['minor']
+								)))
+							$latest = false;
+					} else {
 						$latest = false;
+					}
 				} else {
+					// Couldn't get latest version
 					$latest = false;
 				}
 			} else {
@@ -589,6 +600,15 @@ function mod_page_ip($ip) {
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	if (hasPermission($config['mod']['modlog_ip'])) {
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query->bindValue(':search', '%' . $ip . '%');
+		$query->execute() or error(db_error($query));
+		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	} else {
+		$args['logs'] = array();
+	}
+	
 	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
@@ -892,7 +912,7 @@ function mod_move($originBoard, $postID) {
 				'mod' => true,
 				'subject' => '',
 				'email' => '',
-				'name' => $config['mod']['shadow_name'],
+				'name' => (!$config['mod']['shadow_name'] ? $config['anonymous'] : $config['mod']['shadow_name']),
 				'capcode' => $config['mod']['shadow_capcode'],
 				'trip' => '',
 				'password' => '',
