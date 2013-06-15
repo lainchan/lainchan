@@ -35,6 +35,7 @@ $(document).ready(function(){
 								}
 								last_expanded = $(this);
 								
+								$(document).trigger('new_post', this);
 							}
 						});
 						$('<span class="omitted"><a href="javascript:void(0)">Hide expanded replies</a>.</span>')
