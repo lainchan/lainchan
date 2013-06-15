@@ -20,7 +20,11 @@
 	</header>
 	
 	{% include 'attention_bar.html' %}
-	{% include 'post_form.html' %}
+	{% if not no_post_form %}
+		{% include 'post_form.html' %}
+	{% else %}
+		{% include 'boardlist.html' %}
+	{% endif %}
 
 	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
 	<hr />
