@@ -14,7 +14,7 @@
 $(document).ready(function(){
 	if($('div.banner').length != 0)
 		return; // not index
-	
+
 	$('div.post.op span.omitted').each(function() {
 		$(this)
 			.html($(this).text().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
