@@ -1,8 +1,15 @@
 <!doctype html>
 <html>
 <head>
-	{% include 'header.html' %}
 	<meta charset="utf-8">
+
+        {% if config.quick_reply %}
+          <script type="text/javascript">
+            var new_reply_string = "{{ config.button_reply }}";
+          </script>           
+        {% endif %}
+
+	{% include 'header.html' %}
 	<title>{{ board.url }} - {{ board.name }}</title>
 </head>
 <body>	
