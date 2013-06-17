@@ -651,7 +651,8 @@ function mod_bans($page_no = 1) {
 			if (preg_match('/^ban_(\d+)$/', $name, $match))
 				$unban[] = $match[1];
 		}
-		
+		if (isset($config['mod']['unban_limit'])){
+		if (count($unban) <= $config['mod']['unban_limit'] || $config['mod']['unban_limit'] == -1){ 
 		if (!empty($unban)) {
 			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
 		
@@ -659,7 +660,21 @@ function mod_bans($page_no = 1) {
 				modLog("Removed ban #{$id}");
 			}
 		}
+		} else {
+		error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban) ));
+		}
 		
+	} else {
+		
+			if (!empty($unban)) {
+			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		
+			foreach ($unban as $id) {
+				modLog("Removed ban #{$id}");
+			}
+		}	
+		
+	}
 		header('Location: ?/bans', true, $config['redirect_http']);
 	}
 	
