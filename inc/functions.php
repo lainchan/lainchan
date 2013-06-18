@@ -983,12 +983,8 @@ function index($page, $mod=false) {
 			$replies = array_reverse($posts->fetchAll(PDO::FETCH_ASSOC));
 			
 			if (count($replies) == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
-				$count->bindValue(':thread', $th['id'], PDO::PARAM_INT);
-				$count->execute() or error(db_error($count));
-				$count = $count->fetchAll(PDO::FETCH_COLUMN);
-				
-				$omitted = array('post_count' => $count[0], 'image_count' => $count[1]);
+				$count = numPosts($th['id']);
+				$omitted = array('post_count' => $count['replies'], 'image_count' => $count['images']);
 			} else {
 				$omitted = false;
 			}
@@ -1131,14 +1127,19 @@ function checkRobot($body) {
 	return false;
 }
 
+// Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) as `count` FROM `posts_%s` WHERE `thread` = :thread", $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$result = $query->fetch();
-	return $result['count'];
+	$num_posts = $query->fetch();
+	$num_posts = $num_posts['num'];
+	$num_images = $query->fetch();
+	$num_images = $num_images['num'];
+	
+	return array('replies' => $num_posts, 'images' => $num_images);
 }
 
 function muteTime() {
