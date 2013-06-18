@@ -128,7 +128,7 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 function create_pm_header() {
 	global $mod, $config;
 	
-	if ($config['cache']['enabled'] && ($header = cache::get('pm_unread_' . $mod['id'])) !== false) {
+	if ($config['cache']['enabled'] && ($header = cache::get('pm_unread_' . $mod['id'])) != false) {
 		if ($header === true)
 			return false;
 	

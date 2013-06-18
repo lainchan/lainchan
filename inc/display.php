@@ -118,7 +118,7 @@ function pm_snippet($body, $len=null) {
 	// calculate strlen() so we can add "..." after if needed
 	$strlen = mb_strlen($body);
 	
-	$body = substr($body, 0, $len);
+	$body = mb_substr($body, 0, $len);
 	
 	// Re-escape the characters.
 	return '<em>' . utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '') . '</em>';
@@ -204,7 +204,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			}
 		} else {
 			// remove broken HTML entity at the end (if existent)
-			$body = preg_replace('/&[^;]+$/', '', $body);
+			$body = preg_replace('/&[^;]*$/', '', $body);
 		}
 		
 		$body .= '<span class="toolong">Post too long. Click <a href="' . $url . '">here</a> to view the full text.</span>';

@@ -328,11 +328,19 @@ function setupBoard($array) {
 }
 
 function openBoard($uri) {
+	$board = getBoardInfo($uri);
+	if ($board) {
+		setupBoard($board);
+		return true;
+	}
+	return false;
+}
+
+function getBoardInfo($uri) {
 	global $config;
 
 	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 	
 	$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
@@ -342,27 +350,16 @@ function openBoard($uri) {
 	if ($board = $query->fetch()) {
 		if ($config['cache']['enabled'])
 			cache::set('board_' . $uri, $board);
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 
 	return false;
 }
 
 function boardTitle($uri) {
-	global $config;
-	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
+	$board = getBoardInfo($uri);
+	if ($board)
 		return $board['title'];
-	}
-	
-	$query = prepare("SELECT `title` FROM `boards` WHERE `uri` = :uri LIMIT 1");
-	$query->bindValue(':uri', $uri);
-	$query->execute() or error(db_error($query));
-	
-	if ($title = $query->fetch()) {
-		return $title['title'];
-	}
-
 	return false;
 }
 
@@ -725,13 +722,13 @@ function post(array $post) {
 	$query->bindValue(':password', $post['password']);		
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 	
-	if ($post['op'] && $post['mod'] && $post['sticky']) {
+	if ($post['op'] && $post['mod'] && isset($post['sticky']) && $post['sticky']) {
 		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 	}
 	
-	if ($post['op'] && $post['mod'] && $post['locked']) {
+	if ($post['op'] && $post['mod'] && isset($post['locked']) && $post['locked']) {
 		$query->bindValue(':locked', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':locked', 0, PDO::PARAM_INT);
@@ -1365,8 +1362,8 @@ function unicodify($body) {
 	// En and em- dashes are rendered exactly the same in
 	// most monospace fonts (they look the same in code
 	// editors).
-	$body = str_replace('--', '&ndash;', $body); // en dash
 	$body = str_replace('---', '&mdash;', $body); // em dash
+	$body = str_replace('--', '&ndash;', $body); // en dash
 	
 	return $body;
 }
