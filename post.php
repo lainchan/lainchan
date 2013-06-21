@@ -80,6 +80,7 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
+	if (!$is_mod) header('X-Associated-Content: "' . $root . $board['dir'] . $config['file_index'] . '"');
 	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 
 } elseif (isset($_POST['report'])) {
@@ -137,6 +138,7 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
+	if (!$is_mod) header('X-Associated-Content: "' . $root . $board['dir'] . $config['file_index'] . '"');
 	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 } elseif (isset($_POST['post'])) {
 	
@@ -680,6 +682,7 @@ if (isset($_POST['delete'])) {
 			sprintf($config['file_page'], $post['op'] ? $id : $post['thread']) . (!$post['op'] ? '#' . $id : ''));
 	
 	rebuildThemes('post');
+	if (!$post['mod']) header('X-Associated-Content: "' . $redirect . '"');
 	header('Location: ' . $redirect, true, $config['redirect_http']);
 } else {
 	if (!file_exists($config['has_installed'])) {
