@@ -326,6 +326,11 @@
 	// Reply limit (stops bumping thread when this is reached)
 	$config['reply_limit'] = 250;
 	
+	// Image hard limit (stops allowing new image replies when this is reached if not zero)
+	$config['image_hard_limit'] = 0;
+	// Reply hard limit (stops allowing new replies when this is reached if not zero)
+	$config['reply_hard_limit'] = 0;
+	
 	// Strip repeating characters when making hashes
 	$config['robot_enable'] = false;
 	$config['robot_strip_repeating'] = true;
@@ -696,6 +701,8 @@
 	$config['error']['noboard']		= _('Invalid board!');
 	$config['error']['nonexistant']		= _('Thread specified does not exist.');
 	$config['error']['locked']		= _('Thread locked. You may not reply at this time.');
+	$config['error']['reply_hard_limit']	= _('Thread has reached its maximum reply limit.');
+	$config['error']['image_hard_limit']	= _('Thread has reached its maximum image limit.');
 	$config['error']['nopost']		= _('You didn\'t make a post.');
 	$config['error']['flood']		= _('Flood detected; Post discarded.');
 	$config['error']['spam']		= _('Your request looks automated; Post discarded.');
@@ -723,6 +730,7 @@
 	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
 	
 	// Moderator errors
+	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');
 	$config['error']['invalid']		= _('Invalid username and/or password.');
 	$config['error']['notamod']		= _('You are not a mod…');
 	$config['error']['invalidafter']	= _('Invalid username and/or password. Your user may have been deleted or changed.');
@@ -810,6 +818,9 @@
  *  Mod settings
  * ====================
  */
+ 
+ 	// Limit how many bans can be removed via the ban list. (Set too -1 to remove limit.)
+	$config['mod']['unban_limit'] = 5;
 	
 	// Whether or not to lock moderator sessions to the IP address that was logged in with.
 	$config['mod']['lock_ip'] = true;

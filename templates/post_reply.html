@@ -7,14 +7,14 @@
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span class="subject">{{ post.subject }}</span> 
+			<span class="subject">{{ post.subject|bidi_cleanup }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
 			<a class="email" href="mailto:{{ post.email }}">
 		{% endif %}
 		{% set capcode = post.capcode|capcode %}
-		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name }}</span>
+		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name|bidi_cleanup }}</span>
 		{% if post.trip|length > 0 %}
 			<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
 		{% endif %}
@@ -66,9 +66,9 @@
 			{% if config.show_filename and post.filename %}
 				, 
 				{% if post.filename|length > config.max_filename_display %}
-					<span title="{{ post.filename }}">{{ post.filename|truncate(config.max_filename_display) }}</span>
+					<span class="postfilename" title="{{ post.filename|bidi_cleanup }}">{{ post.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
 				{% else %}
-					{{ post.filename }}
+					<span class="postfilename">{{ post.filename|bidi_cleanup }}</span>
 				{% endif %}
 			{% endif %}
 			{% if post.thumb != 'file' and config.image_identification %}

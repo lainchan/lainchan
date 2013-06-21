@@ -328,11 +328,19 @@ function setupBoard($array) {
 }
 
 function openBoard($uri) {
+	$board = getBoardInfo($uri);
+	if ($board) {
+		setupBoard($board);
+		return true;
+	}
+	return false;
+}
+
+function getBoardInfo($uri) {
 	global $config;
 
 	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 	
 	$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
@@ -342,27 +350,16 @@ function openBoard($uri) {
 	if ($board = $query->fetch()) {
 		if ($config['cache']['enabled'])
 			cache::set('board_' . $uri, $board);
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 
 	return false;
 }
 
 function boardTitle($uri) {
-	global $config;
-	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
+	$board = getBoardInfo($uri);
+	if ($board)
 		return $board['title'];
-	}
-	
-	$query = prepare("SELECT `title` FROM `boards` WHERE `uri` = :uri LIMIT 1");
-	$query->bindValue(':uri', $uri);
-	$query->execute() or error(db_error($query));
-	
-	if ($title = $query->fetch()) {
-		return $title['title'];
-	}
-
 	return false;
 }
 
@@ -725,13 +722,13 @@ function post(array $post) {
 	$query->bindValue(':password', $post['password']);		
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 	
-	if ($post['op'] && $post['mod'] && $post['sticky']) {
+	if ($post['op'] && $post['mod'] && isset($post['sticky']) && $post['sticky']) {
 		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 	}
 	
-	if ($post['op'] && $post['mod'] && $post['locked']) {
+	if ($post['op'] && $post['mod'] && isset($post['locked']) && $post['locked']) {
 		$query->bindValue(':locked', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':locked', 0, PDO::PARAM_INT);
@@ -986,12 +983,8 @@ function index($page, $mod=false) {
 			$replies = array_reverse($posts->fetchAll(PDO::FETCH_ASSOC));
 			
 			if (count($replies) == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
-				$count->bindValue(':thread', $th['id'], PDO::PARAM_INT);
-				$count->execute() or error(db_error($count));
-				$count = $count->fetchAll(PDO::FETCH_COLUMN);
-				
-				$omitted = array('post_count' => $count[0], 'image_count' => $count[1]);
+				$count = numPosts($th['id']);
+				$omitted = array('post_count' => $count['replies'], 'image_count' => $count['images']);
 			} else {
 				$omitted = false;
 			}
@@ -1134,14 +1127,19 @@ function checkRobot($body) {
 	return false;
 }
 
+// Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) as `count` FROM `posts_%s` WHERE `thread` = :thread", $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$result = $query->fetch();
-	return $result['count'];
+	$num_posts = $query->fetch();
+	$num_posts = $num_posts['num'];
+	$num_images = $query->fetch();
+	$num_images = $num_images['num'];
+	
+	return array('replies' => $num_posts, 'images' => $num_images);
 }
 
 function muteTime() {
@@ -1365,8 +1363,8 @@ function unicodify($body) {
 	// En and em- dashes are rendered exactly the same in
 	// most monospace fonts (they look the same in code
 	// editors).
-	$body = str_replace('--', '&ndash;', $body); // en dash
 	$body = str_replace('---', '&mdash;', $body); // em dash
+	$body = str_replace('--', '&ndash;', $body); // en dash
 	
 	return $body;
 }
