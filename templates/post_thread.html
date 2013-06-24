@@ -1,7 +1,7 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 
-<div id="thread_{{ post.id }}">
+<div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
 
 {% if post.embed %}
 	{{ post.embed }}
