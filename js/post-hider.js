@@ -30,20 +30,24 @@ function phPostHandle(element) {
  else { element.removeClass("thread-hidden"); pomitted.show(); preplies.show(); pbody.show(); pimage.show(); pbutton.text("[–]"); }
 }
 
+function phHandleThread(index, element) {
+  // Get thread ID.
+  var pin = $(this).children("div.post.op").children("p.intro");
+  var tid = phGetOpID($(this));
+  if(tid != NaN) {
+    $("<a href='javascript:;' class='posthider'>[?]</a>").insertAfter(pin.children('a:last')).click(function(e) {
+      var eO = $(e.target);
+      var par = eO.parent().parent().parent();
+      phPostToggle(phGetOpBoard(par), phGetOpID(par));
+      phPostHandle(par);
+      return false;
+    });
+    phPostHandle($(this));
+  }
+}
+
 $(document).ready(function(){
-  $('form[name="postcontrols"] > div[id^="thread"]').each(function(index, element){
-    // Get thread ID.
-    var pin = $(this).children("div.post.op").children("p.intro");
-    var tid = phGetOpID($(this));
-    if(tid != NaN) {
-      $("<a href='javascript:;' class='posthider'>[?]</a>").insertAfter(pin.children('a:last')).click(function(e) {
-	var eO = $(e.target);
-        var par = eO.parent().parent().parent();
-        phPostToggle(phGetOpBoard(par), phGetOpID(par));
-        phPostHandle(par);
-        return false;
-      });
-      phPostHandle($(this));
-    }
-  });
+  if (active_page != "thread") {
+    $('form[name="postcontrols"] > div[id^="thread"]').each(phHandleThread);
+  }
 });
