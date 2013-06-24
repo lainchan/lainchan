@@ -3,11 +3,16 @@
 <head>
 	<meta charset="utf-8">
 
-        {% if config.quick_reply %}
-          <script type="text/javascript">
+        <script type="text/javascript">
+          {% if config.quick_reply %}
             var new_reply_string = "{{ config.button_reply }}";
-          </script>           
-        {% endif %}
+          {% endif %}
+          {% if not no_post_form %}
+            var active_page = "index";
+	  {% else %}
+            var active_page = "ukko";
+          {% endif %}
+        </script>
 
 	{% include 'header.html' %}
 	<title>{{ board.url }} - {{ board.name }}</title>
