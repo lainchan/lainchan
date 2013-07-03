@@ -10,7 +10,7 @@
 			'-k'	=> '_'
 		);
 		$len = count($args);
-		$i = 0;
+		$i = 1;
 		while ($i < $len) {
 			if (preg_match('#^-[a-z]$#i', $args[$i])) {
 				$options[$args[$i]] = isset($args[$i+1]) ? trim($args[$i+1]) : true;
@@ -26,7 +26,11 @@
 
 	$options = buildOptions($argv);
 
-	if (!file_exists($options['-o']) || !is_writable($options['-o'])) {
+	if (!file_exists($options['-o'])) {
+		touch($options['-o']);
+	}
+
+	if (!is_writable($options['-o'])) {
 		die("Invalid output file name. Make sure it exists and is writable.");
 	}
 
