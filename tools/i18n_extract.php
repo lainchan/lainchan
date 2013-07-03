@@ -42,6 +42,6 @@ foreach ($locales as $loc) {
          xgettext -d tinyboard -L php --from-code utf-8 $join -c $(find ../../../../ -name \*.php)");
 
 	// Generate javascript.po
-	passthru("cd tools/inc/lib/jsgettext/;
-         php jsgettext.php -o ../../../../$locdir/LC_MESSAGES/javascript.po $(find ../../../../js/ -name \*.js)");
+	passthru("cd $locdir/LC_MESSAGES;
+         xgettext -d javascript -L Python --force-po --from-code utf-8 $join -c $(find ../../../../js/ -name \*.js)");
 }
