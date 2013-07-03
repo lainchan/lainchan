@@ -1,6 +1,13 @@
 Tinyboard - A lightweight PHP imageboard.
 ==========================================
 
+Tinyboard + vichan-devel
+------------
+Tinyboard branch taking lightweightness somewhat more liberally. Running live at
+https://pl.vichan.net/ (Polish) and http://vichan.net/ (International; may be outdated).
+
+It contains many changes from original Tinyboard, mainly in frontend area.
+
 About
 ------------
 Tinyboard is a light-weight, fast, highly configurable and user-friendly
