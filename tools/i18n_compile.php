@@ -34,11 +34,11 @@ foreach ($locales as $loc) {
 	// Generate tinyboard.po
 	if (file_exists($locdir."/LC_MESSAGES/tinyboard.po"))	$join = "-j";
 	else							$join = "";
-	`cd $locdir/LC_MESSAGES;
-         msgfmt tinyboard.po -o tinyboard.mo`;
+	passthru("cd $locdir/LC_MESSAGES;
+         msgfmt tinyboard.po -o tinyboard.mo");
 
 	// Generate javascript.po
-	`cd tools/inc/lib/jsgettext/;
+	passthru("cd tools/inc/lib/jsgettext/;
          php po2json.php -i ../../../../$locdir/LC_MESSAGES/javascript.po \
-                         -o ../../../../$locdir/LC_MESSAGES/javascript.js`;
+                         -o ../../../../$locdir/LC_MESSAGES/javascript.js");
 }

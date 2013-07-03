@@ -38,10 +38,10 @@ foreach ($locales as $loc) {
 	// Generate tinyboard.po
 	if (file_exists($locdir."/LC_MESSAGES/tinyboard.po"))	$join = "-j";
 	else							$join = "";
-	`cd $locdir/LC_MESSAGES;
-         xgettext -d tinyboard -L php --from-code utf-8 $join -c $(find ../../../../ -name \*.php)`;
+	passthru("cd $locdir/LC_MESSAGES;
+         xgettext -d tinyboard -L php --from-code utf-8 $join -c $(find ../../../../ -name \*.php)");
 
 	// Generate javascript.po
-	`cd tools/inc/lib/jsgettext/;
-         php jsgettext.php -o ../../../../$locdir/LC_MESSAGES/javascript.po $(find ../../../../js/ -name \*.js)`;
+	passthru("cd tools/inc/lib/jsgettext/;
+         php jsgettext.php -o ../../../../$locdir/LC_MESSAGES/javascript.po $(find ../../../../js/ -name \*.js)");
 }
