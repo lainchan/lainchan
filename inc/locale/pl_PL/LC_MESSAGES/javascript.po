@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-03 01:52-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../../js/quick-reply.js:20
+msgid "Submit"
+msgstr "Wyślij"
+
+#: ../../../../js/quick-reply.js:30
+msgid "Quick reply"
+msgstr "Szybka odpowiedź"
+
+#: ../../../../js/quick-reply.js:32
+msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
+msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
+
+#: ../../../../js/quick-reply.js:32
+msgid "Return"
+msgstr "Powrót"
+
+#: ../../../../js/expand.js:20
+msgid "Click reply to view."
+msgstr "Kliknij Odpowiedź aby zobaczyć."
+
+#: ../../../../js/expand.js:20
+msgid "Click to expand"
+msgstr "Kliknij aby rozwinąć"
+
+#: ../../../../js/expand.js:41
+msgid "Hide expanded replies"
+msgstr "Schowaj rozwinięte odpowiedzi"
+
+#: ../../../../js/local-time.js:40
+msgid "Mon"
+msgstr "pon"
+
+#: ../../../../js/local-time.js:40
+msgid "Tue"
+msgstr "wto"
+
+#: ../../../../js/local-time.js:40
+msgid "Wed"
+msgstr "śro"
+
+#: ../../../../js/local-time.js:40
+msgid "Thu"
+msgstr "czw"
+
+#: ../../../../js/local-time.js:40
+msgid "Fri"
+msgstr "pią"
+
+#: ../../../../js/local-time.js:40
+msgid "Sat"
+msgstr "sob"
+
+#: ../../../../js/local-time.js:40
+msgid "Sun"
+msgstr "nie"
+
+#: ../../../../js/toggle-locked-threads.js:39
+#: ../../../../js/toggle-locked-threads.js:54
+msgid "Show locked threads"
+msgstr "Pokaż zablokowane tematy"
+
+#: ../../../../js/toggle-locked-threads.js:39
+#: ../../../../js/toggle-locked-threads.js:54
+msgid "Hide locked threads"
+msgstr "Schowaj zablokowane tematy"
+
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
+#: ../../../../js/forced-anon.js:69
+msgid "Forced anonymity"
+msgstr "Wymuszona anonimowość"
+
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
+msgid "enabled"
+msgstr "włączona"
+
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
+msgid "disabled"
+msgstr "wyłączona"
+
+#: ../../../../js/quick-post-controls.js:27
+msgid "Password"
+msgstr "Hasło"
+
+#: ../../../../js/quick-post-controls.js:29
+msgid "Delete file only"
+msgstr "Usuń tylko plik"
+
+#: ../../../../js/quick-post-controls.js:30
+msgid "File"
+msgstr "Plik"
+
+#: ../../../../js/quick-post-controls.js:31
+msgid "Delete"
+msgstr "Usuń to"
+
+#: ../../../../js/quick-post-controls.js:35
+msgid "Reason"
+msgstr "Powód"
+
+#: ../../../../js/quick-post-controls.js:37
+msgid "Report"
+msgstr "Zgłoszenie"
