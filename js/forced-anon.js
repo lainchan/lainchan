@@ -56,17 +56,17 @@ $(document).ready(function() {
 	forced_anon = localStorage['forcedanon'] ? true : false;
 	
 	$('hr:first').before('<div id="forced-anon" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
-	$('div#forced-anon a').text('Forced anonymity (' + (forced_anon ? 'enabled' : 'disabled') + ')');
+	$('div#forced-anon a').text(_('Forced anonymity')+' (' + (forced_anon ? _('enabled') : _('disabled')) + ')');
 	
 	$('div#forced-anon a').click(function() {
 		forced_anon = !forced_anon;
 		
 		if(forced_anon) {
-			$('div#forced-anon a').text('Forced anonymity (enabled)');
+			$('div#forced-anon a').text(_('Forced anonymity')+' ('+_('enabled')+')');
 			localStorage.forcedanon = true;
 			enable_fa();
 		} else {
-			$('div#forced-anon a').text('Forced anonymity (disabled)');
+			$('div#forced-anon a').text(_('Forced anonymity')+' ('+_('disabled')+')');
 			delete localStorage.forcedanon;
 			disable_fa();
 		}
