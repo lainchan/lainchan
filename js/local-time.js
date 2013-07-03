@@ -25,13 +25,13 @@ onready(function(){
 	var times = document.getElementsByTagName('time');
 	
 	for(var i = 0; i < times.length; i++) {
-		if(!times[i].innerHTML.match(/^\d+\/\d+\/\d+ \(\w+\) \d+:\d+:\d+$/))
+		if(typeof times[i].getAttribute('data-local') == 'undefined')
 			continue;
 		
 		var t = iso8601(times[i].getAttribute('datetime'));
 		
 		
-		
+		times[i].setAttribute('data-local', 'true');
 		times[i].innerHTML =
 			// date
 			zeropad(t.getMonth() + 1, 2) + "/" + zeropad(t.getDate(), 2) + "/" + t.getFullYear().toString().substring(2) +
