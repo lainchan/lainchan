@@ -41,7 +41,7 @@ class JSParser {
 	}
 	
 	public function parse() {
-		$output = htmlspecialchars($this->content, ENT_NOQUOTES);
+		$output = $this->content; //htmlspecialchars($this->content, ENT_NOQUOTES);
 
 		// extract reg exps
 		$output = preg_replace_callback(

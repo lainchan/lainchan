@@ -66,7 +66,7 @@ class PoeditParser {
 	}
 
 	public function toJSON($outputFilename, $varName = 'l10n') {
-		$str = "$varName = " . $this->getJSON();
+		$str = "$varName = " . $this->getJSON() . ";";
 		return file_put_contents($outputFilename, $str) !== false;
 	}
 
