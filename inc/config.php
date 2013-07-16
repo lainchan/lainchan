@@ -881,6 +881,9 @@
 	// Edit raw HTML in posts by default
 	$config['mod']['raw_html_default'] = false;
 	
+	// Automatically dismiss all reports regarding a thread when it is locked
+	$config['mod']['dismiss_reports_on_lock'] = true;
+	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {
 		define('JANITOR',	0,	true);

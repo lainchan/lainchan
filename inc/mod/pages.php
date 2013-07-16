@@ -738,6 +738,13 @@ function mod_lock($board, $unlock, $post) {
 		buildIndex();
 	}
 	
+	if ($config['mod']['dismiss_reports_on_lock']) {
+		$query = prepare('DELETE FROM `reports` WHERE `board` = :board AND `post` = :id');
+		$query->bindValue(':board', $board);
+		$query->bindValue(':id', $post);
+		$query->execute() or error(db_error($query));
+	}
+	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 	
 	if ($unlock)
