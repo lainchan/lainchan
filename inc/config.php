@@ -527,6 +527,9 @@
 	// Number of characters in the poster ID (maximum is 40)
 	$config['poster_id_length'] = 5;
 	
+	// Show thread subject in page title?
+	$config['thread_subject_in_title'] = false;
+	
 	// Page footer
 	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
 	

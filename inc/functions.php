@@ -1537,8 +1537,9 @@ function buildThread($id, $return=false, $mod=false) {
 		error($config['error']['nonexistant']);
 	
 	$body = Element('thread.html', array(
-		'board'=>$board, 
-		'body'=>$thread->build(),
+		'board' => $board,
+		'thread' => $thread,
+		'body' => $thread->build(),
 		'config' => $config,
 		'id' => $id,
 		'mod' => $mod,
