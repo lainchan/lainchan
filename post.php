@@ -627,10 +627,6 @@ if (isset($_POST['delete'])) {
 		incrementSpamHash($post['antispam_hash']);
 	}
 	
-	if (isset($post['antispam_hash'])) {
-		incrementSpamHash($post['antispam_hash']);
-	}
-	
 	if (isset($post['tracked_cites'])) {
 		foreach ($post['tracked_cites'] as $cite) {
 			$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
