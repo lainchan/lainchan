@@ -217,6 +217,19 @@ function mod_edit_board($boardName) {
 			$query = prepare('DELETE FROM `antispam` WHERE `board` = :board');
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
+			
+			// Remove board from users/permissions table
+			$query = query('SELECT `id`,`boards` FROM `mods`') or error(db_error());
+			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+				$user_boards = explode(',', $user['boards']);
+				if (in_array($board['uri'], $user_boards)) {
+					unset($user_boards[array_search($board['uri'], $user_boards)]);
+					$_query = prepare('UPDATE `mods` SET `boards` = :boards WHERE `id` = :id');
+					$_query->bindValue(':boards', implode(',', $user_boards));
+					$_query->bindValue(':id', $user['id']);
+					$_query->execute() or error(db_error($_query));
+				}
+			}
 		} else {
 			$query = prepare('UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri']);
