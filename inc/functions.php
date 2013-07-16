@@ -78,7 +78,7 @@ function loadConfig() {
 	
 	if ($config['debug']) {
 		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array());
+			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
 			$debug['start'] = microtime(true);
 		}
 	}
@@ -392,7 +392,7 @@ function purge($uri) {
 }
 
 function file_write($path, $data, $simple = false, $skip_purge = false) {
-	global $config;
+	global $config, $debug;
 	
 	if (preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
 		if (isset($config['remote'][$m[1]])) {
@@ -419,7 +419,7 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 		error('Unable to truncate file: ' . $path);
 		
 	// Write data
-	if (fwrite($fp, $data) === false)
+	if (($bytes = fwrite($fp, $data)) === false)
 		error('Unable to write to file: ' . $path);
 	
 	// Unlock
@@ -443,6 +443,10 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 			purge($uri);
 		}
 		purge($path);
+	}
+	
+	if ($config['debug']) {
+		$debug['write'][] = $path . ': ' . $bytes . ' bytes';
 	}
 	
 	event('write', $path);
