@@ -579,6 +579,12 @@ function ago($timestamp) {
 function displayBan($ban) {
 	global $config;
 	
+	if (!$ban['seen']) {
+		$query = prepare("UPDATE `bans` SET `seen` = 1 WHERE `id` = :id");
+		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	}
+	
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
 	
 	// Show banned page and exit
@@ -605,12 +611,12 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 	
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -618,7 +624,7 @@ function checkBan($board = 0) {
 	
 	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
 			AND (					
 				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
 					AND
@@ -635,9 +641,13 @@ function checkBan($board = 0) {
 	if ($ban = $query->fetch()) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
-			$query = prepare("DELETE FROM `bans` WHERE `id` = :id LIMIT 1");
+			$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
+			
+			if ($config['require_ban_view'] && !$ban['seen']) {
+				displayBan($ban);
+			}
 			
 			return;
 		}
