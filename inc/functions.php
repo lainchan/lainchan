@@ -654,6 +654,16 @@ function checkBan($board = 0) {
 		
 		displayBan($ban);
 	}
+	
+	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
+	purge_bans();
+}
+
+// No reason to keep expired bans in the database (except those that haven't been viewed yet)
+function purge_bans() {
+	$query = prepare("DELETE FROM `bans` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
+	$query->bindValue(':time', time());
+	$query->execute() or error(db_error($query));
 }
 
 function threadLocked($id) {
