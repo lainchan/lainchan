@@ -13,6 +13,7 @@ require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
+require_once 'inc/api.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
 // the user is not currently logged in as a moderator
@@ -988,6 +989,8 @@ function index($page, $mod=false) {
 	
 	if ($query->rowcount() < 1 && $page > 1)
 		return false;
+
+	$threads = array();
 	while ($th = $query->fetch()) {
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
@@ -1036,7 +1039,8 @@ function index($page, $mod=false) {
 			$thread->omitted = $omitted['post_count'] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
 			$thread->omitted_images = $omitted['image_count'] - $num_images;
 		}
-		
+
+		$threads[] = $thread;
 		$body .= $thread->build(true);
 	}
 	
@@ -1045,7 +1049,8 @@ function index($page, $mod=false) {
 		'body' => $body,
 		'post_url' => $config['post_url'],
 		'config' => $config,
-		'boardlist' => createBoardlist($mod)
+		'boardlist' => createBoardlist($mod),
+		'threads' => $threads
 	);
 }
 
@@ -1235,6 +1240,9 @@ function buildIndex() {
 	$pages = getPages();
 	$antibot = create_antibot($board['uri']);
 
+	$api = new Api();
+	$catalog = array();
+
 	$page = 1;
 	while ($page <= $config['max_pages'] && $content = index($page)) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
@@ -1247,6 +1255,14 @@ function buildIndex() {
 		$content['antibot'] = $antibot;
 
 		file_write($filename, Element('index.html', $content));
+
+		// json api
+		$threads = $content['threads'];
+		$json = json_encode($api->translatePage($threads));
+		$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+		file_write($jsonFilename, $json);
+
+		$catalog[$page-1] = $threads; 
 		
 		$page++;
 	}
@@ -1254,8 +1270,16 @@ function buildIndex() {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
+
+			$jsonFilename = $board['dir'] . ($page-1) . ".json";
+			file_unlink($jsonFilename);
 		}
 	}
+
+	// json api catalog
+	$json = json_encode($api->translateCatalog($catalog));
+	$jsonFilename = $board['dir'] . "catalog.json";
+	file_write($jsonFilename, $json);
 }
 
 function buildJavascript() {
@@ -1578,6 +1602,12 @@ function buildThread($id, $return=false, $mod=false) {
 		return $body;
 
 	file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
+
+	// json api
+	$api = new Api();
+	$json = json_encode($api->translateThread($thread));
+	$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+	file_write($jsonFilename, $json);
 }
 
  function rrmdir($dir) {
