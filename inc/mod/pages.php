@@ -906,8 +906,10 @@ function mod_move($originBoard, $postID) {
 		
 		modLog("Moved thread #${postID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${newID})", $originBoard);
 		
-		// build new hread
+		// build new thread
 		buildThread($newID);
+		
+		clean();
 		buildIndex();
 		
 		// trigger themes
