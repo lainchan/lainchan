@@ -8,7 +8,7 @@
 	</script>
 
 	{% include 'header.html' %}
-	<title>{{ board.url }} - {{ board.name }}</title>
+	<title>{{ board.url }} - {% if config.thread_subject_in_title and thread.subject %}{{ thread.subject }}{% else %}{{ board.title|e }}{% endif %}</title>
 </head>
 <body>
 	{{ boardlist.top }}

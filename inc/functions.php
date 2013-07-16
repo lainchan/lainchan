@@ -78,7 +78,7 @@ function loadConfig() {
 	
 	if ($config['debug']) {
 		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array());
+			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
 			$debug['start'] = microtime(true);
 		}
 	}
@@ -392,7 +392,7 @@ function purge($uri) {
 }
 
 function file_write($path, $data, $simple = false, $skip_purge = false) {
-	global $config;
+	global $config, $debug;
 	
 	if (preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
 		if (isset($config['remote'][$m[1]])) {
@@ -419,7 +419,7 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 		error('Unable to truncate file: ' . $path);
 		
 	// Write data
-	if (fwrite($fp, $data) === false)
+	if (($bytes = fwrite($fp, $data)) === false)
 		error('Unable to write to file: ' . $path);
 	
 	// Unlock
@@ -443,6 +443,10 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 			purge($uri);
 		}
 		purge($path);
+	}
+	
+	if ($config['debug']) {
+		$debug['write'][] = $path . ': ' . $bytes . ' bytes';
 	}
 	
 	event('write', $path);
@@ -575,6 +579,12 @@ function ago($timestamp) {
 function displayBan($ban) {
 	global $config;
 	
+	if (!$ban['seen']) {
+		$query = prepare("UPDATE `bans` SET `seen` = 1 WHERE `id` = :id");
+		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	}
+	
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
 	
 	// Show banned page and exit
@@ -601,12 +611,12 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 	
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -614,7 +624,7 @@ function checkBan($board = 0) {
 	
 	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
 			AND (					
 				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
 					AND
@@ -631,15 +641,29 @@ function checkBan($board = 0) {
 	if ($ban = $query->fetch()) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
-			$query = prepare("DELETE FROM `bans` WHERE `id` = :id LIMIT 1");
+			$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
+			
+			if ($config['require_ban_view'] && !$ban['seen']) {
+				displayBan($ban);
+			}
 			
 			return;
 		}
 		
 		displayBan($ban);
 	}
+	
+	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
+	purge_bans();
+}
+
+// No reason to keep expired bans in the database (except those that haven't been viewed yet)
+function purge_bans() {
+	$query = prepare("DELETE FROM `bans` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
+	$query->bindValue(':time', time());
+	$query->execute() or error(db_error($query));
 }
 
 function threadLocked($id) {
@@ -1539,8 +1563,9 @@ function buildThread($id, $return=false, $mod=false) {
 		error($config['error']['nonexistant']);
 	
 	$body = Element('thread.html', array(
-		'board'=>$board, 
-		'body'=>$thread->build(),
+		'board' => $board,
+		'thread' => $thread,
+		'body' => $thread->build(),
 		'config' => $config,
 		'id' => $id,
 		'mod' => $mod,

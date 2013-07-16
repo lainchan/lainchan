@@ -1,9 +1,17 @@
 {% filter remove_whitespace %}
 {# Automatically removes unnecessary whitespace #}
 <div class="ban">
-	<h2>{% trans %}You are banned! ;_;{% endtrans %}</h2>
+	{% if ban.expires and time() >= ban.expires %}
+		<h2>{% trans %}You were banned! ;_;{% endtrans %}</h2>
+	{% else %}
+		<h2>{% trans %}You are banned! ;_;{% endtrans %}</h2>
+	{% endif %}
 	<p>
-		{% trans %}You have been banned from{% endtrans %}
+		{% if ban.expires and time() >= ban.expires %}
+			{% trans %}You were banned from{% endtrans %}
+		{% else %}
+			{% trans %}You have been banned from{% endtrans %}
+		{% endif %}
 			{% if ban.board %}
 				 <strong>{{ config.board_abbreviation|sprintf(ban.board) }}</strong>
 			{% else %}
@@ -23,7 +31,9 @@
 	<p>
 		{% trans %}Your ban was filed on{% endtrans %} 
 			<strong>{{ ban.set|date(config.ban_date) }}</strong> {% trans %}and{% endtrans %} <span id="expires">
-		{% if ban.expires %}
+		{% if ban.expires and time() >= ban.expires %}
+			{% trans %} has since expired. Refresh the page to continue.{%  endtrans %}
+		{% elseif ban.expires %}
 			{% trans %}expires{% endtrans %} <span id="countdown">{{ ban.expires|until }}</span> {% trans %}from now, which is on{% endtrans %} 
 			<strong>
 				{{ ban.expires|date(config.ban_date) }}

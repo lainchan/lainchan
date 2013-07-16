@@ -384,6 +384,9 @@
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 	
+	// Require users to see the ban page at least once for a ban even if it has since expired?
+	$config['require_ban_view'] = false;
+	
 /*
  * ====================
  *  Markup settings
@@ -556,6 +559,9 @@
 	$config['poster_ids'] = false;
 	// Number of characters in the poster ID (maximum is 40)
 	$config['poster_id_length'] = 5;
+	
+	// Show thread subject in page title?
+	$config['thread_subject_in_title'] = false;
 	
 	// Page footer
 	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
@@ -922,6 +928,9 @@
 	
 	// Edit raw HTML in posts by default
 	$config['mod']['raw_html_default'] = false;
+	
+	// Automatically dismiss all reports regarding a thread when it is locked
+	$config['mod']['dismiss_reports_on_lock'] = true;
 	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {

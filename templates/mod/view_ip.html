@@ -137,6 +137,16 @@
 						</td>
 					</tr>
 					<tr>
+						<th>{% trans 'Seen' %}</th>
+						<td>
+							{%  if ban.seen %}
+								{% trans 'Yes' %}
+							{%  else %}
+								{% trans 'No' %}
+							{%  endif %}
+						</td>
+					</tr>
+					<tr>
 						<th>{% trans 'Staff' %}</th>
 						<td>
 							{% if ban.username %}

@@ -214,7 +214,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 }
 
 function bidi_cleanup($str){
-	# Closes all embedded RTL and LTR unicode formatting blocks in a string so that
+	# Removes all embedded RTL and LTR unicode formatting blocks in a string so that
 	# it can be used inside another without controlling its direction.
 	# More info: http://www.iamcal.com/understanding-bidirectional-text/
 	#
@@ -228,21 +228,7 @@ function bidi_cleanup($str){
 	$explicits	= '\xE2\x80\xAA|\xE2\x80\xAB|\xE2\x80\xAD|\xE2\x80\xAE';
 	$pdf		= '\xE2\x80\xAC';
 
-	$stack = 0;
-	$str = preg_replace_callback("!(?<explicits>$explicits)|(?<pdf>$pdf)!", function($match) use (&$stack) {
-		if (isset($match['explicits']) && $match['explicits']) {
-			$stack++;
-		} else {
-			if ($stack)
-				$stack--;
-			else
-				return '';
-		}
-		return $match[0];
-	}, $str);
-	for ($i=0; $i<$stack; $i++){
-		$str .= "\xE2\x80\xAC";
-	}
+	$str = preg_replace("!(?<explicits>$explicits)|(?<pdf>$pdf)!", '', $str);
 	return $str;
 }
 

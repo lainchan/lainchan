@@ -15,7 +15,7 @@
         </script>
 
 	{% include 'header.html' %}
-	<title>{{ board.url }} - {{ board.name }}</title>
+	<title>{{ board.url }} - {{ board.title|e }}</title>
 </head>
 <body>	
 	{{ boardlist.top }}
