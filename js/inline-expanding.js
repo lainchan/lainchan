@@ -16,7 +16,7 @@ onready(function(){
 		var link = this.getElementsByTagName('a');
 	
 		for(var i = 0; i < link.length; i++) {
-			if(typeof link[i] == "object" && link[i].childNodes[0].src && link[i].className != 'file') {
+			if(typeof link[i] == "object" && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].className != 'file') {
 				link[i].childNodes[0].style.maxWidth = '95%';
 				link[i].onclick = function(e) {
 					if(e.which == 2) {
