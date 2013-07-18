@@ -16,16 +16,17 @@
 	</header>
 	
 	<ul>
-		{% for post in recent_posts %}
-		<a href="{{post.link}}">	
-		  <div class="thread">
-		    <img src="{{post.file}}" class="{{post.board}}" title="{{post.bump|date('%b %d %H:%M')}}">
-		    <span class="replies">
-		      <strong>{{ post.reply_count }} {% if post.reply_count == 1 %}{% trans 'reply' %}{% else %}{% trans 'replies' %}{% endif %}</strong><br/>{{ post.body }}
-		    </span>
-		  </div>
-		</a>
-		  {% endfor %}
+	{% for post in recent_posts %}
+		<div class="thread">
+			<a href="{{post.link}}">
+				<img src="{{post.file}}" class="{{post.board}}" title="{{post.bump|date('%b %d %H:%M')}}">
+			</a>
+			<span class="replies">
+				<strong>{{ post.reply_count }} {% if post.reply_count == 1 %}{% trans 'reply' %}{% else %}{% trans 'replies' %}{% endif %}</strong><br/>
+				{{ post.body }}
+			</span>
+		</div>
+	{% endfor %}
 	</ul>
 	
 	<hr/>
