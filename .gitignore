@@ -14,7 +14,7 @@
 /templates/cache
 
 # other stuff
-.DS_Store?
+.DS_Store
 thumbs.db
 Icon?
 Thumbs.db
