@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-03 01:52-0400\n"
+"POT-Creation-Date: 2013-07-18 16:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../../js/quick-reply.js:20
+#: ../../../../js/quick-reply.js:20 ../../../../js/quick-reply.js:21
 msgid "Submit"
 msgstr "Wyślij"
 
-#: ../../../../js/quick-reply.js:30
+#: ../../../../js/quick-reply.js:30 ../../../../js/quick-reply.js:31
 msgid "Quick reply"
 msgstr "Szybka odpowiedź"
 
-#: ../../../../js/quick-reply.js:32
+#: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
 msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
 
-#: ../../../../js/quick-reply.js:32
+#: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
 msgid "Return"
 msgstr "Powrót"
 
@@ -110,7 +110,7 @@ msgstr "Plik"
 
 #: ../../../../js/quick-post-controls.js:31
 msgid "Delete"
-msgstr "Usuń to"
+msgstr "Usuń"
 
 #: ../../../../js/quick-post-controls.js:35
 msgid "Reason"
