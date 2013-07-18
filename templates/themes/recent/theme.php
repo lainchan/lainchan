@@ -1,12 +1,13 @@
 <?php
 	require 'info.php';
 	
-	function recentposts_build($action, $settings) {
+	function recentposts_build($action, $settings, $board) {
 		// Possible values for $action:
 		//	- all (rebuild everything, initialization)
 		//	- news (news has been updated)
 		//	- boards (board list changed)
 		//	- post (a post has been made)
+		//	- post-thread (a thread has been made)
 		
 		$b = new RecentPosts();
 		$b->build($action, $settings);
@@ -23,7 +24,7 @@
 			
 			$this->excluded = explode(' ', $settings['exclude']);
 			
-			if ($action == 'all' || $action == 'post')
+			if ($action == 'all' || $action == 'post' || $action == 'post-thread')
 				file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
 		}
 		

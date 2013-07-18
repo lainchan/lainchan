@@ -1,7 +1,7 @@
 <?php
 	require 'info.php';
 	
-	function sitemap_build($action, $settings) {
+	function sitemap_build($action, $settings, $board) {
 		global $config;
 		
 		// Possible values for $action:
@@ -9,6 +9,10 @@
 		//	- news (news has been updated)
 		//	- boards (board list changed)
 		//	- post (a post has been made)
+		//	- thread (a thread has been made)
+		
+		if ($action != 'post' && $action != 'post-thread')
+			return;
 		
 		$boards = explode(' ', $settings['boards']);
 		
