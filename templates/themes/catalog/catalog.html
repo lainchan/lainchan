@@ -22,7 +22,7 @@
 				<img src="{{post.file}}" class="{{post.board}}" title="{{post.bump|date('%b %d %H:%M')}}">
 			</a>
 			<span class="replies">
-				<strong>{{ post.reply_count }} {% if post.reply_count == 1 %}{% trans 'reply' %}{% else %}{% trans 'replies' %}{% endif %}</strong><br/>
+				<strong>{% trans %}1 reply{% plural post.omitted %}{{ count }} replies{% endtrans %}</strong><br/>
 				{{ post.body }}
 			</span>
 		</div>
