@@ -240,12 +240,12 @@ function create_antibot($board, $thread = null) {
 	return _create_antibot($board, $thread);
 }
 
-function rebuildThemes($action) {
+function rebuildThemes($action, $board = false) {
 	// List themes
 	$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
 	while ($theme = $query->fetch()) {
-		rebuildTheme($theme['theme'], $action);
+		rebuildTheme($theme['theme'], $action, $board);
 	}
 }
 
@@ -262,7 +262,7 @@ function loadThemeConfig($_theme) {
 	return $theme;
 }
 
-function rebuildTheme($theme, $action) {
+function rebuildTheme($theme, $action, $board = false) {
 	global $config, $_theme;
 	$_theme = $theme;
 
@@ -271,7 +271,7 @@ function rebuildTheme($theme, $action) {
 	if (file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
 		require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
 	
-		$theme['build_function']($action, themeSettings($_theme));
+		$theme['build_function']($action, themeSettings($_theme), $board);
 	}
 }
 

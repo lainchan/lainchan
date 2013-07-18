@@ -685,8 +685,13 @@ if (isset($_POST['delete'])) {
 		_syslog(LOG_INFO, 'New post: /' . $board['dir'] . $config['dir']['res'] .
 			sprintf($config['file_page'], $post['op'] ? $id : $post['thread']) . (!$post['op'] ? '#' . $id : ''));
 	
-	rebuildThemes('post');
 	if (!$post['mod']) header('X-Associated-Content: "' . $redirect . '"');
+
+	if ($post['op'])
+		rebuildThemes('post-thread', $board['uri']);
+	else
+		rebuildThemes('post', $board['uri']);
+	
 	header('Location: ' . $redirect, true, $config['redirect_http']);
 } else {
 	if (!file_exists($config['has_installed'])) {
