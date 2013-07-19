@@ -23,7 +23,7 @@
 		'name' => 'url',
 		'type' => 'text',
 		'comment' => '(with trailing slash)',
-		'default' => 'http://' . $_SERVER['HTTP_HOST'] . $config['root'],
+		'default' => (isset($_SERVER['HTTP_HOST']) ? 'http://' . $_SERVER['HTTP_HOST'] . $config['root'] : ''),
 		'size' => '20'
 	);
 	
