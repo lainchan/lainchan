@@ -243,19 +243,10 @@ if (isset($_POST['delete'])) {
 		// yep; validate it
 		$value = $_POST['embed'];
 		foreach ($config['embedding'] as &$embed) {
-			if ($html = preg_replace($embed[0], $embed[1], $value)) {
-				if ($html == $value) {
-					// Nope.
-					continue;
-				}
-				
-				// Width and height
-				$html = str_replace('%%tb_width%%', $config['embed_width'], $html);
-				$html = str_replace('%%tb_height%%', $config['embed_height'], $html);
-				
-				// Validated. It works.
-				$post['embed'] = $html;
-				// This looks messy right now, I know. I'll work on a better alternative later.
+			if (preg_match($embed[0], $value)) {
+				// Valid link
+				$post['embed'] = $value;
+				// This is bad, lol.
 				$post['no_longer_require_an_image_for_op'] = true;
 				break;
 			}
