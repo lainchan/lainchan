@@ -1,9 +1,21 @@
 <!doctype html>
 <html>
 <head>
-	{% include 'header.html' %}
 	<meta charset="utf-8">
-	<title>{{ board.url }} - {{ board.name }}</title>
+
+        <script type="text/javascript">
+          {% if config.quick_reply %}
+            var new_reply_string = "{{ config.button_reply }}";
+          {% endif %}
+          {% if not no_post_form %}
+            var active_page = "index";
+	  {% else %}
+            var active_page = "ukko";
+          {% endif %}
+        </script>
+
+	{% include 'header.html' %}
+	<title>{{ board.url }} - {{ board.title|e }}</title>
 </head>
 <body>	
 	{{ boardlist.top }}
@@ -20,7 +32,11 @@
 	</header>
 	
 	{% include 'attention_bar.html' %}
-	{% include 'post_form.html' %}
+	{% if not no_post_form %}
+		{% include 'post_form.html' %}
+	{% else %}
+		{% include 'boardlist.html' %}
+	{% endif %}
 
 	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
 	<hr />

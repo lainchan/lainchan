@@ -92,7 +92,7 @@ function mod_dashboard() {
 		}
 	}
 	
-	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) === false) {
+	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) == false) {
 		$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
 		$query->bindValue(':id', $mod['id']);
 		$query->execute() or error(db_error($query));
@@ -114,26 +114,37 @@ function mod_dashboard() {
 		} else {
 			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
 			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
-				eval($code);
-				if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
-					$current = array(
-						'massive' => (int) $matches[1],
-						'major' => (int) $matches[2],
-						'minor' => (int) $matches[3]
+				$ver = strtok($code, "\n");
+				
+				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
+					$latest = array(
+						'massive' => $matches[1],
+						'major' => $matches[2],
+						'minor' => $matches[3]
 					);
-					if (isset($m[4])) { 
-						// Development versions are always ahead in the versioning numbers
-						$current['minor'] --;
-					}
-					// Check if it's newer
-					if (!(	$latest['massive'] > $current['massive'] ||
-						$latest['major'] > $current['major'] ||
-							($latest['massive'] == $current['massive'] &&
-								$latest['major'] == $current['major'] &&
-								$latest['minor'] > $current['minor']
-							)))
+					if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+						$current = array(
+							'massive' => (int) $matches[1],
+							'major' => (int) $matches[2],
+							'minor' => (int) $matches[3]
+						);
+						if (isset($m[4])) { 
+							// Development versions are always ahead in the versioning numbers
+							$current['minor'] --;
+						}
+						// Check if it's newer
+						if (!(	$latest['massive'] > $current['massive'] ||
+							$latest['major'] > $current['major'] ||
+								($latest['massive'] == $current['massive'] &&
+									$latest['major'] == $current['major'] &&
+									$latest['minor'] > $current['minor']
+								)))
+							$latest = false;
+					} else {
 						$latest = false;
+					}
 				} else {
+					// Couldn't get latest version
 					$latest = false;
 				}
 			} else {
@@ -206,6 +217,19 @@ function mod_edit_board($boardName) {
 			$query = prepare('DELETE FROM `antispam` WHERE `board` = :board');
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
+			
+			// Remove board from users/permissions table
+			$query = query('SELECT `id`,`boards` FROM `mods`') or error(db_error());
+			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+				$user_boards = explode(',', $user['boards']);
+				if (in_array($board['uri'], $user_boards)) {
+					unset($user_boards[array_search($board['uri'], $user_boards)]);
+					$_query = prepare('UPDATE `mods` SET `boards` = :boards WHERE `id` = :id');
+					$_query->bindValue(':boards', implode(',', $user_boards));
+					$_query->bindValue(':id', $user['id']);
+					$_query->execute() or error(db_error($_query));
+				}
+			}
 		} else {
 			$query = prepare('UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri']);
@@ -589,6 +613,15 @@ function mod_page_ip($ip) {
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	if (hasPermission($config['mod']['modlog_ip'])) {
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query->bindValue(':search', '%' . $ip . '%');
+		$query->execute() or error(db_error($query));
+		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
+	} else {
+		$args['logs'] = array();
+	}
+	
 	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
@@ -631,7 +664,8 @@ function mod_bans($page_no = 1) {
 			if (preg_match('/^ban_(\d+)$/', $name, $match))
 				$unban[] = $match[1];
 		}
-		
+		if (isset($config['mod']['unban_limit'])){
+		if (count($unban) <= $config['mod']['unban_limit'] || $config['mod']['unban_limit'] == -1){ 
 		if (!empty($unban)) {
 			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
 		
@@ -639,7 +673,21 @@ function mod_bans($page_no = 1) {
 				modLog("Removed ban #{$id}");
 			}
 		}
+		} else {
+		error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban) ));
+		}
 		
+	} else {
+		
+			if (!empty($unban)) {
+			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		
+			foreach ($unban as $id) {
+				modLog("Removed ban #{$id}");
+			}
+		}	
+		
+	}
 		header('Location: ?/bans', true, $config['redirect_http']);
 	}
 	
@@ -688,6 +736,13 @@ function mod_lock($board, $unlock, $post) {
 		modLog(($unlock ? 'Unlocked' : 'Locked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
+	}
+	
+	if ($config['mod']['dismiss_reports_on_lock']) {
+		$query = prepare('DELETE FROM `reports` WHERE `board` = :board AND `post` = :id');
+		$query->bindValue(':board', $board);
+		$query->bindValue(':id', $post);
+		$query->execute() or error(db_error($query));
 	}
 	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -871,8 +926,10 @@ function mod_move($originBoard, $postID) {
 		
 		modLog("Moved thread #${postID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${newID})", $originBoard);
 		
-		// build new hread
+		// build new thread
 		buildThread($newID);
+		
+		clean();
 		buildIndex();
 		
 		// trigger themes
@@ -892,7 +949,7 @@ function mod_move($originBoard, $postID) {
 				'mod' => true,
 				'subject' => '',
 				'email' => '',
-				'name' => $config['mod']['shadow_name'],
+				'name' => (!$config['mod']['shadow_name'] ? $config['anonymous'] : $config['mod']['shadow_name']),
 				'capcode' => $config['mod']['shadow_capcode'],
 				'trip' => '',
 				'password' => '',
@@ -1834,6 +1891,7 @@ function mod_theme_configure($theme_name) {
 			'result' => $result,
 			'message' => $message,
 		));
+		return;
 	}
 
 	$settings = themeSettings($theme_name);

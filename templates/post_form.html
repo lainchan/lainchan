@@ -24,24 +24,22 @@
 			<td>
 				<input type="text" name="email" size="25" maxlength="40" autocomplete="off">
 				{{ antibot.html() }}
+				{% if not (not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
+				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox"> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
+				{% endif %}
 			</td>
 		</tr>{% endif %}
-		<tr>
-			{% if not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<th>
+		{% if not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
+			<th>
 				{% trans %}Subject{% endtrans %}
 				{{ antibot.html() }}
 			</th>
 			<td>
 				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off">
-			{% else %}<th>
-				{% trans %}Submit{% endtrans %}
-				{{ antibot.html() }}
-			</th>
-			<td>
-			{% endif %}
 				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox"> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
 			</td>
 		</tr>
+		{% endif %}
 		<tr>
 			<th>
 				{% trans %}Comment{% endtrans %}
@@ -50,6 +48,11 @@
 			<td>
 				<textarea name="body" id="body" rows="5" cols="35"></textarea>
 				{{ antibot.html() }}
+				{% if not (not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
+				{% if not (not config.field_disable_email or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
+				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox"> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
+				{% endif %}
+				{% endif %}
 			</td>
 		</tr>
 		{% if config.recaptcha %}
@@ -59,7 +62,7 @@
 				{{ antibot.html() }}
 			</th>
 			<td>
-				<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
+				<script type="text/javascript" src="//www.google.com/recaptcha/api/challenge?k={{ config.recaptcha_public }}"></script>
 				{{ antibot.html() }}
 			</td>
 		</tr>

@@ -2,35 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-<script src='https://int.vichan.net/opportunistic_https.js'></script>
-	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}">
-	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
-	<title>{{ board.url }} - {{ board.name }}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
-	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
-	<script type="text/javascript">var configRoot="{{ config.root }}";</script>
-	{% if not nojavascript %}
-		<script type="text/javascript" src="{{ config.url_javascript }}"></script>
-		{% if not config.additional_javascript_compile %}
-		{% for javascript in config.additional_javascript %}<script type="text/javascript" src="{{ config.additional_javascript_url }}{{ javascript }}"></script>{% endfor %}
-		{% endif %}
-	{% endif %}
-	{% if config.recaptcha %}<style type="text/css">{% raw %}
-		.recaptcha_image_cell {
-			background: none !important;
-		}
-		table.recaptchatable {
-			border: none !important;
-		}
-		#recaptcha_logo, #recaptcha_tagline {
-			display: none;
-			float: right;
-		}
-		.recaptchatable a {
-			display: block;
-		}
-	{% endraw %}</style>{% endif %}
+
+        <script type="text/javascript">
+          var active_page = "thread";
+	</script>
+
+	{% include 'header.html' %}
+	<title>{{ board.url }} - {% if config.thread_subject_in_title and thread.subject %}{{ thread.subject }}{% else %}{{ board.title|e }}{% endif %}</title>
 </head>
 <body>
 	{{ boardlist.top }}

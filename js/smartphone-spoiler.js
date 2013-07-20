@@ -13,12 +13,21 @@
 
 onready(function(){
 	if(device_type == 'mobile') {
-		var spoilers = document.getElementsByClassName('spoiler');
-		for(var i = 0; i < spoilers.length; i++) {
-			spoilers[i].onmousedown = function() {
-				this.style.color = 'white';
-			};
-		}
+		var fix_spoilers = function(where) {
+			var spoilers = where.getElementsByClassName('spoiler');
+			for(var i = 0; i < spoilers.length; i++) {
+				spoilers[i].onmousedown = function() {
+					this.style.color = 'white';
+				};
+			}
+		};
+		fix_spoilers(document);
+
+	        // allow to work with auto-reload.js, etc.
+	        $(document).bind('new_post', function(e, post) {
+	                fix_spoilers(post);
+        	});             
+	
 	}
 });
 

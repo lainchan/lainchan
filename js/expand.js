@@ -1,5 +1,5 @@
 /*
- *expand.js
+ * expand.js
  * https://github.com/savetheinternet/Tinyboard/blob/master/js/expand.js
  *
  * Released under the MIT license
@@ -17,7 +17,7 @@ $(document).ready(function(){
 	
 	$('div.post.op span.omitted').each(function() {
 		$(this)
-			.html($(this).text().replace(/Click reply to view\.|Kliknij Odpowiedź aby zobaczyć\./, '<a href="javascript:void(0)">Click to expand</a>.'))
+			.html($(this).text().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
 			.find('a').click(function() {
 				var thread = $(this).parent().parent().parent();
 				var id = thread.attr('id').replace(/^thread_/, '');
@@ -35,9 +35,10 @@ $(document).ready(function(){
 								}
 								last_expanded = $(this);
 								
+								$(document).trigger('new_post', this);
 							}
 						});
-						$('<span class="omitted"><a href="javascript:void(0)">Hide expanded replies</a>.</span>')
+						$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
 							.insertAfter(thread.find('span.omitted').css('display', 'none'))
 							.click(function() {
 								thread.find('.expanded').remove();

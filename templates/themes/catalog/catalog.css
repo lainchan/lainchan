@@ -1,0 +1,38 @@
+img {
+	float:none!important;
+	margin: auto;
+	margin-bottom: 12px;
+	max-height: 150px;
+	max-width: 200px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.55);
+	border: 2px solid rgba(153, 153, 153, 0);
+}
+
+/*
+img:hover {
+	border: 2px solid rgba(153, 153, 153, 0.27);
+}
+*/
+
+div.thread {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom:25px;
+	margin-left: 20px;
+	margin-right: 15px;
+	text-align:center;
+	font-weight:normal;
+	width:205px;      
+	overflow:hidden;
+	position: relative;
+	font-size:11px;
+	padding: 15px;
+	background: rgba(182, 182, 182, 0.12);
+	border: 2px solid rgba(111, 111, 111, 0.34);
+	max-height:300px;
+}
+
+div.thread:hover {
+    background: #D6DAF0;
+    border-color: #B7C5D9;
+}

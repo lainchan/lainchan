@@ -6,6 +6,7 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/local-time.js';
  *
  */
@@ -21,23 +22,32 @@ onready(function(){
 	var zeropad = function(num, count) {
 		return [Math.pow(10, count - num.toString().length), num].join('').substr(1);
 	};
+
+	var do_localtime = function(elem) {	
+		var times = elem.getElementsByTagName('time');
 	
-	var times = document.getElementsByTagName('time');
-	
-	for(var i = 0; i < times.length; i++) {
-		if(!times[i].innerHTML.match(/^\d+\/\d+\/\d+ \(\w+\) \d+:\d+:\d+$/))
-			continue;
+		for(var i = 0; i < times.length; i++) {
+			if(typeof times[i].getAttribute('data-local') == 'undefined')
+				continue;
 		
-		var t = iso8601(times[i].getAttribute('datetime'));
+			var t = iso8601(times[i].getAttribute('datetime'));
 		
 		
-		
-		times[i].innerHTML =
-			// date
-			zeropad(t.getMonth() + 1, 2) + "/" + zeropad(t.getDate(), 2) + "/" + t.getFullYear().toString().substring(2) +
-			" (" + ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][t.getDay()]  + ") " +
-			// time
-			zeropad(t.getHours(), 2) + ":" + zeropad(t.getMinutes(), 2) + ":" + zeropad(t.getSeconds(), 2);
+			times[i].setAttribute('data-local', 'true');
+			times[i].innerHTML =
+				// date
+				zeropad(t.getMonth() + 1, 2) + "/" + zeropad(t.getDate(), 2) + "/" + t.getFullYear().toString().substring(2) +
+				" (" + [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat"), _("Sun")][t.getDay()]  + ") " +
+				// time
+				zeropad(t.getHours(), 2) + ":" + zeropad(t.getMinutes(), 2) + ":" + zeropad(t.getSeconds(), 2);
+		};
 	};
+
+	do_localtime(document);
+
+        // allow to work with auto-reload.js, etc.
+        $(document).bind('new_post', function(e, post) {
+		do_localtime(post);
+	});
 });
 

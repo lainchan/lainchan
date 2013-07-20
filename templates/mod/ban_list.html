@@ -10,6 +10,7 @@
 				<th>{% trans 'Set' %}</th>
 				<th>{% trans 'Duration' %}</th>
 				<th>{% trans 'Expires' %}</th>
+				<th>{% trans 'Seen' %}</th>
 				<th>{% trans 'Staff' %}</th>
 			</tr>
 			{% for ban in bans %}
@@ -57,6 +58,13 @@
 								 <small>(in {{ ban.expires|until }})</small>
 							{% endif %}
 						{% endif %}
+					</td>
+					<td>
+						{%  if ban.seen %}
+							{% trans 'Yes' %}
+						{%  else %}
+							{% trans 'No' %}
+						{%  endif %}
 					</td>
 					<td>
 						{% if ban.username %}

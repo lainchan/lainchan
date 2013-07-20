@@ -5,8 +5,8 @@
  */
 
 require 'inc/functions.php';
-require 'inc/mod/auth.php';
 require 'inc/mod/pages.php';
+require 'inc/mod/auth.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
@@ -45,7 +45,7 @@ $pages = array(
 	'/news/(\d+)'				=> 'news',		// view news
 	'/news/delete/(\d+)'			=> 'news_delete',	// delete from news
 	
-	'/edit/(\w+)'				=> 'edit_board',	// edit board details
+	'/edit/([\w+.]+)'				=> 'edit_board',	// edit board details
 	'/new-board'				=> 'new_board',		// create a new board
 	
 	'/rebuild'				=> 'rebuild',		// rebuild static files
@@ -103,9 +103,9 @@ if (isset($config['mod']['custom_pages'])) {
 
 $new_pages = array();
 foreach ($pages as $key => $callback) {
-	if (preg_match('/^secure /', $callback))
+	if (is_string($callback) && preg_match('/^secure /', $callback))
 		$key .= '(/(?P<token>[a-f0-9]{8}))?';
-	$new_pages[@$key[0] == '!' ? $key : "!^$key$!"] = $callback;
+	$new_pages[@$key[0] == '!' ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!'] = $callback;
 }
 $pages = $new_pages;
 
@@ -113,7 +113,7 @@ foreach ($pages as $uri => $handler) {
 	if (preg_match($uri, $query, $matches)) {
 		$matches = array_slice($matches, 1);
 		
-		if (preg_match('/^secure(_POST)? /', $handler, $m)) {
+		if (is_string($handler) && preg_match('/^secure(_POST)? /', $handler, $m)) {
 			$secure_post_only = isset($m[1]);
 			if (!$secure_post_only || $_SERVER['REQUEST_METHOD'] == 'POST') {
 				$token = isset($matches['token']) ? $matches['token'] : (isset($_POST['token']) ? $_POST['token'] : false);

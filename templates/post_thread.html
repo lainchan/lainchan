@@ -1,7 +1,7 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 
-<div id="thread_{{ post.id }}">
+<div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
 
 {% if post.embed %}
 	{{ post.embed }}
@@ -23,9 +23,9 @@
 		{% if config.show_filename and post.filename %}
 			, 
 			{% if post.filename|length > config.max_filename_display %}
-				<span title="{{ post.filename }}">{{ post.filename|truncate(config.max_filename_display) }}</span>
+				<span class="postfilename" title="{{ post.filename|bidi_cleanup }}">{{ post.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
 			{% else %}
-				{{ post.filename }}
+				<span class="postfilename">{{ post.filename|bidi_cleanup }}</span>
 			{% endif %}
 		{% endif %}
 		{% if post.thumb != 'file' and config.image_identification %}
@@ -61,14 +61,14 @@
 	<label for="delete_{{ post.id }}">
 		{% if post.subject|length > 0 %}
 			{# show subject #}
-			<span class="subject">{{ post.subject }}</span> 
+			<span class="subject">{{ post.subject|bidi_cleanup }}</span> 
 		{% endif %}
 		{% if post.email|length > 0 %}
 			{# start email #}
 			<a class="email" href="mailto:{{ post.email }}">
 		{% endif %}
 		{% set capcode = post.capcode|capcode %}
-		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name }}</span>
+		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name|bidi_cleanup }}</span>
 		{% if post.trip|length > 0 %}
 			<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
 		{% endif %}
@@ -82,17 +82,13 @@
 		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
 			 [<a style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]
 		{% endif %}
-
 		 <time datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S') }}{{ timezone() }}">{{ post.time|date(config.post_date) }}</time>
 	</label>
 	{% if config.poster_ids %}
 		 ID: {{ post.ip|poster_id(post.id) }}
 	{% endif %}
-	<a class="post_no" href="http://webchat.6irc.net/?channels=vichan-int-{{ board.uri }}-{{ post.id }}&nick=Anon....">
-		#</a>
-
-	 <a class="post_no p1" href="{{ post.link }}">No.</a>
-	<a class="post_no p2"
+	 <a class="post_no" href="{{ post.link }}">No.</a>
+	<a class="post_no"
 		{% if not index %}
 			 onclick="citeReply({{ post.id }});"
 		{% endif %}

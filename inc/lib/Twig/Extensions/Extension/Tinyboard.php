@@ -25,6 +25,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'until' => new Twig_Filter_Function('until'),
 			'split' => new Twig_Filter_Function('twig_split_filter'),
 			'push' => new Twig_Filter_Function('twig_push_filter'),
+			'bidi_cleanup' => new Twig_Filter_Function('bidi_cleanup'),
 			'addslashes' => new Twig_Filter_Function('addslashes')
 		);
 	}
@@ -57,8 +58,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 }
 
 function twig_timezone_function() {
-	// there's probably a much easier way of doing this
-	return sprintf("%s%02d", ($hr = (int)floor(($tz = date('Z')) / 3600)) > 0 ? '+' : '-', abs($hr)) . ':' . sprintf("%02d", (($tz / 3600) - $hr) * 60);
+	return 'Z';
 }
 
 function twig_split_filter($str, $delim) {
@@ -75,7 +75,7 @@ function twig_remove_whitespace_filter($data) {
 }
 
 function twig_date_filter($date, $format) {
-	return strftime($format, $date);
+	return gmstrftime($format, $date);
 }
 
 function twig_hasPermission_filter($mod, $permission, $board = null) {

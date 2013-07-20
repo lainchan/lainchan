@@ -36,7 +36,7 @@ $(document).ready(function(){
 	
 	$('hr:first').before('<div id="toggle-locked-threads" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
 	$('div#toggle-locked-threads a')
-		.text((hide_locked_threads ? 'Show' : 'Hide') + ' locked threads')
+		.text(hide_locked_threads ? _('Show locked threads') : _('Hide locked threads'))
 		.click(function() {
 			hide_locked_threads = !hide_locked_threads;
 			if (hide_locked_threads) {
@@ -51,7 +51,7 @@ $(document).ready(function(){
 				delete localStorage.hidelockedthreads;
 			}
 			
-			$(this).text((hide_locked_threads ? 'Show' : 'Hide') + ' locked threads')
+			$(this).text(hide_locked_threads ? _('Show locked threads') : _('Hide locked threads'))
 		});
 	
 	if (hide_locked_threads) {

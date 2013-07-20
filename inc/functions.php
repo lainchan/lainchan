@@ -13,6 +13,7 @@ require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
+require_once 'inc/api.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
 // the user is not currently logged in as a moderator
@@ -78,7 +79,7 @@ function loadConfig() {
 	
 	if ($config['debug']) {
 		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array());
+			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
 			$debug['start'] = microtime(true);
 		}
 	}
@@ -239,12 +240,12 @@ function create_antibot($board, $thread = null) {
 	return _create_antibot($board, $thread);
 }
 
-function rebuildThemes($action) {
+function rebuildThemes($action, $board = false) {
 	// List themes
 	$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
 	while ($theme = $query->fetch()) {
-		rebuildTheme($theme['theme'], $action);
+		rebuildTheme($theme['theme'], $action, $board);
 	}
 }
 
@@ -261,7 +262,7 @@ function loadThemeConfig($_theme) {
 	return $theme;
 }
 
-function rebuildTheme($theme, $action) {
+function rebuildTheme($theme, $action, $board = false) {
 	global $config, $_theme;
 	$_theme = $theme;
 
@@ -270,7 +271,7 @@ function rebuildTheme($theme, $action) {
 	if (file_exists($config['dir']['themes'] . '/' . $_theme . '/theme.php')) {
 		require_once $config['dir']['themes'] . '/' . $_theme . '/theme.php';
 	
-		$theme['build_function']($action, themeSettings($_theme));
+		$theme['build_function']($action, themeSettings($_theme), $board);
 	}
 }
 
@@ -328,11 +329,19 @@ function setupBoard($array) {
 }
 
 function openBoard($uri) {
+	$board = getBoardInfo($uri);
+	if ($board) {
+		setupBoard($board);
+		return true;
+	}
+	return false;
+}
+
+function getBoardInfo($uri) {
 	global $config;
 
 	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 	
 	$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
@@ -342,27 +351,16 @@ function openBoard($uri) {
 	if ($board = $query->fetch()) {
 		if ($config['cache']['enabled'])
 			cache::set('board_' . $uri, $board);
-		setupBoard($board);
-		return true;
+		return $board;
 	}
 
 	return false;
 }
 
 function boardTitle($uri) {
-	global $config;
-	if ($config['cache']['enabled'] && ($board = cache::get('board_' . $uri))) {
+	$board = getBoardInfo($uri);
+	if ($board)
 		return $board['title'];
-	}
-	
-	$query = prepare("SELECT `title` FROM `boards` WHERE `uri` = :uri LIMIT 1");
-	$query->bindValue(':uri', $uri);
-	$query->execute() or error(db_error($query));
-	
-	if ($title = $query->fetch()) {
-		return $title['title'];
-	}
-
 	return false;
 }
 
@@ -395,7 +393,7 @@ function purge($uri) {
 }
 
 function file_write($path, $data, $simple = false, $skip_purge = false) {
-	global $config;
+	global $config, $debug;
 	
 	if (preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
 		if (isset($config['remote'][$m[1]])) {
@@ -422,7 +420,7 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 		error('Unable to truncate file: ' . $path);
 		
 	// Write data
-	if (fwrite($fp, $data) === false)
+	if (($bytes = fwrite($fp, $data)) === false)
 		error('Unable to write to file: ' . $path);
 	
 	// Unlock
@@ -446,6 +444,10 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 			purge($uri);
 		}
 		purge($path);
+	}
+	
+	if ($config['debug']) {
+		$debug['write'][] = $path . ': ' . $bytes . ' bytes';
 	}
 	
 	event('write', $path);
@@ -578,6 +580,12 @@ function ago($timestamp) {
 function displayBan($ban) {
 	global $config;
 	
+	if (!$ban['seen']) {
+		$query = prepare("UPDATE `bans` SET `seen` = 1 WHERE `id` = :id");
+		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	}
+	
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
 	
 	// Show banned page and exit
@@ -604,12 +612,12 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 	
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -617,7 +625,7 @@ function checkBan($board = 0) {
 	
 	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
 			AND (					
 				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
 					AND
@@ -634,15 +642,29 @@ function checkBan($board = 0) {
 	if ($ban = $query->fetch()) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
-			$query = prepare("DELETE FROM `bans` WHERE `id` = :id LIMIT 1");
+			$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
 			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
+			
+			if ($config['require_ban_view'] && !$ban['seen']) {
+				displayBan($ban);
+			}
 			
 			return;
 		}
 		
 		displayBan($ban);
 	}
+	
+	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
+	purge_bans();
+}
+
+// No reason to keep expired bans in the database (except those that haven't been viewed yet)
+function purge_bans() {
+	$query = prepare("DELETE FROM `bans` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
+	$query->bindValue(':time', time());
+	$query->execute() or error(db_error($query));
 }
 
 function threadLocked($id) {
@@ -725,13 +747,13 @@ function post(array $post) {
 	$query->bindValue(':password', $post['password']);		
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 	
-	if ($post['op'] && $post['mod'] && $post['sticky']) {
+	if ($post['op'] && $post['mod'] && isset($post['sticky']) && $post['sticky']) {
 		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
 	}
 	
-	if ($post['op'] && $post['mod'] && $post['locked']) {
+	if ($post['op'] && $post['mod'] && isset($post['locked']) && $post['locked']) {
 		$query->bindValue(':locked', 1, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':locked', 0, PDO::PARAM_INT);
@@ -967,6 +989,8 @@ function index($page, $mod=false) {
 	
 	if ($query->rowcount() < 1 && $page > 1)
 		return false;
+
+	$threads = array();
 	while ($th = $query->fetch()) {
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
@@ -986,12 +1010,8 @@ function index($page, $mod=false) {
 			$replies = array_reverse($posts->fetchAll(PDO::FETCH_ASSOC));
 			
 			if (count($replies) == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-				$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
-				$count->bindValue(':thread', $th['id'], PDO::PARAM_INT);
-				$count->execute() or error(db_error($count));
-				$count = $count->fetchAll(PDO::FETCH_COLUMN);
-				
-				$omitted = array('post_count' => $count[0], 'image_count' => $count[1]);
+				$count = numPosts($th['id']);
+				$omitted = array('post_count' => $count['replies'], 'image_count' => $count['images']);
 			} else {
 				$omitted = false;
 			}
@@ -1019,7 +1039,8 @@ function index($page, $mod=false) {
 			$thread->omitted = $omitted['post_count'] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
 			$thread->omitted_images = $omitted['image_count'] - $num_images;
 		}
-		
+
+		$threads[] = $thread;
 		$body .= $thread->build(true);
 	}
 	
@@ -1028,7 +1049,8 @@ function index($page, $mod=false) {
 		'body' => $body,
 		'post_url' => $config['post_url'],
 		'config' => $config,
-		'boardlist' => createBoardlist($mod)
+		'boardlist' => createBoardlist($mod),
+		'threads' => $threads
 	);
 }
 
@@ -1134,14 +1156,19 @@ function checkRobot($body) {
 	return false;
 }
 
+// Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) as `count` FROM `posts_%s` WHERE `thread` = :thread", $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$result = $query->fetch();
-	return $result['count'];
+	$num_posts = $query->fetch();
+	$num_posts = $num_posts['num'];
+	$num_images = $query->fetch();
+	$num_images = $num_images['num'];
+	
+	return array('replies' => $num_posts, 'images' => $num_images);
 }
 
 function muteTime() {
@@ -1213,6 +1240,9 @@ function buildIndex() {
 	$pages = getPages();
 	$antibot = create_antibot($board['uri']);
 
+	$api = new Api();
+	$catalog = array();
+
 	$page = 1;
 	while ($page <= $config['max_pages'] && $content = index($page)) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
@@ -1225,6 +1255,14 @@ function buildIndex() {
 		$content['antibot'] = $antibot;
 
 		file_write($filename, Element('index.html', $content));
+
+		// json api
+		$threads = $content['threads'];
+		$json = json_encode($api->translatePage($threads));
+		$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+		file_write($jsonFilename, $json);
+
+		$catalog[$page-1] = $threads; 
 		
 		$page++;
 	}
@@ -1232,8 +1270,16 @@ function buildIndex() {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
+
+			$jsonFilename = $board['dir'] . ($page-1) . ".json";
+			file_unlink($jsonFilename);
 		}
 	}
+
+	// json api catalog
+	$json = json_encode($api->translateCatalog($catalog));
+	$jsonFilename = $board['dir'] . "catalog.json";
+	file_write($jsonFilename, $json);
 }
 
 function buildJavascript() {
@@ -1246,6 +1292,12 @@ function buildJavascript() {
 			'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
 	}
 	
+	// Check if we have translation for the javascripts; if yes, we add it to additional javascripts
+	list($pure_locale) = explode(".", $config['locale']);
+	if (file_exists ($jsloc = "inc/locale/".$pure_locale."/LC_MESSAGES/javascript.js")) {
+		array_unshift($config['additional_javascript'], $jsloc);
+	}
+
 	$script = Element('main.js', array(
 		'config' => $config,
 		'stylesheets' => $stylesheets
@@ -1365,8 +1417,8 @@ function unicodify($body) {
 	// En and em- dashes are rendered exactly the same in
 	// most monospace fonts (they look the same in code
 	// editors).
-	$body = str_replace('--', '&ndash;', $body); // en dash
 	$body = str_replace('---', '&mdash;', $body); // em dash
+	$body = str_replace('--', '&ndash;', $body); // en dash
 	
 	return $body;
 }
@@ -1494,7 +1546,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function utf8tohtml($utf8) {
-	return mb_encode_numericentity(htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8'), array(0x80, 0xffff, 0, 0xffff), 'UTF-8');
+	return htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8');
 }
 
 function buildThread($id, $return=false, $mod=false) {
@@ -1535,8 +1587,9 @@ function buildThread($id, $return=false, $mod=false) {
 		error($config['error']['nonexistant']);
 	
 	$body = Element('thread.html', array(
-		'board'=>$board, 
-		'body'=>$thread->build(),
+		'board' => $board,
+		'thread' => $thread,
+		'body' => $thread->build(),
 		'config' => $config,
 		'id' => $id,
 		'mod' => $mod,
@@ -1549,6 +1602,12 @@ function buildThread($id, $return=false, $mod=false) {
 		return $body;
 
 	file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
+
+	// json api
+	$api = new Api();
+	$json = json_encode($api->translateThread($thread));
+	$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+	file_write($jsonFilename, $json);
 }
 
  function rrmdir($dir) {

@@ -1,0 +1,36 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.css }}"/>
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+</head>
+<body>
+	{{ boardlist.top }}
+	<header>
+		<h1>{{ settings.title }} (<a href="{{link}}">/{{ board }}/</a>)</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
+	
+	<ul>
+	{% for post in recent_posts %}
+		<div class="thread">
+			<a href="{{post.link}}">
+				<img src="{{post.file}}" class="{{post.board}}" title="{{post.bump|date('%b %d %H:%M')}}">
+			</a>
+			<span class="replies">
+				<strong>{% trans %}1 reply{% plural post.reply_count %}{{ count }} replies{% endtrans %}</strong><br/>
+				{{ post.body }}
+			</span>
+		</div>
+	{% endfor %}
+	</ul>
+	
+	<hr/>
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2013 Tinyboard Development Group</p>
+</body>
+</html>
+{% endfilter %}

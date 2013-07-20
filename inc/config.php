@@ -326,6 +326,11 @@
 	// Reply limit (stops bumping thread when this is reached)
 	$config['reply_limit'] = 250;
 	
+	// Image hard limit (stops allowing new image replies when this is reached if not zero)
+	$config['image_hard_limit'] = 0;
+	// Reply hard limit (stops allowing new replies when this is reached if not zero)
+	$config['reply_hard_limit'] = 0;
+	
 	// Strip repeating characters when making hashes
 	$config['robot_enable'] = false;
 	$config['robot_strip_repeating'] = true;
@@ -378,6 +383,9 @@
 	$config['field_disable_reply_subject'] = false;
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
+	
+	// Require users to see the ban page at least once for a ban even if it has since expired?
+	$config['require_ban_view'] = false;
 	
 /*
  * ====================
@@ -552,6 +560,9 @@
 	// Number of characters in the poster ID (maximum is 40)
 	$config['poster_id_length'] = 5;
 	
+	// Show thread subject in page title?
+	$config['thread_subject_in_title'] = false;
+	
 	// Page footer
 	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
 	
@@ -696,6 +707,8 @@
 	$config['error']['noboard']		= _('Invalid board!');
 	$config['error']['nonexistant']		= _('Thread specified does not exist.');
 	$config['error']['locked']		= _('Thread locked. You may not reply at this time.');
+	$config['error']['reply_hard_limit']	= _('Thread has reached its maximum reply limit.');
+	$config['error']['image_hard_limit']	= _('Thread has reached its maximum image limit.');
 	$config['error']['nopost']		= _('You didn\'t make a post.');
 	$config['error']['flood']		= _('Flood detected; Post discarded.');
 	$config['error']['spam']		= _('Your request looks automated; Post discarded.');
@@ -723,6 +736,7 @@
 	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
 	
 	// Moderator errors
+	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');
 	$config['error']['invalid']		= _('Invalid username and/or password.');
 	$config['error']['notamod']		= _('You are not a mod…');
 	$config['error']['invalidafter']	= _('Invalid username and/or password. Your user may have been deleted or changed.');
@@ -810,6 +824,9 @@
  *  Mod settings
  * ====================
  */
+ 
+ 	// Limit how many bans can be removed via the ban list. (Set too -1 to remove limit.)
+	$config['mod']['unban_limit'] = 5;
 	
 	// Whether or not to lock moderator sessions to the IP address that was logged in with.
 	$config['mod']['lock_ip'] = true;
@@ -900,8 +917,8 @@
 	$config['mod']['shadow_mesage'] = 'Moved to %s.';
 	// Capcode to use when posting the above message.
 	$config['mod']['shadow_capcode'] = 'Mod';
-	// Name to use when posting the above message.
-	$config['mod']['shadow_name'] = $config['anonymous'];
+	// Name to use when posting the above message. If false, the default board name will be used. If something else, that will be used.
+	$config['mod']['shadow_name'] = false;
 	
 	// Wait indefinitely when rebuilding everything
 	$config['mod']['rebuild_timelimit'] = 0;
@@ -911,6 +928,9 @@
 	
 	// Edit raw HTML in posts by default
 	$config['mod']['raw_html_default'] = false;
+	
+	// Automatically dismiss all reports regarding a thread when it is locked
+	$config['mod']['dismiss_reports_on_lock'] = true;
 	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {
@@ -1028,6 +1048,9 @@
 	$config['mod']['createusers'] = ADMIN;
 	// View the moderation log
 	$config['mod']['modlog'] = ADMIN;
+	// View relevant moderation log entries on IP address pages (ie. ban history, etc.)
+	// Warning: Can be pretty resource exhaustive if your mod logs are huge.
+	$config['mod']['modlog_ip'] = MOD;
 	// Create a PM (viewing mod usernames)
 	$config['mod']['create_pm'] = JANITOR;
 	// Read any PM, sent to or from anybody
