@@ -24,9 +24,8 @@
 
 
 onready(function(){
-	$('div.video-container a').attr('href', 'javascript:void(0)');
-	$('div.video-container').click(function() {
-		var videoID = $(this).data('video');
+	$('div.video-container a').click(function() {
+		var videoID = $(this).parentNode.data('video');
 		
 		$(this).html('<iframe style="float:left;margin: 10px 20px" type="text/html" width="360" height="270" src="http://www.youtube.com/embed/' + videoID + '?autoplay=1" frameborder="0"/>');
 
