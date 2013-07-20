@@ -252,16 +252,22 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	if ($type == 'IP_notes') {
 		$query = 'SELECT * FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
 		$sql_table = 'ip_notes';
+		if (!hasPermission($config['mod']['view_notes']) || !hasPermission($config['mod']['show_ip']))
+			error($config['error']['noaccess']);
 	}
 	
 	if ($type == 'bans') {
 		$query = 'SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
 		$sql_table = 'bans';
+		if (!hasPermission($config['mod']['view_banlist']))
+			error($config['error']['noaccess']);
 	}
 	
 	if ($type == 'log') {
 		$query = 'SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
 		$sql_table = 'modlogs';
+		if (!hasPermission($config['mod']['modlog']))
+			error($config['error']['noaccess']);
 	}
 		
 	// Execute SQL query (with pages)
