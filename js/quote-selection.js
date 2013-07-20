@@ -1,6 +1,9 @@
 /*
  * quote-selection.js
  *
+ * This is a little buggy.
+ * Allows you to quote a post by just selecting some text, then beginning to type.
+ *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
@@ -31,12 +34,15 @@ $(document).ready(function(){
 	
 	var altKey = false;
 	var ctrlKey = false;
+	var metaKey = false;
 	
 	$(document).keyup(function(e) {
-		if (e.altKey)
+		if (e.keyCode == 18)
 			altKey = false;
-		else if (e.ctrlKey)
+		else if (e.keyCode == 17)
 			ctrlKey = false;
+		else if (e.keyCode == 91)
+			metaKey = false;
 	});
 	
 	$(document).keydown(function(e) {
@@ -44,9 +50,11 @@ $(document).ready(function(){
 			altKey = true;
 		else if (e.ctrlKey)
 			ctrlKey = true;
+		else if (e.metaKey)
+			metaKey = true;
 		
-		if (altKey || ctrlKey) {
-			console.log('CTRL/ALT used. Ignoring');
+		if (altKey || ctrlKey || metaKey) {
+			// console.log('CTRL/ALT/Something used. Ignoring');
 			return;
 		}
 		
@@ -56,20 +64,20 @@ $(document).ready(function(){
 		var selection = window.getSelection();
 		var $post = $(selection.anchorNode).parents('.post');
 		if ($post.length == 0) {
-			console.log('Start of selection was not post div', $(selection.anchorNode).parent());
+			// console.log('Start of selection was not post div', $(selection.anchorNode).parent());
 			return;
 		}
 		
 		var postID = $post.find('.post_no:eq(1)').text();
 		
 		if (postID != $(selection.focusNode).parents('.post').find('.post_no:eq(1)').text()) {
-			console.log('Selection left post div', $(selection.focusNode).parent());
+			// console.log('Selection left post div', $(selection.focusNode).parent());
 			return;
 		}
 		
 		;
 		var selectedText = selection.toString();
-		console.log('Selected text: ' + selectedText.replace(/\n/g, '\\n').replace(/\r/g, '\\r'));
+		// console.log('Selected text: ' + selectedText.replace(/\n/g, '\\n').replace(/\r/g, '\\r'));
 		
 		if ($('body').hasClass('debug'))
 			alert(selectedText);
@@ -86,7 +94,7 @@ $(document).ready(function(){
 		/* to solve some bugs on weird browsers, we need to replace \r\n with \n and then undo that after */
 		var quote = (last_quote != postID ? '>>' + postID + '\r\n' : '') + $.trim(selectedText).replace(/\r\n/g, '\n').replace(/^/mg, '>').replace(/\n/g, '\r\n') + '\r\n';
 		
-		console.log('Deselecting text');
+		// console.log('Deselecting text');
 		selection.removeAllRanges();
 		
 		if (document.selection) {

@@ -899,8 +899,8 @@
 	// Number of news entries to display per page
 	$config['mod']['news_page'] = 40;
 	
-	// Maximum number of results to display for a search, per board
-	$config['mod']['search_results'] = 75;
+	// Number of results to dispaly per page
+	$config['mod']['search_page'] = 200;
 	
 	// How many entries to show per page in the moderator noticeboard
 	$config['mod']['noticeboard_page'] = 50;
@@ -1057,7 +1057,7 @@
 	$config['mod']['master_pm'] = ADMIN;
 	// Rebuild everything
 	$config['mod']['rebuild'] = ADMIN;
-	// Search through posts
+	// Search through posts, IP address notes and bans
 	$config['mod']['search'] = JANITOR;
 	// Read the moderator noticeboard
 	$config['mod']['noticeboard'] = JANITOR;
