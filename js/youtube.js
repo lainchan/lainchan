@@ -29,6 +29,8 @@ onready(function(){
 		var videoID = $(this).data('video');
 		
 		$(this).html('<iframe style="float:left;margin: 10px 20px" type="text/html" width="360" height="270" src="http://www.youtube.com/embed/' + videoID + '?autoplay=1" frameborder="0"/>');
+
+		return false;
 	});
 });
 
