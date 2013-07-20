@@ -56,6 +56,10 @@ $pages = array(
 	'/IP/([\w.:]+)/remove_note/(\d+)'	=> 'ip_remove_note',	// remove note from ip address
 	'/bans'					=> 'bans',		// ban list
 	'/bans/(\d+)'				=> 'bans',		// ban list
+	
+	'/search'				=> 'search_redirect',		// search
+	'/search/(posts|IP_notes|bans|log)/(.+)/(\d+)'	=> 'search',	// search
+	'/search/(posts|IP_notes|bans|log)/(.+)'	=> 'search',	// search
 
 	// CSRF-protected moderator actions
 	'/ban'					=> 'secure_POST ban',	// new ban

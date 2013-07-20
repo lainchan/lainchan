@@ -101,22 +101,17 @@
 	</ul>
 </fieldset>
 
-{#
+{% if mod|hasPermission(config.mod.search) %}
 <fieldset>
 	<legend>{% trans 'Search' %}</legend>
 	
 	<ul>
 		<li>
-			<form style="display:inline" action="?/search" method="post">
-				<label style="display:inline" for="search">{% trans 'Phrase:' %}</label> 
-				<input id="search" name="search" type="text" size="35">
-				<input type="submit" value="{% trans 'Search' %}">
-			</form>
-			<p class="unimportant">{% trans '(Search is case-insensitive, and based on keywords. To match exact phrases, use "quotes". Use an asterisk (*) for wildcard.)' %}</p>
+			{% include 'mod/search_form.html' %}
 		</li>
 	</ul>
 </fieldset>
-#}
+{%  endif %}
 
 {% if config.debug %}
 	<fieldset>

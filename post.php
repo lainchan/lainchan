@@ -251,19 +251,10 @@ if (isset($_POST['delete'])) {
 		// yep; validate it
 		$value = $_POST['embed'];
 		foreach ($config['embedding'] as &$embed) {
-			if ($html = preg_replace($embed[0], $embed[1], $value)) {
-				if ($html == $value) {
-					// Nope.
-					continue;
-				}
-				
-				// Width and height
-				$html = str_replace('%%tb_width%%', $config['embed_width'], $html);
-				$html = str_replace('%%tb_height%%', $config['embed_height'], $html);
-				
-				// Validated. It works.
-				$post['embed'] = $html;
-				// This looks messy right now, I know. I'll work on a better alternative later.
+			if (preg_match($embed[0], $value)) {
+				// Valid link
+				$post['embed'] = $value;
+				// This is bad, lol.
 				$post['no_longer_require_an_image_for_op'] = true;
 				break;
 			}
@@ -442,72 +433,8 @@ if (isset($_POST['delete'])) {
 			if ($config['thumb_method'] == 'convert') {
 				if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
 					$exif = exif_read_data($upload);
-					if (isset($exif['Orientation'])) {
-						switch($exif['Orientation']) {
-							case 1:
-								// Normal
-								$args = false;
-								break;
-							case 2:
-								// 888888
-								//     88
-								//   8888
-								//     88
-								//     88
-								
-								$args = '-flop';
-								break;
-							case 3:
-								
-								//     88
-								//     88
-								//   8888
-								//     88
-								// 888888
-								
-								$args = '-flip -flop';
-								break;
-							case 4:
-								// 88
-								// 88
-								// 8888
-								// 88
-								// 888888
-								
-								$args = '-flip';
-								break;
-							case 5:
-								// 8888888888
-								// 88  88
-								// 88
-								
-								$args = '-rotate 90 -flop';
-								break;
-							case 6:
-								// 88
-								// 88  88
-								// 8888888888
-								
-								$args = '-rotate 90';
-								break;
-							case 7:
-								//         88
-								//     88  88
-								// 8888888888
-								
-								$args = '-rotate "-90" -flop';
-								break;
-							case 8:
-								// 8888888888
-								//     88  88
-								//         88
-								
-								$args = '-rotate "-90"';
-								break;
-						}
-						
-						if ($args)
-							shell_exec('convert ' . escapeshellarg($upload) . ' ' . $args . ' ' . escapeshellarg($upload));
+					if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
+						shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
 					}
 				}
 			}
