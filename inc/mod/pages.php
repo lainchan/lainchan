@@ -162,6 +162,112 @@ function mod_dashboard() {
 	mod_page(_('Dashboard'), 'mod/dashboard.html', $args);
 }
 
+function mod_search_redirect() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['search']))
+		error($config['error']['noaccess']);
+	
+	if (isset($_POST['query'], $_POST['type']) && in_array($_POST['type'], array('posts', 'IP_notes', 'bans'))) {
+		$query = $_POST['query'];
+		$query = urlencode($query);
+		$query = str_replace('_', '%5F', $query);
+		$query = str_replace('+', '_', $query);
+		
+		header('Location: ?/search/' . $_POST['type'] . '/' . $query, true, $config['redirect_http']);
+	} else {
+		header('Location: ?/', true, $config['redirect_http']);
+	}
+}
+
+function mod_search($type, $query) {
+	global $pdo, $config;
+	
+	if (!hasPermission($config['mod']['search']))
+		error($config['error']['noaccess']);
+	
+	// Unescape query
+	$query = str_replace('_', ' ', $query);
+	$query = urldecode($query);
+	$search_query = $query;
+	
+	// Form a series of LIKE clauses for the query.
+	// This gets a little complicated.
+	
+	// Escape "escape" character
+	$query = str_replace('!', '!!', $query);
+	
+	// Escape SQL wildcard
+	$query = str_replace('%', '!%', $query);
+	
+	// Use asterisk as wildcard instead
+	$query = str_replace('*', '%', $query);
+	
+	// Array of phrases to match
+	$match = array();
+	
+	// Exact phrases ("like this")
+	if (preg_match_all('/"(.+?)"/', $query, $matches)) {
+		foreach ($matches[1] as $phrase) {
+			$query = str_replace("\"{$phrase}\"", '', $query);
+			$match[] = $pdo->quote($phrase);
+		}
+	}
+	
+	// Non-exact phrases (ie. plain keywords)
+	$keywords = explode(' ', $query);
+	foreach ($keywords as $word) {
+		if (empty($word))
+			continue;
+		$match[] = $pdo->quote($word);
+	}
+	
+	// Which `field` to search?
+	if ($type == 'posts')
+		$sql_field = 'body';
+	if ($type == 'IP_notes')
+		$sql_field = 'body';
+	if ($type == 'bans')
+		$sql_field = 'reason';
+	
+	// Build the "LIKE 'this' AND LIKE 'that'" etc. part of the SQL query
+	$sql_like = '';
+	foreach ($match as $phrase) {
+		if (!empty($sql_like))
+			$sql_like .= ' AND ';
+		$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
+		$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
+	}
+	
+	if ($type == 'posts') {
+		error('Searching posts is under development. Sorry.');
+	}
+	
+	if ($type == 'IP_notes') {
+		$query = query('SELECT * FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC') or error(db_error());
+		$results = $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	if ($type == 'bans') {
+		$query = query('SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set`') or error(db_error());
+		$results = $query->fetchAll(PDO::FETCH_ASSOC);
+		
+		foreach ($results as &$ban) {
+			if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
+				$ban['real_ip'] = true;
+		}
+	}
+	
+	// $results now contains the search results
+	
+	mod_page(_('Search results'), 'mod/search_results.html', array(
+		'search_type' => $type,
+		'search_query' => $search_query,
+		'result_count' => count($results),
+		'results' => $results
+	));
+}
+
 function mod_edit_board($boardName) {
 	global $board, $config;
 	

@@ -1015,7 +1015,7 @@
 	$config['mod']['master_pm'] = ADMIN;
 	// Rebuild everything
 	$config['mod']['rebuild'] = ADMIN;
-	// Search through posts
+	// Search through posts, IP address notes and bans
 	$config['mod']['search'] = JANITOR;
 	// Read the moderator noticeboard
 	$config['mod']['noticeboard'] = JANITOR;
