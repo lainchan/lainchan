@@ -234,6 +234,18 @@ CREATE TABLE IF NOT EXISTS `robot` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `search_queries`
+--
+
+CREATE TABLE IF NOT EXISTS `search_queries` (
+  `ip` varchar(39) NOT NULL,
+  `time` int(11) NOT NULL,
+  `query` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `theme_settings`
 --
 
