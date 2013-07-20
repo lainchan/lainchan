@@ -13,7 +13,7 @@ function phGetInnerText(id) {
  else { return "[-]"; }
 }
 function phGetOpID(element) {
- return Number(element.children("div.post.op").children("p.intro").children("a.post_no:eq(1)").text());
+ return Number(element.children("div.post.op").children("p.intro").children("a.post_no.p2").text());
 }
 function phPostHandle(element) {
  var id = phGetOpID(element);
