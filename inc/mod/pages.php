@@ -168,7 +168,7 @@ function mod_search_redirect() {
 	if (!hasPermission($config['mod']['search']))
 		error($config['error']['noaccess']);
 	
-	if (isset($_POST['query'], $_POST['type']) && in_array($_POST['type'], array('posts', 'IP_notes', 'bans'))) {
+	if (isset($_POST['query'], $_POST['type']) && in_array($_POST['type'], array('posts', 'IP_notes', 'bans', 'log'))) {
 		$query = $_POST['query'];
 		$query = urlencode($query);
 		$query = str_replace('_', '%5F', $query);
@@ -180,14 +180,14 @@ function mod_search_redirect() {
 	}
 }
 
-function mod_search($type, $query) {
+function mod_search($type, $search_query_escaped, $page_no = 1) {
 	global $pdo, $config;
 	
 	if (!hasPermission($config['mod']['search']))
 		error($config['error']['noaccess']);
 	
 	// Unescape query
-	$query = str_replace('_', ' ', $query);
+	$query = str_replace('_', ' ', $search_query_escaped);
 	$query = urldecode($query);
 	$search_query = $query;
 	
@@ -207,8 +207,9 @@ function mod_search($type, $query) {
 	$match = array();
 	
 	// Exact phrases ("like this")
-	if (preg_match_all('/"(.+?)"/', $query, $matches)) {
-		foreach ($matches[1] as $phrase) {
+	if (preg_match_all('/"(.+?)"/', $query, $exact_phrases)) {
+		$exact_phrases = $exact_phrases[1];
+		foreach ($exact_phrases as $phrase) {
 			$query = str_replace("\"{$phrase}\"", '', $query);
 			$match[] = $pdo->quote($phrase);
 		}
@@ -229,6 +230,8 @@ function mod_search($type, $query) {
 		$sql_field = 'body';
 	if ($type == 'bans')
 		$sql_field = 'reason';
+	if ($type == 'log')
+		$sql_field = 'text';
 	
 	// Build the "LIKE 'this' AND LIKE 'that'" etc. part of the SQL query
 	$sql_like = '';
@@ -239,19 +242,37 @@ function mod_search($type, $query) {
 		$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
 	}
 	
+	
+	// Compile SQL query
+	
 	if ($type == 'posts') {
 		error('Searching posts is under development. Sorry.');
 	}
 	
 	if ($type == 'IP_notes') {
-		$query = query('SELECT * FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC') or error(db_error());
-		$results = $query->fetchAll(PDO::FETCH_ASSOC);
+		$query = 'SELECT * FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
+		$sql_table = 'ip_notes';
 	}
 	
 	if ($type == 'bans') {
-		$query = query('SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set`') or error(db_error());
-		$results = $query->fetchAll(PDO::FETCH_ASSOC);
+		$query = 'SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
+		$sql_table = 'bans';
+	}
+	
+	if ($type == 'log') {
+		$query = 'SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
+		$sql_table = 'modlogs';
+	}
 		
+	// Execute SQL query (with pages)
+	$q = query($query . ' LIMIT ' . (($page_no - 1) * $config['mod']['search_page']) . ', ' . $config['mod']['search_page']) or error(db_error());
+	$results = $q->fetchAll(PDO::FETCH_ASSOC);
+		
+	// Get total result count
+	$q = query('SELECT COUNT(*) FROM `' . $sql_table . '` WHERE ' . $sql_like) or error(db_error());
+	$result_count = $q->fetchColumn();
+	
+	if ($type == 'bans') {
 		foreach ($results as &$ban) {
 			if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
 				$ban['real_ip'] = true;
@@ -259,11 +280,12 @@ function mod_search($type, $query) {
 	}
 	
 	// $results now contains the search results
-	
+		
 	mod_page(_('Search results'), 'mod/search_results.html', array(
 		'search_type' => $type,
 		'search_query' => $search_query,
-		'result_count' => count($results),
+		'search_query_escaped' => $search_query_escaped,
+		'result_count' => $result_count,
 		'results' => $results
 	));
 }

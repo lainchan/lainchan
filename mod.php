@@ -58,7 +58,8 @@ $pages = array(
 	'/bans/(\d+)'				=> 'bans',		// ban list
 	
 	'/search'				=> 'search_redirect',		// search
-	'/search/(posts|IP_notes|bans)/(.+)'	=> 'search',	// search
+	'/search/(posts|IP_notes|bans|log)/(.+)/(\d+)'	=> 'search',	// search
+	'/search/(posts|IP_notes|bans|log)/(.+)'	=> 'search',	// search
 
 	// CSRF-protected moderator actions
 	'/ban'					=> 'secure_POST ban',	// new ban
