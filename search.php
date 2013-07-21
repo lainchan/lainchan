@@ -1,11 +1,15 @@
 <?php
 	require 'inc/functions.php';
 	
-	$queries_per_minutes = Array(15, 2);
-	$queries_per_minutes_all = Array(50, 2);
-	$search_limit = 100;
+	if (!$config['search']['enable']) {
+		die(_("Post search is disabled"));
+	}
+
+	$queries_per_minutes = $config['search']['queries_per_minutes'];
+	$queries_per_minutes_all = $config['search']['queries_per_minutes_all'];
+	$search_limit = $config['search']['search_limit'];
 	
-	$boards = Array('new', 'r9k', 'v', 'edu', 'azn', 'h', 'meta');
+	$boards = $config['search']['boards'];
 	
 	$body = Element('search_form.html', Array('boards' => $boards, 'board' => isset($_POST['board']) ? $_POST['board'] : false, 'search' => isset($_POST['search']) ? str_replace('"', '&quot;', utf8tohtml($_POST['search'])) : false));
 	
@@ -18,13 +22,13 @@
 		$query->bindValue(':time', time() - ($queries_per_minutes[1] * 60));
 		$query->execute() or error(db_error($query));
 		if($query->fetchColumn() > $queries_per_minutes[0])
-			error('Wait a while before searching again, please.');
+			error(_('Wait a while before searching again, please.'));
 		
 		$query = prepare("SELECT COUNT(*) FROM `search_queries` WHERE `time` > :time");
 		$query->bindValue(':time', time() - ($queries_per_minutes_all[1] * 60));
 		$query->execute() or error(db_error($query));
 		if($query->fetchColumn() > $queries_per_minutes_all[0])
-			error('Wait a while before searching again, please.');
+			error(_('Wait a while before searching again, please.'));
 			
 		
 		$query = prepare("INSERT INTO `search_queries` VALUES (:ip, :time, :query)");
@@ -34,6 +38,11 @@
 		$query->execute() or error(db_error($query));
 		
 		_syslog(LOG_NOTICE, 'Searched /' . $_POST['board'] . '/ for "' . $phrase . '"');
+
+		// Cleanup search queries table
+		$query = prepare("DELETE FROM `search_queries` WHERE `time` <= :time");
+		$query->bindValue(':time', time() - ($queries_per_minutes_all[1] * 60));
+                $query->execute() or error(db_error($query));
 		
 		openBoard($_POST['board']);
 		
@@ -44,7 +53,7 @@
 			$name = $m[2];
 			$value = isset($m[4]) ? $m[4] : $m[3];
 			
-			if(!in_array($name, Array('id', 'thread', 'subject', 'name'))) {
+			if(!in_array($name, array('id', 'thread', 'subject', 'name'))) {
 				// unknown filter
 				return $m[0];
 			}
@@ -116,7 +125,7 @@
 		
 		if($query->rowCount() == $search_limit) {
 			_syslog(LOG_WARNING, 'Query too broad.');
-			$body .= '<p class="unimportant" style="text-align:center">(Query too broad.)</p>';
+			$body .= '<p class="unimportant" style="text-align:center">('._('Query too broad.').')</p>';
 			echo Element('page.html', Array(
 				'config'=>$config,
 				'title'=>'Search',
@@ -136,7 +145,9 @@
 		}
 		
 		if(!empty($temp))
-			$_body .= '<fieldset><legend>' . $query->rowCount() . ' result' . ($query->rowCount() != 1 ? 's' : '') . ' in <a href="/' .
+			$_body .= '<fieldset><legend>' . $query->rowCount() . 
+					sprintf(ngettext('%d result in', '%d results in', $query->rowCount()), 
+					$query->rowCount) . ' <a href="/' .
 					sprintf($config['board_path'], $board['uri']) . $config['file_index'] .
 			'">' .
 			sprintf($config['board_abbreviation'], $board['uri']) . ' - ' . $board['title'] .
@@ -146,7 +157,7 @@
 		if(!empty($_body))
 			$body .= $_body;
 		else
-			$body .= '<p style="text-align:center" class="unimportant">(No results.)</p>';
+			$body .= '<p style="text-align:center" class="unimportant">('._('No results.').')</p>';
 	}
 		
 	echo Element('page.html', Array(
