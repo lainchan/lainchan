@@ -162,6 +162,6 @@
 		
 	echo Element('page.html', Array(
 		'config'=>$config,
-		'title'=>'Search',
+		'title'=>_('Search'),
 		'body'=>'' . $body
 	));
