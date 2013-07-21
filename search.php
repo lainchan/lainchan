@@ -11,10 +11,10 @@
 	
 	$boards = $config['search']['boards'];
 	
-	$body = Element('search_form.html', Array('boards' => $boards, 'board' => isset($_POST['board']) ? $_POST['board'] : false, 'search' => isset($_POST['search']) ? str_replace('"', '&quot;', utf8tohtml($_POST['search'])) : false));
+	$body = Element('search_form.html', Array('boards' => $boards, 'board' => isset($_GET['board']) ? $_GET['board'] : false, 'search' => isset($_GET['search']) ? str_replace('"', '&quot;', utf8tohtml($_GET['search'])) : false));
 	
-	if(isset($_POST['search']) && !empty($_POST['search']) && isset($_POST['board']) && in_array($_POST['board'], $boards)) {		
-		$phrase = $_POST['search'];
+	if(isset($_GET['search']) && !empty($_GET['search']) && isset($_GET['board']) && in_array($_GET['board'], $boards)) {		
+		$phrase = $_GET['search'];
 		$_body = '';
 		
 		$query = prepare("SELECT COUNT(*) FROM `search_queries` WHERE `ip` = :ip AND `time` > :time");
@@ -37,14 +37,14 @@
 		$query->bindValue(':query', $phrase);
 		$query->execute() or error(db_error($query));
 		
-		_syslog(LOG_NOTICE, 'Searched /' . $_POST['board'] . '/ for "' . $phrase . '"');
+		_syslog(LOG_NOTICE, 'Searched /' . $_GET['board'] . '/ for "' . $phrase . '"');
 
 		// Cleanup search queries table
 		$query = prepare("DELETE FROM `search_queries` WHERE `time` <= :time");
 		$query->bindValue(':time', time() - ($queries_per_minutes_all[1] * 60));
                 $query->execute() or error(db_error($query));
 		
-		openBoard($_POST['board']);
+		openBoard($_GET['board']);
 		
 		$filters = Array();
 		
