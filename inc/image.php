@@ -166,6 +166,9 @@ class ImageImagick extends ImageBase {
 		}
 	}
 	public function to($src) {
+		if ($config['strip_exif']) {
+			$this->image->stripImage();
+		}
 		if (preg_match('/\.gif$/i', $src))
 			$this->image->writeImages($src, true);
 		else
@@ -236,9 +239,14 @@ class ImageConvert extends ImageBase {
 		}
 	}
 	public function to($src) {
+		global $config;
+		
 		if (!$this->temp) {
-			// $config['redraw_image']
-			shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
+			if ($config['strip_exif']) {
+				shell_exec('convert ' . escapeshellarg($this->src) . ' -strip ' . escapeshellarg($src));
+			} else {
+				shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
+			}
 		} else {
 			rename($this->temp, $src);
 			chmod($src, 0664);
