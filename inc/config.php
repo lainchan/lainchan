@@ -1086,6 +1086,28 @@
 	
 /*
  * ====================
+ *  Public post search
+ * ====================
+ */
+	$config['search'] = array();
+
+	// Enable the search form
+	$config['search']['enable'] = false;
+
+	// Maximal number of queries per IP address per minutes
+        $config['search']['queries_per_minutes'] = Array(15, 2);
+
+	// Global maximal number of queries per minutes
+        $config['search']['queries_per_minutes_all'] = Array(50, 2);
+
+	// Limit of search results
+        $config['search']['search_limit'] = 100;
+        
+	// Boards for searching
+        //$config['search']['boards'] = array('a', 'b', 'c', 'd', 'e');
+
+/*
+ * ====================
  *  Events (PHP 5.3.0+)
  * ====================
  */
