@@ -147,7 +147,7 @@
 		if(!empty($temp))
 			$_body .= '<fieldset><legend>' . $query->rowCount() . 
 					sprintf(ngettext('%d result in', '%d results in', $query->rowCount()), 
-					$query->rowCount) . ' <a href="/' .
+					$query->rowCount()) . ' <a href="/' .
 					sprintf($config['board_path'], $board['uri']) . $config['file_index'] .
 			'">' .
 			sprintf($config['board_abbreviation'], $board['uri']) . ' - ' . $board['title'] .
