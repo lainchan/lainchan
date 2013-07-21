@@ -6,7 +6,6 @@
 
 require 'inc/functions.php';
 require 'inc/anti-bot.php';
-require 'inc/imgcaptcha.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
@@ -198,12 +197,7 @@ if (isset($_POST['delete'])) {
 			error($config['error']['captcha']);
 		}
 	}
-	if ($config['imgcaptcha']) {
-		if (!isset($_POST['imgcaptcha_verify']) || !isset($_POST['imgcaptcha_hash']))
-			error($config['error']['bot']);
-		if (ic_verifyHash($_POST['imgcaptcha_hash'],$_POST['imgcaptcha_verify']))
-			error($config['error']['captcha']);
-	}
+	
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
 		require 'inc/mod.php';
 		if (!$mod) {
