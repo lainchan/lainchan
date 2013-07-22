@@ -1089,6 +1089,18 @@
 	// Connection timeout, in seconds
 	$config['purge_timeout'] = 3;
 	
+	// Additional mod.php?/ pages (for developers). Look in inc/mod/pages.php for help.
+	//$config['mod']['custom_pages']['/something/(\d+)'] = function($id) {
+	//	global $config;
+	//	if (!hasPermission($config['mod']['something']))
+	//		error($config['error']['noaccess']);
+	//	// ...
+	//};
+	
+	// Add links to dashboard (will all be in "Other" category)
+	$config['mod']['dashboard_links'] = array();
+	// $config['mod']['dashboard_links']['Something'] = '?/something';
+	
 	// Remote servers
 	// http://tinyboard.org/wiki/index.php?title=Multiple_Servers
 	//$config['remote']['static'] = array(
