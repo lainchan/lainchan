@@ -422,10 +422,11 @@ if (isset($_POST['delete'])) {
 				error($config['error']['maxsize']);
 			}
 			
-			// The following code corrects the image orientation based on EXIF.
-			// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
-			if ($config['thumb_method'] == 'convert') {
-				if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
+			
+			if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
+				// The following code corrects the image orientation.
+				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
+				if ($config['thumb_method'] == 'convert') {
 					$exif = exif_read_data($upload);
 					if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
 						shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
@@ -475,7 +476,7 @@ if (isset($_POST['delete'])) {
 				$thumb->_destroy();
 			}
 			
-			if ($config['redraw_image']) {
+			if ($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				$image->to($post['file']);
 				$dont_copy_file = true;
 			}

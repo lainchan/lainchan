@@ -426,6 +426,9 @@
                                
 	$config['thumb_method'] = 'gd';
 	
+	// Strip EXIF metadata from JPEG files
+	$config['strip_exif'] = false;
+	
 	// Regular expression to check for IE MIME type detection XSS exploit. To disable, comment the line out
 	// https://github.com/savetheinternet/Tinyboard/issues/20
 	$config['ie_mime_type_detection'] = '/<(?:body|head|html|img|plaintext|pre|script|table|title|a href|channel|scriptlet)/i';
