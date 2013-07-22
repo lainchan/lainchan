@@ -860,7 +860,7 @@
 	// Number of news entries to display per page
 	$config['mod']['news_page'] = 40;
 	
-	// Number of results to dispaly per page
+	// Number of results to display per page
 	$config['mod']['search_page'] = 200;
 	
 	// How many entries to show per page in the moderator noticeboard
@@ -868,6 +868,8 @@
 	// Number of entries to summarize and display on the dashboard
 	$config['mod']['noticeboard_dashboard'] = 5;
 	
+	// Check public ban message by default
+	$config['mod']['check_ban_message'] = false;
 	// Default public ban message
 	$config['mod']['default_ban_message'] = 'USER WAS BANNED FOR THIS POST';
 	// What to append to the post for public bans ("%s" is the message)
