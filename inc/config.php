@@ -563,6 +563,12 @@
 	// Make stylesheet selections board-specific
 	$config['stylesheets_board'] = false;
 	
+	// Use Font-Awesome for displaying lock and pin icons, instead of the images in static/.
+	// http://fortawesome.github.io/Font-Awesome/icon/pushpin/
+	// http://fortawesome.github.io/Font-Awesome/icon/lock/
+	$config['font_awesome'] = false;
+	$config['font_awesome_css'] = 'stylesheets/font-awesome/css/font-awesome.min.css';
+	
 	// Boardlinks
 	// You can group, order and place the boardlist at the top of every page, using the following template.	
 	//$config['boards'] = array(
