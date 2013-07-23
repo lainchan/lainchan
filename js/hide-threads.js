@@ -55,6 +55,7 @@ $(document).ready(function(){
 				var hidden_div = thread_container.find('div.post.op > p.intro').clone();
 				hidden_div.addClass('thread-hidden');
 				hidden_div.find('a[href],input').remove();
+				hidden_div.html(hidden_div.html().replace(' [] ', ' '));
 				
 				$('<a class="unhide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[+]</a><span> </span>')
 					.insertAfter(thread_container.find('a.hide-thread-link'))
