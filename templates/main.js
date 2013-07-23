@@ -31,9 +31,19 @@ var styles = {
 	{% for stylesheet in stylesheets %}{% raw %}'{% endraw %}{{ stylesheet.name|addslashes }}{% raw %}' : '{% endraw %}{{ stylesheet.uri|addslashes }}{% raw %}',
 	{% endraw %}{% endfor %}{% raw %}
 };
+var board_name = false;
 
 function changeStyle(styleName, link) {
-	localStorage.stylesheet = styleName;
+	{% endraw %}
+	{% if config.stylesheets_board %}{% raw %}
+		if (board_name) {
+			stylesheet_choices[board_name] = styleName;
+			localStorage.board_stylesheets = JSON.stringify(stylesheet_choices);
+		}
+	{% endraw %}{% else %}
+		localStorage.stylesheet = styleName;
+	{% endif %}
+	{% raw %}
 	
 	if (!document.getElementById('stylesheet')) {
 		var s = document.createElement('link');
@@ -49,7 +59,7 @@ function changeStyle(styleName, link) {
 	
 	if (document.getElementsByClassName('styles').length != 0) {
 		var styleLinks = document.getElementsByClassName('styles')[0].childNodes;
-		for (i = 0; i < styleLinks.length; i++) {
+		for (var i = 0; i < styleLinks.length; i++) {
 			styleLinks[i].className = '';
 		}
 	}
@@ -59,14 +69,43 @@ function changeStyle(styleName, link) {
 	}
 }
 
-if (localStorage.stylesheet) {
-	for (styleName in styles) {
-		if (styleName == localStorage.stylesheet) {
-			changeStyle(styleName);
-			break;
+
+{% endraw %}
+{% if config.stylesheets_board %}
+	{# This is such an unacceptable mess. There needs to be an easier way. #}
+	var matches = document.URL.match(/\/(\w+)\/($|{{ config.dir.res|replace({'/': '\\/'}) }}{{ config.file_page|replace({'%d': '\\d+', '.': '\\.'}) }}|{{ config.file_index|replace({'.': '\\.'}) }}|{{ config.file_page|replace({'%d': '\\d+', '.': '\\.'}) }})/);
+	{% raw %}
+	if (matches) {
+		board_name = matches[1];
+	}
+	
+	if (!localStorage.board_stylesheets) {
+		localStorage.board_stylesheets = '{}';
+	}
+	
+	var stylesheet_choices = JSON.parse(localStorage.board_stylesheets);
+	if (board_name && stylesheet_choices[board_name]) {
+		for (var styleName in styles) {
+			if (styleName == stylesheet_choices[board_name]) {
+				changeStyle(styleName);
+				break;
+			}
 		}
 	}
-}
+	{% endraw%}
+{% else %}
+	{% raw %}
+	if (localStorage.stylesheet) {
+		for (var styleName in styles) {
+			if (styleName == localStorage.stylesheet) {
+				changeStyle(styleName);
+				break;
+			}
+		}
+	}
+	{% endraw %}
+{% endif %}
+{% raw %}
 
 function init_stylechooser() {
 	var newElement = document.createElement('div');
