@@ -560,6 +560,9 @@
 	// The default stylesheet to use
 	$config['default_stylesheet'] = array('Yotsuba B', $config['stylesheets']['Yotsuba B']);
 	
+	// Make stylesheet selections board-specific
+	$config['stylesheets_board'] = false;
+	
 	// Boardlinks
 	// You can group, order and place the boardlist at the top of every page, using the following template.	
 	//$config['boards'] = array(
