@@ -12,11 +12,9 @@
  */
 
 $(document).ready(function(){
-	if($('div.banner').length != 0)
+	if (active_page != "index" && active_page != "ukko")
 		return; // not index
-	
-	var board = $('form input[name="board"]').val().toString();
-	
+		
 	if (!localStorage.hiddenthreads)
 		localStorage.hiddenthreads = '{}';
 	
@@ -37,13 +35,15 @@ $(document).ready(function(){
 		}
 	}
 	
-	if (!hidden_data[board]) {
-		hidden_data[board] = {}; // id : timestamp
-	}
-	
 	$('div.post.op').each(function() {
 		var id = $(this).children('p.intro').children('a.post_no:eq(1)').text();
 		var thread_container = $(this).parent();
+		var board = thread_container.data("board");
+
+		if (!hidden_data[board]) {
+			hidden_data[board] = {}; // id : timestamp
+		}
+	
 		$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[–]</a><span> </span>')
 			.insertBefore(thread_container.find('p.fileinfo:first'))
 			.click(function() {
