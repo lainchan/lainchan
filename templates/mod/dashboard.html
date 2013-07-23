@@ -102,16 +102,28 @@
 </fieldset>
 
 {% if mod|hasPermission(config.mod.search) %}
-<fieldset>
-	<legend>{% trans 'Search' %}</legend>
-	
-	<ul>
-		<li>
-			{% include 'mod/search_form.html' %}
-		</li>
-	</ul>
-</fieldset>
+	<fieldset>
+		<legend>{% trans 'Search' %}</legend>
+		
+		<ul>
+			<li>
+				{% include 'mod/search_form.html' %}
+			</li>
+		</ul>
+	</fieldset>
 {%  endif %}
+
+{% if config.mod.dashboard_links|count %}
+	<fieldset>
+		<legend>{% trans 'Other' %}</legend>
+	
+		<ul>
+			{% for label,link in config.mod.dashboard_links %}
+				<li><a href="{{ link }}">{{ label }}</a></li>
+			{% endfor %}
+		</ul>
+	</fieldset>
+{% endif %}
 
 {% if config.debug %}
 	<fieldset>

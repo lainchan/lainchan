@@ -38,6 +38,7 @@ $(document).ready(function(){
 	$('div.post.op').each(function() {
 		var id = $(this).children('p.intro').children('a.post_no:eq(1)').text();
 		var thread_container = $(this).parent();
+
 		var board = thread_container.data("board");
 
 		if (!hidden_data[board]) {
