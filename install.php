@@ -242,7 +242,7 @@ if (file_exists($config['has_installed'])) {
 					$user['password'] = hash('sha256', $user['salt'] . $user['password']);
 			
 					$_query = prepare("UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id");
-					$_query->bindValue(':username', $user['id']);
+					$_query->bindValue(':id', $user['id']);
 					$_query->bindValue(':password', $user['password']);
 					$_query->bindValue(':salt', $user['salt']);
 					$_query->execute() or error(db_error($_query));
