@@ -879,8 +879,10 @@
 	
 	// Check public ban message by default
 	$config['mod']['check_ban_message'] = false;
-	// Default public ban message
+	// Default public ban message.
+	// In public ban messages, %length% is replaced with "for x days" or "permanently" (with %LENGTH% being the uppercase equivalent).
 	$config['mod']['default_ban_message'] = 'USER WAS BANNED FOR THIS POST';
+	// $config['mod']['default_ban_message'] = 'USER WAS BANNED %LENGTH% FOR THIS POST'; // Include length in ban message
 	// What to append to the post for public bans ("%s" is the message)
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
 	

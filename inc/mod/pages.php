@@ -1152,6 +1152,9 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message
+			$length_english = parse_time($_POST['length']) ? 'for ' . until(parse_time($_POST['length'])) : 'permanently';
+			$_POST['message'] = str_replace('%length%', $length_english, $_POST['message']);
+			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
 			$query->bindValue(':body', sprintf($config['mod']['ban_message'], utf8tohtml($_POST['message'])));
