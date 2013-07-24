@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.2</a>');
+define('VERSION', 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.3</a>');
 
 require 'inc/functions.php';
 
@@ -233,6 +233,26 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-8':
 		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.1</a>':
 			query("CREATE TABLE IF NOT EXISTS `search_queries` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
+		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.2</a>':
+			query("ALTER TABLE  `mods` CHANGE  `password`  `password` CHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  'SHA256'") or error(db_error());
+			query("ALTER TABLE  `mods` ADD  `salt` CHAR( 32 ) NOT NULL AFTER  `password`") or error(db_error());
+			$query = query("SELECT `id`,`password` FROM `mods`") or error(db_error());
+			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+				if (strlen($user['password']) == 40) {
+					mt_srand(microtime(true) * 100000 + memory_get_usage(true));
+					$salt = md5(uniqid(mt_rand(), true));
+			
+					$user['salt'] = $salt;
+					$user['password'] = hash('sha256', $user['salt'] . $user['password']);
+			
+					$_query = prepare("UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id");
+					$_query->bindValue(':id', $user['id']);
+					$_query->bindValue(':password', $user['password']);
+					$_query->bindValue(':salt', $user['salt']);
+					$_query->execute() or error(db_error($_query));
+				}
+			}
+                case 'v0.9.6-dev-9':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

@@ -1152,6 +1152,9 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message
+			$length_english = parse_time($_POST['length']) ? 'for ' . until(parse_time($_POST['length'])) : 'permanently';
+			$_POST['message'] = str_replace('%length%', $length_english, $_POST['message']);
+			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
 			$query->bindValue(':body', sprintf($config['mod']['ban_message'], utf8tohtml($_POST['message'])));
@@ -1407,9 +1410,13 @@ function mod_user($uid) {
 		}
 		
 		if ($_POST['password'] != '') {
-			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
+			$salt = generate_salt();
+			$password = hash('sha256', $salt . sha1($_POST['password']));
+			
+			$query = prepare('UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
-			$query->bindValue(':password', $_POST['password']);
+			$query->bindValue(':password', $password);
+			$query->bindValue(':salt', $salt);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed password for ' . utf8tohtml($_POST['username']) . ' <small>(#' . $user['id'] . ')</small>');
@@ -1430,9 +1437,13 @@ function mod_user($uid) {
 	
 	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
 		if ($_POST['password'] != '') {
-			$query = prepare('UPDATE `mods` SET `password` = SHA1(:password) WHERE `id` = :id');
+			$salt = generate_salt();
+			$password = hash('sha256', $salt . sha1($_POST['password']));
+
+			$query = prepare('UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
-			$query->bindValue(':password', $_POST['password']);
+			$query->bindValue(':password', $password);
+			$query->bindValue(':salt', $salt);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed own password');
@@ -1494,9 +1505,13 @@ function mod_user_new() {
 		if ($_POST['type'] !== JANITOR && $_POST['type'] !== MOD && $_POST['type'] !== ADMIN)
 			error(sprintf($config['error']['invalidfield'], 'type'));
 		
-		$query = prepare('INSERT INTO `mods` VALUES (NULL, :username, SHA1(:password), :type, :boards)');
+		$salt = generate_salt();
+		$password = hash('sha256', $salt . sha1($_POST['password']));
+		
+		$query = prepare('INSERT INTO `mods` VALUES (NULL, :username, :password, :salt, :type, :boards)');
 		$query->bindValue(':username', $_POST['username']);
-		$query->bindValue(':password', $_POST['password']);
+		$query->bindValue(':password', $password);
+		$query->bindValue(':salt', $salt);
 		$query->bindValue(':type', $_POST['type']);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));

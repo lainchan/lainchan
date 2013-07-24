@@ -129,9 +129,10 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
 --
 
 CREATE TABLE IF NOT EXISTS `mods` (
-  `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `password` char(40) NOT NULL COMMENT 'SHA1',
+  `password` char(64) NOT NULL COMMENT 'SHA256',
+  `salt` char(32) NOT NULL,
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
   `boards` text NOT NULL,
   PRIMARY KEY (`id`),
@@ -143,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
 --
 
 INSERT INTO `mods` (`id`, `username`, `password`, `type`, `boards`) VALUES
-(1, 'admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 2, '*');
+(1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 2, '*');
 
 -- --------------------------------------------------------
 
