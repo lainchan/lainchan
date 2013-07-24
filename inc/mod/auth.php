@@ -29,6 +29,11 @@ function mkhash($username, $password, $salt = false) {
 		return $hash;
 }
 
+function generate_salt() {
+	mt_srand(microtime(true) * 100000 + memory_get_usage(true));
+	return md5(uniqid(mt_rand(), true));
+}
+
 function login($username, $password, $makehash=true) {
 	global $mod;
 	
@@ -37,20 +42,23 @@ function login($username, $password, $makehash=true) {
 		$password = sha1($password);
 	}
 	
-	$query = prepare("SELECT `id`,`type`,`boards` FROM `mods` WHERE `username` = :username AND `password` = :password LIMIT 1");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `salt` FROM `mods` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
-	$query->bindValue(':password', $password);
 	$query->execute() or error(db_error($query));
 	
-	if ($user = $query->fetch()) {
-		return $mod = array(
-			'id' => $user['id'],
-			'type' => $user['type'],
-			'username' => $username,
-			'hash' => mkhash($username, $password),
-			'boards' => explode(',', $user['boards'])
-		);
-	} else return false;
+	if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+		if ($user['password'] === hash('sha256', $user['salt'] . $password)) {
+			return $mod = array(
+				'id' => $user['id'],
+				'type' => $user['type'],
+				'username' => $username,
+				'hash' => mkhash($username, $user['password']),
+				'boards' => explode(',', $user['boards'])
+			);
+		}
+	}
+	
+	return false;
 }
 
 function setCookies() {
@@ -104,10 +112,10 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 		exit;
 	}
 	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username LIMIT 1");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username");
 	$query->bindValue(':username', $cookie[0]);
 	$query->execute() or error(db_error($query));
-	$user = $query->fetch();
+	$user = $query->fetch(PDO::FETCH_ASSOC);
 	
 	// validate password hash
 	if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
