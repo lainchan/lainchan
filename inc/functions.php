@@ -1437,13 +1437,15 @@ function markup(&$body, $track_cites = false) {
 	$tracked_cites = array();
 	
 	// Cites
-	if (isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.)?]|$)/m', $body, $cites)) {			
+	if (isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.)?]|$)/m', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {		
 		if (count($cites[0]) > $config['max_cites']) {
 			error($config['error']['toomanycites']);
 		}
 		
-		for ($index=0;$index<count($cites[0]);$index++) {
-			$cite = $cites[2][$index];
+		$skip_chars = 0;
+		
+		foreach ($cites as $matches) {
+			$cite = $matches[2][0];
 			$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $cite);
 			$query->execute() or error(db_error($query));
@@ -1453,23 +1455,26 @@ function markup(&$body, $track_cites = false) {
 					$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
 						'&gt;&gt;' . $cite .
 						'</a>';
-				$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[3][$index], $body);
+				$body = substr_replace($body, $matches[1][0] . $replacement . $matches[3][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
+				$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[3][0]) - mb_strlen($matches[0][0]);
 				
 				if ($track_cites && $config['track_cites'])
 					$tracked_cites[] = array($board['uri'], $post['id']);
 			}
 		}
 	}
-	
+		
 	// Cross-board linking
-	if (preg_match_all('/(^|\s)&gt;&gt;&gt;\/(\w+?)\/(\d+)?([\s,.)?]|$)/m', $body, $cites)) {
+	if (preg_match_all('/(^|\s)&gt;&gt;&gt;\/(\w+?)\/(\d+)?([\s,.)?]|$)/m', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		if (count($cites[0]) > $config['max_cites']) {
 			error($config['error']['toomanycross']);
 		}
 		
-		for ($index=0;$index<count($cites[0]);$index++) {
-			$_board = $cites[2][$index];
-			$cite = @$cites[3][$index];
+		$skip_chars = 0;
+		
+		foreach ($cites as $matches) {
+			$_board = $matches[2][0];
+			$cite = @$matches[3][0];
 			
 			// Temporarily store board information because it will be overwritten
 			$tmp_board = $board['uri'];
@@ -1486,7 +1491,8 @@ function markup(&$body, $track_cites = false) {
 							$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
 								'&gt;&gt;&gt;/' . $_board . '/' . $cite .
 								'</a>';
-						$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
+						$body = substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
+						$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
 						
 						if ($track_cites && $config['track_cites'])
 							$tracked_cites[] = array($board['uri'], $post['id']);
@@ -1496,7 +1502,8 @@ function markup(&$body, $track_cites = false) {
 						$config['root'] . $board['dir'] . $config['file_index'] . '">' .
 							'&gt;&gt;&gt;/' . $_board . '/' .
 							'</a>';
-					$body = str_replace($cites[0][$index], $cites[1][$index] . $replacement . $cites[4][$index], $body);
+					$body = substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
+					$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
 				}
 			}
 			
