@@ -67,7 +67,7 @@ $(document).ready(function(){
 						hidden_div.remove();
 					});
 				
-				hidden_div.insertAfter(thread_container.find('p.fileinfo:first'));
+				hidden_div.insertAfter(thread_container.find(':first'));
 			});
 		if (hidden_data[board][id])
 			thread_container.find('.hide-thread-link').click();
