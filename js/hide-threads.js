@@ -46,7 +46,7 @@ $(document).ready(function(){
 		}
 	
 		$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[–]</a><span> </span>')
-			.insertBefore(thread_container.find('p.fileinfo:first'))
+			.insertBefore(thread_container.find(':first'))
 			.click(function() {
 				hidden_data[board][id] = Math.round(Date.now() / 1000);
 				store_data();
