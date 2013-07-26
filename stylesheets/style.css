@@ -458,6 +458,7 @@ table.mod.config-editor input[type="text"] {
   background-color: #fff;
   opacity: 0.8;
 }
-.thread-hidden {
-  opacity: 0.5;
+p.intro.thread-hidden {
+  margin: 0px;
+  padding: 0px;
 }
