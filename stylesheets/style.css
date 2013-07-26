@@ -404,3 +404,8 @@ table.mod.config-editor td {
 table.mod.config-editor input[type="text"] {
 	width: 98%;
 }
+p.intro.thread-hidden {
+	margin: 0px;
+	padding: 0px;
+}
+
