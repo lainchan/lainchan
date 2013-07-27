@@ -18,7 +18,7 @@ $(document).ready(function() {
 					cache.push(page);
 
 					$(data).find('div[id*="thread_"]').each(function() {
-						$('body').prepend($(this).css('display', 'none').attr('data-board', overflow[0].board));
+						$('form[name="postcontrols"]').prepend($(this).css('display', 'none').attr('data-board', overflow[0].board));
 					});
 
 					thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"]');
