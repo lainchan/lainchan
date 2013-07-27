@@ -599,7 +599,7 @@ function displayBan($ban) {
 	// Show banned page and exit
 	die(
 		Element('page.html', array(
-			'title' => 'Banned!',
+			'title' => _('Banned!'),
 			'config' => $config,
 			'body' => Element('banned.html', array(
 				'config' => $config,
