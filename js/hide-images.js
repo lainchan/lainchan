@@ -47,13 +47,13 @@ $(document).ready(function(){
 		var fileinfo = $(this).parent().prev();
 		var id = $(this).parent().parent().find('>p.intro>a.post_no:eq(1),>div.post.op>p.intro>a.post_no:eq(1)').text();
 		
-		var replacement = $('<span>File <small>(<a class="hide-image-link" href="javascript:void(0)">hide</a>)</small>: </span>');
+		var replacement = $('<span>'+_('File')+' <small>(<a class="hide-image-link" href="javascript:void(0)">'+_('hide')+'</a>)</small>: </span>');
 				
 		replacement.find('a').click(function() {
 			hidden_data[board][id] = Math.round(Date.now() / 1000);
 			store_data();
 			
-			var show_link = $('<a class="show-image-link" href="javascript:void(0)">show</a>').click(function() {
+			var show_link = $('<a class="show-image-link" href="javascript:void(0)">'+_('show')+'</a>').click(function() {
 				delete hidden_data[board][id];
 				store_data();
 				
