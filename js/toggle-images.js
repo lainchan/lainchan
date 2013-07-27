@@ -38,7 +38,7 @@ $(document).ready(function(){
 				if ($(this).next().hasClass('show-image-link')) {
 					$(this).next().hide();
 				}
-				$(this).hide().after('<span class="toggle-images-placeholder">hidden</span>');
+				$(this).hide().after('<span class="toggle-images-placeholder">'+_('hidden')+'</span>');
 			});
 		} else {
 			$('span.toggle-images-placeholder').remove();
@@ -54,7 +54,7 @@ $(document).ready(function(){
 
 	$('hr:first').before('<div id="toggle-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
 	$('div#toggle-images a')
-		.text((hide_images ? 'Show' : 'Hide') + ' images')
+		.text(hide_images ? _('Show images') : _('Hide images'))
 		.click(function() {
 			hide_images = !hide_images;
 			if (hide_images) {
@@ -67,7 +67,7 @@ $(document).ready(function(){
 			
 			show_hide_hide_images_buttons();
 			
-			$(this).text((hide_images ? 'Show' : 'Hide') + ' images')
+			$(this).text(hide_images ? _('Show images') : _('Hide images'))
 		});
 
 	if (hide_images) {
