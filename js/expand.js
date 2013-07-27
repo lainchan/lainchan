@@ -27,7 +27,7 @@ $(document).ready(function(){
 					success: function(data) {
 						var last_expanded = false;
 						$(data).find('div.post.reply').each(function() {
-							if($('#' + $(this).attr('id')).length == 0) {
+							if(thread.find('#' + $(this).attr('id')).length == 0) {
 								if(last_expanded) {
 									$(this).addClass('expanded').insertAfter(last_expanded).before('<br class="expanded">');
 								} else {
