@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-18 16:31-0400\n"
+"POT-Creation-Date: 2013-07-27 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr "Kliknij Odpowiedź aby zobaczyć."
 msgid "Click to expand"
 msgstr "Kliknij aby rozwinąć"
 
-#: ../../../../js/expand.js:41
+#: ../../../../js/expand.js:41 ../../../../js/expand.js:45
 msgid "Hide expanded replies"
 msgstr "Schowaj rozwinięte odpowiedzi"
 
@@ -104,7 +104,7 @@ msgstr "Hasło"
 msgid "Delete file only"
 msgstr "Usuń tylko plik"
 
-#: ../../../../js/quick-post-controls.js:30
+#: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:50
 msgid "File"
 msgstr "Plik"
 
@@ -119,3 +119,23 @@ msgstr "Powód"
 #: ../../../../js/quick-post-controls.js:37
 msgid "Report"
 msgstr "Zgłoszenie"
+
+#: ../../../../js/hide-images.js:50
+msgid "hide"
+msgstr "ukryj"
+
+#: ../../../../js/hide-images.js:56
+msgid "show"
+msgstr "pokaż"
+
+#: ../../../../js/toggle-images.js:41
+msgid "hidden"
+msgstr "ukryte"
+
+#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
+msgid "Show images"
+msgstr "Pokaż obrazki"
+
+#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
+msgid "Hide images"
+msgstr "Ukryj obrazki"
