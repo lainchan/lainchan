@@ -46,6 +46,7 @@ onready(function(){
 						delete this.childNodes[0].style.opacity;
 						delete this.childNodes[0].style.filter;
 					}
+					return false;
 				}
 			}
 		}
