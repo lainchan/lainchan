@@ -10,6 +10,7 @@ $(document).ready(function() {
 				if(thread.length > 0) {
 					thread.prepend('<h2><a href="/' + overflow[0].board + '/">/' + overflow[0].board + '/</a></h2>');
 					$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).css('display', 'block'));
+					$(document).trigger('new_post', thread);
 					overflow.shift();
 				}
 			} else {
@@ -25,6 +26,7 @@ $(document).ready(function() {
 					if(thread.length > 0) {
 						thread.prepend('<h2><a href="/' + overflow[0].board + '/">/' + overflow[0].board + '/</a></h2>');
 						$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).css('display', 'block'));
+						$(document).trigger('new_post', thread);
 						overflow.shift();
 					}
 
@@ -33,5 +35,4 @@ $(document).ready(function() {
 			}
 		}
 	});
-
 });

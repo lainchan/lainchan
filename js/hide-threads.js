@@ -35,7 +35,7 @@ $(document).ready(function(){
 		}
 	}
 	
-	$('div.post.op').each(function() {
+	var do_hide_threads = function() {
 		var id = $(this).children('p.intro').children('a.post_no:eq(1)').text();
 		var thread_container = $(this).parent();
 
@@ -46,7 +46,7 @@ $(document).ready(function(){
 		}
 	
 		$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[–]</a><span> </span>')
-			.insertBefore(thread_container.find(':first'))
+			.insertBefore(thread_container.find(':not(h2,h2 *):first'))
 			.click(function() {
 				hidden_data[board][id] = Math.round(Date.now() / 1000);
 				store_data();
@@ -69,9 +69,15 @@ $(document).ready(function(){
 						hidden_div.remove();
 					});
 				
-				hidden_div.insertAfter(thread_container.find(':first'));
+				hidden_div.insertAfter(thread_container.find(':not(h2,h2 *):first'));
 			});
 		if (hidden_data[board][id])
 			thread_container.find('.hide-thread-link').click();
+	}
+
+	$('div.post.op').each(do_hide_threads);
+
+	$(document).bind('new_post', function(e, post) {
+		do_hide_threads.call($(post).find('div.post.op')[0]);
 	});
 });
