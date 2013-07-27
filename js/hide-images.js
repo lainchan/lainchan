@@ -53,7 +53,7 @@ $(document).ready(function(){
 			hidden_data[board][id] = Math.round(Date.now() / 1000);
 			store_data();
 			
-			var show_link = $('<a href="javascript:void(0)">show</a>').click(function() {
+			var show_link = $('<a class="show-image-link" href="javascript:void(0)">show</a>').click(function() {
 				delete hidden_data[board][id];
 				store_data();
 				
@@ -66,6 +66,9 @@ $(document).ready(function(){
 			
 			$(this).hide().after(show_link);
 			
+			if ($(img).parent()[0].dataset.expanded == 'true') {
+				$(img).parent().click();
+			}
 			$(img)
 				.data('orig', img.src)
 				.attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==')
