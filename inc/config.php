@@ -329,7 +329,7 @@
 	$config['robot_mute_hour'] = 336; // 2 weeks
 	// If you want to alter the algorithm a bit. Default value is 2. n^x
 	$config['robot_mute_multiplier'] = 2;
-	$config['robot_mute_descritpion'] = 'You have been muted for unoriginal content.';
+	$config['robot_mute_descritpion'] = _('You have been muted for unoriginal content.');
 	
 	// Automatically convert things like "..." to Unicode characters ("…")
 	$config['auto_unicode'] = true;
@@ -903,7 +903,7 @@
 	$config['mod']['check_ban_message'] = false;
 	// Default public ban message.
 	// In public ban messages, %length% is replaced with "for x days" or "permanently" (with %LENGTH% being the uppercase equivalent).
-	$config['mod']['default_ban_message'] = 'USER WAS BANNED FOR THIS POST';
+	$config['mod']['default_ban_message'] = _('USER WAS BANNED FOR THIS POST');
 	// $config['mod']['default_ban_message'] = 'USER WAS BANNED %LENGTH% FOR THIS POST'; // Include length in ban message
 	// What to append to the post for public bans ("%s" is the message)
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
