@@ -48,7 +48,12 @@ onready(function(){
 	$('div.post.reply').each(showBackLinks);
 
         $(document).bind('new_post', function(e, post) {
-		showBackLinks.call(post);
+		if ($(post).hasClass("reply")) {
+			showBackLinks.call(post);
+		}
+		else {
+			$(post).find('div.post.reply').each(showBackLinks);
+		}
 	});
 });
 
