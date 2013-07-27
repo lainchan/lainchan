@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
 -- Dumping data for table `mods`
 --
 
-INSERT INTO `mods` (`id`, `username`, `password`, `type`, `boards`) VALUES
+INSERT INTO `mods` (`id`, `username`, `password`, `salt`, `type`, `boards`) VALUES
 (1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 2, '*');
 
 -- --------------------------------------------------------

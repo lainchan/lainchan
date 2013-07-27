@@ -41,6 +41,9 @@ $(document).ready(function(){
 							else {
 								last_expanded = post_in_doc;
 							}
+							else {
+								last_expanded = post_in_doc;
+							}
 						});
 						$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
 							.insertAfter(thread.find('span.omitted').css('display', 'none'))

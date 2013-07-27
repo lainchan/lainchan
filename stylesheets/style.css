@@ -405,7 +405,6 @@ table.mod.config-editor td {
 table.mod.config-editor input[type="text"] {
 	width: 98%;
 }
-
 .desktop-style div.boardlist:nth-child(1) {
   position: fixed;
   top: 0px;
@@ -459,6 +458,6 @@ table.mod.config-editor input[type="text"] {
   opacity: 0.8;
 }
 p.intro.thread-hidden {
-  margin: 0px;
-  padding: 0px;
+	margin: 0px;
+	padding: 0px;
 }
