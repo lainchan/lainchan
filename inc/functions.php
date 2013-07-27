@@ -554,35 +554,35 @@ function checkFlood($post) {
 function until($timestamp) {
 	$difference = $timestamp - time();
 	if ($difference < 60) {
-		return $difference . ' second' . ($difference != 1 ? 's' : '');
+		return $difference . ' ' . ngettext('second', 'seconds', $difference);
 	} elseif ($difference < 60*60) {
-		return ($num = round($difference/(60))) . ' minute' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60))) . ' ' . ngettext('minute', 'minutes', $num);
 	} elseif ($difference < 60*60*24) {
-		return ($num = round($difference/(60*60))) . ' hour' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60))) . ' ' . ngettext('hour', 'hours', $num);
 	} elseif ($difference < 60*60*24*7) {
-		return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60*24))) . ' ' . ngettext('day', 'days', $num);
 	} elseif ($difference < 60*60*24*365) {
-		return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60*24*7))) . ' ' . ngettext('week', 'weeks', $num);
 	}
 
-	return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
+	return ($num = round($difference/(60*60*24*365))) . ' ' . ngettext('year', 'years', $num);
 }
 
 function ago($timestamp) {
 	$difference = time() - $timestamp;
 	if ($difference < 60) {
-		return $difference . ' second' . ($difference != 1 ? 's' : '');
+		return $difference . ' ' . ngettext('second', 'seconds', $difference);
 	} elseif ($difference < 60*60) {
-		return ($num = round($difference/(60))) . ' minute' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60))) . ' ' . ngettext('minute', 'minutes', $num);
 	} elseif ($difference < 60*60*24) {
-		return ($num = round($difference/(60*60))) . ' hour' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60))) . ' ' . ngettext('hour', 'hours', $num);
 	} elseif ($difference < 60*60*24*7) {
-		return ($num = round($difference/(60*60*24))) . ' day' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60*24))) . ' ' . ngettext('day', 'days', $num);
 	} elseif ($difference < 60*60*24*365) {
-		return ($num = round($difference/(60*60*24*7))) . ' week' . ($num != 1 ? 's' : '');
+		return ($num = round($difference/(60*60*24*7))) . ' ' . ngettext('week', 'weeks', $num);
 	}
 
-	return ($num = round($difference/(60*60*24*365))) . ' year' . ($num != 1 ? 's' : '');
+	return ($num = round($difference/(60*60*24*365))) . ' ' . ngettext('year', 'years', $num);
 }
 
 function displayBan($ban) {
