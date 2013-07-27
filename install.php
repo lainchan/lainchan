@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.4-gold</a>');
+define('VERSION', 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.5-gold</a>');
 
 require 'inc/functions.php';
 
@@ -254,6 +254,7 @@ if (file_exists($config['has_installed'])) {
 			}
                 case 'v0.9.6-dev-9':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.3</a>':
+		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.4-gold</a>':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
