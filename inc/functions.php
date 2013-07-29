@@ -1552,8 +1552,9 @@ function ordutf8($string, &$offset) {
 function strip_combining_chars($str) {
 	$chars = preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
 	$str = '';
-	foreach ($chars as $char) {	
-		$ord = ordutf8($char, $o = 0);
+	foreach ($chars as $char) {
+		$o = 0;
+		$ord = ordutf8($char, $o);
 		
 		if ($ord >= 768 && $ord <= 879)
 			continue;

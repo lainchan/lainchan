@@ -360,7 +360,7 @@ if (isset($_POST['delete'])) {
 	if ($config['strip_combining_chars']) {
 		$post['name'] = strip_combining_chars($post['name']);
 		$post['email'] = strip_combining_chars($post['email']);
-		$post['subject'] = strip_combining_chars($post['name']);
+		$post['subject'] = strip_combining_chars($post['subject']);
 		$post['body'] = strip_combining_chars($post['body']);
 	}
 	
