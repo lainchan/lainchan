@@ -1035,6 +1035,8 @@
 	$config['mod']['rebuild'] = ADMIN;
 	// Search through posts, IP address notes and bans
 	$config['mod']['search'] = JANITOR;
+	// Allow searching posts (can be used with board configuration file to disallow searching through a certain board)
+	$config['mod']['search_posts'] = JANITOR;
 	// Read the moderator noticeboard
 	$config['mod']['noticeboard'] = JANITOR;
 	// Post to the moderator noticeboard
