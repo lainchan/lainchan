@@ -52,7 +52,7 @@
 				<em>{% trans 'no subject' %}</em>
 			{% endif %} 
 			<small class="unimportant">
-				&mdash; {% trans 'by' %} {{ post.name }} {% trans 'at' %} {{ notice.time|date(config.post_date) }} 
+				&mdash; {% trans 'by' %} {{ post.name }} {% trans 'at' %} {{ post.time|date(config.post_date) }} 
 			</small>
 		</h2>
 		<p>

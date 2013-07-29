@@ -225,7 +225,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	
 	// Which `field` to search?
 	if ($type == 'posts')
-		$sql_field = 'body';
+		$sql_field = 'body_nomarkup';
 	if ($type == 'IP_notes')
 		$sql_field = 'body';
 	if ($type == 'bans')
@@ -246,7 +246,27 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	// Compile SQL query
 	
 	if ($type == 'posts') {
-		error('Searching posts is under development. Sorry.');
+		$query = '';
+		
+		$boards = listBoards();
+		if (empty($boards))
+			error(_('There are no boards to search!'));
+		
+		foreach ($boards as $board) {
+			openBoard($board['uri']);
+			if (!hasPermission($config['mod']['search_posts'], $board['uri']))
+				continue;
+			
+			if (!empty($query))
+				$query .= ' UNION ALL ';
+			$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE %s", $board['uri'], $board['uri'], $sql_like);
+		}
+		
+		// You weren't allowed to search any boards
+		if (empty($query))
+				error($config['error']['noaccess']);
+		
+		$query .= ' ORDER BY `sticky` DESC, `id` DESC';
 	}
 	
 	if ($type == 'IP_notes') {
@@ -273,15 +293,26 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	// Execute SQL query (with pages)
 	$q = query($query . ' LIMIT ' . (($page_no - 1) * $config['mod']['search_page']) . ', ' . $config['mod']['search_page']) or error(db_error());
 	$results = $q->fetchAll(PDO::FETCH_ASSOC);
-		
+	
 	// Get total result count
-	$q = query('SELECT COUNT(*) FROM `' . $sql_table . '` WHERE ' . $sql_like) or error(db_error());
-	$result_count = $q->fetchColumn();
+	if ($type == 'posts') {
+		$q = query("SELECT COUNT(*) FROM ($query) AS `tmp_table`") or error(db_error());
+		$result_count = $q->fetchColumn();
+	} else {
+		$q = query('SELECT COUNT(*) FROM `' . $sql_table . '` WHERE ' . $sql_like) or error(db_error());
+		$result_count = $q->fetchColumn();
+	}
 	
 	if ($type == 'bans') {
 		foreach ($results as &$ban) {
 			if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
 				$ban['real_ip'] = true;
+		}
+	}
+	
+	if ($type == 'posts') {
+		foreach ($results as &$post) {
+			$post['snippet'] = pm_snippet($post['body']);
 		}
 	}
 	
