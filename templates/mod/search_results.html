@@ -189,7 +189,7 @@
 				<td class="minimal">
 					<a href="?/{{ config.board_path|sprintf(post.board) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(post.board) }}</a>
 				</td>
-				<td class="minimal" >
+				<td class="minimal">
 					{% if post.thread %}
 						{% set thread = post.thread %}
 					{% else %}
@@ -217,7 +217,7 @@
 						<em>hidden</em>
 					{% endif %}
 				</td>
-				<td class="minimal" >
+				<td style="max-width:100px">
 					<small>
 						{% if post.email|length > 0 %}
 							{# start email #}
@@ -237,14 +237,14 @@
 						{% endif %}
 					</small>
 				</td>
-				<td class="minimal" >
+				<td style="max-width:250px">
 					{% if post.subject %}
 						<small>{{ post.subject }}</small>
 					{% else %}
 						&ndash;
 					{% endif %}
 				</td>
-				<td class="minimal">
+				<td style="max-width:200px">
 					{% if post.file %}
 						<small>{{ post.file }} ({{ post.filesize | filesize }})</small>
 					{% else %}
