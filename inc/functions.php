@@ -1526,7 +1526,53 @@ function utf8tohtml($utf8) {
 	return htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8');
 }
 
-function buildThread($id, $return=false, $mod=false) {
+function ordutf8($string, &$offset) {
+	$code = ord(substr($string, $offset,1)); 
+	if ($code >= 128) { // otherwise 0xxxxxxx
+		if ($code < 224)
+			$bytesnumber = 2; // 110xxxxx
+		else if ($code < 240)
+			$bytesnumber = 3; // 1110xxxx
+		else if ($code < 248)
+			$bytesnumber = 4; // 11110xxx
+		$codetemp = $code - 192 - ($bytesnumber > 2 ? 32 : 0) - ($bytesnumber > 3 ? 16 : 0);
+		for ($i = 2; $i <= $bytesnumber; $i++) {
+			$offset ++;
+			$code2 = ord(substr($string, $offset, 1)) - 128; //10xxxxxx
+			$codetemp = $codetemp*64 + $code2;
+		}
+		$code = $codetemp;
+	}
+	$offset += 1;
+	if ($offset >= strlen($string))
+		$offset = -1;
+	return $code;
+}
+
+function strip_combining_chars($str) {
+	$chars = preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
+	$str = '';
+	foreach ($chars as $char) {	
+		$ord = ordutf8($char, $o = 0);
+		
+		if ($ord >= 768 && $ord <= 879)
+			continue;
+		
+		if ($ord >= 7616 && $ord <= 7679)
+			continue;
+		
+		if ($ord >= 8400 && $ord <= 8447)
+			continue;
+		
+		if ($ord >= 65056 && $ord <= 65071)
+			continue;
+		
+		$str .= $char;
+	}
+	return $str;
+}
+
+function buildThread($id, $return = false, $mod = false) {
 	global $board, $config;
 	$id = round($id);
 	

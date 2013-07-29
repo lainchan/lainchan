@@ -282,6 +282,8 @@
 	$config['strip_superfluous_returns'] = true;
 	// Require an image for threads?
 	$config['force_image_op'] = true;
+	// Strip combining characters from Unicode strings (eg. "Zalgo")
+	$config['strip_combining_chars'] = true;
 	
 	// Max body length
 	$config['max_body'] = 1800;
