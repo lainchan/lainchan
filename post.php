@@ -359,6 +359,13 @@ if (isset($_POST['delete'])) {
 		$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
 	}
 	
+	if ($config['strip_combining_chars']) {
+		$post['name'] = strip_combining_chars($post['name']);
+		$post['email'] = strip_combining_chars($post['email']);
+		$post['subject'] = strip_combining_chars($post['subject']);
+		$post['body'] = strip_combining_chars($post['body']);
+	}
+	
 	// Check string lengths
 	if (mb_strlen($post['name']) > 35)
 		error(sprintf($config['error']['toolong'], 'name'));	
@@ -370,7 +377,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['toolong_body']);
 	if (mb_strlen($post['password']) > 20)
 		error(sprintf($config['error']['toolong'], 'password'));
-	
+		
 	wordfilters($post['body']);
 	
 	$post['body_nomarkup'] = $post['body'];
