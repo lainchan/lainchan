@@ -1523,7 +1523,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function utf8tohtml($utf8) {
-	return htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8');
+	return mb_encode_numericentity(htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8'), array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
 }
 
 function ordutf8($string, &$offset) {

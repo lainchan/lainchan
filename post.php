@@ -378,7 +378,7 @@ if (isset($_POST['delete'])) {
 		
 	wordfilters($post['body']);
 	
-	$post['body_nomarkup'] = $post['body'];
+	$post['body_nomarkup'] = preg_replace('/[\x{010000}-\x{ffffff}]/u', '', $post['body']);
 	
 	if (!($mod && isset($post['raw']) && $post['raw']))
 		$post['tracked_cites'] = markup($post['body'], true);
