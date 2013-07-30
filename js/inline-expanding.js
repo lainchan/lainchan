@@ -21,7 +21,7 @@ onready(function(){
 				link[i].onclick = function(e) {
 					if (this.childNodes[0].className == 'hidden')
 						return false;
-					if (e.which == 2)
+					if (e.which == 2 || e.metaKey)
 						return true;
 					if (!this.dataset.src) {
 						this.dataset.expanded = 'true';
