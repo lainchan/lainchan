@@ -6,7 +6,7 @@
  * Copyright (c) 2012-2013 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
- *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   // $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/inline-expanding.js';
  *
  */
@@ -52,11 +52,15 @@ onready(function(){
 		}
 	}
 
-        $('div[id^="thread_"]').each(inline_expand_post);
-                                       
-        // allow to work with auto-reload.js, etc.
-        $(document).bind('new_post', function(e, post) {
-                inline_expand_post.call(post);
-        });
+	if (window.jQuery) {
+		$('div[id^="thread_"]').each(inline_expand_post);
+		               
+		// allow to work with auto-reload.js, etc.
+		$(document).bind('new_post', function(e, post) {
+			inline_expand_post.call(post);
+		});
+	} else {
+		inline_expand_post.call(document);
+	}
 });
 
