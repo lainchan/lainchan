@@ -174,6 +174,11 @@ function mod_search_redirect() {
 		$query = str_replace('_', '%5F', $query);
 		$query = str_replace('+', '_', $query);
 		
+		if ($query === '') {
+			header('Location: ?/', true, $config['redirect_http']);
+			return;
+		}
+		
 		header('Location: ?/search/' . $_POST['type'] . '/' . $query, true, $config['redirect_http']);
 	} else {
 		header('Location: ?/', true, $config['redirect_http']);
@@ -225,7 +230,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	
 	// Which `field` to search?
 	if ($type == 'posts')
-		$sql_field = 'body_nomarkup';
+		$sql_field = array('body_nomarkup', 'filename', 'subject', 'filehash', 'ip', 'name', 'trip');
 	if ($type == 'IP_notes')
 		$sql_field = 'body';
 	if ($type == 'bans')
@@ -239,7 +244,14 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 		if (!empty($sql_like))
 			$sql_like .= ' AND ';
 		$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
-		$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
+		if (is_array($sql_field)) {
+			foreach ($sql_field as $field) {
+				$sql_like .= '`' . $field . '` LIKE ' . $phrase . ' ESCAPE \'!\' OR';
+			}
+			$sql_like = preg_replace('/ OR$/', '', $sql_like);
+		} else {
+			$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
+		}
 	}
 	
 	
