@@ -995,7 +995,10 @@ function index($page, $mod=false) {
 	$query->bindValue(':threads_per_page', $config['threads_per_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if ($query->rowcount() < 1 && $page > 1)
+	if ($page == 1 && $query->rowCount() <= $config['threads_per_page'])
+		$board['thread_count'] = $query->rowCount();
+	
+	if ($query->rowCount() < 1 && $page > 1)
 		return false;
 	while ($th = $query->fetch()) {
 		$thread = new Thread(
@@ -1108,10 +1111,13 @@ function getPageButtons($pages, $mod=false) {
 function getPages($mod=false) {
 	global $board, $config;
 	
-	// Count threads
-	$query = query(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
-	
-	$count = current($query->fetch());
+	if (isset($board['thread_count'])) {
+		$count = $board['thread_count'];
+	} else {
+		// Count threads
+		$query = query(sprintf("SELECT COUNT(`id`) FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+		$count = $query->fetchColumn();
+	}
 	$count = floor(($config['threads_per_page'] + $count - 1) / $config['threads_per_page']);
 	
 	if ($count < 1) $count = 1;
