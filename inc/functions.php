@@ -1399,6 +1399,9 @@ function markup(&$body, $track_cites = false) {
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
 	
+	if (mysql_version() < 50503)
+		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
+	
 	foreach ($config['markup'] as $markup) {
 		if (is_string($markup[1])) {
 			$body = preg_replace($markup[0], $markup[1], $body);
@@ -1523,7 +1526,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function utf8tohtml($utf8) {
-	return mb_encode_numericentity(htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8'), array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
+	return htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8');
 }
 
 function ordutf8($string, &$offset) {

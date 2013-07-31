@@ -378,7 +378,10 @@ if (isset($_POST['delete'])) {
 		
 	wordfilters($post['body']);
 	
-	$post['body_nomarkup'] = preg_replace('/[\x{010000}-\x{ffffff}]/u', '', $post['body']);
+	if (mysql_version() >= 50503)
+		$post['body_nomarkup'] = $post['body']; // Assume we're using the utf8mb4 charset
+	else
+		$post['body_nomarkup'] = preg_replace('/[\x{010000}-\x{ffffff}]/u', '', $post['body']); // MySQL's `utf8` charset only supports up to 3-byte symbols
 	
 	if (!($mod && isset($post['raw']) && $post['raw']))
 		$post['tracked_cites'] = markup($post['body'], true);

@@ -51,12 +51,16 @@ function sql_open() {
 	try {
 		$options = array(
 			PDO::ATTR_TIMEOUT => $config['db']['timeout'],
-			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 		);
 		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
-		return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
+		$pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
+		if (mysql_version() >= 50503)
+			query('SET NAMES utf8mb4') or error(db_error());
+		else
+			query('SET NAMES utf8') or error(db_error());
+		return $pdo;
 	} catch(PDOException $e) {
 		$message = $e->getMessage();
 		
@@ -65,8 +69,19 @@ function sql_open() {
 		$message = str_replace($config['db']['password'], '<em>hidden</em>', $message);
 		
 		// Print error
-		error('Database error: ' . $message);
+		error(_('Database error: ') . $message);
 	}
+}
+
+// 5.6.10 becomes 50610
+function mysql_version() {
+	global $pdo;
+	
+	$version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+	$v = explode('.', $version);
+	if (count($v) != 3)
+		return false;
+	return (int) sprintf("%02d%02d%02d", $v[0], $v[1], $v[2]);
 }
 
 function prepare($query) {
