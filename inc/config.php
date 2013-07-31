@@ -486,7 +486,7 @@
 	// Display the file's original filename
 	$config['show_filename']= true;
 
-	// Image identification buttons using regex.info/exif, tineye and google images
+	// Image identification links using regex.info/exif, TinEye and Google Images
 	$config['image_identification'] = false;
 	
 	// Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
@@ -757,9 +757,9 @@
 	else
 		$config['root'] = '/'; // CLI mode
 
-	// The scheme and domain. This is needed to get absolute URL of some page (for instance image
-	// identification buttons). If you use the CLI tools, it would be wise to override this setting.
-	$config['domain']  = (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
+	// The scheme and domain. This is used to get the site's absolute URL (eg. for image identification links).
+	// If you use the CLI tools, it would be wise to override this setting.
+	$config['domain'] = (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
 	$config['domain'] .=  isset ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
