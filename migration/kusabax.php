@@ -1,4 +1,10 @@
 ﻿<?php
+
+	/*
+	 * This is no longer supported with the latest Tinyboard version. Sorry for the inconvenience.
+	*/
+
+
 	set_time_limit(0);
 	$kusabaxc = Array();
 	
