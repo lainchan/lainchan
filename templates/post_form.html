@@ -85,7 +85,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if mod %}
+		{% if mod and ((not id and post.mod|hasPermission(config.mod.sticky, board.uri)) or (not id and post.mod|hasPermission(config.mod.lock, board.uri)) or post.mod|hasPermission(config.mod.rawhtml, board.uri)) %}
 		<tr>
 			<th>
 				{% trans %}Flags{% endtrans %}
