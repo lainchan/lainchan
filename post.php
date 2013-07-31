@@ -286,7 +286,7 @@ if (isset($_POST['delete'])) {
 	$post['has_file'] = !isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
 	
 	if ($post['has_file'])
-		$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
+		$post['filename'] = urldecode(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
 	
 	if (!($post['has_file'] || isset($post['embed'])) || (($post['op'] && $config['force_body_op']) || (!$post['op'] && $config['force_body']))) {
 		$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
@@ -349,7 +349,7 @@ if (isset($_POST['delete'])) {
 	} else $noko = false;
 	
 	if ($post['has_file']) {
-		$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
+		$post['extension'] = strtolower(mb_substr($post['filename'], mb_strrpos($post['filename'], '.') + 1));
 		if (isset($config['filename_func']))
 			$post['file_id'] = $config['filename_func']($post);
 		else
@@ -416,7 +416,7 @@ if (isset($_POST['delete'])) {
 		$is_an_image = !in_array($post['extension'], $config['allowed_ext_files']);
 		
 		// Truncate filename if it is too long
-		$post['filename'] = substr($post['filename'], 0, $config['max_filename_len']);
+		$post['filename'] = mb_substr($post['filename'], 0, $config['max_filename_len']);
 		
 		$upload = $_FILES['file']['tmp_name'];
 		
