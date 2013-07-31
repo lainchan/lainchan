@@ -1024,6 +1024,8 @@
 	$config['mod']['createusers'] = ADMIN;
 	// View the moderation log
 	$config['mod']['modlog'] = ADMIN;
+	// View IP addresses of other mods in ?/log
+	$config['mod']['show_ip_modlog'] = ADMIN;
 	// View relevant moderation log entries on IP address pages (ie. ban history, etc.)
 	// Warning: Can be pretty resource exhaustive if your mod logs are huge.
 	$config['mod']['modlog_ip'] = MOD;
