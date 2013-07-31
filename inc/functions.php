@@ -995,7 +995,7 @@ function index($page, $mod=false) {
 	$query->bindValue(':threads_per_page', $config['threads_per_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if ($page == 1 && $query->rowCount() <= $config['threads_per_page'])
+	if ($page == 1 && $query->rowCount() < $config['threads_per_page'])
 		$board['thread_count'] = $query->rowCount();
 	
 	if ($query->rowCount() < 1 && $page > 1)
