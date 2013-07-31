@@ -1451,6 +1451,39 @@ function markup(&$body, $track_cites = false) {
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
 	
+	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+		$skip_chars = 0;
+		$body_tmp = $body;
+		
+		foreach ($modifiers as $modifier) {
+			// preg_match_all is not multibyte-safe
+			foreach ($modifier as &$match) {
+				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
+			}
+			
+			$modifier['type'] = $modifier[1][0];
+			$modifier['content'] = $modifier[2][0];
+			
+			if ($modifier['type'] == 'ban message') {
+				// Public ban message
+				$replacement = sprintf($config['mod']['ban_message'], $modifier['content']);
+			} elseif ($modifier['type'] == 'raw html') {
+				$body = html_entity_decode($modifier['content']);
+				return array();
+			} elseif (preg_match('/^escape /', $modifier['type'])) {
+				// Escaped (not a real modifier)
+				$replacement = '&lt;tinyboard ' . substr($modifier['type'], strlen('escape ')) . '&gt;' . $modifier['content'] . '&lt;/tinyboard&gt;';
+			} else {
+				// Unknown
+				$replacement = '';
+			}
+			
+			$body = mb_substr_replace($body, $replacement, $modifier[0][1] + $skip_chars, mb_strlen($modifier[0][0]));
+			$skip_chars += mb_strlen($replacement) - mb_strlen($modifier[0][0]);
+			
+		}
+	}
+	
 	if (mysql_version() < 50503)
 		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
 	
@@ -1492,7 +1525,7 @@ function markup(&$body, $track_cites = false) {
 	$tracked_cites = array();
 	
 	// Cites
-	if (isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.)?]|$)/m', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {		
+	if (isset($board) && preg_match_all('/(^|\s)&gt;&gt;(\d+?)([\s,.)?]|$)/m', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		if (count($cites[0]) > $config['max_cites']) {
 			error($config['error']['toomanycites']);
 		}
@@ -1589,6 +1622,10 @@ function markup(&$body, $track_cites = false) {
 	$body = preg_replace("/\n/", '<br/>', $body);
 	
 	return $tracked_cites;
+}
+
+function escape_markup_modifiers($string) {
+	return preg_replace('@<tinyboard ([\w\s]+)>(.+)</tinyboard>@m', '<tinyboard escape $1>$2</tinyboard>', $string);
 }
 
 function utf8tohtml($utf8) {
