@@ -249,6 +249,7 @@ if (file_exists($config['has_installed'])) {
 				}
 			}
 		case 'v0.9.6-dev-9':
+			sql_open();
 			function __query($sql) {
 				if (mysql_version() >= 50503)
 					return query($sql);
