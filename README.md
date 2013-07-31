@@ -17,15 +17,20 @@ license. It is written in PHP and has few dependencies.
 Requirements
 ------------
 1.	PHP >= 5.2.5
-2.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
-	(--enable-mbstring)
-3.	[PHP-GD](http://php.net/manual/en/book.image.php)
-4.	[PHP-PDO](http://php.net/manual/en/book.pdo.php) 
-	(only MySQL is supported at the moment)
+2.	MySQL server
+3.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
+4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
+5.	[PHP PDO](http://www.php.net/manual/en/intro.pdo.php)
 
 We try to make sure Tinyboard is compatible with all major web servers and
 operating systems. Tinyboard does not include an Apache ```.htaccess``` file nor does
 it need one.
+
+### Recommended
+1.	PHP >= 5.3
+2.	MySQL server >= 5.5.3
+3.	ImageMagick or command-line version (```convert``` and ```identify```)
+4.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
 
 Contributing
 ------------
@@ -65,7 +70,7 @@ find support from a variety of sources:
 *	Documentation can be found [here](http://tinyboard.org/docs/).
 *	You can join Tinyboard's IRC channel for support and general queries: 
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
-*	You can find enterprise-grade support at [tinyboard.org](http://tinyboard.org/#support).
+*	You may find help at [tinyboard.org](http://tinyboard.org/#help).
 
 License
 --------

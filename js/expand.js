@@ -3,7 +3,7 @@
  * https://github.com/savetheinternet/Tinyboard/blob/master/js/expand.js
  *
  * Released under the MIT license
- * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ * Copyright (c) 2012-2013 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
@@ -35,10 +35,8 @@ $(document).ready(function(){
 									$(this).addClass('expanded').insertAfter(thread.find('div.post:first')).after('<br class="expanded">');
 								}
 								last_expanded = $(this);
-								
 								$(document).trigger('new_post', this);
-							}
-							else {
+							} else {
 								last_expanded = post_in_doc;
 							}
 						});

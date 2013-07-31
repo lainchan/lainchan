@@ -18,7 +18,7 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
-$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+$query = isset($_SERVER['QUERY_STRING']) ? urldecode($_SERVER['QUERY_STRING']) : '';
 
 $pages = array(
 	''					=> ':?/',		// redirect to dashboard
@@ -45,7 +45,7 @@ $pages = array(
 	'/news/(\d+)'				=> 'news',		// view news
 	'/news/delete/(\d+)'			=> 'news_delete',	// delete from news
 	
-	'/edit/([\w+.]+)'				=> 'edit_board',	// edit board details
+	'/edit/(\%b)'				=> 'edit_board',	// edit board details
 	'/new-board'				=> 'new_board',		// create a new board
 	
 	'/rebuild'				=> 'rebuild',		// rebuild static files
@@ -63,15 +63,15 @@ $pages = array(
 
 	// CSRF-protected moderator actions
 	'/ban'					=> 'secure_POST ban',	// new ban
-	'/([\w+.]+)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', // ban poster
-	'/([\w+.]+)/move/(\d+)'			=> 'secure_POST move',	// move thread
-	'/([\w+.]+)/edit(_raw)?/(\d+)'		=> 'secure_POST edit_post', // edit post
-	'/([\w+.]+)/delete/(\d+)'			=> 'secure delete',	// delete post
-	'/([\w+.]+)/deletefile/(\d+)'		=> 'secure deletefile',	// delete file from post
-	'/([\w+.]+)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',	// delete all posts by IP address
-	'/([\w+.]+)/(un)?lock/(\d+)'		=> 'secure lock',	// lock thread
-	'/([\w+.]+)/(un)?sticky/(\d+)'		=> 'secure sticky',	// sticky thread
-	'/([\w+.]+)/bump(un)?lock/(\d+)'		=> 'secure bumplock',	// "bumplock" thread
+	'/(\%b)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', // ban poster
+	'/(\%b)/move/(\d+)'			=> 'secure_POST move',	// move thread
+	'/(\%b)/edit(_raw)?/(\d+)'		=> 'secure_POST edit_post', // edit post
+	'/(\%b)/delete/(\d+)'			=> 'secure delete',	// delete post
+	'/(\%b)/deletefile/(\d+)'		=> 'secure deletefile',	// delete file from post
+	'/(\%b)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',	// delete all posts by IP address
+	'/(\%b)/(un)?lock/(\d+)'		=> 'secure lock',	// lock thread
+	'/(\%b)/(un)?sticky/(\d+)'		=> 'secure sticky',	// sticky thread
+	'/(\%b)/bump(un)?lock/(\d+)'		=> 'secure bumplock',	// "bumplock" thread
 	
 	'/themes'				=> 'themes_list',	// manage themes
 	'/themes/(\w+)'				=> 'theme_configure',	// configure/reconfigure theme
@@ -86,10 +86,10 @@ $pages = array(
 	'/debug/sql'				=> 'secure_POST debug_sql',
 	
 	// This should always be at the end:
-	'/([\w+.]+)/'										=> 'view_board',
-	'/([\w+.]+)/' . preg_quote($config['file_index'], '!')					=> 'view_board',
-	'/([\w+.]+)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!'))		=> 'view_board',
-	'/([\w+.]+)/' . preg_quote($config['dir']['res'], '!') .
+	'/(\%b)/'										=> 'view_board',
+	'/(\%b)/' . preg_quote($config['file_index'], '!')					=> 'view_board',
+	'/(\%b)/' . str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!'))		=> 'view_board',
+	'/(\%b)/' . preg_quote($config['dir']['res'], '!') .
 			str_replace('%d', '(\d+)', preg_quote($config['file_page'], '!'))	=> 'view_thread',
 );
 
@@ -109,7 +109,8 @@ $new_pages = array();
 foreach ($pages as $key => $callback) {
 	if (is_string($callback) && preg_match('/^secure /', $callback))
 		$key .= '(/(?P<token>[a-f0-9]{8}))?';
-	$new_pages[@$key[0] == '!' ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!'] = $callback;
+	$key = str_replace('\%b', $config['board_regex'], $key);
+	$new_pages[@$key[0] == '!' ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!u'] = $callback;
 }
 $pages = $new_pages;
 

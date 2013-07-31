@@ -443,8 +443,8 @@ function mod_new_board() {
 		if ($_POST['title'] == '')
 			error(sprintf($config['error']['required'], 'title'));
 		
-		#if (!preg_match('/^\w+$/', $_POST['uri']))
-		#	error(sprintf($config['error']['invalidfield'], 'URI'));
+		if (!preg_match('/^' . $config['board_regex'] . '$/u', $_POST['uri']))
+			error(sprintf($config['error']['invalidfield'], 'URI'));
 		
 		if (openBoard($_POST['uri'])) {
 			error(sprintf($config['error']['boardexists'], $board['url']));
@@ -744,7 +744,8 @@ function mod_page_ip($ip) {
 	$boards = listBoards();
 	foreach ($boards as $board) {
 		openBoard($board['uri']);
-		
+		if (!hasPermission($config['mod']['show_ip'], $board['uri']))
+			continue;
 		$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
 		$query->bindValue(':ip', $ip);
 		$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
@@ -1418,7 +1419,7 @@ function mod_user($uid) {
 		
 			$boards = array();
 			foreach ($_POST as $name => $value) {
-				if (preg_match('/^board_(\w+)$/', $name, $matches) && in_array($matches[1], $_boards))
+				if (preg_match('/^board_(' . $config['board_regex'] . ')$/u', $name, $matches) && in_array($matches[1], $_boards))
 					$boards[] = $matches[1];
 			}
 		}
@@ -1539,7 +1540,7 @@ function mod_user_new() {
 			
 			$boards = array();
 			foreach ($_POST as $name => $value) {
-				if (preg_match('/^board_(\w+)$/', $name, $matches) && in_array($matches[1], $_boards))
+				if (preg_match('/^board_(' . $config['board_regex'] . ')$/u', $name, $matches) && in_array($matches[1], $_boards))
 					$boards[] = $matches[1];
 			}
 		}
@@ -2133,7 +2134,7 @@ function mod_debug_antispam() {
 			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
 		
 		if (isset($_POST['purge'])) {
-			$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
+			$query = prepare(', DATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
 			$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
 			$query->execute() or error(db_error());
 		}

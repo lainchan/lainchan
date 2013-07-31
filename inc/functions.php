@@ -99,18 +99,18 @@ function loadConfig() {
 					'https?:\/\/' . $_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
-						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
+						str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
 						'(' .
 							preg_quote($config['file_index'], '/') . '|' .
 							str_replace('%d', '\d+', preg_quote($config['file_page'])) .
 						')?' .
 					'|' .
-						str_replace('%s', '\w+', preg_quote($config['board_path'], '/')) .
+						str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
 						preg_quote($config['dir']['res'], '/') .
 						str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) .
 					'|' .
 						preg_quote($config['file_mod'], '/') . '\?\/.+' .
-				')([#?](.+)?)?$/i';
+				')([#?](.+)?)?$/ui';
 		} else {
 			// CLI mode
 			$config['referer_match'] = '//';
@@ -366,6 +366,11 @@ function boardTitle($uri) {
 
 function purge($uri) {
 	global $config, $debug;
+	
+	// Fix for Unicode
+	$uri = urlencode($uri); 
+	$uri = str_replace("%2F", "/", $uri);
+	$uri = str_replace("%3A", ":", $uri);
 	
 	if (preg_match($config['referer_match'], $config['root']) && isset($_SERVER['REQUEST_URI'])) {
 		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
@@ -1429,6 +1434,9 @@ function markup(&$body, $track_cites = false) {
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
 	
+	if (mysql_version() < 50503)
+		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
+	
 	foreach ($config['markup'] as $markup) {
 		if (is_string($markup[1])) {
 			$body = preg_replace($markup[0], $markup[1], $body);
@@ -1495,7 +1503,7 @@ function markup(&$body, $track_cites = false) {
 	}
 		
 	// Cross-board linking
-	if (preg_match_all('/(^|\s)&gt;&gt;&gt;\/([\w.+]+?)\/(\d+)?([\s,.)?]|$)/m', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+	if (preg_match_all('/(^|\s)&gt;&gt;&gt;\/(' . $config['board_regex'] . 'f?)\/(\d+)?([\s,.)?]|$)/um', $body, $cites, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		if (count($cites[0]) > $config['max_cites']) {
 			error($config['error']['toomanycross']);
 		}
