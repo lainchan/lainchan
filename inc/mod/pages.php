@@ -1276,7 +1276,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
 		if ($edit_raw_html)
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body WHERE `id` = :id', $board));
+			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body, `body_nomarkup` = :body_nomarkup WHERE `id` = :id', $board));
 		else
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
 		$query->bindValue(':id', $postID);
@@ -1284,6 +1284,10 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		$query->bindValue(':email', $_POST['email']);
 		$query->bindValue(':subject', $_POST['subject']);
 		$query->bindValue(':body', $_POST['body']);
+		if ($edit_raw_html) {
+			$body_nomarkup = '<tinyboard raw html>' . $_POST['body'] . '</tinyboard>';
+			$query->bindValue(':body_nomarkup', $body_nomarkup);
+		}
 		$query->execute() or error(db_error($query));
 		
 		if ($edit_raw_html) {
