@@ -107,7 +107,7 @@ if (isset($_POST['delete'])) {
 	if (count($report) > $config['report_limit'])
 		error($config['error']['toomanyreports']);
 	
-	$reason = &$_POST['reason'];
+	$reason = escape_markup_modifiers($_POST['reason']);
 	markup($reason);
 	
 	foreach ($report as &$id) {
@@ -377,6 +377,7 @@ if (isset($_POST['delete'])) {
 		error(sprintf($config['error']['toolong'], 'password'));
 		
 	wordfilters($post['body']);
+	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if (mysql_version() >= 50503) {
 		$post['body_nomarkup'] = $post['body']; // Assume we're using the utf8mb4 charset

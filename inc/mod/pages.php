@@ -507,6 +507,7 @@ function mod_noticeboard($page_no = 1) {
 		if (!hasPermission($config['mod']['noticeboard_post']))
 			error($config['error']['noaccess']);
 		
+		$_POST['body'] = escape_markup_modifiers($_POST['body']);
 		markup($_POST['body']);
 		
 		$query = prepare('INSERT INTO `noticeboard` VALUES (NULL, :mod, :time, :subject, :body)');
@@ -568,6 +569,7 @@ function mod_news($page_no = 1) {
 		if (!hasPermission($config['mod']['news']))
 			error($config['error']['noaccess']);
 		
+		$_POST['body'] = escape_markup_modifiers($_POST['body']);
 		markup($_POST['body']);
 		
 		$query = prepare('INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)');
@@ -737,6 +739,7 @@ function mod_page_ip($ip) {
 		if (!hasPermission($config['mod']['create_notes']))
 			error($config['error']['noaccess']);
 		
+		$_POST['note'] = escape_markup_modifiers($_POST['note']);
 		markup($_POST['note']);
 		$query = prepare('INSERT INTO `ip_notes` VALUES (NULL, :ip, :mod, :time, :body)');
 		$query->bindValue(':ip', $ip);
@@ -1214,12 +1217,14 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message
 			$length_english = parse_time($_POST['length']) ? 'for ' . until(parse_time($_POST['length'])) : 'permanently';
+			$_POST['message'] = preg_replace('/[\r\n]/', '', $_POST['message']);
 			$_POST['message'] = str_replace('%length%', $length_english, $_POST['message']);
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `body` = CONCAT(`body`, :body) WHERE `id` = :id', $board));
+			$query = prepare(sprintf('UPDATE `posts_%s` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
-			$query->bindValue(':body', sprintf($config['mod']['ban_message'], utf8tohtml($_POST['message'])));
+			$query->bindValue(':body_nomarkup', sprintf('<tinyboard ban message>%s</tinyboard>', $_POST['message']));
 			$query->execute() or error(db_error($query));
+			rebuildPost($post);
 			
 			modLog("Attached a public ban message to post #{$post}: " . utf8tohtml($_POST['message']));
 			buildThread($thread ? $thread : $post);
@@ -1713,6 +1718,7 @@ function mod_new_pm($username) {
 	}
 	
 	if (isset($_POST['message'])) {
+		$_POST['message'] = escape_markup_modifiers($_POST['message']);
 		markup($_POST['message']);
 		
 		$query = prepare("INSERT INTO `pms` VALUES (NULL, :me, :id, :message, :time, 1)");
