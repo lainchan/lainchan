@@ -1463,7 +1463,7 @@ function markup(&$body, $track_cites = false) {
 			$query->bindValue(':id', $cite);
 			$query->execute() or error(db_error($query));
 			
-			// preg_replace is not multibyte-safe
+			// preg_match_all is not multibyte-safe
 			foreach ($matches as &$match) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
@@ -1496,7 +1496,7 @@ function markup(&$body, $track_cites = false) {
 			$_board = $matches[2][0];
 			$cite = @$matches[3][0];
 			
-			// preg_replace is not multibyte-safe
+			// preg_match_all is not multibyte-safe
 			foreach ($matches as &$match) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
