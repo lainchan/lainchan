@@ -81,9 +81,7 @@ class Image {
 			$height = $max_height;
 		}
 		
-		if ($gifsicle) {
-			$thumb->gifsicle = 1;
-		}
+		$thumb->gifsicle = $gifsicle;
 		$thumb->_resize($this->image->image, $width, $height);
 		
 		return $thumb;
@@ -288,8 +286,7 @@ class ImageConvert extends ImageBase {
 				if (shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
 					escapeshellarg($this->src . '') . " > " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
-			}
-			else {
+			} else {
 				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
 					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
