@@ -83,9 +83,9 @@ function twig_hasPermission_filter($mod, $permission, $board = null) {
 }
 
 function twig_extension_filter($value, $case_insensitive = true) {
-	$ext = substr($value, strrpos($value, '.') + 1);
+	$ext = mb_substr($value, mb_strrpos($value, '.') + 1);
 	if($case_insensitive)
-		$ext = strtolower($ext);		
+		$ext = mb_strtolower($ext);		
 	return $ext;
 }
 
@@ -96,11 +96,11 @@ function twig_sprintf_filter( $value, $var) {
 function twig_truncate_filter($value, $length = 30, $preserve = false, $separator = '&hellip;') {
 	if (mb_strlen($value) > $length) {
 		if ($preserve) {
-			if (false !== ($breakpoint = strpos($value, ' ', $length))) {
+			if (false !== ($breakpoint = mb_strpos($value, ' ', $length))) {
 				$length = $breakpoint;
 			}
 		}
-		return substr($value, 0, $length) . $separator;
+		return mb_substr($value, 0, $length) . $separator;
 	}
 	return $value;
 }
