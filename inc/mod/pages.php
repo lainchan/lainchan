@@ -744,6 +744,8 @@ function mod_page_ip($ip) {
 	$boards = listBoards();
 	foreach ($boards as $board) {
 		openBoard($board['uri']);
+		if (!hasPermission($config['mod']['show_ip'], $board['uri']))
+			continue;
 		
 		$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
 		$query->bindValue(':ip', $ip);
