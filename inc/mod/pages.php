@@ -446,6 +446,23 @@ function mod_new_board() {
 		if (!preg_match('/^' . $config['board_regex'] . '$/u', $_POST['uri']))
 			error(sprintf($config['error']['invalidfield'], 'URI'));
 		
+		$bytes = 0;
+		$chars = preg_split('//u', $_POST['uri'], -1, PREG_SPLIT_NO_EMPTY);
+		foreach ($chars as $char) {
+			$o = 0;
+			$ord = ordutf8($char, $o);
+			if ($ord > 0x0080)
+				$bytes += 5; // @01ff
+			else
+				$bytes ++;
+		}
+		$bytes + strlen('posts_.frm');
+		
+		if ($bytes > 255) {
+			error('Your filesystem cannot handle a board URI of that length (' . $bytes . '/255 bytes)');
+			exit;
+		}
+		
 		if (openBoard($_POST['uri'])) {
 			error(sprintf($config['error']['boardexists'], $board['url']));
 		}
