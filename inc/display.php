@@ -25,6 +25,7 @@ function doBoardListPart($list, $root) {
 	$body = '';
 	foreach ($list as $board) {
 		if (is_array($board))
+			// $body .= ' [' . doBoardListPart($board, $root) . '] ';
 			$body .= ' <span class="sub">[' . doBoardListPart($board, $root) . ']</span> ';
 		else {
 			if (($key = array_search($board, $list)) && gettype($key) == 'string') {

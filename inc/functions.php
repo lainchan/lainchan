@@ -1311,6 +1311,13 @@ function buildJavascript() {
 		'config' => $config,
 		'stylesheets' => $stylesheets
 	));
+	
+	// Check if we have translation for the javascripts; if yes, we add it to additional javascripts
+	list($pure_locale) = explode(".", $config['locale']);
+	if (file_exists ($jsloc = "inc/locale/$pure_locale/LC_MESSAGES/javascript.js")) {
+		$script = file_get_contents($jsloc) . "\n\n" . $script;
+	}
+	
 	if ($config['additional_javascript_compile']) {
 		foreach ($config['additional_javascript'] as $file) {
 			$script .= file_get_contents($file);
@@ -1415,7 +1422,7 @@ function markup_url($matches) {
 	
 	$markup_urls[] = $url;
 	
-	return '<a target="_blank" rel="nofollow" href="'. $config['url_ads'] . $url . '">' . $url . '</a>' . $after;
+	return '<a target="_blank" rel="nofollow" href="'. $config['link_prefix'] . $url . '">' . $url . '</a>' . $after;
 }
 
 function unicodify($body) {

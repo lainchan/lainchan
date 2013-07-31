@@ -14,7 +14,7 @@
 onready(function(){
 	var inline_expand_post = function() {
 		var link = this.getElementsByTagName('a');
-	
+
 		for (var i = 0; i < link.length; i++) {
 			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].className != 'file') {
 				link[i].childNodes[0].style.maxWidth = '95%';
@@ -54,7 +54,7 @@ onready(function(){
 
 	if (window.jQuery) {
 		$('div[id^="thread_"]').each(inline_expand_post);
-		               
+
 		// allow to work with auto-reload.js, etc.
 		$(document).bind('new_post', function(e, post) {
 			inline_expand_post.call(post);
@@ -63,4 +63,3 @@ onready(function(){
 		inline_expand_post.call(document);
 	}
 });
-

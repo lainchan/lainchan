@@ -335,9 +335,14 @@
 	$config['auto_unicode'] = true;
 	// Whether to turn URLs into functional links
 	$config['markup_urls'] = true;
+
 	// Prefix those functional links with some other url, for example some service for hiding referers
 	// (eg. 'http://www.nullrefer.com/?', or 'http://anonym.to/?'), a pay-per-view exit page, etc.
-	$config['url_ads'] = '';	
+	$config['url_ads'] = &$config['link_prefix'];	 // leave alias
+
+	// Optional URL prefix for links (eg. "http://anonym.to/?")
+	$config['link_prefix'] = ''; 
+	
 	
 	// Wordfilters are used to automatically replace certain words/phrases with something else.
 	// For a normal string replacement:
@@ -486,7 +491,7 @@
 	// Display the file's original filename
 	$config['show_filename']= true;
 
-	// Image identification buttons using regex.info/exif, tineye and google images
+	// Image identification links using regex.info/exif, TinEye and Google Images
 	$config['image_identification'] = false;
 	
 	// Redraw the image using GD functions to strip any excess data (commonly ZIP archives)
@@ -542,8 +547,8 @@
 	$config['ban_date'] = '%A %e %B, %Y';
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post")
-	$config['button_newtopic'] = 'New Topic';
-	$config['button_reply'] = 'New Reply';
+	$config['button_newtopic'] = _('New Topic');
+	$config['button_reply'] = _('New Reply');
 	
 	// Assign each poster in a thread a unique ID, shown by "ID: {id}" before the post number.
 	$config['poster_ids'] = false;
@@ -554,7 +559,7 @@
 	$config['thread_subject_in_title'] = false;
 	
 	// Page footer
-	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
+	$config['footer'][] = _('All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.');
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
@@ -764,9 +769,9 @@
 	else
 		$config['root'] = '/'; // CLI mode
 
-	// The scheme and domain. This is needed to get absolute URL of some page (for instance image
-	// identification buttons). If you use the CLI tools, it would be wise to override this setting.
-	$config['domain']  = (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
+	// The scheme and domain. This is used to get the site's absolute URL (eg. for image identification links).
+	// If you use the CLI tools, it would be wise to override this setting.
+	$config['domain'] = (isset ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
 	$config['domain'] .=  isset ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 	
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
