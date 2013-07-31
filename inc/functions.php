@@ -366,6 +366,11 @@ function boardTitle($uri) {
 function purge($uri) {
 	global $config, $debug;
 	
+	// Fix for Unicode
+	$uri = urlencode($uri); 
+	$uri = str_replace("%2F", "/", $uri);
+	$uri = str_replace("%3A", ":", $uri);
+	
 	if (preg_match($config['referer_match'], $config['root']) && isset($_SERVER['REQUEST_URI'])) {
 		$uri = (str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/') . $uri;
 	} else {
