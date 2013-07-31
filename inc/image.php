@@ -286,12 +286,7 @@ class ImageConvert extends ImageBase {
 				if (shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
 					escapeshellarg($this->src . '') . " > " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
-<<<<<<< HEAD
-			}
-			else {
-=======
 			} else {
->>>>>>> 8e4c493a4c5bbff07483fd4a11c44c687c99e441
 				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
 					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
