@@ -1130,6 +1130,9 @@
 	//	'type' => 'scp'
 	//);
 	
+	// Regex for board URIs
+	$config['board_regex'] = '[0-9a-zA-Z$_\x{0080}-\x{FFFF}]{1,58}';
+	
 	// Complex regular expression to catch URLs
 	$config['url_regex'] = '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
 

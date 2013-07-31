@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-10');
+define('VERSION', 'v0.9.6-dev-11');
 
 require 'inc/functions.php';
 
@@ -300,10 +300,6 @@ if (file_exists($config['has_installed'])) {
 				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
 				CHANGE  `body`  `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
 				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
-			__query("ALTER TABLE  `ip_notes`
-				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
-				CHANGE  `body`  `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
-				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
 			__query("ALTER TABLE  `modlogs`
 				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
 				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NULL DEFAULT NULL ,
@@ -343,6 +339,23 @@ if (file_exists($config['has_installed'])) {
 				CHANGE  `name`  `name` VARCHAR( 40 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 				CHANGE  `value`  `value` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or eror(db_error());
+		case 'v0.9.6-dev-10':
+			query("ALTER TABLE  `antispam`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `bans`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+			query("ALTER TABLE  `boards`
+				CHANGE  `uri`  `uri` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `cites`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				CHANGE  `target_board`  `target_board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;") or error(db_error());
+			query("ALTER TABLE  `modlogs`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+			query("ALTER TABLE  `mods`
+				CHANGE  `boards`  `boards` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `reports`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `antispam` (
-  `board` varchar(120) CHARACTER SET ascii NOT NULL,
+  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
   `thread` int(11) DEFAULT NULL,
   `hash` char(40) COLLATE ascii_bin NOT NULL,
   `created` int(11) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `set` int(11) NOT NULL,
   `expires` int(11) DEFAULT NULL,
   `reason` text,
-  `board` varchar(120) CHARACTER SET ascii DEFAULT NULL,
+  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `seen` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `ip` (`ip`)
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `bans` (
 --
 
 CREATE TABLE IF NOT EXISTS `boards` (
-  `uri` varchar(120) CHARACTER SET ascii NOT NULL,
+  `uri` varchar(58) CHARACTER SET utf8 NOT NULL,
   `title` tinytext NOT NULL,
   `subtitle` tinytext,
   PRIMARY KEY (`uri`)
@@ -78,13 +78,13 @@ INSERT INTO `boards` VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cites` (
-  `board` varchar(120) NOT NULL,
+  `board` varchar(58) NOT NULL,
   `post` int(11) NOT NULL,
-  `target_board` varchar(120) NOT NULL,
+  `target_board` varchar(58) NOT NULL,
   `target` int(11) NOT NULL,
   KEY `target` (`target_board`,`target`),
   KEY `post` (`board`,`post`)
-) ENGINE=MyISAM DEFAULT CHARSET=ascii;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
 CREATE TABLE IF NOT EXISTS `modlogs` (
   `mod` int(11) NOT NULL,
   `ip` varchar(39) CHARACTER SET ascii NOT NULL,
-  `board` varchar(120) CHARACTER SET ascii DEFAULT NULL,
+  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `time` int(11) NOT NULL,
   `text` text NOT NULL,
   KEY `time` (`time`)
@@ -129,10 +129,10 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `password` char(64) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
   `salt` char(32) CHARACTER SET ascii NOT NULL,
   `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
-  `boards` text CHARACTER SET ascii NOT NULL,
+  `boards` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `mods`
@@ -210,11 +210,11 @@ CREATE TABLE IF NOT EXISTS `reports` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `time` int(11) NOT NULL,
   `ip` varchar(39) CHARACTER SET ascii NOT NULL,
-  `board` varchar(120) CHARACTER SET ascii DEFAULT NULL,
+  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `post` int(11) NOT NULL,
   `reason` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

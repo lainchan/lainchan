@@ -170,7 +170,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['bot']);
 	
 	// Check the referrer
-	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], $_SERVER['HTTP_REFERER']))
+	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], urldecode($_SERVER['HTTP_REFERER'])))
 		error($config['error']['referer']);
 	
 	checkDNSBL();
@@ -547,9 +547,9 @@ if (isset($_POST['delete'])) {
 	// Remove board directories before inserting them into the database.
 	if ($post['has_file']) {
 		$post['file_path'] = $post['file'];
-		$post['file'] = substr_replace($post['file'], '', 0, mb_strlen($board['dir'] . $config['dir']['img']));
+		$post['file'] = mb_substr($post['file'], mb_strlen($board['dir'] . $config['dir']['img']));
 		if ($is_an_image && $post['thumb'] != 'spoiler')
-			$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
+			$post['thumb'] = mb_substr($post['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));
 	}
 	
 	$post = (object)$post;
