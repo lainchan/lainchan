@@ -538,8 +538,8 @@
 	$config['ban_date'] = '%A %e %B, %Y';
 	
 	// The names on the post buttons. (On most imageboards, these are both "Post")
-	$config['button_newtopic'] = 'New Topic';
-	$config['button_reply'] = 'New Reply';
+	$config['button_newtopic'] = _('New Topic');
+	$config['button_reply'] = _('New Reply');
 	
 	// Assign each poster in a thread a unique ID, shown by "ID: {id}" before the post number.
 	$config['poster_ids'] = false;
@@ -550,7 +550,7 @@
 	$config['thread_subject_in_title'] = false;
 	
 	// Page footer
-	$config['footer'][] = 'All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.';
+	$config['footer'][] = _('All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties.');
 	
 	// Characters used to generate a random password (with Javascript)
 	$config['genpassword_chars'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
