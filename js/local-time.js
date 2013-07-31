@@ -6,7 +6,7 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
- *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   // $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/local-time.js';
  *
  */
@@ -44,10 +44,12 @@ onready(function(){
 	};
 
 	do_localtime(document);
-
-        // allow to work with auto-reload.js, etc.
-        $(document).bind('new_post', function(e, post) {
-		do_localtime(post);
-	});
+	
+	if (window.jQuery) {
+		// allow to work with auto-reload.js, etc.
+		$(document).bind('new_post', function(e, post) {
+			do_localtime(post);
+		});
+	}
 });
 
