@@ -208,7 +208,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			$body = preg_replace('/&[^;]*$/', '', $body);
 		}
 		
-		$body .= '<span class="toolong">Post too long. Click <a href="' . $url . '">here</a> to view the full text.</span>';
+		$body .= '<span class="toolong">'.sprintf(_('Post too long. Click <a href="%s">here</a> to view the full text.'), $url).'</span>';
 	}
 	
 	return $body;
@@ -331,19 +331,19 @@ class Post {
 			
 			// Ban
 			if (hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
+				$built .= ' <a title="'._('Ban').'" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 			
 			// Ban & Delete
 			if (hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
+				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['uri'] . '/deletefile/' . $this->id);
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="'._('Edit post').'" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls">' . $built . '</span>';
@@ -420,54 +420,54 @@ class Thread {
 			// Mod controls (on posts)
 			// Delete
 			if (hasPermission($config['mod']['delete'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], _('Delete'), _('Are you sure you want to delete this?'), $board['uri'] . '/delete/' . $this->id);
 			
 			// Delete all posts by IP
 			if (hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['uri'] . '/deletebyip/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], _('Delete all posts by IP'), _('Are you sure you want to delete all posts by this IP address?'), $board['uri'] . '/deletebyip/' . $this->id);
 			
 			// Delete all posts by IP (global)
 			if (hasPermission($config['mod']['deletebyip_global'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['uri'] . '/deletebyip/' . $this->id . '/global');
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], _('Delete all posts by IP across all boards'), _('Are you sure you want to delete all posts by this IP address, across all boards?'), $board['uri'] . '/deletebyip/' . $this->id . '/global');
 			
 			// Ban
 			if (hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
+				$built .= ' <a title="'._('Ban').'" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 			
 			// Ban & Delete
 			if (hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
+				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && $this->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['uri'] . '/deletefile/' . $this->id);
 			
 			// Sticky
 			if (hasPermission($config['mod']['sticky'], $board['uri'], $this->mod))
 				if ($this->sticky)
-					$built .= ' <a title="Make thread not sticky" href="?/' . secure_link($board['uri'] . '/unsticky/' . $this->id) . '">' . $config['mod']['link_desticky'] . '</a>';
+					$built .= ' <a title="'._('Make thread not sticky').'" href="?/' . secure_link($board['uri'] . '/unsticky/' . $this->id) . '">' . $config['mod']['link_desticky'] . '</a>';
 				else
-					$built .= ' <a title="Make thread sticky" href="?/' . secure_link($board['uri'] . '/sticky/' . $this->id) . '">' . $config['mod']['link_sticky'] . '</a>';
+					$built .= ' <a title="'._('Make thread sticky').'" href="?/' . secure_link($board['uri'] . '/sticky/' . $this->id) . '">' . $config['mod']['link_sticky'] . '</a>';
 			
 			if (hasPermission($config['mod']['bumplock'], $board['uri'], $this->mod))
 				if ($this->bumplocked)
-					$built .= ' <a title="Allow thread to be bumped" href="?/' . secure_link($board['uri'] . '/bumpunlock/' . $this->id) . '">' . $config['mod']['link_bumpunlock'] . '</a>';
+					$built .= ' <a title="'._('Allow thread to be bumped').'" href="?/' . secure_link($board['uri'] . '/bumpunlock/' . $this->id) . '">' . $config['mod']['link_bumpunlock'] . '</a>';
 				else
-					$built .= ' <a title="Prevent thread from being bumped" href="?/' . secure_link($board['uri'] . '/bumplock/' . $this->id) . '">' . $config['mod']['link_bumplock'] . '</a>';
+					$built .= ' <a title="'._('Prevent thread from being bumped').'" href="?/' . secure_link($board['uri'] . '/bumplock/' . $this->id) . '">' . $config['mod']['link_bumplock'] . '</a>';
 			
 			// Lock
 			if (hasPermission($config['mod']['lock'], $board['uri'], $this->mod))
 				if ($this->locked)
-					$built .= ' <a title="Unlock thread" href="?/' . secure_link($board['uri'] . '/unlock/' . $this->id) . '">' . $config['mod']['link_unlock'] . '</a>';
+					$built .= ' <a title="'._('Unlock thread').'" href="?/' . secure_link($board['uri'] . '/unlock/' . $this->id) . '">' . $config['mod']['link_unlock'] . '</a>';
 				else
-					$built .= ' <a title="Lock thread" href="?/' . secure_link($board['uri'] . '/lock/' . $this->id) . '">' . $config['mod']['link_lock'] . '</a>';
+					$built .= ' <a title="'._('Lock thread').'" href="?/' . secure_link($board['uri'] . '/lock/' . $this->id) . '">' . $config['mod']['link_lock'] . '</a>';
 			
 			if (hasPermission($config['mod']['move'], $board['uri'], $this->mod))
-				$built .= ' <a title="Move thread to another board" href="?/' . $board['uri'] . '/move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
+				$built .= ' <a title="'._('Move thread to another board').'" href="?/' . $board['uri'] . '/move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="'._('Edit post').'" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls op">' . $built . '</span>';
