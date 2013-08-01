@@ -23,7 +23,6 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			'count' => new Twig_Filter_Function('count'),
 			'ago' => new Twig_Filter_Function('ago'),
 			'until' => new Twig_Filter_Function('until'),
-			'split' => new Twig_Filter_Function('twig_split_filter'),
 			'push' => new Twig_Filter_Function('twig_push_filter'),
 			'bidi_cleanup' => new Twig_Filter_Function('bidi_cleanup'),
 			'addslashes' => new Twig_Filter_Function('addslashes')
@@ -59,10 +58,6 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 
 function twig_timezone_function() {
 	return 'Z';
-}
-
-function twig_split_filter($str, $delim) {
-	return explode($delim, $str);
 }
 
 function twig_push_filter($array, $value) {

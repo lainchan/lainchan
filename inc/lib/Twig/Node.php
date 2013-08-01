@@ -13,10 +13,9 @@
 /**
  * Represents a node in the AST.
  *
- * @package    twig
- * @author     Fabien Potencier <fabien@symfony.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Node implements Twig_NodeInterface, Countable, IteratorAggregate
+class Twig_Node implements Twig_NodeInterface
 {
     protected $nodes;
     protected $attributes;
@@ -134,12 +133,12 @@ class Twig_Node implements Twig_NodeInterface, Countable, IteratorAggregate
      *
      * @param  string The attribute name
      *
-     * @return mixed  The attribute value
+     * @return mixed The attribute value
      */
     public function getAttribute($name)
     {
         if (!array_key_exists($name, $this->attributes)) {
-            throw new Twig_Error_Runtime(sprintf('Attribute "%s" does not exist for Node "%s".', $name, get_class($this)));
+            throw new LogicException(sprintf('Attribute "%s" does not exist for Node "%s".', $name, get_class($this)));
         }
 
         return $this->attributes[$name];
@@ -188,7 +187,7 @@ class Twig_Node implements Twig_NodeInterface, Countable, IteratorAggregate
     public function getNode($name)
     {
         if (!array_key_exists($name, $this->nodes)) {
-            throw new Twig_Error_Runtime(sprintf('Node "%s" does not exist for Node "%s".', $name, get_class($this)));
+            throw new LogicException(sprintf('Node "%s" does not exist for Node "%s".', $name, get_class($this)));
         }
 
         return $this->nodes[$name];

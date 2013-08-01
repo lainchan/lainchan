@@ -12,19 +12,19 @@
 /**
  * Represents a node in the AST.
  *
- * @package    twig
- * @author     Fabien Potencier <fabien@symfony.com>
+ * @author Fabien Potencier <fabien@symfony.com>
+ * @deprecated since 1.12 (to be removed in 2.0)
  */
-interface Twig_NodeInterface
+interface Twig_NodeInterface extends Countable, IteratorAggregate
 {
     /**
      * Compiles the node to PHP.
      *
      * @param Twig_Compiler A Twig_Compiler instance
      */
-    function compile(Twig_Compiler $compiler);
+    public function compile(Twig_Compiler $compiler);
 
-    function getLine();
+    public function getLine();
 
-    function getNodeTag();
+    public function getNodeTag();
 }
