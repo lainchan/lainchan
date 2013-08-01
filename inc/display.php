@@ -72,14 +72,14 @@ function error($message, $priority = true) {
 	
 	die(Element('page.html', array(
 		'config'=>$config,
-		'title'=>'Error',
-		'subtitle'=>'An error has occured.',
+		'title'=>_('Error'),
+		'subtitle'=>_('An error has occured.'),
 		'body'=>'<center>' .
 		        '<h2>' . _($message) . '</h2>' .
 			(isset($board) ? 
 				"<p><a href=\"" . $config['root'] .
 					($mod ? $config['file_mod'] . '?/' : '') .
-					$board['dir'] . $config['file_index'] . "\">Go back</a>.</p>" : '') .
+					$board['dir'] . $config['file_index'] . "\">"._("Go back")."</a>.</p>" : '') .
 		        '</center>'
 	)));
 }
