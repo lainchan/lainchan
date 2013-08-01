@@ -282,10 +282,13 @@ class ImageConvert extends ImageBase {
 		
 		$quality = $config['thumb_quality'] * 10;
 		
+		$config['thumb_keep_animation_frames'] = (int) $config['thumb_keep_animation_frames'];
+		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
 				if (shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
-					escapeshellarg($this->src . '') . " > " . escapeshellarg($this->temp)) || !file_exists($this->temp))
+					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" > " .
+					escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
 			} else {
 				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .

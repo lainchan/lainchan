@@ -412,9 +412,9 @@
 	// Thumbnail extension, empty for inherited (png recommended)
 	$config['thumb_ext'] = 'png';
 	
-	// EXPERIMENTAL:
 	// Maximum amount of frames to resize (more frames means more processing power). "1" means no animated thumbnails.
-	// Requires $config['thumb_ext'] to be 'gif' $config['imagick'] to be enabled.
+	// Requires $config['thumb_ext'] to be 'gif' and $config['thumb_method'] to be 'imagick', 'convert', or 'convert+gifsicle'.
+	// Not respected by 'convert'; will just resize all frames if this is > 1.
 	$config['thumb_keep_animation_frames'] = 1;
 	
 	// Thumbnailing method:
@@ -426,8 +426,7 @@
 	//				PHP Imagick.
 	//	- 'convert+gifsicle'	Same as above, with the exception of using `gifsicle` (command line application)
 	//				instead of `convert` for resizing gifs. It's faster and resulting animated gifs
-	//				have less artifacts than if resized with ImageMagick. 
-                               
+	//				have less artifacts than if resized with ImageMagick.
 	$config['thumb_method'] = 'gd';
 	
 	// Strip EXIF metadata from JPEG files
