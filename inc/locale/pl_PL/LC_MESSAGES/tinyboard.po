@@ -61,7 +61,7 @@ msgstr "wszystkie boardy"
 #: /var/www/html/Tinyboard/inc/config.php:305 ../../../../inc/config.php:330
 #: ../../../../inc/config.php:334
 msgid "You have been muted for unoriginal content."
-msgstr "Zostałeś zagłuszony za nieoryginalną treść."
+msgstr "Zostałeś wyciszony za nieoryginalną treść."
 
 #: /var/www/html/Tinyboard/inc/config.php:447
 msgid "Anonymous"
@@ -197,7 +197,7 @@ msgstr "Nieoryginalna treść! Zostałeś zagłuszony na %d sekund."
 #: ../../../../inc/config.php:714 ../../../../inc/config.php:720
 #, php-format
 msgid "You are muted! Expires in %d seconds."
-msgstr "Jesteś zagłuszony! Wygasa w ciągu %d sekund."
+msgstr "Jesteś wyciszony! Wygasa w ciągu %d sekund."
 
 #: /var/www/html/Tinyboard/inc/config.php:618 ../../../../inc/config.php:656
 #: ../../../../inc/config.php:712 ../../../../inc/config.php:718
