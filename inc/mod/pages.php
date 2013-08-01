@@ -1222,7 +1222,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
-			$query->bindValue(':body_nomarkup', sprintf('<tinyboard ban message>%s</tinyboard>', $_POST['message']));
+			$query->bindValue(':body_nomarkup', sprintf("\n<tinyboard ban message>%s</tinyboard>", $_POST['message']));
 			$query->execute() or error(db_error($query));
 			rebuildPost($post);
 			
