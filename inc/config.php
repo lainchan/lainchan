@@ -636,9 +636,6 @@
 	// $config['additional_javascript'][] = 'js/jquery.min.js';
 	// $config['additional_javascript'][] = 'js/auto-reload.js';
 
-	// Enable hiding posts. Remember to put this AFTER jQuery.
-	// $config['additional_javascript'][] = 'js/post-hider.js';
-	 
 	// Where these script files are located on the web (defaults to $config['root']).
 	// $config['additional_javascript_url'] = '/js/';
 	
