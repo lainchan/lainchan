@@ -1423,6 +1423,7 @@ function markup(&$body, $track_cites = false) {
 	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		$skip_chars = 0;
 		$body_tmp = $body;
+		$end_markup = false;
 		
 		foreach ($modifiers as $modifier) {
 			// preg_match_all is not multibyte-safe
@@ -1436,9 +1437,13 @@ function markup(&$body, $track_cites = false) {
 			if ($modifier['type'] == 'ban message') {
 				// Public ban message
 				$replacement = sprintf($config['mod']['ban_message'], $modifier['content']);
+				if ($end_markup) {
+					$body .= $replacement;
+				}
 			} elseif ($modifier['type'] == 'raw html') {
 				$body = html_entity_decode($modifier['content']);
-				return array();
+				$replacement = '';
+				$end_markup = true;
 			} elseif (preg_match('/^escape /', $modifier['type'])) {
 				// Escaped (not a real modifier)
 				$replacement = '&lt;tinyboard ' . substr($modifier['type'], strlen('escape ')) . '&gt;' . $modifier['content'] . '&lt;/tinyboard&gt;';
@@ -1447,9 +1452,14 @@ function markup(&$body, $track_cites = false) {
 				$replacement = '';
 			}
 			
-			$body = mb_substr_replace($body, $replacement, $modifier[0][1] + $skip_chars, mb_strlen($modifier[0][0]));
-			$skip_chars += mb_strlen($replacement) - mb_strlen($modifier[0][0]);
-			
+			if (!$end_markup) {
+				$body = mb_substr_replace($body, $replacement, $modifier[0][1] + $skip_chars, mb_strlen($modifier[0][0]));
+				$skip_chars += mb_strlen($replacement) - mb_strlen($modifier[0][0]);
+			}
+		}
+		
+		if ($end_markup) {
+			return array();
 		}
 	}
 	
