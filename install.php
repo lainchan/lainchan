@@ -501,6 +501,9 @@ if ($step == 0) {
 		<label for="db_db">Database:</label> 
 		<input type="text" id="db_db" name="db[database]" value="" />
 		
+		<label for="db_pass">Table prefix (optional):</label> 
+		<input type="password" id="db_pass" name="db[prefix]" value="" />
+		
 		<label for="db_user">Username:</label> 
 		<input type="text" id="db_user" name="db[user]" value="" />
 		
@@ -668,7 +671,8 @@ if ($step == 0) {
 	$queries[] = Element('posts.sql', array('board' => 'b'));
 	
 	$sql_errors = '';
-	foreach ($queries as &$query) {
+	foreach ($queries as $query) {
+		$query = preg_replace('/^([\w\s]*)`([0-9a-zA-Z$_\x{0080}-\x{FFFF}]+)`/u', '$1``$2``', $query);
 		if (!query($query))
 			$sql_errors .= '<li>' . db_error() . '</li>';
 	}

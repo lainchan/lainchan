@@ -42,7 +42,7 @@ function login($username, $password, $makehash=true) {
 		$password = sha1($password);
 	}
 	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `salt` FROM `mods` WHERE `username` = :username");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `salt` FROM ``mods`` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	
@@ -83,7 +83,7 @@ function destroyCookies() {
 
 function modLog($action, $_board=null) {
 	global $mod, $board, $config;
-	$query = prepare("INSERT INTO `modlogs` VALUES (:id, :ip, :board, :time, :text)");
+	$query = prepare("INSERT INTO ``modlogs`` VALUES (:id, :ip, :board, :time, :text)");
 	$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
@@ -112,7 +112,7 @@ if (isset($_COOKIE[$config['cookies']['mod']])) {
 		exit;
 	}
 	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM `mods` WHERE `username` = :username");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM ``mods`` WHERE `username` = :username");
 	$query->bindValue(':username', $cookie[0]);
 	$query->execute() or error(db_error($query));
 	$user = $query->fetch(PDO::FETCH_ASSOC);
@@ -143,7 +143,7 @@ function create_pm_header() {
 		return $header;
 	}
 	
-	$query = prepare("SELECT `id` FROM `pms` WHERE `to` = :id AND `unread` = 1");
+	$query = prepare("SELECT `id` FROM ``pms`` WHERE `to` = :id AND `unread` = 1");
 	$query->bindValue(':id', $mod['id'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	

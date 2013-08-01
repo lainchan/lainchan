@@ -36,7 +36,7 @@
 		public static function news($settings) {
 			global $config;
 			
-			$query = query("SELECT * FROM `news` ORDER BY `time` DESC") or error(db_error());
+			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC") or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
 			return Element('themes/frameset/news.html', Array(
