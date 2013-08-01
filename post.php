@@ -52,7 +52,7 @@ if (isset($_POST['delete'])) {
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		if ($post = $query->fetch()) {
+		if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			if ($password != '' && $post['password'] != $password)
 				error($config['error']['invalidpassword']);
 			
@@ -116,12 +116,12 @@ if (isset($_POST['delete'])) {
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		$post = $query->fetch();
+		$thread = $query->fetchColumn();
 		
-		if ($post) {
+		if ($thread) {
 			if ($config['syslog'])
 				_syslog(LOG_INFO, 'Reported post: ' .
-					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '') .
+					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $thread ? $thread : $id) . ($thread ? '#' . $id : '') .
 					' for "' . $reason . '"'
 				);
 			$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
@@ -233,7 +233,7 @@ if (isset($_POST['delete'])) {
 		$query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
 		$query->execute() or error(db_error());
 		
-		if (!$thread = $query->fetch()) {
+		if (!$thread = $query->fetch(PDO::FETCH_ASSOC)) {
 			// Non-existant
 			error($config['error']['nonexistant']);
 		}

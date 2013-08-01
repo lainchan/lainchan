@@ -96,14 +96,14 @@ function mod_dashboard() {
 		$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
 		$query->bindValue(':id', $mod['id']);
 		$query->execute() or error(db_error($query));
-		$args['unread_pms'] = $query->fetchColumn(0);
+		$args['unread_pms'] = $query->fetchColumn();
 		
 		if ($config['cache']['enabled'])
 			cache::set('pm_unreadcount_' . $mod['id'], $args['unread_pms']);
 	}
 	
 	$query = query('SELECT COUNT(*) FROM `reports`') or error(db_error($query));
-	$args['reports'] = $query->fetchColumn(0);
+	$args['reports'] = $query->fetchColumn();
 	
 	if ($mod['type'] >= ADMIN && $config['check_updates']) {
 		if (!$config['version'])
@@ -536,7 +536,7 @@ function mod_noticeboard($page_no = 1) {
 	
 	$query = prepare("SELECT COUNT(*) FROM `noticeboard`");
 	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn(0);
+	$count = $query->fetchColumn();
 	
 	mod_page(_('Noticeboard'), 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
 }
@@ -597,7 +597,7 @@ function mod_news($page_no = 1) {
 	
 	$query = prepare("SELECT COUNT(*) FROM `news`");
 	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn(0);
+	$count = $query->fetchColumn();
 	
 	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count));
 }
@@ -637,7 +637,7 @@ function mod_log($page_no = 1) {
 	
 	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
 	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn(0);
+	$count = $query->fetchColumn();
 	
 	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count));
 }
@@ -664,7 +664,7 @@ function mod_user_log($username, $page_no = 1) {
 	$query = prepare("SELECT COUNT(*) FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn(0);
+	$count = $query->fetchColumn();
 	
 	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'username' => $username));
 }
@@ -906,7 +906,7 @@ function mod_bans($page_no = 1) {
 	
 	$query = prepare("SELECT COUNT(*) FROM `bans`");
 	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn(0);
+	$count = $query->fetchColumn();
 	
 	foreach ($bans as &$ban) {
 		if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
@@ -1058,7 +1058,7 @@ function mod_move($originBoard, $postID) {
 		
 		$replies = array();
 		
-		while ($post = $query->fetch()) {
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			$post['mod'] = true;
 			$post['thread'] = $newID;
 			
@@ -1222,7 +1222,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
-			$query->bindValue(':body_nomarkup', sprintf('<tinyboard ban message>%s</tinyboard>', $_POST['message']));
+			$query->bindValue(':body_nomarkup', sprintf("\n<tinyboard ban message>%s</tinyboard>", $_POST['message']));
 			$query->execute() or error(db_error($query));
 			rebuildPost($post);
 			
@@ -1369,7 +1369,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	$query = prepare(sprintf('SELECT `ip` FROM `posts_%s` WHERE `id` = :id', $boardName));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
-	if (!$ip = $query->fetchColumn(0))
+	if (!$ip = $query->fetchColumn())
 		error($config['error']['invalidpost']);
 	
 	$boards = $global ? listBoards() : array(array('uri' => $boardName));
@@ -1391,7 +1391,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	
 	$threads_to_rebuild = array();
 	$threads_deleted = array();
-	while ($post = $query->fetch()) {
+	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		openBoard($post['board']);
 		
 		deletePost($post['id'], false, false);
@@ -1688,7 +1688,7 @@ function mod_inbox() {
 	$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :mod AND `unread` = 1');
 	$query->bindValue(':mod', $mod['id']);
 	$query->execute() or error(db_error($query));
-	$unread = $query->fetchColumn(0);
+	$unread = $query->fetchColumn();
 	
 	foreach ($messages as &$message) {
 		$message['snippet'] = pm_snippet($message['message']);
@@ -1710,12 +1710,12 @@ function mod_new_pm($username) {
 	$query = prepare("SELECT `id` FROM `mods` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
-	if (!$id = $query->fetchColumn(0)) {
+	if (!$id = $query->fetchColumn()) {
 		// Old style ?/PM: by user ID
 		$query = prepare("SELECT `username` FROM `mods` WHERE `id` = :username");
 		$query->bindValue(':username', $username);
 		$query->execute() or error(db_error($query));
-		if ($username = $query->fetchColumn(0))
+		if ($username = $query->fetchColumn())
 			header('Location: ?/new_PM/' . $username, true, $config['redirect_http']);
 		else
 			error($config['error']['404']);
@@ -1836,7 +1836,7 @@ function mod_reports() {
 		$report_posts[$board] = array();
 		
 		$query = query(sprintf('SELECT * FROM `posts_%s` WHERE `id` = ' . implode(' OR `id` = ', $posts), $board)) or error(db_error());
-		while ($post = $query->fetch()) {
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			$report_posts[$board][$post['id']] = $post;
 		}
 	}
@@ -2173,10 +2173,10 @@ function mod_debug_antispam() {
 	}
 	
 	$query = query('SELECT COUNT(*) FROM `antispam`' . ($where ? " WHERE $where" : '')) or error(db_error());
-	$args['total'] = number_format($query->fetchColumn(0));
+	$args['total'] = number_format($query->fetchColumn());
 	
 	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
-	$args['expiring'] = number_format($query->fetchColumn(0));
+	$args['expiring'] = number_format($query->fetchColumn());
 	
 	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
 	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);

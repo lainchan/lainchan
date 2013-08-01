@@ -39,7 +39,7 @@
 			
 			$query = query(sprintf("SELECT *, `id` AS `thread_id`, (SELECT COUNT(*) FROM `posts_%s` WHERE `thread` = `thread_id`) AS `reply_count`, '%s' AS `board` FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `bump` DESC", $board_name, $board_name, $board_name)) or error(db_error());
 			
-			while ($post = $query->fetch()) {
+			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id']));
 				$post['board_name'] = $board['name'];
 				$post['file'] = $config['uri_thumb'] . $post['thumb'];

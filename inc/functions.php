@@ -244,7 +244,7 @@ function rebuildThemes($action, $board = false) {
 	// List themes
 	$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
-	while ($theme = $query->fetch()) {
+	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
 		rebuildTheme($theme['theme'], $action, $board);
 	}
 }
@@ -282,7 +282,7 @@ function themeSettings($theme) {
 	$query->execute() or error(db_error($query));
 
 	$settings = array();
-	while ($s = $query->fetch()) {
+	while ($s = $query->fetch(PDO::FETCH_ASSOC)) {
 		$settings[$s['name']] = $s['value'];
 	}
 
@@ -352,7 +352,7 @@ function getBoardInfo($uri) {
 	$query->bindValue(':uri', $uri);
 	$query->execute() or error(db_error($query));
 	
-	if ($board = $query->fetch()) {
+	if ($board = $query->fetch(PDO::FETCH_ASSOC)) {
 		if ($config['cache']['enabled'])
 			cache::set('board_' . $uri, $board);
 		return $board;
@@ -544,7 +544,7 @@ function checkFlood($post) {
 	$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$flood = (bool)$query->fetch();
+	$flood = (bool) $query->fetch(PDO::FETCH_ASSOC);
 	
 	if (event('check-flood', $post))
 		return true;
@@ -648,7 +648,7 @@ function checkBan($board = 0) {
 		$query->execute() or error(db_error($query));
 	}
 	
-	if ($ban = $query->fetch()) {
+	if ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
 			$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
@@ -686,12 +686,12 @@ function threadLocked($id) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error());
 	
-	if (!$post = $query->fetch()) {
+	if (($locked = $query->fetchColumn()) === false) {
 		// Non-existant, so it can't be locked...
 		return false;
 	}
 	
-	return (bool)$post['locked'];
+	return (bool)$locked;
 }
 
 function threadSageLocked($id) {
@@ -704,12 +704,12 @@ function threadSageLocked($id) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error());
 	
-	if (!$post = $query->fetch()) {
+	if (($sagelocked = $query->fetchColumn()) === false) {
 		// Non-existant, so it can't be locked...
 		return false;
 	}
 	
-	return (bool) $post['sage'];
+	return (bool)$sagelocked;
 }
 
 function threadExists($id) {
@@ -843,7 +843,7 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
-	if (!$post = $query->fetch())
+	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['invalidpost']);
 	
 	if ($post['file'] == 'deleted' && !$post['thread'])
@@ -881,7 +881,7 @@ function rebuildPost($id) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if ((!$post = $query->fetch()) || !$post['body_nomarkup'])
+	if ((!$post = $query->fetch(PDO::FETCH_ASSOC)) || !$post['body_nomarkup'])
 		return false;
 	
 	markup($body = &$post['body_nomarkup']);
@@ -914,7 +914,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	$ids = array();
 	
 	// Delete posts and maybe replies
-	while ($post = $query->fetch()) {
+	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		if (!$post['thread']) {
 			// Delete thread HTML page
 			file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
@@ -947,7 +947,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
-	while ($cite = $query->fetch()) {
+	while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
 		if ($board['uri'] != $cite['board']) {
 			if (!isset($tmp_board))
 				$tmp_board = $board['uri'];
@@ -980,7 +980,7 @@ function clean() {
 	$query->bindValue(':offset', $offset, PDO::PARAM_INT);
 	
 	$query->execute() or error(db_error($query));
-	while ($post = $query->fetch()) {
+	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		deletePost($post['id']);
 	}
 }
@@ -1002,8 +1002,7 @@ function index($page, $mod=false) {
 	if ($query->rowCount() < 1 && $page > 1)
 		return false;
 
-	$threads = array();
-	while ($th = $query->fetch()) {
+	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
 			$th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'],
@@ -1120,7 +1119,7 @@ function getPages($mod=false) {
 		$count = $board['thread_count'];
 	} else {
 		// Count threads
-		$query = query(sprintf("SELECT COUNT(`id`) FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+		$query = query(sprintf("SELECT COUNT(*) FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 		$count = $query->fetchColumn();
 	}
 	$count = floor(($config['threads_per_page'] + $count - 1) / $config['threads_per_page']);
@@ -1160,7 +1159,7 @@ function checkRobot($body) {
 	$query->bindValue(':hash', $body);
 	$query->execute() or error(db_error($query));
 	
-	if ($query->fetch()) {
+	if ($query->fetchColumn()) {
 		return true;
 	}
 
@@ -1168,20 +1167,19 @@ function checkRobot($body) {
 	$query = prepare("INSERT INTO `robot` VALUES (:hash)");
 	$query->bindValue(':hash', $body);
 	$query->execute() or error(db_error($query));
+	
 	return false;
 }
 
 // Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$num_posts = $query->fetch();
-	$num_posts = $num_posts['num'];
-	$num_images = $query->fetch();
-	$num_images = $num_images['num'];
+	$num_posts = $query->fetchColumn();
+	$num_images = $query->fetchColumn();
 	
 	return array('replies' => $num_posts, 'images' => $num_images);
 }
@@ -1193,14 +1191,14 @@ function muteTime() {
 		return $time;
 	
 	// Find number of mutes in the past X hours
-	$query = prepare("SELECT COUNT(*) as `count` FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
+	$query = prepare("SELECT COUNT(*) FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
 	$query->bindValue(':time', time()-($config['robot_mute_hour']*3600), PDO::PARAM_INT);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->execute() or error(db_error($query));
 	
-	$result = $query->fetch();
-	if ($result['count'] == 0) return 0;
-	return pow($config['robot_mute_multiplier'], $result['count']);
+	if (!$result = $query->fetchColumn())
+		return 0;
+	return pow($config['robot_mute_multiplier'], $result);
 }
 
 function mute() {
@@ -1230,7 +1228,7 @@ function checkMute() {
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->execute() or error(db_error($query));
 		
-		if (!$mute = $query->fetch()) {
+		if (!$mute = $query->fetch(PDO::FETCH_ASSOC)) {
 			// What!? He's muted but he's not muted...
 			return;
 		}
@@ -1543,7 +1541,7 @@ function markup(&$body, $track_cites = false) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
 			
-			if ($post = $query->fetch()) {
+			if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
 					$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
 						'&gt;&gt;' . $cite .
@@ -1586,7 +1584,7 @@ function markup(&$body, $track_cites = false) {
 					$query->bindValue(':id', $cite);
 					$query->execute() or error(db_error($query));
 					
-					if ($post = $query->fetch()) {
+					if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 						$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
 							$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
 								'&gt;&gt;&gt;/' . $_board . '/' . $cite .
@@ -1695,7 +1693,7 @@ function buildThread($id, $return = false, $mod = false) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	while ($post = $query->fetch()) {
+	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		if (!isset($thread)) {
 			$thread = new Thread(
 				$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'],
@@ -1836,7 +1834,7 @@ function getPostByHash($hash) {
 	$query->bindValue(':hash', $hash, PDO::PARAM_STR);
 	$query->execute() or error(db_error($query));
 	
-	if ($post = $query->fetch()) {
+	if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		return $post;
 	}
 	
@@ -1850,7 +1848,7 @@ function getPostByHashInThread($hash, $thread) {
 	$query->bindValue(':thread', $thread, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	if ($post = $query->fetch()) {
+	if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		return $post;
 	}
 	
