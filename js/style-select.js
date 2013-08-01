@@ -19,11 +19,12 @@ onready(function(){
 	
 	var i = 1;
 	stylesDiv.children().each(function() {
-		stylesSelect.append(
-			$('<option></option>')
-				.text(this.innerText.replace(/(^\[|\]$)/g, ''))
-				.val(i)
-		);
+		var opt = $('<option></option>')
+			.text(this.innerText.replace(/(^\[|\]$)/g, ''))
+			.val(i);
+		if ($(this).hasClass('selected'))
+			opt.attr('selected', true);
+		stylesSelect.append(opt);
 		$(this).attr('id', 'style-select-' + i);
 		i++;
 	});
