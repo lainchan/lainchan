@@ -1451,7 +1451,7 @@ function markup(&$body, $track_cites = false) {
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
 	
-	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+?)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		$skip_chars = 0;
 		$body_tmp = $body;
 		
@@ -1468,8 +1468,7 @@ function markup(&$body, $track_cites = false) {
 				// Public ban message
 				$replacement = sprintf($config['mod']['ban_message'], $modifier['content']);
 			} elseif ($modifier['type'] == 'raw html') {
-				$body = html_entity_decode($modifier['content']);
-				return array();
+				$replacement = html_entity_decode($modifier['content']);
 			} elseif (preg_match('/^escape /', $modifier['type'])) {
 				// Escaped (not a real modifier)
 				$replacement = '&lt;tinyboard ' . substr($modifier['type'], strlen('escape ')) . '&gt;' . $modifier['content'] . '&lt;/tinyboard&gt;';
