@@ -61,9 +61,8 @@
 					// debug just the graphing (not updating) with the --debug switch
 					if (!isset($argv[1]) || $argv[1] != '--debug') {
 						// Update graph
-						$query = query(sprintf("SELECT MAX(`id`) AS `count` FROM `posts_%s`", $board));
-						$count = $query->fetch();
-						$count = $count['count'];
+						$query = query(sprintf("SELECT MAX(`id`) FROM `posts_%s`", $board));
+						$count = $query->fetchColumn();
 					
 						if (!rrd_update($file, Array(
 							'-t',
