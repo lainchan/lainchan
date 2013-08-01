@@ -87,7 +87,7 @@ function mysql_version() {
 function prepare($query) {
 	global $pdo, $debug, $config;
 	
-	$query = preg_replace('/``([0-9a-zA-Z$_\x{0080}-\x{FFFF}]+)``/u', '`' . $config['db']['prefix'] . '$1`', $query);
+	$query = preg_replace('/``('.$config['board_regex'].')``/u', '`' . $config['db']['prefix'] . '$1`', $query);
 	
 	sql_open();
 	
@@ -100,7 +100,7 @@ function prepare($query) {
 function query($query) {
 	global $pdo, $debug, $config;
 	
-	$query = preg_replace('/``([0-9a-zA-Z$_\x{0080}-\x{FFFF}]+)``/u', '`' . $config['db']['prefix'] . '$1`', $query);
+	$query = preg_replace('/``('.$config['board_regex'].')``/u', '`' . $config['db']['prefix'] . '$1`', $query);
 	
 	sql_open();
 	
