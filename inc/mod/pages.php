@@ -1222,7 +1222,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
 			$query = prepare(sprintf('UPDATE `posts_%s` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
-			$query->bindValue(':body_nomarkup', sprintf("\n<tinyboard ban message>%s</tinyboard>", $_POST['message']));
+			$query->bindValue(':body_nomarkup', sprintf("\n<tinyboard ban message>%s</tinyboard>", utf8tohtml($_POST['message'])));
 			$query->execute() or error(db_error($query));
 			rebuildPost($post);
 			
@@ -1298,9 +1298,12 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
 		if ($config['minify_html']) {
-			$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
-			$post['body'] = str_replace("\n", '&#010;', $post['body']);
+			// $post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+			// $post['body'] = str_replace("\n", '&#010;', $post['body']);
 		}
+		
+		// Minifying this page causes an issue with newlines in the textarea. This is a temporary solution.
+		$config['minify_html'] = false;
 		
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
 	}

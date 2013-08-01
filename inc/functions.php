@@ -1420,7 +1420,7 @@ function markup(&$body, $track_cites = false) {
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
 	
-	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+?)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
 		$skip_chars = 0;
 		$body_tmp = $body;
 		$end_markup = false;
@@ -1436,7 +1436,7 @@ function markup(&$body, $track_cites = false) {
 			
 			if ($modifier['type'] == 'ban message') {
 				// Public ban message
-				$replacement = sprintf($config['mod']['ban_message'], $modifier['content']);
+				$replacement = sprintf($config['mod']['ban_message'], html_entity_decode($modifier['content']));
 				if ($end_markup) {
 					$body .= $replacement;
 				}
