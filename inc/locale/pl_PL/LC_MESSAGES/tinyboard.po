@@ -190,7 +190,7 @@ msgstr "Nieoryginalna treść!"
 #: ../../../../inc/config.php:713 ../../../../inc/config.php:719
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr "Nieoryginalna treść! Zostałeś zagłuszony na %d sekund."
+msgstr "Nieoryginalna treść! Zostałeś wyciszony na %d sekund."
 
 #: /var/www/html/Tinyboard/inc/config.php:617 ../../../../inc/config.php:655
 #: ../../../../inc/config.php:711 ../../../../inc/config.php:717
