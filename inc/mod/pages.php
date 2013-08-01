@@ -82,7 +82,7 @@ function mod_dashboard() {
 	
 	if (hasPermission($config['mod']['noticeboard'])) {
 		if (!$config['cache']['enabled'] || !$args['noticeboard'] = cache::get('noticeboard_preview')) {
-			$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
+			$query = prepare("SELECT ``noticeboard``.*, `username` FROM ``noticeboard`` LEFT JOIN ``mods`` ON ``mods``.`id` = `mod` ORDER BY `id` DESC LIMIT :limit");
 			$query->bindValue(':limit', $config['mod']['noticeboard_dashboard'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			$args['noticeboard'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -93,7 +93,7 @@ function mod_dashboard() {
 	}
 	
 	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) == false) {
-		$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :id AND `unread` = 1');
+		$query = prepare('SELECT COUNT(*) FROM ``pms`` WHERE `to` = :id AND `unread` = 1');
 		$query->bindValue(':id', $mod['id']);
 		$query->execute() or error(db_error($query));
 		$args['unread_pms'] = $query->fetchColumn();
@@ -102,7 +102,7 @@ function mod_dashboard() {
 			cache::set('pm_unreadcount_' . $mod['id'], $args['unread_pms']);
 	}
 	
-	$query = query('SELECT COUNT(*) FROM `reports`') or error(db_error($query));
+	$query = query('SELECT COUNT(*) FROM ``reports``') or error(db_error($query));
 	$args['reports'] = $query->fetchColumn();
 	
 	if ($mod['type'] >= ADMIN && $config['check_updates']) {
@@ -208,6 +208,8 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	// Use asterisk as wildcard instead
 	$query = str_replace('*', '%', $query);
 	
+	$query = str_replace('`', '!`', $query);
+	
 	// Array of phrases to match
 	$match = array();
 	
@@ -271,7 +273,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 			
 			if (!empty($query))
 				$query .= ' UNION ALL ';
-			$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE %s", $board['uri'], $board['uri'], $sql_like);
+			$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE %s", $board['uri'], $board['uri'], $sql_like);
 		}
 		
 		// You weren't allowed to search any boards
@@ -282,21 +284,21 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	}
 	
 	if ($type == 'IP_notes') {
-		$query = 'SELECT * FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
+		$query = 'SELECT * FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
 		$sql_table = 'ip_notes';
 		if (!hasPermission($config['mod']['view_notes']) || !hasPermission($config['mod']['show_ip']))
 			error($config['error']['noaccess']);
 	}
 	
 	if ($type == 'bans') {
-		$query = 'SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
+		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
 		$sql_table = 'bans';
 		if (!hasPermission($config['mod']['view_banlist']))
 			error($config['error']['noaccess']);
 	}
 	
 	if ($type == 'log') {
-		$query = 'SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
+		$query = 'SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY `time` DESC';
 		$sql_table = 'modlogs';
 		if (!hasPermission($config['mod']['modlog']))
 			error($config['error']['noaccess']);
@@ -353,7 +355,7 @@ function mod_edit_board($boardName) {
 			if (!hasPermission($config['mod']['manageboards'], $board['uri']))
 				error($config['error']['deleteboard']);
 			
-			$query = prepare('DELETE FROM `boards` WHERE `uri` = :uri');
+			$query = prepare('DELETE FROM ``boards`` WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri']);
 			$query->execute() or error(db_error($query));
 			
@@ -363,19 +365,19 @@ function mod_edit_board($boardName) {
 			rrmdir($board['uri'] . '/');
 			
 			// Delete posting table
-			$query = query(sprintf('DROP TABLE IF EXISTS `posts_%s`', $board['uri'])) or error(db_error());
+			$query = query(sprintf('DROP TABLE IF EXISTS ``posts_%s``', $board['uri'])) or error(db_error());
 			
 			// Clear reports
-			$query = prepare('DELETE FROM `reports` WHERE `board` = :id');
+			$query = prepare('DELETE FROM ``reports`` WHERE `board` = :id');
 			$query->bindValue(':id', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
 			// Delete from table
-			$query = prepare('DELETE FROM `boards` WHERE `uri` = :uri');
+			$query = prepare('DELETE FROM ``boards`` WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board");
+			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board");
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -387,28 +389,28 @@ function mod_edit_board($boardName) {
 				}
 			}
 			
-			$query = prepare('DELETE FROM `cites` WHERE `board` = :board OR `target_board` = :board');
+			$query = prepare('DELETE FROM ``cites`` WHERE `board` = :board OR `target_board` = :board');
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			
-			$query = prepare('DELETE FROM `antispam` WHERE `board` = :board');
+			$query = prepare('DELETE FROM ``antispam`` WHERE `board` = :board');
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			
 			// Remove board from users/permissions table
-			$query = query('SELECT `id`,`boards` FROM `mods`') or error(db_error());
+			$query = query('SELECT `id`,`boards` FROM ``mods``') or error(db_error());
 			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
 				$user_boards = explode(',', $user['boards']);
 				if (in_array($board['uri'], $user_boards)) {
 					unset($user_boards[array_search($board['uri'], $user_boards)]);
-					$_query = prepare('UPDATE `mods` SET `boards` = :boards WHERE `id` = :id');
+					$_query = prepare('UPDATE ``mods`` SET `boards` = :boards WHERE `id` = :id');
 					$_query->bindValue(':boards', implode(',', $user_boards));
 					$_query->bindValue(':id', $user['id']);
 					$_query->execute() or error(db_error($_query));
 				}
 			}
 		} else {
-			$query = prepare('UPDATE `boards` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
+			$query = prepare('UPDATE ``boards`` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri']);
 			$query->bindValue(':title', $_POST['title']);
 			$query->bindValue(':subtitle', $_POST['subtitle']);
@@ -467,7 +469,7 @@ function mod_new_board() {
 			error(sprintf($config['error']['boardexists'], $board['url']));
 		}
 		
-		$query = prepare('INSERT INTO `boards` VALUES (:uri, :title, :subtitle)');
+		$query = prepare('INSERT INTO ``boards`` VALUES (:uri, :title, :subtitle)');
 		$query->bindValue(':uri', $_POST['uri']);
 		$query->bindValue(':title', $_POST['title']);
 		$query->bindValue(':subtitle', $_POST['subtitle']);
@@ -510,7 +512,7 @@ function mod_noticeboard($page_no = 1) {
 		$_POST['body'] = escape_markup_modifiers($_POST['body']);
 		markup($_POST['body']);
 		
-		$query = prepare('INSERT INTO `noticeboard` VALUES (NULL, :mod, :time, :subject, :body)');
+		$query = prepare('INSERT INTO ``noticeboard`` VALUES (NULL, :mod, :time, :subject, :body)');
 		$query->bindValue(':mod', $mod['id']);
 		$query->bindvalue(':time', time());
 		$query->bindValue(':subject', $_POST['subject']);
@@ -525,7 +527,7 @@ function mod_noticeboard($page_no = 1) {
 		header('Location: ?/noticeboard#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 	}
 	
-	$query = prepare("SELECT `noticeboard`.*, `username` FROM `noticeboard` LEFT JOIN `mods` ON `mods`.`id` = `mod` ORDER BY `id` DESC LIMIT :offset, :limit");
+	$query = prepare("SELECT ``noticeboard``.*, `username` FROM ``noticeboard`` LEFT JOIN ``mods`` ON ``mods``.`id` = `mod` ORDER BY `id` DESC LIMIT :offset, :limit");
 	$query->bindValue(':limit', $config['mod']['noticeboard_page'], PDO::PARAM_INT);
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['noticeboard_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -534,7 +536,7 @@ function mod_noticeboard($page_no = 1) {
 	if (empty($noticeboard) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `noticeboard`");
+	$query = prepare("SELECT COUNT(*) FROM ``noticeboard``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
@@ -547,7 +549,7 @@ function mod_noticeboard_delete($id) {
 	if (!hasPermission($config['mod']['noticeboard_delete']))
 			error($config['error']['noaccess']);
 	
-	$query = prepare('DELETE FROM `noticeboard` WHERE `id` = :id');
+	$query = prepare('DELETE FROM ``noticeboard`` WHERE `id` = :id');
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	
@@ -572,7 +574,7 @@ function mod_news($page_no = 1) {
 		$_POST['body'] = escape_markup_modifiers($_POST['body']);
 		markup($_POST['body']);
 		
-		$query = prepare('INSERT INTO `news` VALUES (NULL, :name, :time, :subject, :body)');
+		$query = prepare('INSERT INTO ``news`` VALUES (NULL, :name, :time, :subject, :body)');
 		$query->bindValue(':name', isset($_POST['name']) && hasPermission($config['mod']['news_custom']) ? $_POST['name'] : $mod['username']);
 		$query->bindvalue(':time', time());
 		$query->bindValue(':subject', $_POST['subject']);
@@ -586,7 +588,7 @@ function mod_news($page_no = 1) {
 		header('Location: ?/news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 	}
 	
-	$query = prepare("SELECT * FROM `news` ORDER BY `id` DESC LIMIT :offset, :limit");
+	$query = prepare("SELECT * FROM ``news`` ORDER BY `id` DESC LIMIT :offset, :limit");
 	$query->bindValue(':limit', $config['mod']['news_page'], PDO::PARAM_INT);
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['news_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -595,7 +597,7 @@ function mod_news($page_no = 1) {
 	if (empty($news) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `news`");
+	$query = prepare("SELECT COUNT(*) FROM ``news``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
@@ -608,7 +610,7 @@ function mod_news_delete($id) {
 	if (!hasPermission($config['mod']['news_delete']))
 			error($config['error']['noaccess']);
 	
-	$query = prepare('DELETE FROM `news` WHERE `id` = :id');
+	$query = prepare('DELETE FROM ``news`` WHERE `id` = :id');
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	
@@ -626,7 +628,7 @@ function mod_log($page_no = 1) {
 	if (!hasPermission($config['mod']['modlog']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` ORDER BY `time` DESC LIMIT :offset, :limit");
 	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -635,7 +637,7 @@ function mod_log($page_no = 1) {
 	if (empty($logs) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `modlogs`");
+	$query = prepare("SELECT COUNT(*) FROM ``modlogs``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
@@ -651,7 +653,7 @@ function mod_user_log($username, $page_no = 1) {
 	if (!hasPermission($config['mod']['modlog']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `username` = :username ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `username` = :username ORDER BY `time` DESC LIMIT :offset, :limit");
 	$query->bindValue(':username', $username);
 	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
 	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
@@ -661,7 +663,7 @@ function mod_user_log($username, $page_no = 1) {
 	if (empty($logs) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `username` = :username");
+	$query = prepare("SELECT COUNT(*) FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
@@ -707,7 +709,7 @@ function mod_ip_remove_note($ip, $id) {
 	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
 		error("Invalid IP address.");
 	
-	$query = prepare('DELETE FROM `ip_notes` WHERE `ip` = :ip AND `id` = :id');
+	$query = prepare('DELETE FROM ``ip_notes`` WHERE `ip` = :ip AND `id` = :id');
 	$query->bindValue(':ip', $ip);
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
@@ -741,7 +743,7 @@ function mod_page_ip($ip) {
 		
 		$_POST['note'] = escape_markup_modifiers($_POST['note']);
 		markup($_POST['note']);
-		$query = prepare('INSERT INTO `ip_notes` VALUES (NULL, :ip, :mod, :time, :body)');
+		$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
 		$query->bindValue(':ip', $ip);
 		$query->bindValue(':mod', $mod['id']);
 		$query->bindValue(':time', time());
@@ -766,7 +768,7 @@ function mod_page_ip($ip) {
 		openBoard($board['uri']);
 		if (!hasPermission($config['mod']['show_ip'], $board['uri']))
 			continue;
-		$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
+		$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
 		$query->bindValue(':ip', $ip);
 		$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
@@ -798,21 +800,21 @@ function mod_page_ip($ip) {
 	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
-		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['view_notes'])) {
-		$query = prepare("SELECT `ip_notes`.*, `username` FROM `ip_notes` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``ip_notes``.*, `username` FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['modlog_ip'])) {
-		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM `modlogs` LEFT JOIN `mods` ON `mod` = `mods`.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
 		$query->bindValue(':search', '%' . $ip . '%');
 		$query->execute() or error(db_error($query));
 		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -865,7 +867,7 @@ function mod_bans($page_no = 1) {
 		if (isset($config['mod']['unban_limit'])){
 		if (count($unban) <= $config['mod']['unban_limit'] || $config['mod']['unban_limit'] == -1){ 
 		if (!empty($unban)) {
-			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
 		
 			foreach ($unban as $id) {
 				modLog("Removed ban #{$id}");
@@ -878,7 +880,7 @@ function mod_bans($page_no = 1) {
 	} else {
 		
 			if (!empty($unban)) {
-			query('DELETE FROM `bans` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
 		
 			foreach ($unban as $id) {
 				modLog("Removed ban #{$id}");
@@ -890,10 +892,10 @@ function mod_bans($page_no = 1) {
 	}
 	
 	if ($config['mod']['view_banexpired']) {
-		$query = prepare("SELECT `bans`.*, `username` FROM `bans` LEFT JOIN `mods` ON `mod` = `mods`.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC LIMIT :offset, :limit");
+		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC LIMIT :offset, :limit");
 	} else {
 		// Filter out expired bans
-		$query = prepare("SELECT `bans`.*, `username` FROM `bans` INNER JOIN `mods` ON `mod` = `mods`.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
+		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` INNER JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
 	}
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':limit', $config['mod']['banlist_page'], PDO::PARAM_INT);
@@ -904,7 +906,7 @@ function mod_bans($page_no = 1) {
 	if (empty($bans) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM `bans`");
+	$query = prepare("SELECT COUNT(*) FROM ``bans``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
@@ -926,7 +928,7 @@ function mod_lock($board, $unlock, $post) {
 	if (!hasPermission($config['mod']['lock'], $board))
 		error($config['error']['noaccess']);
 	
-	$query = prepare(sprintf('UPDATE `posts_%s` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query = prepare(sprintf('UPDATE ``posts_%s`` SET `locked` = :locked WHERE `id` = :id AND `thread` IS NULL', $board));
 	$query->bindValue(':id', $post);
 	$query->bindValue(':locked', $unlock ? 0 : 1);
 	$query->execute() or error(db_error($query));
@@ -937,7 +939,7 @@ function mod_lock($board, $unlock, $post) {
 	}
 	
 	if ($config['mod']['dismiss_reports_on_lock']) {
-		$query = prepare('DELETE FROM `reports` WHERE `board` = :board AND `post` = :id');
+		$query = prepare('DELETE FROM ``reports`` WHERE `board` = :board AND `post` = :id');
 		$query->bindValue(':board', $board);
 		$query->bindValue(':id', $post);
 		$query->execute() or error(db_error($query));
@@ -960,7 +962,7 @@ function mod_sticky($board, $unsticky, $post) {
 	if (!hasPermission($config['mod']['sticky'], $board))
 		error($config['error']['noaccess']);
 	
-	$query = prepare(sprintf('UPDATE `posts_%s` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query = prepare(sprintf('UPDATE ``posts_%s`` SET `sticky` = :sticky WHERE `id` = :id AND `thread` IS NULL', $board));
 	$query->bindValue(':id', $post);
 	$query->bindValue(':sticky', $unsticky ? 0 : 1);
 	$query->execute() or error(db_error($query));
@@ -982,7 +984,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 	if (!hasPermission($config['mod']['bumplock'], $board))
 		error($config['error']['noaccess']);
 	
-	$query = prepare(sprintf('UPDATE `posts_%s` SET `sage` = :bumplock WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query = prepare(sprintf('UPDATE ``posts_%s`` SET `sage` = :bumplock WHERE `id` = :id AND `thread` IS NULL', $board));
 	$query->bindValue(':id', $post);
 	$query->bindValue(':bumplock', $unbumplock ? 0 : 1);
 	$query->execute() or error(db_error($query));
@@ -1004,7 +1006,7 @@ function mod_move($originBoard, $postID) {
 	if (!hasPermission($config['mod']['move'], $originBoard))
 		error($config['error']['noaccess']);
 	
-	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL', $originBoard));
+	$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL', $originBoard));
 	$query->bindValue(':id', $postID);
 	$query->execute() or error(db_error($query));
 	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
@@ -1052,7 +1054,7 @@ function mod_move($originBoard, $postID) {
 		// go back to the original board to fetch replies
 		openBoard($originBoard);
 		
-		$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id`', $originBoard));
+		$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id`', $originBoard));
 		$query->bindValue(':id', $postID, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
@@ -1081,7 +1083,7 @@ function mod_move($originBoard, $postID) {
 		openBoard($targetBoard);
 		
 		foreach ($replies as &$post) {
-			$query = prepare('SELECT `target` FROM `cites` WHERE `target_board` = :board AND `board` = :board AND `post` = :post');
+			$query = prepare('SELECT `target` FROM ``cites`` WHERE `target_board` = :board AND `board` = :board AND `post` = :post');
 			$query->bindValue(':board', $originBoard);
 			$query->bindValue(':post', $post['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($qurey));
@@ -1113,7 +1115,7 @@ function mod_move($originBoard, $postID) {
 			}
 			
 			foreach ($post['tracked_cites'] as $cite) {
-				$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+				$query = prepare('INSERT INTO ``cites`` VALUES (:board, :post, :target_board, :target)');
 				$query->bindValue(':board', $board['uri']);
 				$query->bindValue(':post', $newPostID, PDO::PARAM_INT);
 				$query->bindValue(':target_board',$cite[0]);
@@ -1138,7 +1140,7 @@ function mod_move($originBoard, $postID) {
 		
 		if ($shadow) {
 			// lock old thread
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `locked` = 1 WHERE `id` = :id', $originBoard));
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `locked` = 1 WHERE `id` = :id', $originBoard));
 			$query->bindValue(':id', $postID, PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
@@ -1197,7 +1199,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 	
 	$security_token = make_secure_link_token($board . '/ban/' . $post);
 	
-	$query = prepare(sprintf('SELECT `ip`, `thread` FROM `posts_%s` WHERE `id` = :id', $board));
+	$query = prepare(sprintf('SELECT `ip`, `thread` FROM ``posts_%s`` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
 	if (!$_post = $query->fetch(PDO::FETCH_ASSOC))
@@ -1220,7 +1222,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			$_POST['message'] = preg_replace('/[\r\n]/', '', $_POST['message']);
 			$_POST['message'] = str_replace('%length%', $length_english, $_POST['message']);
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `body_nomarkup` = CONCAT(`body_nomarkup`, :body_nomarkup) WHERE `id` = :id', $board));
 			$query->bindValue(':id', $post);
 			$query->bindValue(':body_nomarkup', sprintf("\n<tinyboard ban message>%s</tinyboard>", utf8tohtml($_POST['message'])));
 			$query->execute() or error(db_error($query));
@@ -1267,7 +1269,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 
 	$security_token = make_secure_link_token($board . '/edit' . ($edit_raw_html ? '_raw' : '') . '/' . $postID);
 	
-	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $board));
+	$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $postID);
 	$query->execute() or error(db_error($query));
 
@@ -1276,9 +1278,9 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
 		if ($edit_raw_html)
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body, `body_nomarkup` = :body_nomarkup WHERE `id` = :id', $board));
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body, `body_nomarkup` = :body_nomarkup WHERE `id` = :id', $board));
 		else
-			$query = prepare(sprintf('UPDATE `posts_%s` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `name` = :name, `email` = :email, `subject` = :subject, `body_nomarkup` = :body WHERE `id` = :id', $board));
 		$query->bindValue(':id', $postID);
 		$query->bindValue('name', $_POST['name']);
 		$query->bindValue(':email', $_POST['email']);
@@ -1369,7 +1371,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 		error($config['error']['noaccess']);
 	
 	// Find IP address
-	$query = prepare(sprintf('SELECT `ip` FROM `posts_%s` WHERE `id` = :id', $boardName));
+	$query = prepare(sprintf('SELECT `ip` FROM ``posts_%s`` WHERE `id` = :id', $boardName));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
 	if (!$ip = $query->fetchColumn())
@@ -1379,7 +1381,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	
 	$query = '';
 	foreach ($boards as $_board) {
-		$query .= sprintf("SELECT `thread`, `id`, '%s' AS `board` FROM `posts_%s` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
+		$query .= sprintf("SELECT `thread`, `id`, '%s' AS `board` FROM ``posts_%s`` WHERE `ip` = :ip UNION ALL ", $_board['uri'], $_board['uri']);
 	}
 	$query = preg_replace('/UNION ALL $/', '', $query);
 	
@@ -1431,7 +1433,7 @@ function mod_user($uid) {
 	if (!hasPermission($config['mod']['editusers']) && !(hasPermission($config['mod']['change_password']) && $uid == $mod['id']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare('SELECT * FROM `mods` WHERE `id` = :id');
+	$query = prepare('SELECT * FROM ``mods`` WHERE `id` = :id');
 	$query->bindValue(':id', $uid);
 	$query->execute() or error(db_error($query));
 	if (!$user = $query->fetch(PDO::FETCH_ASSOC))
@@ -1457,7 +1459,7 @@ function mod_user($uid) {
 			if (!hasPermission($config['mod']['deleteusers']))
 				error($config['error']['noaccess']);
 			
-			$query = prepare('DELETE FROM `mods` WHERE `id` = :id');
+			$query = prepare('DELETE FROM ``mods`` WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->execute() or error(db_error($query));
 			
@@ -1471,7 +1473,7 @@ function mod_user($uid) {
 		if ($_POST['username'] == '')
 			error(sprintf($config['error']['required'], 'username'));
 		
-		$query = prepare('UPDATE `mods` SET `username` = :username, `boards` = :boards WHERE `id` = :id');
+		$query = prepare('UPDATE ``mods`` SET `username` = :username, `boards` = :boards WHERE `id` = :id');
 		$query->bindValue(':id', $uid);
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':boards', implode(',', $boards));
@@ -1486,7 +1488,7 @@ function mod_user($uid) {
 			$salt = generate_salt();
 			$password = hash('sha256', $salt . sha1($_POST['password']));
 			
-			$query = prepare('UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
 			$query->bindValue(':salt', $salt);
@@ -1513,7 +1515,7 @@ function mod_user($uid) {
 			$salt = generate_salt();
 			$password = hash('sha256', $salt . sha1($_POST['password']));
 
-			$query = prepare('UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
 			$query->bindValue(':salt', $salt);
@@ -1534,7 +1536,7 @@ function mod_user($uid) {
 	}
 	
 	if (hasPermission($config['mod']['modlog'])) {
-		$query = prepare('SELECT * FROM `modlogs` WHERE `mod` = :id ORDER BY `time` DESC LIMIT 5');
+		$query = prepare('SELECT * FROM ``modlogs`` WHERE `mod` = :id ORDER BY `time` DESC LIMIT 5');
 		$query->bindValue(':id', $uid);
 		$query->execute() or error(db_error($query));
 		$log = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -1581,7 +1583,7 @@ function mod_user_new() {
 		$salt = generate_salt();
 		$password = hash('sha256', $salt . sha1($_POST['password']));
 		
-		$query = prepare('INSERT INTO `mods` VALUES (NULL, :username, :password, :salt, :type, :boards)');
+		$query = prepare('INSERT INTO ``mods`` VALUES (NULL, :username, :password, :salt, :type, :boards)');
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':password', $password);
 		$query->bindValue(':salt', $salt);
@@ -1607,7 +1609,7 @@ function mod_users() {
 	if (!hasPermission($config['mod']['manageusers']))
 		error($config['error']['noaccess']);
 	
-	$query = query("SELECT *, (SELECT `time` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM `modlogs` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM `mods` ORDER BY `type` DESC,`id`") or error(db_error());
+	$query = query("SELECT *, (SELECT `time` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM ``mods`` ORDER BY `type` DESC,`id`") or error(db_error());
 	$users = $query->fetchAll(PDO::FETCH_ASSOC);
 	
 	mod_page(sprintf('%s (%d)', _('Manage users'), count($users)), 'mod/users.html', array('users' => $users));
@@ -1619,7 +1621,7 @@ function mod_user_promote($uid, $action) {
 	if (!hasPermission($config['mod']['promoteusers']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("UPDATE `mods` SET `type` = `type` " . ($action == 'promote' ? "+1 WHERE `type` < " . (int)ADMIN : "-1 WHERE `type` > " . (int)JANITOR) . " AND `id` = :id");
+	$query = prepare("UPDATE ``mods`` SET `type` = `type` " . ($action == 'promote' ? "+1 WHERE `type` < " . (int)ADMIN : "-1 WHERE `type` > " . (int)JANITOR) . " AND `id` = :id");
 	$query->bindValue(':id', $uid);
 	$query->execute() or error(db_error($query));
 	
@@ -1634,7 +1636,7 @@ function mod_pm($id, $reply = false) {
 	if ($reply && !hasPermission($config['mod']['create_pm']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT `mods`.`username`, `mods_to`.`username` AS `to_username`, `pms`.* FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` LEFT JOIN `mods` AS `mods_to` ON `mods_to`.`id` = `to` WHERE `pms`.`id` = :id");
+	$query = prepare("SELECT ``mods``.`username`, `mods_to`.`username` AS `to_username`, ``pms``.* FROM ``pms`` LEFT JOIN ``mods`` ON ``mods``.`id` = `sender` LEFT JOIN ``mods`` AS `mods_to` ON `mods_to`.`id` = `to` WHERE ``pms``.`id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	
@@ -1642,7 +1644,7 @@ function mod_pm($id, $reply = false) {
 		error($config['error']['404']);
 	
 	if (isset($_POST['delete'])) {
-		$query = prepare("DELETE FROM `pms` WHERE `id` = :id");
+		$query = prepare("DELETE FROM ``pms`` WHERE `id` = :id");
 		$query->bindValue(':id', $id);
 		$query->execute() or error(db_error($query));
 		
@@ -1656,7 +1658,7 @@ function mod_pm($id, $reply = false) {
 	}
 	
 	if ($pm['unread'] && $pm['to'] == $mod['id']) {
-		$query = prepare("UPDATE `pms` SET `unread` = 0 WHERE `id` = :id");
+		$query = prepare("UPDATE ``pms`` SET `unread` = 0 WHERE `id` = :id");
 		$query->bindValue(':id', $id);
 		$query->execute() or error(db_error($query));
 		
@@ -1683,12 +1685,12 @@ function mod_pm($id, $reply = false) {
 function mod_inbox() {
 	global $config, $mod;
 	
-	$query = prepare('SELECT `unread`,`pms`.`id`, `time`, `sender`, `to`, `message`, `username` FROM `pms` LEFT JOIN `mods` ON `mods`.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC');
+	$query = prepare('SELECT `unread`,``pms``.`id`, `time`, `sender`, `to`, `message`, `username` FROM ``pms`` LEFT JOIN ``mods`` ON ``mods``.`id` = `sender` WHERE `to` = :mod ORDER BY `unread` DESC, `time` DESC');
 	$query->bindValue(':mod', $mod['id']);
 	$query->execute() or error(db_error($query));
 	$messages = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	$query = prepare('SELECT COUNT(*) FROM `pms` WHERE `to` = :mod AND `unread` = 1');
+	$query = prepare('SELECT COUNT(*) FROM ``pms`` WHERE `to` = :mod AND `unread` = 1');
 	$query->bindValue(':mod', $mod['id']);
 	$query->execute() or error(db_error($query));
 	$unread = $query->fetchColumn();
@@ -1710,12 +1712,12 @@ function mod_new_pm($username) {
 	if (!hasPermission($config['mod']['create_pm']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT `id` FROM `mods` WHERE `username` = :username");
+	$query = prepare("SELECT `id` FROM ``mods`` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	if (!$id = $query->fetchColumn()) {
 		// Old style ?/PM: by user ID
-		$query = prepare("SELECT `username` FROM `mods` WHERE `id` = :username");
+		$query = prepare("SELECT `username` FROM ``mods`` WHERE `id` = :username");
 		$query->bindValue(':username', $username);
 		$query->execute() or error(db_error($query));
 		if ($username = $query->fetchColumn())
@@ -1728,7 +1730,7 @@ function mod_new_pm($username) {
 		$_POST['message'] = escape_markup_modifiers($_POST['message']);
 		markup($_POST['message']);
 		
-		$query = prepare("INSERT INTO `pms` VALUES (NULL, :me, :id, :message, :time, 1)");
+		$query = prepare("INSERT INTO ``pms`` VALUES (NULL, :me, :id, :message, :time, 1)");
 		$query->bindValue(':me', $mod['id']);
 		$query->bindValue(':id', $id);
 		$query->bindValue(':message', $_POST['message']);
@@ -1801,7 +1803,7 @@ function mod_rebuild() {
 			}
 			
 			if (isset($_POST['rebuild_thread'])) {
-				$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+				$query = query(sprintf("SELECT `id` FROM ``posts_%s`` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 				while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 					$log[] = '<strong>' . sprintf($config['board_abbreviation'], $board['uri']) . '</strong>: Rebuilding thread #' . $post['id'];
 					buildThread($post['id']);
@@ -1822,7 +1824,7 @@ function mod_reports() {
 	if (!hasPermission($config['mod']['reports']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("SELECT * FROM `reports` ORDER BY `time` DESC LIMIT :limit");
+	$query = prepare("SELECT * FROM ``reports`` ORDER BY `time` DESC LIMIT :limit");
 	$query->bindValue(':limit', $config['mod']['recent_reports'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	$reports = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -1838,7 +1840,7 @@ function mod_reports() {
 	foreach ($report_queries as $board => $posts) {
 		$report_posts[$board] = array();
 		
-		$query = query(sprintf('SELECT * FROM `posts_%s` WHERE `id` = ' . implode(' OR `id` = ', $posts), $board)) or error(db_error());
+		$query = query(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = ' . implode(' OR `id` = ', $posts), $board)) or error(db_error());
 		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			$report_posts[$board][$post['id']] = $post;
 		}
@@ -1849,7 +1851,7 @@ function mod_reports() {
 	foreach ($reports as $report) {
 		if (!isset($report_posts[$report['board']][$report['post']])) {
 			// // Invalid report (post has since been deleted)
-			$query = prepare("DELETE FROM `reports` WHERE `post` = :id AND `board` = :board");
+			$query = prepare("DELETE FROM ``reports`` WHERE `post` = :id AND `board` = :board");
 			$query->bindValue(':id', $report['post'], PDO::PARAM_INT);
 			$query->bindValue(':board', $report['board']);
 			$query->execute() or error(db_error($query));
@@ -1905,7 +1907,7 @@ function mod_reports() {
 function mod_report_dismiss($id, $all = false) {
 	global $config;
 	
-	$query = prepare("SELECT `post`, `board`, `ip` FROM `reports` WHERE `id` = :id");
+	$query = prepare("SELECT `post`, `board`, `ip` FROM ``reports`` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	if ($report = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -1922,10 +1924,10 @@ function mod_report_dismiss($id, $all = false) {
 		error($config['error']['noaccess']);
 	
 	if ($all) {
-		$query = prepare("DELETE FROM `reports` WHERE `ip` = :ip");
+		$query = prepare("DELETE FROM ``reports`` WHERE `ip` = :ip");
 		$query->bindValue(':ip', $ip);
 	} else {
-		$query = prepare("DELETE FROM `reports` WHERE `id` = :id");
+		$query = prepare("DELETE FROM ``reports`` WHERE `id` = :id");
 		$query->bindValue(':id', $id);
 	}
 	$query->execute() or error(db_error($query));
@@ -2035,7 +2037,7 @@ function mod_themes_list() {
 	if (!$dir = opendir($config['dir']['themes']))
 		error(_('Cannot open themes directory; check permissions.'));
 
-	$query = query('SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL') or error(db_error());
+	$query = query('SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL') or error(db_error());
 	$themes_in_use = $query->fetchAll(PDO::FETCH_COLUMN);
 
 	// Scan directory for themes
@@ -2071,19 +2073,19 @@ function mod_theme_configure($theme_name) {
 		}
 		
 		// Clear previous settings
-		$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+		$query = prepare("DELETE FROM ``theme_settings`` WHERE `theme` = :theme");
 		$query->bindValue(':theme', $theme_name);
 		$query->execute() or error(db_error($query));
 		
 		foreach ($theme['config'] as &$conf) {
-			$query = prepare("INSERT INTO `theme_settings` VALUES(:theme, :name, :value)");
+			$query = prepare("INSERT INTO ``theme_settings`` VALUES(:theme, :name, :value)");
 			$query->bindValue(':theme', $theme_name);
 			$query->bindValue(':name', $conf['name']);
 			$query->bindValue(':value', $_POST[$conf['name']]);
 			$query->execute() or error(db_error($query));
 		}
 		
-		$query = prepare("INSERT INTO `theme_settings` VALUES(:theme, NULL, NULL)");
+		$query = prepare("INSERT INTO ``theme_settings`` VALUES(:theme, NULL, NULL)");
 		$query->bindValue(':theme', $theme_name);
 		$query->execute() or error(db_error($query));
 		
@@ -2101,7 +2103,7 @@ function mod_theme_configure($theme_name) {
 		
 		if (!$result) {
 			// Install failed
-			$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+			$query = prepare("DELETE FROM ``theme_settings`` WHERE `theme` = :theme");
 			$query->bindValue(':theme', $theme_name);
 			$query->execute() or error(db_error($query));
 		}
@@ -2133,7 +2135,7 @@ function mod_theme_uninstall($theme_name) {
 	if (!hasPermission($config['mod']['themes']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("DELETE FROM `theme_settings` WHERE `theme` = :theme");
+	$query = prepare("DELETE FROM ``theme_settings`` WHERE `theme` = :theme");
 	$query->bindValue(':theme', $theme_name);
 	$query->execute() or error(db_error($query));
 
@@ -2164,7 +2166,7 @@ function mod_debug_antispam() {
 			$where .= ' AND `thread` = ' . $pdo->quote($_POST['thread']);
 		
 		if (isset($_POST['purge'])) {
-			$query = prepare(', DATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
+			$query = prepare(', DATE ``antispam`` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE' . $where);
 			$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
 			$query->execute() or error(db_error());
 		}
@@ -2175,16 +2177,16 @@ function mod_debug_antispam() {
 		$where = '';
 	}
 	
-	$query = query('SELECT COUNT(*) FROM `antispam`' . ($where ? " WHERE $where" : '')) or error(db_error());
+	$query = query('SELECT COUNT(*) FROM ``antispam``' . ($where ? " WHERE $where" : '')) or error(db_error());
 	$args['total'] = number_format($query->fetchColumn());
 	
-	$query = query('SELECT COUNT(*) FROM `antispam` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
+	$query = query('SELECT COUNT(*) FROM ``antispam`` WHERE `expires` IS NOT NULL' . ($where ? " AND $where" : '')) or error(db_error());
 	$args['expiring'] = number_format($query->fetchColumn());
 	
-	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
+	$query = query('SELECT * FROM ``antispam`` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `passed` DESC LIMIT 40') or error(db_error());
 	$args['top'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
-	$query = query('SELECT * FROM `antispam` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `created` DESC LIMIT 20') or error(db_error());
+	$query = query('SELECT * FROM ``antispam`` ' . ($where ? "WHERE $where" : '') . ' ORDER BY `created` DESC LIMIT 20') or error(db_error());
 	$args['recent'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	
 	mod_page(_('Debug: Anti-spam'), 'mod/debug/antispam.html', $args);
@@ -2200,7 +2202,7 @@ function mod_debug_recent_posts() {
 	// Manually build an SQL query
 	$query = 'SELECT * FROM (';
 	foreach ($boards as $board) {
-		$query .= sprintf('SELECT *, %s AS `board` FROM `posts_%s` UNION ALL ', $pdo->quote($board['uri']), $board['uri']);
+		$query .= sprintf('SELECT *, %s AS `board` FROM ``posts_%s`` UNION ALL ', $pdo->quote($board['uri']), $board['uri']);
 	}
 	// Remove the last "UNION ALL" seperator and complete the query
 	$query = preg_replace('/UNION ALL $/', ') AS `all_posts` ORDER BY `time` DESC LIMIT ' . $limit, $query);

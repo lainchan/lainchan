@@ -242,7 +242,7 @@ function create_antibot($board, $thread = null) {
 
 function rebuildThemes($action, $board = false) {
 	// List themes
-	$query = query("SELECT `theme` FROM `theme_settings` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
+	$query = query("SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
 	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
 		rebuildTheme($theme['theme'], $action, $board);
@@ -277,7 +277,7 @@ function rebuildTheme($theme, $action, $board = false) {
 
 
 function themeSettings($theme) {
-	$query = prepare("SELECT `name`, `value` FROM `theme_settings` WHERE `theme` = :theme AND `name` IS NOT NULL");
+	$query = prepare("SELECT `name`, `value` FROM ``theme_settings`` WHERE `theme` = :theme AND `name` IS NOT NULL");
 	$query->bindValue(':theme', $theme);
 	$query->execute() or error(db_error($query));
 
@@ -348,7 +348,7 @@ function getBoardInfo($uri) {
 		return $board;
 	}
 	
-	$query = prepare("SELECT * FROM `boards` WHERE `uri` = :uri LIMIT 1");
+	$query = prepare("SELECT * FROM ``boards`` WHERE `uri` = :uri LIMIT 1");
 	$query->bindValue(':uri', $uri);
 	$query->execute() or error(db_error($query));
 	
@@ -524,7 +524,7 @@ function listBoards() {
 	if ($config['cache']['enabled'] && ($boards = cache::get('all_boards')))
 		return $boards;
 	
-	$query = query("SELECT * FROM `boards` ORDER BY `uri`") or error(db_error());
+	$query = query("SELECT * FROM ``boards`` ORDER BY `uri`") or error(db_error());
 	$boards = $query->fetchAll();
 	
 	if ($config['cache']['enabled'])
@@ -536,7 +536,7 @@ function listBoards() {
 function checkFlood($post) {
 	global $board, $config;
 	
-	$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` != '' AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` != ''  AND `body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` != '' AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` != ''  AND `body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':body', $post['body']);
 	$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
@@ -590,7 +590,7 @@ function displayBan($ban) {
 	global $config;
 	
 	if (!$ban['seen']) {
-		$query = prepare("UPDATE `bans` SET `seen` = 1 WHERE `id` = :id");
+		$query = prepare("UPDATE ``bans`` SET `seen` = 1 WHERE `id` = :id");
 		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 	}
@@ -621,12 +621,12 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 	
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -634,7 +634,7 @@ function checkBan($board = 0) {
 	
 	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
 		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `bans`.`id` FROM `bans` WHERE (`board` IS NULL OR `board` = :board)
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board)
 			AND (					
 				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
 					AND
@@ -651,7 +651,7 @@ function checkBan($board = 0) {
 	if ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
-			$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
+			$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
 			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
@@ -671,7 +671,7 @@ function checkBan($board = 0) {
 
 // No reason to keep expired bans in the database (except those that haven't been viewed yet)
 function purge_bans() {
-	$query = prepare("DELETE FROM `bans` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
+	$query = prepare("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
 	$query->bindValue(':time', time());
 	$query->execute() or error(db_error($query));
 }
@@ -682,7 +682,7 @@ function threadLocked($id) {
 	if (event('check-locked', $id))
 		return true;
 	
-	$query = prepare(sprintf("SELECT `locked` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT `locked` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error());
 	
@@ -700,7 +700,7 @@ function threadSageLocked($id) {
 	if (event('check-sage-locked', $id))
 		return true;
 	
-	$query = prepare(sprintf("SELECT `sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT `sage` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error());
 	
@@ -715,7 +715,7 @@ function threadSageLocked($id) {
 function threadExists($id) {
 	global $board;
 	
-	$query = prepare(sprintf("SELECT 1 FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT 1 FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error());
 	
@@ -728,7 +728,7 @@ function threadExists($id) {
 
 function post(array $post) {
 	global $pdo, $board;
-	$query = prepare(sprintf("INSERT INTO `posts_%s` (`id`, `thread`, `subject`, `email`, `name`, `trip`, `capcode`, `body`, `body_nomarkup`, `time`, `bump`, `thumb`, `thumbwidth`, `thumbheight`, `file`, `filewidth`, `fileheight`, `filesize`, `filename`, `filehash`, `password`, `ip`, `sticky`, `locked`, `sage`, `embed`) VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
+	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 	
 	// Basic stuff
 	if (!empty($post['subject'])) {
@@ -830,7 +830,7 @@ function bumpThread($id) {
 	if (event('bump', $id))
 		return true;
 	
-	$query = prepare(sprintf("UPDATE `posts_%s` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -840,7 +840,7 @@ function bumpThread($id) {
 function deleteFile($id, $remove_entirely_if_already=true) {
 	global $board, $config;
 	
-	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
@@ -849,7 +849,7 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 	if ($post['file'] == 'deleted' && !$post['thread'])
 		return; // Can't delete OP's image completely.
 	
-	$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id", $board['uri']));
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id", $board['uri']));
 	if ($post['file'] == 'deleted' && $remove_entirely_if_already) {
 		// Already deleted; remove file fully
 		$query->bindValue(':file', null, PDO::PARAM_NULL);
@@ -877,7 +877,7 @@ function deleteFile($id, $remove_entirely_if_already=true) {
 function rebuildPost($id) {
 	global $board;
 	
-	$query = prepare(sprintf("SELECT `body_nomarkup`, `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT `body_nomarkup`, `thread` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
@@ -886,7 +886,7 @@ function rebuildPost($id) {
 	
 	markup($body = &$post['body_nomarkup']);
 	
-	$query = prepare(sprintf("UPDATE `posts_%s` SET `body` = :body WHERE `id` = :id", $board['uri']));
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `body` = :body WHERE `id` = :id", $board['uri']));
 	$query->bindValue(':body', $body);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -901,7 +901,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	global $board, $config;
 	
 	// Select post and replies (if thread) in one query
-	$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
@@ -919,7 +919,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 			// Delete thread HTML page
 			file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
 			
-			$antispam_query = prepare('DELETE FROM `antispam` WHERE `board` = :board AND `thread` = :thread');
+			$antispam_query = prepare('DELETE FROM ``antispam`` WHERE `board` = :board AND `thread` = :thread');
 			$antispam_query->bindValue(':board', $board['uri']);
 			$antispam_query->bindValue(':thread', $post['id']);
 			$antispam_query->execute() or error(db_error($antispam_query));
@@ -940,11 +940,11 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 		
 	}
 	
-	$query = prepare(sprintf("DELETE FROM `posts_%s` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+	$query = prepare(sprintf("DELETE FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
-	$query = prepare("SELECT `board`, `post` FROM `cites` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
+	$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
 	while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -959,7 +959,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	if (isset($tmp_board))
 		openBoard($tmp_board);
 	
-	$query = prepare("DELETE FROM `cites` WHERE (`target_board` = :board AND `target` = :id) OR (`board` = :board AND `post` = :id)");
+	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = :id) OR (`board` = :board AND `post` = :id)");
 	$query->bindValue(':board', $board['uri']);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -976,7 +976,7 @@ function clean() {
 	$offset = round($config['max_pages']*$config['threads_per_page']);
 	
 	// I too wish there was an easier way of doing this...
-	$query = prepare(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri']));
+	$query = prepare(sprintf("SELECT `id` FROM ``posts_%s`` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri']));
 	$query->bindValue(':offset', $offset, PDO::PARAM_INT);
 	
 	$query->execute() or error(db_error($query));
@@ -991,7 +991,7 @@ function index($page, $mod=false) {
 	$body = '';
 	$offset = round($page*$config['threads_per_page']-$config['threads_per_page']);
 	
-	$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset,:threads_per_page", $board['uri']));
+	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset,:threads_per_page", $board['uri']));
 	$query->bindValue(':offset', $offset, PDO::PARAM_INT);
 	$query->bindValue(':threads_per_page', $config['threads_per_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -1013,7 +1013,7 @@ function index($page, $mod=false) {
 			$replies = $cached['replies'];
 			$omitted = $cached['omitted'];
 		} else {
-			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
+			$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 			$posts->execute() or error(db_error($posts));
@@ -1119,7 +1119,7 @@ function getPages($mod=false) {
 		$count = $board['thread_count'];
 	} else {
 		// Count threads
-		$query = query(sprintf("SELECT COUNT(*) FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+		$query = query(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 		$count = $query->fetchColumn();
 	}
 	$count = floor(($config['threads_per_page'] + $count - 1) / $config['threads_per_page']);
@@ -1155,7 +1155,7 @@ function checkRobot($body) {
 		return true;
 	
 	$body = makerobot($body);
-	$query = prepare("SELECT 1 FROM `robot` WHERE `hash` = :hash LIMIT 1");
+	$query = prepare("SELECT 1 FROM ``robot`` WHERE `hash` = :hash LIMIT 1");
 	$query->bindValue(':hash', $body);
 	$query->execute() or error(db_error($query));
 	
@@ -1164,7 +1164,7 @@ function checkRobot($body) {
 	}
 
 	// Insert new hash
-	$query = prepare("INSERT INTO `robot` VALUES (:hash)");
+	$query = prepare("INSERT INTO ``robot`` VALUES (:hash)");
 	$query->bindValue(':hash', $body);
 	$query->execute() or error(db_error($query));
 	
@@ -1174,7 +1174,7 @@ function checkRobot($body) {
 // Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
@@ -1191,7 +1191,7 @@ function muteTime() {
 		return $time;
 	
 	// Find number of mutes in the past X hours
-	$query = prepare("SELECT COUNT(*) FROM `mutes` WHERE `time` >= :time AND `ip` = :ip");
+	$query = prepare("SELECT COUNT(*) FROM ``mutes`` WHERE `time` >= :time AND `ip` = :ip");
 	$query->bindValue(':time', time()-($config['robot_mute_hour']*3600), PDO::PARAM_INT);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->execute() or error(db_error($query));
@@ -1203,7 +1203,7 @@ function muteTime() {
 
 function mute() {
 	// Insert mute
-	$query = prepare("INSERT INTO `mutes` VALUES (:ip, :time)");
+	$query = prepare("INSERT INTO ``mutes`` VALUES (:ip, :time)");
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->execute() or error(db_error($query));
@@ -1224,7 +1224,7 @@ function checkMute() {
 	$mutetime = muteTime();
 	if ($mutetime > 0) {
 		// Find last mute time
-		$query = prepare("SELECT `time` FROM `mutes` WHERE `ip` = :ip ORDER BY `time` DESC LIMIT 1");
+		$query = prepare("SELECT `time` FROM ``mutes`` WHERE `ip` = :ip ORDER BY `time` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->execute() or error(db_error($query));
 		
@@ -1543,7 +1543,7 @@ function markup(&$body, $track_cites = false) {
 		
 		foreach ($cites as $matches) {
 			$cite = $matches[2][0];
-			$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+			$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
 			$query->bindValue(':id', $cite);
 			$query->execute() or error(db_error($query));
 			
@@ -1591,7 +1591,7 @@ function markup(&$body, $track_cites = false) {
 			// Check if the board exists, and load settings
 			if (openBoard($_board)) {
 				if ($cite) {
-					$query = prepare(sprintf("SELECT `thread`,`id` FROM `posts_%s` WHERE `id` = :id LIMIT 1", $board['uri']));
+					$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
 					$query->bindValue(':id', $cite);
 					$query->execute() or error(db_error($query));
 					
@@ -1700,7 +1700,7 @@ function buildThread($id, $return = false, $mod = false) {
 		cache::delete("thread_{$board['uri']}_{$id}");
 	}
 	
-	$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id`", $board['uri']));
+	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id`", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	
@@ -1841,7 +1841,7 @@ function fraction($numerator, $denominator, $sep) {
 
 function getPostByHash($hash) {
 	global $board;
-	$query = prepare(sprintf("SELECT `id`,`thread` FROM `posts_%s` WHERE `filehash` = :hash", $board['uri']));
+	$query = prepare(sprintf("SELECT `id`,`thread` FROM ``posts_%s`` WHERE `filehash` = :hash", $board['uri']));
 	$query->bindValue(':hash', $hash, PDO::PARAM_STR);
 	$query->execute() or error(db_error($query));
 	
@@ -1854,7 +1854,7 @@ function getPostByHash($hash) {
 
 function getPostByHashInThread($hash, $thread) {
 	global $board;
-	$query = prepare(sprintf("SELECT `id`,`thread` FROM `posts_%s` WHERE `filehash` = :hash AND ( `thread` = :thread OR `id` = :thread )", $board['uri']));
+	$query = prepare(sprintf("SELECT `id`,`thread` FROM ``posts_%s`` WHERE `filehash` = :hash AND ( `thread` = :thread OR `id` = :thread )", $board['uri']));
 	$query->bindValue(':hash', $hash, PDO::PARAM_STR);
 	$query->bindValue(':thread', $thread, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));

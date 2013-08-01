@@ -25,7 +25,7 @@
 			
 			$settings['no_recent'] = (int) $settings['no_recent'];
 			
-			$query = query("SELECT * FROM `news` ORDER BY `time` DESC" . ($settings['no_recent'] ? ' LIMIT ' . $settings['no_recent'] : '')) or error(db_error());
+			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC" . ($settings['no_recent'] ? ' LIMIT ' . $settings['no_recent'] : '')) or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
 			return Element('themes/basic/index.html', Array(

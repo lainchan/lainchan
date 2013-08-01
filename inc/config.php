@@ -76,6 +76,8 @@
 	$config['db']['password'] = '';
 	// Tinyboard database
 	$config['db']['database'] = '';
+	// Table prefix
+	$config['db']['prefix'] = '';
 	// Use a persistent connection (experimental)
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)

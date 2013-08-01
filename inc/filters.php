@@ -81,7 +81,7 @@ class Filter {
 				else
 					$all_boards = false;
 				
-				$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board, 0)");
+				$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board, 0)");
 				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 				$query->bindValue(':mod', -1);
 				$query->bindValue(':set', time());
