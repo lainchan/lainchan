@@ -47,6 +47,10 @@ function benchmark($method) {
 }
 
 benchmark('gd');
-benchmark('imagick');
+if (extension_loaded('imagick')) {
+	benchmark('imagick');
+} else {
+	echo "Imagick extension not loaded... skipping.\n";
+}
 benchmark('convert');
-
+benchmark('convert+gifsicle');
