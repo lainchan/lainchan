@@ -509,8 +509,8 @@ if ($step == 0) {
 		<label for="db_db">Database:</label> 
 		<input type="text" id="db_db" name="db[database]" value="" />
 		
-		<label for="db_pass">Table prefix (optional):</label> 
-		<input type="password" id="db_pass" name="db[prefix]" value="" />
+		<label for="db_prefix">Table prefix (optional):</label> 
+		<input type="text" id="db_prefix" name="db[prefix]" value="" />
 		
 		<label for="db_user">Username:</label> 
 		<input type="text" id="db_user" name="db[user]" value="" />
