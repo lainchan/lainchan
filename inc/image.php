@@ -173,6 +173,7 @@ class ImageImagick extends ImageBase {
 		}
 	}
 	public function to($src) {
+		global $config;
 		if ($config['strip_exif']) {
 			$this->image->stripImage();
 		}
