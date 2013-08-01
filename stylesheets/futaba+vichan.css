@@ -1,0 +1,88 @@
+/* +piwnichan style, based on futaba.css of Tinyboard */
+
+body {
+	background: #ffe;
+	color: #800000;
+	font-family: sans-serif;
+	font-size: 13px;
+}
+div.title h1 {
+	font-size: 24px;
+}
+div.title p {
+	font-size: 10px;
+}
+div.pages {
+	font-size: 13px !important;
+}
+a:link, a:visited, p.intro a.email span.name {
+	color: #0000ff;
+	font-size: inherit;
+	text-decoration: inherit;
+}
+a:link:hover {
+	color: #d00;
+	text-decoration: inherit;
+}
+span.omitted {
+	color: gray;
+}
+a.post_no {
+	color: #800000;
+}
+div.post.reply {
+	border: 0px;
+	background: #f0e0d6;
+}
+div.post.reply.highlighted {
+	background: #f0c0b0;
+	border-color: #d9bfb7;
+}
+div.post.reply div.body a {
+	color: navy;
+}
+p.intro span.subject {
+	color: #d00;
+}
+form table tr th {
+	background: #EA8;
+}
+div.ban h2 {
+	background: #FCA;
+	color: inherit;
+}
+div.ban {
+	border-color: #800;
+}
+div.ban p {
+	color: black;
+}
+div.pages {
+	padding: 7px 5px;
+	color: maroon;
+	font-size: 12pt;
+	
+	background: none;
+	border-width: 1px;
+	border-style: inset;
+
+}
+div.pages a.selected {
+	color: #800;
+}
+hr {
+	border-width: 1px;
+	border-style: inset;
+}
+div.boardlist {
+	color: #B86;
+}
+div.boardlist a {
+	color: #800;
+}
+unimportant, .unimportant * {
+	font-size: 13px;
+}
+table.modlog tr th {
+	background: #EA8;
+}

@@ -1,0 +1,87 @@
+/**
+ * miku.css
+ * For AwsumChan by Circlepuller
+ */
+body {
+	background: #D2FFEE url('img/fade-miku.png') top repeat-x;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #0093AB;
+}
+
+a:link:hover, a:visited:hover {
+	color: #DD0000;
+}
+
+a.post_no {
+	color: #000033;
+}
+
+p.intro a.email span.name {
+	color: #0093AB;
+}
+
+p.intro a.email:hover span.name {
+	color: #DD0000;
+}
+
+h2, div.title, h1 {
+	color: #800000;
+}
+
+form table tr th {
+	background: #95D2D3;
+}
+
+div.banner {
+	background-color: #E04000;
+}
+
+div.post.op hr {
+	border-color: #B7C9D5;
+}
+
+p.intro span.subject {
+	color: #117743;
+	font-weight: 800;
+}
+
+p.intro span.name {
+	color: #117743;
+	font-weight: 800;
+}
+
+div.post.reply.highlighted {
+	background: #9988EE;
+}
+
+div.post.reply {
+	background: #B6DDDE;
+	border-color: #8FCCCD;
+}
+
+div.ban {
+	border: 1px solid #0093AB;
+}
+
+div.ban h2 {
+	background: #B6DDDE;
+	color: #0093AB;
+}
+
+div.pages {
+	color: #8899AA;
+	background: #B6DDDE;
+	border-right: 1px solid #8FCCCD;
+	border-bottom: 1px solid #8FCCCD;
+}
+
+hr {
+	border-color: #B7D9C5;
+}
+
+div.boardlist {
+	color: #0093AB;
+}
