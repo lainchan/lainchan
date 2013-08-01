@@ -62,7 +62,7 @@ function ban($mask, $reason, $length, $board) {
 	$query->bindValue(':time', time());
 	if ($reason !== '') {
 		$reason = escape_markup_modifiers($reason);
-		$reason = markup($reason);
+		markup($reason);
 		$query->bindValue(':reason', $reason);
 	} else
 		$query->bindValue(':reason', null, PDO::PARAM_NULL);
