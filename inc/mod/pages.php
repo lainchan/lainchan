@@ -1304,13 +1304,12 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
 		if ($config['minify_html']) {
-			// $post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
-			// $post['body'] = str_replace("\n", '&#010;', $post['body']);
+			$post['body_nomarkup'] = str_replace("\n", '&#010;', utf8tohtml($post['body_nomarkup']));
+			$post['body'] = str_replace("\n", '&#010;', utf8tohtml($post['body']));
+			$post['body_nomarkup'] = str_replace("\r", '', $post['body_nomarkup']);
+			$post['body'] = str_replace("\r", '', $post['body']);
 		}
-		
-		// Minifying this page causes an issue with newlines in the textarea. This is a temporary solution.
-		$config['minify_html'] = false;
-		
+				
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
 	}
 }
@@ -1947,6 +1946,24 @@ function mod_config() {
 	
 	if (!hasPermission($config['mod']['edit_config']))
 		error($config['error']['noaccess']);
+	
+	if ($config['mod']['config_editor_php']) {
+		$readonly = !is_writable('inc/instance-config.php');
+		
+		if (!$readonly && isset($_POST['code'])) {
+			$code = $_POST['code'];
+			file_put_contents('inc/instance-config.php', $code);
+			header('Location: ?/config', true, $config['redirect_http']);
+			return;
+		}
+		
+		$instance_config = file_get_contents('inc/instance-config.php');
+		$instance_config = str_replace("\n", '&#010;', utf8tohtml($instance_config));
+		
+		mod_page(_('Config editor'), 'mod/config-editor-php.html', array('php' => $instance_config, 'readonly' => $readonly));
+		return;
+	}
+	
 	
 	require_once 'inc/mod/config-editor.php';
 	

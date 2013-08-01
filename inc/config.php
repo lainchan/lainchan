@@ -929,6 +929,9 @@
 	// Automatically dismiss all reports regarding a thread when it is locked
 	$config['mod']['dismiss_reports_on_lock'] = true;
 	
+	// Replace ?/config with a simple text editor for editing inc/instance-config.php
+	$config['mod']['config_editor_php'] = false;
+	
 	// Probably best not to change these:
 	if (!defined('JANITOR')) {
 		define('JANITOR',	0,	true);
@@ -999,7 +1002,7 @@
 	// Bypass flood check
 	$config['mod']['flood'] = ADMIN;
 	// Raw HTML posting
-	$config['mod']['rawhtml'] = DISABLED;
+	$config['mod']['rawhtml'] = ADMIN;
 	
 	/* Administration */
 	// View the report queue
@@ -1077,8 +1080,6 @@
 	// Delete news entries
 	$config['mod']['news_delete'] = ADMIN;
 	
-	// View the current configuration
-	$config['mod']['show_config'] = ADMIN;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
 	

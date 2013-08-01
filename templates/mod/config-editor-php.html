@@ -1,0 +1,45 @@
+{% if readonly %}
+	<p style="text-align:center;max-width:800px;margin:20px auto">Tinyboard does not have the required permissions to edit <strong>inc/instance-config.php</strong>. To make changes, you will need to change the file's permissions first or manually edit the code.</p>
+{% endif %}
+
+
+{% if not readonly %}<form method="post" action="">{% endif %}
+	<textarea name="code" id="code" style="display:block; margin:auto;width:100%;max-width:800px;height:500px{% if readonly %};background:#eee" readonly{% else %}"{% endif %}>
+	{{ php }}
+	</textarea>
+	
+	<ul style="padding:0;text-align:center;list-style:none">
+		<li><input name="save" type="submit" value="{% trans 'Save changes' %}"{% if readonly %} disabled{% endif %}></li>
+	</ul>
+{% if not readonly %}</form>{% endif %}
+
+<script type="text/javascript">
+var observe;
+if (window.attachEvent) {
+	observe = function (element, event, handler) {
+		element.attachEvent('on'+event, handler);
+	};
+}
+else {
+	observe = function (element, event, handler) {
+		element.addEventListener(event, handler, false);
+	};
+}
+
+var text = document.getElementById('code');
+function resize () {
+	text.style.height = 'auto';
+	text.style.height = text.scrollHeight+'px';
+}
+/* 0-timeout to get the already changed text */
+function delayedResize () {
+	window.setTimeout(resize, 0);
+}
+observe(text, 'change',  resize);
+observe(text, 'cut',     delayedResize);
+observe(text, 'paste',   delayedResize);
+observe(text, 'drop',    delayedResize);
+observe(text, 'keydown', delayedResize);
+
+resize();
+</script>
