@@ -999,7 +999,7 @@
 	// Bypass flood check
 	$config['mod']['flood'] = ADMIN;
 	// Raw HTML posting
-	$config['mod']['rawhtml'] = MOD;
+	$config['mod']['rawhtml'] = DISABLED;
 	
 	/* Administration */
 	// View the report queue

@@ -25,6 +25,13 @@
 				<td>
 					{% if var.type == 'string' %}
 						<input name="{{ name }}" type="text" value="{{ var.value|e }}">
+					{% elseif var.type == 'integer' and var.name.0 == 'mod' and (var.default in ['JANITOR', 'MOD', 'ADMIN', 'DISABLED'] or var.default|slice(0, 14) == "$config['mod']") and var.value <= constant('DISABLED') %}
+						<select name="{{ name }}">
+							<option value="{{ constant('JANITOR') }}"{% if var.value == constant('JANITOR')%} selected{% endif %}>JANITOR</option>
+							<option value="{{ constant('MOD') }}"{% if var.value == constant('MOD')%} selected{% endif %}>MOD</option>
+							<option value="{{ constant('ADMIN') }}"{% if var.value == constant('ADMIN')%} selected{% endif %}>ADMIN</option>
+							<option value="{{ constant('DISABLED') }}"{% if var.value == constant('DISABLED')%} selected{% endif %}>DISABLED</option>
+						</select>
 					{% elseif var.type == 'integer' %}
 						<input name="{{ name }}" type="number" value="{{ var.value|e }}">
 					{% elseif var.type == 'boolean' %}
