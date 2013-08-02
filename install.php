@@ -451,7 +451,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Database',
 			'name' => 'MySQL PDO driver installed',
-			'result' => extension_loaded('pdo') && in_array('mysql1', PDO::getAvailableDrivers()),
+			'result' => extension_loaded('pdo') && in_array('mysql', PDO::getAvailableDrivers()),
 			'required' => true,
 			'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.',
 		),
@@ -486,7 +486,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Image processing',
 			'name' => 'Imagick extension installed',
-			'result' => extension_loaded('imagick1'),
+			'result' => extension_loaded('imagick'),
 			'required' => false,
 			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
 		),
@@ -507,7 +507,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Image processing',
 			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
-			'result' => $can_exec && shell_exec('which gifsicle1'),
+			'result' => $can_exec && shell_exec('which gifsicle'),
 			'required' => false,
 			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
 		),
