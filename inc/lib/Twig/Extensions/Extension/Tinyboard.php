@@ -9,24 +9,23 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	*/
 	public function getFilters()
 	{
-		return Array(
-			'filesize' => new Twig_Filter_Function('format_bytes'),
-			'truncate' => new Twig_Filter_Function('twig_truncate_filter'),
-			'truncate_body' => new Twig_Filter_Function('truncate'),
-			'extension' => new Twig_Filter_Function('twig_extension_filter'),
-			'sprintf' => new Twig_Filter_Function('sprintf'),
-			'capcode' => new Twig_Filter_Function('capcode'),
-			'hasPermission' => new Twig_Filter_Function('twig_hasPermission_filter'),
-			'date' => new Twig_Filter_Function('twig_date_filter'),
-			'poster_id' => new Twig_Filter_Function('poster_id'),
-			'remove_whitespace' => new Twig_Filter_Function('twig_remove_whitespace_filter'),
-			'count' => new Twig_Filter_Function('count'),
-			'ago' => new Twig_Filter_Function('ago'),
-			'until' => new Twig_Filter_Function('until'),
-			'split' => new Twig_Filter_Function('twig_split_filter'),
-			'push' => new Twig_Filter_Function('twig_push_filter'),
-			'bidi_cleanup' => new Twig_Filter_Function('bidi_cleanup'),
-			'addslashes' => new Twig_Filter_Function('addslashes')
+		return array(
+			new Twig_SimpleFilter('filesize', 'format_bytes'),
+			new Twig_SimpleFilter('truncate', 'twig_truncate_filter'),
+			new Twig_SimpleFilter('truncate_body', 'truncate'),
+			new Twig_SimpleFilter('extension', 'twig_extension_filter'),
+			new Twig_SimpleFilter('sprintf', 'sprintf'),
+			new Twig_SimpleFilter('capcode', 'capcode'),
+			new Twig_SimpleFilter('hasPermission', 'twig_hasPermission_filter'),
+			new Twig_SimpleFilter('date', 'twig_date_filter'),
+			new Twig_SimpleFilter('poster_id', 'poster_id'),
+			new Twig_SimpleFilter('remove_whitespace', 'twig_remove_whitespace_filter'),
+			new Twig_SimpleFilter('count', 'count'),
+			new Twig_SimpleFilter('ago', 'ago'),
+			new Twig_SimpleFilter('until', 'until'),
+			new Twig_SimpleFilter('push', 'twig_push_filter'),
+			new Twig_SimpleFilter('bidi_cleanup', 'bidi_cleanup'),
+			new Twig_SimpleFilter('addslashes', 'addslashes')
 		);
 	}
 	
@@ -37,12 +36,12 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 	*/
 	public function getFunctions()
 	{
-		return Array(
-			'time' => new Twig_Filter_Function('time'),
-			'floor' => new Twig_Filter_Function('floor'),
-			'timezone' => new Twig_Filter_Function('twig_timezone_function'),
-			'hiddenInputs' => new Twig_Filter_Function('hiddenInputs'),
-			'hiddenInputsHash' => new Twig_Filter_Function('hiddenInputsHash'),
+		return array(
+			new Twig_SimpleFunction('time', 'time'),
+			new Twig_SimpleFunction('floor', 'floor'),
+			new Twig_SimpleFunction('timezone', 'twig_timezone_function'),
+			new Twig_SimpleFunction('hiddenInputs', 'hiddenInputs'),
+			new Twig_SimpleFunction('hiddenInputsHash', 'hiddenInputsHash'),
 		);
 	}
 	
@@ -59,10 +58,6 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 
 function twig_timezone_function() {
 	return 'Z';
-}
-
-function twig_split_filter($str, $delim) {
-	return explode($delim, $str);
 }
 
 function twig_push_filter($array, $value) {

@@ -17,8 +17,7 @@
  * You can configure which optimizations you want to activate via the
  * optimizer mode.
  *
- * @package twig
- * @author  Fabien Potencier <fabien@symfony.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
 {
@@ -26,9 +25,12 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
     const OPTIMIZE_NONE        = 0;
     const OPTIMIZE_FOR         = 2;
     const OPTIMIZE_RAW_FILTER  = 4;
+    const OPTIMIZE_VAR_ACCESS  = 8;
 
     protected $loops = array();
     protected $optimizers;
+    protected $prependedNodes = array();
+    protected $inABody = false;
 
     /**
      * Constructor.
@@ -53,6 +55,20 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
             $this->enterOptimizeFor($node, $env);
         }
 
+        if (!version_compare(phpversion(), '5.4.0RC1', '>=') && self::OPTIMIZE_VAR_ACCESS === (self::OPTIMIZE_VAR_ACCESS & $this->optimizers) && !$env->isStrictVariables() && !$env->hasExtension('sandbox')) {
+            if ($this->inABody) {
+                if (!$node instanceof Twig_Node_Expression) {
+                    if (get_class($node) !== 'Twig_Node') {
+                        array_unshift($this->prependedNodes, array());
+                    }
+                } else {
+                    $node = $this->optimizeVariables($node, $env);
+                }
+            } elseif ($node instanceof Twig_Node_Body) {
+                $this->inABody = true;
+            }
+        }
+
         return $node;
     }
 
@@ -61,6 +77,8 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
      */
     public function leaveNode(Twig_NodeInterface $node, Twig_Environment $env)
     {
+        $expression = $node instanceof Twig_Node_Expression;
+
         if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers)) {
             $this->leaveOptimizeFor($node, $env);
         }
@@ -69,20 +87,58 @@ class Twig_NodeVisitor_Optimizer implements Twig_NodeVisitorInterface
             $node = $this->optimizeRawFilter($node, $env);
         }
 
-        $node = $this->optimizeRenderBlock($node, $env);
+        $node = $this->optimizePrintNode($node, $env);
+
+        if (self::OPTIMIZE_VAR_ACCESS === (self::OPTIMIZE_VAR_ACCESS & $this->optimizers) && !$env->isStrictVariables() && !$env->hasExtension('sandbox')) {
+            if ($node instanceof Twig_Node_Body) {
+                $this->inABody = false;
+            } elseif ($this->inABody) {
+                if (!$expression && get_class($node) !== 'Twig_Node' && $prependedNodes = array_shift($this->prependedNodes)) {
+                    $nodes = array();
+                    foreach (array_unique($prependedNodes) as $name) {
+                        $nodes[] = new Twig_Node_SetTemp($name, $node->getLine());
+                    }
+
+                    $nodes[] = $node;
+                    $node = new Twig_Node($nodes);
+                }
+            }
+        }
+
+        return $node;
+    }
+
+    protected function optimizeVariables($node, $env)
+    {
+        if ('Twig_Node_Expression_Name' === get_class($node) && $node->isSimple()) {
+            $this->prependedNodes[0][] = $node->getAttribute('name');
+
+            return new Twig_Node_Expression_TempName($node->getAttribute('name'), $node->getLine());
+        }
 
         return $node;
     }
 
     /**
-     * Replaces "echo $this->renderBlock()" with "$this->displayBlock()".
+     * Optimizes print nodes.
+     *
+     * It replaces:
+     *
+     *   * "echo $this->render(Parent)Block()" with "$this->display(Parent)Block()"
      *
      * @param Twig_NodeInterface $node A Node
      * @param Twig_Environment   $env  The current Twig environment
      */
-    protected function optimizeRenderBlock($node, $env)
+    protected function optimizePrintNode($node, $env)
     {
-        if ($node instanceof Twig_Node_Print && $node->getNode('expr') instanceof Twig_Node_Expression_BlockReference) {
+        if (!$node instanceof Twig_Node_Print) {
+            return $node;
+        }
+
+        if (
+            $node->getNode('expr') instanceof Twig_Node_Expression_BlockReference ||
+            $node->getNode('expr') instanceof Twig_Node_Expression_Parent
+        ) {
             $node->getNode('expr')->setAttribute('output', true);
 
             return $node->getNode('expr');

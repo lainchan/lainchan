@@ -13,14 +13,21 @@
 /**
  * Represents a for node.
  *
- * @package    twig
- * @author     Fabien Potencier <fabien@symfony.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 class Twig_Node_For extends Twig_Node
 {
+    protected $loop;
+
     public function __construct(Twig_Node_Expression_AssignName $keyTarget, Twig_Node_Expression_AssignName $valueTarget, Twig_Node_Expression $seq, Twig_Node_Expression $ifexpr = null, Twig_NodeInterface $body, Twig_NodeInterface $else = null, $lineno, $tag = null)
     {
-        parent::__construct(array('key_target' => $keyTarget, 'value_target' => $valueTarget, 'seq' => $seq, 'ifexpr' => $ifexpr, 'body' => $body, 'else' => $else), array('with_loop' => true), $lineno, $tag);
+        $body = new Twig_Node(array($body, $this->loop = new Twig_Node_ForLoop($lineno, $tag)));
+
+        if (null !== $ifexpr) {
+            $body = new Twig_Node_If(new Twig_Node(array($ifexpr, $body)), null, $lineno, $tag);
+        }
+
+        parent::__construct(array('key_target' => $keyTarget, 'value_target' => $valueTarget, 'seq' => $seq, 'body' => $body, 'else' => $else), array('with_loop' => true, 'ifexpr' => null !== $ifexpr), $lineno, $tag);
     }
 
     /**
@@ -53,7 +60,7 @@ class Twig_Node_For extends Twig_Node
                 ->write(");\n")
             ;
 
-            if (null === $this->getNode('ifexpr')) {
+            if (!$this->getAttribute('ifexpr')) {
                 $compiler
                     ->write("if (is_array(\$context['_seq']) || (is_object(\$context['_seq']) && \$context['_seq'] instanceof Countable)) {\n")
                     ->indent()
@@ -68,6 +75,10 @@ class Twig_Node_For extends Twig_Node
             }
         }
 
+        $this->loop->setAttribute('else', null !== $this->getNode('else'));
+        $this->loop->setAttribute('with_loop', $this->getAttribute('with_loop'));
+        $this->loop->setAttribute('ifexpr', $this->getAttribute('ifexpr'));
+
         $compiler
             ->write("foreach (\$context['_seq'] as ")
             ->subcompile($this->getNode('key_target'))
@@ -75,47 +86,7 @@ class Twig_Node_For extends Twig_Node
             ->subcompile($this->getNode('value_target'))
             ->raw(") {\n")
             ->indent()
-        ;
-
-        if (null !== $this->getNode('ifexpr')) {
-            $compiler
-                ->write("if (!(")
-                ->subcompile($this->getNode('ifexpr'))
-                ->raw(")) {\n")
-                ->indent()
-                ->write("continue;\n")
-                ->outdent()
-                ->write("}\n\n")
-            ;
-        }
-
-        $compiler->subcompile($this->getNode('body'));
-
-        if (null !== $this->getNode('else')) {
-            $compiler->write("\$context['_iterated'] = true;\n");
-        }
-
-        if ($this->getAttribute('with_loop')) {
-            $compiler
-                ->write("++\$context['loop']['index0'];\n")
-                ->write("++\$context['loop']['index'];\n")
-                ->write("\$context['loop']['first'] = false;\n")
-            ;
-
-            if (null === $this->getNode('ifexpr')) {
-                $compiler
-                    ->write("if (isset(\$context['loop']['length'])) {\n")
-                    ->indent()
-                    ->write("--\$context['loop']['revindex0'];\n")
-                    ->write("--\$context['loop']['revindex'];\n")
-                    ->write("\$context['loop']['last'] = 0 === \$context['loop']['revindex0'];\n")
-                    ->outdent()
-                    ->write("}\n")
-                ;
-            }
-        }
-
-        $compiler
+            ->subcompile($this->getNode('body'))
             ->outdent()
             ->write("}\n")
         ;
@@ -136,6 +107,6 @@ class Twig_Node_For extends Twig_Node
         $compiler->write('unset($context[\'_seq\'], $context[\'_iterated\'], $context[\''.$this->getNode('key_target')->getAttribute('name').'\'], $context[\''.$this->getNode('value_target')->getAttribute('name').'\'], $context[\'_parent\'], $context[\'loop\']);'."\n");
 
         // keep the values set in the inner context for variables defined in the outer context
-        $compiler->write("\$context = array_merge(\$_parent, array_intersect_key(\$context, \$_parent));\n");
+        $compiler->write("\$context = array_intersect_key(\$context, \$_parent) + \$_parent;\n");
     }
 }

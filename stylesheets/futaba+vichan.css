@@ -86,22 +86,19 @@ unimportant, .unimportant * {
 table.modlog tr th {
 	background: #EA8;
 }
-
 div.boardlist {
-    background-color: rgba(90%,90%,90%,0.2);
+	background-color: rgba(90%,90%,90%,0.2);
 }
 div.boardlist .sub {
-    background: none;
+	background: none;
 }
 div.boardlist.bottom {
-    background-color:transparent;
+	background-color:transparent;
 }
 
 .desktop-style div.boardlist:nth-child(1) {
-  text-shadow: #fff 1px 1px 1px, #fff -1px -1px 1px;
+	text-shadow: #fff 1px 1px 1px, #fff -1px -1px 1px;
 }
-
-        
 .desktop-style div.boardlist:nth-child(1):hover {
-  background-color: rgba(90%, 90%, 90%, 0.55);
+	background-color: rgba(90%, 90%, 90%, 0.55);
 }
