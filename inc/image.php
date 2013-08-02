@@ -251,9 +251,9 @@ class ImageConvert extends ImageBase {
 		
 		if (!$this->temp) {
 			if ($config['strip_exif']) {
-				shell_exec('convert ' . escapeshellarg($this->src) . ' -strip ' . escapeshellarg($src));
+				shell_exec('convert ' . escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src));
 			} else {
-				shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
+				shell_exec('convert ' . escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src));
 			}
 		} else {
 			rename($this->temp, $src);

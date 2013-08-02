@@ -450,10 +450,12 @@ if (isset($_POST['delete'])) {
 			if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
 				// The following code corrects the image orientation.
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
-				if ($config['thumb_method'] == 'convert') {
-					$exif = exif_read_data($upload);
-					if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
-						shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
+				if (!($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
+					if ($config['thumb_method'] == 'convert' || $config['thumb_method'] == 'convert+gifsicle') {
+						$exif = exif_read_data($upload);
+						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
+							shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
+						}
 					}
 				}
 			}
