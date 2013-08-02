@@ -20,7 +20,7 @@ onready(function(){
 	var i = 1;
 	stylesDiv.children().each(function() {
 		var opt = $('<option></option>')
-			.text(this.innerText.replace(/(^\[|\]$)/g, ''))
+			.html(this.innerHTML.replace(/(^\[|\]$)/g, ''))
 			.val(i);
 		if ($(this).hasClass('selected'))
 			opt.attr('selected', true);
