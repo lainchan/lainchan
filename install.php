@@ -396,53 +396,156 @@ if ($step == 0) {
 } elseif ($step == 1) {
 	$page['title'] = 'Pre-installation test';
 	
-	$page['body'] = '<table class="test">';
+	$can_exec = true;
+	if (!function_exists('shell_exec'))
+		$can_exec = false;
+	elseif (in_array('shell_exec', array_map('trim', explode(', ', ini_get('disable_functions')))))
+		$can_exec = false;
+	elseif (ini_get('safe_mode'))
+		$can_exec = false;
+	elseif (trim(shell_exec('echo "TEST"')) !== 'TEST')
+		$can_exec = false;
 	
-	function rheader($item) {
-		global $page, $config;
-		
-		$page['body'] .= '<tr class="h"><th colspan="2">' . $item . '</th></tr>';
+	if (!defined('PHP_VERSION_ID')) {
+		$version = explode('.', PHP_VERSION);
+		define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 	}
-	
-	function row($item, $result) {
-		global $page, $config, $__is_error;
-		if (!$result)
-			$__is_error = true;
-		$page['body'] .= '<tr><th>' . $item . '</th><td><img style="width:16px;height:16px" src="' . $config['dir']['static'] . ($result ? 'ok.png' : 'error.png') . '" /></td></tr>';
-	}
-	
 	
 	// Required extensions
-	rheader('PHP extensions');
-	row('PDO', extension_loaded('pdo'));
-	row('GD', extension_loaded('gd'));
+	$extensions = array(
+		'PDO' => array(
+			'installed' => extension_loaded('pdo'),
+			'required' => true
+		),
+		'PDO' => array(
+			'installed' => extension_loaded('gd'),
+			'required' => true
+		),
+		'Imagick' => array(
+			'installed' => extension_loaded('imagick'),
+			'required' => false
+		)
+	);
 	
-	// GD tests
-	rheader('GD tests');
-	row('JPEG', function_exists('imagecreatefromjpeg'));
-	row('PNG', function_exists('imagecreatefrompng'));
-	row('GIF', function_exists('imagecreatefromgif'));
+	$tests = array(
+		array(
+			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.2.5',
+			'result' => PHP_VERSION_ID >= 50205,
+			'required' => true,
+			'message' => 'Tinyboard requires PHP 5.2.5 or better.',
+		),
+		array(
+			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.3',
+			'result' => PHP_VERSION_ID >= 50300,
+			'required' => false,
+			'message' => 'PHP &ge; 5.3, though not required, is recommended to make the most out of Tinyboard configuration files.',
+		),
+		array(
+			'category' => 'PHP',
+			'name' => 'mbstring extension installed',
+			'result' => extension_loaded('mbstring'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/mbstring.installation.php">mbstring</a> extension.',
+		),
+		array(
+			'category' => 'Database',
+			'name' => 'PDO extension installed',
+			'result' => extension_loaded('pdo'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.pdo.php">PDO</a> extension.',
+		),
+		array(
+			'category' => 'Database',
+			'name' => 'MySQL PDO driver installed',
+			'result' => extension_loaded('pdo') && in_array('mysql1', PDO::getAvailableDrivers()),
+			'required' => true,
+			'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD extension installed',
+			'result' => extension_loaded('gd'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.image.php">GD</a> extension. GD is a requirement even if you have chosen another image processor for thumbnailing.',
+		),
+		array(
+		 	'category' => 'Image processing',
+		 	'name' => 'GD: JPEG',
+			'result' => function_exists('imagecreatefromjpeg'),
+			'required' => true,
+			'message' => 'imagecreatefromjpeg() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD: PNG',
+			'result' => function_exists('imagecreatefrompng'),
+			'required' => true,
+			'message' => 'imagecreatefrompng() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD: GIF',
+			'result' => function_exists('imagecreatefromgif'),
+			'required' => true,
+			'message' => 'imagecreatefromgif() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'Imagick extension installed',
+			'result' => extension_loaded('imagick1'),
+			'required' => false,
+			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`convert` (command-line ImageMagick)',
+			'result' => $can_exec && shell_exec('which convert'),
+			'required' => false,
+			'message' => '(Optional) `convert` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`identify` (command-line ImageMagick)',
+			'result' => $can_exec && shell_exec('which identify'),
+			'required' => false,
+			'message' => '(Optional) `identify` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
+			'result' => $can_exec && shell_exec('which gifsicle1'),
+			'required' => false,
+			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
+		),
+		array(
+			'category' => 'File permissions',
+			'name' => getcwd(),
+			'result' => is_writable('.'),
+			'required' => true,
+			'message' => 'Tinyboard does not have permission to create directories (boards) here. You will need to <code>chmod</code> (or operating system equivalent) appropriately.'
+		),
+		array(
+			'category' => 'File permissions',
+			'name' => getcwd() . '/inc/instance-config.php',
+			'result' => is_writable('inc/instance-config.php'),
+			'required' => false,
+			'message' => 'Tinyboard does not have permission to make changes to inc/instance-config.php. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
+		)
+	);
 	
-	// Database drivers
-	$drivers = PDO::getAvailableDrivers();
+	$config['font_awesome'] = true;
 	
-	rheader('PDO drivers <em>(currently installed drivers)</em>');
-	foreach ($drivers as &$driver) {
-		row($driver, true);
-	}
-	
-	// Permissions
-	rheader('File permissions');
-	row('<em>root directory</em> (' . getcwd() . ')', is_writable('.'));
-	
-	$page['body'] .= '</table>
-	<p style="text-align:center">
-		<a href="?step=2"' .
-			(isset($__is_error) ? ' onclick="return confirm(\'Are you sure you want to continue when errors exist?\')"' : '') .
-		'>Continue' . (isset($__is_error) ? ' anyway' : '') . '</a>
-	</p>';
-	
-	echo Element('page.html', $page);
+	echo Element('page.html', array(
+		'body' => Element('installer/check-requirements.html', array(
+			'extensions' => $extensions,
+			'tests' => $tests,
+			'config' => $config
+		)),
+		'title' => 'Checking environment',
+		'config' => $config
+	));
 } elseif ($step == 2) {
 	// Basic config
 	$page['title'] = 'Configuration';
