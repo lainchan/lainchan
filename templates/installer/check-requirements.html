@@ -14,14 +14,14 @@
 				<td>{{ test.name }}</td>
 				<td class="minimal" style="text-align:center">
 					{% if test.result %}
-						<i style="color:#090" class="icon-check-sign"></i>
+						<i style="font-size:11pt;color:#090" class="icon-check-sign"></i>
 					{% else %}
 						{% if test.required %}
 							{%  set errors = errors + 1 %}
-							<i style="color:#d00" class="icon-exclamation-sign"></i>
+							<i style="font-size:11pt;color:#d00" class="icon-exclamation-sign"></i>
 						{% else %}
 							{%  set warnings = warnings + 1 %}
-							<i style="color:#f80" class="icon-warning-sign"></i>
+							<i style="font-size:11pt;color:#f80" class="icon-warning-sign"></i>
 						{% endif %}
 					{% endif %}
 				</td>
@@ -34,9 +34,9 @@
 			{% for test in tests if not test.result%}
 				<li style="margin-bottom:5px">
 					{% if test.required %}
-						<i style="color:#d00" class="icon-exclamation-sign"></i> <strong>Error:</strong> 
+						<i style="font-size:11pt;color:#d00" class="icon-exclamation-sign"></i> <strong>Error:</strong> 
 					{% else %}
-						<i style="color:#f80" class="icon-warning-sign"></i> <strong>Warning:</strong> 
+						<i style="font-size:11pt;color:#f80" class="icon-warning-sign"></i> <strong>Warning:</strong> 
 					{% endif %}
 					{{ test.message }}
 				</li>
