@@ -530,7 +530,7 @@
 	// Location of thumbnail to use for spoiler images.
 	$config['spoiler_image'] = 'static/spoiler.png';
 	// Location of thumbnail to use for deleted images.
-	$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
+	$config['image_deleted'] = 'static/deleted.png';
 
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use
 	// that as a thumbnail instead of resizing/redrawing.
@@ -876,9 +876,9 @@
 
 	// Static images. These can be URLs OR base64 (data URI scheme). These are only used if
 	// $config['font_awesome'] is false (default).
-	// $config['image_sticky']	= $config['dir']['static'] . 'sticky.gif';
-	// $config['image_locked']	= $config['dir']['static'] . 'locked.gif';
-	// $config['image_bumplocked']	= $config['dir']['static'] . 'sage.gif'.
+	// $config['image_sticky']	= 'static/sticky.gif';
+	// $config['image_locked']	= 'static/locked.gif';
+	// $config['image_bumplocked']	= 'static/sage.gif'.
 
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain.
 	// This will override $config['root'] and $config['dir']['...'] directives. "%s" will get replaced with
