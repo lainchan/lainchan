@@ -1958,7 +1958,7 @@ function mod_config($board_config = false) {
 		if (!$readonly && isset($_POST['code'])) {
 			$code = $_POST['code'];
 			file_put_contents($config_file, $code);
-			header('Location: ?/config', true, $config['redirect_http']);
+			header('Location: ?/config' . ($board_config ? '/' . $board_config : ''), true, $config['redirect_http']);
 			return;
 		}
 		
