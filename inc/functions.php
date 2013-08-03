@@ -40,7 +40,7 @@ function loadConfig() {
 		'dir',
 		'mod',
 		'spam',
-		'flood_filters',
+		'filters',
 		'wordfilters',
 		'custom_capcode',
 		'custom_tripcode',
@@ -54,7 +54,8 @@ function loadConfig() {
 		'stylesheets',
 		'additional_javascript',
 		'markup',
-		'custom_pages'
+		'custom_pages',
+		'dashboard_links'
 	);
 	
 	$config = array();
@@ -85,8 +86,8 @@ function loadConfig() {
 	
 	date_default_timezone_set($config['timezone']);
 	
-	if (!isset($config['blotter']))
-		$config['blotter'] = false;
+	if (!isset($config['global_message']))
+		$config['global_message'] = false;
 	
 	if (!isset($config['post_url']))
 		$config['post_url'] = $config['root'] . $config['file_post'];
@@ -128,8 +129,6 @@ function loadConfig() {
 		$config['image_bumplocked'] = $config['dir']['static'] . 'sage.gif';
 	if (!isset($config['image_deleted']))
 		$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
-	if (!isset($config['image_zip']))
-		$config['image_zip'] = $config['dir']['static'] . 'zip.png';
 	
 	if (!isset($config['uri_thumb']))
 		$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
@@ -1704,7 +1703,7 @@ function buildThread($id, $return = false, $mod = false) {
 		'mod' => $mod,
 		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
 		'boardlist' => createBoardlist($mod),
-		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['uri'] . '/' . $config['file_index'])
+		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 	));
 
 	if ($return)

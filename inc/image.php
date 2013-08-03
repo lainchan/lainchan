@@ -279,10 +279,8 @@ class ImageConvert extends ImageBase {
 		}
 		
 		$this->temp = tempnam($config['tmp'], 'imagick');
-		
-		$quality = $config['thumb_quality'] * 10;
-		
-		$config['thumb_keep_animation_frames'] = (int) $config['thumb_keep_animation_frames'];
+				
+		$config['thumb_keep_animation_frames'] = (int)$config['thumb_keep_animation_frames'];
 		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
@@ -291,12 +289,12 @@ class ImageConvert extends ImageBase {
 					escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
 			} else {
-				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
+				if (shell_exec('convert ' . sprintf($config['convert_args'], $this->width, $this->height) . ' ' .
 					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 					error('Failed to resize image!');
 			}
 		} else {
-			if (shell_exec("convert -background transparent -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " .
+			if (shell_exec('convert ' . sprintf($config['convert_args'], $this->width, $this->height) .
 				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 				error('Failed to resize image!');
 		}
@@ -309,7 +307,7 @@ class ImagePNG extends ImageBase {
 	}
 	public function to($src) {
 		global $config;
-		imagepng($this->image, $src, $config['thumb_quality']);
+		imagepng($this->image, $src);
 	}
 	public function resize() {
 		$this->GD_create();
@@ -322,7 +320,7 @@ class ImagePNG extends ImageBase {
 
 class ImageGIF extends ImageBase {
 	public function from() {
-		$this->image = @imagecreatefromgif ($this->src);
+		$this->image = @imagecreatefromgif($this->src);
 	}
 	public function to($src) {
 		imagegif ($this->image, $src);

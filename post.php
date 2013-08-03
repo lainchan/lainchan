@@ -428,7 +428,7 @@ if (isset($_POST['delete'])) {
 		$post['filehash'] = $config['file_hash']($upload);
 		$post['filesize'] = filesize($upload);
 		
-		if ($is_an_image) {
+		if ($is_an_image && $config['ie_mime_type_detection'] !== false) {
 			// Check IE MIME type detection XSS exploit
 			$buffer = file_get_contents($upload, null, null, null, 255);
 			if (preg_match($config['ie_mime_type_detection'], $buffer)) {

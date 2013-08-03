@@ -132,10 +132,10 @@ class Filter {
 function do_filters(array $post) {
 	global $config;
 	
-	if (!isset($config['flood_filters']))
+	if (!isset($config['filters']))
 		return;
 	
-	foreach ($config['flood_filters'] as $arr) {
+	foreach ($config['filters'] as $arr) {
 		$filter = new Filter($arr);
 		if ($filter->check($post))
 			$filter->action();

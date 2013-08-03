@@ -109,7 +109,7 @@ $new_pages = array();
 foreach ($pages as $key => $callback) {
 	if (is_string($callback) && preg_match('/^secure /', $callback))
 		$key .= '(/(?P<token>[a-f0-9]{8}))?';
-	$key = str_replace('\%b', $config['board_regex'], $key);
+	$key = str_replace('\%b', '?P<board>' . sprintf(substr($config['board_path'], 0, -1), $config['board_regex']), $key);
 	$new_pages[@$key[0] == '!' ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!u'] = $callback;
 }
 $pages = $new_pages;
@@ -117,6 +117,15 @@ $pages = $new_pages;
 foreach ($pages as $uri => $handler) {
 	if (preg_match($uri, $query, $matches)) {
 		$matches = array_slice($matches, 1);
+		
+		if (isset($matches['board'])) {
+			$board_match = $matches['board'];
+			unset($matches['board']);
+			$key = array_search($board_match, $matches);
+			if (preg_match('/^' . sprintf(substr($config['board_path'], 0, -1), '(' . $config['board_regex'] . ')') . '$/u', $matches[$key], $board_match)) {
+				$matches[$key] = $board_match[1];
+			}
+		}
 		
 		if (is_string($handler) && preg_match('/^secure(_POST)? /', $handler, $m)) {
 			$secure_post_only = isset($m[1]);
