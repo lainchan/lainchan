@@ -492,9 +492,9 @@
 	$config['thumb_method'] = 'gd';
 	// $config['thumb_method'] = 'convert';
 
-	// Command-line options passed to ImageMagick when using `convert` for thumbnailing.
-	// http://www.imagemagick.org/ImageMagick-7.0.0/script/command-line-options.php
-	$config['convert_args'] = '-background transparent -filter Point -sample %dx%d +antialias -quality 50';
+	// Command-line options passed to ImageMagick when using `convert` for thumbnailing. Don't touch the
+	// placement of "%s" and "%d".
+	$config['convert_args'] = '-background transparent %s -strip -thumbnail %dx%d -quality 65';
 
 	// Strip EXIF metadata from JPEG files.
 	$config['strip_exif'] = false;

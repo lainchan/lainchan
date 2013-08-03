@@ -284,19 +284,19 @@ class ImageConvert extends ImageBase {
 		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
-				if (trim(shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
+				if (trim($error = shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
 					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" > " .
-					escapeshellarg($this->temp) . ';echo $?') !== '0') || !file_exists($this->temp))
-					error('Failed to resize image!');
+					escapeshellarg($this->temp) . '2>&1 &&echo $?') !== '0') || !file_exists($this->temp))
+					error($error);
 			} else {
-				if (trim(shell_exec('convert ' . sprintf($config['convert_args'], $this->width, $this->height) . ' ' .
-					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) . ';echo $?') !== '0' || !file_exists($this->temp))
-					error('Failed to resize image!');
+				if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '', $this->width, $this->height) . ' ' .
+					escapeshellarg($this->src) . ' ' . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
+					error($error);
 			}
 		} else {
-			if (trim(shell_exec('convert -flatten ' . sprintf($config['convert_args'], $this->width, $this->height) . ' ' .
-				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp) . ';echo $?')) !== '0' || !file_exists($this->temp))
-				error('Failed to resize image!');
+			if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '-flatten', $this->width, $this->height) . ' ' .
+				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
+				error($error);
 		}
 	}
 }
