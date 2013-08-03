@@ -262,7 +262,8 @@
 		'recaptcha_challenge_field',
 		'recaptcha_response_field',
 		'spoiler',
-		'quick-reply'
+		'quick-reply',
+		'page'
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.

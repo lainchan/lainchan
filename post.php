@@ -216,7 +216,7 @@ if (isset($_POST['delete'])) {
 	}
 	
 	if (!$post['mod']) {
-		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null));
+		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : ($config['try_smarter'] && isset($_POST['page']) ? 0 - (int)$_POST['page'] : null)));
 		if ($post['antispam_hash'] === true)
 			error($config['error']['spam']);
 	}
@@ -594,11 +594,14 @@ if (isset($_POST['delete'])) {
 		}
 	}
 	
-	buildThread($post['op'] ? $id : $post['thread']);
-	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
 		bumpThread($post['thread']);
 	}
+	
+	buildThread($post['op'] ? $id : $post['thread']);
+	
+	if ($config['try_smarter'] && $post['op'])
+		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
 		clean();

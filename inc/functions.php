@@ -841,11 +841,14 @@ function post(array $post) {
 }
 
 function bumpThread($id) {
-	global $board;
+	global $config, $board, $build_pages;
 
 	if (event('bump', $id))
 		return true;
 
+	if ($config['try_smarter'])
+		$build_pages[] = thread_find_page($id);
+	
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -1274,7 +1277,8 @@ function buildIndex() {
 	global $board, $config, $build_pages;
 
 	$pages = getPages();
-	$antibot = create_antibot($board['uri']);
+	if (!$config['try_smarter'])
+		$antibot = create_antibot($board['uri']);
 
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
@@ -1285,8 +1289,11 @@ function buildIndex() {
 		if (!$content)
 			break;
 
+		if ($config['try_smarter']) {
+			$antibot = create_antibot($board['uri'], 0 - $page);
+			$content['current_page'] = $page;
+		}
 		$antibot->reset();
-
 		$content['pages'] = $pages;
 		$content['pages'][$page-1]['selected'] = true;
 		$content['btn'] = getPageButtons($content['pages']);
