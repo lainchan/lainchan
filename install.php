@@ -459,7 +459,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Database',
 			'name' => 'MySQL PDO driver installed',
-			'result' => extension_loaded('pdo') && in_array('mysql1', PDO::getAvailableDrivers()),
+			'result' => extension_loaded('pdo') && in_array('mysql', PDO::getAvailableDrivers()),
 			'required' => true,
 			'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.',
 		),
@@ -494,7 +494,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Image processing',
 			'name' => 'Imagick extension installed',
-			'result' => extension_loaded('imagick1'),
+			'result' => extension_loaded('imagick'),
 			'required' => false,
 			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
 		),
@@ -515,7 +515,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Image processing',
 			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
-			'result' => $can_exec && shell_exec('which gifsicle1'),
+			'result' => $can_exec && shell_exec('which gifsicle'),
 			'required' => false,
 			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
 		),
@@ -532,6 +532,13 @@ if ($step == 0) {
 			'result' => is_writable('inc/instance-config.php'),
 			'required' => false,
 			'message' => 'Tinyboard does not have permission to make changes to inc/instance-config.php. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
+		),
+		array(
+			'category' => 'Misc',
+			'name' => 'Tinyboard installed using git',
+			'result' => is_dir('.git.'),
+			'required' => false,
+			'message' => 'Tinyboard is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your Tinyboard installation. Using git makes upgrading much easier.'
 		)
 	);
 	
@@ -550,167 +557,16 @@ if ($step == 0) {
 	// Basic config
 	$page['title'] = 'Configuration';
 	
-	function create_salt() {
-		return substr(base64_encode(sha1(rand())), 0, rand(25, 31));
-	}
+	$config['cookies']['salt'] = substr(base64_encode(sha1(rand())), 0, 30);
+	$config['secure_trip_salt'] = substr(base64_encode(sha1(rand())), 0, 30);	
 	
-	$page['body'] = '
-<form action="?step=3" method="post">
-	<fieldset>
-	<legend>Database</legend>
-		<label for="db_type">Type:</label> 
-		<select id="db_type" name="db[type]">';
-		
-		$drivers = PDO::getAvailableDrivers();
-		
-		foreach ($drivers as &$driver) {
-			$driver_txt = $driver;
-			switch ($driver) {
-				case 'cubrid':
-					$driver_txt = 'Cubrid';
-					break;
-				case 'dblib':
-					$driver_txt = 'FreeTDS / Microsoft SQL Server / Sybase';
-					break;
-				case 'firebird':
-					$driver_txt = 'Firebird/Interbase 6';
-					break;
-				case 'ibm':
-					$driver_txt = 'IBM DB2';
-					break;
-				case 'informix':
-					$driver_txt = 'IBM Informix Dynamic Server';
-					break;
-				case 'mysql':
-					$driver_txt = 'MySQL';
-					break;
-				case 'oci':
-					$driver_txt = 'OCI';
-					break;
-				case 'odbc':
-					$driver_txt = 'ODBC v3 (IBM DB2, unixODBC)';
-					break;
-				case 'pgsql':
-					$driver_txt = 'PostgreSQL';
-					break;
-				case 'sqlite':
-					$driver_txt = 'SQLite 3';
-					break;
-				case 'sqlite2':
-					$driver_txt = 'SQLite 2';
-					break;
-			}
-			$page['body'] .= '<option value="' . $driver . '">' . $driver_txt . '</option>';
-		}
-		
-		$page['body'] .= '	
-		</select>
-		
-		<label for="db_server">Server:</label> 
-		<input type="text" id="db_server" name="db[server]" value="localhost" />
-		
-		<label for="db_db">Database:</label> 
-		<input type="text" id="db_db" name="db[database]" value="" />
-		
-		<label for="db_prefix">Table prefix (optional):</label> 
-		<input type="text" id="db_prefix" name="db[prefix]" value="" />
-		
-		<label for="db_user">Username:</label> 
-		<input type="text" id="db_user" name="db[user]" value="" />
-		
-		<label for="db_pass">Password:</label> 
-		<input type="password" id="db_pass" name="db[password]" value="" />
-	</fieldset>
-	<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/docs/?p=Config">edit your configuration files</a> after installing.</p>
-	<fieldset>
-	<legend>Cookies</legend>
-		<label for="cookies_mod">Moderator cookie:</label> 
-		<input type="text" id="cookies_mod" name="cookies[mod]" value="' . $config['cookies']['mod'] . '" />
-		
-		<label for="cookies_salt">Secure salt:</label> 
-		<input type="text" id="cookies_salt" name="cookies[salt]" value="' . create_salt() . '" size="40" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Flood control</legend>
-		<label for="flood_time">Seconds before each post:</label> 
-		<input type="text" id="flood_time" name="flood_time" value="' . $config['flood_time'] . '" />
-		
-		<label for="flood_time_ip">Seconds before you can repost something (post the exact same text):</label> 
-		<input type="text" id="flood_time_ip" name="flood_time_ip" value="' . $config['flood_time_ip'] . '" />
-		
-		<label for="flood_time_same">Same as above, but with a different IP address:</label> 
-		<input type="text" id="flood_time_same" name="flood_time_same" value="' . $config['flood_time_same'] . '" />
-		
-		<label for="max_body">Maximum post body length:</label> 
-		<input type="text" id="max_body" name="max_body" value="' . $config['max_body'] . '" />
-		
-		<label for="reply_limit">Replies in a thread before it can no longer be bumped:</label> 
-		<input type="text" id="reply_limit" name="reply_limit" value="' . $config['reply_limit'] . '" />
-		
-		<label for="max_links">Maximum number of links in a single post:</label> 
-		<input type="text" id="max_links" name="max_links" value="' . $config['max_links'] . '" />			
-	</fieldset>
-	
-	<fieldset>
-	<legend>Images</legend>
-		<label for="max_filesize">Maximum image filesize:</label> 
-		<input type="text" id="max_filesize" name="max_filesize" value="' . $config['max_filesize'] . '" />
-		
-		<label for="thumb_width">Thumbnail width:</label> 
-		<input type="text" id="thumb_width" name="thumb_width" value="' . $config['thumb_width'] . '" />
-		
-		<label for="thumb_height">Thumbnail height:</label> 
-		<input type="text" id="thumb_height" name="thumb_height" value="' . $config['thumb_height'] . '" />
-		
-		<label for="max_width">Maximum image width:</label> 
-		<input type="text" id="max_width" name="max_width" value="' . $config['max_width'] . '" />
-		
-		<label for="max_height">Maximum image height:</label> 
-		<input type="text" id="max_height" name="max_height" value="' . $config['max_height'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Display</legend>
-		<label for="threads_per_page">Threads per page:</label> 
-		<input type="text" id="threads_per_page" name="threads_per_page" value="' . $config['threads_per_page'] . '" />
-		
-		<label for="max_pages">Page limit:</label> 
-		<input type="text" id="max_pages" name="max_pages" value="' . $config['max_pages'] . '" />
-		
-		<label for="threads_preview">Number of replies to show per thread on the index page:</label> 
-		<input type="text" id="threads_preview" name="threads_preview" value="' . $config['threads_preview'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Directories</legend>
-		<label for="root">Root URI (include trailing slash):</label> 
-		<input type="text" id="root" name="root" value="' . $config['root'] . '" />
-		
-		<label for="dir_img">Image directory:</label> 
-		<input type="text" id="dir_img" name="dir[img]" value="' . $config['dir']['img'] . '" />
-		
-		<label for="dir_thumb">Thumbnail directory:</label> 
-		<input type="text" id="dir_thumb" name="dir[thumb]" value="' . $config['dir']['thumb'] . '" />
-		
-		<label for="dir_res">Thread directory:</label> 
-		<input type="text" id="dir_res" name="dir[res]" value="' . $config['dir']['res'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Miscellaneous</legend>
-		<label for="secure_trip_salt">Secure trip (##) salt:</label> 
-		<input type="text" id="secure_trip_salt" name="secure_trip_salt" value="' . create_salt() . '" size="40" />
-	</fieldset>
-	
-	<p style="text-align:center">
-		<input type="submit" value="Complete installation" />
-	</p>
-</form>
-	';
-	
-	
-	echo Element('page.html', $page);
+	echo Element('page.html', array(
+		'body' => Element('installer/config.html', array(
+			'config' => $config
+		)),
+		'title' => 'Configuration',
+		'config' => $config
+	));
 } elseif ($step == 3) {
 	$instance_config = 
 '<?php
@@ -771,7 +627,7 @@ if ($step == 0) {
 	
 	sql_open();
 	if (mysql_version() < 50503)
-		$sql = str_replace('utf8', 'utf8mb4', $sql);
+		$sql = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $sql);
 	
 	// This code is probably horrible, but what I'm trying
 	// to do is find all of the SQL queires and put them

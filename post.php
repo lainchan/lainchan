@@ -218,7 +218,7 @@ if (isset($_POST['delete'])) {
 	}
 	
 	if (!$post['mod']) {
-		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null));
+		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : ($config['try_smarter'] && isset($_POST['page']) ? 0 - (int)$_POST['page'] : null)));
 		if ($post['antispam_hash'] === true)
 			error($config['error']['spam']);
 	}
@@ -430,7 +430,7 @@ if (isset($_POST['delete'])) {
 		$post['filehash'] = $config['file_hash']($upload);
 		$post['filesize'] = filesize($upload);
 		
-		if ($is_an_image) {
+		if ($is_an_image && $config['ie_mime_type_detection'] !== false) {
 			// Check IE MIME type detection XSS exploit
 			$buffer = file_get_contents($upload, null, null, null, 255);
 			if (preg_match($config['ie_mime_type_detection'], $buffer)) {
@@ -596,11 +596,14 @@ if (isset($_POST['delete'])) {
 		}
 	}
 	
-	buildThread($post['op'] ? $id : $post['thread']);
-	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
 		bumpThread($post['thread']);
 	}
+	
+	buildThread($post['op'] ? $id : $post['thread']);
+	
+	if ($config['try_smarter'] && $post['op'])
+		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
 		clean();

@@ -800,21 +800,21 @@ function mod_page_ip($ip) {
 	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `set` DESC");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['view_notes'])) {
-		$query = prepare("SELECT ``ip_notes``.*, `username` FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``ip_notes``.*, `username` FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `time` DESC");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['modlog_ip'])) {
-		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 50");
 		$query->bindValue(':search', '%' . $ip . '%');
 		$query->execute() or error(db_error($query));
 		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -1941,29 +1941,42 @@ function mod_report_dismiss($id, $all = false) {
 }
 
 
-function mod_config() {
-	global $config, $mod;
+function mod_config($board_config = false) {
+	global $config, $mod, $board;
 	
-	if (!hasPermission($config['mod']['edit_config']))
+	if ($board_config && !openBoard($board_config))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['edit_config'], $board_config))
 		error($config['error']['noaccess']);
 	
+	$config_file = $board_config ? $board['dir'] . 'config.php' : 'inc/instance-config.php';
+	
 	if ($config['mod']['config_editor_php']) {
-		$readonly = !is_writable('inc/instance-config.php');
+		$readonly = !(is_file($config_file) ? is_writable($config_file) : is_writable(dirname($config_file)));
 		
 		if (!$readonly && isset($_POST['code'])) {
 			$code = $_POST['code'];
-			file_put_contents('inc/instance-config.php', $code);
-			header('Location: ?/config', true, $config['redirect_http']);
+			file_put_contents($config_file, $code);
+			header('Location: ?/config' . ($board_config ? '/' . $board_config : ''), true, $config['redirect_http']);
 			return;
 		}
 		
-		$instance_config = file_get_contents('inc/instance-config.php');
+		$instance_config = @file_get_contents($config_file);
+		if ($instance_config === false) {
+			$instance_config = "<?php\n\n// This file does not exist yet. You are creating it.";
+		}
 		$instance_config = str_replace("\n", '&#010;', utf8tohtml($instance_config));
 		
-		mod_page(_('Config editor'), 'mod/config-editor-php.html', array('php' => $instance_config, 'readonly' => $readonly));
+		mod_page(_('Config editor'), 'mod/config-editor-php.html', array(
+			'php' => $instance_config,
+			'readonly' => $readonly,
+			'boards' => listBoards(),
+			'board' => $board_config,
+			'file' => $config_file
+		));
 		return;
 	}
-	
 	
 	require_once 'inc/mod/config-editor.php';
 	
@@ -1975,7 +1988,7 @@ function mod_config() {
 			foreach ($var['name'] as $n)
 				$c = &$c[$n];
 		} else {
-			$c = $config[$var['name']];
+			$c = @$config[$var['name']];
 		}
 		
 		$var['value'] = $c;
@@ -2010,14 +2023,28 @@ function mod_config() {
 					$config_append .= '[' . var_export($var['name'], true) . ']';
 				}
 				
-				$config_append .= ' = ' . var_export($value, true) . ";\n";
+				
+				$config_append .= ' = ';
+				if (@$var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
+					$perm_array = array(
+						JANITOR => 'JANITOR',
+						MOD => 'MOD',
+						ADMIN => 'ADMIN',
+						DISABLED => 'DISABLED'
+					);
+					$config_append .= $perm_array[$value];
+				} else {
+					$config_append .= var_export($value, true);
+				}
+				$config_append .= ";\n";
 			}
 		}
 		
 		if (!empty($config_append)) {
 			$config_append = "\n// Changes made via web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
-		
-			if (!@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
+			if (!is_file($config_file))
+				$config_append = "<?php\n\n$config_append";
+			if (!@file_put_contents($config_file, $config_append, FILE_APPEND)) {
 				$config_append = htmlentities($config_append);
 				
 				if ($config['minify_html'])
@@ -2026,8 +2053,8 @@ function mod_config() {
 				$page['title'] = 'Cannot write to file!';
 				$page['config'] = $config;
 				$page['body'] = '
-					<p style="text-align:center">Tinyboard could not write to <strong>inc/instance-config.php</strong> with the ammended configuration, probably due to a permissions error.</p>
-					<p style="text-align:center">You may proceed with these changes manually by copying and pasting the following code to the end of <strong>inc/instance-config.php</strong>:</p>
+					<p style="text-align:center">Tinyboard could not write to <strong>' . $config_file . '</strong> with the ammended configuration, probably due to a permissions error.</p>
+					<p style="text-align:center">You may proceed with these changes manually by copying and pasting the following code to the end of <strong>' . $config_file . '</strong>:</p>
 					<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . $config_append . '</textarea>
 				';
 				echo Element('page.html', $page);
@@ -2035,12 +2062,18 @@ function mod_config() {
 			}
 		}
 		
-		header('Location: ?/', true, $config['redirect_http']);
+		header('Location: ?/config', true, $config['redirect_http']);
 		
 		exit;
 	}
 	
-	mod_page(_('Config editor'), 'mod/config-editor.html', array('conf' => $conf));
+	mod_page(_('Config editor') . ($board_config ? ': ' . sprintf($config['board_abbreviation'], $board_config) : ''),
+		'mod/config-editor.html', array(
+			'boards' => listBoards(),
+			'board' => $board_config,
+			'conf' => $conf,
+			'file' => $config_file
+	));
 }
 
 function mod_themes_list() {

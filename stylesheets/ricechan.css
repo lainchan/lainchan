@@ -95,7 +95,7 @@ form table tr th {
 	background: #7E3737 !important;
 	color: #B99B9B !important;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], textarea, select {
 	border: 2px solid rgba(94, 50, 50, 0.56) !important;
 	background: #7C7373 !important;
 	color: #311313 !important;
