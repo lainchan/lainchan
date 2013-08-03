@@ -1941,29 +1941,42 @@ function mod_report_dismiss($id, $all = false) {
 }
 
 
-function mod_config() {
-	global $config, $mod;
+function mod_config($board_config = false) {
+	global $config, $mod, $board;
 	
-	if (!hasPermission($config['mod']['edit_config']))
+	if ($board_config && !openBoard($board_config))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['edit_config'], $board_config))
 		error($config['error']['noaccess']);
 	
+	$config_file = $board_config ? $board['dir'] . 'config.php' : 'inc/instance-config.php';
+	
 	if ($config['mod']['config_editor_php']) {
-		$readonly = !is_writable('inc/instance-config.php');
+		$readonly = !(is_file($config_file) ? is_writable($config_file) : is_writable(dirname($config_file)));
 		
 		if (!$readonly && isset($_POST['code'])) {
 			$code = $_POST['code'];
-			file_put_contents('inc/instance-config.php', $code);
+			file_put_contents($config_file, $code);
 			header('Location: ?/config', true, $config['redirect_http']);
 			return;
 		}
 		
-		$instance_config = file_get_contents('inc/instance-config.php');
+		$instance_config = @file_get_contents($config_file);
+		if ($instance_config === false) {
+			$instance_config = "<?php\n\n// This file does not exist yet. You are creating it.";
+		}
 		$instance_config = str_replace("\n", '&#010;', utf8tohtml($instance_config));
 		
-		mod_page(_('Config editor'), 'mod/config-editor-php.html', array('php' => $instance_config, 'readonly' => $readonly));
+		mod_page(_('Config editor'), 'mod/config-editor-php.html', array(
+			'php' => $instance_config,
+			'readonly' => $readonly,
+			'boards' => listBoards(),
+			'board' => $board_config,
+			'file' => $config_file
+		));
 		return;
 	}
-	
 	
 	require_once 'inc/mod/config-editor.php';
 	
@@ -2012,7 +2025,7 @@ function mod_config() {
 				
 				
 				$config_append .= ' = ';
-				if ($var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
+				if (@$var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
 					$perm_array = array(
 						JANITOR => 'JANITOR',
 						MOD => 'MOD',
@@ -2029,8 +2042,9 @@ function mod_config() {
 		
 		if (!empty($config_append)) {
 			$config_append = "\n// Changes made via web editor by \"" . $mod['username'] . "\" @ " . date('r') . ":\n" . $config_append . "\n";
-		
-			if (!@file_put_contents('inc/instance-config.php', $config_append, FILE_APPEND)) {
+			if (!is_file($config_file))
+				$config_append = "<?php\n\n$config_append";
+			if (!@file_put_contents($config_file, $config_append, FILE_APPEND)) {
 				$config_append = htmlentities($config_append);
 				
 				if ($config['minify_html'])
@@ -2039,8 +2053,8 @@ function mod_config() {
 				$page['title'] = 'Cannot write to file!';
 				$page['config'] = $config;
 				$page['body'] = '
-					<p style="text-align:center">Tinyboard could not write to <strong>inc/instance-config.php</strong> with the ammended configuration, probably due to a permissions error.</p>
-					<p style="text-align:center">You may proceed with these changes manually by copying and pasting the following code to the end of <strong>inc/instance-config.php</strong>:</p>
+					<p style="text-align:center">Tinyboard could not write to <strong>' . $config_file . '</strong> with the ammended configuration, probably due to a permissions error.</p>
+					<p style="text-align:center">You may proceed with these changes manually by copying and pasting the following code to the end of <strong>' . $config_file . '</strong>:</p>
 					<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" readonly>' . $config_append . '</textarea>
 				';
 				echo Element('page.html', $page);
@@ -2048,12 +2062,18 @@ function mod_config() {
 			}
 		}
 		
-		header('Location: ?/', true, $config['redirect_http']);
+		header('Location: ?/config', true, $config['redirect_http']);
 		
 		exit;
 	}
 	
-	mod_page(_('Config editor'), 'mod/config-editor.html', array('conf' => $conf));
+	mod_page(_('Config editor') . ($board_config ? ': ' . sprintf($config['board_abbreviation'], $board_config) : ''),
+		'mod/config-editor.html', array(
+			'boards' => listBoards(),
+			'board' => $board_config,
+			'conf' => $conf,
+			'file' => $config_file
+	));
 }
 
 function mod_themes_list() {
