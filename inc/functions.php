@@ -1769,7 +1769,7 @@ function generate_tripcode($name) {
 	
 	// generate salt
 	$salt = substr($trip . 'H..', 1, 2);
-	$salt = preg_replace('/[^\.-z]/', '.', $salt);
+	$salt = preg_replace('/[^.-z]/', '.', $salt);
 	$salt = strtr($salt, ':;<=>?@[\]^_`', 'ABCDEFGabcdef');
 	
 	if ($secure) {
