@@ -58,7 +58,7 @@ function createBoardlist($mod=false) {
 }
 
 function error($message, $priority = true, $debug_stuff = false) {
-	global $board, $mod, $config;
+	global $board, $mod, $config, $db_error;
 	
 	if ($config['syslog'] && $priority !== false) {
 		// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
@@ -68,6 +68,10 @@ function error($message, $priority = true, $debug_stuff = false) {
 	if (defined('STDIN')) {
 		// Running from CLI
 		die('Error: ' . $message . "\n");
+	}
+	
+	if ($config['debug'] && isset($db_error)) {
+		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
 	}
 	
 	die(Element('page.html', array(

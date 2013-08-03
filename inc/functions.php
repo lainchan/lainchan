@@ -155,19 +155,9 @@ function loadConfig() {
 	}
 
 	if ($config['verbose_errors']) {
-		set_error_handler(function($errno, $errstr, $errfile, $errline) {
-			if (error_reporting() == 0)
-				return false; // Looks like this warning was suppressed by the @ operator.
-			error(utf8tohtml($errstr), true, array(
-				'file' => $errfile,
-				'line' => $errline,
-				'errno' => $errno,
-				'error' => $errstr,
-				'backtrace' => array_slice(debug_backtrace(), 1)
-			));
-		});
+		set_error_handler('verbose_error_handler');
 		error_reporting(E_ALL);
-		ini_set('display_errors', true);
+		ini_set('display_errors', false);
 		ini_set('html_errors', false);
 	}
 
@@ -242,6 +232,17 @@ function _syslog($priority, $message) {
 	} else {
 		syslog($priority, $message);
 	}
+}
+
+function verbose_error_handler($errno, $errstr, $errfile, $errline) {
+	if (error_reporting() == 0)
+		return false; // Looks like this warning was suppressed by the @ operator.
+	error(utf8tohtml($errstr), true, array(
+		'file' => $errfile . ':' . $errline,
+		'errno' => $errno,
+		'error' => $errstr,
+		'backtrace' => array_slice(debug_backtrace(), 1)
+	));
 }
 
 function create_antibot($board, $thread = null) {

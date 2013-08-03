@@ -121,14 +121,14 @@ function query($query) {
 	return $pdo->query($query);
 }
 
-function db_error($PDOStatement=null) {
-	global $pdo;
+function db_error($PDOStatement = null) {
+	global $pdo, $db_error;
 
 	if (isset($PDOStatement)) {
-		$err = $PDOStatement->errorInfo();
-		return $err[2];
+		$db_error = $PDOStatement->errorInfo();
+		return $db_error[2];
 	}
 
-	$err = $pdo->errorInfo();
-	return $err[2];
+	$db_error = $pdo->errorInfo();
+	return $db_error[2];
 }
