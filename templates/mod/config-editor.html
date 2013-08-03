@@ -49,8 +49,8 @@
 					{{ var.type|e }}
 				</td>
 				
-				<td>
-					{{ var.comment|join('<br>') }}
+				<td style="word-wrap:break-word;width:50%">
+					{{ var.comment|join(' ') }}
 				</td>
 			</tr>
 		{% endfor %}
