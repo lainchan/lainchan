@@ -19,9 +19,12 @@ a.post_no {
 	color: #ccc;
 }
 div.post.reply, input, textarea {
-	background: rgba(0, 0, 0, 0.1)!important;
-	border: 1px solid rgba(0, 0, 0, 0.2)!important;
-	border-radius: 2px !important;
+	background: rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+}
+div.post.reply.post-hover {
+	background: rgba(200, 200, 200, 0.85);
 }
 div.post.reply.highlighted {
 	background: #f0c0b0;
