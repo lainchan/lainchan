@@ -289,12 +289,12 @@ class ImageConvert extends ImageBase {
 					escapeshellarg($this->temp) . '2>&1 &&echo $?') !== '0') || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			} else {
-				if (trim($error = shell_exec('aconvert ' . sprintf($config['convert_args'], '', $this->width, $this->height) . ' ' .
+				if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '', $this->width, $this->height) . ' ' .
 					escapeshellarg($this->src) . ' ' . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			}
 		} else {
-			if (trim($error = shell_exec('aconvert ' . sprintf($config['convert_args'], '-flatten', $this->width, $this->height) . ' ' .
+			if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '-flatten', $this->width, $this->height) . ' ' .
 				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
 				error('Failed to resize image!', null, $error);
 		}
