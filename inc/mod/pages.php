@@ -2010,7 +2010,20 @@ function mod_config() {
 					$config_append .= '[' . var_export($var['name'], true) . ']';
 				}
 				
-				$config_append .= ' = ' . var_export($value, true) . ";\n";
+				
+				$config_append .= ' = ';
+				if ($var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
+					$perm_array = array(
+						JANITOR => 'JANITOR',
+						MOD => 'MOD',
+						ADMIN => 'ADMIN',
+						DISABLED => 'DISABLED'
+					);
+					$config_append .= $perm_array[$value];
+				} else {
+					$config_append .= var_export($value, true);
+				}
+				$config_append .= ";\n";
 			}
 		}
 		

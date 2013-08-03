@@ -62,6 +62,13 @@ function config_vars() {
 				} else {
 					$var['type'] = gettype($temp);
 				}
+				
+				if ($var['type'] == 'integer' && $var['name'][0] == 'mod' &&
+					(in_array($var['default'], array('JANITOR', 'MOD', 'ADMIN', 'DISABLED')) || mb_strpos($var['default'], "\$config['mod']") === 0)) {
+					// Permissions variable
+					$var['permissions'] = true;
+				}
+				
 				unset($var['default_temp']);
 				if (!is_array($var['name']) || (end($var['name']) != '' && !in_array(reset($var['name']), array('stylesheets')))) {
 					$already_exists = false;
@@ -80,7 +87,8 @@ function config_vars() {
 				'comment' => array(),
 				'default' => false,
 				'default_temp' => false,
-				'commented' => false
+				'commented' => false,
+				'permissions' => false,
 			);
 		}
 		
