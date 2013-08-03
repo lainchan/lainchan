@@ -800,21 +800,21 @@ function mod_page_ip($ip) {
 	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `set` DESC");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['view_notes'])) {
-		$query = prepare("SELECT ``ip_notes``.*, `username` FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip");
+		$query = prepare("SELECT ``ip_notes``.*, `username` FROM ``ip_notes`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `time` DESC");
 		$query->bindValue(':ip', $ip);
 		$query->execute() or error(db_error($query));
 		$args['notes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	if (hasPermission($config['mod']['modlog_ip'])) {
-		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 20");
+		$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `text` LIKE :search ORDER BY `time` DESC LIMIT 50");
 		$query->bindValue(':search', '%' . $ip . '%');
 		$query->execute() or error(db_error($query));
 		$args['logs'] = $query->fetchAll(PDO::FETCH_ASSOC);
