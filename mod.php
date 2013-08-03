@@ -23,7 +23,7 @@ $query = isset($_SERVER['QUERY_STRING']) ? urldecode($_SERVER['QUERY_STRING']) :
 $pages = array(
 	''					=> ':?/',		// redirect to dashboard
 	'/'					=> 'dashboard',		// dashboard
-	'/confir(m/(.+)'				=> 'confirm',		// confirm action (if javascript didn't work)
+	'/confirm/(.+)'				=> 'confirm',		// confirm action (if javascript didn't work)
 	'/logout'				=> 'logout',		// logout
 	
 	'/users'				=> 'users',		// manage users
