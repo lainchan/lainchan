@@ -895,6 +895,9 @@
 
 	// Website favicon.
 	// $config['url_favicon'] = '/favicon.gif';
+	
+	// EXPERIMENTAL: Try not to build pages when we shouldn't have to.
+	$config['try_smarter'] = false;
 
 /*
  * ====================
