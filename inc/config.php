@@ -42,7 +42,7 @@
 
 	// Shows some extra information at the bottom of pages. Good for development/debugging.
 	$config['debug'] = false;
-	// For development purposes. All this does is turn 'display_errors' on.
+	// For development purposes. Displays (and "dies" on) all errors and warnings. Turn on with the above.
 	$config['verbose_errors'] = true;
 
 	// Directory where temporary files will be created.

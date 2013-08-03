@@ -155,10 +155,22 @@ function loadConfig() {
 	}
 
 	if ($config['verbose_errors']) {
+		set_error_handler(function($errno, $errstr, $errfile, $errline) {
+			if (error_reporting() == 0)
+				return false; // Looks like this warning was suppressed by the @ operator.
+			error(utf8tohtml($errstr), true, array(
+				'file' => $errfile,
+				'line' => $errline,
+				'errno' => $errno,
+				'error' => $errstr,
+				'backtrace' => array_slice(debug_backtrace(), 1)
+			));
+		});
 		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
+		ini_set('display_errors', true);
+		ini_set('html_errors', false);
 	}
-	
+
 	// Keep the original address to properly comply with other board configurations
 	if (!isset($__ip))
 		$__ip = $_SERVER['REMOTE_ADDR'];

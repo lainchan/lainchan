@@ -57,7 +57,7 @@ function createBoardlist($mod=false) {
 	);
 }
 
-function error($message, $priority = true) {
+function error($message, $priority = true, $debug_stuff = false) {
 	global $board, $mod, $config;
 	
 	if ($config['syslog'] && $priority !== false) {
@@ -71,16 +71,16 @@ function error($message, $priority = true) {
 	}
 	
 	die(Element('page.html', array(
-		'config'=>$config,
-		'title'=>_('Error'),
-		'subtitle'=>_('An error has occured.'),
-		'body'=>'<center>' .
-		        '<h2>' . _($message) . '</h2>' .
-			(isset($board) ? 
-				"<p><a href=\"" . $config['root'] .
-					($mod ? $config['file_mod'] . '?/' : '') .
-					$board['dir'] . $config['file_index'] . "\">"._("Go back")."</a>.</p>" : '') .
-		        '</center>'
+		'config' => $config,
+		'title' => _('Error'),
+		'subtitle' => _('An error has occured.'),
+		'body' => Element('error.html', array(
+			'config' => $config,
+			'message' => $message,
+			'mod' => $mod,
+			'board' => isset($board) ? $board : false,
+			'debug' => is_array($debug_stuff) ? str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true))) : utf8tohtml($debug_stuff)
+		))
 	)));
 }
 
