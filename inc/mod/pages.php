@@ -1975,7 +1975,7 @@ function mod_config() {
 			foreach ($var['name'] as $n)
 				$c = &$c[$n];
 		} else {
-			$c = $config[$var['name']];
+			$c = @$config[$var['name']];
 		}
 		
 		$var['value'] = $c;

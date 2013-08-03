@@ -355,8 +355,9 @@
 	// Always act as if the user had typed "noko" into the email field.
 	$config['always_noko'] = false;
 
-	// Custom tripcodes. The below example makes a tripcode of "#test123" evaluate to "!HelloWorld".
+	// Example: Custom tripcodes. The below example makes a tripcode of "#test123" evaluate to "!HelloWorld".
 	// $config['custom_tripcode']['#test123'] = '!HelloWorld';
+	// Example: Custom secure tripcode.
 	// $config['custom_tripcode']['##securetrip'] = '!!somethingelse';
 
 	// Allow users to mark their image as a "spoiler" when posting. The thumbnail will be replaced with a
@@ -523,6 +524,7 @@
 	// Thumbnail to use for the non-image file uploads.
 	$config['file_icons']['default'] = 'file.png';
 	$config['file_icons']['zip'] = 'zip.png';
+	// Example: Custom thumbnail for certain file extension.
 	// $config['file_icons']['extension'] = 'some_file.png';
 
 	// Location of above images.
@@ -1199,7 +1201,8 @@
 	// 	array('127.0.0.1', 80)
 	// 	array('127.0.0.1', 80, 'example.org')
 	// );
-	// Connection timeout, in seconds.
+
+	// Connection timeout for $config['purge'], in seconds.
 	$config['purge_timeout'] = 3;
 
 	// Additional mod.php?/ pages. Look in inc/mod/pages.php for help.
@@ -1210,7 +1213,7 @@
 	// 	// ...
 	// };
 
-	// Add links to dashboard (will all be in a new "Other" category).
+	// Example: Add links to dashboard (will all be in a new "Other" category).
 	// $config['mod']['dashboard_links']['Something'] = '?/something';
 
 	// Remote servers. I'm not even sure if this code works anymore. It might. Haven't tried it in a while.

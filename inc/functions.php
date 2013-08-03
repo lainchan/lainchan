@@ -157,7 +157,7 @@ function loadConfig() {
 	if ($config['verbose_errors']) {
 		set_error_handler('verbose_error_handler');
 		error_reporting(E_ALL);
-		ini_set('display_errors', false);
+		ini_set('display_errors', true);
 		ini_set('html_errors', false);
 	}
 
