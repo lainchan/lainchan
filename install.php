@@ -619,7 +619,7 @@ if ($step == 0) {
 	
 	sql_open();
 	if (mysql_version() < 50503)
-		$sql = str_replace('utf8', 'utf8mb4', $sql);
+		$sql = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $sql);
 	
 	// This code is probably horrible, but what I'm trying
 	// to do is find all of the SQL queires and put them
