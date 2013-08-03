@@ -281,7 +281,7 @@
 	// Do you need a body for your reply posts?
 	$config['force_body'] = false;
 	// Do you need a body for new threads?
-	$config['force_body_op'] = true;	
+	$config['force_body_op'] = true;
 	// Require an image for threads?
 	$config['force_image_op'] = true;
 
