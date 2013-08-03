@@ -294,7 +294,7 @@ class ImageConvert extends ImageBase {
 					error('Failed to resize image!');
 			}
 		} else {
-			if (shell_exec('convert ' . sprintf($config['convert_args'], $this->width, $this->height) .
+			if (shell_exec('convert -flatten ' . sprintf($config['convert_args'], $this->width, $this->height) .
 				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
 				error('Failed to resize image!');
 		}
