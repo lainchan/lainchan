@@ -286,7 +286,7 @@ class ImageConvert extends ImageBase {
 			if ($this->gifsicle) {
 				if (trim(shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
 					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" > " .
-					escapeshellarg($this->temp) . ';echo $?' !== '0') || !file_exists($this->temp))
+					escapeshellarg($this->temp) . ';echo $?') !== '0') || !file_exists($this->temp))
 					error('Failed to resize image!');
 			} else {
 				if (trim(shell_exec('convert ' . sprintf($config['convert_args'], $this->width, $this->height) . ' ' .
