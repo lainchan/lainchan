@@ -2,8 +2,8 @@
 
 var cache = new Array(),
 	thread = false,
-	loading = false;
-
+	loading = false,
+	ukkotimer = false;
 if (localStorage.hiddenboards !== null) {
 	localStorage.hiddenboards = "{}";
 }
@@ -52,11 +52,11 @@ $(document).ready(function() {
 	$("h2").each(addukkohide);
 
 	$('.pages').hide();
-	$(window).on('scroll', function() {
+	var loadnext = function() {
 		if (overflow.length == 0) {
 			$('.pages').show().html(_("No more threads to display"));
 		}
-		while($(window).scrollTop() + $(window).height() + 500 > $(document).height() && !loading && overflow.length > 0) {
+		while($(window).scrollTop() + $(window).height() + 1000 > $(document).height() && !loading && overflow.length > 0) {
 			var page = '../' + overflow[0].board + '/' + overflow[0].page;
 			thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"]');
 			if (thread.length > 0 && thread.attr("data-cached") !== 'yes') { // already present
@@ -66,11 +66,13 @@ $(document).ready(function() {
 
 			var boardheader = $('<h2><a href="/' + overflow[0].board + '/">/' + overflow[0].board + '/</a> </h2>');
 
-			if($.inArray(page, cache) != -1 && thread.length > 0) {
-				$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).attr("data-cached", "no").css('display', 'block'));
-				boardheader.insertBefore(thread);
-				addukkohide.call(boardheader);
-				$(document).trigger('new_post', thread);
+			if($.inArray(page, cache) != -1) {
+				if (thread.length > 0) {
+					$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).attr("data-cached", "no").css('display', 'block'));
+					boardheader.insertBefore(thread);
+					addukkohide.call(boardheader);
+					$(document).trigger('new_post', thread);
+				}
 				overflow.shift();
 			} else {
 				loading = true;
@@ -92,11 +94,8 @@ $(document).ready(function() {
 						boardheader.insertBefore(thread);
 						addukkohide.call(boardheader);
 						$(document).trigger('new_post', thread);
-						overflow.shift();
 					}
-					else {
-						overflow.shift(); // We missed it? Or already present...
-					}
+					overflow.shift();
 
 					loading = false;
 					$('.pages').hide().html("");
@@ -104,7 +103,13 @@ $(document).ready(function() {
 				break;
 			}
 		}
-	});
+		clearTimeout(ukkotimer);
+		ukkotimer = setTimeout(loadnext, 1000);
+	};
+
+	$(window).on('scroll', loadnext);
+
+	ukkotimer = setTimeout(loadnext, 1000);
 });
 
 })();
