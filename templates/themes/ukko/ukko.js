@@ -82,10 +82,9 @@ $(document).ready(function() {
 						$('form[name="postcontrols"]').prepend($(this).css('display', 'none').attr("data-cached", "yes").attr('data-board', overflow[0].board));
 					});
 
-					thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"]');
-					var existingthread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"][data-cached="no"]');
+					thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"][data-cached="yes"]');
 
-					if(existingthread.length == 0 && thread.length > 0 && thread.attr('data-cached') !== 'no') {
+					if(thread.length > 0) {
 						$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).attr("data-cached", "no").css('display', 'block'));
 						boardheader.insertBefore(thread);
 						addukkohide.call(boardheader);
