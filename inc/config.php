@@ -63,6 +63,10 @@
 	// Use `host` via shell_exec() to lookup hostnames, avoiding query timeouts. May not work on your system.
 	// Requires safe_mode to be disabled.
 	$config['dns_system'] = false;
+	
+	// When executing most command-line tools (such as `convert` for ImageMagick image processing), add this
+	// to the environment path (seperated by :).
+	$config['shell_path'] = '/usr/local/bin';
 
 /*
  * ====================
@@ -488,7 +492,11 @@
 	 *   'convert'      The command line version of ImageMagick (`convert`). Fixes most of the bugs in
 	 *                  PHP Imagick. `convert` produces the best still thumbnails and is highly recommended.
 	 *
-	 *   'convert+gifsicle'  Same as above, with the exception of using `gifsicle` (command line application)
+	 *   'gm'           GraphicsMagick (`gm`) is a fork of ImageMagick with many improvements. It is more
+	 *                  efficient and gets thumbnailing done using fewer resources.
+	 *
+	 *   'convert+gifscale'
+	 *    OR  'gm+gifsicle'  Same as above, with the exception of using `gifsicle` (command line application)
 	 *                       instead of `convert` for resizing GIFs. It's faster and resulting animated
 	 *                       thumbnails have less artifacts than if resized with ImageMagick.
 	 */
@@ -497,10 +505,24 @@
 
 	// Command-line options passed to ImageMagick when using `convert` for thumbnailing. Don't touch the
 	// placement of "%s" and "%d".
-	$config['convert_args'] = '-background transparent %s -strip -thumbnail %dx%d -quality 65';
+	$config['convert_args'] = '-size %dx%d %s -thumbnail %dx%d +profile "*" %s';
 
 	// Strip EXIF metadata from JPEG files.
 	$config['strip_exif'] = false;
+	// Use the command-line `exiftool` tool to strip EXIF metadata without decompressing/recompressing JPEGs.
+	// Ignored when $config['redraw_image'] is true.
+	$config['strip_with_exiftool'] = false;
+	
+	// Redraw the image to strip any excess data (commonly ZIP archives) WARNING: This might strip the
+	// animation of GIFs, depending on the chosen thumbnailing method. It also requires recompressing
+	// the image, so more processing power is required.
+	$config['redraw_image'] = false;
+	
+	// Automatically correct the orientation of JPEG files using -auto-orient in `convert`. This only works
+	// when `convert` or `gm` is selected for thumbnailing. Again, requires more processing power because
+	// this basically does the same thing as $config['redraw_image']. (If $config['redraw_image'] is enabled,
+	// this value doesn't matter as $config['redraw_image'] attempts to correct orientation too.)
+	$config['convert_auto_orient'] = false;
 
 	// Regular expression to check for an XSS exploit with IE 6 and 7. To disable, set to false.
 	// Details: https://github.com/savetheinternet/Tinyboard/issues/20
@@ -562,10 +584,6 @@
 
 	// Display image identification links using regex.info/exif, TinEye and Google Images.
 	$config['image_identification'] = false;
-
-	// Redraw the image to strip any excess data (commonly ZIP archives) WARNING: This might strip the
-	// animation of GIFs, depending on the chosen thumbnailing method.
-	$config['redraw_image'] = false;
 
 /*
  * ====================

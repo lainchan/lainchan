@@ -80,7 +80,7 @@ function loadConfig() {
 
 	if ($config['debug']) {
 		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
+			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
 			$debug['start'] = microtime(true);
 		}
 	}
@@ -849,7 +849,7 @@ function bumpThread($id) {
 
 	if ($config['try_smarter'])
 		$build_pages[] = thread_find_page($id);
-	
+
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `bump` = :time WHERE `id` = :id AND `thread` IS NULL", $board['uri']));
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -1289,7 +1289,7 @@ function buildIndex() {
 
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
-		
+
 		if ($config['try_smarter'] && isset($build_pages) && count($build_pages) && !in_array($page, $build_pages) && is_file($filename))
 			continue;
 		$content = index($page);
@@ -1958,4 +1958,25 @@ function DNS($host) {
 		cache::set('dns_' . $host, $ip_addr, 3600);
 
 	return $ip_addr;
+}
+
+function shell_exec_error($command) {
+	global $config, $debug;
+
+	if ($config['debug'])
+		$start = microtime(true);
+
+	$return = trim(shell_exec('PATH="' . escapeshellcmd($config['shell_path']) . ':$PATH";' . $command . ' 2>&1 && echo "TB_SUCCESS"'));
+	$return = preg_replace('/TB_SUCCESS$/', '', $return);
+
+	if ($config['debug']) {
+		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+		$debug['exec'][] = array(
+			'command' => $command,
+			'time' => '~' . $time,
+			'response' => $return ? $return : null
+		);
+	}
+
+	return $return === 'TB_SUCCESS' ? false : $return;
 }
