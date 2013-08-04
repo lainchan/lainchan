@@ -983,6 +983,10 @@
 	// persistent spammers and ban evaders. Again, a little more database load.
 	$config['ban_cidr'] = true;
 
+	// How often (minimum) to purge the ban list of expired bans (which have been seen). Only works when
+	// $config['cache'] is enabled and working.
+	$config['purge_bans'] = 60 * 60 * 12; // 12 hours
+
 	// Do DNS lookups on IP addresses to get their hostname for the moderator IP pages (?/IP/x.x.x.x).
 	$config['mod']['dns_lookup'] = true;
 	// How many recent posts, per board, to show in ?/IP/x.x.x.x.

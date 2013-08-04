@@ -687,9 +687,19 @@ function checkBan($board = 0) {
 
 // No reason to keep expired bans in the database (except those that haven't been viewed yet)
 function purge_bans() {
+	global $config;
+	
+	if ($config['cache']['enabled'] && $last_time_purged = cache::get('purged_bans_last')) {
+		if (time() - $last_time_purged < 60 * 30)
+			return;
+	}
+	
 	$query = prepare("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
 	$query->bindValue(':time', time());
 	$query->execute() or error(db_error($query));
+	
+	if ($config['cache']['enabled'])
+		cache::set('purged_bans_last', time());
 }
 
 function threadLocked($id) {
