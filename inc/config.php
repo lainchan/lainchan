@@ -505,7 +505,7 @@
 
 	// Command-line options passed to ImageMagick when using `convert` for thumbnailing. Don't touch the
 	// placement of "%s" and "%d".
-	$config['convert_args'] = '-size %dx%d %s -thumbnail %dx%d +profile "*" %s';
+	$config['convert_args'] = '-size %dx%d %s -thumbnail %dx%d -auto-orient +profile "*" %s';
 
 	// Strip EXIF metadata from JPEG files.
 	$config['strip_exif'] = false;
@@ -794,27 +794,27 @@
  */
 
 	// Error messages
-	$config['error']['lurk']			= _('Lurk some more before posting.');
-	$config['error']['bot']				= _('You look like a bot.');
-	$config['error']['referer']			= _('Your browser sent an invalid or no HTTP referer.');
-	$config['error']['toolong']			= _('The %s field was too long.');
+	$config['error']['lurk']		= _('Lurk some more before posting.');
+	$config['error']['bot']			= _('You look like a bot.');
+	$config['error']['referer']		= _('Your browser sent an invalid or no HTTP referer.');
+	$config['error']['toolong']		= _('The %s field was too long.');
 	$config['error']['toolong_body']	= _('The body was too long.');
 	$config['error']['tooshort_body']	= _('The body was too short or empty.');
-	$config['error']['noimage']			= _('You must upload an image.');
-	$config['error']['nomove']			= _('The server failed to handle your upload.');
-	$config['error']['fileext']			= _('Unsupported image format.');
-	$config['error']['noboard']			= _('Invalid board!');
+	$config['error']['noimage']		= _('You must upload an image.');
+	$config['error']['nomove']		= _('The server failed to handle your upload.');
+	$config['error']['fileext']		= _('Unsupported image format.');
+	$config['error']['noboard']		= _('Invalid board!');
 	$config['error']['nonexistant']		= _('Thread specified does not exist.');
-	$config['error']['locked']			= _('Thread locked. You may not reply at this time.');
+	$config['error']['locked']		= _('Thread locked. You may not reply at this time.');
 	$config['error']['reply_hard_limit']	= _('Thread has reached its maximum reply limit.');
 	$config['error']['image_hard_limit']	= _('Thread has reached its maximum image limit.');
-	$config['error']['nopost']			= _('You didn\'t make a post.');
-	$config['error']['flood']			= _('Flood detected; Post discarded.');
-	$config['error']['spam']			= _('Your request looks automated; Post discarded.');
+	$config['error']['nopost']		= _('You didn\'t make a post.');
+	$config['error']['flood']		= _('Flood detected; Post discarded.');
+	$config['error']['spam']		= _('Your request looks automated; Post discarded.');
 	$config['error']['unoriginal']		= _('Unoriginal content!');
-	$config['error']['muted']			= _('Unoriginal content! You have been muted for %d seconds.');
+	$config['error']['muted']		= _('Unoriginal content! You have been muted for %d seconds.');
 	$config['error']['youaremuted']		= _('You are muted! Expires in %d seconds.');
-	$config['error']['dnsbl']			= _('Your IP address is listed in %s.');
+	$config['error']['dnsbl']		= _('Your IP address is listed in %s.');
 	$config['error']['toomanylinks']	= _('Too many links; flood detected.');
 	$config['error']['toomanycites']	= _('Too many cites; post discarded.');
 	$config['error']['toomanycross']	= _('Too many cross-board links; post discarded.');
@@ -825,19 +825,19 @@
 	$config['error']['invalidimg']		= _('Invalid image.');
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
-	$config['error']['maxsize']			= _('The file was too big.');
+	$config['error']['maxsize']		= _('The file was too big.');
 	$config['error']['invalidzip']		= _('Invalid archive!');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
 	$config['error']['mime_exploit']	= _('MIME type detection XSS exploit (IE) detected; post discarded.');
 	$config['error']['invalid_embed']	= _('Couldn\'t make sense of the URL of the video you tried to embed.');
-	$config['error']['captcha']			= _('You seem to have mistyped the verification.');
+	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
 
 	// Moderator errors
 	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');
-	$config['error']['invalid']			= _('Invalid username and/or password.');
-	$config['error']['notamod']			= _('You are not a mod…');
+	$config['error']['invalid']		= _('Invalid username and/or password.');
+	$config['error']['notamod']		= _('You are not a mod…');
 	$config['error']['invalidafter']	= _('Invalid username and/or password. Your user may have been deleted or changed.');
 	$config['error']['malformed']		= _('Invalid/malformed cookies.');
 	$config['error']['missedafield']	= _('Your browser didn\'t submit an input when it should have.');
@@ -846,10 +846,10 @@
 	$config['error']['boardexists']		= _('There is already a %s board.');
 	$config['error']['noaccess']		= _('You don\'t have permission to do that.');
 	$config['error']['invalidpost']		= _('That post doesn\'t exist…');
-	$config['error']['404']				= _('Page not found.');
+	$config['error']['404']			= _('Page not found.');
 	$config['error']['modexists']		= _('That mod <a href="?/users/%d">already exists</a>!');
 	$config['error']['invalidtheme']	= _('That theme doesn\'t exist!');
-	$config['error']['csrf']			= _('Invalid security token! Please go back and try again.');
+	$config['error']['csrf']		= _('Invalid security token! Please go back and try again.');
 
 /*
  * =========================

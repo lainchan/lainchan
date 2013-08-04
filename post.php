@@ -452,7 +452,7 @@ if (isset($_POST['delete'])) {
 			if ($config['convert_auto_orient'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')) {
 				// The following code corrects the image orientation.
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
-				if (!($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
+				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['strip_with_exiftool']) && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
 					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
 						$exif = exif_read_data($upload);
 						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
@@ -460,6 +460,7 @@ if (isset($_POST['delete'])) {
 							if($error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
 									escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload)))
 								error('Could not auto-orient image!', null, $error);
+							$size = @getimagesize($upload);
 						}
 					}
 				}
