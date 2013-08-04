@@ -690,7 +690,7 @@ function purge_bans() {
 	global $config;
 	
 	if ($config['cache']['enabled'] && $last_time_purged = cache::get('purged_bans_last')) {
-		if (time() - $last_time_purged < 60 * 30)
+		if (time() - $last_time_purged < $config['purge_bans'] )
 			return;
 	}
 	
