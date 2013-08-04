@@ -87,7 +87,7 @@ class Image {
 		}
 		
 		$thumb->_resize($this->image->image, $width, $height);
-		
+				
 		return $thumb;
 	}
 	
@@ -248,15 +248,25 @@ class ImageConvert extends ImageBase {
 		
 		$this->temp = false;
 	}
+	public function get_size($src, $try_gd_first = true) {
+		if ($try_gd_first) {
+			if ($size = @getimagesize($src))
+				return $size;
+		}
+		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($src . '[0]'));
+		if (preg_match('/^(\d+) (\d+)$/', $size, $m))
+			return array($m[1], $m[2]);
+		return false;
+	}
 	public function from() {
 		if ($this->width > 0 && $this->height > 0) {
 			$this->image = true;
 			return;
 		}
-		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($this->src . '[0]'));
-		if (preg_match('/^(\d+) (\d+)$/', $size, $m)) {
-			$this->width = $m[1];
-			$this->height = $m[2];
+		$size = $this->get_size($this->src, false);
+		if ($size) {
+			$this->width = $size[1];
+			$this->height = $size[2];
 			
 			$this->image = true;
 		} else {
@@ -272,13 +282,13 @@ class ImageConvert extends ImageBase {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
 						escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src))) {
 					$this->destroy();
-					error('Failed to resize image!', null, $error);
+					error('Failed to redraw image!', null, $error);
 				}
 			} else {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
 						escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src))) {
 					$this->destroy();
-					error('Failed to resize image!', null, $error);
+					error('Failed to redraw image!', null, $error);
 				}
 			}
 		} else {
@@ -324,6 +334,10 @@ class ImageConvert extends ImageBase {
 						$this->height,
 						escapeshellarg($this->temp))) || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
+				if ($size = $this->get_size($this->temp)) {
+					$this->width = $size[0];
+					$this->height = $size[1];
+				}
 			}
 		} else {
 			if ($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
@@ -335,6 +349,10 @@ class ImageConvert extends ImageBase {
 					$this->height,
 					escapeshellarg($this->temp))) || !file_exists($this->temp))
 				error('Failed to resize image!', null, $error);
+			if ($size = $this->get_size($this->temp)) {
+				$this->width = $size[0];
+				$this->height = $size[1];
+			}
 		}
 	}
 }
