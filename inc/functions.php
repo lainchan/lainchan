@@ -1901,7 +1901,7 @@ function rDNS($ip_addr) {
 	if (!$config['dns_system']) {
 		$host = gethostbyaddr($ip_addr);
 	} else {
-		$resp = shell_exec('host -W 1 ' . $ip_addr);
+		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
 			$host = $m[1];
 		else
@@ -1926,7 +1926,7 @@ function DNS($host) {
 		if ($ip_addr == $host)
 			$ip_addr = false;
 	} else {
-		$resp = shell_exec('host -W 1 ' . $host);
+		$resp = shell_exec_error('host -W 1 ' . $host);
 		if (preg_match('/has address ([^\s]+)$/', $resp, $m))
 			$ip_addr = $m[1];
 		else
