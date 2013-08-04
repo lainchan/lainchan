@@ -1,5 +1,43 @@
 <?php
 
+function permission_to_edit_config_var($varname) {
+	global $config, $mod;
+
+	if (is_array($config['mod']['config'][DISABLED])) {
+		foreach ($config['mod']['config'][DISABLED] as $disabled_var_name) {
+			$disabled_var_name = explode('>', $disabled_var_name);
+			if (count($disabled_var_name) == 1)
+				$disabled_var_name = $disabled_var_name[0];
+			if ($varname == $disabled_var_name)
+				return false;
+		}
+	}
+	
+	$allow_only = false;
+	// for ($perm = (int)$mod['type']; $perm >= JANITOR; $perm --) {
+	for ($perm = JANITOR; $perm <= (int)$mod['type']; $perm ++) {
+		$allow_only = false;
+		if (is_array($config['mod']['config'][$perm])) {
+			foreach ($config['mod']['config'][$perm] as $perm_var_name) {
+				if ($perm_var_name == '!') {
+					$allow_only = true;
+					continue;
+				}
+				$perm_var_name = explode('>', $perm_var_name);
+				if ((count($perm_var_name) == 1 && $varname == $perm_var_name[0]) ||
+						(is_array($varname) && array_slice($varname, 0, count($perm_var_name)) == $perm_var_name)) {
+					if ($allow_only)
+						return true;
+					else
+						return false;
+				}
+			}
+		}
+	}
+	
+	return !$allow_only;
+}
+
 function config_vars() {
 	global $config;
 	
@@ -77,8 +115,8 @@ function config_vars() {
 							$already_exists = true;
 							
 					}
-					if (!$already_exists)
-					$conf[] = $var;
+					if (!$already_exists && permission_to_edit_config_var($var['name']))
+						$conf[] = $var;
 				}
 			}
 			

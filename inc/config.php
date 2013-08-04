@@ -1187,12 +1187,47 @@
 	$config['mod']['news_custom'] = ADMIN;
 	// Delete news entries
 	$config['mod']['news_delete'] = ADMIN;
-
-	// Edit the current configuration (via web interface)
-	$config['mod']['edit_config'] = ADMIN;
-
 	// Execute un-filtered SQL queries on the database (?/debug/sql)
 	$config['mod']['debug_sql'] = DISABLED;
+	// Edit the current configuration (via web interface)
+	$config['mod']['edit_config'] = MOD;
+
+	// Config editor permissions
+	$config['mod']['config'] = array(
+		JANITOR => false,
+		MOD => false,
+		ADMIN => false,
+		DISABLED => false,
+	);
+
+	// Disable the following configuration variables from being changed via ?/config. The following default
+	// banned variables are considered somewhat dangerous.
+	$config['mod']['config'][DISABLED] = array(
+		'mod>config',
+		'mod>config_editor_php',
+		'convert_args',
+		'db>password',
+	);
+	
+	$config['mod']['config'][JANITOR] = array(
+		'!', // Allow editing ONLY the variables listed (in this case, nothing).
+	);
+	
+	$config['mod']['config'][MOD] = array(
+		'!', // Allow editing ONLY the variables listed (plus that in $config['mod']['config'][JANITOR]).
+		'global_message',
+	);
+	
+	// Example: Disallow ADMIN from editing (and viewing) $config['db']['password'].
+	// $config['mod']['config'][ADMIN] = array(
+	// 	'db>password',
+	// );
+	
+	// Example: Allow ADMIN to edit anything other than $config['db']
+	// (and $config['mod']['config'][DISABLED]).
+	// $config['mod']['config'][ADMIN] = array(
+	// 	'db',
+	// );
 
 /*
  * ====================
