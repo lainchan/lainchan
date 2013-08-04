@@ -523,6 +523,11 @@
 	// this basically does the same thing as $config['redraw_image']. (If $config['redraw_image'] is enabled,
 	// this value doesn't matter as $config['redraw_image'] attempts to correct orientation too.)
 	$config['convert_auto_orient'] = false;
+	
+	// Is your version of ImageMagick or GraphicsMagick old? Older versions may not include the -auto-orient
+	// switch. This is a manual replacement for that switch. This is independent from the above switch;
+	// -auto-orrient is applied when thumbnailing too.
+	$config['convert_manual_orient'] = false;
 
 	// Regular expression to check for an XSS exploit with IE 6 and 7. To disable, set to false.
 	// Details: https://github.com/savetheinternet/Tinyboard/issues/20

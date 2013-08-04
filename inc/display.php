@@ -69,7 +69,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 		// Running from CLI
 		die('Error: ' . $message . "\n");
 	}
-	
+
 	if ($config['debug'] && isset($db_error)) {
 		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
 	}

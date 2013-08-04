@@ -457,8 +457,16 @@ if (isset($_POST['delete'])) {
 						$exif = exif_read_data($upload);
 						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
 						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
-							if($error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
-									escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload)))
+							if ($config['convert_manual_orient']) {
+								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
+									escapeshellarg($upload) . ' ' .
+									ImageConvert::jpeg_exif_orientation(false, $exif) . ' +profile "*" ' .
+									escapeshellarg($upload));
+							} else {
+								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
+										escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));
+							}
+							if ($error)
 								error('Could not auto-orient image!', null, $error);
 							$size = @getimagesize($upload);
 						}
