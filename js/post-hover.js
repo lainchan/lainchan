@@ -23,7 +23,14 @@ onready(function(){
 		} else {
 			return;
 		}
-		
+
+		var board = $(this);
+		while (board.data('board') === undefined) {
+			board = board.parent();
+		}
+		var threadid = board.attr('id');
+		board = board.data('board');
+
 		var $post = false;
 		var hovering = false;
 		var hovered_at;
@@ -43,6 +50,7 @@ onready(function(){
 					$newPost.find('span.mentioned').remove();
 					$newPost
 						.attr('id', 'post-hover-' + id)
+						.attr('data-board', board)
 						.addClass('post-hover')
 						.css('position', 'absolute')
 						.css('border-style', 'solid')
@@ -53,7 +61,7 @@ onready(function(){
 				}
 			};
 			
-			$post = $('div.post#reply_' + id);
+			$post = $('[data-board="' + board + '"] div.post#reply_' + id);
 			if($post.length > 0) {
 				start_hover($(this));
 			} else {
@@ -69,12 +77,12 @@ onready(function(){
 					context: document.body,
 					success: function(data) {
 						$(data).find('div.post.reply').each(function() {
-							if($('#' + $(this).attr('id')).length == 0)
-								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
+							if($('[data-board="' + board + '"] #' + $(this).attr('id')).length == 0)
+								$('[data-board="' + board + '"]#' + threadid + " .post.reply:first").before($(this).css('display', 'none').addClass('hidden'));
 
 						});
 						
-						$post = $('div.post#reply_' + id);
+						$post = $('[data-board="' + board + '"] div.post#reply_' + id);
 						if(hovering && $post.length > 0) {
 							start_hover($link);
 						}
@@ -94,7 +102,7 @@ onready(function(){
 			if(!$post)
 				return;
 			
-			var $hover = $('#post-hover-' + id);
+			var $hover = $('#post-hover-' + id + '[data-board="' + board + '"]');
 			if($hover.length == 0)
 				return;
 			
