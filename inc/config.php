@@ -504,7 +504,7 @@
 
 	// Command-line options passed to ImageMagick when using `convert` for thumbnailing. Don't touch the
 	// placement of "%s" and "%d".
-	$config['convert_args'] = '-size %dx%djjj %s -thumbnail %dx%d -auto-orient +profile "*" %s';
+	$config['convert_args'] = '-size %dx%d %s -thumbnail %dx%d -auto-orient +profile "*" %s';
 
 	// Strip EXIF metadata from JPEG files.
 	$config['strip_exif'] = false;
