@@ -450,7 +450,7 @@ if (isset($_POST['delete'])) {
 			if ($config['convert_auto_orient'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')) {
 				// The following code corrects the image orientation.
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
-				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['strip_with_exiftool']) && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
+				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['use_exiftool']) && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
 					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
 						$exif = exif_read_data($upload);
 						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
@@ -458,8 +458,17 @@ if (isset($_POST['delete'])) {
 							if ($config['convert_manual_orient']) {
 								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
 									escapeshellarg($upload) . ' ' .
-									ImageConvert::jpeg_exif_orientation(false, $exif) . ' +profile "*" ' .
+									ImageConvert::jpeg_exif_orientation(false, $exif) . ' ' .
+									($config['strip_exif'] ? '+profile "*"' : ($config['use_exiftool'] ? '' : '+profile "*"')) . ' ' .
 									escapeshellarg($upload));
+								if ($config['use_exiftool']) {
+									if ($exiftool_error = shell_exec_error(
+										'exiftool -q -orientation=1 -n ' . escapeshellarg($upload)))
+										error('exiftool failed!', null, $exiftool_error);
+								} else {
+									// TODO: Find another way to remove the Orientation tag from the EXIF profile
+									// without needing `exiftool`.
+								}
 							} else {
 								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
 										escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));
@@ -514,7 +523,7 @@ if (isset($_POST['delete'])) {
 			}
 			
 			if ($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
-				if (!$config['redraw_image'] && $config['strip_with_exiftool']) {
+				if (!$config['redraw_image'] && $config['use_exiftool']) {
 					if($error = shell_exec_error('exiftool -q -all= ' . escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
 				} else {

@@ -509,8 +509,9 @@
 	// Strip EXIF metadata from JPEG files.
 	$config['strip_exif'] = false;
 	// Use the command-line `exiftool` tool to strip EXIF metadata without decompressing/recompressing JPEGs.
-	// Ignored when $config['redraw_image'] is true.
-	$config['strip_with_exiftool'] = false;
+	// Ignored when $config['redraw_image'] is true. This is also used to adjust the Orientation tag when
+	// $config['strip_exif'] is false and $config['convert_manual_orient'] is true.
+	$config['use_exiftool'] = false;
 	
 	// Redraw the image to strip any excess data (commonly ZIP archives) WARNING: This might strip the
 	// animation of GIFs, depending on the chosen thumbnailing method. It also requires recompressing
