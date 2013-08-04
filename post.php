@@ -459,9 +459,11 @@ if (isset($_POST['delete'])) {
 								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
 									escapeshellarg($upload) . ' ' .
 									ImageConvert::jpeg_exif_orientation(false, $exif) . ' ' .
-									($config['strip_exif'] ? '+profile "*"' : ($config['use_exiftool'] ? '' : '+profile "*"')) . ' ' .
+									($config['strip_exif'] ? '+profile "*"' :
+										($config['use_exiftool'] ? '' : '+profile "*"')
+									) . ' ' .
 									escapeshellarg($upload));
-								if ($config['use_exiftool']) {
+								if ($config['use_exiftool'] && !$config['strip_exif']) {
 									if ($exiftool_error = shell_exec_error(
 										'exiftool -q -orientation=1 -n ' . escapeshellarg($upload)))
 										error('exiftool failed!', null, $exiftool_error);
@@ -476,6 +478,8 @@ if (isset($_POST['delete'])) {
 							if ($error)
 								error('Could not auto-orient image!', null, $error);
 							$size = @getimagesize($upload);
+							if ($config['strip_exif'])
+								$post['exif_stripped'] = true;
 						}
 					}
 				}
@@ -522,7 +526,7 @@ if (isset($_POST['delete'])) {
 				$thumb->_destroy();
 			}
 			
-			if ($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
+			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
 					if($error = shell_exec_error('exiftool -q -all= ' . escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
