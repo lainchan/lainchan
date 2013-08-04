@@ -83,7 +83,9 @@ $(document).ready(function() {
 					});
 
 					thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"]');
-					if(thread.length > 0 && thread.attr('data-cached') !== 'no') {
+					var existingthread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"][data-cached="no"]');
+
+					if(existingthread.length == 0 && thread.length > 0 && thread.attr('data-cached') !== 'no') {
 						$('div[id*="thread_"]').last().after(thread.attr('data-board', overflow[0].board).attr("data-cached", "no").css('display', 'block'));
 						boardheader.insertBefore(thread);
 						addukkohide.call(boardheader);
