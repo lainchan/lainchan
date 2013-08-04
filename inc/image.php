@@ -321,8 +321,8 @@ class ImageConvert extends ImageBase {
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
 				if (($error = shell_exec_error("gifsicle -w --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
-					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" >/dev/null -o " .
-					escapeshellarg($this->temp))) || !file_exists($this->temp))
+					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" -o " .
+					escapeshellarg($this->temp), true)) || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			} else {
 				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
