@@ -475,8 +475,8 @@
 
 	// Maximum amount of animated GIF frames to resize (more frames can mean more processing power). A value
 	// of "1" means thumbnails will not be animated. Requires $config['thumb_ext'] to be 'gif' (or blank) and
-	// $config['thumb_method'] to be 'imagick', 'convert', or 'convert+gifsicle'. This value is not respected
-	// by 'convert'; will just resize all frames if this is > 1.
+	//  $config['thumb_method'] to be 'imagick', 'convert', or 'convert+gifsicle'. This value is not
+	// respected by 'convert'; will just resize all frames if this is > 1.
 	$config['thumb_keep_animation_frames'] = 1;
 
 	/*
@@ -510,7 +510,7 @@
 	$config['strip_exif'] = false;
 	// Use the command-line `exiftool` tool to strip EXIF metadata without decompressing/recompressing JPEGs.
 	// Ignored when $config['redraw_image'] is true. This is also used to adjust the Orientation tag when
-	// $config['strip_exif'] is false and $config['convert_manual_orient'] is true.
+	//  $config['strip_exif'] is false and $config['convert_manual_orient'] is true.
 	$config['use_exiftool'] = false;
 	
 	// Redraw the image to strip any excess data (commonly ZIP archives) WARNING: This might strip the
@@ -579,7 +579,7 @@
 	// Reject duplicate image uploads.
 	$config['image_reject_repost'] = true;
 	// Reject duplicate image uploads within the same thread. Doesn't change anything if
-	// $config['image_reject_repost'] is true.
+	//  $config['image_reject_repost'] is true.
 	$config['image_reject_repost_in_thread'] = false;
 
 	// Display the aspect ratio of uploaded files.
@@ -606,7 +606,7 @@
 	$config['threads_preview_sticky'] = 1;
 
 	// How to display the URI of boards. Usually '/%s/' (/b/, /mu/, etc). This doesn't change the URL. Find
-	// $config['board_path'] if you wish to change the URL.
+	//  $config['board_path'] if you wish to change the URL.
 	$config['board_abbreviation'] = '/%s/';
 
 	// The default name (ie. Anonymous).
@@ -909,7 +909,7 @@
 
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain.
 	// This will override $config['root'] and $config['dir']['...'] directives. "%s" will get replaced with
-	// $board['dir'], which includes a trailing slash.
+	//  $board['dir'], which includes a trailing slash.
 	// $config['uri_thumb'] = 'http://images.example.org/%sthumb/';
 	// $config['uri_img'] = 'http://images.example.org/%ssrc/';
 
@@ -984,7 +984,7 @@
 	$config['ban_cidr'] = true;
 
 	// How often (minimum) to purge the ban list of expired bans (which have been seen). Only works when
-	// $config['cache'] is enabled and working.
+	//  $config['cache'] is enabled and working.
 	$config['purge_bans'] = 60 * 60 * 12; // 12 hours
 
 	// Do DNS lookups on IP addresses to get their hostname for the moderator IP pages (?/IP/x.x.x.x).
