@@ -53,4 +53,5 @@ if (extension_loaded('imagick')) {
 	echo "Imagick extension not loaded... skipping.\n";
 }
 benchmark('convert');
-benchmark('convert+gifsicle');
+benchmark('gm');
+becnhmark('convert+gifsicle');
