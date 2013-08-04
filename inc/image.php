@@ -19,7 +19,7 @@ class Image {
 
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
-		} elseif ($config['thumb_method'] == 'convert' || $config['thumb_method'] == 'convert+gifsicle') {
+		} elseif (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
 			$classname = 'ImageConvert';
 		} else {
 			$classname = 'Image' . strtoupper($this->format);
@@ -44,8 +44,6 @@ class Image {
 	
 	public function resize($extension, $max_width, $max_height) {
 		global $config;
-		
-		$gifsicle = false;
 
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
@@ -53,6 +51,13 @@ class Image {
 			$classname = 'ImageConvert';
 		} elseif ($config['thumb_method'] == 'convert+gifsicle') {
 			$classname = 'ImageConvert';
+			$gifsicle = true;
+		} elseif ($config['thumb_method'] == 'gm') {
+			$classname = 'ImageConvert';
+			$gm = true;
+		} elseif ($config['thumb_method'] == 'gm+gifsicle') {
+			$classname = 'ImageConvert';
+			$gm = true;
 			$gifsicle = true;
 		} else {
 			$classname = 'Image' . strtoupper($extension);
@@ -81,7 +86,6 @@ class Image {
 			$height = $max_height;
 		}
 		
-		$thumb->gifsicle = $gifsicle;
 		$thumb->_resize($this->image->image, $width, $height);
 		
 		return $thumb;
@@ -227,15 +231,20 @@ class ImageImagick extends ImageBase {
 
 
 class ImageConvert extends ImageBase {
-	public $width, $height, $temp, $gifsicle;
+	public $width, $height, $temp, $gm = false, $gifsicle = false;
 	
 	public function init() {
 		global $config;
 		
+		if ($config['thumb_method'] == 'gm' || $config['thumb_method'] == 'gm+gifsicle')
+			$this->gm = true;
+		if ($config['thumb_method'] == 'convert+gifsicle' || $config['thumb_method'] == 'gm+gifsicle')
+			$this->gifsicle = true;
+		
 		$this->temp = false;
 	}
-	public function from() {	
-		$size = trim(shell_exec('identify -format "%w %h" ' . escapeshellarg($this->src . '[0]')));	
+	public function from() {
+		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($this->src . '[0]'));
 		if (preg_match('/^(\d+) (\d+)$/', $size, $m)) {
 			$this->width = $m[1];
 			$this->height = $m[2];
@@ -251,9 +260,17 @@ class ImageConvert extends ImageBase {
 		
 		if (!$this->temp) {
 			if ($config['strip_exif']) {
-				shell_exec('convert ' . escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src));
+				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+						escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src))) {
+					$this->destroy();
+					error('Failed to resize image!', null, $error);
+				}
 			} else {
-				shell_exec('convert ' . escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src));
+				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+						escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src))) {
+					$this->destroy();
+					error('Failed to resize image!', null, $error);
+				}
 			}
 		} else {
 			rename($this->temp, $src);
@@ -289,13 +306,25 @@ class ImageConvert extends ImageBase {
 					escapeshellarg($this->temp) . '2>&1 &&echo $?') !== '0') || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			} else {
-				if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '', $this->width, $this->height) . ' ' .
-					escapeshellarg($this->src) . ' ' . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
+				if ($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+					sprintf($config['convert_args'],
+						$this->width,
+						$this->height,
+						escapeshellarg($this->src),
+						$this->width,
+						$this->height,
+						escapeshellarg($this->temp))) || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			}
 		} else {
-			if (trim($error = shell_exec('convert ' . sprintf($config['convert_args'], '-flatten', $this->width, $this->height) . ' ' .
-				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp) . ' 2>&1 &&echo $?')) !== '0' || !file_exists($this->temp))
+			if ($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+				sprintf($config['convert_args'],
+					$this->width,
+					$this->height,
+					escapeshellarg($this->src . '[0]'),
+					$this->width,
+					$this->height,
+					escapeshellarg($this->temp))) || !file_exists($this->temp))
 				error('Failed to resize image!', null, $error);
 		}
 	}

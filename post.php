@@ -447,14 +447,17 @@ if (isset($_POST['delete'])) {
 			}
 			
 			
-			if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
+			if ($config['convert_auto_orient'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')) {
 				// The following code corrects the image orientation.
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
 				if (!($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
-					if ($config['thumb_method'] == 'convert' || $config['thumb_method'] == 'convert+gifsicle') {
+					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
 						$exif = exif_read_data($upload);
+						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
 						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
-							shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
+							if($error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
+									escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload)))
+								error('Could not auto-orient image!', null, $error);
 						}
 					}
 				}
@@ -462,7 +465,6 @@ if (isset($_POST['delete'])) {
 			
 			// create image object
 			$image = new Image($upload, $post['extension']);
-			
 			if ($image->size->width > $config['max_width'] || $image->size->height > $config['max_height']) {
 				$image->delete();
 				error($config['error']['maxsize']);
@@ -503,8 +505,13 @@ if (isset($_POST['delete'])) {
 			}
 			
 			if ($config['redraw_image'] || ($config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
-				$image->to($post['file']);
-				$dont_copy_file = true;
+				if (!$config['redraw_image'] && $config['strip_with_exiftool']) {
+					if($error = shell_exec_error('exiftool -q -all= ' . escapeshellarg($upload)))
+						error('Could not strip EXIF metadata!', null, $error);
+				} else {
+					$image->to($post['file']);
+					$dont_copy_file = true;
+				}
 			}
 			$image->destroy();
 		} else {
@@ -518,7 +525,7 @@ if (isset($_POST['delete'])) {
 		}
 		
 		if (!isset($dont_copy_file) || !$dont_copy_file) {
-			if (!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
+			if (!@move_uploaded_file($upload, $post['file']))
 				error($config['error']['nomove']);
 		}
 	}
