@@ -464,7 +464,7 @@ if (isset($_POST['delete'])) {
 			}
 			
 			// create image object
-			$image = new Image($upload, $post['extension']);
+			$image = new Image($upload, $post['extension'], $size);
 			if ($image->size->width > $config['max_width'] || $image->size->height > $config['max_height']) {
 				$image->delete();
 				error($config['error']['maxsize']);

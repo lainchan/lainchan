@@ -11,7 +11,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 
 class Image {
 	public $src, $format, $image, $size;
-	public function __construct($src, $format = false) {
+	public function __construct($src, $format = false, $size = false) {
 		global $config;
 		
 		$this->src = $src;
@@ -28,7 +28,7 @@ class Image {
 			}
 		}
 		
-		$this->image = new $classname($this);
+		$this->image = new $classname($this, $size);
 
 		if (!$this->image->valid()) {
 			$this->delete();
@@ -122,9 +122,14 @@ class ImageBase extends ImageGD {
 		return (bool)$this->image;
 	}
 	
-	public function __construct($img) {
+	public function __construct($img, $size = false) {
 		if (method_exists($this, 'init'))
 			$this->init();
+		
+		if ($size && $size[0] > 0 && $size[1] > 0) {
+			$this->width = $size[0];
+			$this->height = $size[1];
+		}
 		
 		if ($img !== false) {
 			$this->src = $img->src;
@@ -244,6 +249,10 @@ class ImageConvert extends ImageBase {
 		$this->temp = false;
 	}
 	public function from() {
+		if ($this->width > 0 && $this->height > 0) {
+			$this->image = true;
+			return;
+		}
 		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($this->src . '[0]'));
 		if (preg_match('/^(\d+) (\d+)$/', $size, $m)) {
 			$this->width = $m[1];
