@@ -1947,5 +1947,5 @@ function shell_exec_error($command) {
 		);
 	}
 
-	return ($return === 'TB_SUCCESS') ? false : $return;
+	return $return === 'TB_SUCCESS' ? false : $return;
 }
