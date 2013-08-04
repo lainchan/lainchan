@@ -79,7 +79,10 @@ $(document).ready(function() {
 					cache.push(page);
 
 					$(data).find('div[id*="thread_"]').each(function() {
-						$('form[name="postcontrols"]').prepend($(this).css('display', 'none').attr("data-cached", "yes").attr('data-board', overflow[0].board));
+						var checkout = $(this).attr('id').replace('thread_', '');
+						if ($('div#thread_' + checkout + '[data-board="' + overflow[0].board + '"]').length == 0) {
+							$('form[name="postcontrols"]').prepend($(this).css('display', 'none').attr("data-cached", "yes").attr('data-board', overflow[0].board));
+						}
 					});
 
 					thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"][data-cached="yes"]');
