@@ -618,8 +618,7 @@ if ($step == 0) {
 	$sql = @file_get_contents('install.sql') or error("Couldn't load install.sql.");
 	
 	sql_open();
-	if (mysql_version() < 50503)
-		$sql = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $sql);
+	$mysql_version = mysql_version();
 	
 	// This code is probably horrible, but what I'm trying
 	// to do is find all of the SQL queires and put them
@@ -631,6 +630,8 @@ if ($step == 0) {
 	
 	$sql_errors = '';
 	foreach ($queries as $query) {
+		if ($mysql_version < 50503)
+			$query = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $query);
 		$query = preg_replace('/^([\w\s]*)`([0-9a-zA-Z$_\x{0080}-\x{FFFF}]+)`/u', '$1``$2``', $query);
 		if (!query($query))
 			$sql_errors .= '<li>' . db_error() . '</li>';
