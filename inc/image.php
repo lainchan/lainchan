@@ -265,8 +265,8 @@ class ImageConvert extends ImageBase {
 		}
 		$size = $this->get_size($this->src, false);
 		if ($size) {
-			$this->width = $size[1];
-			$this->height = $size[2];
+			$this->width = $size[0];
+			$this->height = $size[1];
 			
 			$this->image = true;
 		} else {
