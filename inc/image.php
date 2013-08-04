@@ -325,8 +325,10 @@ class ImageConvert extends ImageBase {
 					escapeshellarg($this->temp))) || !file_exists($this->temp))
 					error('Failed to resize image!', null, $error);
 			} else {
-				if ($config['convert_manual_orient'])
+				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
 					$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+				elseif ($config['convert_manual_orient'])
+					$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
 				else
 					$convert_args = &$config['convert_args'];
 				if (($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
@@ -344,8 +346,10 @@ class ImageConvert extends ImageBase {
 				}
 			}
 		} else {
-			if ($config['convert_manual_orient'])
+			if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
 				$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+			elseif ($config['convert_manual_orient'])
+				$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
 			else
 				$convert_args = &$config['convert_args'];
 			if (($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
