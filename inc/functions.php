@@ -1049,7 +1049,7 @@ function index($page, $mod=false) {
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
 			$th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'],
-			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod, true, $th['password']
+			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod
 		);
 
 		if ($config['cache']['enabled'] && $cached = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
@@ -1085,7 +1085,7 @@ function index($page, $mod=false) {
 			$thread->add(new Post(
 				$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
 				$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
-				$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod, $po['password'])
+				$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
 			);
 		}
 
@@ -1624,7 +1624,6 @@ function markup(&$body, $track_cites = false) {
 
 		foreach ($cites as $matches) {
 			$_board = $matches[2][0];
-			echo $_board;
 			$cite = @$matches[3][0];
 
 			// preg_match_all is not multibyte-safe
@@ -1756,13 +1755,13 @@ function buildThread($id, $return = false, $mod = false) {
 			$thread = new Thread(
 				$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'],
 				$post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'],
-				$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod, true, $post['password']
+				$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod
 			);
 		} else {
 			$thread->add(new Post(
 				$post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'],
 				$post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'],
-				$post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod, $post['password'])
+				$post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod)
 			);
 		}
 	}
@@ -1934,7 +1933,7 @@ function rDNS($ip_addr) {
 	}
 
 	if (!$config['dns_system']) {
-		$host = @gethostbyaddr($ip_addr);
+		$host = gethostbyaddr($ip_addr);
 	} else {
 		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
