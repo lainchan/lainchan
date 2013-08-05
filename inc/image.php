@@ -371,7 +371,7 @@ class ImageConvert extends ImageBase {
 	// For when -auto-orient doesn't exist (older versions)
 	static public function jpeg_exif_orientation($src, $exif = false) {
 		if (!$exif) {
-			$exif = exif_read_data($src);
+			$exif = @exif_read_data($src);
 			if (!isset($exif['Orientation']))
 				return false;
 		}

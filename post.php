@@ -454,7 +454,7 @@ if (isset($_POST['delete'])) {
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
 				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['use_exiftool']) && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
 					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
-						$exif = exif_read_data($upload);
+						$exif = @exif_read_data($upload);
 						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
 						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
 							if ($config['convert_manual_orient']) {
@@ -530,7 +530,7 @@ if (isset($_POST['delete'])) {
 			
 			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
-					if($error = shell_exec_error('exiftool -q -all= ' . escapeshellarg($upload)))
+					if($error = shell_exec_error('exiftool -ignoreMinorErrors -q -q -all= ' . escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
 				} else {
 					$image->to($post['file']);
