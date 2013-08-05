@@ -47,15 +47,19 @@ onready(function(){
 			hovered_at = {'x': e.pageX, 'y': e.pageY};
 			
 			var start_hover = function($link) {
-				if($post.is(':visible') &&
+				if($.contains($post[0], $link[0])) {
+					// link links to itself or to op; ignore
+				}
+				else if($post.is(':visible') &&
 						$post.offset().top + $post.height() >= $(window).scrollTop() &&
-						$post.offset().top <= $(window).scrollTop() + $(window).height()
-						) {
+						$post.offset().top <= $(window).scrollTop() + $(window).height()) {
 					// post is in view
 					$post.attr('style', 'border-style: none dashed dashed none; background: ' + $post.css('border-right-color'));
 				} else {
 					var $newPost = $post.clone();
+					$newPost.find('>.reply, >br').remove();
 					$newPost.find('span.mentioned').remove();
+
 					$newPost
 						.attr('id', 'post-hover-' + id)
 						.attr('data-board', board)
@@ -64,12 +68,13 @@ onready(function(){
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
-						.insertAfter($link.parent());
+						.addClass('reply').addClass('post')
+						.insertAfter($link.parent())
 					$link.trigger('mousemove');
 				}
 			};
 			
-			$post = $('[data-board="' + board + '"] div.post#reply_' + id);
+			$post = $('[data-board="' + board + '"] div.post#reply_' + id + ', [data-board="' + board + '"]div#thread_' + id);
 			if($post.length > 0) {
 				start_hover($(this));
 			} else {
@@ -104,7 +109,7 @@ onready(function(){
 							$(data).find('div[id^="thread_"]').hide().attr('data-cached', 'yes').prependTo('form[name="postcontrols"]');
 						}
 						
-						$post = $('[data-board="' + board + '"] div.post#reply_' + id);
+						$post = $('[data-board="' + board + '"] div.post#reply_' + id + ', [data-board="' + board + '"]div#thread_' + id);
 						if(hovering && $post.length > 0) {
 							start_hover($link);
 						}
@@ -117,7 +122,7 @@ onready(function(){
 				return;
 			
 			$post.attr('style', '');
-			if($post.hasClass('hidden'))
+			if($post.hasClass('hidden') || $post.data('cached') == 'yes')
 				$post.css('display', 'none');
 			$('.post-hover').remove();
 		}).mousemove(function(e) {
