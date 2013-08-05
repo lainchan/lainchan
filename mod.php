@@ -18,7 +18,7 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
-$query = isset($_SERVER['QUERY_STRING']) ? urldecode($_SERVER['QUERY_STRING']) : '';
+$query = isset($_SERVER['QUERY_STRING']) ? rawurldecode($_SERVER['QUERY_STRING']) : '';
 
 $pages = array(
 	''					=> ':?/',		// redirect to dashboard
