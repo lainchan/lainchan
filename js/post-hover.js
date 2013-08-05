@@ -17,19 +17,27 @@ onready(function(){
 		var $link = $(this);
 		
 		var id;
-		
-		if(id = $link.text().match(/^>>(\d+)$/)) {
-			id = id[1];
+		var matches;
+
+		if(matches = $link.text().match(/^>>(?:>\/([^\/]+)\/)?(\d+)$/)) {
+			id = matches[2];
 		} else {
 			return;
 		}
-
+		
 		var board = $(this);
 		while (board.data('board') === undefined) {
 			board = board.parent();
 		}
-		var threadid = board.attr('id');
+		var threadid = board.attr('id').replace("thread_", "");
 		board = board.data('board');
+
+		var parentboard = board;
+
+		if (matches[1] !== undefined) {
+			board = matches[1];
+		}
+
 
 		var $post = false;
 		var hovering = false;
@@ -76,11 +84,25 @@ onready(function(){
 					url: url,
 					context: document.body,
 					success: function(data) {
-						$(data).find('div.post.reply').each(function() {
-							if($('[data-board="' + board + '"] #' + $(this).attr('id')).length == 0)
-								$('[data-board="' + board + '"]#' + threadid + " .post.reply:first").before($(this).css('display', 'none').addClass('hidden'));
+						var mythreadid = $(data).find('div[id^="thread_"]').attr('id').replace("thread_", "");
 
-						});
+						if (mythreadid == threadid && parentboard == board) {
+							$(data).find('div.post.reply').each(function() {
+								if($('[data-board="' + board + '"] #' + $(this).attr('id')).length == 0) {
+									$('[data-board="' + board + '"]#thread_' + threadid + " .post.reply:first").before($(this).hide().addClass('hidden'));
+								}
+							});
+						}
+						else if ($('[data-board="' + board + '"]#thread_'+mythreadid).length > 0) {
+							$(data).find('div.post.reply').each(function() {
+								if($('[data-board="' + board + '"] #' + $(this).attr('id')).length == 0) {
+									$('[data-board="' + board + '"]#thread_' + mythreadid + " .post.reply:first").before($(this).hide().addClass('hidden'));
+								}
+							});
+						}
+						else {
+							$(data).find('div[id^="thread_"]').hide().attr('data-cached', 'yes').prependTo('form[name="postcontrols"]');
+						}
 						
 						$post = $('[data-board="' + board + '"] div.post#reply_' + id);
 						if(hovering && $post.length > 0) {
