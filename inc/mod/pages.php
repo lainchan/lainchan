@@ -480,7 +480,12 @@ function mod_new_board() {
 		if (!openBoard($_POST['uri']))
 			error(_("Couldn't open board after creation."));
 		
-		query(Element('posts.sql', array('board' => $board['uri']))) or error(db_error());
+		$query = Element('posts.sql', array('board' => $board['uri']));
+		
+		if (mysql_version() < 50503)
+			$query = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $query);
+		
+		query($query) or error(db_error());
 		
 		if ($config['cache']['enabled'])
 			cache::delete('all_boards');

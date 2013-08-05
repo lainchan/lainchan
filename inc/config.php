@@ -476,8 +476,8 @@
 
 	// Maximum amount of animated GIF frames to resize (more frames can mean more processing power). A value
 	// of "1" means thumbnails will not be animated. Requires $config['thumb_ext'] to be 'gif' (or blank) and
-	// $config['thumb_method'] to be 'imagick', 'convert', or 'convert+gifsicle'. This value is not respected
-	// by 'convert'; will just resize all frames if this is > 1.
+	//  $config['thumb_method'] to be 'imagick', 'convert', or 'convert+gifsicle'. This value is not
+	// respected by 'convert'; will just resize all frames if this is > 1.
 	$config['thumb_keep_animation_frames'] = 1;
 
 	/*
@@ -511,7 +511,7 @@
 	$config['strip_exif'] = false;
 	// Use the command-line `exiftool` tool to strip EXIF metadata without decompressing/recompressing JPEGs.
 	// Ignored when $config['redraw_image'] is true. This is also used to adjust the Orientation tag when
-	// $config['strip_exif'] is false and $config['convert_manual_orient'] is true.
+	//  $config['strip_exif'] is false and $config['convert_manual_orient'] is true.
 	$config['use_exiftool'] = false;
 	
 	// Redraw the image to strip any excess data (commonly ZIP archives) WARNING: This might strip the
@@ -562,7 +562,7 @@
 	// Location of thumbnail to use for spoiler images.
 	$config['spoiler_image'] = 'static/spoiler.png';
 	// Location of thumbnail to use for deleted images.
-	$config['image_deleted'] = 'static/deleted.png';
+	// $config['image_deleted'] = 'static/deleted.png';
 
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use
 	// that as a thumbnail instead of resizing/redrawing.
@@ -580,7 +580,7 @@
 	// Reject duplicate image uploads.
 	$config['image_reject_repost'] = true;
 	// Reject duplicate image uploads within the same thread. Doesn't change anything if
-	// $config['image_reject_repost'] is true.
+	//  $config['image_reject_repost'] is true.
 	$config['image_reject_repost_in_thread'] = false;
 
 	// Display the aspect ratio of uploaded files.
@@ -607,7 +607,7 @@
 	$config['threads_preview_sticky'] = 1;
 
 	// How to display the URI of boards. Usually '/%s/' (/b/, /mu/, etc). This doesn't change the URL. Find
-	// $config['board_path'] if you wish to change the URL.
+	//  $config['board_path'] if you wish to change the URL.
 	$config['board_abbreviation'] = '/%s/';
 
 	// The default name (ie. Anonymous).
@@ -914,7 +914,7 @@
 
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain.
 	// This will override $config['root'] and $config['dir']['...'] directives. "%s" will get replaced with
-	// $board['dir'], which includes a trailing slash.
+	//  $board['dir'], which includes a trailing slash.
 	// $config['uri_thumb'] = 'http://images.example.org/%sthumb/';
 	// $config['uri_img'] = 'http://images.example.org/%ssrc/';
 
@@ -987,6 +987,10 @@
 	// Enable CDIR netmask bans (eg. "10.0.0.0/8" for 10.0.0.0.0 - 10.255.255.255). Useful for stopping
 	// persistent spammers and ban evaders. Again, a little more database load.
 	$config['ban_cidr'] = true;
+
+	// How often (minimum) to purge the ban list of expired bans (which have been seen). Only works when
+	//  $config['cache'] is enabled and working.
+	$config['purge_bans'] = 60 * 60 * 12; // 12 hours
 
 	// Do DNS lookups on IP addresses to get their hostname for the moderator IP pages (?/IP/x.x.x.x).
 	$config['mod']['dns_lookup'] = true;
@@ -1188,12 +1192,47 @@
 	$config['mod']['news_custom'] = ADMIN;
 	// Delete news entries
 	$config['mod']['news_delete'] = ADMIN;
-
+	// Execute un-filtered SQL queries on the database (?/debug/sql)
+	$config['mod']['debug_sql'] = DISABLED;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
 
-	// Execute un-filtered SQL queries on the database (?/debug/sql)
-	$config['mod']['debug_sql'] = DISABLED;
+	// Config editor permissions
+	$config['mod']['config'] = array(
+		JANITOR => false,
+		MOD => false,
+		ADMIN => false,
+		DISABLED => false,
+	);
+
+	// Disable the following configuration variables from being changed via ?/config. The following default
+	// banned variables are considered somewhat dangerous.
+	$config['mod']['config'][DISABLED] = array(
+		'mod>config',
+		'mod>config_editor_php',
+		'convert_args',
+		'db>password',
+	);
+	
+	$config['mod']['config'][JANITOR] = array(
+		'!', // Allow editing ONLY the variables listed (in this case, nothing).
+	);
+	
+	$config['mod']['config'][MOD] = array(
+		'!', // Allow editing ONLY the variables listed (plus that in $config['mod']['config'][JANITOR]).
+		'global_message',
+	);
+	
+	// Example: Disallow ADMIN from editing (and viewing) $config['db']['password'].
+	// $config['mod']['config'][ADMIN] = array(
+	// 	'db>password',
+	// );
+	
+	// Example: Allow ADMIN to edit anything other than $config['db']
+	// (and $config['mod']['config'][DISABLED]).
+	// $config['mod']['config'][ADMIN] = array(
+	// 	'db',
+	// );
 
 /*
  * ====================

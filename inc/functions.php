@@ -688,9 +688,19 @@ function checkBan($board = 0) {
 
 // No reason to keep expired bans in the database (except those that haven't been viewed yet)
 function purge_bans() {
+	global $config;
+	
+	if ($config['cache']['enabled'] && $last_time_purged = cache::get('purged_bans_last')) {
+		if (time() - $last_time_purged < $config['purge_bans'] )
+			return;
+	}
+	
 	$query = prepare("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
 	$query->bindValue(':time', time());
 	$query->execute() or error(db_error($query));
+	
+	if ($config['cache']['enabled'])
+		cache::set('purged_bans_last', time());
 }
 
 function threadLocked($id) {
@@ -1922,7 +1932,7 @@ function rDNS($ip_addr) {
 	if (!$config['dns_system']) {
 		$host = gethostbyaddr($ip_addr);
 	} else {
-		$resp = shell_exec('host -W 1 ' . $ip_addr);
+		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
 			$host = $m[1];
 		else
@@ -1947,7 +1957,7 @@ function DNS($host) {
 		if ($ip_addr == $host)
 			$ip_addr = false;
 	} else {
-		$resp = shell_exec('host -W 1 ' . $host);
+		$resp = shell_exec_error('host -W 1 ' . $host);
 		if (preg_match('/has address ([^\s]+)$/', $resp, $m))
 			$ip_addr = $m[1];
 		else
@@ -1960,13 +1970,14 @@ function DNS($host) {
 	return $ip_addr;
 }
 
-function shell_exec_error($command) {
+function shell_exec_error($command, $suppress_stdout = false) {
 	global $config, $debug;
 
 	if ($config['debug'])
 		$start = microtime(true);
 
-	$return = trim(shell_exec('PATH="' . escapeshellcmd($config['shell_path']) . ':$PATH";' . $command . ' 2>&1 && echo "TB_SUCCESS"'));
+	$return = trim(shell_exec('PATH="' . escapeshellcmd($config['shell_path']) . ':$PATH";' .
+		$command . ' 2>&1 ' . ($suppress_stdout ? '> /dev/null ' : '') . '&& echo "TB_SUCCESS"'));
 	$return = preg_replace('/TB_SUCCESS$/', '', $return);
 
 	if ($config['debug']) {
