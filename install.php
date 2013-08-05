@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.7-gold</a>');
+define('VERSION', 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.8-gold</a>');
 
 require 'inc/functions.php';
 
@@ -364,7 +364,8 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE  `reports`
 				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
 		case 'v0.9.6-dev-11':
-		case 'v0.9.6-dev-11 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.6</a>':
+		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.6</a>':
+		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.7-gold</a>':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
