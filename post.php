@@ -528,7 +528,7 @@ if (isset($_POST['delete'])) {
 			
 			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
-					if($error = shell_exec_error('exiftool -q -all= ' . escapeshellarg($upload)))
+					if($error = shell_exec_error('exiftool -ignoreMinorErrors -q -all= ' . escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
 				} else {
 					$image->to($post['file']);
