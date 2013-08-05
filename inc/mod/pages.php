@@ -1328,6 +1328,7 @@ function mod_delete($board, $post) {
 	if (!hasPermission($config['mod']['delete'], $board))
 		error($config['error']['noaccess']);
 	
+	// Delete post
 	deletePost($post);
 	// Record the action
 	modLog("Deleted post #{$post}");

@@ -22,7 +22,7 @@ $(document).ready(function(){
 				var thread = $(this).parent().parent().parent();
 				var id = thread.attr('id').replace(/^thread_/, '');
 				$.ajax({
-					url: thread.find('p.intro a.post_no.p1:first').attr('href'),
+					url: thread.find('p.intro a.post_no:first').attr('href'),
 					context: document.body,
 					success: function(data) {
 						var last_expanded = false;

@@ -128,41 +128,6 @@
 <input type="hidden" name="hash" value="{{ antibot.hash() }}">
 </form>
 
-<div style='float: left;' id='_waudiv'>
-<script id="_waukts">
-_waufun = function() {
-  $("#_wauscr").remove();
-  $("#_waudiv div").remove();
-
-  WAU_ren = undefined;
-  _wau = [["classic", "569e2sx122oe", "kts"]];
-
-  var s=document.createElement("script");
-  s.async=true;
-  s.id="_wauscr";
-  s.src="http://widgets.amung.us/classic.js?"+Math.random();
-  document.getElementsByTagName("head")[0].appendChild(s);
-  
-  setInterval(_waufun, 3600000);
-};
-
-_waufun();
-</script>
-</div>
-<div style='float: left; text-align: center; margin: 5px;'>
-<strong><a href='http://webchat.6irc.net/?channels=vichan-int-{{ board.uri }}&nick=Anon....'>
-IRC: #vichan-int-{{ board.uri }}</strong>
-<br><small>New thread preview live and discussion</small></a>
-</div>
-<div style='float: left; text-align: center; margin: 5px; width: 230px;'>
-<strong><a href='http://webchat.6irc.net/?channels=vichan-int-{{ board.uri }}-full&nick=Anon....'>
-IRC: #vichan-int-{{ board.uri }}-full</strong>
-<br><small>All new posts preview live</small></a>
-</div>
-
-
 <script type="text/javascript">{% raw %}
 	rememberStuff();
 {% endraw %}</script>
-
-
