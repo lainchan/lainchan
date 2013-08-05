@@ -4,6 +4,9 @@
 {{ antibot.html() }}
 <input type="hidden" name="board" value="{{ board.uri }}">
 {{ antibot.html() }}
+{% if current_page %}
+	<input type="hidden" name="page" value="{{ current_page }}">
+{% endif %}
 {% if mod %}<input type="hidden" name="mod" value="1">{% endif %}
 	<table>
 		{% if not config.field_disable_name or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
@@ -67,21 +70,6 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if config.imgcaptcha %}
-		<tr>
-			<th>
-				{% trans %}Verification{% endtrans %}
-				{{ antibot.html() }}
-			</th>
-			<td>
-				<input type="hidden" name="imgcaptcha_hash" id="imgcaptcha_hash" value="kucaj stad, kucu hakierze">
-				<img src="{{ config.imgcaptcha_filler }}" width="{{ config.imgcaptcha_width }}px" height="{{ config.imgcaptcha_height }}px" id="imgcaptcha_img"></img><br>
-				{{ config.imgcaptcha_question }} <input type="text" name="imgcaptcha_verify" id="imgcaptcha_verify" value=""></input><br>
-				<a href="javascript:ic_odswiezKapcze()">Odswiez</a>
-				{{ antibot.html() }}
-			</td>
-		</tr>
-		{% endif %}
 		<tr>
 			<th>
 				{% trans %}File{% endtrans %}
@@ -103,7 +91,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if mod %}
+		{% if mod and ((not id and post.mod|hasPermission(config.mod.sticky, board.uri)) or (not id and post.mod|hasPermission(config.mod.lock, board.uri)) or post.mod|hasPermission(config.mod.rawhtml, board.uri)) %}
 		<tr>
 			<th>
 				{% trans %}Flags{% endtrans %}

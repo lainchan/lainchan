@@ -23,13 +23,14 @@
 			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
 		</div>
 	</header>
-	
+
 	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
 
 	{% include 'attention_bar.html' %}	
+
 	{% include 'post_form.html' %}
-	
-	{% if config.blotter %}<hr /><div class="blotter">{{ config.blotter }}</div>{% endif %}
+
+	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
 	<input type="hidden" name="board" value="{{ board.uri }}" />

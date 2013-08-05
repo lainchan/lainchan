@@ -3,7 +3,7 @@
  * https://github.com/savetheinternet/Tinyboard/blob/master/js/expand.js
  *
  * Released under the MIT license
- * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ * Copyright (c) 2012-2013 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
@@ -14,8 +14,8 @@
 $(document).ready(function(){
 	if($('div.banner').length != 0)
 		return; // not index
-	
-	$('div.post.op span.omitted').each(function() {
+
+	var do_expand = function() {
 		$(this)
 			.html($(this).text().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
 			.find('a').click(function() {
@@ -27,15 +27,17 @@ $(document).ready(function(){
 					success: function(data) {
 						var last_expanded = false;
 						$(data).find('div.post.reply').each(function() {
-							if($('#' + $(this).attr('id')).length == 0) {
+							var post_in_doc = thread.find('#' + $(this).attr('id'));
+							if(post_in_doc.length == 0) {
 								if(last_expanded) {
 									$(this).addClass('expanded').insertAfter(last_expanded).before('<br class="expanded">');
 								} else {
 									$(this).addClass('expanded').insertAfter(thread.find('div.post:first')).after('<br class="expanded">');
 								}
 								last_expanded = $(this);
-								
 								$(document).trigger('new_post', this);
+							} else {
+								last_expanded = post_in_doc;
 							}
 						});
 						$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
@@ -48,5 +50,13 @@ $(document).ready(function(){
 					}
 				});
 			});
+	}
+
+	$('div.post.op span.omitted').each(do_expand);
+
+	$(document).bind("new_post", function(e, post) {
+		if (!$(post).hasClass("reply")) {
+			$(post).find('div.post.op span.omitted').each(do_expand);
+		}
 	});
 });

@@ -81,7 +81,7 @@ class Filter {
 				else
 					$all_boards = false;
 				
-				$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board, 0)");
+				$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board, 0)");
 				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 				$query->bindValue(':mod', -1);
 				$query->bindValue(':set', time());
@@ -132,10 +132,10 @@ class Filter {
 function do_filters(array $post) {
 	global $config;
 	
-	if (!isset($config['flood_filters']))
+	if (!isset($config['filters']))
 		return;
 	
-	foreach ($config['flood_filters'] as $arr) {
+	foreach ($config['filters'] as $arr) {
 		$filter = new Filter($arr);
 		if ($filter->check($post))
 			$filter->action();

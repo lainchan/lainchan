@@ -51,12 +51,16 @@ function sql_open() {
 	try {
 		$options = array(
 			PDO::ATTR_TIMEOUT => $config['db']['timeout'],
-			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 		);
 		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
-		return $pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
+		$pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
+		if (mysql_version() >= 50503)
+			query('SET NAMES utf8mb4') or error(db_error());
+		else
+			query('SET NAMES utf8') or error(db_error());
+		return $pdo;
 	} catch(PDOException $e) {
 		$message = $e->getMessage();
 		
@@ -65,12 +69,25 @@ function sql_open() {
 		$message = str_replace($config['db']['password'], '<em>hidden</em>', $message);
 		
 		// Print error
-		error('Database error: ' . $message);
+		error(_('Database error: ') . $message);
 	}
+}
+
+// 5.6.10 becomes 50610
+function mysql_version() {
+	global $pdo;
+	
+	$version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+	$v = explode('.', $version);
+	if (count($v) != 3)
+		return false;
+	return (int) sprintf("%02d%02d%02d", $v[0], $v[1], $v[2]);
 }
 
 function prepare($query) {
 	global $pdo, $debug, $config;
+	
+	$query = preg_replace('/``('.$config['board_regex'].')``/u', '`' . $config['db']['prefix'] . '$1`', $query);
 	
 	sql_open();
 	
@@ -82,6 +99,8 @@ function prepare($query) {
 
 function query($query) {
 	global $pdo, $debug, $config;
+	
+	$query = preg_replace('/``('.$config['board_regex'].')``/u', '`' . $config['db']['prefix'] . '$1`', $query);
 	
 	sql_open();
 	
@@ -102,14 +121,14 @@ function query($query) {
 	return $pdo->query($query);
 }
 
-function db_error($PDOStatement=null) {
-	global $pdo;
+function db_error($PDOStatement = null) {
+	global $pdo, $db_error;
 
 	if (isset($PDOStatement)) {
-		$err = $PDOStatement->errorInfo();
-		return $err[2];
+		$db_error = $PDOStatement->errorInfo();
+		return $db_error[2];
 	}
 
-	$err = $pdo->errorInfo();
-	return $err[2];
+	$db_error = $pdo->errorInfo();
+	return $db_error[2];
 }

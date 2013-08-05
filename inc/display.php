@@ -25,6 +25,7 @@ function doBoardListPart($list, $root) {
 	$body = '';
 	foreach ($list as $board) {
 		if (is_array($board))
+			// $body .= ' [' . doBoardListPart($board, $root) . '] ';
 			$body .= ' <span class="sub">[' . doBoardListPart($board, $root) . ']</span> ';
 		else {
 			if (($key = array_search($board, $list)) && gettype($key) == 'string') {
@@ -56,8 +57,8 @@ function createBoardlist($mod=false) {
 	);
 }
 
-function error($message, $priority = true) {
-	global $board, $mod, $config;
+function error($message, $priority = true, $debug_stuff = false) {
+	global $board, $mod, $config, $db_error;
 	
 	if ($config['syslog'] && $priority !== false) {
 		// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
@@ -68,18 +69,22 @@ function error($message, $priority = true) {
 		// Running from CLI
 		die('Error: ' . $message . "\n");
 	}
+
+	if ($config['debug'] && isset($db_error)) {
+		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
+	}
 	
 	die(Element('page.html', array(
-		'config'=>$config,
-		'title'=>'Error',
-		'subtitle'=>'An error has occured.',
-		'body'=>'<center>' .
-		        '<h2>' . _($message) . '</h2>' .
-			(isset($board) ? 
-				"<p><a href=\"" . $config['root'] .
-					($mod ? $config['file_mod'] . '?/' : '') .
-					$board['dir'] . $config['file_index'] . "\">Go back</a>.</p>" : '') .
-		        '</center>'
+		'config' => $config,
+		'title' => _('Error'),
+		'subtitle' => _('An error has occured.'),
+		'body' => Element('error.html', array(
+			'config' => $config,
+			'message' => $message,
+			'mod' => $mod,
+			'board' => isset($board) ? $board : false,
+			'debug' => is_array($debug_stuff) ? str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true))) : utf8tohtml($debug_stuff)
+		))
 	)));
 }
 
@@ -207,7 +212,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			$body = preg_replace('/&[^;]*$/', '', $body);
 		}
 		
-		$body .= '<span class="toolong">Post too long. Click <a href="' . $url . '">here</a> to view the full text.</span>';
+		$body .= '<span class="toolong">'.sprintf(_('Post too long. Click <a href="%s">here</a> to view the full text.'), $url).'</span>';
 	}
 	
 	return $body;
@@ -235,7 +240,7 @@ function bidi_cleanup($str){
 function secure_link_confirm($text, $title, $confirm_message, $href) {
 	global $config;
 
-	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlentities(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
 }
 function secure_link($href) {
 	return $href . '/' . make_secure_link_token($href);
@@ -299,7 +304,7 @@ class Post {
 			// Fix internal links
 			// Very complicated regex
 			$this->body = preg_replace(
-				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), '\w+') . ')/',
+				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), $config['board_regex']) . ')/u',
 				'<a $1href="?/$4',
 				$this->body
 			);
@@ -318,31 +323,31 @@ class Post {
 			
 			// Delete
 			if (hasPermission($config['mod']['delete'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['dir'] . 'delete/' . $this->id);
 			
 			// Delete all posts by IP
 			if (hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['uri'] . '/deletebyip/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['dir'] . 'deletebyip/' . $this->id);
 			
 			// Delete all posts by IP (global)
 			if (hasPermission($config['mod']['deletebyip_global'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['uri'] . '/deletebyip/' . $this->id . '/global');
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['dir'] . 'deletebyip/' . $this->id . '/global');
 			
 			// Ban
 			if (hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
+				$built .= ' <a title="'._('Ban').'" href="?/' . $board['dir'] . 'ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 			
 			// Ban & Delete
 			if (hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
+				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['dir'] . 'ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['dir'] . 'deletefile/' . $this->id);
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="'._('Edit post').'" href="?/' . $board['dir'] . 'edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls">' . $built . '</span>';
@@ -398,7 +403,7 @@ class Thread {
 			// Fix internal links
 			// Very complicated regex
 			$this->body = preg_replace(
-				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), '\w+') . ')/',
+				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), $config['board_regex']) . ')/u',
 				'<a $1href="?/$4',
 				$this->body
 			);
@@ -419,54 +424,54 @@ class Thread {
 			// Mod controls (on posts)
 			// Delete
 			if (hasPermission($config['mod']['delete'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], 'Delete', 'Are you sure you want to delete this?', $board['uri'] . '/delete/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_delete'], _('Delete'), _('Are you sure you want to delete this?'), $board['dir'] . 'delete/' . $this->id);
 			
 			// Delete all posts by IP
 			if (hasPermission($config['mod']['deletebyip'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], 'Delete all posts by IP', 'Are you sure you want to delete all posts by this IP address?', $board['uri'] . '/deletebyip/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip'], _('Delete all posts by IP'), _('Are you sure you want to delete all posts by this IP address?'), $board['dir'] . 'deletebyip/' . $this->id);
 			
 			// Delete all posts by IP (global)
 			if (hasPermission($config['mod']['deletebyip_global'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], 'Delete all posts by IP across all boards', 'Are you sure you want to delete all posts by this IP address, across all boards?', $board['uri'] . '/deletebyip/' . $this->id . '/global');
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletebyip_global'], _('Delete all posts by IP across all boards'), _('Are you sure you want to delete all posts by this IP address, across all boards?'), $board['dir'] . 'deletebyip/' . $this->id . '/global');
 			
 			// Ban
 			if (hasPermission($config['mod']['ban'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban" href="?/' . $board['uri'] . '/ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
+				$built .= ' <a title="'._('Ban').'" href="?/' . $board['dir'] . 'ban/' . $this->id . '">' . $config['mod']['link_ban'] . '</a>';
 			
 			// Ban & Delete
 			if (hasPermission($config['mod']['bandelete'], $board['uri'], $this->mod))
-				$built .= ' <a title="Ban & Delete" href="?/' . $board['uri'] . '/ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
+				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['dir'] . 'ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
 			if (!empty($this->file) && $this->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
-				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], 'Delete file', 'Are you sure you want to delete this file?', $board['uri'] . '/deletefile/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['dir'] . 'deletefile/' . $this->id);
 			
 			// Sticky
 			if (hasPermission($config['mod']['sticky'], $board['uri'], $this->mod))
 				if ($this->sticky)
-					$built .= ' <a title="Make thread not sticky" href="?/' . secure_link($board['uri'] . '/unsticky/' . $this->id) . '">' . $config['mod']['link_desticky'] . '</a>';
+					$built .= ' <a title="'._('Make thread not sticky').'" href="?/' . secure_link($board['dir'] . 'unsticky/' . $this->id) . '">' . $config['mod']['link_desticky'] . '</a>';
 				else
-					$built .= ' <a title="Make thread sticky" href="?/' . secure_link($board['uri'] . '/sticky/' . $this->id) . '">' . $config['mod']['link_sticky'] . '</a>';
+					$built .= ' <a title="'._('Make thread sticky').'" href="?/' . secure_link($board['dir'] . 'sticky/' . $this->id) . '">' . $config['mod']['link_sticky'] . '</a>';
 			
 			if (hasPermission($config['mod']['bumplock'], $board['uri'], $this->mod))
 				if ($this->bumplocked)
-					$built .= ' <a title="Allow thread to be bumped" href="?/' . secure_link($board['uri'] . '/bumpunlock/' . $this->id) . '">' . $config['mod']['link_bumpunlock'] . '</a>';
+					$built .= ' <a title="'._('Allow thread to be bumped').'" href="?/' . secure_link($board['dir'] . 'bumpunlock/' . $this->id) . '">' . $config['mod']['link_bumpunlock'] . '</a>';
 				else
-					$built .= ' <a title="Prevent thread from being bumped" href="?/' . secure_link($board['uri'] . '/bumplock/' . $this->id) . '">' . $config['mod']['link_bumplock'] . '</a>';
+					$built .= ' <a title="'._('Prevent thread from being bumped').'" href="?/' . secure_link($board['dir'] . 'bumplock/' . $this->id) . '">' . $config['mod']['link_bumplock'] . '</a>';
 			
 			// Lock
 			if (hasPermission($config['mod']['lock'], $board['uri'], $this->mod))
 				if ($this->locked)
-					$built .= ' <a title="Unlock thread" href="?/' . secure_link($board['uri'] . '/unlock/' . $this->id) . '">' . $config['mod']['link_unlock'] . '</a>';
+					$built .= ' <a title="'._('Unlock thread').'" href="?/' . secure_link($board['dir'] . 'unlock/' . $this->id) . '">' . $config['mod']['link_unlock'] . '</a>';
 				else
-					$built .= ' <a title="Lock thread" href="?/' . secure_link($board['uri'] . '/lock/' . $this->id) . '">' . $config['mod']['link_lock'] . '</a>';
+					$built .= ' <a title="'._('Lock thread').'" href="?/' . secure_link($board['dir'] . 'lock/' . $this->id) . '">' . $config['mod']['link_lock'] . '</a>';
 			
 			if (hasPermission($config['mod']['move'], $board['uri'], $this->mod))
-				$built .= ' <a title="Move thread to another board" href="?/' . $board['uri'] . '/move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
+				$built .= ' <a title="'._('Move thread to another board').'" href="?/' . $board['dir'] . 'move/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
 			
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
-				$built .= ' <a title="Edit post" href="?/' . $board['uri'] . '/edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
+				$built .= ' <a title="'._('Edit post').'" href="?/' . $board['dir'] . 'edit' . ($config['mod']['raw_html_default'] ? '_raw' : '') . '/' . $this->id . '">' . $config['mod']['link_editpost'] . '</a>';
 			
 			if (!empty($built))
 				$built = '<span class="controls op">' . $built . '</span>';

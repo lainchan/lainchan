@@ -43,5 +43,5 @@ foreach ($locales as $loc) {
 
 	// Generate javascript.po
 	passthru("cd $locdir/LC_MESSAGES;
-         xgettext -d javascript -L Python --force-po --from-code utf-8 $join -c $(find ../../../../js/ -name \*.js)");
+         xgettext -d javascript -L Python --force-po --from-code utf-8 $join -c $(find ../../../../js/ ../../../../templates/ -name \*.js)");
 }

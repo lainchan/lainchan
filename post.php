@@ -6,7 +6,6 @@
 
 require 'inc/functions.php';
 require 'inc/anti-bot.php';
-require 'inc/imgcaptcha.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
@@ -49,11 +48,11 @@ if (isset($_POST['delete'])) {
 		error($config['error']['nodelete']);
 		
 	foreach ($delete as &$id) {
-		$query = prepare(sprintf("SELECT `thread`, `time`,`password` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+		$query = prepare(sprintf("SELECT `thread`, `time`,`password` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		if ($post = $query->fetch()) {
+		if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			if ($password != '' && $post['password'] != $password)
 				error($config['error']['invalidpassword']);
 			
@@ -109,23 +108,23 @@ if (isset($_POST['delete'])) {
 	if (count($report) > $config['report_limit'])
 		error($config['error']['toomanyreports']);
 	
-	$reason = &$_POST['reason'];
+	$reason = escape_markup_modifiers($_POST['reason']);
 	markup($reason);
 	
 	foreach ($report as &$id) {
-		$query = prepare(sprintf("SELECT `thread` FROM `posts_%s` WHERE `id` = :id", $board['uri']));
+		$query = prepare(sprintf("SELECT `thread` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		$post = $query->fetch();
+		$thread = $query->fetchColumn();
 		
-		if ($post) {
+		if ($thread) {
 			if ($config['syslog'])
 				_syslog(LOG_INFO, 'Reported post: ' .
-					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '') .
+					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $thread ? $thread : $id) . ($thread ? '#' . $id : '') .
 					' for "' . $reason . '"'
 				);
-			$query = prepare("INSERT INTO `reports` VALUES (NULL, :time, :ip, :board, :post, :reason)");
+			$query = prepare("INSERT INTO ``reports`` VALUES (NULL, :time, :ip, :board, :post, :reason)");
 			$query->bindValue(':time', time(), PDO::PARAM_INT);
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
 			$query->bindValue(':board', $board['uri'], PDO::PARAM_INT);
@@ -173,7 +172,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['bot']);
 	
 	// Check the referrer
-	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], $_SERVER['HTTP_REFERER']))
+	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], urldecode($_SERVER['HTTP_REFERER'])))
 		error($config['error']['referer']);
 	
 	checkDNSBL();
@@ -198,12 +197,7 @@ if (isset($_POST['delete'])) {
 			error($config['error']['captcha']);
 		}
 	}
-	if ($config['imgcaptcha']) {
-		if (!isset($_POST['imgcaptcha_verify']) || !isset($_POST['imgcaptcha_hash']))
-			error($config['error']['bot']);
-		if (ic_verifyHash($_POST['imgcaptcha_hash'],$_POST['imgcaptcha_verify']))
-			error($config['error']['captcha']);
-	}
+	
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
 		require 'inc/mod.php';
 		if (!$mod) {
@@ -224,7 +218,7 @@ if (isset($_POST['delete'])) {
 	}
 	
 	if (!$post['mod']) {
-		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : null));
+		$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) && !($config['quick_reply'] && isset($_POST['quick-reply'])) ? $post['thread'] : ($config['try_smarter'] && isset($_POST['page']) ? 0 - (int)$_POST['page'] : null)));
 		if ($post['antispam_hash'] === true)
 			error($config['error']['spam']);
 	}
@@ -235,11 +229,11 @@ if (isset($_POST['delete'])) {
 	
 	//Check if thread exists
 	if (!$post['op']) {
-		$query = prepare(sprintf("SELECT `sticky`,`locked`,`sage` FROM `posts_%s` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+		$query = prepare(sprintf("SELECT `sticky`,`locked`,`sage` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
 		$query->execute() or error(db_error());
 		
-		if (!$thread = $query->fetch()) {
+		if (!$thread = $query->fetch(PDO::FETCH_ASSOC)) {
 			// Non-existant
 			error($config['error']['nonexistant']);
 		}
@@ -292,7 +286,7 @@ if (isset($_POST['delete'])) {
 	$post['has_file'] = !isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || (isset($_FILES['file']) && $_FILES['file']['tmp_name'] != ''));
 	
 	if ($post['has_file'])
-		$post['filename'] = utf8tohtml(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
+		$post['filename'] = urldecode(get_magic_quotes_gpc() ? stripslashes($_FILES['file']['name']) : $_FILES['file']['name']);
 	
 	if (!($post['has_file'] || isset($post['embed'])) || (($post['op'] && $config['force_body_op']) || (!$post['op'] && $config['force_body']))) {
 		$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
@@ -355,7 +349,7 @@ if (isset($_POST['delete'])) {
 	} else $noko = false;
 	
 	if ($post['has_file']) {
-		$post['extension'] = strtolower(substr($post['filename'], strrpos($post['filename'], '.') + 1));
+		$post['extension'] = strtolower(mb_substr($post['filename'], mb_strrpos($post['filename'], '.') + 1));
 		if (isset($config['filename_func']))
 			$post['file_id'] = $config['filename_func']($post);
 		else
@@ -363,6 +357,13 @@ if (isset($_POST['delete'])) {
 		
 		$post['file'] = $board['dir'] . $config['dir']['img'] . $post['file_id'] . '.' . $post['extension'];
 		$post['thumb'] = $board['dir'] . $config['dir']['thumb'] . $post['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $post['extension']);
+	}
+	
+	if ($config['strip_combining_chars']) {
+		$post['name'] = strip_combining_chars($post['name']);
+		$post['email'] = strip_combining_chars($post['email']);
+		$post['subject'] = strip_combining_chars($post['subject']);
+		$post['body'] = strip_combining_chars($post['body']);
 	}
 	
 	// Check string lengths
@@ -376,13 +377,32 @@ if (isset($_POST['delete'])) {
 		error($config['error']['toolong_body']);
 	if (mb_strlen($post['password']) > 20)
 		error(sprintf($config['error']['toolong'], 'password'));
-	
+		
 	wordfilters($post['body']);
+	$post['body'] = escape_markup_modifiers($post['body']);
 	
-	$post['body_nomarkup'] = $post['body'];
+	if ($mod && isset($post['raw']) && $post['raw']) {
+		$post['body'] = '<tinyboard raw html>' . $post['body'] . '</tinyboard>';
+	}
 	
-	if (!($mod && isset($post['raw']) && $post['raw']))
-		$post['tracked_cites'] = markup($post['body'], true);
+	if (mysql_version() >= 50503) {
+		$post['body_nomarkup'] = $post['body']; // Assume we're using the utf8mb4 charset
+	} else {
+		// MySQL's `utf8` charset only supports up to 3-byte symbols
+		// Remove anything >= 0x010000
+		
+		$chars = preg_split('//u', $post['body'], -1, PREG_SPLIT_NO_EMPTY);
+		$post['body_nomarkup'] = '';
+		foreach ($chars as $char) {
+			$o = 0;
+			$ord = ordutf8($char, $o);
+			if ($ord >= 0x010000)
+				continue;
+			$post['body_nomarkup'] .= $char;
+		}
+	}
+	
+	$post['tracked_cites'] = markup($post['body'], true);
 	
 	// Check for a flood
 	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
@@ -400,7 +420,7 @@ if (isset($_POST['delete'])) {
 		$is_an_image = !in_array($post['extension'], $config['allowed_ext_files']);
 		
 		// Truncate filename if it is too long
-		$post['filename'] = substr($post['filename'], 0, $config['max_filename_len']);
+		$post['filename'] = mb_substr($post['filename'], 0, $config['max_filename_len']);
 		
 		$upload = $_FILES['file']['tmp_name'];
 		
@@ -410,7 +430,7 @@ if (isset($_POST['delete'])) {
 		$post['filehash'] = $config['file_hash']($upload);
 		$post['filesize'] = filesize($upload);
 		
-		if ($is_an_image) {
+		if ($is_an_image && $config['ie_mime_type_detection'] !== false) {
 			// Check IE MIME type detection XSS exploit
 			$buffer = file_get_contents($upload, null, null, null, 255);
 			if (preg_match($config['ie_mime_type_detection'], $buffer)) {
@@ -428,20 +448,47 @@ if (isset($_POST['delete'])) {
 				error($config['error']['maxsize']);
 			}
 			
-			// The following code corrects the image orientation based on EXIF.
-			// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
-			if ($config['thumb_method'] == 'convert') {
-				if ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg') {
-					$exif = exif_read_data($upload);
-					if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
-						shell_exec('convert ' . escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));							
+			
+			if ($config['convert_auto_orient'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')) {
+				// The following code corrects the image orientation.
+				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
+				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['use_exiftool']) && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg')))) {
+					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
+						$exif = @exif_read_data($upload);
+						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
+						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
+							if ($config['convert_manual_orient']) {
+								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
+									escapeshellarg($upload) . ' ' .
+									ImageConvert::jpeg_exif_orientation(false, $exif) . ' ' .
+									($config['strip_exif'] ? '+profile "*"' :
+										($config['use_exiftool'] ? '' : '+profile "*"')
+									) . ' ' .
+									escapeshellarg($upload));
+								if ($config['use_exiftool'] && !$config['strip_exif']) {
+									if ($exiftool_error = shell_exec_error(
+										'exiftool -q -orientation=1 -n ' . escapeshellarg($upload)))
+										error('exiftool failed!', null, $exiftool_error);
+								} else {
+									// TODO: Find another way to remove the Orientation tag from the EXIF profile
+									// without needing `exiftool`.
+								}
+							} else {
+								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
+										escapeshellarg($upload) . ' -auto-orient ' . escapeshellarg($upload));
+							}
+							if ($error)
+								error('Could not auto-orient image!', null, $error);
+							$size = @getimagesize($upload);
+							if ($config['strip_exif'])
+								$post['exif_stripped'] = true;
+						}
 					}
 				}
 			}
 			
 			// create image object
-			$image = new Image($upload, $post['extension']);
-			
+			$image = new Image($upload, $post['extension'], $size);
 			if ($image->size->width > $config['max_width'] || $image->size->height > $config['max_height']) {
 				$image->delete();
 				error($config['error']['maxsize']);
@@ -481,9 +528,14 @@ if (isset($_POST['delete'])) {
 				$thumb->_destroy();
 			}
 			
-			if ($config['redraw_image']) {
-				$image->to($post['file']);
-				$dont_copy_file = true;
+			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
+				if (!$config['redraw_image'] && $config['use_exiftool']) {
+					if($error = shell_exec_error('exiftool -ignoreMinorErrors -q -q -all= ' . escapeshellarg($upload)))
+						error('Could not strip EXIF metadata!', null, $error);
+				} else {
+					$image->to($post['file']);
+					$dont_copy_file = true;
+				}
 			}
 			$image->destroy();
 		} else {
@@ -497,7 +549,7 @@ if (isset($_POST['delete'])) {
 		}
 		
 		if (!isset($dont_copy_file) || !$dont_copy_file) {
-			if (!@move_uploaded_file($_FILES['file']['tmp_name'], $post['file']))
+			if (!@move_uploaded_file($upload, $post['file']))
 				error($config['error']['nomove']);
 		}
 	}
@@ -544,9 +596,9 @@ if (isset($_POST['delete'])) {
 	// Remove board directories before inserting them into the database.
 	if ($post['has_file']) {
 		$post['file_path'] = $post['file'];
-		$post['file'] = substr_replace($post['file'], '', 0, mb_strlen($board['dir'] . $config['dir']['img']));
+		$post['file'] = mb_substr($post['file'], mb_strlen($board['dir'] . $config['dir']['img']));
 		if ($is_an_image && $post['thumb'] != 'spoiler')
-			$post['thumb'] = substr_replace($post['thumb'], '', 0, mb_strlen($board['dir'] . $config['dir']['thumb']));
+			$post['thumb'] = mb_substr($post['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));
 	}
 	
 	$post = (object)$post;
@@ -564,7 +616,7 @@ if (isset($_POST['delete'])) {
 	
 	if (isset($post['tracked_cites'])) {
 		foreach ($post['tracked_cites'] as $cite) {
-			$query = prepare('INSERT INTO `cites` VALUES (:board, :post, :target_board, :target)');
+			$query = prepare('INSERT INTO ``cites`` VALUES (:board, :post, :target_board, :target)');
 			$query->bindValue(':board', $board['uri']);
 			$query->bindValue(':post', $id, PDO::PARAM_INT);
 			$query->bindValue(':target_board',$cite[0]);
@@ -573,11 +625,14 @@ if (isset($_POST['delete'])) {
 		}
 	}
 	
-	buildThread($post['op'] ? $id : $post['thread']);
-	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
 		bumpThread($post['thread']);
 	}
+	
+	buildThread($post['op'] ? $id : $post['thread']);
+	
+	if ($config['try_smarter'] && $post['op'])
+		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
 		clean();

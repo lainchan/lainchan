@@ -17,21 +17,21 @@
 		$phrase = $_GET['search'];
 		$_body = '';
 		
-		$query = prepare("SELECT COUNT(*) FROM `search_queries` WHERE `ip` = :ip AND `time` > :time");
+		$query = prepare("SELECT COUNT(*) FROM ``search_queries`` WHERE `ip` = :ip AND `time` > :time");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':time', time() - ($queries_per_minutes[1] * 60));
 		$query->execute() or error(db_error($query));
 		if($query->fetchColumn() > $queries_per_minutes[0])
 			error(_('Wait a while before searching again, please.'));
 		
-		$query = prepare("SELECT COUNT(*) FROM `search_queries` WHERE `time` > :time");
+		$query = prepare("SELECT COUNT(*) FROM ``search_queries`` WHERE `time` > :time");
 		$query->bindValue(':time', time() - ($queries_per_minutes_all[1] * 60));
 		$query->execute() or error(db_error($query));
 		if($query->fetchColumn() > $queries_per_minutes_all[0])
 			error(_('Wait a while before searching again, please.'));
 			
 		
-		$query = prepare("INSERT INTO `search_queries` VALUES (:ip, :time, :query)");
+		$query = prepare("INSERT INTO ``search_queries`` VALUES (:ip, :time, :query)");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':time', time());
 		$query->bindValue(':query', $phrase);
@@ -40,7 +40,7 @@
 		_syslog(LOG_NOTICE, 'Searched /' . $_GET['board'] . '/ for "' . $phrase . '"');
 
 		// Cleanup search queries table
-		$query = prepare("DELETE FROM `search_queries` WHERE `time` <= :time");
+		$query = prepare("DELETE FROM ``search_queries`` WHERE `time` <= :time");
 		$query->bindValue(':time', time() - ($queries_per_minutes_all[1] * 60));
                 $query->execute() or error(db_error($query));
 		
@@ -85,6 +85,9 @@
 		// Use asterisk as wildcard to suit convention
 		$phrase = str_replace('*', '%', $phrase);
 		
+		// Remove `, it's used by table prefix magic
+		$phrase = str_replace('`', '!`', $phrase);
+
 		$like = '';
 		$match = Array();
 		
@@ -119,7 +122,7 @@
 		
 		$like = str_replace('%', '%%', $like);
 			
-		$query = prepare(sprintf("SELECT * FROM `posts_%s` WHERE " . $like . " ORDER BY `time` DESC LIMIT :limit", $board['uri']));
+		$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE " . $like . " ORDER BY `time` DESC LIMIT :limit", $board['uri']));
 		$query->bindValue(':limit', $search_limit, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		

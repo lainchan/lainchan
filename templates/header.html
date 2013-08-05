@@ -4,6 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
 		{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
 		{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+		{% if config.font_awesome %}<link rel="stylesheet" media="screen" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 		<script type="text/javascript">var configRoot="{{ config.root }}";</script>
 		{% if not nojavascript %}
 			<script type="text/javascript" src="{{ config.url_javascript }}"></script>
@@ -12,17 +13,31 @@
 			{% endif %}
 		{% endif %}
 		{% if config.recaptcha %}<style type="text/css">{% raw %}
-			.recaptcha_image_cell {
-				background: none !important;
+			#recaptcha_area {
+				float: none !important;
+				padding: 0 !important;
 			}
-			table.recaptchatable {
+			#recaptcha_logo, #recaptcha_privacy {
+				display: none;
+			}
+			#recaptcha_table {
 				border: none !important;
 			}
-			#recaptcha_logo, #recaptcha_tagline {
-				display: none;
-				float: right;
+			#recaptcha_table tr:first-child {
+				height: auto;
 			}
-			.recaptchatable a {
-				display: block;
+			.recaptchatable img {
+				float: none !important;
+			}
+			#recaptcha_response_field {
+				font-size: 10pt !important;
+				border: 1px solid #a9a9a9 !important;
+				padding: 1px !important;
+			}
+			td.recaptcha_image_cell {
+				background: transparent !important;
+			}
+			.recaptchatable, #recaptcha_area tr, #recaptcha_area td, #recaptcha_area th {
+				padding: 0 !important;
 			}
 		{% endraw %}</style>{% endif %}

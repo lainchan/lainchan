@@ -182,12 +182,12 @@ function _create_antibot($board, $thread) {
 	
 	$antibot = new AntiBot(array($board, $thread));
 	
-	query('DELETE FROM `antispam` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
+	query('DELETE FROM ``antispam`` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
 	
 	if ($thread)
-		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread AND `expires` IS NULL');
+		$query = prepare('UPDATE ``antispam`` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread AND `expires` IS NULL');
 	else
-		$query = prepare('UPDATE `antispam` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` IS NULL AND `expires` IS NULL');
+		$query = prepare('UPDATE ``antispam`` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` IS NULL AND `expires` IS NULL');
 	
 	$query->bindValue(':board', $board);
 	if ($thread)
@@ -195,7 +195,7 @@ function _create_antibot($board, $thread) {
 	$query->bindValue(':expires', $config['spam']['hidden_inputs_expire']);
 	$query->execute() or error(db_error($query));
 	
-	$query = prepare('INSERT INTO `antispam` VALUES (:board, :thread, :hash, UNIX_TIMESTAMP(), NULL, 0)');
+	$query = prepare('INSERT INTO ``antispam`` VALUES (:board, :thread, :hash, UNIX_TIMESTAMP(), NULL, 0)');
 	$query->bindValue(':board', $board);
 	$query->bindValue(':thread', $thread);
 	$query->bindValue(':hash', $antibot->hash());
@@ -248,7 +248,7 @@ function checkSpam(array $extra_salt = array()) {
 	if ($hash != $_hash)
 		return true;
 
-	$query = prepare('SELECT `passed` FROM `antispam` WHERE `hash` = :hash');
+	$query = prepare('SELECT `passed` FROM ``antispam`` WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
 	if ((($passed = $query->fetchColumn(0)) === false) || ($passed > $config['spam']['hidden_inputs_max_pass'])) {
@@ -260,7 +260,7 @@ function checkSpam(array $extra_salt = array()) {
 }
 
 function incrementSpamHash($hash) {
-	$query = prepare('UPDATE `antispam` SET `passed` = `passed` + 1 WHERE `hash` = :hash');
+	$query = prepare('UPDATE ``antispam`` SET `passed` = `passed` + 1 WHERE `hash` = :hash');
 	$query->bindValue(':hash', $hash);
 	$query->execute() or error(db_error($query));
 }

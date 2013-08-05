@@ -25,7 +25,7 @@
 			foreach($boards as &$_board) {
 				if(in_array($_board['uri'], explode(' ', $this->settings['exclude'])))
 					continue;
-				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `thread` IS NULL UNION ALL ", $_board['uri'], $_board['uri']);
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `thread` IS NULL UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `bump` DESC', $query);
 			$query = query($query) or error(db_error());
@@ -48,7 +48,7 @@
 						$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod
 					);
 
-					$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $post['board']));
+					$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $post['board']));
 					$posts->bindValue(':id', $post['id']);
 					$posts->bindValue(':limit', ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 					$posts->execute() or error(db_error($posts));
@@ -66,7 +66,7 @@
 					
 					}
 					if ($posts->rowCount() == ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-						$ct = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM `posts_%s` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $post['board'], $post['board']));
+						$ct = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM `posts_%s` WHERE `file` IS NOT NULL AND `thread` = :thread", $post['board'], $post['board']));
 						$ct->bindValue(':thread', $post['id'], PDO::PARAM_INT);
 						$ct->execute() or error(db_error($count));
 						

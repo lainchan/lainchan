@@ -25,13 +25,13 @@ div.title p {
 }
 a:link, a:visited, p.intro a.email span.name {
 	color: #CCCCCC;
-	text-decoration: underline;
+	text-decoration: none;
 	font-family: sans-serif;
 }
 a:link:hover, a:visited:hover {
 	color: #fff;
 	font-family: sans-serif;
-	text-decoration: underline overline;
+	text-decoration: none;
 
 }
 a.post_no {
@@ -45,9 +45,14 @@ a.post_no:hover {
 div.post.reply {
 	background: #333333;
 	border: #555555 1px solid;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+
 }
 div.post.reply.highlighted {
-	background: transparent;
+	background: #555;
 	border: transparent 1px solid;
 }
 div.post.reply div.body a:link, div.post.reply div.body a:visited {

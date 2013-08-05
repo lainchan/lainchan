@@ -94,7 +94,7 @@
 		{% if mod|hasPermission(config.mod.rebuild) %}
 			<li><a href="?/rebuild">{% trans 'Rebuild' %}</a></li>
 		{% endif %}
-		{% if mod|hasPermission(config.mod.show_config) %}
+		{% if mod|hasPermission(config.mod.edit_config) %}
 			<li><a href="?/config">{% trans 'Configuration' %}</a></li>
 		{% endif %}
 		
@@ -102,16 +102,28 @@
 </fieldset>
 
 {% if mod|hasPermission(config.mod.search) %}
-<fieldset>
-	<legend>{% trans 'Search' %}</legend>
-	
-	<ul>
-		<li>
-			{% include 'mod/search_form.html' %}
-		</li>
-	</ul>
-</fieldset>
+	<fieldset>
+		<legend>{% trans 'Search' %}</legend>
+		
+		<ul>
+			<li>
+				{% include 'mod/search_form.html' %}
+			</li>
+		</ul>
+	</fieldset>
 {%  endif %}
+
+{% if config.mod.dashboard_links|count %}
+	<fieldset>
+		<legend>{% trans 'Other' %}</legend>
+	
+		<ul>
+			{% for label,link in config.mod.dashboard_links %}
+				<li><a href="{{ link }}">{{ label }}</a></li>
+			{% endfor %}
+		</ul>
+	</fieldset>
+{% endif %}
 
 {% if config.debug %}
 	<fieldset>

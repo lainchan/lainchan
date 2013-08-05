@@ -56,11 +56,12 @@ function parse_time($str) {
 function ban($mask, $reason, $length, $board) {
 	global $mod, $pdo;
 	
-	$query = prepare("INSERT INTO `bans` VALUES (NULL, :ip, :mod, :time, :expires, :reason, :board, 0)");
+	$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ip, :mod, :time, :expires, :reason, :board, 0)");
 	$query->bindValue(':ip', $mask);
 	$query->bindValue(':mod', $mod['id']);
 	$query->bindValue(':time', time());
 	if ($reason !== '') {
+		$reason = escape_markup_modifiers($reason);
 		markup($reason);
 		$query->bindValue(':reason', $reason);
 	} else
@@ -89,12 +90,12 @@ function ban($mask, $reason, $length, $board) {
 }
 
 function unban($id) {
-	$query = prepare("SELECT `ip` FROM `bans` WHERE `id` = :id");
+	$query = prepare("SELECT `ip` FROM ``bans`` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	$mask = $query->fetchColumn();
 		
-	$query = prepare("DELETE FROM `bans` WHERE `id` = :id");
+	$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	

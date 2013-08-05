@@ -23,9 +23,9 @@
 		{% if config.show_filename and post.filename %}
 			, 
 			{% if post.filename|length > config.max_filename_display %}
-				<span class="postfilename" title="{{ post.filename|bidi_cleanup }}">{{ post.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
+				<span class="postfilename" title="{{ post.filename|e|bidi_cleanup }}">{{ post.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
 			{% else %}
-				<span class="postfilename">{{ post.filename|bidi_cleanup }}</span>
+				<span class="postfilename">{{ post.filename|e|bidi_cleanup }}</span>
 			{% endif %}
 		{% endif %}
 		{% if post.thumb != 'file' and config.image_identification %}
@@ -100,13 +100,25 @@
 		{{ post.id }}
 	</a>
 	{% if post.sticky %}
-		<img class="icon" title="Sticky" src="{{ config.image_sticky }}" alt="Sticky" />
+		{% if config.font_awesome %}
+			<i class="icon-pushpin icon"></i>
+		{% else %}
+			<img class="icon" title="Sticky" src="{{ config.image_sticky }}" alt="Sticky" />
+		{% endif %}
 	{% endif %}
 	{% if post.locked %}
-		<img class="icon" title="Locked" src="{{ config.image_locked }}" alt="Locked" />
+		{% if config.font_awesome %}
+			<i class="icon-lock icon"></i>
+		{% else %}
+			<img class="icon" title="Locked" src="{{ config.image_locked }}" alt="Locked" />
+		{% endif %}
 	{% endif %}
 	{% if post.bumplocked and (config.mod.view_bumplock < 0 or (post.mod and post.mod|hasPermission(config.mod.view_bumplock, board.uri))) %}
-		<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Bumplocked" />
+		{% if config.font_awesome %}
+			<i class="icon-anchor icon"></i>
+		{% else %}
+			<img class="icon" title="Bumplocked" src="{{ config.image_bumplocked }}" alt="Bumplocked" />
+		{% endif %}
 	{% endif %}
 	{% if index %}
 		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page|sprintf(post.id) }}">[{% trans %}Reply{% endtrans %}]</a>

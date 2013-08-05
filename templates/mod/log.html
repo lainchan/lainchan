@@ -18,7 +18,11 @@
 				{% endif %}
 			</td>
 			<td class="minimal">
-				<a href="?/IP/{{ log.ip }}">{{ log.ip }}</a>
+				{% if mod|hasPermission(config.mod.show_ip_modlog) %}
+					<a href="?/IP/{{ log.ip }}">{{ log.ip }}</a>
+				{% else %}
+					<em>hidden</em>
+				{% endif %}
 			</td>
 			<td class="minimal">
 				<span title="{{ log.time|date(config.post_date) }}">{{ log.time|ago }}</span>

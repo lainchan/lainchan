@@ -11,7 +11,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 
 class Image {
 	public $src, $format, $image, $size;
-	public function __construct($src, $format = false) {
+	public function __construct($src, $format = false, $size = false) {
 		global $config;
 		
 		$this->src = $src;
@@ -19,7 +19,7 @@ class Image {
 
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
-		} elseif ($config['thumb_method'] == 'convert' || $config['thumb_method'] == 'convert+gifsicle') {
+		} elseif (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
 			$classname = 'ImageConvert';
 		} else {
 			$classname = 'Image' . strtoupper($this->format);
@@ -28,7 +28,7 @@ class Image {
 			}
 		}
 		
-		$this->image = new $classname($this);
+		$this->image = new $classname($this, $size);
 
 		if (!$this->image->valid()) {
 			$this->delete();
@@ -44,8 +44,6 @@ class Image {
 	
 	public function resize($extension, $max_width, $max_height) {
 		global $config;
-		
-		$gifsicle = false;
 
 		if ($config['thumb_method'] == 'imagick') {
 			$classname = 'ImageImagick';
@@ -53,6 +51,13 @@ class Image {
 			$classname = 'ImageConvert';
 		} elseif ($config['thumb_method'] == 'convert+gifsicle') {
 			$classname = 'ImageConvert';
+			$gifsicle = true;
+		} elseif ($config['thumb_method'] == 'gm') {
+			$classname = 'ImageConvert';
+			$gm = true;
+		} elseif ($config['thumb_method'] == 'gm+gifsicle') {
+			$classname = 'ImageConvert';
+			$gm = true;
 			$gifsicle = true;
 		} else {
 			$classname = 'Image' . strtoupper($extension);
@@ -81,11 +86,8 @@ class Image {
 			$height = $max_height;
 		}
 		
-		if ($gifsicle) {
-			$thumb->gifsicle = 1;
-		}
 		$thumb->_resize($this->image->image, $width, $height);
-		
+				
 		return $thumb;
 	}
 	
@@ -120,9 +122,14 @@ class ImageBase extends ImageGD {
 		return (bool)$this->image;
 	}
 	
-	public function __construct($img) {
+	public function __construct($img, $size = false) {
 		if (method_exists($this, 'init'))
 			$this->init();
+		
+		if ($size && $size[0] > 0 && $size[1] > 0) {
+			$this->width = $size[0];
+			$this->height = $size[1];
+		}
 		
 		if ($img !== false) {
 			$this->src = $img->src;
@@ -175,6 +182,10 @@ class ImageImagick extends ImageBase {
 		}
 	}
 	public function to($src) {
+		global $config;
+		if ($config['strip_exif']) {
+			$this->image->stripImage();
+		}
 		if (preg_match('/\.gif$/i', $src))
 			$this->image->writeImages($src, true);
 		else
@@ -225,18 +236,37 @@ class ImageImagick extends ImageBase {
 
 
 class ImageConvert extends ImageBase {
-	public $width, $height, $temp, $gifsicle;
+	public $width, $height, $temp, $gm = false, $gifsicle = false;
 	
 	public function init() {
 		global $config;
 		
+		if ($config['thumb_method'] == 'gm' || $config['thumb_method'] == 'gm+gifsicle')
+			$this->gm = true;
+		if ($config['thumb_method'] == 'convert+gifsicle' || $config['thumb_method'] == 'gm+gifsicle')
+			$this->gifsicle = true;
+		
 		$this->temp = false;
 	}
-	public function from() {	
-		$size = trim(shell_exec('identify -format "%w %h" ' . escapeshellarg($this->src . '[0]')));	
-		if (preg_match('/^(\d+) (\d+)$/', $size, $m)) {
-			$this->width = $m[1];
-			$this->height = $m[2];
+	public function get_size($src, $try_gd_first = true) {
+		if ($try_gd_first) {
+			if ($size = @getimagesize($src))
+				return $size;
+		}
+		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($src . '[0]'));
+		if (preg_match('/^(\d+) (\d+)$/', $size, $m))
+			return array($m[1], $m[2]);
+		return false;
+	}
+	public function from() {
+		if ($this->width > 0 && $this->height > 0) {
+			$this->image = true;
+			return;
+		}
+		$size = $this->get_size($this->src, false);
+		if ($size) {
+			$this->width = $size[0];
+			$this->height = $size[1];
 			
 			$this->image = true;
 		} else {
@@ -245,9 +275,22 @@ class ImageConvert extends ImageBase {
 		}
 	}
 	public function to($src) {
+		global $config;
+		
 		if (!$this->temp) {
-			// $config['redraw_image']
-			shell_exec('convert ' . escapeshellarg($this->src) . ' ' . escapeshellarg($src));
+			if ($config['strip_exif']) {
+				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+						escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src))) {
+					$this->destroy();
+					error('Failed to redraw image!', null, $error);
+				}
+			} else {
+				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+						escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src))) {
+					$this->destroy();
+					error('Failed to redraw image!', null, $error);
+				}
+			}
 		} else {
 			rename($this->temp, $src);
 			chmod($src, 0664);
@@ -272,24 +315,119 @@ class ImageConvert extends ImageBase {
 		}
 		
 		$this->temp = tempnam($config['tmp'], 'imagick');
-		
-		$quality = $config['thumb_quality'] * 10;
+				
+		$config['thumb_keep_animation_frames'] = (int)$config['thumb_keep_animation_frames'];
 		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
-				if (shell_exec("gifsicle --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
-					escapeshellarg($this->src . '') . " > " . escapeshellarg($this->temp)) || !file_exists($this->temp))
-					error('Failed to resize image!');
-			}
-			else {
-				if (shell_exec("convert -background transparent -filter Point -sample {$this->width}x{$this->height} +antialias -quality {$quality} " .
-					escapeshellarg($this->src . '') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
-					error('Failed to resize image!');
+				if (($error = shell_exec_error("gifsicle -w --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
+					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" -o " .
+					escapeshellarg($this->temp), true)) || !file_exists($this->temp))
+					error('Failed to resize image!', null, $error);
+			} else {
+				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
+					$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+				elseif ($config['convert_manual_orient'])
+					$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
+				else
+					$convert_args = &$config['convert_args'];
+				if (($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+					sprintf($convert_args,
+						$this->width,
+						$this->height,
+						escapeshellarg($this->src),
+						$this->width,
+						$this->height,
+						escapeshellarg($this->temp)))) || !file_exists($this->temp))
+					error('Failed to resize image!', null, $error);
+				if ($size = $this->get_size($this->temp)) {
+					$this->width = $size[0];
+					$this->height = $size[1];
+				}
 			}
 		} else {
-			if (shell_exec("convert -background transparent -flatten -filter Point -scale {$this->width}x{$this->height} +antialias -quality {$quality} " .
-				escapeshellarg($this->src . '[0]') . " " . escapeshellarg($this->temp)) || !file_exists($this->temp))
-				error('Failed to resize image!');
+			if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
+				$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+			elseif ($config['convert_manual_orient'])
+				$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
+			else
+				$convert_args = &$config['convert_args'];
+			if (($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
+				sprintf($convert_args,
+					$this->width,
+					$this->height,
+					escapeshellarg($this->src . '[0]'),
+					$this->width,
+					$this->height,
+					escapeshellarg($this->temp)))) || !file_exists($this->temp))
+				error('Failed to resize image!', null, $error);
+			if ($size = $this->get_size($this->temp)) {
+				$this->width = $size[0];
+				$this->height = $size[1];
+			}
+		}
+	}
+	
+	// For when -auto-orient doesn't exist (older versions)
+	static public function jpeg_exif_orientation($src, $exif = false) {
+		if (!$exif) {
+			$exif = @exif_read_data($src);
+			if (!isset($exif['Orientation']))
+				return false;
+		}
+		switch($exif['Orientation']) {
+			case 1:
+				// Normal
+				return false;
+			case 2:
+				// 888888
+				//     88
+				//   8888
+				//     88
+				//     88
+			
+				return '-flop';
+			case 3:
+			
+				//     88
+				//     88
+				//   8888
+				//     88
+				// 888888
+			
+				return '-flip -flop';
+			case 4:
+				// 88
+				// 88
+				// 8888
+				// 88
+				// 888888
+			
+				return '-flip';
+			case 5:
+				// 8888888888
+				// 88  88
+				// 88
+			
+				return '-rotate 90 -flop';
+			case 6:
+				// 88
+				// 88  88
+				// 8888888888
+			
+				return '-rotate 90';
+			case 7:
+				//         88
+				//     88  88
+				// 8888888888
+			
+				return '-rotate "-90" -flop';
+			case 8:
+				// 8888888888
+				//     88  88
+				//         88
+			
+				return '-rotate "-90"';
 		}
 	}
 }
@@ -300,7 +438,7 @@ class ImagePNG extends ImageBase {
 	}
 	public function to($src) {
 		global $config;
-		imagepng($this->image, $src, $config['thumb_quality']);
+		imagepng($this->image, $src);
 	}
 	public function resize() {
 		$this->GD_create();
@@ -313,7 +451,7 @@ class ImagePNG extends ImageBase {
 
 class ImageGIF extends ImageBase {
 	public function from() {
-		$this->image = @imagecreatefromgif ($this->src);
+		$this->image = @imagecreatefromgif($this->src);
 	}
 	public function to($src) {
 		imagegif ($this->image, $src);

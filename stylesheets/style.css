@@ -145,6 +145,10 @@ div.post img.icon {
 	margin: 0 5px;
 	padding: 0;
 }
+div.post i.icon {
+	margin: 0 4px;
+	font-size: 16px;
+}
 div.post.op {
 	margin-right: 20px;
 	margin-bottom: 5px;
@@ -401,7 +405,6 @@ table.mod.config-editor td {
 table.mod.config-editor input[type="text"] {
 	width: 98%;
 }
-
 .desktop-style div.boardlist:nth-child(1) {
   position: fixed;
   top: 0px;
@@ -454,6 +457,7 @@ table.mod.config-editor input[type="text"] {
   background-color: #fff;
   opacity: 0.8;
 }
-.thread-hidden {
-  opacity: 0.5;
+p.intro.thread-hidden {
+	margin: 0px;
+	padding: 0px;
 }

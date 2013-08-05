@@ -42,12 +42,12 @@
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_images'], $query);
 			$query = query($query) or error(db_error());
 			
-			while ($post = $query->fetch()) {
+			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 				
 				// board settings won't be available in the template file, so generate links now
@@ -62,12 +62,12 @@
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT *, '%s' AS `board` FROM `posts_%s` UNION ALL ", $_board['uri'], $_board['uri']);
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_posts'], $query);
 			$query = query($query) or error(db_error());
 			
-			while ($post = $query->fetch()) {
+			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 				
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
@@ -78,40 +78,37 @@
 			}
 			
 			// Total posts
-			$query = 'SELECT SUM(`top`) AS `count` FROM (';
+			$query = 'SELECT SUM(`top`) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT MAX(`id`) AS `top` FROM `posts_%s` UNION ALL ", $_board['uri']);
+				$query .= sprintf("SELECT MAX(`id`) AS `top` FROM ``posts_%s`` UNION ALL ", $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
 			$query = query($query) or error(db_error());
-			$res = $query->fetch();
-			$stats['total_posts'] = number_format($res['count']);
+			$stats['total_posts'] = number_format($query->fetchColumn());
 			
 			// Unique IPs
-			$query = 'SELECT COUNT(DISTINCT(`ip`)) AS `count` FROM (';
+			$query = 'SELECT COUNT(DISTINCT(`ip`)) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT `ip` FROM `posts_%s` UNION ALL ", $_board['uri']);
+				$query .= sprintf("SELECT `ip` FROM ``posts_%s`` UNION ALL ", $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
 			$query = query($query) or error(db_error());
-			$res = $query->fetch();
-			$stats['unique_posters'] = number_format($res['count']);
+			$stats['unique_posters'] = number_format($query->fetchColumn());
 			
 			// Active content
-			$query = 'SELECT SUM(`filesize`) AS `count` FROM (';
+			$query = 'SELECT SUM(`filesize`) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT `filesize` FROM `posts_%s` UNION ALL ", $_board['uri']);
+				$query .= sprintf("SELECT `filesize` FROM ``posts_%s`` UNION ALL ", $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
 			$query = query($query) or error(db_error());
-			$res = $query->fetch();
-			$stats['active_content'] = $res['count'];
+			$stats['active_content'] = $query->fetchColumn();
 			
 			return Element('themes/recent/recent.html', Array(
 				'settings' => $settings,

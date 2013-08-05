@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.2</a>');
+define('VERSION', 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.8-gold</a>');
 
 require 'inc/functions.php';
 
@@ -233,6 +233,139 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-8':
 		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.1</a>':
 			query("CREATE TABLE IF NOT EXISTS `search_queries` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
+		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.2</a>':
+			query("ALTER TABLE  `mods` CHANGE  `password`  `password` CHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  'SHA256'") or error(db_error());
+			query("ALTER TABLE  `mods` ADD  `salt` CHAR( 32 ) NOT NULL AFTER  `password`") or error(db_error());
+			$query = query("SELECT `id`,`password` FROM `mods`") or error(db_error());
+			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+				if (strlen($user['password']) == 40) {
+					mt_srand(microtime(true) * 100000 + memory_get_usage(true));
+					$salt = md5(uniqid(mt_rand(), true));
+			
+					$user['salt'] = $salt;
+					$user['password'] = hash('sha256', $user['salt'] . $user['password']);
+			
+					$_query = prepare("UPDATE `mods` SET `password` = :password, `salt` = :salt WHERE `id` = :id");
+					$_query->bindValue(':id', $user['id']);
+					$_query->bindValue(':password', $user['password']);
+					$_query->bindValue(':salt', $user['salt']);
+					$_query->execute() or error(db_error($_query));
+				}
+			}
+                case 'v0.9.6-dev-9':
+		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.3</a>':
+		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.4-gold</a>':
+		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.5-gold</a>':
+			sql_open();
+			function __query($sql) {
+				if (mysql_version() >= 50503)
+					return query($sql);
+				else
+					return query(str_replace('utf8mb4', 'utf8', $sql));
+			}
+			
+			foreach ($boards as &$board) {
+				__query(sprintf("ALTER TABLE `posts_%s`
+					CHANGE `subject` `subject` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `email` `email` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `name` `name` VARCHAR(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `trip` `trip` VARCHAR(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `capcode` `capcode` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `body` `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+					CHANGE `body_nomarkup` `body_nomarkup` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `thumb` `thumb` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `thumbwidth` `thumbwidth` INT(11) NULL DEFAULT NULL,
+					CHANGE `thumbheight` `thumbheight` INT(11) NULL DEFAULT NULL,
+					CHANGE `file` `file` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `filename` `filename` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `filehash` `filehash` TEXT CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL,
+					CHANGE `password` `password` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE `ip` `ip` VARCHAR(39) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+					CHANGE `embed` `embed` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;", $board['uri'])) or error(db_error());
+			}
+			
+			__query("ALTER TABLE  `antispam`
+				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `hash`  `hash` CHAR( 40 ) CHARACTER SET ASCII COLLATE ascii_bin NOT NULL ,
+				DEFAULT CHARACTER SET ASCII COLLATE ascii_bin;") or error(db_error());
+			__query("ALTER TABLE  `bans`
+				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `reason`  `reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NULL DEFAULT NULL,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `boards`
+				CHANGE  `uri`  `uri` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `title`  `title` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `subtitle`  `subtitle` TINYTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `cites`
+				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `target_board`  `target_board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET ASCII COLLATE ascii_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `ip_notes`
+				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `body`  `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `modlogs`
+				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NULL DEFAULT NULL ,
+				CHANGE  `text`  `text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `mods`
+				CHANGE  `username`  `username` VARCHAR( 30 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `password`  `password` CHAR( 64 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL COMMENT 'SHA256',
+				CHANGE  `salt`  `salt` CHAR( 32 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `boards`  `boards` TEXT CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `mutes`
+				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET ASCII COLLATE ascii_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `news`
+				CHANGE  `name`  `name` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `subject`  `subject` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `body`  `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `noticeboard`
+				CHANGE  `subject`  `subject` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `body`  `body` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `pms`
+				CHANGE  `message`  `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `reports`
+				CHANGE  `ip`  `ip` VARCHAR( 39 ) CHARACTER SET ASCII COLLATE ascii_general_ci NOT NULL ,
+				CHANGE  `board`  `board` VARCHAR( 120 ) CHARACTER SET ASCII COLLATE ascii_general_ci NULL DEFAULT NULL ,
+				CHANGE  `reason`  `reason` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or error(db_error());
+			__query("ALTER TABLE  `robot`
+				CHANGE  `hash`  `hash` VARCHAR( 40 ) CHARACTER SET ASCII COLLATE ascii_bin NOT NULL COMMENT  'SHA1',
+				DEFAULT CHARACTER SET ASCII COLLATE ascii_bin;") or error(db_error());
+			__query("ALTER TABLE  `theme_settings`
+				CHANGE  `theme`  `theme` VARCHAR( 40 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
+				CHANGE  `name`  `name` VARCHAR( 40 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+				CHANGE  `value`  `value` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+				DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;") or eror(db_error());
+		case 'v0.9.6-dev-10':
+			query("ALTER TABLE  `antispam`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `bans`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+			query("ALTER TABLE  `boards`
+				CHANGE  `uri`  `uri` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `cites`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				CHANGE  `target_board`  `target_board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;") or error(db_error());
+			query("ALTER TABLE  `modlogs`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+			query("ALTER TABLE  `mods`
+				CHANGE  `boards`  `boards` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
+			query("ALTER TABLE  `reports`
+				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+		case 'v0.9.6-dev-11':
+		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.6</a>':
+		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.7-gold</a>':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
@@ -265,215 +398,177 @@ if ($step == 0) {
 } elseif ($step == 1) {
 	$page['title'] = 'Pre-installation test';
 	
-	$page['body'] = '<table class="test">';
+	$can_exec = true;
+	if (!function_exists('shell_exec'))
+		$can_exec = false;
+	elseif (in_array('shell_exec', array_map('trim', explode(', ', ini_get('disable_functions')))))
+		$can_exec = false;
+	elseif (ini_get('safe_mode'))
+		$can_exec = false;
+	elseif (trim(shell_exec('echo "TEST"')) !== 'TEST')
+		$can_exec = false;
 	
-	function rheader($item) {
-		global $page, $config;
-		
-		$page['body'] .= '<tr class="h"><th colspan="2">' . $item . '</th></tr>';
+	if (!defined('PHP_VERSION_ID')) {
+		$version = explode('.', PHP_VERSION);
+		define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 	}
-	
-	function row($item, $result) {
-		global $page, $config, $__is_error;
-		if (!$result)
-			$__is_error = true;
-		$page['body'] .= '<tr><th>' . $item . '</th><td><img style="width:16px;height:16px" src="' . $config['dir']['static'] . ($result ? 'ok.png' : 'error.png') . '" /></td></tr>';
-	}
-	
 	
 	// Required extensions
-	rheader('PHP extensions');
-	row('PDO', extension_loaded('pdo'));
-	row('GD', extension_loaded('gd'));
+	$extensions = array(
+		'PDO' => array(
+			'installed' => extension_loaded('pdo'),
+			'required' => true
+		),
+		'PDO' => array(
+			'installed' => extension_loaded('gd'),
+			'required' => true
+		),
+		'Imagick' => array(
+			'installed' => extension_loaded('imagick'),
+			'required' => false
+		)
+	);
 	
-	// GD tests
-	rheader('GD tests');
-	row('JPEG', function_exists('imagecreatefromjpeg'));
-	row('PNG', function_exists('imagecreatefrompng'));
-	row('GIF', function_exists('imagecreatefromgif'));
+	$tests = array(
+		array(
+			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.2.5',
+			'result' => PHP_VERSION_ID >= 50205,
+			'required' => true,
+			'message' => 'Tinyboard requires PHP 5.2.5 or better.',
+		),
+		array(
+			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.3',
+			'result' => PHP_VERSION_ID >= 50300,
+			'required' => false,
+			'message' => 'PHP &ge; 5.3, though not required, is recommended to make the most out of Tinyboard configuration files.',
+		),
+		array(
+			'category' => 'PHP',
+			'name' => 'mbstring extension installed',
+			'result' => extension_loaded('mbstring'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/mbstring.installation.php">mbstring</a> extension.',
+		),
+		array(
+			'category' => 'Database',
+			'name' => 'PDO extension installed',
+			'result' => extension_loaded('pdo'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.pdo.php">PDO</a> extension.',
+		),
+		array(
+			'category' => 'Database',
+			'name' => 'MySQL PDO driver installed',
+			'result' => extension_loaded('pdo') && in_array('mysql', PDO::getAvailableDrivers()),
+			'required' => true,
+			'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD extension installed',
+			'result' => extension_loaded('gd'),
+			'required' => true,
+			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.image.php">GD</a> extension. GD is a requirement even if you have chosen another image processor for thumbnailing.',
+		),
+		array(
+		 	'category' => 'Image processing',
+		 	'name' => 'GD: JPEG',
+			'result' => function_exists('imagecreatefromjpeg'),
+			'required' => true,
+			'message' => 'imagecreatefromjpeg() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD: PNG',
+			'result' => function_exists('imagecreatefrompng'),
+			'required' => true,
+			'message' => 'imagecreatefrompng() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'GD: GIF',
+			'result' => function_exists('imagecreatefromgif'),
+			'required' => true,
+			'message' => 'imagecreatefromgif() does not exist. This is a problem.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => 'Imagick extension installed',
+			'result' => extension_loaded('imagick'),
+			'required' => false,
+			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`convert` (command-line ImageMagick)',
+			'result' => $can_exec && shell_exec('which convert'),
+			'required' => false,
+			'message' => '(Optional) `convert` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`identify` (command-line ImageMagick)',
+			'result' => $can_exec && shell_exec('which identify'),
+			'required' => false,
+			'message' => '(Optional) `identify` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
+			'result' => $can_exec && shell_exec('which gifsicle'),
+			'required' => false,
+			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
+		),
+		array(
+			'category' => 'File permissions',
+			'name' => getcwd(),
+			'result' => is_writable('.'),
+			'required' => true,
+			'message' => 'Tinyboard does not have permission to create directories (boards) here. You will need to <code>chmod</code> (or operating system equivalent) appropriately.'
+		),
+		array(
+			'category' => 'File permissions',
+			'name' => getcwd() . '/inc/instance-config.php',
+			'result' => is_writable('inc/instance-config.php'),
+			'required' => false,
+			'message' => 'Tinyboard does not have permission to make changes to inc/instance-config.php. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
+		),
+		array(
+			'category' => 'Misc',
+			'name' => 'Tinyboard installed using git',
+			'result' => is_dir('.git.'),
+			'required' => false,
+			'message' => 'Tinyboard is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your Tinyboard installation. Using git makes upgrading much easier.'
+		)
+	);
 	
-	// Database drivers
-	$drivers = PDO::getAvailableDrivers();
+	$config['font_awesome'] = true;
 	
-	rheader('PDO drivers <em>(currently installed drivers)</em>');
-	foreach ($drivers as &$driver) {
-		row($driver, true);
-	}
-	
-	// Permissions
-	rheader('File permissions');
-	row('<em>root directory</em> (' . getcwd() . ')', is_writable('.'));
-	
-	$page['body'] .= '</table>
-	<p style="text-align:center">
-		<a href="?step=2"' .
-			(isset($__is_error) ? ' onclick="return confirm(\'Are you sure you want to continue when errors exist?\')"' : '') .
-		'>Continue' . (isset($__is_error) ? ' anyway' : '') . '</a>
-	</p>';
-	
-	echo Element('page.html', $page);
+	echo Element('page.html', array(
+		'body' => Element('installer/check-requirements.html', array(
+			'extensions' => $extensions,
+			'tests' => $tests,
+			'config' => $config
+		)),
+		'title' => 'Checking environment',
+		'config' => $config
+	));
 } elseif ($step == 2) {
 	// Basic config
 	$page['title'] = 'Configuration';
 	
-	function create_salt() {
-		return substr(base64_encode(sha1(rand())), 0, rand(25, 31));
-	}
+	$config['cookies']['salt'] = substr(base64_encode(sha1(rand())), 0, 30);
+	$config['secure_trip_salt'] = substr(base64_encode(sha1(rand())), 0, 30);	
 	
-	$page['body'] = '
-<form action="?step=3" method="post">
-	<fieldset>
-	<legend>Database</legend>
-		<label for="db_type">Type:</label> 
-		<select id="db_type" name="db[type]">';
-		
-		$drivers = PDO::getAvailableDrivers();
-		
-		foreach ($drivers as &$driver) {
-			$driver_txt = $driver;
-			switch ($driver) {
-				case 'cubrid':
-					$driver_txt = 'Cubrid';
-					break;
-				case 'dblib':
-					$driver_txt = 'FreeTDS / Microsoft SQL Server / Sybase';
-					break;
-				case 'firebird':
-					$driver_txt = 'Firebird/Interbase 6';
-					break;
-				case 'ibm':
-					$driver_txt = 'IBM DB2';
-					break;
-				case 'informix':
-					$driver_txt = 'IBM Informix Dynamic Server';
-					break;
-				case 'mysql':
-					$driver_txt = 'MySQL';
-					break;
-				case 'oci':
-					$driver_txt = 'OCI';
-					break;
-				case 'odbc':
-					$driver_txt = 'ODBC v3 (IBM DB2, unixODBC)';
-					break;
-				case 'pgsql':
-					$driver_txt = 'PostgreSQL';
-					break;
-				case 'sqlite':
-					$driver_txt = 'SQLite 3';
-					break;
-				case 'sqlite2':
-					$driver_txt = 'SQLite 2';
-					break;
-			}
-			$page['body'] .= '<option value="' . $driver . '">' . $driver_txt . '</option>';
-		}
-		
-		$page['body'] .= '	
-		</select>
-		
-		<label for="db_server">Server:</label> 
-		<input type="text" id="db_server" name="db[server]" value="localhost" />
-		
-		<label for="db_db">Database:</label> 
-		<input type="text" id="db_db" name="db[database]" value="" />
-		
-		<label for="db_user">Username:</label> 
-		<input type="text" id="db_user" name="db[user]" value="" />
-		
-		<label for="db_pass">Password:</label> 
-		<input type="password" id="db_pass" name="db[password]" value="" />
-	</fieldset>
-	<p style="text-align:center" class="unimportant">The following is all later configurable. For more options, <a href="http://tinyboard.org/docs/?p=Config">edit your configuration files</a> after installing.</p>
-	<fieldset>
-	<legend>Cookies</legend>
-		<label for="cookies_mod">Moderator cookie:</label> 
-		<input type="text" id="cookies_mod" name="cookies[mod]" value="' . $config['cookies']['mod'] . '" />
-		
-		<label for="cookies_salt">Secure salt:</label> 
-		<input type="text" id="cookies_salt" name="cookies[salt]" value="' . create_salt() . '" size="40" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Flood control</legend>
-		<label for="flood_time">Seconds before each post:</label> 
-		<input type="text" id="flood_time" name="flood_time" value="' . $config['flood_time'] . '" />
-		
-		<label for="flood_time_ip">Seconds before you can repost something (post the exact same text):</label> 
-		<input type="text" id="flood_time_ip" name="flood_time_ip" value="' . $config['flood_time_ip'] . '" />
-		
-		<label for="flood_time_same">Same as above, but with a different IP address:</label> 
-		<input type="text" id="flood_time_same" name="flood_time_same" value="' . $config['flood_time_same'] . '" />
-		
-		<label for="max_body">Maximum post body length:</label> 
-		<input type="text" id="max_body" name="max_body" value="' . $config['max_body'] . '" />
-		
-		<label for="reply_limit">Replies in a thread before it can no longer be bumped:</label> 
-		<input type="text" id="reply_limit" name="reply_limit" value="' . $config['reply_limit'] . '" />
-		
-		<label for="max_links">Maximum number of links in a single post:</label> 
-		<input type="text" id="max_links" name="max_links" value="' . $config['max_links'] . '" />			
-	</fieldset>
-	
-	<fieldset>
-	<legend>Images</legend>
-		<label for="max_filesize">Maximum image filesize:</label> 
-		<input type="text" id="max_filesize" name="max_filesize" value="' . $config['max_filesize'] . '" />
-		
-		<label for="thumb_width">Thumbnail width:</label> 
-		<input type="text" id="thumb_width" name="thumb_width" value="' . $config['thumb_width'] . '" />
-		
-		<label for="thumb_height">Thumbnail height:</label> 
-		<input type="text" id="thumb_height" name="thumb_height" value="' . $config['thumb_height'] . '" />
-		
-		<label for="max_width">Maximum image width:</label> 
-		<input type="text" id="max_width" name="max_width" value="' . $config['max_width'] . '" />
-		
-		<label for="max_height">Maximum image height:</label> 
-		<input type="text" id="max_height" name="max_height" value="' . $config['max_height'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Display</legend>
-		<label for="threads_per_page">Threads per page:</label> 
-		<input type="text" id="threads_per_page" name="threads_per_page" value="' . $config['threads_per_page'] . '" />
-		
-		<label for="max_pages">Page limit:</label> 
-		<input type="text" id="max_pages" name="max_pages" value="' . $config['max_pages'] . '" />
-		
-		<label for="threads_preview">Number of replies to show per thread on the index page:</label> 
-		<input type="text" id="threads_preview" name="threads_preview" value="' . $config['threads_preview'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Directories</legend>
-		<label for="root">Root URI (include trailing slash):</label> 
-		<input type="text" id="root" name="root" value="' . $config['root'] . '" />
-		
-		<label for="dir_img">Image directory:</label> 
-		<input type="text" id="dir_img" name="dir[img]" value="' . $config['dir']['img'] . '" />
-		
-		<label for="dir_thumb">Thumbnail directory:</label> 
-		<input type="text" id="dir_thumb" name="dir[thumb]" value="' . $config['dir']['thumb'] . '" />
-		
-		<label for="dir_res">Thread directory:</label> 
-		<input type="text" id="dir_res" name="dir[res]" value="' . $config['dir']['res'] . '" />
-	</fieldset>
-	
-	<fieldset>
-	<legend>Miscellaneous</legend>
-		<label for="secure_trip_salt">Secure trip (##) salt:</label> 
-		<input type="text" id="secure_trip_salt" name="secure_trip_salt" value="' . create_salt() . '" size="40" />
-	</fieldset>
-	
-	<p style="text-align:center">
-		<input type="submit" value="Complete installation" />
-	</p>
-</form>
-	';
-	
-	
-	echo Element('page.html', $page);
+	echo Element('page.html', array(
+		'body' => Element('installer/config.html', array(
+			'config' => $config
+		)),
+		'title' => 'Configuration',
+		'config' => $config
+	));
 } elseif ($step == 3) {
 	$instance_config = 
 '<?php
@@ -532,6 +627,9 @@ if ($step == 0) {
 	
 	$sql = @file_get_contents('install.sql') or error("Couldn't load install.sql.");
 	
+	sql_open();
+	$mysql_version = mysql_version();
+	
 	// This code is probably horrible, but what I'm trying
 	// to do is find all of the SQL queires and put them
 	// in an array.
@@ -541,7 +639,10 @@ if ($step == 0) {
 	$queries[] = Element('posts.sql', array('board' => 'b'));
 	
 	$sql_errors = '';
-	foreach ($queries as &$query) {
+	foreach ($queries as $query) {
+		if ($mysql_version < 50503)
+			$query = preg_replace('/(CHARSET=|CHARACTER SET )utf8mb4/', '$1utf8', $query);
+		$query = preg_replace('/^([\w\s]*)`([0-9a-zA-Z$_\x{0080}-\x{FFFF}]+)`/u', '$1``$2``', $query);
 		if (!query($query))
 			$sql_errors .= '<li>' . db_error() . '</li>';
 	}
