@@ -1045,6 +1045,8 @@ function index($page, $mod=false) {
 	if ($query->rowCount() < 1 && $page > 1)
 		return false;
 
+	$threads = array();
+
 	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
 		$thread = new Thread(
 			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
