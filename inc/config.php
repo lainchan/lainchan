@@ -447,7 +447,7 @@
 	$config['markup'][] = array("/'''([^<]+?)'''/", "<strong>\$1</strong>");
 	$config['markup'][] = array("/''([^<]+?)''/", "<em>\$1</em>");
 	$config['markup'][] = array("/\*\*([^<]+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
-	// $config['markup'][] = array("/^[ |\t]*==([^<]+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
+	$config['markup'][] = array("/^[ |\t]*==([^<]+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 
 	// Highlight PHP code wrapped in <code> tags (PHP 5.3+)
 	// $config['markup'][] = array(
