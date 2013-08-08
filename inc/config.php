@@ -615,6 +615,9 @@
 	// Number of reports you can create at once.
 	$config['report_limit'] = 3;
 
+	// Allow unfiltered HTML in board subtitles. This is useful for placing icons and links.
+	$config['allow_subtitle_html'] = false;
+
 /*
  * ====================
  *  Display settings

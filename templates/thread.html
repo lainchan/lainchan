@@ -13,7 +13,11 @@
 		<h1>{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
 			{% if board.subtitle %}
-				{{ board.subtitle|e }}
+				{% if config.allow_subtitle_html %}
+					{{ board.subtitle }}
+				{% else %}
+					{{ board.subtitle|e }}
+				{% endif %}
 			{% endif %}
 			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
 		</div>
