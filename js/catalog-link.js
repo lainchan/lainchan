@@ -3,7 +3,7 @@
 function catalog() {
 var board = $("input[name='board']");
 
-if (board===undefined) { 
+if (board.length>0) { 
 var catalog_url = 'catalog.html';
 var pages = document.getElementsByClassName('pages')[0];
 var bottom = document.getElementsByClassName('boardlist bottom')[0]
