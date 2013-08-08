@@ -68,6 +68,7 @@ $pages = array(
 	'/(\%b)/edit(_raw)?/(\d+)'		=> 'secure_POST edit_post',	// edit post
 	'/(\%b)/delete/(\d+)'			=> 'secure delete',		// delete post
 	'/(\%b)/deletefile/(\d+)'		=> 'secure deletefile',		// delete file from post
+	'/(\%b+)/spoiler/(\d+)'			=> 'secure spoiler_image',	// spoiler file
 	'/(\%b)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',		// delete all posts by IP address
 	'/(\%b)/(un)?lock/(\d+)'		=> 'secure lock',		// lock thread
 	'/(\%b)/(un)?sticky/(\d+)'		=> 'secure sticky',		// sticky thread
