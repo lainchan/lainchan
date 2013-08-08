@@ -383,6 +383,9 @@
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 
+	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
+	$config['field_email_selectbox'] = false;
+
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
 

@@ -25,11 +25,16 @@
 				{{ antibot.html() }}
 			</th>
 			<td>
+				{% if config.field_email_selectbox %}
+				<select name="email" id="email_selectbox" autocomplete="off">
+					<option value=""></option>
+					<option value="sage">sage</option>
+					<option value="noko">noko</option>
+				</select>
+				{% else %}
 				<input type="text" name="email" size="25" maxlength="40" autocomplete="off">
-				{{ antibot.html() }}
-				{% if not (not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
-				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />{% if config.spoiler_images %} <input id="spoiler" name="spoiler" type="checkbox"> <label for="spoiler">{% trans %}Spoiler Image{% endtrans %}</label>{% endif %}
 				{% endif %}
+				{{ antibot.html() }}
 			</td>
 		</tr>{% endif %}
 		{% if not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
