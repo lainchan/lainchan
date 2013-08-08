@@ -999,6 +999,9 @@
 	// persistent spammers and ban evaders. Again, a little more database load.
 	$config['ban_cidr'] = true;
 
+	// Enable the moving of single replies
+	$config['move_replies'] = false;
+
 	// How often (minimum) to purge the ban list of expired bans (which have been seen). Only works when
 	//  $config['cache'] is enabled and working.
 	$config['purge_bans'] = 60 * 60 * 12; // 12 hours
