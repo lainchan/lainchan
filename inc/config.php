@@ -954,6 +954,7 @@
 	$config['mod']['link_ban'] = '[B]';
 	$config['mod']['link_bandelete'] = '[B&amp;D]';
 	$config['mod']['link_deletefile'] = '[F]';
+	$config['mod']['link_spoilerimage'] = '[S]';
 	$config['mod']['link_deletebyip'] = '[D+]';
 	$config['mod']['link_deletebyip_global'] = '[D++]';
 	$config['mod']['link_sticky'] = '[Sticky]';

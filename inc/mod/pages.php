@@ -1361,6 +1361,33 @@ function mod_deletefile($board, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
+function mod_spoiler_image($board, $post) {
+	global $config, $mod;
+       
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+       
+	if (!hasPermission($config['mod']['spoilerimage'], $board))
+		error($config['error']['noaccess']);
+
+	// Delete file
+	$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
+	$query->bindValue(':thumb', "spoiler");
+	$query->bindValue(':thumbwidth', 128, PDO::PARAM_INT);
+	$query->bindValue(':thumbheight', 128, PDO::PARAM_INT);
+	$query->bindValue(':id', $post, PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+
+	// Record the action
+	modLog("Spoilered file from post #{$post}");
+       
+	// Rebuild board
+	buildIndex();
+       
+	// Redirect
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
 function mod_deletebyip($boardName, $post, $global = false) {
 	global $config, $mod, $board;
 	
