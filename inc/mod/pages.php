@@ -1208,8 +1208,8 @@ function mod_move($originBoard, $postID) {
 			
 			if ($post['has_file']) {
 				// copy image
-				copy($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-				copy($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+				$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
+				$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 			}
 			
 			foreach ($post['tracked_cites'] as $cite) {
