@@ -728,6 +728,15 @@
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
 
+	/*
+	 * Advertisement HTML to appear at the top and bottom of board pages.
+	 */
+
+	// $config['ad'] = array(
+	//	'top' => '',
+	//	'bottom' => '',
+	// );
+
 /*
  * ====================
  *  Javascript

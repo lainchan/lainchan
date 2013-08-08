@@ -34,6 +34,8 @@
 
 	{% include 'post_form.html' %}
 
+	{{ config.ad.top }}
+
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
@@ -45,6 +47,9 @@
 	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
+
+	{{ config.ad.bottom }}
+
 	<footer>
 		<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2013 Tinyboard Development Group</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
