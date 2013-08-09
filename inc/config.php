@@ -732,9 +732,6 @@
 	// 	)
 	// );
 
-	// Whether or not to put brackets around the whole board list
-	$config['boardlist_wrap_bracket'] = false;
-
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
 
