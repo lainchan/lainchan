@@ -747,6 +747,9 @@
 	//	'bottom' => '',
 	// );
 
+	// Optional message to display on ban pages. For example, you could include a link to email an admin or join an IRC channel to be unbanned.
+	$config['ban_page_message'] = '';
+
 /*
  * ====================
  *  Javascript
