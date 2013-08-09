@@ -1330,8 +1330,6 @@ function buildIndex() {
 		file_write($jsonFilename, $json);
 
 		$catalog[$page-1] = $threads; 
-		
-		$page++;
 	}
 	if ($page < $config['max_pages']) {
 		for (;$page<=$config['max_pages'];$page++) {
