@@ -1053,7 +1053,8 @@ function mod_move($originBoard, $postID) {
 		if ($post['has_file']) {
 			// copy image
 			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			if (!in_array($post['thumb'], array('spoiler', 'deleted')))
+				$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 		}
 		
 		// go back to the original board to fetch replies
