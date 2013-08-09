@@ -1011,7 +1011,7 @@ function mod_move_reply($originBoard, $postID) {
 	if (!hasPermission($config['mod']['move'], $originBoard))
 		error($config['error']['noaccess']);
 
-	$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $originBoard));
+	$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id', $originBoard));
 	$query->bindValue(':id', $postID);
 	$query->execute() or error(db_error($query));
 	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
@@ -1021,7 +1021,7 @@ function mod_move_reply($originBoard, $postID) {
 		$targetBoard = $_POST['board'];
 
 		if ($_POST['target_thread']) {
-			$query = prepare(sprintf('SELECT * FROM `posts_%s` WHERE `id` = :id', $targetBoard));
+			$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id', $targetBoard));
 			$query->bindValue(':id', $_POST['target_thread']);
 			$query->execute() or error(db_error($query)); // If it fails, thread probably does not exist
 			$post['op'] = false;
@@ -1077,7 +1077,7 @@ function mod_move_reply($originBoard, $postID) {
 		openBoard($targetBoard);
 
 		// Find new thread on our target board
-		$query = prepare(sprintf('SELECT thread FROM `posts_%s` WHERE `id` = :id', $targetBoard));
+		$query = prepare(sprintf('SELECT thread FROM ``posts_%s`` WHERE `id` = :id', $targetBoard));
 		$query->bindValue(':id', $newID);
 		$query->execute() or error(db_error($query));
 		$post = $query->fetch(PDO::FETCH_ASSOC);
@@ -1467,7 +1467,7 @@ function mod_spoiler_image($board, $post) {
 		error($config['error']['noaccess']);
 
 	// Delete file
-	$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
 	$query->bindValue(':thumb', "spoiler");
 	$query->bindValue(':thumbwidth', 128, PDO::PARAM_INT);
 	$query->bindValue(':thumbheight', 128, PDO::PARAM_INT);
