@@ -345,11 +345,11 @@ class Post {
 			
 			// Spoiler file (keep post)
 			if (!empty($this->file)  && $this->file != "deleted" && $this->file != null && $this->thumb != 'spoiler' && hasPermission($config['mod']['spoilerimage'], $board['uri'], $this->mod) && $config['spoiler_images'])
-				$built .= ' ' . secure_link_confirm($config['mod']['link_spoilerimage'], 'Spoiler File', 'Are you sure you want to spoiler this file?', $board['uri'] . '/spoiler/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_spoilerimage'], _('Spoiler File'), _('Are you sure you want to spoiler this file?'), $board['uri'] . '/spoiler/' . $this->id);
 
 			// Move post
 			if (hasPermission($config['mod']['move'], $board['uri'], $this->mod) && $config['move_replies'])
-				$built .= ' <a title="Move reply to another board" href="?/' . $board['uri'] . '/move_reply/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
+				$built .= ' <a title="'._('Move reply to another board').'" href="?/' . $board['uri'] . '/move_reply/' . $this->id . '">' . $config['mod']['link_move'] . '</a>';
 
 			// Edit post
 			if (hasPermission($config['mod']['editpost'], $board['uri'], $this->mod))
@@ -455,7 +455,7 @@ class Thread {
 
 			// Spoiler file (keep post)
 			if (!empty($this->file)  && $this->file != "deleted" && $this->file != null && $this->thumb != 'spoiler' && hasPermission($config['mod']['spoilerimage'], $board['uri'], $this->mod) && $config['spoiler_images'])
-				$built .= ' ' . secure_link_confirm($config['mod']['link_spoilerimage'], 'Spoiler File', 'Are you sure you want to spoiler this file?', $board['uri'] . '/spoiler/' . $this->id);
+				$built .= ' ' . secure_link_confirm($config['mod']['link_spoilerimage'], _('Spoiler File'), _('Are you sure you want to spoiler this file?'), $board['uri'] . '/spoiler/' . $this->id);
 			
 			// Sticky
 			if (hasPermission($config['mod']['sticky'], $board['uri'], $this->mod))
