@@ -1054,7 +1054,9 @@ function mod_move_reply($originBoard, $postID) {
 		if ($post['has_file']) {
 			// move the image
 			rename($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			rename($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			if ($post['thumb'] != 'spoiler') { //trying to move/copy the spoiler thumb raises an error
+				rename($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			}
 		}
 
 		buildIndex();
@@ -1146,7 +1148,9 @@ function mod_move($originBoard, $postID) {
 		if ($post['has_file']) {
 			// copy image
 			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			if ($post['thumb'] != 'spoiler') { //trying to move/copy the spoiler thumb raises an error
+				$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			}
 		}
 		
 		// go back to the original board to fetch replies
