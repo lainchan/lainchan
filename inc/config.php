@@ -719,6 +719,10 @@
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
 
+	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
+	// a link to an email address or IRC chat room to appeal the ban.
+	$config['ban_page_extra'] = '';
+
 /*
  * ====================
  *  Javascript
