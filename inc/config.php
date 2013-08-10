@@ -589,7 +589,11 @@
 
 	// Display image identification links using regex.info/exif, TinEye and Google Images.
 	$config['image_identification'] = false;
-
+	
+	// Number of posts in a "View Last X Posts" page
+	$config['noko50_count'] = 50;
+	// Number of posts a thread needs before it gets a "View Last X Posts" page
+	$config['noko50_min'] = 100;
 /*
  * ====================
  *  Board settings
@@ -877,6 +881,7 @@
 	// Location of files.
 	$config['file_index'] = 'index.html';
 	$config['file_page'] = '%d.html';
+	$config['file_page50'] = '%d+50.html';
 	$config['file_mod'] = 'mod.php';
 	$config['file_post'] = 'post.php';
 	$config['file_script'] = 'main.js';

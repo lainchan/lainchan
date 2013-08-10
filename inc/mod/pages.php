@@ -705,6 +705,16 @@ function mod_view_thread($boardName, $thread) {
 	echo $page;
 }
 
+function mod_view_thread50($boardName, $thread) {
+	global $config, $mod;
+	
+	if (!openBoard($boardName))
+		error($config['error']['noboard']);
+	
+	$page = buildThread50($thread, true, $mod);
+	echo $page;
+}
+
 function mod_ip_remove_note($ip, $id) {
 	global $config, $mod;
 	
