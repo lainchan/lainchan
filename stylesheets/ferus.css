@@ -41,7 +41,7 @@ a.post_no:hover {
 }
 div.post.reply {
 	background: #0E0E0E;
-	border: #414141 2px solid;
+	border: #414141 2px solid !important;
 }
 .de-pview {
 		background: rgba(14, 14, 14, 0.84) !important;
