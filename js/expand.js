@@ -12,8 +12,8 @@
  */
 
 $(document).ready(function(){
-	if($('div.banner').length != 0)
-		return; // not index
+	if($('span.omitted').length == 0)
+		return; // nothing to expand
 
 	var do_expand = function() {
 		$(this)
