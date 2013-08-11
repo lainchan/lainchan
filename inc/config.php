@@ -696,6 +696,9 @@
 	// 	array('status' => 'http://status.example.org/')
 	// );
 
+	// Whether or not to put brackets around the whole board list
+	$config['boardlist_wrap_bracket'] = false;
+
 	// Board categories. Only used in the "Categories" theme.
 	// $config['categories'] = array(
 	// 	'Group Name' => array('a', 'b', 'c'),
@@ -709,9 +712,6 @@
 	// 		'Donate' => 'donate.html'
 	// 	)
 	// );
-
-	// Whether or not to put brackets around the whole board list
-	$config['boardlist_wrap_bracket'] = false;
 
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;

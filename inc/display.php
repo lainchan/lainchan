@@ -46,7 +46,7 @@ function createBoardlist($mod=false) {
 	if (!isset($config['boards'])) return array('top'=>'','bottom'=>'');
 	
 	$body = doBoardListPart($config['boards'], $mod?'?/':$config['root']);
-	if (!preg_match('/\] $/', $body) && $config['boardlist_wrap_bracket'])
+	if ($config['boardlist_wrap_bracket'] && !preg_match('/\] $/', $body))
 		$body = '[' . $body . ']';
 	
 	$body = trim($body);
