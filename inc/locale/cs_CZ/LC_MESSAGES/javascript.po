@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: czchan 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-11 11:20-0400\n"
+"PO-Revision-Date: 2013-08-11 17:42+0100\n"
+"Language-Team: Czech <CS@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ../../../../js/style-select.js:40
+msgid "Style: "
+msgstr "Styl: "
+
+#: ../../../../js/hide-images.js:50
+#: ../../../../js/quick-post-controls.js:30
+msgid "File"
+msgstr "Soubor"
+
+#: ../../../../js/hide-images.js:50
+msgid "hide"
+msgstr "skrýt"
+
+#: ../../../../js/hide-images.js:56
+msgid "show"
+msgstr "zobrazit"
+
+#: ../../../../js/toggle-locked-threads.js:39
+#: ../../../../js/toggle-locked-threads.js:54
+msgid "Show locked threads"
+msgstr "Zobrazit zamčená vlákna"
+
+#: ../../../../js/toggle-locked-threads.js:39
+#: ../../../../js/toggle-locked-threads.js:54
+msgid "Hide locked threads"
+msgstr "Skrýt zamčená vlákna"
+
+#: ../../../../js/toggle-images.js:41
+msgid "hidden"
+msgstr "skryté"
+
+#: ../../../../js/toggle-images.js:57
+#: ../../../../js/toggle-images.js:70
+msgid "Show images"
+msgstr "Zobrazit obrázky"
+
+#: ../../../../js/toggle-images.js:57
+#: ../../../../js/toggle-images.js:70
+msgid "Hide images"
+msgstr "Skrýt obrázky"
+
+#: ../../../../js/quick-post-controls.js:27
+msgid "Password"
+msgstr "Heslo"
+
+#: ../../../../js/quick-post-controls.js:29
+msgid "Delete file only"
+msgstr "Smazat pouze soubor"
+
+#: ../../../../js/quick-post-controls.js:31
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../../../../js/quick-post-controls.js:35
+msgid "Reason"
+msgstr "Důvod"
+
+#: ../../../../js/quick-post-controls.js:37
+msgid "Report"
+msgstr "Nahlásit"
+
+#: ../../../../js/expand.js:20
+msgid "Click reply to view."
+msgstr "Klikni na odpověď pro zobrazení."
+
+#: ../../../../js/expand.js:20
+msgid "Click to expand"
+msgstr "Klikni pro rozbalení"
+
+#: ../../../../js/expand.js:43
+msgid "Hide expanded replies"
+msgstr "Skrýt rozbalené odpovědi"
+
+#: ../../../../js/forced-anon.js:59
+#: ../../../../js/forced-anon.js:65
+#: ../../../../js/forced-anon.js:69
+msgid "Forced anonymity"
+msgstr "Vynucená anonymita"
+
+#: ../../../../js/forced-anon.js:59
+#: ../../../../js/forced-anon.js:65
+msgid "enabled"
+msgstr "zapnuto"
+
+#: ../../../../js/forced-anon.js:59
+#: ../../../../js/forced-anon.js:69
+msgid "disabled"
+msgstr "vypnuto"
+
+#: ../../../../js/local-time.js:40
+msgid "Sun"
+msgstr "Ne"
+
+#: ../../../../js/local-time.js:40
+msgid "Mon"
+msgstr "Po"
+
+#: ../../../../js/local-time.js:40
+msgid "Tue"
+msgstr "Út"
+
+#: ../../../../js/local-time.js:40
+msgid "Wed"
+msgstr "St"
+
+#: ../../../../js/local-time.js:40
+msgid "Thu"
+msgstr "Čt"
+
+#: ../../../../js/local-time.js:40
+msgid "Fri"
+msgstr "Pá"
+
+#: ../../../../js/local-time.js:40
+msgid "Sat"
+msgstr "So"
+
+#: ../../../../js/quick-reply.js:21
+msgid "Submit"
+msgstr "Odeslat"
+
+#: ../../../../js/quick-reply.js:31
+msgid "Quick reply"
+msgstr "Rychlá odpověď"
+
+#: ../../../../js/quick-reply.js:33
+msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
+msgstr "Režim odpovědi: Odpovídáš na <small>&gt;&gt;{0}</small>"
+
+#: ../../../../js/quick-reply.js:33
+msgid "Return"
+msgstr "Návrat"
+
+#: ../../../../templates/main.js:6
+msgid "Hello!"
+msgstr "Nazdar!"
+
+#: ../../../../templates/main.js:18
+msgid "{0} users"
+msgstr "{0} uživatel"
+
+#: ../../../../templates/themes/ukko/ukko.js:28
+#: ../../../../templates/themes/ukko/ukko.js:39
+msgid "(hide threads from this board)"
+msgstr "(skrýt vlákna z tohoto boardu)"
+
+#: ../../../../templates/themes/ukko/ukko.js:32
+#: ../../../../templates/themes/ukko/ukko.js:44
+msgid "(show threads from this board)"
+msgstr "(zobrazit vlákna z tohoto boardu)"
+
+#: ../../../../templates/themes/ukko/ukko.js:57
+msgid "No more threads to display"
+msgstr "Nejsou žádná další vlákna k zobrazení"
+
+#: ../../../../templates/themes/ukko/ukko.js:79
+msgid "Loading..."
+msgstr "Načítám..."
+
