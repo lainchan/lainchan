@@ -117,20 +117,18 @@ if (isset($_POST['delete'])) {
 		
 		$thread = $query->fetchColumn();
 		
-		if ($thread) {
-			if ($config['syslog'])
-				_syslog(LOG_INFO, 'Reported post: ' .
-					'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $thread ? $thread : $id) . ($thread ? '#' . $id : '') .
-					' for "' . $reason . '"'
-				);
-			$query = prepare("INSERT INTO ``reports`` VALUES (NULL, :time, :ip, :board, :post, :reason)");
-			$query->bindValue(':time', time(), PDO::PARAM_INT);
-			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
-			$query->bindValue(':board', $board['uri'], PDO::PARAM_INT);
-			$query->bindValue(':post', $id, PDO::PARAM_INT);
-			$query->bindValue(':reason', $reason, PDO::PARAM_STR);
-			$query->execute() or error(db_error($query));
-		}
+		if ($config['syslog'])
+			_syslog(LOG_INFO, 'Reported post: ' .
+				'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $thread ? $thread : $id) . ($thread ? '#' . $id : '') .
+				' for "' . $reason . '"'
+			);
+		$query = prepare("INSERT INTO ``reports`` VALUES (NULL, :time, :ip, :board, :post, :reason)");
+		$query->bindValue(':time', time(), PDO::PARAM_INT);
+		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
+		$query->bindValue(':board', $board['uri'], PDO::PARAM_INT);
+		$query->bindValue(':post', $id, PDO::PARAM_INT);
+		$query->bindValue(':reason', $reason, PDO::PARAM_STR);
+		$query->execute() or error(db_error($query));
 	}
 	
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
