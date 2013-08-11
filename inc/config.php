@@ -700,7 +700,7 @@
 	// );
 
 	// Whether or not to put brackets around the whole board list
-	$config['boardlist_wrap_bracket'] = false;
+	$config['boardlist_wrap_bracket'] = true;
 
 	// Board categories. Only used in the "Categories" theme.
 	// $config['categories'] = array(
