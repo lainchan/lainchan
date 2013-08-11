@@ -77,8 +77,8 @@
 	</p>
 	<p>{% trans %}Your IP address is{% endtrans %} <strong>{{ ban.ip }}</strong>.</p>
 
-	{% if config.ban_page_message %}
-		<p>{{ config.ban_page_message }}</p>
+	{% if config.ban_page_extra %}
+		<p>{{ config.ban_page_extra }}</p>
 	{% endif %}
 </div>
 {% endfilter %}
