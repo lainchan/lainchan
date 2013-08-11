@@ -1124,6 +1124,8 @@
 	$config['mod']['bandelete'] = MOD;
 	// Remove bans
 	$config['mod']['unban'] = MOD;
+	// Spoiler file (and keep post)
+	$config['mod']['spoilerfile'] = JANITOR;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
 	// Spoiler image
