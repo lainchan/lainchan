@@ -6,7 +6,7 @@ body {
 	background-repeat: repeat-x, repeat;
 
 background-attachment: 	 scroll, scroll;
-	color: #054500;
+	color: #242B23;
 	font-family: serif;
 	font-size: 16px;
 }
@@ -16,11 +16,8 @@ div.title h1 {
 div.title p {
 	font-size: 10px;
 }
-a:link, a:visited, p.intro a.email span.name {
-	color: #00E;
-}
-a:link:hover {
-	color: #d00;
+a:hover {
+    color: red !important;
 }
 a.post_no {
 	color: #800000;
@@ -105,10 +102,14 @@ hr {
 	border-style: inset;
 }
 div.boardlist {
-	color: #B86;
+	color: #52794F;
+	font-size: 11pt;
 }
 div.boardlist a {
-	color: #800;
+	color: #195319;
+}
+.post-hover {
+    border: solid 1px #265026 !important;
 }
 unimportant, .unimportant * {
 	font-size: 13px;
