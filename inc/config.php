@@ -624,7 +624,7 @@
 	// Oh, and add jQuery in additional_javascript.
 	$config['attention_bar'] = false;
 
-	// Allow html in board subtitle. This is useful for placing icons and links.
+	// Allow unfiltered HTML in board subtitle. This is useful for placing icons and links.
 	$config['allow_subtitle_html'] = false;
 
 	/* 
@@ -718,6 +718,9 @@
 	// 	array('status' => 'http://status.example.org/')
 	// );
 
+	// Whether or not to put brackets around the whole board list
+	$config['boardlist_wrap_bracket'] = false;
+
 	// Board categories. Only used in the "Categories" theme.
 	// $config['categories'] = array(
 	// 	'Group Name' => array('a', 'b', 'c'),
@@ -744,8 +747,9 @@
 	//	'bottom' => '',
 	// );
 
-	// Optional message to display on ban pages. For example, you could include a link to email an admin or join an IRC channel to be unbanned.
-	$config['ban_page_message'] = '';
+	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
+	// a link to an email address or IRC chat room to appeal the ban.
+	$config['ban_page_extra'] = '';
 
 /*
  * ====================
