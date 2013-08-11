@@ -170,7 +170,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['bot']);
 	
 	// Check the referrer
-	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], urldecode($_SERVER['HTTP_REFERER'])))
+	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode($_SERVER['HTTP_REFERER'])))
 		error($config['error']['referer']);
 	
 	checkDNSBL();
@@ -656,6 +656,20 @@ if (isset($_POST['delete'])) {
 	if ($config['always_noko'] || $noko) {
 		$redirect = $root . $board['dir'] . $config['dir']['res'] .
 			sprintf($config['file_page'], $post['op'] ? $id:$post['thread']) . (!$post['op'] ? '#' . $id : '');
+	   	
+		if (!$post['op'] && isset($_SERVER['HTTP_REFERER'])) {
+			$regex = array(
+				'board' => str_replace('%s', '(\w{1,8})', preg_quote($config['board_path'], '/')),
+				'page' => str_replace('%d', '(\d+)', preg_quote($config['file_page'], '/')),
+				'page50' => str_replace('%d', '(\d+)', preg_quote($config['file_page50'], '/')),
+				'res' => preg_quote($config['dir']['res'], '/'),
+			);
+
+			if (preg_match('/\/' . $regex['board'] . $regex['res'] . $regex['page50'] . '([?&].*)?$/', $_SERVER['HTTP_REFERER'])) {
+				$redirect = $root . $board['dir'] . $config['dir']['res'] .
+					sprintf($config['file_page50'], $post['op'] ? $id:$post['thread']) . (!$post['op'] ? '#' . $id : '');
+			}
+		}
 	} else {
 		$redirect = $root . $board['dir'] . $config['file_index'];
 		
