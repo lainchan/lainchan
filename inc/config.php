@@ -1097,6 +1097,8 @@
 	$config['mod']['spoilerfile'] = JANITOR;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
+	// Spoiler image
+	$config['mod']['spoilerimage'] = JANITOR;
 	// Delete all posts by IP
 	$config['mod']['deletebyip'] = MOD;
 	// Delete all posts by IP across all boards
