@@ -170,7 +170,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['bot']);
 	
 	// Check the referrer
-	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], urldecode($_SERVER['HTTP_REFERER'])))
+	if (!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode($_SERVER['HTTP_REFERER'])))
 		error($config['error']['referer']);
 	
 	checkDNSBL();
