@@ -1371,7 +1371,15 @@ function mod_spoiler_image($board, $post) {
 		error($config['error']['noaccess']);
 
 	// Delete file
-	$query = prepare(sprintf("UPDATE `posts_%s` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
+	$query = prepare(sprintf("SELECT `thumb`, `thread` FROM ``posts_%s`` WHERE id = :id", $board));
+	$query->bindValue(':id', $post, PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$result = $query->fetch(PDO::FETCH_ASSOC);
+
+	file_unlink($board . '/' . $config['dir']['thumb'] . $result['thumb']);
+
+	// Make thumbnail spoiler
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
 	$query->bindValue(':thumb', "spoiler");
 	$query->bindValue(':thumbwidth', 128, PDO::PARAM_INT);
 	$query->bindValue(':thumbheight', 128, PDO::PARAM_INT);
@@ -1380,7 +1388,10 @@ function mod_spoiler_image($board, $post) {
 
 	// Record the action
 	modLog("Spoilered file from post #{$post}");
-       
+
+	// Rebuild thread
+	buildThread($result['thread'] ? $result['thread'] : $post);
+
 	// Rebuild board
 	buildIndex();
        
