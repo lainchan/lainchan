@@ -596,7 +596,8 @@
 	
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
-	// Number of posts a thread needs before it gets a "View Last X Posts" page
+	// Number of posts a thread needs before it gets a "View Last X Posts" page.
+	// Set to an arbitrarily large value to disable.
 	$config['noko50_min'] = 100;
 /*
  * ====================
