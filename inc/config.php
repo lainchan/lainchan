@@ -1125,11 +1125,9 @@
 	// Remove bans
 	$config['mod']['unban'] = MOD;
 	// Spoiler file (and keep post)
-	$config['mod']['spoilerfile'] = JANITOR;
+	$config['mod']['spoilerimage'] = JANITOR;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
-	// Spoiler image
-	$config['mod']['spoilerimage'] = JANITOR;
 	// Delete all posts by IP
 	$config['mod']['deletebyip'] = MOD;
 	// Delete all posts by IP across all boards
