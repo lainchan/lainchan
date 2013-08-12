@@ -115,8 +115,14 @@ function config_vars() {
 							$already_exists = true;
 							
 					}
-					if (!$already_exists && permission_to_edit_config_var($var['name']))
+					if (!$already_exists && permission_to_edit_config_var($var['name'])) {
+						foreach ($var['comment'] as &$comment) {
+							$comment = preg_replace_callback(
+								'/((?:https?:\/\/|ftp:\/\/|irc:\/\/)[^\s<>()"]+?(?:\([^\s<>()"]*?\)[^\s<>()"]*?)*)((?:\s|<|>|"|\.||\]|!|\?|,|&#44;|&quot;)*(?:[\s<>()"]|$))/',
+								'markup_url', $comment);
+						}
 						$conf[] = $var;
+					}
 				}
 			}
 			
