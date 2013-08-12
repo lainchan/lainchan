@@ -279,7 +279,10 @@ if (isset($_POST['delete'])) {
 			error($config['error']['unknownext']);
 
 		$post['file_tmp'] = tempnam($config['tmp'], 'url');
-		register_shutdown_function('unlink', $post['file_tmp']);
+		function unlink_tmp_file($file) {
+			@unlink($file);
+		}
+		register_shutdown_function('unlink_tmp_file', $post['file_tmp']);
 		
 		$fp = fopen($post['file_tmp'], 'w');
 		
