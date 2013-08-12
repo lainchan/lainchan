@@ -10,7 +10,7 @@ a:link, a:visited, p.intro a.email span.name {
 }
 a:link:hover {
 	-moz-transition: all ease-in 0.5s;
-	text-shadow: 0px 0px 2px #000;
+	text-shadow: 0px 0px 2px #CF6464;
 }
 a.post_no {
 	color: #fff;
