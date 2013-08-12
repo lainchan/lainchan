@@ -228,7 +228,7 @@ span.trip {
 	color: #DDDDDD;
 }
 span.quote {
-	color: #FFFF55;
+	color: #5AE22F;
 }
 span.omitted {
 	display: block;
@@ -367,10 +367,10 @@ hr {
 div.boardlist {
 	color: #B7C5D9;
 	background: #353868;
-	display: inline;
-	padding: 8px;
+	padding: 4px;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
+	text-align: center;
 }
 div.boardlist.bottom {
 	margin-top: 20px;

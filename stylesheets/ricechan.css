@@ -1,4 +1,4 @@
-/* http://userstyles.org/styles/37014/4chan-ricechan-alpha */
+﻿/* http://userstyles.org/styles/37014/4chan-ricechan-alpha */
 
 .rules,
 .logo+hr,
@@ -14,9 +14,9 @@ table+br+hr+center+hr,
 .doubledash {display:none !important}
 
 * {
+	color: #555;
 	border: none !important;
 	background: none !important;
-	color: inherit !important;
 }
 html {
 	color: #555 !important;
@@ -50,6 +50,9 @@ a>img {
 .logo b {
 	color: #fff !important;
 }
+div.boardlist {
+	color: #555 !important;
+}
 div.boardlist a {
 	text-decoration: none;
 	color: #615A5A !important;
@@ -64,6 +67,9 @@ div.boardlist a:hover {
 }
 .postblock {
 	color: #999 !important;
+}
+div.blotter {
+	color: #555 !important;
 }
 .postarea form {
 	padding-left: 12px;
@@ -244,6 +250,4 @@ span.spoiler:hover {
 }
 br+br+b[style] {
 	color: #f00 !important;
-}
-
 }
