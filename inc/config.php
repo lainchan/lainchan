@@ -1093,7 +1093,7 @@
 	$config['mod']['bandelete'] = MOD;
 	// Remove bans
 	$config['mod']['unban'] = MOD;
-	// Spoiler file (and keep post)
+	// Spoiler image
 	$config['mod']['spoilerimage'] = JANITOR;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
