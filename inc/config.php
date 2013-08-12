@@ -267,7 +267,8 @@
 		'recaptcha_response_field',
 		'spoiler',
 		'quick-reply',
-		'page'
+		'page',
+		'file_url',
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -347,7 +348,10 @@
 	$config['markup_urls'] = true;
 	// Optional URL prefix for links (eg. "http://anonym.to/?").
 	$config['link_prefix'] = ''; 
-
+	
+	// Allow "uploading" images via URL as well. Users can enter the URL of the image and then Tinyboard will
+	// download it. Not usually recommended.
+	$config['allow_upload_by_url'] = false;
 
 	// A wordfilter (sometimes referred to as just a "filter" or "censor") automatically scans users’ posts
 	// as they are submitted and changes or censors particular words or phrases.
@@ -837,7 +841,6 @@
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	$config['error']['maxsize']		= _('The file was too big.');
-	$config['error']['invalidzip']		= _('Invalid archive!');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
