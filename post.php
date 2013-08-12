@@ -588,6 +588,7 @@ if (isset($_POST['delete'])) {
 			if (isset($post['file_tmp'])) {
 				if (!@rename($upload, $post['file']))
 					error($config['error']['nomove']);
+				chmod($post['file'], 0755);
 			} elseif (!@move_uploaded_file($upload, $post['file']))
 				error($config['error']['nomove']);
 		}
