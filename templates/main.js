@@ -175,7 +175,7 @@ function dopost(form) {
 	saved[document.location] = form.elements['body'].value;
 	sessionStorage.body = JSON.stringify(saved);
 	
-	return form.elements['body'].value != "" || form.elements['file'].value != "";
+	return form.elements['body'].value != "" || form.elements['file'].value != "" || (form.elements.file_url && form.elements['file_url'].value != "");
 }
 
 function citeReply(id) {
