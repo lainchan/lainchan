@@ -1755,7 +1755,7 @@ function buildThread($id, $return = false, $mod = false) {
 		'config' => $config,
 		'id' => $id,
 		'mod' => $mod,
-		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
+		'antibot' => $mod || $return ? false : create_antibot($board['uri'], $id),
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 	));
