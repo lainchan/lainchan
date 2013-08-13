@@ -1444,7 +1444,10 @@ function wordfilters(&$body) {
 
 	foreach ($config['wordfilters'] as $filter) {
 		if (isset($filter[2]) && $filter[2]) {
-			$body = preg_replace($filter[0], $filter[1], $body);
+			if (is_callable($filter[1]))
+				$body = preg_replace_callback($filter[0], $filter[1], $body);
+			else
+				$body = preg_replace($filter[0], $filter[1], $body);
 		} else {
 			$body = str_ireplace($filter[0], $filter[1], $body);
 		}
@@ -1785,7 +1788,7 @@ function buildThread($id, $return = false, $mod = false) {
 		'mod' => $mod,
 		'hasnoko50' => $hasnoko50,
 		'isnoko50' => false,
-		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
+		'antibot' => $mod || $return ? false : create_antibot($board['uri'], $id),
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 	));

@@ -270,6 +270,50 @@ if (isset($_POST['delete'])) {
 			$_POST['subject'] = '';
 	}
 	
+	if ($config['allow_upload_by_url'] && isset($_POST['file_url']) && !empty($_POST['file_url'])) {
+		$post['file_url'] = $_POST['file_url'];
+		if (!preg_match($config['url_regex'], $post['file_url']))
+			error($config['error']['invalidimg']);
+		
+		
+		$post['extension'] = strtolower(mb_substr($post['file_url'], mb_strrpos($post['file_url'], '.') + 1));
+		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
+			error($config['error']['unknownext']);
+
+		$post['file_tmp'] = tempnam($config['tmp'], 'url');
+		function unlink_tmp_file($file) {
+			@unlink($file);
+		}
+		register_shutdown_function('unlink_tmp_file', $post['file_tmp']);
+		
+		$fp = fopen($post['file_tmp'], 'w');
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $post['file_url']);
+		curl_setopt($curl, CURLOPT_FAILONERROR, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Tinyboard');
+		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FILE, $fp);
+		curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+		
+		if (curl_exec($curl) === false)
+			error($config['error']['nomove']);
+		
+		curl_close($curl);
+		
+		fclose($fp);
+
+		$_FILES['file'] = array(
+			'name' => basename($post['file_url']),
+			'tmp_name' => $post['file_tmp'],
+			'error' => 0,
+			'size' => filesize($post['file_tmp'])
+		);
+	}
+	
 	// Check for a file
 	if ($post['op'] && !isset($post['no_longer_require_an_image_for_op'])) {
 		if (!isset($_FILES['file']['tmp_name']) || $_FILES['file']['tmp_name'] == '' && $config['force_image_op'])
@@ -547,7 +591,11 @@ if (isset($_POST['delete'])) {
 		}
 		
 		if (!isset($dont_copy_file) || !$dont_copy_file) {
-			if (!@move_uploaded_file($upload, $post['file']))
+			if (isset($post['file_tmp'])) {
+				if (!@rename($upload, $post['file']))
+					error($config['error']['nomove']);
+				chmod($post['file'], 0755);
+			} elseif (!@move_uploaded_file($upload, $post['file']))
 				error($config['error']['nomove']);
 		}
 	}

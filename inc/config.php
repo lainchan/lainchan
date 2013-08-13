@@ -267,7 +267,8 @@
 		'recaptcha_response_field',
 		'spoiler',
 		'quick-reply',
-		'page'
+		'page',
+		'file_url',
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -349,6 +350,10 @@
 	// Optional URL prefix for links (eg. "http://anonym.to/?").
 	$config['link_prefix'] = ''; 
 	$config['url_ads'] = &$config['link_prefix'];	 // leave alias
+	
+	// Allow "uploading" images via URL as well. Users can enter the URL of the image and then Tinyboard will
+	// download it. Not usually recommended.
+	$config['allow_upload_by_url'] = false;
 
 	// A wordfilter (sometimes referred to as just a "filter" or "censor") automatically scans users’ posts
 	// as they are submitted and changes or censors particular words or phrases.
@@ -870,7 +875,6 @@
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	$config['error']['maxsize']		= _('The file was too big.');
-	$config['error']['invalidzip']		= _('Invalid archive!');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
@@ -1130,7 +1134,7 @@
 	$config['mod']['bandelete'] = MOD;
 	// Remove bans
 	$config['mod']['unban'] = MOD;
-	// Spoiler file (and keep post)
+	// Spoiler image
 	$config['mod']['spoilerimage'] = JANITOR;
 	// Delete file (and keep post)
 	$config['mod']['deletefile'] = JANITOR;
@@ -1370,6 +1374,6 @@
 	// is the absolute maximum, because MySQL cannot handle table names greater than 64 characters.
 	$config['board_regex'] = '[0-9a-zA-Z$_\x{0080}-\x{FFFF}]{1,58}';
 
-	// Complex regular expression to catch URLs.
-	$config['url_regex'] = '/' . '(https?|ftp):\/\/' . '(([\w\-]+\.)+[a-zA-Z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' . '(:\d+)?' . '(\/([\w\-~.#\/?=&;:+%!*\[\]@$\'()+,|\^]+)?)?' . '/';
+	// Regex for URLs.
+	$config['url_regex'] = '@^(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))$@';
 
