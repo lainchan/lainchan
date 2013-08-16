@@ -54,7 +54,7 @@
 		{{ config.root }}{{ config.spoiler_image }}
 	{% else %}
 		{{ config.uri_thumb }}{{ post.thumb }}
-	{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
+	{% endif %}" style="width:{{ post.thumbwidth }}px;height:{{ post.thumbheight }}px" alt="" /></a>
 {% endif %}
 <div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
