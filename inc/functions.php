@@ -1794,20 +1794,12 @@ function buildThread50($id, $return = false, $mod = false, $thread = null) {
 		$num_images = 0;
 		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			if (!isset($thread)) {
-				$thread = new Thread(
-					$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'],
-					$post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'],
-					$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod
-				);
+				$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 			} else {
 				if ($post['file'])
 					$num_images++;
 					
-				$thread->add(new Post(
-					$post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'],
-					$post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'],
-					$post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod)
-				);
+				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod);
 			}
 		}
 
