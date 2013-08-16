@@ -140,9 +140,9 @@
 		$temp = '';
 		while($post = $query->fetch()) {
 			if(!$post['thread']) {
-				$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed']);
+				$po = new Thread($post);
 			} else {
-				$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed']);
+				$po = new Post($post);
 			}
 			$temp .= $po->build(true) . '<hr/>';
 		}
