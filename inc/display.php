@@ -463,10 +463,6 @@ class Thread {
 		return $built;
 	}
 	
-	public function ratio() {
-		return fraction($this->filex, $this->filey, ':');
-	}
-	
 	public function build($index=false) {
 		global $board, $config, $debug;
 		
