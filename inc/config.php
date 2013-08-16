@@ -386,6 +386,11 @@
 	// When true, a blank password will be used for files (not usable for deletion).
 	$config['field_disable_password'] = false;
 
+	// Attach country flags to posts. Requires the PHP "geoip" extension to be installed:
+	// http://www.php.net/manual/en/intro.geoip.php. In the future, maybe I will find and include a proper
+	// pure-PHP geolocation library.
+	$config['country_flags'] = false;
+
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
 
@@ -726,6 +731,17 @@
 	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
 	// a link to an email address or IRC chat room to appeal the ban.
 	$config['ban_page_extra'] = '';
+	
+	// Display flags (when available). This config option has no effect unless poster flags are enabled (see
+	// $config['country_flags']). Disable this if you want all previously-assigned flags to be hidden.
+	$config['display_flags'] = true;
+	
+	// Location of post flags/icons (where "%s" is the flag name). Defaults to static/flags/%s.png.
+	// $config['uri_flags'] = 'http://static.example.org/flags/%s.png';
+
+	// Width and height of post flags:
+	$config['flag_width'] = 16;
+	$config['flag_height'] = 11;
 
 /*
  * ====================
