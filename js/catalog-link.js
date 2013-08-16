@@ -29,7 +29,7 @@ if (pages) {
 	pages.appendChild(link)
 }
 else {
-	link.textContent = '['+_('Catalog').']';
+	link.textContent = '['+_('Catalog')+']';
 	link.style.paddingLeft = '10px';
 	link.style.textDecoration = "underline";
 	document.body.insertBefore(link, bottom);
