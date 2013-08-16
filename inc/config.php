@@ -739,9 +739,9 @@
 	// Location of post flags/icons (where "%s" is the flag name). Defaults to static/flags/%s.png.
 	// $config['uri_flags'] = 'http://static.example.org/flags/%s.png';
 
-	// Width and height of post flags:
-	$config['flag_width'] = 16;
-	$config['flag_height'] = 11;
+	// Width and height (and more?) of post flags. Can be overridden with the Tinyboard post modifier:
+	// <tinyboard flag style>.
+	$config['flag_style'] = 'width:16px;height:11px;';
 
 /*
  * ====================
