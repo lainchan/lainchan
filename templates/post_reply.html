@@ -108,6 +108,9 @@
 	{{ post.postControls }}
 	<div class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
+		{% if post.modifiers['ban message'] %}
+			{{ config.mod.ban_message|sprintf(post.modifiers['ban message']) }}
+		{% endif %}
 	</div>
 </div>
 <br/>

@@ -1464,63 +1464,29 @@ function unicodify($body) {
 function extract_modifiers($body) {
 	$modifiers = array();
 	
-	if (preg_match_all('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@um', $body, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', $body, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
-			$modifiers[$match[1]] = $match[2];
+			if (preg_match('/^escape /', $match[1]))
+				continue;
+			$modifiers[$match[1]] = html_entity_decode($match[2]);
 		}
 	}
-	
+		
 	return $modifiers;
 }
 
 function markup(&$body, $track_cites = false) {
 	global $board, $config, $markup_urls;
+	
+	$modifiers = extract_modifiers($body);
+	
+	$body = preg_replace('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	
+	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
+		return $body;
 
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
-
-	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+?)&lt;/tinyboard&gt;@um', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
-		$skip_chars = 0;
-		$body_tmp = $body;
-		$end_markup = false;
-
-		foreach ($modifiers as $modifier) {
-			// preg_match_all is not multibyte-safe
-			foreach ($modifier as &$match) {
-				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
-			}
-
-			$modifier['type'] = $modifier[1][0];
-			$modifier['content'] = $modifier[2][0];
-
-			if ($modifier['type'] == 'ban message') {
-				// Public ban message
-				$replacement = sprintf($config['mod']['ban_message'], html_entity_decode($modifier['content']));
-				if ($end_markup) {
-					$body .= $replacement;
-				}
-			} elseif ($modifier['type'] == 'raw html') {
-				$body = html_entity_decode($modifier['content']);
-				$replacement = '';
-				$end_markup = true;
-			} elseif (preg_match('/^escape /', $modifier['type'])) {
-				// Escaped (not a real modifier)
-				$replacement = '&lt;tinyboard ' . substr($modifier['type'], strlen('escape ')) . '&gt;' . $modifier['content'] . '&lt;/tinyboard&gt;';
-			} else {
-				// Unknown
-				$replacement = '';
-			}
-
-			if (!$end_markup) {
-				$body = mb_substr_replace($body, $replacement, $modifier[0][1] + $skip_chars, mb_strlen($modifier[0][0]));
-				$skip_chars += mb_strlen($replacement) - mb_strlen($modifier[0][0]);
-			}
-		}
-
-		if ($end_markup) {
-			return array();
-		}
-	}
 
 	if (mysql_version() < 50503)
 		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
