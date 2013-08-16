@@ -348,6 +348,10 @@ class Post {
 		return $built;
 	}
 	
+	public function ratio() {
+		return fraction($this->filewidth, $this->fileheight, ':');
+	}
+	
 	public function build($index=false) {
 		global $board, $config;
 		
@@ -462,6 +466,10 @@ class Thread {
 				$built = '<span class="controls op">' . $built . '</span>';
 		}
 		return $built;
+	}
+	
+	public function ratio() {
+		return fraction($this->filewidth, $this->fileheight, ':');
 	}
 	
 	public function build($index=false) {
