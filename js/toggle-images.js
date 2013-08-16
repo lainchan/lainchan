@@ -58,10 +58,10 @@ $(document).ready(function(){
 		.click(function() {
 			hide_images = !hide_images;
 			if (hide_images) {
-				$('div > a > img').each(hideImage);
+				$('img.post-image').each(hideImage);
 				localStorage.hideimages = true;
 			} else {
-				$('div > a > img').each(restoreImage);
+				$('img.post-image').each(restoreImage);
 				delete localStorage.hideimages;
 			}
 			
@@ -71,7 +71,13 @@ $(document).ready(function(){
 		});
 
 	if (hide_images) {
-		$('div > a > img').each(hideImage);
+		$('img.post-image').each(hideImage);
 		show_hide_hide_images_buttons();
 	}
+	
+	$(document).bind('new_post', function(e, post) {
+		if (hide_images) {
+			$(post).find('img.post-image').each(hideImage);
+		}
+	});
 });

@@ -69,9 +69,11 @@ onready(function(){
 					context: document.body,
 					success: function(data) {
 						$(data).find('div.post.reply').each(function() {
+							// Not 100% sure that this doesn't break shit:
+							$(document).trigger('new_post', this);
+							
 							if($('#' + $(this).attr('id')).length == 0)
 								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
-
 						});
 						
 						$post = $('div.post#reply_' + id);
