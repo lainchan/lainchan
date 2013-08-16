@@ -424,7 +424,16 @@ if (isset($_POST['delete'])) {
 	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if ($mod && isset($post['raw']) && $post['raw']) {
-		$post['body'] = '<tinyboard raw html>' . $post['body'] . '</tinyboard>';
+		$post['body'] .= '<tinyboard raw html>1</tinyboard>';
+	}
+	
+	if ($config['country_flags']) {
+		if (!geoip_db_avail(GEOIP_COUNTRY_EDITION)) {
+			error('GeoIP not available: ' . geoip_db_filename(GEOIP_COUNTRY_EDITION));
+		}
+		if ($country_code = @geoip_country_code_by_name($_SERVER['REMOTE_ADDR'])) {
+			$post['body'] .= '<tinyboard flag>' . strtolower($country_code) . '</tinyboard>';
+		}
 	}
 	
 	if (mysql_version() >= 50503) {

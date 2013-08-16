@@ -153,6 +153,8 @@ function loadConfig() {
 		$config['url_javascript'] = $config['root'] . $config['file_script'];
 	if (!isset($config['additional_javascript_url']))
 		$config['additional_javascript_url'] = $config['root'];
+	if (!isset($config['uri_flags']))
+		$config['uri_flags'] = $config['root'] . 'static/flags/%s.png';
 
 	if ($config['root_file']) {
 		chdir($config['root_file']);
@@ -1052,11 +1054,7 @@ function index($page, $mod=false) {
 	$threads = array();
 
 	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
-		$thread = new Thread(
-			$th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'],
-			$th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'],
-			$th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod
-		);
+		$thread = new Thread($th, $mod ? '?/' : $config['root'], $mod);
 
 		if ($config['cache']['enabled'] && $cached = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
 			$replies = $cached['replies'];
@@ -1088,11 +1086,7 @@ function index($page, $mod=false) {
 			if ($po['file'])
 				$num_images++;
 
-			$thread->add(new Post(
-				$po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
-				$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
-				$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
-			);
+			$thread->add(new Post($po, $mod ? '?/' : $config['root'], $mod));
 		}
 
 		if ($omitted) {
@@ -1496,54 +1490,32 @@ function unicodify($body) {
 	return $body;
 }
 
+function extract_modifiers($body) {
+	$modifiers = array();
+	
+	if (preg_match_all('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', $body, $matches, PREG_SET_ORDER)) {
+		foreach ($matches as $match) {
+			if (preg_match('/^escape /', $match[1]))
+				continue;
+			$modifiers[$match[1]] = html_entity_decode($match[2]);
+		}
+	}
+		
+	return $modifiers;
+}
+
 function markup(&$body, $track_cites = false) {
 	global $board, $config, $markup_urls;
+	
+	$modifiers = extract_modifiers($body);
+	
+	$body = preg_replace('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	
+	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
+		return $body;
 
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
-
-	if (preg_match_all('@&lt;tinyboard ([\w\s]+)&gt;(.+?)&lt;/tinyboard&gt;@us', $body, $modifiers, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
-		$skip_chars = 0;
-		$body_tmp = $body;
-		$end_markup = false;
-
-		foreach ($modifiers as $modifier) {
-			// preg_match_all is not multibyte-safe
-			foreach ($modifier as &$match) {
-				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
-			}
-
-			$modifier['type'] = $modifier[1][0];
-			$modifier['content'] = $modifier[2][0];
-
-			if ($modifier['type'] == 'ban message') {
-				// Public ban message
-				$replacement = sprintf($config['mod']['ban_message'], html_entity_decode($modifier['content']));
-				if ($end_markup) {
-					$body .= $replacement;
-				}
-			} elseif ($modifier['type'] == 'raw html') {
-				$body = html_entity_decode($modifier['content']);
-				$replacement = '';
-				$end_markup = true;
-			} elseif (preg_match('/^escape /', $modifier['type'])) {
-				// Escaped (not a real modifier)
-				$replacement = '&lt;tinyboard ' . substr($modifier['type'], strlen('escape ')) . '&gt;' . $modifier['content'] . '&lt;/tinyboard&gt;';
-			} else {
-				// Unknown
-				$replacement = '';
-			}
-
-			if (!$end_markup) {
-				$body = mb_substr_replace($body, $replacement, $modifier[0][1] + $skip_chars, mb_strlen($modifier[0][0]));
-				$skip_chars += mb_strlen($replacement) - mb_strlen($modifier[0][0]);
-			}
-		}
-
-		if ($end_markup) {
-			return array();
-		}
-	}
 
 	if (mysql_version() < 50503)
 		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
@@ -1759,17 +1731,9 @@ function buildThread($id, $return = false, $mod = false) {
 
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		if (!isset($thread)) {
-			$thread = new Thread(
-				$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'],
-				$post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'],
-				$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod
-			);
+			$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 		} else {
-			$thread->add(new Post(
-				$post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'],
-				$post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'],
-				$post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod)
-			);
+			$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod));
 		}
 	}
 

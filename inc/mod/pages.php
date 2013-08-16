@@ -790,19 +790,9 @@ function mod_page_ip($ip) {
 		
 		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			if (!$post['thread']) {
-				// TODO: There is no reason why this should be such a fucking mess.
-				$po = new Thread(
-					$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'],
-					$post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
-					$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'],
-					$post['sage'], $post['embed'], '?/', $mod, false
-				);
+				$po = new Thread($post, '?/', $mod, false);
 			} else {
-				$po = new Post(
-					$post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'],
-					$post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
-					$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'], '?/', $mod
-				);
+				$po = new Post($post, '?/', $mod);
 			}
 			
 			if (!isset($args['posts'][$board['uri']]))
@@ -1398,7 +1388,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		$query->bindValue(':subject', $_POST['subject']);
 		$query->bindValue(':body', $_POST['body']);
 		if ($edit_raw_html) {
-			$body_nomarkup = '<tinyboard raw html>' . $_POST['body'] . '</tinyboard>';
+			$body_nomarkup = $_POST['body'] . '<tinyboard raw html>1</tinyboard>';
 			$query->bindValue(':body_nomarkup', $body_nomarkup);
 		}
 		$query->execute() or error(db_error($query));
@@ -2012,19 +2002,9 @@ function mod_reports() {
 		
 		if (!$post['thread']) {
 			// Still need to fix this:
-			$po = new Thread(
-				$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'],
-				$post['capcode'], $post['body'], $post['time'], $post['thumb'],
-				$post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
-				$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'],
-				$post['locked'], $post['sage'], $post['embed'], '?/', $mod, false
-			);
+			$po = new Thread($post, '?/', $mod, false);
 		} else {
-			$po = new Post(
-				$post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'],
-				$post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'],
-				$post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod
-			);
+			$po = new Post($post, '?/', $mod);
 		}
 		
 		// a little messy and inefficient

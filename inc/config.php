@@ -391,6 +391,11 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
+	// Attach country flags to posts. Requires the PHP "geoip" extension to be installed:
+	// http://www.php.net/manual/en/intro.geoip.php. In the future, maybe I will find and include a proper
+	// pure-PHP geolocation library.
+	$config['country_flags'] = false;
+
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
 
@@ -760,6 +765,17 @@
 	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
 	// a link to an email address or IRC chat room to appeal the ban.
 	$config['ban_page_extra'] = '';
+	
+	// Display flags (when available). This config option has no effect unless poster flags are enabled (see
+	// $config['country_flags']). Disable this if you want all previously-assigned flags to be hidden.
+	$config['display_flags'] = true;
+	
+	// Location of post flags/icons (where "%s" is the flag name). Defaults to static/flags/%s.png.
+	// $config['uri_flags'] = 'http://static.example.org/flags/%s.png';
+
+	// Width and height (and more?) of post flags. Can be overridden with the Tinyboard post modifier:
+	// <tinyboard flag style>.
+	$config['flag_style'] = 'width:16px;height:11px;';
 
 /*
  * ====================
@@ -970,7 +986,7 @@
 	// $config['url_favicon'] = '/favicon.gif';
 	
 	// EXPERIMENTAL: Try not to build pages when we shouldn't have to.
-	$config['try_smarter'] = false;
+	$config['try_smarter'] = true;
 
 /*
  * ====================

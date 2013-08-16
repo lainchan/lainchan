@@ -6,7 +6,7 @@
 {% if post.embed %}
 	{{ post.embed }}
 {% elseif post.file == 'deleted' %}
-	<img src="{{ config.image_deleted }}" alt="" />
+	<img class="post-image deleted" src="{{ config.image_deleted }}" alt="" />
 {% elseif post.file and post.file %}
 	<p class="fileinfo">{% trans %}File:{% endtrans %} <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
 	(
@@ -42,7 +42,7 @@
 	)
 	</span></p>
 <a href="{{ config.uri_img }}{{ post.file }}" target="_blank"{% if post.thumb == 'file' %} class="file"{% endif %}>
-<img src="
+<img class="post-image" src="
 	{% if post.thumb == 'file' %}
 		{{ config.root }}
 		{% if config.file_icons[post.filename|extension] %}
@@ -54,7 +54,7 @@
 		{{ config.root }}{{ config.spoiler_image }}
 	{% else %}
 		{{ config.uri_thumb }}{{ post.thumb }}
-	{% endif %}" style="width:{{ post.thumbx }}px;height:{{ post.thumby }}px" alt="" /></a>
+	{% endif %}" style="width:{{ post.thumbwidth }}px;height:{{ post.thumbheight }}px" alt="" /></a>
 {% endif %}
 <div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
@@ -81,6 +81,11 @@
 		{% endif %}
 		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
 			 [<a style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]
+		{% endif %}
+		{% if config.display_flags and post.modifiers.flag %}
+			 <img class="flag" src="{{ config.uri_flags|sprintf(post.modifiers.flag) }}"
+			 	style="{% if post.modifiers['flag style'] %}{{ post.modifiers['flag style'] }}{% else %}{{ config.flag_style }}{% endif %}"
+			 {% if post.modifiers['flag alt'] %}title="{{ post.modifiers['flag alt'] | e('html_attr') }}"{% endif %}>
 		{% endif %}
 		 <time datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S') }}{{ timezone() }}">{{ post.time|date(config.post_date) }}</time>
 	</label>
@@ -134,6 +139,9 @@
 	</p>
 	<div class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
+		{% if post.modifiers['ban message'] %}
+			{{ config.mod.ban_message|sprintf(post.modifiers['ban message']) }}
+		{% endif %}
 	</div>
 	{% if post.omitted or post.omitted_images %}
 		<span class="omitted">

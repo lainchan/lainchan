@@ -10,9 +10,8 @@ It contains many changes from original Tinyboard, mainly in frontend area.
 
 About
 ------------
-Tinyboard is a light-weight, fast, highly configurable and user-friendly
-imageboard software package released under a non-restrictive open-source
-license. It is written in PHP and has few dependencies.
+Tinyboard is a free light-weight, fast, highly configurable and user-friendly
+imageboard software package. It is written in PHP and has few dependencies.
 
 Requirements
 ------------

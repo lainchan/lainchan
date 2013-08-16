@@ -125,23 +125,22 @@ div.banner a:hover {
 	text-decoration: none;
 }
 img.banner {
-	float: none;
+	display: block;
 	border: 1px solid #a9a9a9;
 	margin: 12px auto 0 auto;
 }
-img {
+img.post-image {
 	display: block;
 	float: left;
 	margin: 10px 20px;
 	border: none;
 }
-div.post img {
+div.post img.post-image {
 	padding: 5px;
 	margin: 5px 20px 0 0;
 }
 div.post img.icon {
 	display: inline;
-	float: none;
 	margin: 0 5px;
 	padding: 0;
 }

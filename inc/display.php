@@ -271,35 +271,24 @@ function embed_html($link) {
 }
 
 class Post {
-	public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $embed, $root=null, $mod=false) {
+	public function __construct($post, $root=null, $mod=false) {
 		global $config;
 		if (!isset($root))
 			$root = &$config['root'];
 		
-		$this->id = $id;
-		$this->thread = $thread;
-		$this->subject = utf8tohtml($subject);
-		$this->email = $email;
-		$this->name = utf8tohtml($name);
-		$this->trip = $trip;
-		$this->capcode = $capcode;
-		$this->body = $body;
-		$this->time = $time;
-		$this->thumb = $thumb;
-		$this->thumbx = $thumbx;
-		$this->thumby = $thumby;
-		$this->file = $file;
-		$this->filex = $filex;
-		$this->filey = $filey;
-		$this->filesize = $filesize;
-		$this->filename = $filename;
-		$this->ip = $ip;
-		$this->embed = $embed;
-		$this->root = $root;
+		foreach ($post as $key => $value) {
+			$this->{$key} = $value;
+		}
+		
+		$this->subject = utf8tohtml($this->subject);
+		$this->name = utf8tohtml($this->name);
 		$this->mod = $mod;
+		$this->root = $root;
 		
 		if ($this->embed)
 			$this->embed = embed_html($this->embed);
+		
+		$this->modifiers = extract_modifiers($this->body_nomarkup);
 		
 		if ($this->mod)
 			// Fix internal links
@@ -373,41 +362,29 @@ class Post {
 };
 
 class Thread {
-	public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $bumplocked, $embed, $root=null, $mod=false, $hr=true) {
+	public function __construct($post, $root = null, $mod = false, $hr = true) {
 		global $config;
 		if (!isset($root))
 			$root = &$config['root'];
 		
-		$this->id = $id;
-		$this->subject = utf8tohtml($subject);
-		$this->email = $email;
-		$this->name = utf8tohtml($name);
-		$this->trip = $trip;
-		$this->capcode = $capcode;
-		$this->body = $body;
-		$this->time = $time;
-		$this->thumb = $thumb;
-		$this->thumbx = $thumbx;
-		$this->thumby = $thumby;
-		$this->file = $file;
-		$this->filex = $filex;
-		$this->filey = $filey;
-		$this->filesize = $filesize;
-		$this->filename = $filename;
+		foreach ($post as $key => $value) {
+			$this->{$key} = $value;
+		}
+		
+		$this->subject = utf8tohtml($this->subject);
+		$this->name = utf8tohtml($this->name);
+		$this->mod = $mod;
+		$this->root = $root;
+		$this->hr = $hr;
+
+		$this->posts = array();
 		$this->omitted = 0;
 		$this->omitted_images = 0;
-		$this->posts = array();
-		$this->ip = $ip;
-		$this->sticky = $sticky;
-		$this->locked = $locked;
-		$this->bumplocked = $bumplocked;
-		$this->embed = $embed;
-		$this->root = $root;
-		$this->mod = $mod;
-		$this->hr = $hr;
 		
 		if ($this->embed)
 			$this->embed = embed_html($this->embed);
+		
+		$this->modifiers = extract_modifiers($this->body_nomarkup);
 		
 		if ($this->mod)
 			// Fix internal links
@@ -471,7 +448,7 @@ class Thread {
 					$built .= ' <a title="'._('Make thread sticky').'" href="?/' . secure_link($board['dir'] . 'sticky/' . $this->id) . '">' . $config['mod']['link_sticky'] . '</a>';
 			
 			if (hasPermission($config['mod']['bumplock'], $board['uri'], $this->mod))
-				if ($this->bumplocked)
+				if ($this->sage)
 					$built .= ' <a title="'._('Allow thread to be bumped').'" href="?/' . secure_link($board['dir'] . 'bumpunlock/' . $this->id) . '">' . $config['mod']['link_bumpunlock'] . '</a>';
 				else
 					$built .= ' <a title="'._('Prevent thread from being bumped').'" href="?/' . secure_link($board['dir'] . 'bumplock/' . $this->id) . '">' . $config['mod']['link_bumplock'] . '</a>';
@@ -494,10 +471,6 @@ class Thread {
 				$built = '<span class="controls op">' . $built . '</span>';
 		}
 		return $built;
-	}
-	
-	public function ratio() {
-		return fraction($this->filex, $this->filey, ':');
 	}
 	
 	public function build($index=false, $isnoko50=false) {
