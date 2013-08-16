@@ -47,4 +47,6 @@ if (subtitle) {
 }
 }
 
-$(document).ready(catalog); 
+if (active_page != 'ukko') {
+	$(document).ready(catalog);
+}
