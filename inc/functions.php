@@ -1799,7 +1799,7 @@ function buildThread50($id, $return = false, $mod = false, $thread = null) {
 				if ($post['file'])
 					$num_images++;
 					
-				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod);
+				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod));
 			}
 		}
 
