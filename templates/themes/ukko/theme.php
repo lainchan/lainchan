@@ -42,11 +42,7 @@
 	
 				if($count < $this->settings['thread_limit']) {				
 					openBoard($post['board']);			
-					$thread = new Thread(
-						$post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'],
-						$post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'],
-						$post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod
-					);
+					$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 
 					$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $post['board']));
 					$posts->bindValue(':id', $post['id']);
@@ -58,11 +54,7 @@
 						if ($po['file'])
 							$num_images++;
 						
-						$thread->add(new Post(
-							$po['id'], $post['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'],
-							$po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'],
-							$po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod)
-						);
+						$thread->add(new Post($po, $mod ? '?/' : $config['root'], $mod));
 					
 					}
 					if ($posts->rowCount() == ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
