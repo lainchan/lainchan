@@ -14,8 +14,8 @@
 			{% trans %}Spoiler Image{% endtrans %}, 
 		{% endif %}
 		{{ post.filesize|filesize }}
-		{% if post.filex and post.filey %}
-			, {{ post.filex}}x{{ post.filey }}
+		{% if post.filewidth and post.fileheight %}
+			, {{ post.filewidth}}x{{ post.fileheight }}
 			{% if config.show_ratio %}
 				, {{ post.ratio }}
 			{% endif %}
