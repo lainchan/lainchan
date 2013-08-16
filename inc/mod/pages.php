@@ -1283,7 +1283,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		$query->bindValue(':subject', $_POST['subject']);
 		$query->bindValue(':body', $_POST['body']);
 		if ($edit_raw_html) {
-			$body_nomarkup = '<tinyboard raw html>' . $_POST['body'] . '</tinyboard>';
+			$body_nomarkup = $_POST['body'] . '<tinyboard raw html>1</tinyboard>';
 			$query->bindValue(':body_nomarkup', $body_nomarkup);
 		}
 		$query->execute() or error(db_error($query));
