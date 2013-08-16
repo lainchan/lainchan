@@ -369,6 +369,7 @@ class Thread {
 		$this->name = utf8tohtml($this->name);
 		$this->mod = $mod;
 		$this->root = $root;
+		$this->hr = $hr;
 
 		$this->posts = array();
 		$this->omitted = 0;
