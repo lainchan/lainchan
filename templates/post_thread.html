@@ -82,8 +82,8 @@
 		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
 			 [<a style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]
 		{% endif %}
-		{% if config.display_flags and post.modifiers.flag_country %}
-			 <img class="flag" style="width:{{ config.flag_width }}px;height:{{ config.flag_height }}px" src="{{ config.uri_flags|sprintf(post.modifiers.flag_country) }}">
+		{% if config.display_flags and post.modifiers.flag %}
+			 <img class="flag" style="width:{{ config.flag_width }}px;height:{{ config.flag_height }}px" src="{{ config.uri_flags|sprintf(post.modifiers.flag) }}">
 		{% endif %}
 		 <time datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S') }}{{ timezone() }}">{{ post.time|date(config.post_date) }}</time>
 	</label>

@@ -430,7 +430,7 @@ if (isset($_POST['delete'])) {
 			error('GeoIP not available: ' . geoip_db_filename(GEOIP_COUNTRY_EDITION));
 		}
 		if ($country_code = @geoip_country_code_by_name($_SERVER['REMOTE_ADDR'])) {
-			$post['body'] .= '<tinyboard flag_country>' . strtolower($country_code) . '</tinyboard>';
+			$post['body'] .= '<tinyboard flag>' . strtolower($country_code) . '</tinyboard>';
 		}
 	}
 	
