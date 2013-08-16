@@ -108,7 +108,7 @@ onready(function(){
 						else {
 							$(data).find('div[id^="thread_"]').hide().attr('data-cached', 'yes').prependTo('form[name="postcontrols"]');
 						}
-						
+
 						$post = $('[data-board="' + board + '"] div.post#reply_' + id + ', [data-board="' + board + '"]div#thread_' + id);
 						if(hovering && $post.length > 0) {
 							start_hover($link);
