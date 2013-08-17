@@ -73,7 +73,7 @@ onready(function(){
 							$(document).trigger('new_post', this);
 							
 							if($('#' + $(this).attr('id')).length == 0)
-								$('div.post:first').prepend($(this).css('display', 'none').addClass('hidden'));
+								$('body').prepend($(this).css('display', 'none').addClass('hidden'));
 						});
 						
 						$post = $('div.post#reply_' + id);
