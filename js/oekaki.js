@@ -17,6 +17,8 @@ var oekaki_form = '\
 function enable_oekaki() {
 	// Add oekaki after the file input
 	$('input[type="file"]').parent().parent().after(oekaki_form);
+	// Add "edit in oekaki" links
+	$(".fileinfo").append(' <a href="javascript:void(0)" class="edit_in_oekaki">'+_('Edit in oekaki')+'</a>');
 	// Init oekaki vars
 	canvas = $("#oekaki_canvas");
 	context = canvas[0].getContext("2d");
@@ -30,7 +32,8 @@ function enable_oekaki() {
 }
 
 function disable_oekaki(){
-	$("#oekaki").detach()
+	$("#oekaki").detach();
+	$(".edit_in_oekaki").detach();
 	localStorage['oekaki'] = false;
 }
 
@@ -176,6 +179,7 @@ function clear(){
 	context.beginPath();
 	context.clearRect(0,0,canvas.width(),canvas.height());
 	$("#confirm_oekaki").attr("checked",false)
+	canvas[0].height = oekaki_options.height; canvas[0].width = oekaki_options.width;
 };
 
 $("#clear").on("click", clear);
@@ -213,6 +217,16 @@ $("#getcolor").on("click", function(){
 $("#fill").on("click", function(){
 	fill = true;
 });
+
+$(".edit_in_oekaki").on("click", function(){ 
+	var img_link = $(this).parent().parent().find("a>img.post-image").parent()[0]
+	var img = new Image();
+	img.onload = function() {
+		canvas[0].width = img.width; canvas[0].height = img.height;
+		context.drawImage(img, 0, 0);
+	}
+	img.src = $(img_link).attr("href");
+});
 }
 
 function dataURItoBlob(dataURI) {
@@ -235,12 +249,13 @@ $("form[name='post']").on("submit", function(e){
 		fd.append("post", $("input[name='post']").val());
 		$.ajax({
 			type: "POST",
-			url: "/post.php",
+			url: oekaki_options.root+"post.php",
 			data: fd,
 			processData: false,
 			contentType: false,
 			success: function(data) {
-				location.reload();
+				//location.reload();
+				console.log(data);
 			},
 			error: function(data) {alert("Something went wrong!"); console.log(data)}
 		});

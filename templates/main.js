@@ -270,6 +270,7 @@ onready(init);
 var oekaki_options = {
 	width: {{config.oekaki.width}},
 	height: {{config.oekaki.height}},
+	root: '{{config.root}}'
 };
 
 {% if config.google_analytics %}{% raw %}
