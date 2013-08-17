@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-05 05:28-0400\n"
+"POT-Creation-Date: 2013-08-17 18:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgid "Click to expand"
 msgstr "Kliknij aby rozwinąć"
 
 #: ../../../../js/expand.js:41 ../../../../js/expand.js:45
-#: ../../../../js/expand.js:43
+#: ../../../../js/expand.js:43 ../../../../js/expand.js:44
 msgid "Hide expanded replies"
 msgstr "Schowaj rozwinięte odpowiedzi"
 
@@ -106,6 +106,7 @@ msgid "Delete file only"
 msgstr "Usuń tylko plik"
 
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:50
+#: ../../../../js/upload-selection.js:51
 msgid "File"
 msgstr "Plik"
 
@@ -170,3 +171,80 @@ msgstr "Nie ma więcej wątków do wyświetlenia"
 #: ../../../../templates/themes/ukko/ukko.js:79
 msgid "Loading..."
 msgstr "Ładowanie..."
+
+#: ../../../../js/upload-selection.js:32
+msgid "URL"
+msgstr "URL"
+
+#: ../../../../js/upload-selection.js:50
+msgid "Select"
+msgstr "Wybierz"
+
+#: ../../../../js/upload-selection.js:53
+msgid "Remote"
+msgstr "Zdalny"
+
+#: ../../../../js/upload-selection.js:56
+msgid "Embed"
+msgstr "Osadź"
+
+#: ../../../../js/upload-selection.js:59
+msgid "Oekaki"
+msgstr "Oekaki"
+
+#: ../../../../js/oekaki.js:10
+msgid "Brush size"
+msgstr "Rozmiar pędzla"
+
+#: ../../../../js/oekaki.js:10
+msgid "Set text"
+msgstr "Ustaw tekst"
+
+#: ../../../../js/oekaki.js:10
+msgid "Clear"
+msgstr "Wyczyść"
+
+#: ../../../../js/oekaki.js:10
+msgid "Save"
+msgstr "Zapisz"
+
+#: ../../../../js/oekaki.js:10
+msgid "Load"
+msgstr "Załaduj"
+
+#: ../../../../js/oekaki.js:11
+msgid "Toggle eraser"
+msgstr "Przełącz gumkę"
+
+#: ../../../../js/oekaki.js:11
+msgid "Get color"
+msgstr "Wybierz kolor"
+
+#: ../../../../js/oekaki.js:11
+msgid "Fill"
+msgstr "Wypełnij"
+
+#: ../../../../js/oekaki.js:12
+msgid "Use oekaki instead of file?"
+msgstr "Użyć oekaki zamiast pliku?"
+
+#: ../../../../js/oekaki.js:21
+msgid "Edit in oekaki"
+msgstr "Edytuj w oekaki"
+
+#: ../../../../js/oekaki.js:152
+msgid "Enter some text"
+msgstr "Podaj jakiś tekst"
+
+#: ../../../../js/oekaki.js:153
+msgid "Enter font or leave empty"
+msgstr "Podaj czcionkę, bądź pozostaw puste"
+
+#: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
+#: ../../../../js/catalog-link.js:40
+msgid "Catalog"
+msgstr "Katalog"
+
+#: ../../../../js/expand-all-images.js:20
+msgid "Expand all images"
+msgstr "Rozwiń wszystkie obrazki"
