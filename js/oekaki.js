@@ -6,7 +6,7 @@ var oekaki_form = '\
 				Oekaki\
 			</th>\
 			<td>\
-				<canvas width="500" height="250" id="cvs" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;">lol what you looking at the source for nerd</canvas>\
+				<canvas width="'+oekaki_options.width+'" height="'+oekaki_options.height+'" id="oekaki_canvas" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;">lol what you looking at the source for nerd</canvas>\
 				<p><button type="button" id="brushsize">Brush size</button><input class="color" id="color" value="000000" placeholder="Color"/><button type="button" id="text">Set text</button><button type="button" id="clear">Clear</button><button type="button" id="save">Save</button><button type="button" id="load">Load</button><br/>\
 				<button type="button" id="eraser">Toggle eraser</button><button type="button" id="getcolor">Get color</button><button type="button" id="fill">Fill</button>\
 				</p><p><textarea id="savebox"></textarea><label><input id="confirm_oekaki" type="checkbox"/> Use oekaki instead of file?</label></p>\
@@ -18,7 +18,7 @@ function enable_oekaki() {
 	// Add oekaki after the file input
 	$('input[type="file"]').parent().parent().after(oekaki_form);
 	// Init oekaki vars
-	canvas = $("#cvs");
+	canvas = $("#oekaki_canvas");
 	context = canvas[0].getContext("2d");
 	is_drawing = false;
 	text = "";
@@ -98,7 +98,7 @@ function flood_fill(x, y, target){
 		var data = context.getImageData(n[0], n[1], 1, 1).data;
 		var d = [data[0], data[1], data[2], data[3]];
 		var t = [target[0], target[1], target[2], target[3]];
-		if (arraysEqual(d, t) && n[0] < 500 && n[1] < 250 && n[0] > -1 && n[1] > -1){
+		if (arraysEqual(d, t) && n[0] < canvas.width() && n[1] < canvas.height() && n[0] > -1 && n[1] > -1){
 			context.putImageData(pixel, n[0], n[1]);
 			queue.push([n[0], n[1]-1]);
 			queue.push([n[0], n[1]+1]);
