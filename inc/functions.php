@@ -1485,8 +1485,9 @@ function markup(&$body, $track_cites = false) {
 	$body = preg_replace('@<tinyboard (?!escape )([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
 	$body = preg_replace('@<(tinyboard) escape ([\w\s]+)>@i', '<$1 $2>', $body);
 	
-	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
-		return $body;
+	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1') {
+		return array();
+	}
 
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
