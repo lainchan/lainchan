@@ -1483,7 +1483,7 @@ function markup(&$body, $track_cites = false) {
 	$modifiers = extract_modifiers($body);
 	
 	$body = preg_replace('@<tinyboard (?!escape )([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
-	$body = preg_replace('@<tinyboard escape ([\w\s]+)>@i', '<tinyboard $1>', $body);
+	$body = preg_replace('@<(tinyboard) escape ([\w\s]+)>@i', '<$1 $2>', $body);
 	
 	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
 		return $body;
@@ -1632,7 +1632,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function escape_markup_modifiers($string) {
-	return preg_replace('@<tinyboard ([\w\s]+)>@mi', '<tinyboard escape $1>', $string);
+	return preg_replace('@<(tinyboard) ([\w\s]+)>@mi', '<$1 escape $2>', $string);
 }
 
 function utf8tohtml($utf8) {
