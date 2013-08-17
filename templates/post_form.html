@@ -79,15 +79,14 @@
 			</td>
 		</tr>
 		{% endif %}
-		<tr>
+		<tr id="upload">
 			<th>
 				{% trans %}File{% endtrans %}
 			</th>
 			<td>
-				<input type="file" name="file">
+				<input type="file" name="file" id="upload_file">
 				{% if config.allow_upload_by_url %}
-					<br>
-					<div style="float:none;text-align:left">
+					<div style="float:none;text-align:left" id="upload_url">
 						<label for="file_url">{% trans %}Or URL{% endtrans %}</label>: 
 						<input style="display:inline" type="text" id="file_url" name="file_url" size="35">
 					</div>
@@ -96,7 +95,7 @@
 			</td>
 		</tr>
 		{% if config.enable_embedding %}
-		<tr>
+		<tr id="upload_embed">
 			<th>
 				{% trans %}Embed{% endtrans %}
 				{{ antibot.html() }}
