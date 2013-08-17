@@ -1482,7 +1482,8 @@ function markup(&$body, $track_cites = false) {
 	
 	$modifiers = extract_modifiers($body);
 	
-	$body = preg_replace('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	$body = preg_replace('@<tinyboard (?!escape )([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	$body = preg_replace('@<tinyboard escape ([\w\s]+)>@i', '<tinyboard $1>', $body);
 	
 	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
 		return $body;
