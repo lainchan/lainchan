@@ -1631,7 +1631,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function escape_markup_modifiers($string) {
-	return preg_replace('@<tinyboard ([\w\s]+)>@m', '<tinyboard escape $1>', $string);
+	return preg_replace('@<tinyboard ([\w\s]+)>@mi', '<tinyboard escape $1>', $string);
 }
 
 function utf8tohtml($utf8) {
