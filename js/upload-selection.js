@@ -57,6 +57,8 @@ $(function(){
     }
     if (enabled_oekaki) {
       my_html += " / <a href='javascript:void(0)' onclick='enable_oekaki(); return false;'>"+_("Oekaki")+"</a>";
+
+      $("#confirm_oekaki_label").hide();
     }
     $("#upload_selection").html(my_html);
 
