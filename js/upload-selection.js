@@ -10,6 +10,12 @@ $(function(){
     $("#upload_url").hide();
     $("#upload_embed").hide();
     $("#oekaki").hide();
+
+    if (enabled_oekaki) {
+      if ($("#confirm_oekaki").is(':checked')) {
+        $("#confirm_oekaki").click();
+      }
+    }
   };
 
   enable_file = function() {
@@ -34,6 +40,10 @@ $(function(){
   enable_oekaki = function() {
     disable_all();
     $("#oekaki").show();
+
+    if (!$("#confirm_oekaki").is(':checked')) {
+      $("#confirm_oekaki").click();
+    }
   };
 
   if (enabled_url || enabled_embed || enabled_oekaki) {
