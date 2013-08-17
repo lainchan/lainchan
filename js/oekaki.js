@@ -1,10 +1,57 @@
 $(function() {
-var canvas = $("#cvs");
-var context = canvas[0].getContext("2d");
-var is_drawing = false;
-var text = "";
-var eraser = getcolor = fill = false;
-context.strokeStyle = context.fillStyle = "black";
+// Init
+var oekaki_form = '\
+		<tr id="oekaki">\
+			<th>\
+				Oekaki\
+			</th>\
+			<td>\
+				<canvas width="500" height="250" id="cvs" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;">lol what you looking at the source for nerd</canvas>\
+				<p><button type="button" id="brushsize">Brush size</button><input class="color" id="color" value="000000" placeholder="Color"/><button type="button" id="text">Set text</button><button type="button" id="clear">Clear</button><button type="button" id="save">Save</button><button type="button" id="load">Load</button><br/>\
+				<button type="button" id="eraser">Toggle eraser</button><button type="button" id="getcolor">Get color</button><button type="button" id="fill">Fill</button>\
+				</p><p><textarea id="savebox"></textarea><label><input id="confirm_oekaki" type="checkbox"/> Use oekaki instead of file?</label></p>\
+				<img id="saved" style="display:none">\
+			</td>\
+		</tr>'
+
+function enable_oekaki() {
+	// Add oekaki after the file input
+	$('input[type="file"]').parent().parent().after(oekaki_form);
+	// Init oekaki vars
+	canvas = $("#cvs");
+	context = canvas[0].getContext("2d");
+	is_drawing = false;
+	text = "";
+	eraser = getcolor = fill = false;
+	context.strokeStyle = context.fillStyle = "black";
+	// Attach canvas events
+	attach_events();
+	localStorage['oekaki'] = true;
+}
+
+function disable_oekaki(){
+	$("#oekaki").detach()
+	localStorage['oekaki'] = false;
+}
+
+if (localStorage['oekaki'] === undefined) { localStorage['oekaki'] = true }
+
+$('hr:first').before('<div id="oekaki-status" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
+$('div#oekaki-status a').text(_('Oekaki')+' (' + (localStorage['oekaki'] === 'true' ? _('enabled') : _('disabled')) + ')');
+
+$('div#oekaki-status a').on('click', function(){
+	var enabled = !JSON.parse(localStorage['oekaki']);
+
+	if(enabled){
+		enable_oekaki();
+	} else {
+		disable_oekaki();
+	}
+
+	$('div#oekaki-status a').text(_('Oekaki')+' (' + (enabled ? _('enabled') : _('disabled')) + ')');
+});
+
+if (localStorage['oekaki'] === "true") { enable_oekaki(); }
 
 //http://stackoverflow.com/a/5624139/1901658
 function hexToRgb(hex) {
@@ -68,6 +115,8 @@ function flood_fill(x, y, target){
 function color_under_pixel(x, y){
 	return context.getImageData(x, y, 1, 1).data;
 }
+
+function attach_events(){
 
 canvas.on("mousedown", function(e){
 	getmousepos(e);
@@ -164,6 +213,7 @@ $("#getcolor").on("click", function(){
 $("#fill").on("click", function(){
 	fill = true;
 });
+}
 
 function dataURItoBlob(dataURI) {
     var binary = atob(dataURI.split(',')[1]);
