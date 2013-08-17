@@ -254,10 +254,9 @@ $("form[name='post']").on("submit", function(e){
 			processData: false,
 			contentType: false,
 			success: function(data) {
-				//location.reload();
-				console.log(data);
+				location.reload();
 			},
-			error: function(data) {alert("Something went wrong!"); console.log(data)}
+			error: function(jq, data) {alert($('h2',jq.responseText).text());}
 		});
 	}
 
