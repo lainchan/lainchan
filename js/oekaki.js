@@ -6,10 +6,10 @@ var oekaki_form = '\
 				Oekaki\
 			</th>\
 			<td>\
-				<canvas width="'+oekaki_options.width+'" height="'+oekaki_options.height+'" id="oekaki_canvas" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;">lol what you looking at the source for nerd</canvas>\
-				<p><button type="button" id="brushsize">Brush size</button><input class="color" id="color" value="000000" placeholder="Color"/><button type="button" id="text">Set text</button><button type="button" id="clear">Clear</button><button type="button" id="save">Save</button><button type="button" id="load">Load</button><br/>\
-				<button type="button" id="eraser">Toggle eraser</button><button type="button" id="getcolor">Get color</button><button type="button" id="fill">Fill</button>\
-				</p><p><textarea id="savebox"></textarea><label><input id="confirm_oekaki" type="checkbox"/> Use oekaki instead of file?</label></p>\
+				<canvas width="'+oekaki_options.width+'" height="'+oekaki_options.height+'" id="oekaki_canvas" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;"></canvas>\
+				<p><button type="button" id="brushsize">'+_('Brush size')+'</button><input class="color" id="color" value="000000" placeholder="Color"/><button type="button" id="text">'+_('Set text')+'</button><button type="button" id="clear">'+_('Clear')+'</button><button type="button" id="save">'+_('Save')+'</button><button type="button" id="load">'+_('Load')+'</button><br/>\
+				<button type="button" id="eraser">'+_('Toggle eraser')+'</button><button type="button" id="getcolor">'+_('Get color')+'</button><button type="button" id="fill">'+_('Fill')+'</button>\
+				</p><p><textarea id="savebox"></textarea><label><input id="confirm_oekaki" type="checkbox"/> '+_('Use oekaki instead of file?')+'</label></p>\
 				<img id="saved" style="display:none">\
 			</td>\
 		</tr>'
@@ -18,7 +18,7 @@ function enable_oekaki() {
 	// Add oekaki after the file input
 	$('input[type="file"]').parent().parent().after(oekaki_form);
 	// Add "edit in oekaki" links
-	$(".fileinfo").append(' <a href="javascript:void(0)" class="edit_in_oekaki">'+_('Edit in oekaki')+'</a>');
+	$(".fileinfo .unimportant").append(' <a href="javascript:void(0)" class="edit_in_oekaki">['+_('Edit in oekaki')+']</a>');
 	// Init oekaki vars
 	canvas = $("#oekaki_canvas");
 	context = canvas[0].getContext("2d");
@@ -171,8 +171,8 @@ $("#brushsize").on("click",function(){
 $(".color").on("change", setcolor);
 
 $("#text").on("click", function(e){
-	text = prompt("Enter some text") || "";
-	context.font = prompt("Enter font or leave alone", context.font)
+	text = prompt(_("Enter some text")) || "";
+	context.font = prompt(_("Enter font or leave empty"), context.font)
 });
 
 function clear(){
@@ -219,7 +219,7 @@ $("#fill").on("click", function(){
 });
 
 $(".edit_in_oekaki").on("click", function(){ 
-	var img_link = $(this).parent().parent().find("a>img.post-image").parent()[0]
+	var img_link = $(this).parent().parent().parent().find("a>img.post-image").parent()[0]
 	var img = new Image();
 	img.onload = function() {
 		canvas[0].width = img.width; canvas[0].height = img.height;
