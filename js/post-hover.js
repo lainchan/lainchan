@@ -110,6 +110,7 @@ onready(function(){
 						}
 
 						$post = $('[data-board="' + board + '"] div.post#reply_' + id + ', [data-board="' + board + '"]div#thread_' + id);
+
 						if(hovering && $post.length > 0) {
 							start_hover($link);
 						}

@@ -953,6 +953,8 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 
 	// Delete posts and maybe replies
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+		event('delete', $post);
+		
 		if (!$post['thread']) {
 			// Delete thread HTML page
 			file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
@@ -1509,10 +1511,12 @@ function markup(&$body, $track_cites = false) {
 	
 	$modifiers = extract_modifiers($body);
 	
-	$body = preg_replace('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	$body = preg_replace('@<tinyboard (?!escape )([\w\s]+)>(.+?)</tinyboard>@us', '', $body);
+	$body = preg_replace('@<(tinyboard) escape ([\w\s]+)>@i', '<$1 $2>', $body);
 	
-	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1')
-		return $body;
+	if (isset($modifiers['raw html']) && $modifiers['raw html'] == '1') {
+		return array();
+	}
 
 	$body = str_replace("\r", '', $body);
 	$body = utf8tohtml($body);
@@ -1658,7 +1662,7 @@ function markup(&$body, $track_cites = false) {
 }
 
 function escape_markup_modifiers($string) {
-	return preg_replace('@<tinyboard ([\w\s]+)>@m', '<tinyboard escape $1>', $string);
+	return preg_replace('@<(tinyboard) ([\w\s]+)>@mi', '<$1 escape $2>', $string);
 }
 
 function utf8tohtml($utf8) {
