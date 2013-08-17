@@ -644,6 +644,8 @@
 
 	// Oekaki - To enable oekaki, just enable its script with:
 	// $config['additional_javascript'][] = 'js/oekaki.js';
+	// Color selection in oekaki can be greatly improved by including the bundled jscolor script.
+	// $config['additional_javascript'][] = 'js/jscolor/jscolor.js';
 	// $config['oekaki'] holds Oekaki options, which are currently just default canvas size.
 
 	$config['oekaki']['height'] = 250;
