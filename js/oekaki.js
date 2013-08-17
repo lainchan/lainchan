@@ -30,7 +30,9 @@ function init_oekaki() {
 	attach_events();
 }
 
-init_oekaki();
+if (active_page == 'index' || active_page == 'thread') {
+	init_oekaki();
+}
 
 //http://stackoverflow.com/a/5624139/1901658
 function hexToRgb(hex) {
