@@ -949,6 +949,8 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 
 	// Delete posts and maybe replies
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+		event('delete', $post);
+		
 		if (!$post['thread']) {
 			// Delete thread HTML page
 			file_unlink($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['id']));
