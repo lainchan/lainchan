@@ -2663,8 +2663,8 @@ msgstr "Zobacz wszystko"
 msgid "Last 1 Post"
 msgid_plural "Last %count% Posts"
 msgstr[0] "Ostatni 1 post"
-msgstr[1] "Ostatnie %count posty"
-msgstr[2] "Ostatnie %count postów"
+msgstr[1] "Ostatnie %count% posty"
+msgstr[2] "Ostatnie %count% postów"
 
 #. line 90
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
