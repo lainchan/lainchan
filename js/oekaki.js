@@ -9,12 +9,12 @@ var oekaki_form = '\
 				<canvas width="'+oekaki_options.width+'" height="'+oekaki_options.height+'" id="oekaki_canvas" style="border:1px solid black;-webkit-user-select: none;-moz-user-select: none;"></canvas>\
 				<p><button type="button" id="brushsize">'+_('Brush size')+'</button><input class="color" id="color" value="000000" placeholder="Color"/><button type="button" id="text">'+_('Set text')+'</button><button type="button" id="clear">'+_('Clear')+'</button><button type="button" id="save">'+_('Save')+'</button><button type="button" id="load">'+_('Load')+'</button><br/>\
 				<button type="button" id="eraser">'+_('Toggle eraser')+'</button><button type="button" id="getcolor">'+_('Get color')+'</button><button type="button" id="fill">'+_('Fill')+'</button>\
-				</p><p><textarea id="savebox"></textarea><label><input id="confirm_oekaki" type="checkbox"/> '+_('Use oekaki instead of file?')+'</label></p>\
+				</p><p><textarea id="savebox"></textarea><label id="confirm_oekaki_label"><input id="confirm_oekaki" type="checkbox"/> '+_('Use oekaki instead of file?')+'</label></p>\
 				<img id="saved" style="display:none">\
 			</td>\
 		</tr>'
 
-function enable_oekaki() {
+function init_oekaki() {
 	// Add oekaki after the file input
 	$('input[type="file"]').parent().parent().after(oekaki_form);
 	// Add "edit in oekaki" links
@@ -28,33 +28,9 @@ function enable_oekaki() {
 	context.strokeStyle = context.fillStyle = "black";
 	// Attach canvas events
 	attach_events();
-	localStorage['oekaki'] = true;
 }
 
-function disable_oekaki(){
-	$("#oekaki").detach();
-	$(".edit_in_oekaki").detach();
-	localStorage['oekaki'] = false;
-}
-
-if (localStorage['oekaki'] === undefined) { localStorage['oekaki'] = true }
-
-$('hr:first').before('<div id="oekaki-status" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
-$('div#oekaki-status a').text(_('Oekaki')+' (' + (localStorage['oekaki'] === 'true' ? _('enabled') : _('disabled')) + ')');
-
-$('div#oekaki-status a').on('click', function(){
-	var enabled = !JSON.parse(localStorage['oekaki']);
-
-	if(enabled){
-		enable_oekaki();
-	} else {
-		disable_oekaki();
-	}
-
-	$('div#oekaki-status a').text(_('Oekaki')+' (' + (enabled ? _('enabled') : _('disabled')) + ')');
-});
-
-if (localStorage['oekaki'] === "true") { enable_oekaki(); }
+init_oekaki();
 
 //http://stackoverflow.com/a/5624139/1901658
 function hexToRgb(hex) {
@@ -226,6 +202,11 @@ $(".edit_in_oekaki").on("click", function(){
 		context.drawImage(img, 0, 0);
 	}
 	img.src = $(img_link).attr("href");
+
+	if (typeof enable_oekaki === 'function') { // for upload-selection.js
+		enable_oekaki();
+	}
+	return false;
 });
 }
 
