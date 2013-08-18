@@ -1107,6 +1107,9 @@
 	// Replace ?/config with a simple text editor for editing inc/instance-config.php.
 	$config['mod']['config_editor_php'] = false;
 
+	// Whether or not you can access the mod cookie in JavaScript. Most users should not need to change this.
+	$config['mod']['cookie_httponly'] = true;
+
 /*
  * ====================
  *  Mod permissions

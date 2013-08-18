@@ -72,7 +72,7 @@ function setCookies() {
 			$mod['hash'][0] . // password
 			':' .
 			$mod['hash'][1], // salt
-		time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, true);
+		time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, false, $config['mod']['cookie_httponly']);
 }
 
 function destroyCookies() {
