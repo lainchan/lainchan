@@ -218,8 +218,6 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 	return $body;
 }
 
-// int(1607)int(1584)int(1575)int(32)int(1575)int(1582)int(1578)int(1576)int(1575)int(1585)int(46)
-
 function bidi_cleanup($str) {
 	// Removes all embedded RTL and LTR unicode formatting blocks in a string so that
 	// it can be used inside another without controlling its direction.
