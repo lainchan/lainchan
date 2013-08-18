@@ -86,7 +86,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 	}
 
 	// Return the bad request header, necessary for AJAX posts
-	http_response_code(400);
+	header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
 	
 	die(Element('page.html', array(
 		'config' => $config,
