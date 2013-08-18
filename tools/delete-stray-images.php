@@ -11,7 +11,6 @@
 
 require dirname(__FILE__) . '/inc/cli.php';
 
-
 $boards = listBoards();
 
 foreach ($boards as $board) {
