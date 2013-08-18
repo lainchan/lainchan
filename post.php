@@ -593,8 +593,10 @@ if (isset($_POST['delete'])) {
 			// not an image
 			//copy($config['file_thumb'], $post['thumb']);
 			$post['thumb'] = 'file';
-			
-			$size = @getimagesize($config['file_thumb']);
+
+			$size = @getimagesize(sprintf($config['file_thumb'],
+				isset($config['file_icons'][$post['extension']]) ?
+					$config['file_icons'][$post['extension']] : $config['file_icons']['default']));
 			$post['thumbwidth'] = $size[0];
 			$post['thumbheight'] = $size[1];
 		}
