@@ -7,12 +7,21 @@
 				<tr>
 					<th>{{ conf.title }}</th>
 					<td>
-						<input type="text" name="{{ conf.name }}" 
-						{% if settings[conf.name] %}value="{{ settings[conf.name] }}"{% else %}{% if conf.default %}value="{{ conf.default }}"{% endif %}{% endif %}
-						{% if conf.size %}
-							size="{{ conf.size }}"
+						{% if conf.type == 'checkbox' %}
+							<input type="checkbox" name="{{ conf.name }}"
+							{% if settings[conf.name] or (not settings[conf.name] is defined and conf.default) %}
+								checked
+							{% endif %}>
+						{% else %}
+							<input type="text" name="{{ conf.name }}" 
+							{% if settings[conf.name] %}
+								value="{{ settings[conf.name] }}"
+							{% else %}
+								{% if conf.default %}value="{{ conf.default }}"{% endif %}{% endif %}
+							{% if conf.size %}
+								size="{{ conf.size }}"
+							{% endif %}>
 						{% endif %}
-						/>
 					{% if conf.comment %}
 						 <span class="unimportant">{{ conf.comment }}</span>
 					{% endif %}

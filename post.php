@@ -595,8 +595,10 @@ if (isset($_POST['delete'])) {
 			// not an image
 			//copy($config['file_thumb'], $post['thumb']);
 			$post['thumb'] = 'file';
-			
-			$size = @getimagesize($config['file_thumb']);
+
+			$size = @getimagesize(sprintf($config['file_thumb'],
+				isset($config['file_icons'][$post['extension']]) ?
+					$config['file_icons'][$post['extension']] : $config['file_icons']['default']));
 			$post['thumbwidth'] = $size[0];
 			$post['thumbheight'] = $size[1];
 		}
@@ -605,7 +607,7 @@ if (isset($_POST['delete'])) {
 			if (isset($post['file_tmp'])) {
 				if (!@rename($upload, $post['file']))
 					error($config['error']['nomove']);
-				chmod($post['file'], 0755);
+				chmod($post['file'], 0644);
 			} elseif (!@move_uploaded_file($upload, $post['file']))
 				error($config['error']['nomove']);
 		}
@@ -653,6 +655,7 @@ if (isset($_POST['delete'])) {
 	// Remove board directories before inserting them into the database.
 	if ($post['has_file']) {
 		$post['file_path'] = $post['file'];
+		$post['thumb_path'] = $post['thumb'];
 		$post['file'] = mb_substr($post['file'], mb_strlen($board['dir'] . $config['dir']['img']));
 		if ($is_an_image && $post['thumb'] != 'spoiler')
 			$post['thumb'] = mb_substr($post['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));

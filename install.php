@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.9-gold</a>');
+define('VERSION', 'v0.9.6-dev-12 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.10</a>');
 
 require 'inc/functions.php';
 
@@ -22,6 +22,15 @@ if (file_exists($config['has_installed'])) {
 	$version = trim(file_get_contents($config['has_installed']));
 	if (empty($version))
 		$version = 'v0.9.1';
+	
+	function __query($sql) {
+		sql_open();
+		
+		if (mysql_version() >= 50503)
+			return query($sql);
+		else
+			return query(str_replace('utf8mb4', 'utf8', $sql));
+	}
 	
 	$boards = listBoards();
 	
@@ -256,14 +265,6 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.3</a>':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.4-gold</a>':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.5-gold</a>':
-			sql_open();
-			function __query($sql) {
-				if (mysql_version() >= 50503)
-					return query($sql);
-				else
-					return query(str_replace('utf8mb4', 'utf8', $sql));
-			}
-			
 			foreach ($boards as &$board) {
 				__query(sprintf("ALTER TABLE `posts_%s`
 					CHANGE `subject` `subject` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -367,6 +368,14 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.6</a>':
 		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.7-gold</a>':
 		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.8-gold</a>':
+		case 'v0.9.6-dev-11 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.9-gold</a>':
+			foreach ($boards as &$board) {
+				__query(sprintf("ALTER TABLE  ``posts_%s``
+					CHANGE  `thumb`  `thumb` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE  `file`  `file` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ;",
+					$board['uri'])) or error(db_error());
+			}
+		case 'v0.9.6-dev-12':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
