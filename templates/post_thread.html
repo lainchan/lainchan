@@ -41,7 +41,7 @@
 		{% endif %}
 	)
 	</span></p>
-<a href="{{ config.uri_img }}{{ post.file }}" target="_blank"{% if post.thumb == 'file' %} class="file"{% endif %}>
+<a href="{{ config.uri_img }}{{ post.file }}" target="_blank"{% if post.thumb == 'file' or post.modifiers['is_file'] == '1' %} class="file"{% endif %}>
 <img class="post-image" src="
 	{% if post.thumb == 'file' %}
 		{{ config.root }}
