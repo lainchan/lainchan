@@ -40,12 +40,12 @@ $(document).ready(function(){
 		.click(function() {
 			hide_locked_threads = !hide_locked_threads;
 			if (hide_locked_threads) {
-				$('img.icon[title="Locked"]').each(function() {
+				$('img.icon[title="Locked"], i.icon-lock.icon').each(function() {
 					hideLockedThread(getThreadFromIcon($(this)));
 				});
 				localStorage.hidelockedthreads = true;
 			} else {
-				$('img.icon[title="Locked"]').each(function() {
+				$('img.icon[title="Locked"], i.icon-lock.icon').each(function() {
 					restoreLockedThread(getThreadFromIcon($(this)));
 				});
 				delete localStorage.hidelockedthreads;
