@@ -218,23 +218,13 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 	return $body;
 }
 
-function bidi_cleanup($str){
-	# Removes all embedded RTL and LTR unicode formatting blocks in a string so that
-	# it can be used inside another without controlling its direction.
-	# More info: http://www.iamcal.com/understanding-bidirectional-text/
-	#
-	# LRE - U+202A - 0xE2 0x80 0xAA
-	# RLE - U+202B - 0xE2 0x80 0xAB
-	# LRO - U+202D - 0xE2 0x80 0xAD
-	# RLO - U+202E - 0xE2 0x80 0xAE
-	#
-	# PDF - U+202C - 0xE2 0x80 0xAC
-	#
-	$explicits	= '\xE2\x80\xAA|\xE2\x80\xAB|\xE2\x80\xAD|\xE2\x80\xAE';
-	$pdf		= '\xE2\x80\xAC';
+// int(1607)int(1584)int(1575)int(32)int(1575)int(1582)int(1578)int(1576)int(1575)int(1585)int(46)
 
-	$str = preg_replace("!(?<explicits>$explicits)|(?<pdf>$pdf)!", '', $str);
-	return $str;
+function bidi_cleanup($str) {
+	// Removes all embedded RTL and LTR unicode formatting blocks in a string so that
+	// it can be used inside another without controlling its direction.
+
+	return "<bdi>$str</bdi>";
 }
 
 function secure_link_confirm($text, $title, $confirm_message, $href) {
