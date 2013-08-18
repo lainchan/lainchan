@@ -548,7 +548,7 @@ if ($step == 0) {
 		array(
 			'category' => 'Misc',
 			'name' => 'Tinyboard installed using git',
-			'result' => is_dir('.git.'),
+			'result' => is_dir('.git'),
 			'required' => false,
 			'message' => 'Tinyboard is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your Tinyboard installation. Using git makes upgrading much easier.'
 		)
