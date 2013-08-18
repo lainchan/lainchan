@@ -1859,10 +1859,10 @@ function undoImage(array $post) {
 	if (!$post['has_file'])
 		return;
 
-	if (isset($post['file']))
-		file_unlink($post['file']);
-	if (isset($post['thumb']))
-		file_unlink($post['thumb']);
+	if (isset($post['file_path']))
+		file_unlink($post['file_path']);
+	if (isset($post['thumb_path']))
+		file_unlink($post['thumb_path']);
 }
 
 function rDNS($ip_addr) {

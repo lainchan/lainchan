@@ -653,6 +653,7 @@ if (isset($_POST['delete'])) {
 	// Remove board directories before inserting them into the database.
 	if ($post['has_file']) {
 		$post['file_path'] = $post['file'];
+		$post['thumb_path'] = $post['thumb'];
 		$post['file'] = mb_substr($post['file'], mb_strlen($board['dir'] . $config['dir']['img']));
 		if ($is_an_image && $post['thumb'] != 'spoiler')
 			$post['thumb'] = mb_substr($post['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));
