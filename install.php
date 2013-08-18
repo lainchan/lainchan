@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-11');
+define('VERSION', 'v0.9.6-dev-12');
 
 require 'inc/functions.php';
 
@@ -22,6 +22,15 @@ if (file_exists($config['has_installed'])) {
 	$version = trim(file_get_contents($config['has_installed']));
 	if (empty($version))
 		$version = 'v0.9.1';
+	
+	function __query($sql) {
+		sql_open();
+		
+		if (mysql_version() >= 50503)
+			return query($sql);
+		else
+			return query(str_replace('utf8mb4', 'utf8', $sql));
+	}
 	
 	$boards = listBoards();
 	
@@ -249,14 +258,6 @@ if (file_exists($config['has_installed'])) {
 				}
 			}
 		case 'v0.9.6-dev-9':
-			sql_open();
-			function __query($sql) {
-				if (mysql_version() >= 50503)
-					return query($sql);
-				else
-					return query(str_replace('utf8mb4', 'utf8', $sql));
-			}
-			
 			foreach ($boards as &$board) {
 				__query(sprintf("ALTER TABLE `posts_%s`
 					CHANGE `subject` `subject` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -356,6 +357,13 @@ if (file_exists($config['has_installed'])) {
 				CHANGE  `boards`  `boards` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;") or error(db_error());
 			query("ALTER TABLE  `reports`
 				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
+		case 'v0.9.6-dev-11':
+			foreach ($boards as &$board) {
+				__query(sprintf("ALTER TABLE  `posts_%s`
+					CHANGE  `thumb`  `thumb` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+					CHANGE  `file`  `file` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ;",
+					$board['uri'])) or error(db_error());
+			}
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
