@@ -359,7 +359,7 @@ if (file_exists($config['has_installed'])) {
 				CHANGE  `board`  `board` VARCHAR( 58 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;") or error(db_error());
 		case 'v0.9.6-dev-11':
 			foreach ($boards as &$board) {
-				__query(sprintf("ALTER TABLE  `posts_%s`
+				__query(sprintf("ALTER TABLE  ``posts_%s``
 					CHANGE  `thumb`  `thumb` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
 					CHANGE  `file`  `file` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ;",
 					$board['uri'])) or error(db_error());
