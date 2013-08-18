@@ -2155,7 +2155,10 @@ function mod_theme_configure($theme_name) {
 			$query = prepare("INSERT INTO ``theme_settings`` VALUES(:theme, :name, :value)");
 			$query->bindValue(':theme', $theme_name);
 			$query->bindValue(':name', $conf['name']);
-			$query->bindValue(':value', $_POST[$conf['name']]);
+			if ($conf['type'] == 'checkbox')
+				$query->bindValue(':value', isset($_POST[$conf['name']]) ? 1 : 0);
+			else
+				$query->bindValue(':value', $_POST[$conf['name']]);
 			$query->execute() or error(db_error($query));
 		}
 		
