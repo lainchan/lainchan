@@ -47,10 +47,10 @@ foreach ($boards as $board) {
 		}
 	}
 		
-	foreach ($stray_src as $thumb) {
+	foreach ($stray_thumb as $thumb) {
 		$stats['deleted']++;
 		$stats['size'] = filesize($board['dir'] . $config['dir']['thumb'] . $thumb);
-		if (!file_unlink($board['dir'] . $config['dir']['thumb'] . $src)) {
+		if (!file_unlink($board['dir'] . $config['dir']['thumb'] . $thumb)) {
 			$er = error_get_last();
 			die("error: " . $er['message'] . "\n");
 		}
