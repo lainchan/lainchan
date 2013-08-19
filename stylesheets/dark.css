@@ -174,3 +174,7 @@ table.modlog tr th {
 .desktop-style div.boardlist:nth-child(1):hover {
   background-color: rgba(30%, 30%, 30%, 0.65);
 }
+
+div.report {
+	color: #666666;
+}
