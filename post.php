@@ -291,7 +291,7 @@ if (isset($_POST['delete'])) {
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+		curl_setopt($curl, CURLOPT_TIMEOUT, $config['upload_by_url_timeout']);
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Tinyboard');
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $fp);
