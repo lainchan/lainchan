@@ -84,6 +84,8 @@ input[type="text"], input[type="password"], textarea {
 	text-shadow: none;
 	text-transform: none;
 	word-spacing: normal;
+	background: #333333;
+	color: #999999;
 }
 form table tr td {
 	text-align: left;
@@ -468,4 +470,13 @@ table.mod.config-editor input[type="text"] {
 p.intro.thread-hidden {
 	margin: 0px;
 	padding: 0px;
+}
+input[type="submit"], select {
+background: #333333;
+border: 1px solid #666666;
+color: #999999;
+}
+input[type="submit"]:hover 
+{
+	color: #9999CC;
 }
