@@ -359,10 +359,12 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':uri', $board['uri']);
 			$query->execute() or error(db_error($query));
 			
-			modLog('Deleted board: ' . sprintf($config['board_abbreviation'], $board['uri']), false);
+			if ($config['cache']['enabled']) {
+				cache::delete('board_' . $board['uri']);
+				cache::delete('all_boards');
+			}
 			
-			// Delete entire board directory
-			rrmdir($board['uri'] . '/');
+			modLog('Deleted board: ' . sprintf($config['board_abbreviation'], $board['uri']), false);
 			
 			// Delete posting table
 			$query = query(sprintf('DROP TABLE IF EXISTS ``posts_%s``', $board['uri'])) or error(db_error());
@@ -409,6 +411,9 @@ function mod_edit_board($boardName) {
 					$_query->execute() or error(db_error($_query));
 				}
 			}
+			
+			// Delete entire board directory
+			rrmdir($board['uri'] . '/');
 		} else {
 			$query = prepare('UPDATE ``boards`` SET `title` = :title, `subtitle` = :subtitle WHERE `uri` = :uri');
 			$query->bindValue(':uri', $board['uri']);
