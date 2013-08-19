@@ -37,6 +37,10 @@ p.intro a.email:hover span.name {
 p.intro label {
 	display: inline;
 }
+p.intro time, p.intro a.ip-link, p.intro a.capcode {
+	direction: ltr;
+	unicode-bidi: embed;
+}
 h2 {
 	color: #AF0A0F;
 	font-size: 11pt;
@@ -407,4 +411,3 @@ p.intro.thread-hidden {
 	margin: 0px;
 	padding: 0px;
 }
-
