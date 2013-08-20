@@ -1339,9 +1339,11 @@ function buildIndex() {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
-
-			$jsonFilename = $board['dir'] . ($page-1) . ".json";
-			file_unlink($jsonFilename);
+			
+			if ($config['api']['enabled']) {
+				$jsonFilename = $board['dir'] . ($page-1) . ".json";
+				file_unlink($jsonFilename);
+			}
 		}
 	}
 
