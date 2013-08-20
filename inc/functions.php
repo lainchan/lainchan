@@ -1301,7 +1301,7 @@ function buildIndex() {
 		$antibot = create_antibot($board['uri']);
 
 	if ($config['api']['enabled']) {
-		$api = new Api($config);
+		$api = new Api();
 		$catalog = array();
 	}
 
@@ -1775,7 +1775,7 @@ function buildThread($id, $return = false, $mod = false) {
 
 	// json api
 	if ($config['api']['enabled']) {
-		$api = new Api($config);
+		$api = new Api();
 		$json = json_encode($api->translateThread($thread));
 		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
 		file_write($jsonFilename, $json);
