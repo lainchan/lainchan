@@ -1295,9 +1295,11 @@ function buildIndex() {
 	if (!$config['try_smarter'])
 		$antibot = create_antibot($board['uri']);
 
-	$api = new Api();
-	$catalog = array();
-	
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$catalog = array();
+	}
+
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
@@ -1321,12 +1323,14 @@ function buildIndex() {
 		file_write($filename, Element('index.html', $content));
 		
 		// json api
-		$threads = $content['threads'];
-		$json = json_encode($api->translatePage($threads));
-		$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
-		file_write($jsonFilename, $json);
+		if ($config['api']['enabled']) {
+			$threads = $content['threads'];
+			$json = json_encode($api->translatePage($threads));
+			$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+			file_write($jsonFilename, $json);
 
-		$catalog[$page-1] = $threads;
+			$catalog[$page-1] = $threads;
+		}
 	}
 
 	if ($page < $config['max_pages']) {
@@ -1340,9 +1344,11 @@ function buildIndex() {
 	}
 
 	// json api catalog
-	$json = json_encode($api->translateCatalog($catalog));
-	$jsonFilename = $board['dir'] . "catalog.json";
-	file_write($jsonFilename, $json);
+	if ($config['api']['enabled']) {
+		$json = json_encode($api->translateCatalog($catalog));
+		$jsonFilename = $board['dir'] . "catalog.json";
+		file_write($jsonFilename, $json);
+	}
 }
 
 function buildJavascript() {
@@ -1764,10 +1770,103 @@ function buildThread($id, $return = false, $mod = false) {
 	file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
 
 	// json api
-	$api = new Api();
-	$json = json_encode($api->translateThread($thread));
-	$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
-	file_write($jsonFilename, $json);
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$json = json_encode($api->translateThread($thread));
+		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+		file_write($jsonFilename, $json);
+	}
+
+	if ($return) {
+		return $body;
+	} else {
+		$noko50fn = $board['dir'] . $config['dir']['res'] . sprintf($config['file_page50'], $id);
+		if ($hasnoko50 || file_exists($noko50fn)) {
+			buildThread50($id, $return, $mod, $thread);
+		}
+
+		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
+	}
+}
+
+function buildThread50($id, $return = false, $mod = false, $thread = null) {
+	global $board, $config, $build_pages;
+	$id = round($id);
+	
+	if (event('build-thread', $id))
+		return;
+		
+	if (!$thread) {
+		$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id` DESC LIMIT :limit", $board['uri']));
+		$query->bindValue(':id', $id, PDO::PARAM_INT);
+		$query->bindValue(':limit', $config['noko50_count']+1, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		$num_images = 0;
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+			if (!isset($thread)) {
+				$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
+			} else {
+				if ($post['file'])
+					$num_images++;
+					
+				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod));
+			}
+		}
+
+		// Check if any posts were found
+		if (!isset($thread))
+			error($config['error']['nonexistant']);
+
+
+		if ($query->rowCount() == $config['noko50_count']+1) {
+			$count = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
+			$count->bindValue(':thread', $id, PDO::PARAM_INT);
+			$count->execute() or error(db_error($count));
+			
+			$c = $count->fetch();
+			$thread->omitted = $c['num'] - $config['noko50_count'];
+			
+			$c = $count->fetch();
+			$thread->omitted_images = $c['num'] - $num_images;
+		}
+
+		$thread->posts = array_reverse($thread->posts);
+	} else {
+		$allPosts = $thread->posts;
+
+		$thread->posts = array_slice($allPosts, -$config['noko50_count']);
+		$thread->omitted += count($allPosts) - count($thread->posts);
+		foreach ($allPosts as $index => $post) {
+			if ($index == count($allPosts)-count($thread->posts))
+				break;  
+			if ($post->file)
+				$thread->omitted_images++;
+		}
+	}
+
+	$hasnoko50 = $thread->postCount() >= $config['noko50_min'];		
+
+	$body = Element('thread.html', array(
+		'board' => $board,
+		'thread' => $thread,
+		'body' => $thread->build(false, true),
+		'config' => $config,
+		'id' => $id,
+		'mod' => $mod,
+		'hasnoko50' => $hasnoko50,
+		'isnoko50' => true,
+		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
+		'boardlist' => createBoardlist($mod),
+		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
+	));	
+
+	if ($return) {
+		return $body;
+	} else {
+		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page50'], $id), $body);
+	}
+>>>>>>> a29a932... Make it possible to disable API, disable it by default
 }
 
  function rrmdir($dir) {
