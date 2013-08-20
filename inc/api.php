@@ -8,7 +8,8 @@
  * Class for generating json API compatible with 4chan API
  */
 class Api {
-	function __construct($config){
+	function __construct(){
+		global $config;
 		/**
 		 * Translation from local fields to fields in 4chan-style API
 		 */
