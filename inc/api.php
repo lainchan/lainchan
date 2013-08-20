@@ -3,6 +3,7 @@
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
 
+
 /**
  * Class for generating json API compatible with 4chan API
  */
@@ -11,6 +12,8 @@ class Api {
 		/**
 		 * Translation from local fields to fields in 4chan-style API
 		 */
+		$this->config = $config;
+
 		$this->postFields = array(
 			'id' => 'no',
 			'thread' => 'resto',
@@ -64,12 +67,25 @@ class Api {
 			if ($val !== null && $val !== '') {
 				$apiPost[$translated] = $toInt ? (int) $val : $val;
 			}
+
 		}
 
 		if (isset($post->filename)) {
 			$dotPos = strrpos($post->filename, '.');
 			$apiPost['filename'] = substr($post->filename, 0, $dotPos);
 			$apiPost['ext'] = substr($post->filename, $dotPos);
+		}
+
+		// Handle country field
+		if (isset($post->body_nomarkup) && $this->config['country_flags']) {
+			$modifiers = extract_modifiers($post->body_nomarkup);
+			if (isset($modifiers['flag']) && isset($modifiers['flag alt'])) {
+				$country = mb_convert_case($modifiers['flag'], MB_CASE_UPPER);
+				if ($country) {
+					$apiPost['country'] = $country;
+					$apiPost['country_name'] = $modifiers['flag alt'];
+				}
+			}
 		}
 
 		return $apiPost;
