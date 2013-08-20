@@ -168,6 +168,9 @@ function dopost(form) {
 	if (form.elements['name']) {
 		localStorage.name = form.elements['name'].value.replace(/( |^)## .+$/, '');
 	}
+	if (form.elements['password']) {
+		localStorage.password = form.elements['password'].value;
+	}
 	if (form.elements['email'] && form.elements['email'].value != 'sage') {
 		localStorage.email = form.elements['email'].value;
 	}
