@@ -80,8 +80,8 @@ class Api {
 		// Handle country field
 		if (isset($post->body_nomarkup) && $this->config['country_flags']) {
 			$modifiers = extract_modifiers($post->body_nomarkup);
-			if (isset($modifiers['flag']) && isset($modifiers['flag alt'])) {
-				$country = mb_convert_case($modifiers['flag'], MB_CASE_UPPER);
+			if (isset($modifiers['flag']) && isset($modifiers['flag alt']) && preg_match('/^[a-z]{2}$/', $modifiers['flag'])) {
+				$country = strtoupper($modifiers['flag']);
 				if ($country) {
 					$apiPost['country'] = $country;
 					$apiPost['country_name'] = $modifiers['flag alt'];
