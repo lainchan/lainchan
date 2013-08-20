@@ -1299,8 +1299,10 @@ function buildIndex() {
 	if (!$config['try_smarter'])
 		$antibot = create_antibot($board['uri']);
 
-	$api = new Api();
-	$catalog = array();
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$catalog = array();
+	}
 
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
@@ -1324,12 +1326,14 @@ function buildIndex() {
 		file_write($filename, Element('index.html', $content));
 
 		// json api
-		$threads = $content['threads'];
-		$json = json_encode($api->translatePage($threads));
-		$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
-		file_write($jsonFilename, $json);
+		if ($config['api']['enabled']) {
+			$threads = $content['threads'];
+			$json = json_encode($api->translatePage($threads));
+			$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+			file_write($jsonFilename, $json);
 
-		$catalog[$page-1] = $threads; 
+			$catalog[$page-1] = $threads; 
+		}
 	}
 	if ($page < $config['max_pages']) {
 		for (;$page<=$config['max_pages'];$page++) {
@@ -1342,9 +1346,11 @@ function buildIndex() {
 	}
 
 	// json api catalog
-	$json = json_encode($api->translateCatalog($catalog));
-	$jsonFilename = $board['dir'] . "catalog.json";
-	file_write($jsonFilename, $json);
+	if ($config['api']['enabled']) {
+		$json = json_encode($api->translateCatalog($catalog));
+		$jsonFilename = $board['dir'] . "catalog.json";
+		file_write($jsonFilename, $json);
+	}
 }
 
 function buildJavascript() {
@@ -1765,10 +1771,12 @@ function buildThread($id, $return = false, $mod = false) {
 		$build_pages[] = thread_find_page($id);
 
 	// json api
-	$api = new Api();
-	$json = json_encode($api->translateThread($thread));
-	$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
-	file_write($jsonFilename, $json);
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$json = json_encode($api->translateThread($thread));
+		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+		file_write($jsonFilename, $json);
+	}
 
 	if ($return) {
 		return $body;

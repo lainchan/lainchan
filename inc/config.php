@@ -1343,6 +1343,15 @@
 	// });
 
 /*
+ * =============
+ *  API settings
+ * =============
+ */
+
+	// Whether or not to use the API, disabled by default.
+	$config['api']['enabled'] = false;
+
+/*
  * ====================
  *  Other/uncategorized
  * ====================
