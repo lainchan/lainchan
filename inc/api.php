@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
@@ -8,42 +7,38 @@
  * Class for generating json API compatible with 4chan API
  */
 class Api {
+	function __construct($config){
+		/**
+		 * Translation from local fields to fields in 4chan-style API
+		 */
+		$this->postFields = array(
+			'id' => 'no',
+			'thread' => 'resto',
+			'subject' => 'sub',
+			'body' => 'com',
+			'email' => 'email',
+			'name' => 'name',
+			'trip' => 'trip',
+			'capcode' => 'capcode',
+			'time' => 'time',
+			'thumbx' => 'tn_w',
+			'thumby' => 'tn_h',
+			'filex' => 'w',
+			'filey' => 'h',
+			'filesize' => 'fsize',
+			'filename' => 'filename',
+			'omitted' => 'omitted_posts',
+			'omitted_images' => 'omitted_images',
+			'sticky' => 'sticky',
+			'locked' => 'locked',
+		);
 
-	/**
-	 * Translation from local fields to fields in 4chan-style API
-	 */
-	public static $postFields = array(
-		'id' => 'no',
-		'thread' => 'resto',
-		'subject' => 'sub',
-		'email' => 'email',
-		'name' => 'name',
-		'trip' => 'trip',
-		'capcode' => 'capcode',
-		'body' => 'com',
-		'time' => 'time',
-		'thumb' => 'thumb', // non-compatible field
-		'thumbx' => 'tn_w',
-		'thumby' => 'tn_h',
-		'file' => 'file', // non-compatible field
-		'filex' => 'w',
-		'filey' => 'h',
-		'filesize' => 'fsize',
-		//'filename' => 'filename',
-		'omitted' => 'omitted_posts',
-		'omitted_images' => 'omitted_images',
-		//'posts' => 'replies',
-		//'ip' => '',
-		'sticky' => 'sticky',
-		'locked' => 'locked',
-		//'bumplocked' => '',
-		//'embed' => '',
-		//'root' => '',
-		//'mod' => '',
-		//'hr' => '',
-	);
+		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){
+			$this->postFields = array_merge($this->postFields, $config['api']['extra_fields']);
+		}
+	}
 
-	static $ints = array(
+	private static $ints = array(
 		'no' => 1,
 		'resto' => 1,
 		'time' => 1,
@@ -60,7 +55,7 @@ class Api {
 
 	private function translatePost($post) {
 		$apiPost = array();
-		foreach (self::$postFields as $local => $translated) {
+		foreach ($this->postFields as $local => $translated) {
 			if (!isset($post->$local))
 				continue;
 
