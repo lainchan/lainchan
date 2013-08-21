@@ -1326,7 +1326,7 @@ function buildIndex() {
 		if ($config['api']['enabled']) {
 			$threads = $content['threads'];
 			$json = json_encode($api->translatePage($threads));
-			$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+			$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
 			file_write($jsonFilename, $json);
 
 			$catalog[$page-1] = $threads;
@@ -1338,7 +1338,7 @@ function buildIndex() {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
 
-			$jsonFilename = $board['dir'] . ($page-1) . ".json";
+			$jsonFilename = $board['dir'] . ($page - 1) . '.json';
 			file_unlink($jsonFilename);
 		}
 	}
@@ -1346,7 +1346,7 @@ function buildIndex() {
 	// json api catalog
 	if ($config['api']['enabled']) {
 		$json = json_encode($api->translateCatalog($catalog));
-		$jsonFilename = $board['dir'] . "catalog.json";
+		$jsonFilename = $board['dir'] . 'catalog.json';
 		file_write($jsonFilename, $json);
 	}
 }
@@ -1773,7 +1773,7 @@ function buildThread($id, $return = false, $mod = false) {
 	if ($config['api']['enabled']) {
 		$api = new Api();
 		$json = json_encode($api->translateThread($thread));
-		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . '.json';
 		file_write($jsonFilename, $json);
 	}
 
