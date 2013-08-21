@@ -35,6 +35,7 @@ function loadConfig() {
 
 	$arrays = array(
 		'db',
+		'api',
 		'cache',
 		'cookies',
 		'error',
