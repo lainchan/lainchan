@@ -514,6 +514,13 @@ if ($step == 0) {
 		),
 		array(
 			'category' => 'Image processing',
+			'name' => '`gm` (command-line GraphicsMagick)',
+			'result' => $can_exec && shell_exec('which gm'),
+			'required' => false,
+			'message' => '(Optional) `gm` was not found or executable; command-line GraphicsMagick (faster than ImageMagick) cannot be enabled.',
+		),
+		array(
+			'category' => 'Image processing',
 			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
 			'result' => $can_exec && shell_exec('which gifsicle'),
 			'required' => false,
@@ -528,10 +535,25 @@ if ($step == 0) {
 		),
 		array(
 			'category' => 'File permissions',
+			'name' => getcwd() . '/templates/cache',
+			'result' => is_writable('templates') && (!is_dir('templates/cache') || is_writable('templates/cache')),
+			'required' => true,
+			'message' => 'You must give Tinyboard permission to create (and write to) the <code>templates/cache</code> directory or performance will be drastically reduced.'
+		),
+		array(
+			'category' => 'File permissions',
 			'name' => getcwd() . '/inc/instance-config.php',
 			'result' => is_writable('inc/instance-config.php'),
 			'required' => false,
-			'message' => 'Tinyboard does not have permission to make changes to inc/instance-config.php. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
+			'message' => 'Tinyboard does not have permission to make changes to <code>inc/instance-config.php</code>. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
+		),
+		array(
+			'category' => 'Misc',
+			'name' => 'Caching available (APC, XCache, Memcached or Redis)',
+			'result' => extension_loaded('apc') || extension_loaded('xcache')
+				|| extension_loaded('memcached') || extension_loaded('redis'),
+			'required' => false,
+			'message' => 'You will not be able to enable the additional caching system, designed to minimize SQL queries and significantly improve performance. <a href="http://php.net/manual/en/book.apc.php">APC</a> is the recommended method of caching, but <a href="http://xcache.lighttpd.net/">XCache</a>, <a href="http://www.php.net/manual/en/intro.memcached.php">Memcached</a> and <a href="http://pecl.php.net/package/redis">Redis</a> are also supported.'
 		),
 		array(
 			'category' => 'Misc',
