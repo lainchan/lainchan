@@ -1291,14 +1291,14 @@
  * =============
  */
 
-	// Whether or not to use the API, disabled by default.
+	// Whether or not to enable the 4chan-compatible API, disabled by default. See
+	// https://github.com/4chan/4chan-API for API specification.
 	$config['api']['enabled'] = false;
 
-	// Extra fields in to be shown in the array that are not 4chan API compatible.
-	// You canget these by taking a look at the schema for posts_ tables. The array should be formatted as $db_name => $translated_name.
-	// For example:
-	
-	// $config['api']['extra_fields'] = array('body_nomarkup'=>'com_nomarkup');
+	// Extra fields in to be shown in the array that are not in the 4chan-API. You can get these by taking a
+	// look at the schema for posts_ tables. The array should be formatted as $db_column => $translated_name.
+	// Example: Adding the pre-markup post body to the API as "com_nomarkup".
+	// $config['api']['extra_fields'] = array('body_nomarkup' => 'com_nomarkup');
 
 /*
  * ====================
