@@ -8,6 +8,8 @@ https://pl.vichan.net/ (Polish) and http://vichan.net/ (International; may be ou
 
 It contains many changes from original Tinyboard, mainly in frontend area.
 
+Support and announcements: https://int.vichan.net/devel/
+
 About
 ------------
 Tinyboard is a free light-weight, fast, highly configurable and user-friendly
