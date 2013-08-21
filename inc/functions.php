@@ -1866,7 +1866,6 @@ function buildThread50($id, $return = false, $mod = false, $thread = null) {
 	} else {
 		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page50'], $id), $body);
 	}
->>>>>>> a29a932... Make it possible to disable API, disable it by default
 }
 
  function rrmdir($dir) {
