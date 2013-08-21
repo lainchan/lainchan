@@ -379,7 +379,7 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board");
+			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board ORDER BY `board`");
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -390,6 +390,9 @@ function mod_edit_board($boardName) {
 					rebuildPost($cite['post']);
 				}
 			}
+			
+			if (isset($tmp_board))
+				$board = $tmp_board;
 			
 			$query = prepare('DELETE FROM ``cites`` WHERE `board` = :board OR `target_board` = :board');
 			$query->bindValue(':board', $board['uri']);
