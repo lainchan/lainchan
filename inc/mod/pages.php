@@ -1048,7 +1048,7 @@ function mod_move($originBoard, $postID) {
 		if ($post['has_file']) {
 			// copy image
 			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			if (!in_array($post['thumb'], array('spoiler', 'deleted')))
+			if (!in_array($post['thumb'], array('spoiler', 'deleted', 'file')))
 				$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 		}
 		
