@@ -1007,6 +1007,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	$query->execute() or error(db_error($query));
 
 	if (isset($rebuild) && $rebuild_after) {
+		buildIndex();
 		buildThread($rebuild);
 	}
 
