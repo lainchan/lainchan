@@ -273,8 +273,12 @@ if (isset($_POST['delete'])) {
 		if (!preg_match($config['url_regex'], $post['file_url']))
 			error($config['error']['invalidimg']);
 		
-		
-		$post['extension'] = strtolower(mb_substr($post['file_url'], mb_strrpos($post['file_url'], '.') + 1));
+		if (mb_strpos($post['file_url'], '?') !== false)
+			$url_without_params = mb_substr($post['file_url'], 0, mb_strpos($post['file_url'], '?'));
+		else
+			$url_without_params = $post['file_url'];
+
+		$post['extension'] = strtolower(mb_substr($url_without_params, mb_strrpos($url_without_params, '.') + 1));
 		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
 			error($config['error']['unknownext']);
 
@@ -305,7 +309,7 @@ if (isset($_POST['delete'])) {
 		fclose($fp);
 
 		$_FILES['file'] = array(
-			'name' => basename($post['file_url']),
+			'name' => basename($url_without_params),
 			'tmp_name' => $post['file_tmp'],
 			'error' => 0,
 			'size' => filesize($post['file_tmp'])
