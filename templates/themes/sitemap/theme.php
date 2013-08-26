@@ -11,7 +11,7 @@
 		//	- post (a post has been made)
 		//	- thread (a thread has been made)
 		
-		if ($action != 'post' && $action != 'post-thread')
+		if ($action != 'post' && $action != 'post-thread' && $action != 'post-delete')
 			return;
 		
 		$boards = explode(' ', $settings['boards']);

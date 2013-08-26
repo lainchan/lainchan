@@ -20,7 +20,7 @@
 				$b = new Catalog();
 				$b->build($settings, $board);
 			}
-		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') && in_array($board, $boards)) {
+		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') || ($settings['update_on_posts'] && $action == 'post-delete') && in_array($board, $boards)) {
 			$b = new Catalog();
 			$b->build($settings, $board);
 		}
