@@ -75,6 +75,9 @@ if (isset($_POST['delete'])) {
 	}
 	
 	buildIndex();
+
+
+	rebuildThemes('post-delete', $board['uri']);
 	
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
