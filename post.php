@@ -526,7 +526,8 @@ if (isset($_POST['delete'])) {
 									escapeshellarg($upload));
 								if ($config['use_exiftool'] && !$config['strip_exif']) {
 									if ($exiftool_error = shell_exec_error(
-										'exiftool -q -orientation=1 -n ' . escapeshellarg($upload)))
+										'exiftool -overwrite_original -q -q -orientation=1 -n ' .
+											escapeshellarg($upload)))
 										error('exiftool failed!', null, $exiftool_error);
 								} else {
 									// TODO: Find another way to remove the Orientation tag from the EXIF profile
@@ -589,7 +590,8 @@ if (isset($_POST['delete'])) {
 			
 			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
-					if($error = shell_exec_error('exiftool -ignoreMinorErrors -q -q -all= ' . escapeshellarg($upload)))
+					if($error = shell_exec_error('exiftool -overwrite_original -ignoreMinorErrors -q -q -all= ' .
+						escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
 				} else {
 					$image->to($post['file']);
