@@ -1241,6 +1241,8 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			modLog("Deleted post #{$post}");
 			// Rebuild board
 			buildIndex();
+			// Rebuild themes
+			rebuildThemes('post-delete', $board['uri']);
 		}
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1333,7 +1335,8 @@ function mod_delete($board, $post) {
 	modLog("Deleted post #{$post}");
 	// Rebuild board
 	buildIndex();
-	
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
@@ -1354,6 +1357,8 @@ function mod_deletefile($board, $post) {
 	
 	// Rebuild board
 	buildIndex();
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
 	
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1392,6 +1397,9 @@ function mod_spoiler_image($board, $post) {
 
 	// Rebuild board
 	buildIndex();
+
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
        
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1441,6 +1449,8 @@ function mod_deletebyip($boardName, $post, $global = false) {
 		openBoard($post['board']);
 		
 		deletePost($post['id'], false, false);
+
+		rebuildThemes('post-delete', $board['uri']);
 
 		if ($post['thread'])
 			$threads_to_rebuild[$post['board']][$post['thread']] = true;
