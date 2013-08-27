@@ -1755,7 +1755,8 @@ function buildThread($id, $return = false, $mod = false) {
 	if (!isset($thread))
 		error($config['error']['nonexistant']);
 	
-	$hasnoko50 = $thread->postCount() >= $config['noko50_min'];		
+	$hasnoko50 = $thread->postCount() >= $config['noko50_min'];
+	$antibot = $mod || $return ? false : create_antibot($board['uri'], $id);
 
 	$body = Element('thread.html', array(
 		'board' => $board,
@@ -1766,7 +1767,7 @@ function buildThread($id, $return = false, $mod = false) {
 		'mod' => $mod,
 		'hasnoko50' => $hasnoko50,
 		'isnoko50' => false,
-		'antibot' => $mod || $return ? false : create_antibot($board['uri'], $id),
+		'antibot' => $antibot,
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 	));
@@ -1787,19 +1788,19 @@ function buildThread($id, $return = false, $mod = false) {
 	} else {
 		$noko50fn = $board['dir'] . $config['dir']['res'] . sprintf($config['file_page50'], $id);
 		if ($hasnoko50 || file_exists($noko50fn)) {
-			buildThread50($id, $return, $mod, $thread);
+			buildThread50($id, $return, $mod, $thread, $antibot);
 		}
 
 		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
 	}
 }
 
-function buildThread50($id, $return = false, $mod = false, $thread = null) {
+function buildThread50($id, $return = false, $mod = false, $thread = null, $antibot = false) {
 	global $board, $config, $build_pages;
 	$id = round($id);
 	
-	if (event('build-thread', $id))
-		return;
+	if ($antibot)
+		$antibot->reset();
 		
 	if (!$thread) {
 		$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id` DESC LIMIT :limit", $board['uri']));
@@ -1861,7 +1862,7 @@ function buildThread50($id, $return = false, $mod = false, $thread = null) {
 		'mod' => $mod,
 		'hasnoko50' => $hasnoko50,
 		'isnoko50' => true,
-		'antibot' => $mod ? false : create_antibot($board['uri'], $id),
+		'antibot' => $mod ? false : ($antibot ? $antibot : create_antibot($board['uri'], $id)),
 		'boardlist' => createBoardlist($mod),
 		'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 	));	
