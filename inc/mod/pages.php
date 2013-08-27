@@ -1307,7 +1307,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		
 		buildIndex();
 
-		rebuildThemes('post', $board['uri']);
+		rebuildThemes('post', $board);
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
