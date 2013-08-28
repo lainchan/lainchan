@@ -35,6 +35,7 @@ function loadConfig() {
 
 	$arrays = array(
 		'db',
+		'api',
 		'cache',
 		'cookies',
 		'error',
@@ -1001,9 +1002,8 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	if (isset($tmp_board))
 		openBoard($tmp_board);
 
-	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = :id) OR (`board` = :board AND `post` = :id)");
+	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = (" . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
 	$query->bindValue(':board', $board['uri']);
-	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
 	if (isset($rebuild) && $rebuild_after) {
@@ -1056,7 +1056,7 @@ function index($page, $mod=false) {
 		return false;
 
 	$threads = array();
-
+	
 	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
 		$thread = new Thread($th, $mod ? '?/' : $config['root'], $mod);
 
@@ -1097,7 +1097,7 @@ function index($page, $mod=false) {
 			$thread->omitted = $omitted['post_count'] - ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']);
 			$thread->omitted_images = $omitted['image_count'] - $num_images;
 		}
-
+		
 		$threads[] = $thread;
 		$body .= $thread->build(true);
 	}
@@ -1309,7 +1309,8 @@ function buildIndex() {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if ($config['try_smarter'] && isset($build_pages) && count($build_pages) && !in_array($page, $build_pages) && is_file($filename))
+		if ($config['try_smarter'] && isset($build_pages) && count($build_pages)
+			&& !in_array($page, $build_pages) && is_file($filename))
 			continue;
 		$content = index($page);
 		if (!$content)
@@ -1326,24 +1327,25 @@ function buildIndex() {
 		$content['antibot'] = $antibot;
 
 		file_write($filename, Element('index.html', $content));
-
+		
 		// json api
 		if ($config['api']['enabled']) {
 			$threads = $content['threads'];
 			$json = json_encode($api->translatePage($threads));
-			$jsonFilename = $board['dir'] . ($page-1) . ".json"; // pages should start from 0
+			$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
 			file_write($jsonFilename, $json);
 
-			$catalog[$page-1] = $threads; 
+			$catalog[$page-1] = $threads;
 		}
 	}
+
 	if ($page < $config['max_pages']) {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
-			
+
 			if ($config['api']['enabled']) {
-				$jsonFilename = $board['dir'] . ($page-1) . ".json";
+				$jsonFilename = $board['dir'] . ($page - 1) . '.json';
 				file_unlink($jsonFilename);
 			}
 		}
@@ -1352,7 +1354,7 @@ function buildIndex() {
 	// json api catalog
 	if ($config['api']['enabled']) {
 		$json = json_encode($api->translateCatalog($catalog));
-		$jsonFilename = $board['dir'] . "catalog.json";
+		$jsonFilename = $board['dir'] . 'catalog.json';
 		file_write($jsonFilename, $json);
 	}
 }
@@ -1779,7 +1781,7 @@ function buildThread($id, $return = false, $mod = false) {
 	if ($config['api']['enabled']) {
 		$api = new Api();
 		$json = json_encode($api->translateThread($thread));
-		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . ".json";
+		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . '.json';
 		file_write($jsonFilename, $json);
 	}
 
@@ -1874,7 +1876,7 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 	}
 }
 
- function rrmdir($dir) {
+function rrmdir($dir) {
 	if (is_dir($dir)) {
 		$objects = scandir($dir);
 		foreach ($objects as $object) {
@@ -2029,7 +2031,7 @@ function DNS($host) {
 	global $config;
 
 	if ($config['cache']['enabled'] && ($ip_addr = cache::get('dns_' . $host))) {
-		return $ip_addr;
+		return $ip_addr != '?' ? $ip_addr : false;
 	}
 
 	if (!$config['dns_system']) {
@@ -2045,7 +2047,7 @@ function DNS($host) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('dns_' . $host, $ip_addr, 3600);
+		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?', 3600);
 
 	return $ip_addr;
 }

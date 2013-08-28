@@ -314,16 +314,18 @@ class ImageConvert extends ImageBase {
 			$this->destroy();
 		}
 		
-		$this->temp = tempnam($config['tmp'], 'imagick');
+		$this->temp = tempnam($config['tmp'], 'convert');
 				
 		$config['thumb_keep_animation_frames'] = (int)$config['thumb_keep_animation_frames'];
 		
 		if ($this->format == 'gif' && ($config['thumb_ext'] == 'gif' || $config['thumb_ext'] == '') && $config['thumb_keep_animation_frames'] > 1) {
 			if ($this->gifsicle) {
 				if (($error = shell_exec("gifsicle -w --unoptimize -O2 --resize {$this->width}x{$this->height} < " .
-					escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" -o " .
-					escapeshellarg($this->temp))) || !file_exists($this->temp))
+						escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" -o " .
+						escapeshellarg($this->temp))) || !file_exists($this->temp)) {
+					$this->destroy();
 					error('Failed to resize image!', null, $error);
+				}
 			} else {
 				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
 					$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
@@ -338,8 +340,10 @@ class ImageConvert extends ImageBase {
 						escapeshellarg($this->src),
 						$this->width,
 						$this->height,
-						escapeshellarg($this->temp)))) || !file_exists($this->temp))
+						escapeshellarg($this->temp)))) || !file_exists($this->temp)) {
+					$this->destroy();
 					error('Failed to resize image!', null, $error);
+				}
 				if ($size = $this->get_size($this->temp)) {
 					$this->width = $size[0];
 					$this->height = $size[1];
@@ -359,8 +363,10 @@ class ImageConvert extends ImageBase {
 					escapeshellarg($this->src . '[0]'),
 					$this->width,
 					$this->height,
-					escapeshellarg($this->temp)))) || !file_exists($this->temp))
+					escapeshellarg($this->temp)))) || !file_exists($this->temp)) {
+				$this->destroy();
 				error('Failed to resize image!', null, $error);
+			}
 			if ($size = $this->get_size($this->temp)) {
 				$this->width = $size[0];
 				$this->height = $size[1];

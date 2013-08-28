@@ -75,6 +75,9 @@ if (isset($_POST['delete'])) {
 	}
 	
 	buildIndex();
+
+
+	rebuildThemes('post-delete', $board['uri']);
 	
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
@@ -275,14 +278,19 @@ if (isset($_POST['delete'])) {
 		if (!preg_match($config['url_regex'], $post['file_url']))
 			error($config['error']['invalidimg']);
 		
-		
-		$post['extension'] = strtolower(mb_substr($post['file_url'], mb_strrpos($post['file_url'], '.') + 1));
+		if (mb_strpos($post['file_url'], '?') !== false)
+			$url_without_params = mb_substr($post['file_url'], 0, mb_strpos($post['file_url'], '?'));
+		else
+			$url_without_params = $post['file_url'];
+
+		$post['extension'] = strtolower(mb_substr($url_without_params, mb_strrpos($url_without_params, '.') + 1));
 		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
 			error($config['error']['unknownext']);
 
 		$post['file_tmp'] = tempnam($config['tmp'], 'url');
 		function unlink_tmp_file($file) {
 			@unlink($file);
+			fatal_error_handler();
 		}
 		register_shutdown_function('unlink_tmp_file', $post['file_tmp']);
 		
@@ -307,7 +315,7 @@ if (isset($_POST['delete'])) {
 		fclose($fp);
 
 		$_FILES['file'] = array(
-			'name' => basename($post['file_url']),
+			'name' => basename($url_without_params),
 			'tmp_name' => $post['file_tmp'],
 			'error' => 0,
 			'size' => filesize($post['file_tmp'])
@@ -520,7 +528,8 @@ if (isset($_POST['delete'])) {
 									escapeshellarg($upload));
 								if ($config['use_exiftool'] && !$config['strip_exif']) {
 									if ($exiftool_error = shell_exec_error(
-										'exiftool -q -orientation=1 -n ' . escapeshellarg($upload)))
+										'exiftool -overwrite_original -q -q -orientation=1 -n ' .
+											escapeshellarg($upload)))
 										error('exiftool failed!', null, $exiftool_error);
 								} else {
 									// TODO: Find another way to remove the Orientation tag from the EXIF profile
@@ -583,7 +592,8 @@ if (isset($_POST['delete'])) {
 			
 			if ($config['redraw_image'] || (!@$post['exif_stripped'] && $config['strip_exif'] && ($post['extension'] == 'jpg' || $post['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
-					if($error = shell_exec_error('exiftool -ignoreMinorErrors -q -q -all= ' . escapeshellarg($upload)))
+					if($error = shell_exec_error('exiftool -overwrite_original -ignoreMinorErrors -q -q -all= ' .
+						escapeshellarg($upload)))
 						error('Could not strip EXIF metadata!', null, $error);
 				} else {
 					$image->to($post['file']);

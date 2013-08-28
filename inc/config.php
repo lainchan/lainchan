@@ -77,16 +77,18 @@
 	// Database driver (http://www.php.net/manual/en/pdo.drivers.php)
 	// Only MySQL is supported by Tinyboard at the moment, sorry.
 	$config['db']['type'] = 'mysql';
-	// Hostname or IP address
+	// Hostname, IP address or Unix socket (prefixed with ":")
 	$config['db']['server'] = 'localhost';
+	// Example: Unix socket
+	// $config['db']['server'] = ':/tmp/mysql.sock';
 	// Login
 	$config['db']['user'] = '';
 	$config['db']['password'] = '';
 	// Tinyboard database
 	$config['db']['database'] = '';
-	// Table prefix
+	// Table prefix (optional)
 	$config['db']['prefix'] = '';
-	// Use a persistent connection (experimental)
+	// Use a persistent connection (experimental; benefits unknown)
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
 	$config['db']['dsn'] = '';
@@ -1350,14 +1352,14 @@
  * =============
  */
 
-	// Whether or not to use the API, disabled by default.
+	// Whether or not to enable the 4chan-compatible API, disabled by default. See
+	// https://github.com/4chan/4chan-API for API specification.
 	$config['api']['enabled'] = false;
 
-	// Extra fields in to be shown in the array that are not 4chan API compatible.
-	// You canget these by taking a look at the schema for posts_ tables. The array should be formatted as $db_name => $translated_name.
-	// For example:
-	
-	// $config['api']['extra_fields'] = array('body_nomarkup'=>'com_nomarkup');
+	// Extra fields in to be shown in the array that are not in the 4chan-API. You can get these by taking a
+	// look at the schema for posts_ tables. The array should be formatted as $db_column => $translated_name.
+	// Example: Adding the pre-markup post body to the API as "com_nomarkup".
+	// $config['api']['extra_fields'] = array('body_nomarkup' => 'com_nomarkup');
 
 /*
  * ====================

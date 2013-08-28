@@ -379,7 +379,7 @@ function mod_edit_board($boardName) {
 			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
 			$query->execute() or error(db_error($query));
 			
-			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board");
+			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board ORDER BY `board`");
 			$query->bindValue(':board', $board['uri']);
 			$query->execute() or error(db_error($query));
 			while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -390,6 +390,9 @@ function mod_edit_board($boardName) {
 					rebuildPost($cite['post']);
 				}
 			}
+			
+			if (isset($tmp_board))
+				$board = $tmp_board;
 			
 			$query = prepare('DELETE FROM ``cites`` WHERE `board` = :board OR `target_board` = :board');
 			$query->bindValue(':board', $board['uri']);
@@ -1156,7 +1159,7 @@ function mod_move($originBoard, $postID) {
 		if ($post['has_file']) {
 			// copy image
 			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			if (!in_array($post['thumb'], array('spoiler', 'deleted')))
+			if (!in_array($post['thumb'], array('spoiler', 'deleted', 'file')))
 				$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 		}
 		
@@ -1346,6 +1349,8 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			modLog("Deleted post #{$post}");
 			// Rebuild board
 			buildIndex();
+			// Rebuild themes
+			rebuildThemes('post-delete', $board['uri']);
 		}
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1409,6 +1414,8 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		}
 		
 		buildIndex();
+
+		rebuildThemes('post', $board);
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
 	} else {
@@ -1438,7 +1445,8 @@ function mod_delete($board, $post) {
 	modLog("Deleted post #{$post}");
 	// Rebuild board
 	buildIndex();
-	
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
@@ -1459,6 +1467,8 @@ function mod_deletefile($board, $post) {
 	
 	// Rebuild board
 	buildIndex();
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
 	
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1497,6 +1507,9 @@ function mod_spoiler_image($board, $post) {
 
 	// Rebuild board
 	buildIndex();
+
+	// Rebuild themes
+	rebuildThemes('post-delete', $board['uri']);
        
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
@@ -1546,6 +1559,8 @@ function mod_deletebyip($boardName, $post, $global = false) {
 		openBoard($post['board']);
 		
 		deletePost($post['id'], false, false);
+
+		rebuildThemes('post-delete', $board['uri']);
 
 		if ($post['thread'])
 			$threads_to_rebuild[$post['board']][$post['thread']] = true;

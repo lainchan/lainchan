@@ -35,6 +35,15 @@
 		'default' => 'hourly',
 		'size' => '20'
 	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Minimum time between regenerating',
+		'name' => 'regen_time',
+		'type' => 'text',
+		'comment' => '(in seconds)',
+		'default' => '0',
+		'size' => '8'
+	);
 		
 	$__boards = listBoards();
 	$__default_boards = Array();
