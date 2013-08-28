@@ -47,7 +47,9 @@ function Element($templateFile, array $options) {
 	if (isset($options['body']) && $config['debug']) {
 		if (isset($debug['start'])) {
 			$debug['time'] = '~' . round((microtime(true) - $debug['start']) * 1000, 2) . 'ms';
+			$debug['time (initialization)'] = '~' . round(($debug['start_debug'] - $debug['start']) * 1000, 2) . 'ms';
 			unset($debug['start']);
+			unset($debug['start_debug']);
 		}
 		$debug['included'] = get_included_files();
 		$debug['memory'] = round(memory_get_usage(true) / (1024 * 1024), 2) . ' MiB';

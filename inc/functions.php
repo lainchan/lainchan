@@ -85,6 +85,7 @@ function loadConfig() {
 		if (!isset($debug)) {
 			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
 			$debug['start'] = $microtime_start;
+			$debug['start_debug'] = microtime(true);;
 		}
 	}
 
