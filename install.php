@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-12');
+define('VERSION', 'v0.9.6-dev-13');
 
 require 'inc/functions.php';
 
@@ -363,6 +363,10 @@ if (file_exists($config['has_installed'])) {
 					CHANGE  `thumb`  `thumb` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
 					CHANGE  `file`  `file` VARCHAR( 255 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ;",
 					$board['uri'])) or error(db_error());
+			}
+		case 'v0.9.6-dev-12':
+			foreach ($boards as &$board) {
+				query(sprintf("ALTER TABLE  ``posts_%s`` ADD INDEX `ip` (`ip`)", $board['uri'])) or error(db_error());
 			}
 		case false:
 			// Update version number
