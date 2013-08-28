@@ -1776,12 +1776,6 @@ function buildThread($id, $return = false, $mod = false) {
 		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . '.json';
 		file_write($jsonFilename, $json);
 	}
-
-	if ($return) {
-		return $body;
-	} else {
-		file_write($board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $id), $body);
-	}
 }
 
 function rrmdir($dir) {
