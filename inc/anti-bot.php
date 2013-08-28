@@ -178,11 +178,14 @@ class AntiBot {
 }
 
 function _create_antibot($board, $thread) {
-	global $config;
+	global $config, $purged_old_antispam;
 	
 	$antibot = new AntiBot(array($board, $thread));
 	
-	query('DELETE FROM ``antispam`` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
+	if (!isset($purged_old_antispam)) {
+		$purged_old_antispam = true;
+		query('DELETE FROM ``antispam`` WHERE `expires` < UNIX_TIMESTAMP()') or error(db_error());
+	}
 	
 	if ($thread)
 		$query = prepare('UPDATE ``antispam`` SET `expires` = UNIX_TIMESTAMP() + :expires WHERE `board` = :board AND `thread` = :thread AND `expires` IS NULL');
