@@ -60,10 +60,8 @@ class Cache {
 				break;
 		}
 		
-		// debug
-		if ($data !== false && $config['debug']) {
-			$debug['cached'][] = $key;
-		}
+		if ($config['debug'])
+			$debug['cached'][] = $key . ($data === false ? ' (miss)' : ' (hit)');
 		
 		return $data;
 	}
@@ -95,10 +93,13 @@ class Cache {
 			case 'php':
 				self::$cache[$key] = $value;
 				break;
-		}			
+		}
+		
+		if ($config['debug'])
+			$debug['cached'][] = $key . ' (set)';
 	}
 	public static function delete($key) {
-		global $config;
+		global $config, $debug;
 		
 		$key = $config['cache']['prefix'] . $key;
 		
@@ -119,6 +120,9 @@ class Cache {
 				unset(self::$cache[$key]);
 				break;
 		}
+		
+		if ($config['debug'])
+			$debug['cached'][] = $key . ' (deleted)';
 	}
 	public static function flush() {
 		global $config;
