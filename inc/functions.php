@@ -1940,7 +1940,7 @@ function DNS($host) {
 	global $config;
 
 	if ($config['cache']['enabled'] && ($ip_addr = cache::get('dns_' . $host))) {
-		return $ip_addr;
+		return $ip_addr != '?' ? $ip_addr : false;
 	}
 
 	if (!$config['dns_system']) {
@@ -1956,7 +1956,7 @@ function DNS($host) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('dns_' . $host, $ip_addr, 3600);
+		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?', 3600);
 
 	return $ip_addr;
 }
