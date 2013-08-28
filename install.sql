@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `antispam` (
   `expires` int(11) DEFAULT NULL,
   `passed` smallint(6) NOT NULL,
   PRIMARY KEY (`hash`),
-  KEY `board` (`board`,`thread`)
+  KEY `board` (`board`,`thread`),
+  KEY `expires` (`expires`)
 ) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 
 -- --------------------------------------------------------

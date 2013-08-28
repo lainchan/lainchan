@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-13');
+define('VERSION', 'v0.9.6-dev-14');
 
 require 'inc/functions.php';
 
@@ -368,6 +368,8 @@ if (file_exists($config['has_installed'])) {
 			foreach ($boards as &$board) {
 				query(sprintf("ALTER TABLE  ``posts_%s`` ADD INDEX `ip` (`ip`)", $board['uri'])) or error(db_error());
 			}
+		case 'v0.9.6-dev-13':
+			query("ALTER TABLE ``antispam`` ADD INDEX `expires` (`expires`)") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
