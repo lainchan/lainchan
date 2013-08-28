@@ -997,9 +997,8 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	if (isset($tmp_board))
 		openBoard($tmp_board);
 
-	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = :id) OR (`board` = :board AND `post` = :id)");
+	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = (" . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
 	$query->bindValue(':board', $board['uri']);
-	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
 	if (isset($rebuild) && $rebuild_after) {
