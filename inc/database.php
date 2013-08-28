@@ -43,9 +43,17 @@ class PreparedQueryDebug {
 
 function sql_open() {
 	global $pdo, $config;
-	if ($pdo) return true;
+	if ($pdo)
+		return true;
 	
-	$dsn = $config['db']['type'] . ':host=' . $config['db']['server'] . ';dbname=' . $config['db']['database'];
+	if (isset($config['db']['server'][0]) && $config['db']['server'][0] == ':')
+		$unix_socket = substr($config['db']['server'], 1);
+	else
+		$unix_socket = false;
+	
+	$dsn = $config['db']['type'] . ':' .
+		($unix_socket ? 'unix_socket=' . $unix_socket : 'host=' . $config['db']['server']) .
+		';dbname=' . $config['db']['database'];
 	if (!empty($config['db']['dsn']))
 		$dsn .= ';' . $config['db']['dsn'];
 	try {

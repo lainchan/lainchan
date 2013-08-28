@@ -77,16 +77,18 @@
 	// Database driver (http://www.php.net/manual/en/pdo.drivers.php)
 	// Only MySQL is supported by Tinyboard at the moment, sorry.
 	$config['db']['type'] = 'mysql';
-	// Hostname or IP address
+	// Hostname, IP address or Unix socket (prefixed with ":")
 	$config['db']['server'] = 'localhost';
+	// Example: Unix socket
+	// $config['db']['server'] = ':/tmp/mysql.sock';
 	// Login
 	$config['db']['user'] = '';
 	$config['db']['password'] = '';
 	// Tinyboard database
 	$config['db']['database'] = '';
-	// Table prefix
+	// Table prefix (optional)
 	$config['db']['prefix'] = '';
-	// Use a persistent connection (experimental)
+	// Use a persistent connection (experimental; benefits unknown)
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
 	$config['db']['dsn'] = '';
