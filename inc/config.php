@@ -472,6 +472,11 @@
 	// 	}
 	// );
 
+	// Always regenerate markup. This isn't recommended and should only be used for debugging; by default,
+	// Tinyboard only parses post markup when it needs to, and keeps post-markup HTML in the database. This
+	// will significantly impact performance when enabled.
+	$config['always_regenerate_markup'] = false;
+
 /*
  * ====================
  *  Image settings
