@@ -611,7 +611,7 @@
 	// Display the aspect ratio of uploaded files.
 	$config['show_ratio'] = false;
 	// Display the file's original filename.
-	$config['show_filename']= true;
+	$config['show_filename'] = true;
 
 	// Display image identification links using regex.info/exif, TinEye and Google Images.
 	$config['image_identification'] = false;
