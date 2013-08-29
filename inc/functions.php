@@ -1576,29 +1576,41 @@ function markup(&$body, $track_cites = false) {
 
 		$skip_chars = 0;
 		$body_tmp = $body;
-
+		
+		$search_cites = array();
+		foreach ($cites as $matches) {
+			$search_cites[] = '`id` = ' . $matches[2][0];
+		}
+		$search_cites = array_unique($search_cites);
+		
+		$query = query(sprintf('SELECT `thread`, `id` FROM ``posts_%s`` WHERE ' .
+			implode(' OR ', $search_cites), $board['uri'])) or error(db_error());
+		
+		$cited_posts = array();
+		while ($cited = $query->fetch(PDO::FETCH_ASSOC)) {
+			$cited_posts[$cited['id']] = $cited['thread'] ? $cited['thread'] : false;
+		}
+				
 		foreach ($cites as $matches) {
 			$cite = $matches[2][0];
-			$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
-			$query->bindValue(':id', $cite);
-			$query->execute() or error(db_error($query));
 
 			// preg_match_all is not multibyte-safe
 			foreach ($matches as &$match) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
 
-			if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+			if (isset($cited_posts[$cite])) {
 				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
-					$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
-						'&gt;&gt;' . $cite .
-						'</a>';
+					$config['root'] . $board['dir'] . $config['dir']['res'] .
+					($cited_posts[$cite] ? $cited_posts[$cite] : $cite) . '.html#' . $cite . '">' .
+					'&gt;&gt;' . $cite .
+					'</a>';
 
 				$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[3][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
 				$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[3][0]) - mb_strlen($matches[0][0]);
 
 				if ($track_cites && $config['track_cites'])
-					$tracked_cites[] = array($board['uri'], $post['id']);
+					$tracked_cites[] = array($board['uri'], $cite);
 			}
 		}
 	}
@@ -1611,6 +1623,8 @@ function markup(&$body, $track_cites = false) {
 
 		$skip_chars = 0;
 		$body_tmp = $body;
+
+		// TODO: Make this use fewer queries, similar to local board cites.
 
 		foreach ($cites as $matches) {
 			$_board = $matches[2][0];
