@@ -66,7 +66,7 @@ class Cache {
 		return $data;
 	}
 	public static function set($key, $value, $expires = false) {
-		global $config;
+		global $config, $debug;
 		
 		$key = $config['cache']['prefix'] . $key;
 		

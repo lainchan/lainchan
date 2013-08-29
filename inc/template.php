@@ -46,8 +46,8 @@ function Element($templateFile, array $options) {
 	
 	if (isset($options['body']) && $config['debug']) {
 		if (isset($debug['start'])) {
-			$debug['time'] = '~' . round((microtime(true) - $debug['start']) * 1000, 2) . 'ms';
-			$debug['time (initialization)'] = '~' . round(($debug['start_debug'] - $debug['start']) * 1000, 2) . 'ms';
+			$debug['time']['total'] = '~' . round((microtime(true) - $debug['start']) * 1000, 2) . 'ms';
+			$debug['time']['init'] = '~' . round(($debug['start_debug'] - $debug['start']) * 1000, 2) . 'ms';
 			unset($debug['start']);
 			unset($debug['start_debug']);
 		}
@@ -55,6 +55,8 @@ function Element($templateFile, array $options) {
 			$debug['build_pages'] = $build_pages;
 		$debug['included'] = get_included_files();
 		$debug['memory'] = round(memory_get_usage(true) / (1024 * 1024), 2) . ' MiB';
+		$debug['time']['db_queries'] = '~' . round($debug['time']['db_queries'] * 1000, 2) . 'ms';
+		$debug['time']['exec'] = '~' . round($debug['time']['exec'] * 1000, 2) . 'ms';
 		$options['body'] .=
 			'<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' .
 				str_replace("\n", '<br/>', utf8tohtml(print_r($debug, true))) .

@@ -81,14 +81,6 @@ function loadConfig() {
 		$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
 	$config['version'] = $__version;
 
-	if ($config['debug']) {
-		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
-			$debug['start'] = $microtime_start;
-			$debug['start_debug'] = microtime(true);;
-		}
-	}
-
 	date_default_timezone_set($config['timezone']);
 
 	if (!isset($config['global_message']))
@@ -199,6 +191,25 @@ function loadConfig() {
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
 	event('load-config');
+	
+	if ($config['debug']) {
+		if (!isset($debug)) {
+			$debug = array(
+				'sql' => array(),
+				'exec' => array(),
+				'purge' => array(),
+				'cached' => array(),
+				'write' => array(),
+				'time' => array(
+					'db_queries' => 0,
+					'exec' => 0,
+				),
+				'start' => $microtime_start,
+				'start_debug' => microtime(true)
+			);
+			$debug['start'] = $microtime_start;
+		}
+	}
 }
 
 function basic_error_function_because_the_other_isnt_loaded_yet($message, $priority = true) {
@@ -2056,12 +2067,13 @@ function shell_exec_error($command, $suppress_stdout = false) {
 	$return = preg_replace('/TB_SUCCESS$/', '', $return);
 
 	if ($config['debug']) {
-		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+		$time = microtime(true) - $start;
 		$debug['exec'][] = array(
 			'command' => $command,
-			'time' => '~' . $time,
+			'time' => '~' . round($time * 1000, 2) . 'ms',
 			'response' => $return ? $return : null
 		);
+		$debug['time']['exec'] += $time;
 	}
 
 	return $return === 'TB_SUCCESS' ? false : $return;

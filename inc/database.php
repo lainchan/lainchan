@@ -28,13 +28,13 @@ class PreparedQueryDebug {
 		$return = call_user_func_array(array($this->query, $function), $args);
 		
 		if ($config['debug'] && $function == 'execute') {
-			$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
-			
+			$time = microtime(true) - $start;
 			$debug['sql'][] = array(
 				'query' => $this->query->queryString,
 				'rows' => $this->query->rowCount(),
-				'time' => '~' . $time
+				'time' => '~' . round($time * 1000, 2) . 'ms'
 			);
+			$debug['time']['db_queries'] += $time;
 		}
 		
 		return $return;
@@ -42,9 +42,13 @@ class PreparedQueryDebug {
 }
 
 function sql_open() {
-	global $pdo, $config;
+	global $pdo, $config, $debug;
 	if ($pdo)
 		return true;
+	
+	
+	if ($config['debug'])
+		$start = microtime(true);
 	
 	if (isset($config['db']['server'][0]) && $config['db']['server'][0] == ':')
 		$unix_socket = substr($config['db']['server'], 1);
@@ -64,6 +68,10 @@ function sql_open() {
 		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
 		$pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
+		
+		if ($config['debug'])
+			$debug['time']['db_connect'] = '~' . round((microtime(true) - $start) * 1000, 2) . 'ms';
+		
 		if (mysql_version() >= 50503)
 			query('SET NAMES utf8mb4') or error(db_error());
 		else
@@ -117,12 +125,13 @@ function query($query) {
 		$query = $pdo->query($query);
 		if (!$query)
 			return false;
-		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+		$time = microtime(true) - $start;
 		$debug['sql'][] = array(
 			'query' => $query->queryString,
 			'rows' => $query->rowCount(),
-			'time' => '~' . $time
+			'time' => '~' . round($time * 1000, 2) . 'ms'
 		);
+		$debug['time']['db_queries'] += $time;
 		return $query;
 	}
 
