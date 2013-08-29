@@ -472,8 +472,9 @@
 	// 	}
 	// );
 
-	// Repair markup with HTML Tidy. This may be slower, but most if the time it solves nesting mistakes.
-	// Tinyboad, at the time of writing this, can not prevent out-of-order markup tags (eg. "**''test**'').
+	// Repair markup with HTML Tidy. This may be slower, but it solves nesting mistakes. Tinyboad, at the
+	// time of writing this, can not prevent out-of-order markup tags (eg. "**''test**'') without help from
+	// HTML Tidy.
 	$config['markup_repair_tidy'] = false;
 
 	// Always regenerate markup. This isn't recommended and should only be used for debugging; by default,
