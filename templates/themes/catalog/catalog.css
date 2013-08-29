@@ -36,3 +36,7 @@ div.thread:hover {
     background: #D6DAF0;
     border-color: #B7C5D9;
 }
+
+strong {
+    display: block;
+}
