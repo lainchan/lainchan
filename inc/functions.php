@@ -1623,8 +1623,66 @@ function markup(&$body, $track_cites = false) {
 
 		$skip_chars = 0;
 		$body_tmp = $body;
-
-		// TODO: Make this use fewer queries, similar to local board cites.
+		
+		if (isset($cited_posts)) {
+			// Carry found posts from local board >>X links
+			foreach ($cited_posts as $cite => $thread) {
+				$cited_posts[$cite] = $config['root'] . $board['dir'] . $config['dir']['res'] .
+					($thread ? $thread : $cite) . '.html#' . $cite;
+			}
+			
+			$cited_posts = array(
+				$board['uri'] => $cited_posts
+			);
+		} else
+			$cited_posts = array();
+		
+		$crossboard_indexes = array();
+		$search_cites_boards = array();
+		
+		foreach ($cites as $matches) {
+			$_board = $matches[2][0];
+			$cite = @$matches[3][0];
+			
+			if (!isset($search_cites_boards[$_board]))
+				$search_cites_boards[$_board] = array();
+			$search_cites_boards[$_board][] = $cite;
+		}
+		
+		$tmp_board = $board['uri'];
+		
+		foreach ($search_cites_boards as $_board => $search_cites) {
+			$clauses = array();
+			foreach ($search_cites as $cite) {
+				if (!$cite || isset($cited_posts[$_board][$cite]))
+					continue;
+				$clauses[] = '`id` = ' . $cite;
+			}
+			$clauses = array_unique($clauses);
+			
+			if ($board['uri'] != $_board) {
+				if (!openBoard($_board))
+					continue; // Unknown board
+			}
+			
+			if (!empty($clauses)) {
+				$cited_posts[$_board] = array();
+				
+				$query = query(sprintf('SELECT `thread`, `id` FROM ``posts_%s`` WHERE ' .
+					implode(' OR ', $clauses), $board['uri'])) or error(db_error());
+				
+				while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+					$cited_posts[$_board][$cite['id']] = $config['root'] . $board['dir'] . $config['dir']['res'] .
+						($cite['thread'] ? $cite['thread'] : $cite['id']) . '.html#' . $cite['id'];
+				}
+			}
+			
+			$crossboard_indexes[$_board] = $config['root'] . $board['dir'] . $config['file_index'];
+		}
+		
+		// Restore old board
+		if ($board['uri'] != $tmp_board)
+			openBoard($tmp_board);
 
 		foreach ($cites as $matches) {
 			$_board = $matches[2][0];
@@ -1638,39 +1696,34 @@ function markup(&$body, $track_cites = false) {
 			// Temporarily store board information because it will be overwritten
 			$tmp_board = $board['uri'];
 
-			// Check if the board exists, and load settings
-			if (openBoard($_board)) {
-				if ($cite) {
-					$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
-					$query->bindValue(':id', $cite);
-					$query->execute() or error(db_error($query));
+			if ($cite) {
+				if (isset($cited_posts[$_board][$cite])) {
+					$link = $cited_posts[$_board][$cite];
+					
+					$replacement = '<a ' .
+						($_board == $board['uri'] ?
+							'onclick="highlightReply(\''.$cite.'\');" '
+						: '') . 'href="' . $link . '">' .
+						'&gt;&gt;&gt;/' . $_board . '/' . $cite .
+						'</a>';
 
-					if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-						$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
-							$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
-								'&gt;&gt;&gt;/' . $_board . '/' . $cite .
-								'</a>';
-
-						$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
-						$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
-
-						if ($track_cites && $config['track_cites'])
-							$tracked_cites[] = array($board['uri'], $post['id']);
-					}
-				} else {
-					$replacement = '<a href="' .
-						$config['root'] . $board['dir'] . $config['file_index'] . '">' .
-							'&gt;&gt;&gt;/' . $_board . '/' .
-							'</a>';
 					$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
 					$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
-				}
-			}
 
-			// Restore main board settings
-			openBoard($tmp_board);
+					if ($track_cites && $config['track_cites'])
+						$tracked_cites[] = array($_board, $cite);
+				}
+			} elseif(isset($crossboard_indexes[$_board])) {
+				$replacement = '<a href="' . $crossboard_indexes[$_board] . '">' .
+						'&gt;&gt;&gt;/' . $_board . '/' .
+						'</a>';
+				$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
+				$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
+			}
 		}
 	}
+	
+	$tracked_cites = array_unique($tracked_cites, SORT_REGULAR);
 
 	$body = preg_replace("/^\s*&gt;.*$/m", '<span class="quote">$0</span>', $body);
 
