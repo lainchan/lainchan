@@ -2003,7 +2003,7 @@ function rDNS($ip_addr) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('rdns_' . $ip_addr, $host, 3600);
+		cache::set('rdns_' . $ip_addr, $host);
 
 	return $host;
 }
@@ -2028,7 +2028,7 @@ function DNS($host) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?', 3600);
+		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?');
 
 	return $ip_addr;
 }
