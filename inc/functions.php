@@ -1306,7 +1306,7 @@ function buildIndex() {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if ($config['try_smarter'] && isset($build_pages) && count($build_pages)
+		if ($config['try_smarter'] && isset($build_pages) && !empty($build_pages)
 			&& !in_array($page, $build_pages) && is_file($filename))
 			continue;
 		$content = index($page);
@@ -1352,6 +1352,9 @@ function buildIndex() {
 		$jsonFilename = $board['dir'] . 'catalog.json';
 		file_write($jsonFilename, $json);
 	}
+
+	if ($config['try_smarter'])
+		$build_pages = array();
 }
 
 function buildJavascript() {

@@ -682,7 +682,7 @@ if (isset($_POST['delete'])) {
 		incrementSpamHash($post['antispam_hash']);
 	}
 	
-	if (isset($post['tracked_cites']) && count($post['tracked_cites'])) {
+	if (isset($post['tracked_cites']) && !empty($post['tracked_cites'])) {
 		$insert_rows = array();
 		foreach ($post['tracked_cites'] as $cite) {
 			$insert_rows[] = '(' .
