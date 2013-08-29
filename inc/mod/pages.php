@@ -1137,7 +1137,7 @@ function mod_move($originBoard, $postID) {
 		buildIndex();
 		
 		// trigger themes
-		rebuildThemes('post');
+		rebuildThemes('post', $targetBoard);
 		
 		// return to original board
 		openBoard($originBoard);
