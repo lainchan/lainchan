@@ -383,6 +383,7 @@ if (file_exists($config['has_installed'])) {
 			}
 		case 'v0.9.6-dev-13':
 			query("ALTER TABLE ``antispam`` ADD INDEX `expires` (`expires`)") or error(db_error());
+		case 'v0.9.6-dev-14':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

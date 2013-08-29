@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS ``posts_{{ board }}`` (
    KEY `thread_id` (`thread`,`id`),
    KEY `time` (`time`),
    FULLTEXT KEY `body` (`body`),
-   KEY `ip` (`ip`),
+   KEY `ip` (`ip`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
  

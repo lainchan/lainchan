@@ -684,15 +684,14 @@ if (isset($_POST['delete'])) {
 		incrementSpamHash($post['antispam_hash']);
 	}
 	
-	if (isset($post['tracked_cites'])) {
+	if (isset($post['tracked_cites']) && !empty($post['tracked_cites'])) {
+		$insert_rows = array();
 		foreach ($post['tracked_cites'] as $cite) {
-			$query = prepare('INSERT INTO ``cites`` VALUES (:board, :post, :target_board, :target)');
-			$query->bindValue(':board', $board['uri']);
-			$query->bindValue(':post', $id, PDO::PARAM_INT);
-			$query->bindValue(':target_board',$cite[0]);
-			$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
-			$query->execute() or error(db_error($query));
+			$insert_rows[] = '(' .
+				$pdo->quote($board['uri']) . ', ' . (int)$id . ', ' .
+				$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
 		}
+		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());;
 	}
 	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {

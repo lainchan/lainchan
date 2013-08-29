@@ -9,6 +9,8 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
+$microtime_start = microtime(true);
+
 require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
@@ -24,7 +26,7 @@ mb_internal_encoding('UTF-8');
 loadConfig();
 
 function loadConfig() {
-	global $board, $config, $__ip, $debug, $__version;
+	global $board, $config, $__ip, $debug, $__version, $microtime_start;
 
 	$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
 
@@ -82,7 +84,8 @@ function loadConfig() {
 	if ($config['debug']) {
 		if (!isset($debug)) {
 			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
-			$debug['start'] = microtime(true);
+			$debug['start'] = $microtime_start;
+			$debug['start_debug'] = microtime(true);;
 		}
 	}
 
@@ -647,7 +650,7 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
@@ -1309,7 +1312,7 @@ function buildIndex() {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if ($config['try_smarter'] && isset($build_pages) && count($build_pages)
+		if ($config['try_smarter'] && isset($build_pages) && !empty($build_pages)
 			&& !in_array($page, $build_pages) && is_file($filename))
 			continue;
 		$content = index($page);
@@ -1357,6 +1360,9 @@ function buildIndex() {
 		$jsonFilename = $board['dir'] . 'catalog.json';
 		file_write($jsonFilename, $json);
 	}
+
+	if ($config['try_smarter'])
+		$build_pages = array();
 }
 
 function buildJavascript() {
@@ -1557,6 +1563,9 @@ function markup(&$body, $track_cites = false) {
 		if ($num_links > $config['max_links'])
 			error($config['error']['toomanylinks']);
 	}
+	
+	if ($config['markup_repair_tidy'])
+		$body = str_replace('  ', ' &nbsp;', $body);
 
 	if ($config['auto_unicode']) {
 		$body = unicodify($body);
@@ -1581,29 +1590,41 @@ function markup(&$body, $track_cites = false) {
 
 		$skip_chars = 0;
 		$body_tmp = $body;
-
+		
+		$search_cites = array();
+		foreach ($cites as $matches) {
+			$search_cites[] = '`id` = ' . $matches[2][0];
+		}
+		$search_cites = array_unique($search_cites);
+		
+		$query = query(sprintf('SELECT `thread`, `id` FROM ``posts_%s`` WHERE ' .
+			implode(' OR ', $search_cites), $board['uri'])) or error(db_error());
+		
+		$cited_posts = array();
+		while ($cited = $query->fetch(PDO::FETCH_ASSOC)) {
+			$cited_posts[$cited['id']] = $cited['thread'] ? $cited['thread'] : false;
+		}
+				
 		foreach ($cites as $matches) {
 			$cite = $matches[2][0];
-			$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
-			$query->bindValue(':id', $cite);
-			$query->execute() or error(db_error($query));
 
 			// preg_match_all is not multibyte-safe
 			foreach ($matches as &$match) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
 
-			if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+			if (isset($cited_posts[$cite])) {
 				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
-					$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
-						'&gt;&gt;' . $cite .
-						'</a>';
+					$config['root'] . $board['dir'] . $config['dir']['res'] .
+					($cited_posts[$cite] ? $cited_posts[$cite] : $cite) . '.html#' . $cite . '">' .
+					'&gt;&gt;' . $cite .
+					'</a>';
 
 				$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[3][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
 				$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[3][0]) - mb_strlen($matches[0][0]);
 
 				if ($track_cites && $config['track_cites'])
-					$tracked_cites[] = array($board['uri'], $post['id']);
+					$tracked_cites[] = array($board['uri'], $cite);
 			}
 		}
 	}
@@ -1616,6 +1637,66 @@ function markup(&$body, $track_cites = false) {
 
 		$skip_chars = 0;
 		$body_tmp = $body;
+		
+		if (isset($cited_posts)) {
+			// Carry found posts from local board >>X links
+			foreach ($cited_posts as $cite => $thread) {
+				$cited_posts[$cite] = $config['root'] . $board['dir'] . $config['dir']['res'] .
+					($thread ? $thread : $cite) . '.html#' . $cite;
+			}
+			
+			$cited_posts = array(
+				$board['uri'] => $cited_posts
+			);
+		} else
+			$cited_posts = array();
+		
+		$crossboard_indexes = array();
+		$search_cites_boards = array();
+		
+		foreach ($cites as $matches) {
+			$_board = $matches[2][0];
+			$cite = @$matches[3][0];
+			
+			if (!isset($search_cites_boards[$_board]))
+				$search_cites_boards[$_board] = array();
+			$search_cites_boards[$_board][] = $cite;
+		}
+		
+		$tmp_board = $board['uri'];
+		
+		foreach ($search_cites_boards as $_board => $search_cites) {
+			$clauses = array();
+			foreach ($search_cites as $cite) {
+				if (!$cite || isset($cited_posts[$_board][$cite]))
+					continue;
+				$clauses[] = '`id` = ' . $cite;
+			}
+			$clauses = array_unique($clauses);
+			
+			if ($board['uri'] != $_board) {
+				if (!openBoard($_board))
+					continue; // Unknown board
+			}
+			
+			if (!empty($clauses)) {
+				$cited_posts[$_board] = array();
+				
+				$query = query(sprintf('SELECT `thread`, `id` FROM ``posts_%s`` WHERE ' .
+					implode(' OR ', $clauses), $board['uri'])) or error(db_error());
+				
+				while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+					$cited_posts[$_board][$cite['id']] = $config['root'] . $board['dir'] . $config['dir']['res'] .
+						($cite['thread'] ? $cite['thread'] : $cite['id']) . '.html#' . $cite['id'];
+				}
+			}
+			
+			$crossboard_indexes[$_board] = $config['root'] . $board['dir'] . $config['file_index'];
+		}
+		
+		// Restore old board
+		if ($board['uri'] != $tmp_board)
+			openBoard($tmp_board);
 
 		foreach ($cites as $matches) {
 			$_board = $matches[2][0];
@@ -1626,42 +1707,34 @@ function markup(&$body, $track_cites = false) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
 
-			// Temporarily store board information because it will be overwritten
-			$tmp_board = $board['uri'];
+			if ($cite) {
+				if (isset($cited_posts[$_board][$cite])) {
+					$link = $cited_posts[$_board][$cite];
+					
+					$replacement = '<a ' .
+						($_board == $board['uri'] ?
+							'onclick="highlightReply(\''.$cite.'\');" '
+						: '') . 'href="' . $link . '">' .
+						'&gt;&gt;&gt;/' . $_board . '/' . $cite .
+						'</a>';
 
-			// Check if the board exists, and load settings
-			if (openBoard($_board)) {
-				if ($cite) {
-					$query = prepare(sprintf("SELECT `thread`,`id` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
-					$query->bindValue(':id', $cite);
-					$query->execute() or error(db_error($query));
-
-					if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-						$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
-							$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $cite . '">' .
-								'&gt;&gt;&gt;/' . $_board . '/' . $cite .
-								'</a>';
-
-						$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
-						$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
-
-						if ($track_cites && $config['track_cites'])
-							$tracked_cites[] = array($board['uri'], $post['id']);
-					}
-				} else {
-					$replacement = '<a href="' .
-						$config['root'] . $board['dir'] . $config['file_index'] . '">' .
-							'&gt;&gt;&gt;/' . $_board . '/' .
-							'</a>';
 					$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
 					$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
-				}
-			}
 
-			// Restore main board settings
-			openBoard($tmp_board);
+					if ($track_cites && $config['track_cites'])
+						$tracked_cites[] = array($_board, $cite);
+				}
+			} elseif(isset($crossboard_indexes[$_board])) {
+				$replacement = '<a href="' . $crossboard_indexes[$_board] . '">' .
+						'&gt;&gt;&gt;/' . $_board . '/' .
+						'</a>';
+				$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
+				$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
+			}
 		}
 	}
+	
+	$tracked_cites = array_unique($tracked_cites, SORT_REGULAR);
 
 	$body = preg_replace("/^\s*&gt;.*$/m", '<span class="quote">$0</span>', $body);
 
@@ -1669,7 +1742,25 @@ function markup(&$body, $track_cites = false) {
 		$body = preg_replace('/\s+$/', '', $body);
 
 	$body = preg_replace("/\n/", '<br/>', $body);
-
+	
+	if ($config['markup_repair_tidy']) {
+		$tidy = new tidy();
+		$body = $tidy->repairString($body, array(
+			'doctype' => 'omit',
+			'bare' => true,
+			'literal-attributes' => true,
+			'indent' => false,
+			'show-body-only' => true,
+			'wrap' => 0,
+			'output-bom' => false,
+			'output-html' => true,
+			'newline' => 'LF',
+			'quiet' => true,
+			
+		), 'utf8');
+		$body = str_replace("\n", '', $body);
+	}
+		
 	return $tracked_cites;
 }
 
@@ -2022,7 +2113,7 @@ function rDNS($ip_addr) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('rdns_' . $ip_addr, $host, 3600);
+		cache::set('rdns_' . $ip_addr, $host);
 
 	return $host;
 }
@@ -2047,7 +2138,7 @@ function DNS($host) {
 	}
 
 	if ($config['cache']['enabled'])
-		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?', 3600);
+		cache::set('dns_' . $host, $ip_addr !== false ? $ip_addr : '?');
 
 	return $ip_addr;
 }

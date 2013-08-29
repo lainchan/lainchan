@@ -330,6 +330,11 @@ class Post {
 		
 		$this->modifiers = extract_modifiers($this->body_nomarkup);
 		
+		if ($config['always_regenerate_markup']) {
+			$this->body = $this->body_nomarkup;
+			markup($this->body);
+		}
+		
 		if ($this->mod)
 			// Fix internal links
 			// Very complicated regex
@@ -429,6 +434,11 @@ class Thread {
 			$this->embed = embed_html($this->embed);
 		
 		$this->modifiers = extract_modifiers($this->body_nomarkup);
+		
+		if ($config['always_regenerate_markup']) {
+			$this->body = $this->body_nomarkup;
+			markup($this->body);
+		}
 		
 		if ($this->mod)
 			// Fix internal links
