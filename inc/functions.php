@@ -9,6 +9,8 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
+$microtime_start = microtime(true);
+
 require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
@@ -24,7 +26,7 @@ mb_internal_encoding('UTF-8');
 loadConfig();
 
 function loadConfig() {
-	global $board, $config, $__ip, $debug, $__version;
+	global $board, $config, $__ip, $debug, $__version, $microtime_start;
 
 	$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
 
@@ -82,7 +84,8 @@ function loadConfig() {
 	if ($config['debug']) {
 		if (!isset($debug)) {
 			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
-			$debug['start'] = microtime(true);
+			$debug['start'] = $microtime_start;
+			$debug['start_debug'] = microtime(true);;
 		}
 	}
 
@@ -647,7 +650,7 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
