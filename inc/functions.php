@@ -1693,9 +1693,6 @@ function markup(&$body, $track_cites = false) {
 				$match[1] = mb_strlen(substr($body_tmp, 0, $match[1]));
 			}
 
-			// Temporarily store board information because it will be overwritten
-			$tmp_board = $board['uri'];
-
 			if ($cite) {
 				if (isset($cited_posts[$_board][$cite])) {
 					$link = $cited_posts[$_board][$cite];
