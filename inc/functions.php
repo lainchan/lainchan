@@ -1555,6 +1555,9 @@ function markup(&$body, $track_cites = false) {
 		if ($num_links > $config['max_links'])
 			error($config['error']['toomanylinks']);
 	}
+	
+	if ($config['markup_repair_tidy'])
+		$body = str_replace('  ', ' &nbsp;', $body);
 
 	if ($config['auto_unicode']) {
 		$body = unicodify($body);
@@ -1731,18 +1734,21 @@ function markup(&$body, $track_cites = false) {
 		$body = preg_replace('/\s+$/', '', $body);
 
 	$body = preg_replace("/\n/", '<br/>', $body);
-		
+	
 	if ($config['markup_repair_tidy']) {
 		$tidy = new tidy();
-		$body = $tidy->repairString(str_replace(' ', '&nbsp;', $body), array(
+		$body = $tidy->repairString($body, array(
 			'doctype' => 'omit',
 			'bare' => true,
 			'literal-attributes' => true,
-			'quote-nbsp' => true,
 			'indent' => false,
 			'show-body-only' => true,
 			'wrap' => 0,
 			'output-bom' => false,
+			'output-html' => true,
+			'newline' => 'LF',
+			'quiet' => true,
+			
 		), 'utf8');
 		$body = str_replace("\n", '', $body);
 	}
