@@ -1073,7 +1073,7 @@ function mod_move_reply($originBoard, $postID) {
 		buildThread($newID);
 		
 		// trigger themes
-		rebuildThemes('post');
+		rebuildThemes('post', $targetBoard);
 		// mod log
 		modLog("Moved post #${postID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${newID})", $originBoard);
 		
@@ -1245,7 +1245,7 @@ function mod_move($originBoard, $postID) {
 		buildIndex();
 		
 		// trigger themes
-		rebuildThemes('post');
+		rebuildThemes('post', $targetBoard);
 		
 		// return to original board
 		openBoard($originBoard);
