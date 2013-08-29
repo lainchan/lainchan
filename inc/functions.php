@@ -1728,7 +1728,16 @@ function markup(&$body, $track_cites = false) {
 		$body = preg_replace('/\s+$/', '', $body);
 
 	$body = preg_replace("/\n/", '<br/>', $body);
-
+	
+	if ($config['markup_repair_tidy']) {
+		$tidy = new tidy();
+		$body = $tidy->repairString($body, array(
+			'doctype' => 'omit'
+		));
+		$body = str_replace("\n", '', $body);
+		$body = preg_replace('@^.+<body>|</body>.+$@', '', $body);
+	}
+	
 	return $tracked_cites;
 }
 
