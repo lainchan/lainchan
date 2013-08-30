@@ -168,20 +168,20 @@ function loadConfig() {
 	if (preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 		$_SERVER['REMOTE_ADDR'] = $m[2];
 
-	if (_setlocale(LC_ALL, $config['locale']) === false) {
-		$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
+	if ($config['locale'] != 'en') {
+		if (_setlocale(LC_ALL, $config['locale']) === false) {
+			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
+		}
+		if (extension_loaded('gettext')) {
+			bindtextdomain('tinyboard', './inc/locale');
+			bind_textdomain_codeset('tinyboard', 'UTF-8');
+			textdomain('tinyboard');
+		} else {
+			_bindtextdomain('tinyboard', './inc/locale');
+			_bind_textdomain_codeset('tinyboard', 'UTF-8');
+			_textdomain('tinyboard');
+		}
 	}
-
-	if (extension_loaded('gettext')) {
-		bindtextdomain('tinyboard', './inc/locale');
-		bind_textdomain_codeset('tinyboard', 'UTF-8');
-		textdomain('tinyboard');
-	} else {
-		_bindtextdomain('tinyboard', './inc/locale');
-		_bind_textdomain_codeset('tinyboard', 'UTF-8');
-		_textdomain('tinyboard');
-	}
-
 
 	if ($config['syslog'])
 		openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
@@ -996,7 +996,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
-	$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
+	$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ") ORDER BY `board`");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
 	while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -1011,10 +1011,10 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	if (isset($tmp_board))
 		openBoard($tmp_board);
 
-	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = (" . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
+	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
-
+	
 	if (isset($rebuild) && $rebuild_after) {
 		buildThread($rebuild);
 	}

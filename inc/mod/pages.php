@@ -1001,7 +1001,7 @@ function mod_bumplock($board, $unbumplock, $post) {
 }
 
 function mod_move($originBoard, $postID) {
-	global $board, $config, $mod;
+	global $board, $config, $mod, $pdo;
 	
 	if (!openBoard($originBoard))
 		error($config['error']['noboard']);
@@ -1118,13 +1118,14 @@ function mod_move($originBoard, $postID) {
 				$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 			}
 			
-			foreach ($post['tracked_cites'] as $cite) {
-				$query = prepare('INSERT INTO ``cites`` VALUES (:board, :post, :target_board, :target)');
-				$query->bindValue(':board', $board['uri']);
-				$query->bindValue(':post', $newPostID, PDO::PARAM_INT);
-				$query->bindValue(':target_board',$cite[0]);
-				$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+			if (!empty($post['tracked_cites'])) {
+				$insert_rows = array();
+				foreach ($post['tracked_cites'] as $cite) {
+					$insert_rows[] = '(' .
+						$pdo->quote($board['uri']) . ', ' . $newPostID . ', ' .
+						$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
+				}
+				query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());;
 			}
 		}
 		
