@@ -689,7 +689,7 @@ if (isset($_POST['delete'])) {
 				$pdo->quote($board['uri']) . ', ' . (int)$id . ', ' .
 				$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
 		}
-		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());;
+		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
 	}
 	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {

@@ -1125,7 +1125,7 @@ function mod_move($originBoard, $postID) {
 						$pdo->quote($board['uri']) . ', ' . $newPostID . ', ' .
 						$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
 				}
-				query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());;
+				query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
 			}
 		}
 		
