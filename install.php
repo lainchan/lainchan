@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-14');
+define('VERSION', 'v0.9.6-dev-15');
 
 require 'inc/functions.php';
 
@@ -370,6 +370,17 @@ if (file_exists($config['has_installed'])) {
 			}
 		case 'v0.9.6-dev-13':
 			query("ALTER TABLE ``antispam`` ADD INDEX `expires` (`expires`)") or error(db_error());
+		case 'v0.9.6-dev-14':
+			foreach ($boards as &$board) {
+				query(sprintf("ALTER TABLE  ``posts_%s``
+					DROP INDEX `body`,
+					ADD INDEX `filehash` (`filehash`(40))", $board['uri'])) or error(db_error());
+			}
+			query("ALTER TABLE ``modlogs`` ADD INDEX `mod` (`mod`)") or error(db_error());
+			query("ALTER TABLE ``bans`` DROP INDEX `ip`") or error(db_error());
+			query("ALTER TABLE ``bans`` ADD INDEX `ip` (`ip`)") or error(db_error());
+			query("ALTER TABLE ``noticeboard`` ADD INDEX `time` (`time`)") or error(db_error());
+			query("ALTER TABLE ``pms`` ADD INDEX `to` (`to`, `unread`)") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

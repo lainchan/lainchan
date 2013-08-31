@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS ``posts_{{ board }}`` (
    `embed` text,
    UNIQUE KEY `id` (`id`),
    KEY `thread_id` (`thread`,`id`),
+   KEY `filehash` (`filehash`),
    KEY `time` (`time`),
-   FULLTEXT KEY `body` (`body`),
    KEY `ip` (`ip`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
  

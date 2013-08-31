@@ -427,6 +427,12 @@ if (isset($_POST['delete'])) {
 		error(sprintf($config['error']['toolong'], 'password'));
 		
 	wordfilters($post['body']);
+	
+	// Check for a flood
+	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
+		error($config['error']['flood']);
+	}
+	
 	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if ($mod && isset($post['raw']) && $post['raw']) {
@@ -462,11 +468,6 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post['tracked_cites'] = markup($post['body'], true);
-	
-	// Check for a flood
-	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
-		error($config['error']['flood']);
-	}
 	
 	require_once 'inc/filters.php';
 	
