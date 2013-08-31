@@ -16,12 +16,20 @@
 
 onready(function(){
 	$('.postfilename').each(function() {
+		var filename, truncated;
+		if ($(this).attr('title')) {
+			filename = $(this).attr('title');
+			truncated = true;
+		} else {
+			filename = $(this).text();
+		}
+		
 		$(this).replaceWith(
 			$('<a></a>')
-				.attr('download', $(this).text())
+				.attr('download', filename)
 				.append($(this).contents())
 				.attr('href', $(this).parent().parent().find('a').attr('href'))
-				.attr('title', _('Save as original filename'))
+				.attr('title', _('Save as original filename') + (truncated ? ' (' + filename + ')' : ''))
 			);
 	});
 });
