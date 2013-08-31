@@ -1580,9 +1580,6 @@ function markup(&$body, $track_cites = false) {
 		}
 	}
 
-	// replace tabs with 8 spaces
-	$body = str_replace("\t", '        ', $body);
-
 	$tracked_cites = array();
 
 	// Cites
@@ -1748,6 +1745,7 @@ function markup(&$body, $track_cites = false) {
 	
 	if ($config['markup_repair_tidy']) {
 		$tidy = new tidy();
+		$body = str_replace("\t", '&#09;', $body);
 		$body = $tidy->repairString($body, array(
 			'doctype' => 'omit',
 			'bare' => true,
@@ -1759,10 +1757,12 @@ function markup(&$body, $track_cites = false) {
 			'output-html' => true,
 			'newline' => 'LF',
 			'quiet' => true,
-			
 		), 'utf8');
 		$body = str_replace("\n", '', $body);
 	}
+	
+	// replace tabs with 8 spaces
+	$body = str_replace("\t", '        ', $body);
 		
 	return $tracked_cites;
 }

@@ -1317,6 +1317,8 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 			$post['body'] = str_replace("\n", '&#010;', utf8tohtml($post['body']));
 			$post['body_nomarkup'] = str_replace("\r", '', $post['body_nomarkup']);
 			$post['body'] = str_replace("\r", '', $post['body']);
+			$post['body_nomarkup'] = str_replace("\t", '&#09;', $post['body_nomarkup']);
+			$post['body'] = str_replace("\t", '&#09;', $post['body']);
 		}
 				
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
