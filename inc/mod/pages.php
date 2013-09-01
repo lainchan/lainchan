@@ -1551,7 +1551,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	if ($query->rowCount() < 1)
 		error($config['error']['invalidpost']);
 	
-	set_time_limit($config['mod']['rebuild_timelimit']);
+	@set_time_limit($config['mod']['rebuild_timelimit']);
 	
 	$threads_to_rebuild = array();
 	$threads_deleted = array();
@@ -1918,7 +1918,7 @@ function mod_rebuild() {
 		error($config['error']['noaccess']);
 	
 	if (isset($_POST['rebuild'])) {
-		set_time_limit($config['mod']['rebuild_timelimit']);
+		@set_time_limit($config['mod']['rebuild_timelimit']);
 		
 		$log = array();
 		$boards = listBoards();
