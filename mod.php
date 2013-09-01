@@ -8,6 +8,9 @@ require 'inc/functions.php';
 require 'inc/mod/pages.php';
 require 'inc/mod/auth.php';
 
+if ($config['debug'])
+	$parse_start_time = microtime(true);
+
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {
 	function strip_array($var) {
@@ -159,8 +162,9 @@ foreach ($pages as $uri => $handler) {
 			$debug['mod_page'] = array(
 				'req' => $query,
 				'match' => $uri,
-				'handler' => $handler
+				'handler' => $handler,
 			);
+			$debug['time']['parse_mod_req'] = '~' . round((microtime(true) - $parse_start_time) * 1000, 2) . 'ms';
 		}
 		
 		if (is_string($handler)) {

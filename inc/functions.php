@@ -81,14 +81,6 @@ function loadConfig() {
 		$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
 	$config['version'] = $__version;
 
-	if ($config['debug']) {
-		if (!isset($debug)) {
-			$debug = array('sql' => array(), 'exec' => array(), 'purge' => array(), 'cached' => array(), 'write' => array());
-			$debug['start'] = $microtime_start;
-			$debug['start_debug'] = microtime(true);;
-		}
-	}
-
 	date_default_timezone_set($config['timezone']);
 
 	if (!isset($config['global_message']))
@@ -179,20 +171,20 @@ function loadConfig() {
 	if (preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 		$_SERVER['REMOTE_ADDR'] = $m[2];
 
-	if (_setlocale(LC_ALL, $config['locale']) === false) {
-		$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
+	if ($config['locale'] != 'en') {
+		if (_setlocale(LC_ALL, $config['locale']) === false) {
+			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
+		}
+		if (extension_loaded('gettext')) {
+			bindtextdomain('tinyboard', './inc/locale');
+			bind_textdomain_codeset('tinyboard', 'UTF-8');
+			textdomain('tinyboard');
+		} else {
+			_bindtextdomain('tinyboard', './inc/locale');
+			_bind_textdomain_codeset('tinyboard', 'UTF-8');
+			_textdomain('tinyboard');
+		}
 	}
-
-	if (extension_loaded('gettext')) {
-		bindtextdomain('tinyboard', './inc/locale');
-		bind_textdomain_codeset('tinyboard', 'UTF-8');
-		textdomain('tinyboard');
-	} else {
-		_bindtextdomain('tinyboard', './inc/locale');
-		_bind_textdomain_codeset('tinyboard', 'UTF-8');
-		_textdomain('tinyboard');
-	}
-
 
 	if ($config['syslog'])
 		openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
@@ -202,6 +194,25 @@ function loadConfig() {
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
 	event('load-config');
+	
+	if ($config['debug']) {
+		if (!isset($debug)) {
+			$debug = array(
+				'sql' => array(),
+				'exec' => array(),
+				'purge' => array(),
+				'cached' => array(),
+				'write' => array(),
+				'time' => array(
+					'db_queries' => 0,
+					'exec' => 0,
+				),
+				'start' => $microtime_start,
+				'start_debug' => microtime(true)
+			);
+			$debug['start'] = $microtime_start;
+		}
+	}
 }
 
 function basic_error_function_because_the_other_isnt_loaded_yet($message, $priority = true) {
@@ -565,15 +576,20 @@ function listBoards() {
 function checkFlood($post) {
 	global $board, $config;
 
-	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`ip` = :ip AND `time` >= :floodtime) OR (`ip` = :ip AND `body` != '' AND `body` = :body AND `time` >= :floodsameiptime) OR (`body` != ''  AND `body` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE
+		(`ip` = :ip AND `time` >= :floodtime)
+			OR
+		(`ip` = :ip AND :body != '' AND `body_nomarkup` = :body AND `time` >= :floodsameiptime)
+			OR
+		(:body != '' AND `body_nomarkup` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':body', $post['body']);
 	$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
 	$query->bindValue(':floodsameiptime', time()-$config['flood_time_ip'], PDO::PARAM_INT);
 	$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
-
-	$flood = (bool) $query->fetch(PDO::FETCH_ASSOC);
+	
+	$flood = (bool) $query->fetchColumn();
 
 	if (event('check-flood', $post))
 		return true;
@@ -650,12 +666,12 @@ function checkBan($board = 0) {
 	if (event('check-ban', $board))
 		return true;
 
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board);
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 		$query->bindValue(':board', $board);
 		$query->execute() or error(db_error($query));
@@ -990,7 +1006,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
-	$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")");
+	$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ") ORDER BY `board`");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
 	while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -1005,10 +1021,10 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	if (isset($tmp_board))
 		openBoard($tmp_board);
 
-	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND `target` = (" . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
+	$query = prepare("DELETE FROM ``cites`` WHERE (`target_board` = :board AND (`target` = " . implode(' OR `target` = ', $ids) . ")) OR (`board` = :board AND (`post` = " . implode(' OR `post` = ', $ids) . "))");
 	$query->bindValue(':board', $board['uri']);
 	$query->execute() or error(db_error($query));
-
+	
 	if (isset($rebuild) && $rebuild_after) {
 		buildThread($rebuild);
 		buildIndex();
@@ -1224,14 +1240,11 @@ function checkRobot($body) {
 // Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(*) FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `thread` = :thread", $board['uri'], $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) AS `replies`, COUNT(NULLIF(`file`, 0)) AS `images` FROM ``posts_%s`` WHERE `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
-	$num_posts = $query->fetchColumn();
-	$num_images = $query->fetchColumn();
-
-	return array('replies' => $num_posts, 'images' => $num_images);
+	return $query->fetch(PDO::FETCH_ASSOC);
 }
 
 function muteTime() {
@@ -1577,9 +1590,6 @@ function markup(&$body, $track_cites = false) {
 		}
 	}
 
-	// replace tabs with 8 spaces
-	$body = str_replace("\t", '        ', $body);
-
 	$tracked_cites = array();
 
 	// Cites
@@ -1745,6 +1755,7 @@ function markup(&$body, $track_cites = false) {
 	
 	if ($config['markup_repair_tidy']) {
 		$tidy = new tidy();
+		$body = str_replace("\t", '&#09;', $body);
 		$body = $tidy->repairString($body, array(
 			'doctype' => 'omit',
 			'bare' => true,
@@ -1756,10 +1767,12 @@ function markup(&$body, $track_cites = false) {
 			'output-html' => true,
 			'newline' => 'LF',
 			'quiet' => true,
-			
 		), 'utf8');
 		$body = str_replace("\n", '', $body);
 	}
+	
+	// replace tabs with 8 spaces
+	$body = str_replace("\t", '        ', $body);
 		
 	return $tracked_cites;
 }
@@ -2154,12 +2167,13 @@ function shell_exec_error($command, $suppress_stdout = false) {
 	$return = preg_replace('/TB_SUCCESS$/', '', $return);
 
 	if ($config['debug']) {
-		$time = round((microtime(true) - $start) * 1000, 2) . 'ms';
+		$time = microtime(true) - $start;
 		$debug['exec'][] = array(
 			'command' => $command,
-			'time' => '~' . $time,
+			'time' => '~' . round($time * 1000, 2) . 'ms',
 			'response' => $return ? $return : null
 		);
+		$debug['time']['exec'] += $time;
 	}
 
 	return $return === 'TB_SUCCESS' ? false : $return;

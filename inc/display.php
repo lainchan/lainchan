@@ -126,7 +126,7 @@ function pm_snippet($body, $len=null) {
 		$len = &$config['mod']['snippet_length'];
 	
 	// Replace line breaks with some whitespace
-	$body = str_replace('<br/>', '  ', $body);
+	$body = preg_replace('@<br/?>@i', '  ', $body);
 	
 	// Strip tags
 	$body = strip_tags($body);

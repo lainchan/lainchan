@@ -88,12 +88,12 @@
 	$config['db']['database'] = '';
 	// Table prefix (optional)
 	$config['db']['prefix'] = '';
-	// Use a persistent connection (experimental; benefits unknown)
+	// Use a persistent database connection when possible
 	$config['db']['persistent'] = false;
 	// Anything more to add to the DSN string (eg. port=xxx;foo=bar)
 	$config['db']['dsn'] = '';
-	// Timeout duration in seconds (not all drivers support this)
-	$config['db']['timeout'] = 5;
+	// Connection timeout duration in seconds
+	$config['db']['timeout'] = 30;
 
 /*
  * ====================

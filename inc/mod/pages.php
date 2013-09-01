@@ -92,7 +92,7 @@ function mod_dashboard() {
 		}
 	}
 	
-	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) == false) {
+	if (!$config['cache']['enabled'] || ($args['unread_pms'] = cache::get('pm_unreadcount_' . $mod['id'])) === false) {
 		$query = prepare('SELECT COUNT(*) FROM ``pms`` WHERE `to` = :id AND `unread` = 1');
 		$query->bindValue(':id', $mod['id']);
 		$query->execute() or error(db_error($query));
@@ -1109,7 +1109,7 @@ function mod_move_reply($originBoard, $postID) {
 }
 
 function mod_move($originBoard, $postID) {
-	global $board, $config, $mod;
+	global $board, $config, $mod, $pdo;
 	
 	if (!openBoard($originBoard))
 		error($config['error']['noboard']);
@@ -1226,13 +1226,14 @@ function mod_move($originBoard, $postID) {
 				$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
 			}
 			
-			foreach ($post['tracked_cites'] as $cite) {
-				$query = prepare('INSERT INTO ``cites`` VALUES (:board, :post, :target_board, :target)');
-				$query->bindValue(':board', $board['uri']);
-				$query->bindValue(':post', $newPostID, PDO::PARAM_INT);
-				$query->bindValue(':target_board',$cite[0]);
-				$query->bindValue(':target', $cite[1], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+			if (!empty($post['tracked_cites'])) {
+				$insert_rows = array();
+				foreach ($post['tracked_cites'] as $cite) {
+					$insert_rows[] = '(' .
+						$pdo->quote($board['uri']) . ', ' . $newPostID . ', ' .
+						$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
+				}
+				query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
 			}
 		}
 		
@@ -1424,6 +1425,8 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 			$post['body'] = str_replace("\n", '&#010;', utf8tohtml($post['body']));
 			$post['body_nomarkup'] = str_replace("\r", '', $post['body_nomarkup']);
 			$post['body'] = str_replace("\r", '', $post['body']);
+			$post['body_nomarkup'] = str_replace("\t", '&#09;', $post['body_nomarkup']);
+			$post['body'] = str_replace("\t", '&#09;', $post['body']);
 		}
 				
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));

@@ -429,6 +429,12 @@ if (isset($_POST['delete'])) {
 		error(sprintf($config['error']['toolong'], 'password'));
 		
 	wordfilters($post['body']);
+	
+	// Check for a flood
+	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
+		error($config['error']['flood']);
+	}
+	
 	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if ($mod && isset($post['raw']) && $post['raw']) {
@@ -464,11 +470,6 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post['tracked_cites'] = markup($post['body'], true);
-	
-	// Check for a flood
-	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
-		error($config['error']['flood']);
-	}
 	
 	require_once 'inc/filters.php';
 	
@@ -691,7 +692,7 @@ if (isset($_POST['delete'])) {
 				$pdo->quote($board['uri']) . ', ' . (int)$id . ', ' .
 				$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
 		}
-		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());;
+		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
 	}
 	
 	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
