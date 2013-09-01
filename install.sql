@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `seen` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `ip` (`ip`)
+  KEY `ip` (`ip`),
+  KEY `seen` (`seen`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
