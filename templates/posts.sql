@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS ``posts_{{ board }}`` (
    KEY `thread_id` (`thread`,`id`),
    KEY `filehash` (`filehash`(40)),
    KEY `time` (`time`),
-   KEY `ip` (`ip`)
+   KEY `ip` (`ip`),
+   KEY `list_threads` (`thread`, `sticky`, `bump`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
  

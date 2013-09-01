@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-15');
+define('VERSION', 'v0.9.6-dev-16');
 
 require 'inc/functions.php';
 
@@ -381,6 +381,11 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE ``bans`` ADD INDEX `ip` (`ip`)") or error(db_error());
 			query("ALTER TABLE ``noticeboard`` ADD INDEX `time` (`time`)") or error(db_error());
 			query("ALTER TABLE ``pms`` ADD INDEX `to` (`to`, `unread`)") or error(db_error());
+		case 'v0.9.6-dev-15':
+			foreach ($boards as &$board) {
+				query(sprintf("ALTER TABLE  ``posts_%s``
+					ADD INDEX `list_threads` (`thread`, `sticky`, `bump`)", $board['uri'])) or error(db_error());
+			}
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
