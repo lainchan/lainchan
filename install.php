@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-17');
+define('VERSION', 'v0.9.6-dev-18');
 
 require 'inc/functions.php';
 
@@ -388,6 +388,10 @@ if (file_exists($config['has_installed'])) {
 			}
 		case 'v0.9.6-dev-16':
 			query("ALTER TABLE ``bans`` ADD INDEX `seen` (`seen`)") or error(db_error());
+		case 'v0.9.6-dev-17':
+			query("ALTER TABLE ``ip_notes``
+				DROP INDEX `ip`,
+				ADD INDEX `ip_lookup` (`ip`, `time`)") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

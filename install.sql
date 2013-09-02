@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
   `time` int(11) NOT NULL,
   `body` text NOT NULL,
   UNIQUE KEY `id` (`id`),
-  KEY `ip` (`ip`)
+  KEY `ip_lookup` (`ip`, `time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
