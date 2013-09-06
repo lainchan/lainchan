@@ -395,7 +395,7 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-18':
 			query("CREATE TABLE IF NOT EXISTS ``flood`` (
 				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-				  `ip` varchar(39) CHARACTER SET ascii NOT NULL,
+				  `ip` varchar(39) NOT NULL,
 				  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
 				  `time` int(11) NOT NULL,
 				  `posthash` char(32) NOT NULL,
