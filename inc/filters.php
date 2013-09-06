@@ -212,8 +212,6 @@ function do_filters(array $post) {
 		}
 	}
 	
-	purge_flood_table();
-	
 	if (isset($has_flood)) {
 		if ($post['has_file']) {
 			$query = prepare("SELECT * FROM ``flood`` WHERE `ip` = :ip OR `posthash` = :posthash OR `filehash` = :filehash");
@@ -224,7 +222,6 @@ function do_filters(array $post) {
 			$query = prepare("SELECT * FROM ``flood`` WHERE `ip` = :ip OR `posthash` = :posthash");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 			$query->bindValue(':posthash', md5($post['body_nomarkup']));
-			
 		}
 		$query->execute() or error(db_error($query));
 		$flood_check = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -238,5 +235,7 @@ function do_filters(array $post) {
 		if ($filter->check($post))
 			$filter->action();
 	}
+	
+	purge_flood_table();
 }
 
