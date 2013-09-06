@@ -9,6 +9,8 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
+define('TINYBOARD', null);
+
 $microtime_start = microtime(true);
 
 require_once 'inc/display.php';
