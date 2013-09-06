@@ -572,30 +572,6 @@ function listBoards() {
 	return $boards;
 }
 
-function checkFlood($post) {
-	global $board, $config;
-
-	$query = prepare(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE
-		(`ip` = :ip AND `time` >= :floodtime)
-			OR
-		(`ip` = :ip AND :body != '' AND `body_nomarkup` = :body AND `time` >= :floodsameiptime)
-			OR
-		(:body != '' AND `body_nomarkup` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
-	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	$query->bindValue(':body', $post['body']);
-	$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
-	$query->bindValue(':floodsameiptime', time()-$config['flood_time_ip'], PDO::PARAM_INT);
-	$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
-	$query->execute() or error(db_error($query));
-	
-	$flood = (bool) $query->fetchColumn();
-
-	if (event('check-flood', $post))
-		return true;
-
-	return $flood;
-}
-
 function until($timestamp) {
 	$difference = $timestamp - time();
 	if ($difference < 60) {
@@ -780,6 +756,22 @@ function threadExists($id) {
 	return false;
 }
 
+function insertFloodPost(array $post) {
+	global $board;
+	
+	$query = prepare("INSERT INTO ``flood`` VALUES (NULL, :ip, :board, :time, :posthash, :filehash, :isreply)");
+	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+	$query->bindValue(':board', $board['uri']);
+	$query->bindValue(':time', time());
+	$query->bindValue(':posthash', md5($post['body_nomarkup']));
+	if ($post['has_file'])
+		$query->bindValue(':filehash', $post['filehash']);
+	else
+		$query->bindValue(':filehash', null, PDO::PARAM_NULL);
+	$query->bindValue(':isreply', !$post['op']);
+	$query->execute() or error(db_error($query));
+}
+
 function post(array $post) {
 	global $pdo, $board;
 	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
@@ -788,19 +780,19 @@ function post(array $post) {
 	if (!empty($post['subject'])) {
 		$query->bindValue(':subject', $post['subject']);
 	} else {
-		$query->bindValue(':subject', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':subject', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['email'])) {
 		$query->bindValue(':email', $post['email']);
 	} else {
-		$query->bindValue(':email', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':email', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['trip'])) {
 		$query->bindValue(':trip', $post['trip']);
 	} else {
-		$query->bindValue(':trip', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':trip', null, PDO::PARAM_NULL);
 	}
 
 	$query->bindValue(':name', $post['name']);
@@ -811,27 +803,27 @@ function post(array $post) {
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 
 	if ($post['op'] && $post['mod'] && isset($post['sticky']) && $post['sticky']) {
-		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
+		$query->bindValue(':sticky', true, PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		$query->bindValue(':sticky', false, PDO::PARAM_INT);
 	}
 
 	if ($post['op'] && $post['mod'] && isset($post['locked']) && $post['locked']) {
-		$query->bindValue(':locked', 1, PDO::PARAM_INT);
+		$query->bindValue(':locked', true, PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':locked', 0, PDO::PARAM_INT);
+		$query->bindValue(':locked', false, PDO::PARAM_INT);
 	}
 
 	if ($post['mod'] && isset($post['capcode']) && $post['capcode']) {
 		$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':capcode', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['embed'])) {
 		$query->bindValue(':embed', $post['embed']);
 	} else {
-		$query->bindValue(':embed', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':embed', null, PDO::PARAM_NULL);
 	}
 
 	if ($post['op']) {

@@ -245,6 +245,27 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   KEY `theme` (`theme`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flood`
+--
+
+CREATE TABLE IF NOT EXISTS `flood` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip` varchar(39) CHARACTER SET ascii NOT NULL,
+  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
+  `time` int(11) NOT NULL,
+  `posthash` char(32) NOT NULL,
+  `filehash` char(32) DEFAULT NULL,
+  `isreply` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ip` (`ip`),
+  KEY `posthash` (`posthash`),
+  KEY `filehash` (`filehash`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

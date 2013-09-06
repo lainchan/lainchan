@@ -198,7 +198,7 @@ if (isset($_POST['delete'])) {
 	}
 	
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
-		require 'inc/mod.php';
+		require 'inc/mod/auth.php';
 		if (!$mod) {
 			// Liar. You're not a mod.
 			error($config['error']['notamod']);
@@ -428,11 +428,6 @@ if (isset($_POST['delete'])) {
 		
 	wordfilters($post['body']);
 	
-	// Check for a flood
-	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
-		error($config['error']['flood']);
-	}
-	
 	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if ($mod && isset($post['raw']) && $post['raw']) {
@@ -468,10 +463,8 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post['tracked_cites'] = markup($post['body'], true);
+
 	
-	require_once 'inc/filters.php';
-	
-	do_filters($post);
 	
 	if ($post['has_file']) {
 		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
@@ -487,9 +480,17 @@ if (isset($_POST['delete'])) {
 		if (!is_readable($upload))
 			error($config['error']['nomove']);
 		
-		$post['filehash'] = $config['file_hash']($upload);
+		$post['filehash'] = md5_file($upload);
 		$post['filesize'] = filesize($upload);
+	}
+	
+	if (!hasPermission($config['mod']['bypass_filters'], $board['uri'])) {
+		require_once 'inc/filters.php';	
 		
+		do_filters($post);
+	}
+	
+	if ($post['has_file']) {	
 		if ($is_an_image && $config['ie_mime_type_detection'] !== false) {
 			// Check IE MIME type detection XSS exploit
 			$buffer = file_get_contents($upload, null, null, null, 255);
@@ -678,6 +679,8 @@ if (isset($_POST['delete'])) {
 	$post = (array)$post;
 	
 	$post['id'] = $id = post($post);
+	
+	insertFloodPost($post);
 	
 	if (isset($post['antispam_hash'])) {
 		incrementSpamHash($post['antispam_hash']);

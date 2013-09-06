@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-18');
+define('VERSION', 'v0.9.6-dev-19');
 
 require 'inc/functions.php';
 
@@ -392,6 +392,21 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE ``ip_notes``
 				DROP INDEX `ip`,
 				ADD INDEX `ip_lookup` (`ip`, `time`)") or error(db_error());
+		case 'v0.9.6-dev-18':
+			query("CREATE TABLE IF NOT EXISTS ``flood`` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `ip` varchar(39) CHARACTER SET ascii NOT NULL,
+				  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
+				  `time` int(11) NOT NULL,
+				  `posthash` char(32) NOT NULL,
+				  `filehash` char(32) DEFAULT NULL,
+				  `isreply` tinyint(1) NOT NULL,
+				  PRIMARY KEY (`id`),
+				  KEY `ip` (`ip`),
+				  KEY `posthash` (`posthash`),
+				  KEY `filehash` (`filehash`),
+				  KEY `time` (`time`)
+				) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

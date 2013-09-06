@@ -168,13 +168,6 @@
  * ====================
  */
 
-	// Minimum time between between each post by the same IP address.
-	$config['flood_time'] = 10;
-	// Minimum time between between each post with the exact same content AND same IP address.
-	$config['flood_time_ip'] = 120;
-	// Same as above but by a different IP address. (Same content, not necessarily same IP address.)
-	$config['flood_time_same'] = 30;
-
 	/*
 	 * To further prevent spam and abuse, you can use DNS blacklists (DNSBL). A DNSBL is a list of IP
 	 * addresses published through the Internet Domain Name Service (DNS) either as a zone file that can be
@@ -282,6 +275,118 @@
 	// Public and private key pair from https://www.google.com/recaptcha/admin/create
 	$config['recaptcha_public'] = '6LcXTcUSAAAAAKBxyFWIt2SO8jwx4W7wcSMRoN3f';
 	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
+
+	/*
+	 * Custom filters detect certain posts and reject/ban accordingly. They are made up of a condition and an
+	 * action (for when ALL conditions are met). As every single post has to be put through each filter,
+	 * having hundreds probably isn't ideal as it could slow things down.
+	 *
+	 * By default, the custom filters array is populated with basic flood prevention conditions. This
+	 * includes forcing users to wait at least 5 seconds between posts. To disable (or amend) these flood
+	 * prevention settings, you will need to empty the $config['filters'] array first. You can do so by
+	 * adding "$config['filters'] = array();" to inc/instance-config.php. Basic flood prevention used to be
+	 * controlled solely by config variables such as $config['flood_time'] and $config['flood_time_ip'], and
+	 * it still is, as long as you leave the relevant $config['filters'] intact. These old config variables
+	 * still exist for backwards-compatability and general convenience.
+	 *
+	 * Read more: http://tinyboard.org/docs/index.php?p=Config/Filters
+	 */
+
+	// Minimum time between between each post by the same IP address.
+	$config['flood_time'] = 10;
+	// Minimum time between between each post with the exact same content AND same IP address.
+	$config['flood_time_ip'] = 120;
+	// Same as above but by a different IP address. (Same content, not necessarily same IP address.)
+	$config['flood_time_same'] = 30;
+
+	// Minimum time between posts by the same IP address (all boards).
+	$config['filters'][] = array(
+		'condition' => array(
+			'flood-match' => array('ip'), // Only match IP address
+			'flood-time' => &$config['flood_time'] // 10 seconds minimum
+		),
+		'action' => 'reject',
+		'message' => &$config['error']['flood']
+	);
+
+	// Minimum time between posts by the same IP address with the same text.
+	$config['filters'][] = array(
+		'condition' => array(
+			'flood-match' => array('ip', 'body'), // Match IP address and post body
+			'flood-time' => &$config['flood_time_ip'] // 2 minutes minimum
+		),
+		'action' => 'reject',
+		'message' => &$config['error']['flood']
+	);
+
+	// Minimum time between posts with the same text. (Same content, but not always the same IP address.)
+	$config['filters'][] = array(
+		'condition' => array(
+			'flood-match' => array('body'), // Match IP address and post body
+			'flood-time' => &$config['flood_time_same'] // 30 seconds minimum
+		),
+		'action' => 'reject',
+		'message' => &$config['error']['flood']
+	);
+
+	// Example: Minimum time between posts with the same file hash.
+	// $config['filters'][] = array(
+	// 	'condition' => array(
+	// 		'flood-match' => array('file'), // Match file hash
+	// 		'flood-time' => 60 * 2 // 2 minutes minimum
+	// 	),
+	// 	'action' => 'reject',
+	// 	'message' => &$config['error']['flood']
+	// );
+
+	// An example of blocking an imaginary known spammer, who keeps posting a reply with the name "surgeon",
+	// ending his posts with "regards, the surgeon" or similar.
+	// $config['filters'][] = array(
+	// 	'condition' => array(
+	// 		'name' => '/^surgeon$/',
+	// 		'body' => '/regards,\s+(the )?surgeon$/i',
+	// 		'OP' => false
+	// 	),
+	// 	'action' => 'reject',
+	// 	'message' => 'Go away, spammer.'
+	// );
+
+	// Same as above, but issuing a 3-hour ban instead of just reject the post.
+	// $config['filters'][] = array(
+	// 	'condition' => array(
+	// 		'name' => '/^surgeon$/',
+	// 		'body' => '/regards,\s+(the )?surgeon$/i',
+	// 		'OP' => false
+	// 	),
+	// 	'action' => 'ban',
+	// 	'expires' => 60 * 60 * 3, // 3 hours
+	// 	'reason' => 'Go away, spammer.'
+	// );
+
+	// PHP 5.3+ (anonymous functions)
+	// There is also a "custom" condition, making the possibilities of this feature pretty much endless.
+	// This is a bad example, because there is already a "name" condition built-in.
+	// $config['filters'][] = array(
+	// 	'condition' => array(
+	// 		'body' => '/h$/i',
+	// 		'OP' => false,
+	// 		'custom' => function($post) {
+	// 			if($post['name'] == 'Anonymous')
+	// 				return true;
+	// 			else
+	// 				return false;
+	// 		}
+	// 	),
+	// 	'action' => 'reject'
+	// );
+	
+	// Filter flood prevention conditions ("flood-match") depend on a table which contains a cache of recent
+	// posts across all boards. This table is automatically purged of older posts, determining the maximum
+	// "age" by looking at each filter. However, when determining the maximum age, Tinyboard does not look
+	// outside the current board. This means that if you have a special flood condition for a specific board
+	// (contained in a board configuration file) which has a flood-time greater than any of those in the
+	// global configuration, you need to set the following variable to the maximum flood-time condition value.
+	// $config['flood_cache'] = 60 * 60 * 24; // 24 hours
 
 /*
  * ====================
@@ -400,57 +505,6 @@
 
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
-
-	/*
-	* Custom filters detect certain posts and reject/ban accordingly. They are made up of a 
-	* condition and an action (for when ALL conditions are met). As every single post has to
-	* be put through each filter, having hundreds probably isn’t ideal as it could slow things down.
-	*
-	* Read more: http://tinyboard.org/docs/index.php?p=Config/Filters
-	* 
-	* This used to be named $config['flood_filters'] (still exists as an alias).
-	*/
-
-	// An example of blocking an imaginary known spammer, who keeps posting a reply with the name "surgeon",
-	// ending his posts with "regards, the surgeon" or similar.
-	// $config['filters'][] = array(
-	// 	'condition' => array(
-	// 		'name' => '/^surgeon$/',
-	// 		'body' => '/regards,\s+(the )?surgeon$/i',
-	// 		'OP' => false
-	// 	),
-	// 	'action' => 'reject',
-	// 	'message' => 'Go away, spammer.'
-	// );
-
-	// Same as above, but issuing a 3-hour ban instead of just reject the post.
-	// $config['filters'][] = array(
-	// 	'condition' => array(
-	// 		'name' => '/^surgeon$/',
-	// 		'body' => '/regards,\s+(the )?surgeon$/i',
-	// 		'OP' => false
-	// 	),
-	// 	'action' => 'ban',
-	// 	'expires' => 60 * 60 * 3, // 3 hours
-	// 	'reason' => 'Go away, spammer.'
-	// );
-
-	// PHP 5.3+ (anonymous functions)
-	// There is also a "custom" condition, making the possibilities of this feature pretty much endless.
-	// This is a bad example, because there is already a "name" condition built-in.
-	// $config['filters'][] = array(
-	// 	'condition' => array(
-	// 		'body' => '/h$/i',
-	// 		'OP' => false,
-	// 		'custom' => function($post) {
-	// 			if($post['name'] == 'Anonymous')
-	// 				return true;
-	// 			else
-	// 				return false;
-	// 		}
-	// 	),
-	// 	'action' => 'reject'
-	// );
 
 /*
  * ====================
@@ -592,10 +646,6 @@
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use
 	// that as a thumbnail instead of resizing/redrawing.
 	$config['minimum_copy_resize'] = false;
-
-	// Image hashing function. There's really no reason to change this.
-	// sha1_file, md5_file, etc. You can also define your own similar function.
-	$config['file_hash'] = 'sha1_file';
 
 	// Maximum image upload size in bytes.
 	$config['max_filesize'] = 10 * 1024 * 1024; // 10MB
@@ -1156,7 +1206,8 @@
 	// Post bypass unoriginal content check on robot-enabled boards
 	$config['mod']['postunoriginal'] = ADMIN;
 	// Bypass flood check
-	$config['mod']['flood'] = ADMIN;
+	$config['mod']['bypass_filters'] = ADMIN;
+	$config['mod']['flood'] = &$config['mod']['bypass_filters'];
 	// Raw HTML posting
 	$config['mod']['rawhtml'] = ADMIN;
 
