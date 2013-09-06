@@ -768,7 +768,7 @@ function insertFloodPost(array $post) {
 		$query->bindValue(':filehash', $post['filehash']);
 	else
 		$query->bindValue(':filehash', null, PDO::PARAM_NULL);
-	$query->bindValue(':isreply', !$post['op']);
+	$query->bindValue(':isreply', !$post['op'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 }
 
