@@ -132,7 +132,7 @@ class Cache {
 			case 'apc':
 				return apc_clear_cache('user');
 			case 'php':
-				self::$cache[$key] = array();
+				self::$cache = array();
 				break;
 			case 'redis':
 				if (!self::$cache)
