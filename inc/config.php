@@ -305,7 +305,7 @@
 	$config['filters'][] = array(
 		'condition' => array(
 			'flood-match' => array('ip'), // Only match IP address
-			'flood-time' => &$config['flood_time'] // 10 seconds minimum
+			'flood-time' => &$config['flood_time']
 		),
 		'action' => 'reject',
 		'message' => &$config['error']['flood']
@@ -315,7 +315,8 @@
 	$config['filters'][] = array(
 		'condition' => array(
 			'flood-match' => array('ip', 'body'), // Match IP address and post body
-			'flood-time' => &$config['flood_time_ip'] // 2 minutes minimum
+			'flood-time' => &$config['flood_time_ip'],
+			'!body' => '/^$/', // Post body is NOT empty
 		),
 		'action' => 'reject',
 		'message' => &$config['error']['flood']
@@ -325,7 +326,7 @@
 	$config['filters'][] = array(
 		'condition' => array(
 			'flood-match' => array('body'), // Match IP address and post body
-			'flood-time' => &$config['flood_time_same'] // 30 seconds minimum
+			'flood-time' => &$config['flood_time_same']
 		),
 		'action' => 'reject',
 		'message' => &$config['error']['flood']

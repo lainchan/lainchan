@@ -168,11 +168,14 @@ class Filter {
 	
 	public function check(array $post) {
 		foreach ($this->condition as $condition => $value) {
-			if (!$this->match($post, $condition, $value))
+			if ($condition[0] == '!') {
+				$NOT = true;
+				$condition = substr($condition, 1);
+			} else $NOT = false;
+			
+			if ($this->match($post, $condition, $value) == $NOT)
 				return false;
 		}
-		
-		/* match */
 		return true;
 	}
 }
