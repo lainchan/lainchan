@@ -44,6 +44,8 @@
 	$config['debug'] = false;
 	// For development purposes. Displays (and "dies" on) all errors and warnings. Turn on with the above.
 	$config['verbose_errors'] = true;
+	// EXPLAIN all SQL queries (when in debug mode).
+	$config['debug_explain'] = false;
 
 	// Directory where temporary files will be created.
 	$config['tmp'] = sys_get_temp_dir();
