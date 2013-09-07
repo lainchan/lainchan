@@ -107,7 +107,7 @@ class Filter {
 		
 		switch($this->action) {
 			case 'reject':
-				error(isset($this->message) ? $this->message : 'Posting throttled by flood filter.');
+				error(isset($this->message) ? $this->message : 'Posting throttled by filter.');
 			case 'ban':
 				if (!isset($this->reason))
 					error('The ban action requires a reason.');
