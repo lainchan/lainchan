@@ -763,7 +763,7 @@ function insertFloodPost(array $post) {
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':board', $board['uri']);
 	$query->bindValue(':time', time());
-	$query->bindValue(':posthash', md5($post['body_nomarkup']));
+	$query->bindValue(':posthash', make_comment_hex($post['body_nomarkup']));
 	if ($post['has_file'])
 		$query->bindValue(':filehash', $post['filehash']);
 	else
@@ -1189,6 +1189,26 @@ function getPages($mod=false) {
 	}
 
 	return $pages;
+}
+
+// Stolen with permission from PlainIB (by Frank Usrs)
+function make_comment_hex($str) {
+	// remove cross-board citations
+	// the numbers don't matter
+	$str = preg_replace('!>>>/[A-Za-z0-9]+/!', '', $str);
+
+	if (function_exists('iconv')) {
+		// remove diacritics and other noise
+		// FIXME: this removes cyrillic entirely
+		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+	}
+
+	$str = strtolower($str);
+
+	// strip all non-alphabet characters
+	$str = preg_replace('/[^a-z]/', '', $str);
+
+	return md5($str);
 }
 
 function makerobot($body) {

@@ -39,7 +39,7 @@ class Filter {
 									continue 3;
 								break;
 							case 'body':
-								if ($flood_post['posthash'] != md5($post['body_nomarkup']))
+								if ($flood_post['posthash'] != make_comment_hex($post['body_nomarkup']))
 									continue 3;
 								break;
 							case 'file':
@@ -216,12 +216,12 @@ function do_filters(array $post) {
 		if ($post['has_file']) {
 			$query = prepare("SELECT * FROM ``flood`` WHERE `ip` = :ip OR `posthash` = :posthash OR `filehash` = :filehash");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-			$query->bindValue(':posthash', md5($post['body_nomarkup']));
+			$query->bindValue(':posthash', make_comment_hex($post['body_nomarkup']));
 			$query->bindValue(':filehash', $post['filehash']);
 		} else {
 			$query = prepare("SELECT * FROM ``flood`` WHERE `ip` = :ip OR `posthash` = :posthash");
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-			$query->bindValue(':posthash', md5($post['body_nomarkup']));
+			$query->bindValue(':posthash', make_comment_hex($post['body_nomarkup']));
 		}
 		$query->execute() or error(db_error($query));
 		$flood_check = $query->fetchAll(PDO::FETCH_ASSOC);
