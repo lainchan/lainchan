@@ -73,6 +73,14 @@ class Filter {
 					}
 				}
 				return false;
+			case 'flood-count':
+				$count = 0;
+				foreach ($this->flood_check as $flood_post) {
+					if (time() - $flood_post['time'] <= $this->condition['flood-time']) {
+						++$count;
+					}
+				}
+				return $count >= $match;
 			case 'name':
 				return preg_match($match, $post['name']);
 			case 'trip':

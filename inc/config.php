@@ -342,7 +342,20 @@
 	// 	'message' => &$config['error']['flood']
 	// );
 
-	// An example of blocking an imaginary known spammer, who keeps posting a reply with the name "surgeon",
+	// Example: Use the "flood-count" condition to only match if the user has made at least two posts with
+	// the same content and IP address in the past 2 minutes.
+	// $config['filters'][] = array(
+	// 	'condition' => array(
+	// 		'flood-match' => array('ip', 'body'), // Match IP address and post body
+	// 		'flood-time' => 60 * 2, // 2 minutes
+	// 		'flood-count' => 2 // At least two recent posts
+	// 	),
+	// 	'!body' => '/^$/',
+	// 	'action' => 'reject',
+	// 	'message' => &$config['error']['flood']
+	// );
+
+	// Example: Blocking an imaginary known spammer, who keeps posting a reply with the name "surgeon",
 	// ending his posts with "regards, the surgeon" or similar.
 	// $config['filters'][] = array(
 	// 	'condition' => array(
@@ -354,7 +367,7 @@
 	// 	'message' => 'Go away, spammer.'
 	// );
 
-	// Same as above, but issuing a 3-hour ban instead of just reject the post.
+	// Example: Same as above, but issuing a 3-hour ban instead of just reject the post.
 	// $config['filters'][] = array(
 	// 	'condition' => array(
 	// 		'name' => '/^surgeon$/',
@@ -366,7 +379,7 @@
 	// 	'reason' => 'Go away, spammer.'
 	// );
 
-	// PHP 5.3+ (anonymous functions)
+	// Example: PHP 5.3+ (anonymous functions)
 	// There is also a "custom" condition, making the possibilities of this feature pretty much endless.
 	// This is a bad example, because there is already a "name" condition built-in.
 	// $config['filters'][] = array(
