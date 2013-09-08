@@ -232,6 +232,9 @@
 
 	// How soon after regeneration do hashes expire (in seconds)?
 	$config['spam']['hidden_inputs_expire'] = 60 * 60 * 3; // three hours
+	
+	// Whether to use Unicode characters in hidden input names and values.
+	$config['spam']['unicode'] = true;
 
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
 	$config['spam']['hidden_input_names'] = array(
