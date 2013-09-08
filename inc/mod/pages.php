@@ -1629,8 +1629,8 @@ function mod_user_new() {
 			}
 		}
 		
-		$_POST['type'] = (int) $_POST['type'];
-		if ($_POST['type'] !== JANITOR && $_POST['type'] !== MOD && $_POST['type'] !== ADMIN)
+		$type = (int)$_POST['type'];
+		if (!isset($config['mod']['groups'][$type]) || $type == DISABLED)
 			error(sprintf($config['error']['invalidfield'], 'type'));
 		
 		$salt = generate_salt();
@@ -1640,7 +1640,7 @@ function mod_user_new() {
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':password', $password);
 		$query->bindValue(':salt', $salt);
-		$query->bindValue(':type', $_POST['type']);
+		$query->bindValue(':type', $type);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
 		
