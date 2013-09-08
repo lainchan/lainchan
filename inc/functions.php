@@ -265,6 +265,15 @@ function verbose_error_handler($errno, $errstr, $errfile, $errline) {
 	));
 }
 
+function define_groups() {
+	global $config;
+
+	foreach ($config['mod']['groups'] as $group_value => $group_name)
+		defined($group_name) or define($group_name, $group_value, true);
+	
+	ksort($config['mod']['groups']);
+}
+
 function create_antibot($board, $thread = null) {
 	require_once dirname(__FILE__) . '/anti-bot.php';
 

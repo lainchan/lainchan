@@ -3,7 +3,7 @@
 function permission_to_edit_config_var($varname) {
 	global $config, $mod;
 
-	if (is_array($config['mod']['config'][DISABLED])) {
+	if (isset($config['mod']['config'][DISABLED])) {
 		foreach ($config['mod']['config'][DISABLED] as $disabled_var_name) {
 			$disabled_var_name = explode('>', $disabled_var_name);
 			if (count($disabled_var_name) == 1)
@@ -14,10 +14,11 @@ function permission_to_edit_config_var($varname) {
 	}
 	
 	$allow_only = false;
-	// for ($perm = (int)$mod['type']; $perm >= JANITOR; $perm --) {
-	for ($perm = JANITOR; $perm <= (int)$mod['type']; $perm ++) {
+	foreach ($config['mod']['groups'] as $perm => $perm_name) {
+		if ($perm > $mod['type'])
+			break;
 		$allow_only = false;
-		if (is_array($config['mod']['config'][$perm])) {
+		if (isset($config['mod']['config'][$perm]) && is_array($config['mod']['config'][$perm])) {
 			foreach ($config['mod']['config'][$perm] as $perm_var_name) {
 				if ($perm_var_name == '!') {
 					$allow_only = true;
@@ -92,7 +93,7 @@ function config_vars() {
 				continue; // This is just an alias.
 			if (!preg_match('/^array|\[\]|function/', $var['default']) && !preg_match('/^Example: /', trim(implode(' ', $var['comment'])))) {
 				$syntax_error = true;
-				$temp = eval('$syntax_error = false;return ' . $var['default'] . ';');
+				$temp = eval('$syntax_error = false;return @' . $var['default'] . ';');
 				if ($syntax_error && $temp === false) {
 					error('Error parsing config.php (line ' . $line_no . ')!', null, $var);
 				} elseif (!isset($temp)) {

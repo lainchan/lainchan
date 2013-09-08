@@ -1674,11 +1674,39 @@ function mod_user_promote($uid, $action) {
 	if (!hasPermission($config['mod']['promoteusers']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("UPDATE ``mods`` SET `type` = `type` " . ($action == 'promote' ? "+1 WHERE `type` < " . (int)ADMIN : "-1 WHERE `type` > " . (int)JANITOR) . " AND `id` = :id");
+	$query = prepare("SELECT `type`, `username` FROM ``mods`` WHERE `id` = :id");
 	$query->bindValue(':id', $uid);
 	$query->execute() or error(db_error($query));
 	
-	modLog(($action == 'promote' ? 'Promoted' : 'Demoted') . " user #{$uid}");
+	if (!$mod = $query->fetch(PDO::FETCH_ASSOC))
+		error($config['error']['404']);
+	
+	$new_group = false;
+	
+	$groups = $config['mod']['groups'];
+	if ($action == 'demote')
+		$groups = array_reverse($groups, true);
+	
+	foreach ($groups as $group_value => $group_name) {
+		if ($action == 'promote' && $group_value > $mod['type']) {
+			$new_group = $group_value;
+			break;
+		} elseif ($action == 'demote' && $group_value < $mod['type']) {
+			$new_group = $group_value;
+			break;
+		}
+	}
+	
+	if ($new_group === false || $new_group == DISABLED)
+		error(_('Impossible to promote/demote user.'));
+	
+	$query = prepare("UPDATE ``mods`` SET `type` = :group_value WHERE `id` = :id");
+	$query->bindValue(':id', $uid);
+	$query->bindValue(':group_value', $new_group);
+	$query->execute() or error(db_error($query));
+	
+	modLog(($action == 'promote' ? 'Promoted' : 'Demoted') . ' user "' .
+		utf8tohtml($mod['username']) . '" to ' . $config['mod']['groups'][$new_group]);
 	
 	header('Location: ?/users', true, $config['redirect_http']);
 }
@@ -2069,14 +2097,8 @@ function mod_config($board_config = false) {
 				
 				
 				$config_append .= ' = ';
-				if (@$var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
-					$perm_array = array(
-						JANITOR => 'JANITOR',
-						MOD => 'MOD',
-						ADMIN => 'ADMIN',
-						DISABLED => 'DISABLED'
-					);
-					$config_append .= $perm_array[$value];
+				if (@$var['permissions'] && isset($config['mod']['groups'][$value])) {
+					$config_append .= $config['mod']['groups'][$value];
 				} else {
 					$config_append .= var_export($value, true);
 				}

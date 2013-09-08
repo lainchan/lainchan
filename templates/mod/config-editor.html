@@ -42,10 +42,11 @@
 						<input name="{{ name }}" type="text" value="{{ var.value|e }}">
 					{% elseif var.permissions %}
 						<select name="{{ name }}">
-							<option value="{{ constant('JANITOR') }}"{% if var.value == constant('JANITOR')%} selected{% endif %}>JANITOR</option>
-							<option value="{{ constant('MOD') }}"{% if var.value == constant('MOD')%} selected{% endif %}>MOD</option>
-							<option value="{{ constant('ADMIN') }}"{% if var.value == constant('ADMIN')%} selected{% endif %}>ADMIN</option>
-							<option value="{{ constant('DISABLED') }}"{% if var.value == constant('DISABLED')%} selected{% endif %}>DISABLED</option>
+							{% for group_value, group_name in config.mod.groups %}
+								<option value="{{ group_value }}"{% if var.value == group_value %} selected{% endif %}>
+									{{ group_name }}
+								</option>
+							{% endfor %}
 						</select>
 					{% elseif var.type == 'integer' %}
 						<input name="{{ name }}" type="number" value="{{ var.value|e }}">

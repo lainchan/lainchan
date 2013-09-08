@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `username` varchar(30) NOT NULL,
   `password` char(64) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
   `salt` char(32) CHARACTER SET ascii NOT NULL,
-  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  `type` smallint(2) NOT NULL,
   `boards` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `mods` (
 --
 
 INSERT INTO `mods` VALUES
-(1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 2, '*');
+(1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 20, '*');
 
 -- --------------------------------------------------------
 

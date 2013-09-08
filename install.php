@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-19');
+define('VERSION', 'v0.9.6-dev-20');
 
 require 'inc/functions.php';
 
@@ -407,6 +407,11 @@ if (file_exists($config['has_installed'])) {
 				  KEY `filehash` (`filehash`),
 				  KEY `time` (`time`)
 				) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;") or error(db_error());
+		case 'v0.9.6-dev-19':
+			query("UPDATE ``mods`` SET `type` = 10 WHERE `type` = 0") or error(db_error());
+			query("UPDATE ``mods`` SET `type` = 20 WHERE `type` = 1") or error(db_error());
+			query("UPDATE ``mods`` SET `type` = 30 WHERE `type` = 2") or error(db_error());
+			query("ALTER TABLE ``mods`` CHANGE `type`  `type` smallint(1) NOT NULL") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

@@ -1162,18 +1162,28 @@
  * ====================
  */
 
-	// Probably best not to change these:
-	if (!defined('JANITOR')) {
-		define('JANITOR',	0,	true);
-		define('MOD',		1,	true);
-		define('ADMIN',		2,	true);
-		define('DISABLED',	3,	true);
-	}
+	// Probably best not to change this unless you are smart enough to figure out what you're doing. If you
+	// decide to change it, remember that it is impossible to redefinite/overwrite groups; you may only add
+	// new ones.
+	$config['mod']['groups'] = array(
+		10	=> 'Janitor',
+		20	=> 'Mod',
+		30	=> 'Admin',
+		// 98	=> 'God',
+		99	=> 'Disabled'
+	);
+
+	// If you add stuff to the above, you'll need to call this function immediately after.
+	define_groups();
+
+	// Example: Adding a new permissions group.
+	// $config['mod']['groups'][0] = 'NearlyPowerless';
+	// define_groups();
 
 	// Capcode permissions.
 	$config['mod']['capcode'] = array(
 	//	JANITOR		=> array('Janitor'),
-		MOD			=> array('Mod'),
+		MOD		=> array('Mod'),
 		ADMIN		=> true
 	);
 
@@ -1312,18 +1322,14 @@
 	$config['mod']['edit_config'] = ADMIN;
 
 	// Config editor permissions
-	$config['mod']['config'] = array(
-		JANITOR => false,
-		MOD => false,
-		ADMIN => false,
-		DISABLED => false,
-	);
+	$config['mod']['config'] = array();
 
 	// Disable the following configuration variables from being changed via ?/config. The following default
 	// banned variables are considered somewhat dangerous.
 	$config['mod']['config'][DISABLED] = array(
 		'mod>config',
 		'mod>config_editor_php',
+		'mod>groups',
 		'convert_args',
 		'db>password',
 	);
