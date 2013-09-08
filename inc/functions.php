@@ -1067,10 +1067,16 @@ function index($page, $mod=false) {
 	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
 		$thread = new Thread($th, $mod ? '?/' : $config['root'], $mod);
 
-		if ($config['cache']['enabled'] && $cached = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
-			$replies = $cached['replies'];
-			$omitted = $cached['omitted'];
-		} else {
+		if ($config['cache']['enabled']) {
+			$cached = cache::get("thread_index_{$board['uri']}_{$th['id']}");
+			if (isset($cached['replies'], $cached['omitted'])) {
+				$replies = $cached['replies'];
+				$omitted = $cached['omitted'];
+			} else {
+				$cached = false;
+			}
+		}
+		if (!$cached) {
 			$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
