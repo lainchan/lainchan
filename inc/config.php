@@ -325,7 +325,7 @@
 	// Minimum time between posts with the same text. (Same content, but not always the same IP address.)
 	$config['filters'][] = array(
 		'condition' => array(
-			'flood-match' => array('body'), // Match IP address and post body
+			'flood-match' => array('body'), // Match only post body
 			'flood-time' => &$config['flood_time_same']
 		),
 		'action' => 'reject',
