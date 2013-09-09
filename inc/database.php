@@ -14,7 +14,7 @@ class PreparedQueryDebug {
 		$query = preg_replace("/[\n\t]+/", ' ', $query);
 		
 		$this->query = $pdo->prepare($query);
-		if ($config['debug'] && $config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /', $query))
+		if ($config['debug'] && $config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /i', $query))
 			$this->explain_query = $pdo->prepare("EXPLAIN $query");
 	}
 	public function __call($function, $args) {
@@ -127,7 +127,7 @@ function query($query) {
 	sql_open();
 	
 	if ($config['debug']) {
-		if ($config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /', $query)) {
+		if ($config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /i', $query)) {
 			$explain = $pdo->query("EXPLAIN $query") or error(db_error());
 		}
 		$start = microtime(true);
