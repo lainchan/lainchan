@@ -207,7 +207,7 @@ function purge_flood_table() {
 	
 	$time = time() - $max_time;
 	
-	query("DELETE FROM ``flood`` WHERE ``time`` < $time") or error(db_error());
+	query("DELETE FROM ``flood`` WHERE `time` < $time") or error(db_error());
 }
 
 function do_filters(array $post) {
