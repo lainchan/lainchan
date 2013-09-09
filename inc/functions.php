@@ -1082,10 +1082,10 @@ function index($page, $mod=false) {
 				$replies = $cached['replies'];
 				$omitted = $cached['omitted'];
 			} else {
-				$cached = false;
+				unset($cached);
 			}
 		}
-		if (!$cached) {
+		if (!isset($cached)) {
 			$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
