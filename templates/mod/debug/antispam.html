@@ -14,11 +14,14 @@
 		<tr>
 			<td>{{ config.board_abbreviation|sprintf(hash.board) }}</td>
 			<td>
-				{% if hash.thread %}
+				{% if hash.thread > 0 %}
 					{{ hash.thread }}
+				{% elseif hash.thread < 0 %}
+					Index (page {{ - hash.thread }})
 				{% else %}
 					-
-				{% endif %}</td>
+				{% endif %}
+			</td>
 			<td>
 				<small><code>{{ hash.hash }}</code></small>
 			</td>
@@ -28,7 +31,11 @@
 			<td>
 				{% if hash.expires %}
 					<span title="{{ hash.expires|date(config.post_date) }}">
-						{{ hash.expires|until }}
+						{% if hash.expires < time() %}
+							{{ hash.expires|ago }} ago
+						{% else %}
+							{{ hash.expires|until }}
+						{% endif %}
 					</span>
 				{% else %}
 					-
@@ -55,11 +62,14 @@
 		<tr>
 			<td>{{ config.board_abbreviation|sprintf(hash.board) }}</td>
 			<td>
-				{% if hash.thread %}
+				{% if hash.thread > 0 %}
 					{{ hash.thread }}
+				{% elseif hash.thread < 0 %}
+					Index (page {{ - hash.thread }})
 				{% else %}
 					-
-				{% endif %}</td>
+				{% endif %}
+			</td>
 			<td>
 				<small><code>{{ hash.hash }}</code></small>
 			</td>
@@ -69,7 +79,11 @@
 			<td>
 				{% if hash.expires %}
 					<span title="{{ hash.expires|date(config.post_date) }}">
-						{{ hash.expires|until }}
+						{% if hash.expires < time() %}
+							{{ hash.expires|ago }} ago
+						{% else %}
+							{{ hash.expires|until }}
+						{% endif %}
 					</span>
 				{% else %}
 					-

@@ -2328,11 +2328,21 @@ function mod_debug_recent_posts() {
 	$query = query($query) or error(db_error());
 	$posts = $query->fetchAll(PDO::FETCH_ASSOC);
 	
+	// Fetch recent posts from flood prevention cache
+	$query = query("SELECT * FROM ``flood`` ORDER BY `time` DESC") or error(db_error());
+	$flood_posts = $query->fetchAll(PDO::FETCH_ASSOC);
+	
 	foreach ($posts as &$post) {
 		$post['snippet'] = pm_snippet($post['body']);
+		foreach ($flood_posts as $flood_post) {
+			if ($flood_post['time'] == $post['time'] &&
+				$flood_post['posthash'] == make_comment_hex($post['body_nomarkup']) &&
+				$flood_post['filehash'] == $post['filehash'])
+				$post['in_flood_table'] = true;
+		}
 	}
 	
-	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts));
+	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts, 'flood_posts' => $flood_posts));
 }
 
 function mod_debug_sql() {

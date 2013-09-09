@@ -1,3 +1,40 @@
+<p style="text-align:center">
+	Flood prevention cache:
+</p>
+<table class="modlog" style="width:1%;">
+	<tr>
+		<th>#</th>
+		<th>Time</th>
+		<th>Board</th>
+		<th>Post hash</th>
+		<th>File hash</th>
+	</tr>
+	{% for post in flood_posts %}
+		<tr>
+			<td class="minimal">{{ post.id }}</td>
+			<td class="minimal"{% if post.in_flood_table %} style="color:red" title="Still in flood prevention cache."{% endif %}>
+				<small>{{ post.time | ago }} ago</small>
+			</td>
+			<td class="minimal">
+				<a href="?/{{ config.board_path|sprintf(post.board) }}{{ config.file_index }}">
+					{{ config.board_abbreviation|sprintf(post.board) }}
+				</a>
+			</td>
+			<td><code>{{ post.posthash }}</code></td>
+			<td>
+				{% if post.filehash %}
+					<code>{{ post.filehash }}</code>
+				{% else %}
+					<em>No file</em>
+				{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<p style="text-align:center">
+	Most recent {{ posts|count }} posts:
+</p>
 <table class="modlog" style="word-wrap: break-word;">
 	<tr>
 		<th>Time</th>
@@ -12,11 +49,13 @@
 	</tr>
 	{% for post in posts %}
 		<tr>
-			<td class="minimal">
+			<td class="minimal"{% if post.in_flood_table %} style="color:red" title="Still in flood prevention cache."{% endif %}>
 				<small>{{ post.time | ago }} ago</small>
 			</td>
 			<td class="minimal">
-				<a href="?/{{ config.board_path|sprintf(post.board) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(post.board) }}</a>
+				<a href="?/{{ config.board_path|sprintf(post.board) }}{{ config.file_index }}">
+					{{ config.board_abbreviation|sprintf(post.board) }}
+				</a>
 			</td>
 			<td class="minimal" >
 				{% if post.thread %}
