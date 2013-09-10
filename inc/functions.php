@@ -639,7 +639,7 @@ function displayBan($ban) {
 	));
 }
 
-function checkBan($board = 0) {
+function checkBan($board = false) {
 	global $config;
 
 	if (!isset($_SERVER['REMOTE_ADDR'])) {
@@ -649,35 +649,33 @@ function checkBan($board = 0) {
 
 	if (event('check-ban', $board))
 		return true;
-
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
+	
+	$query_where = array();
+	// Simple ban
+	$query_where[] = "`ip` = :ip";
+	// Range ban
+	if ($config['ban_range'])
+		$query_where[] = ":ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!'";
+	// Subnet mask ban
+	if ($config['ban_cidr'] && !isIPv6())
+		$query_where[] = "(					
+			`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
+				AND
+			:iplong >= INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1))
+				AND
+			:iplong < INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) + POW(2, 32 - SUBSTRING_INDEX(`ip`, '/', -1))
+		)";
+	
+	$query = prepare('SELECT * FROM ``bans`` WHERE (`board` IS NULL' . ($board ? ' OR `board` = :board' : '') .
+		') AND (' . implode(' OR ', $query_where) . ') ORDER BY `expires` IS NULL, `expires` DESC');
+	if ($board)
+		$query->bindValue(':board', $board);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	$query->bindValue(':board', $board);
+	if ($config['ban_cidr'] && !isIPv6())
+		$query->bindValue(':iplong', ip2long($_SERVER['REMOTE_ADDR']));
 	$query->execute() or error(db_error($query));
-	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-		$query->bindValue(':board', $board);
-		$query->execute() or error(db_error($query));
-	}
-
-	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
-		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board)
-			AND (					
-				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
-					AND
-				:ip >= INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1))
-					AND
-				:ip < INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) + POW(2, 32 - SUBSTRING_INDEX(`ip`, '/', -1))
-			)
-			ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-		$query->bindValue(':ip', ip2long($_SERVER['REMOTE_ADDR']));
-		$query->bindValue(':board', $board);
-		$query->execute() or error(db_error($query));
-	}
-
-	if ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
+	
+	while ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
 			// Ban expired
 			$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
@@ -687,11 +685,9 @@ function checkBan($board = 0) {
 			if ($config['require_ban_view'] && !$ban['seen']) {
 				displayBan($ban);
 			}
-
-			return;
+		} else {
+			displayBan($ban);
 		}
-
-		displayBan($ban);
 	}
 
 	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
