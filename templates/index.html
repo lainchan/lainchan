@@ -7,8 +7,19 @@
 </head>
 <body>	
 	{{ boardlist.top }}
+	
+	{% if config.page_nav_top %}
+		<div class="pages top">
+			{% for page in pages %}
+			 [<a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>]{% if loop.last %} {% endif %}
+			{% endfor %}
+			{{ btn.next }}
+		</div>
+	{% endif %}
+	
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	{% if config.url_banner %}<img class="banner" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
+	
 	<header>
 		<h1>{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
@@ -24,17 +35,6 @@
 	</header>
 	
 	{% include 'post_form.html' %}
-	
-	{% if config.page_nav_top %}
-		<div class="pages top">
-			{% for page in pages %}
-			 [<a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>]{% if loop.last %} {% endif %}
-			{% endfor %} {{ btn.next }}
-			{% if config.catalog_link %}
-				 | <a href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">Catalog</a>
-			{% endif %}
-		</div>
-	{% endif %}
 	
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
