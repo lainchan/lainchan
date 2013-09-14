@@ -13,7 +13,9 @@
 
 var show_quick_reply = function(){
 	if($('div.banner').length == 0)
-		return; // not index
+		return;
+	if($('#quick-reply').length != 0)
+		return;
 
 	$('<style type="text/css">\
 	#quick-reply {\
@@ -148,7 +150,14 @@ var show_quick_reply = function(){
 	});
 };
 
-$(window).on('cite', function() {
+$(window).on('cite', function(e, id, with_link) {
 	show_quick_reply();
 	$('#quick-reply textarea').focus();
+	if (with_link) {
+		console.log(id, with_link);
+		setTimeout(function() {
+			highlightReply(id);
+			$(window).scrollTop($('#' + id).offset().top);
+		}, 10);
+	}
 });

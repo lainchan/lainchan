@@ -181,7 +181,7 @@ function dopost(form) {
 	return form.elements['body'].value != "" || form.elements['file'].value != "" || (form.elements.file_url && form.elements['file_url'].value != "");
 }
 
-function citeReply(id) {
+function citeReply(id, with_link) {
 	var body = document.getElementById('body');
 	
 	if (document.selection) {
@@ -199,7 +199,7 @@ function citeReply(id) {
 		body.value += '>>' + id + '\n';
 	}
 	if ($) {
-		$(window).trigger('cite', id);
+		$(window).trigger('cite', [id, with_link]);
 		$(body).change();
 	}
 }
@@ -218,7 +218,7 @@ function rememberStuff() {
 			document.forms.post.elements['email'].value = localStorage.email;
 		
 		if (window.location.hash.indexOf('q') == 1)
-			citeReply(window.location.hash.substring(2));
+			citeReply(window.location.hash.substring(2), true);
 		
 		if (sessionStorage.body) {
 			var saved = JSON.parse(sessionStorage.body);
