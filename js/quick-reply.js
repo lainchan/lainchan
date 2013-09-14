@@ -122,6 +122,11 @@ var show_quick_reply = function(){
 					$td.find('input[name="file_url"]').removeAttr('id');
 				}
 			}
+			
+			// Remove mod controls, because it looks shit.
+			if ($td.find('input[type="checkbox"]').length) {
+				$(this).remove();
+			}
 		}
 	});
 	
