@@ -143,10 +143,10 @@ var show_quick_reply = function(){
 	});
 	// Synchronise other inputs
 	$('form[name="post"] input[type="text"],select').bind('change input propertychange', function() {
-		$postForm.find('input[name="' + $(this).attr('name') + '"]').val($(this).val());
+		$postForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
-		$('form[name="post"] input[name="' + $(this).attr('name') + '"]').val($(this).val());
+		$('form[name="post"] [name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 };
 
