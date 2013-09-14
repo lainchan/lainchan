@@ -512,6 +512,8 @@ class Thread {
 	public function build($index=false) {
 		global $board, $config, $debug;
 		
+		event('show-thread', $this);
+		
 		$built = Element('post_thread.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index));
 		
 		return $built;
