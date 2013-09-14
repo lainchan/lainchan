@@ -142,10 +142,10 @@ var show_quick_reply = function(){
 		$('#body').val($(this).val());
 	});
 	// Synchronise other inputs
-	$('form[name="post"] input[type="text"]').bind('change input propertychange', function() {
+	$('form[name="post"] input:not([type="submit"]):not([type="password"]):not([type="file"])').bind('change input propertychange', function() {
 		$postForm.find('input[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
-	$postForm.find('input[type="text"]').bind('change input propertychange', function() {
+	$postForm.find('input:not([type="submit"]):not([type="password"]):not([type="file"])').bind('change input propertychange', function() {
 		$('form[name="post"] input[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 };
