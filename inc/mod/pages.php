@@ -1839,9 +1839,7 @@ function mod_rebuild() {
 	
 	if (isset($_POST['rebuild'])) {
 		@set_time_limit($config['mod']['rebuild_timelimit']);
-		
-		$config['try_smarter'] = false;
-		
+				
 		$log = array();
 		$boards = listBoards();
 		$rebuilt_scripts = array();
