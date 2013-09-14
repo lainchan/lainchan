@@ -67,6 +67,11 @@ var show_quick_reply = function(){
 	#quick-reply td.submit {\
 		width: 1%;\
 	}\
+	@media screen and (max-width: 800px) {\
+		#quick-reply {\
+			display: none !important;\
+		}\
+	}\
 	</style>').appendTo($('head'));
 	
 	var $postForm = $('form[name="post"]').clone();
@@ -157,6 +162,8 @@ var show_quick_reply = function(){
 	$origPostForm = $('form[name="post"]');
 
 	$(window).scroll(function() {
+		if ($(this).width() <= 800)
+			return;
 		if ($(this).scrollTop() < $origPostForm.offset().top + $origPostForm.height() - 100)
 			$postForm.fadeOut(100);
 		else
@@ -165,10 +172,11 @@ var show_quick_reply = function(){
 };
 
 $(window).on('cite', function(e, id, with_link) {
+	if ($(this).width() <= 800)
+		return;
 	show_quick_reply();
 	$('#quick-reply textarea').focus();
 	if (with_link) {
-		console.log(id, with_link);
 		setTimeout(function() {
 			highlightReply(id);
 			$(window).scrollTop($('#' + id).offset().top);
