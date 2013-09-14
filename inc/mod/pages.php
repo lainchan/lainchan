@@ -1840,6 +1840,8 @@ function mod_rebuild() {
 	if (isset($_POST['rebuild'])) {
 		@set_time_limit($config['mod']['rebuild_timelimit']);
 		
+		$config['try_smarter'] = false;
+		
 		$log = array();
 		$boards = listBoards();
 		$rebuilt_scripts = array();
@@ -1871,6 +1873,7 @@ function mod_rebuild() {
 				continue;
 			
 			openBoard($board['uri']);
+			$config['try_smarter'] = false;
 			
 			if (isset($_POST['rebuild_index'])) {
 				buildIndex();
