@@ -3,44 +3,152 @@
  * https://github.com/savetheinternet/Tinyboard/blob/master/js/quick-reply.js
  *
  * Released under the MIT license
- * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ * Copyright (c) 2013 Michael Save <savetheinternet@tinyboard.org>
  *
  * Usage:
- *   $config['quick_reply'] = true;
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/quick-reply.js';
  *
  */
 
-$(document).ready(function(){
-	if($('div.banner').length != 0)
+var show_quick_reply = function(){
+	if($('div.banner').length == 0)
 		return; // not index
-	
-	txt_new_topic = $('form[name=post] input[type=submit]').val();
-	txt_new_reply = txt_new_topic == _('Submit') ? txt_new_topic : new_reply_string;
-	
-	undo_quick_reply = function() {
-		$('div.banner').remove();
-		$('form[name=post] input[type=submit]').val(txt_new_topic);
-		$('form[name=post] input[name=quick-reply]').remove();
-	}
-	
-	$('div.post.op').each(function() {
-		var id = $(this).children('p.intro').children('a.post_no:eq(1)').text();
-		$('<a href="#">['+_("Quick reply")+']</a>').insertAfter($(this).children('p.intro').children('a:last')).click(function() {
-			$('div.banner').remove();
-			$('<div class="banner">'+fmt(_("Posting mode: Replying to <small>&gt;&gt;{0}</small>"), [id])+' <a class="unimportant" onclick="undo_quick_reply()" href="javascript:void(0)">['+_("Return")+']</a></div>')
-				.insertBefore('form[name=post]');
-			$('form[name=post] input[type=submit]').val(txt_new_reply);
-			
-			$('<input type="hidden" name="quick-reply" value="' + id + '">').appendTo($('form[name=post]'));
-			
-			$('form[name=post] textarea').select();
-			
-			window.scrollTo(0, 0);
-			
-			return false;
-		});		
-	});
-});
 
+	$('<style type="text/css">\
+	#quick-reply {\
+		position: fixed;\
+		right: 0;\
+		top: 10%;\
+		float: right;\
+		background: #D6DAF0;\
+		display: block;\
+		padding: 0 0 0 0;\
+		width: 350px;\
+	}\
+	#quick-reply table {\
+		border-collapse: collapse;\
+		margin: 0;\
+		width: 100%;\
+	}\
+	#quick-reply th, #quick-reply td {\
+		margin: 0;\
+		padding: 0;\
+	}\
+	#quick-reply th {\
+		text-align: center;\
+		padding: 2px 0;\
+		border: 1px solid #222;\
+	}\
+	#quick-reply input[type="text"] {\
+		width: 100%;\
+		padding: 2px;\
+		margin: 0 0 1px 0;\
+		font-size: 10pt;\
+		box-sizing: border-box;\
+		-webkit-box-sizing:border-box;\
+		-moz-box-sizing: border-box;\
+	}\
+	#quick-reply textarea {\
+		width: 100%;\
+		box-sizing: border-box;\
+		-webkit-box-sizing:border-box;\
+		-moz-box-sizing: border-box;\
+		font-size: 10pt;\
+	}\
+	#quick-reply input[type="file"] {\
+		padding: 5px 0;\
+	}\
+	#quick-reply .nonsense {\
+		display: none;\
+	}\
+	#quick-reply td.submit {\
+		width: 1%;\
+	}\
+	</style>').appendTo($('head'));
+	
+	var $postForm = $('form[name="post"]').clone();
+	
+	$postForm.clone();
+	
+	$dummyStuff = $('<div class="nonsense"></div>').appendTo($postForm);
+	
+	$postForm.find('table tr').each(function() {
+		var $th = $(this).children('th');
+		var $td = $(this).children('td');		
+		if ($th.length && $td.length) {
+			$td.attr('colspan', 2);
+
+			if ($td.find('input[type="text"]').length) {
+				// Replace <th> with input placeholders
+				$td.find('input[type="text"]')
+					.removeAttr('size')
+					.attr('placeholder', $th.clone().children().remove().end().text());
+			}
+
+			// Move anti-spam nonsense and remove <th>
+			$th.contents().appendTo($dummyStuff);
+			$th.remove();
+
+			if ($td.find('input[name="password"]').length) {
+				// Hide password field
+				$(this).hide();
+			}
+
+			// Fix submit button
+			if ($td.find('input[type="submit"]').length) {
+				$td.removeAttr('colspan');
+				$('<td class="submit"></td>').append($td.find('input[type="submit"]')).insertAfter($td);
+			}
+
+			if ($td.find('input[type="file"]').length) {
+				if ($td.find('input[name="file_url"]').length) {
+					$file_url = $td.find('input[name="file_url"]');
+					
+					// Make a new row for it
+					$newRow = $('<tr><td colspan="2"></td></tr>');
+					
+					$file_url.clone().attr('placeholder', _('Upload URL')).appendTo($newRow.find('td'));
+					$file_url.parent().remove();
+					
+					$newRow.insertBefore(this);
+					
+					$td.find('label').remove();
+					$td.contents().filter(function() {
+						return this.nodeType == 3; // Node.TEXT_NODE
+					}).remove();
+					$td.find('input[name="file_url"]').removeAttr('id');
+				}
+			}
+		}
+	});
+	
+	$postForm.find('textarea[name="body"]').removeAttr('id').removeAttr('cols').attr('placeholder', _('Comment'));
+	
+	$postForm.find('br').remove();
+	$postForm.find('table').prepend('<tr><th colspan="2">' + _('Quick Reply') + '</th></tr>');
+	
+	$postForm.attr('id', 'quick-reply');
+	
+	$postForm.appendTo($('body'));
+	
+	// Synchronise body text with original post form
+	$('#body').bind('change input propertychange', function() {
+		$postForm.find('textarea[name="body"]').val($(this).val());
+	});
+	$postForm.find('textarea[name="body"]').bind('change input propertychange', function() {
+		$('#body').val($(this).val());
+	});
+	// Synchronise other inputs
+	$('form[name="post"] input[type="text"]').bind('change input propertychange', function() {
+		$postForm.find('input[name="' + $(this).attr('name') + '"]').val($(this).val());
+	});
+	$postForm.find('input[type="text"]').bind('change input propertychange', function() {
+		$('form[name="post"] input[name="' + $(this).attr('name') + '"]').val($(this).val());
+	});
+};
+
+$(window).on('cite', function() {
+	show_quick_reply();
+	$('#quick-reply textarea').focus();
+});

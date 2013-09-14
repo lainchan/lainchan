@@ -198,6 +198,10 @@ function citeReply(id) {
 		// ???
 		body.value += '>>' + id + '\n';
 	}
+	if ($) {
+		$(window).trigger('cite', id);
+		$(body).change();
+	}
 }
 
 function rememberStuff() {
