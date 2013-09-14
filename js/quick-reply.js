@@ -147,11 +147,20 @@ var show_quick_reply = function(){
 		$('#body').val($(this).val());
 	});
 	// Synchronise other inputs
-	$('form[name="post"] input[type="text"],select').bind('change input propertychange', function() {
+	$('form[name="post"]:first input[type="text"],select').bind('change input propertychange', function() {
 		$postForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
-		$('form[name="post"] [name="' + $(this).attr('name') + '"]').val($(this).val());
+		$('form[name="post"]:first [name="' + $(this).attr('name') + '"]').val($(this).val());
+	});
+	
+	$origPostForm = $('form[name="post"]');
+
+	$(window).scroll(function() {
+		if ($(this).scrollTop() < $origPostForm.offset().top + $origPostForm.height() - 100)
+			$postForm.fadeOut(100);
+		else
+			$postForm.fadeIn(100);
 	});
 };
 
