@@ -64,6 +64,7 @@ foreach($boards as &$board) {
 	if(!$options['quiet'])
 		echo "Opening board /{$board['uri']}/...\n";
 	openBoard($board['uri']);
+	$config['try_smarter'] = false;
 	
 	if($config['file_script'] != $main_js) {
 		// different javascript file
