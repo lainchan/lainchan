@@ -273,7 +273,7 @@ if (isset($_POST['delete'])) {
 	
 	if ($config['allow_upload_by_url'] && isset($_POST['file_url']) && !empty($_POST['file_url'])) {
 		$post['file_url'] = $_POST['file_url'];
-		if (!preg_match($config['url_regex'], $post['file_url']))
+		if (!preg_match('@^https?:@//', $post['file_url']))
 			error($config['error']['invalidimg']);
 		
 		if (mb_strpos($post['file_url'], '?') !== false)

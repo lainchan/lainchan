@@ -94,7 +94,7 @@ function loadConfig() {
 	if (!isset($config['referer_match']))
 		if (isset($_SERVER['HTTP_HOST'])) {
 			$config['referer_match'] = '/^' .
-				(preg_match($config['url_regex'], $config['root']) ? '' :
+				(preg_match('@^https?:@//', $config['root']) ? '' :
 					'https?:\/\/' . $_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
