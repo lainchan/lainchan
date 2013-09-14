@@ -319,6 +319,10 @@ div.pages {
 	border-right: 1px solid #B7C5D9;
 	border-bottom: 1px solid #B7C5D9;
 }
+div.pages.top {
+	display: inline-block;
+	padding: 4px 8px;
+}
 div.pages a.selected {
 	color: black;
 	font-weight: bolder;

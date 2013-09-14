@@ -797,6 +797,12 @@
 	// Whether or not to put brackets around the whole board list
 	$config['boardlist_wrap_bracket'] = true;
 
+	// Show page navigation links at the top as well.
+	$config['page_nav_top'] = false;
+
+	// Show "Catalog" link in page navigation. Use with the Catalog theme.
+	// $config['catalog_link'] = 'catalog.html';
+
 	// Board categories. Only used in the "Categories" theme.
 	// $config['categories'] = array(
 	// 	'Group Name' => array('a', 'b', 'c'),
