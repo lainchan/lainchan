@@ -142,7 +142,7 @@ var show_quick_reply = function(){
 		$('#body').val($(this).val());
 	});
 	// Synchronise other inputs
-	$('form[name="post"] input:not[type="text"],select').bind('change input propertychange', function() {
+	$('form[name="post"] input[type="text"],select').bind('change input propertychange', function() {
 		$postForm.find('input[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
