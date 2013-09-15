@@ -26,13 +26,13 @@ var do_css = function() {
 		right: 0;\
 		top: 5%;\
 		float: right;\
-		background: ' + reply_background + ';\
 		display: block;\
 		padding: 0 0 0 0;\
 		width: 350px;\
 	}\
 	#quick-reply table {\
 		border-collapse: collapse;\
+		background: ' + reply_background + ';\
 		margin: 0;\
 		width: 100%;\
 	}\
