@@ -21,7 +21,7 @@ var show_quick_reply = function(){
 	#quick-reply {\
 		position: fixed;\
 		right: 0;\
-		top: 10%;\
+		top: 5%;\
 		float: right;\
 		background: #D6DAF0;\
 		display: block;\
@@ -31,6 +31,14 @@ var show_quick_reply = function(){
 	#quick-reply table {\
 		border-collapse: collapse;\
 		margin: 0;\
+		width: 100%;\
+	}\
+	#quick-reply tr td:nth-child(2) {\
+		white-space: nowrap;\
+		text-align: right;\
+		padding-right: 4px;\
+	}\
+	#quick-reply tr td:nth-child(2) input[type="submit"] {\
 		width: 100%;\
 	}\
 	#quick-reply th, #quick-reply td {\
@@ -45,7 +53,6 @@ var show_quick_reply = function(){
 	#quick-reply input[type="text"] {\
 		width: 100%;\
 		padding: 2px;\
-		margin: 0 0 1px 0;\
 		font-size: 10pt;\
 		box-sizing: border-box;\
 		-webkit-box-sizing:border-box;\
@@ -58,8 +65,11 @@ var show_quick_reply = function(){
 		-moz-box-sizing: border-box;\
 		font-size: 10pt;\
 	}\
+	#quick-reply input, #quick-reply select, #quick-reply textarea {\
+		margin: 0 0 1px 0;\
+	}\
 	#quick-reply input[type="file"] {\
-		padding: 5px 0;\
+		padding: 5px 2px;\
 	}\
 	#quick-reply .nonsense {\
 		display: none;\
@@ -81,8 +91,8 @@ var show_quick_reply = function(){
 	$dummyStuff = $('<div class="nonsense"></div>').appendTo($postForm);
 	
 	$postForm.find('table tr').each(function() {
-		var $th = $(this).children('th');
-		var $td = $(this).children('td');		
+		var $th = $(this).children('th:first');
+		var $td = $(this).children('td:first');		
 		if ($th.length && $td.length) {
 			$td.attr('colspan', 2);
 
@@ -126,11 +136,26 @@ var show_quick_reply = function(){
 					}).remove();
 					$td.find('input[name="file_url"]').removeAttr('id');
 				}
+				
+				if ($(this).find('input[name="spoiler"]').length) {
+					$td.removeAttr('colspan');
+				}
 			}
 			
 			// Remove mod controls, because it looks shit.
 			if ($td.find('input[type="checkbox"]').length) {
-				$(this).remove();
+				var tr = this;
+				$td.find('input[type="checkbox"]').each(function() {
+					if ($(this).attr('name') == 'spoiler') {
+						$td.find('label').remove();
+						$(this).attr('id', 'q-spoiler-image');
+						$postForm.find('input[type="file"]').parent()
+							.removeAttr('colspan')
+							.after($('<td class="spoiler"></td>').append(this, ' ', $('<label for="q-spoiler-image">').text(_('Spoiler Image'))));
+					} else {
+						$(tr).remove();
+					}
+				});
 			}
 		}
 	});
