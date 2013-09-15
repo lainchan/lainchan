@@ -74,6 +74,14 @@ function error($message, $priority = true, $debug_stuff = false) {
 		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
 	}
 	
+	// Is there a reason to disable this?
+	if (isset($_POST['json_response'])) {
+		header('Content-Type: text/json; charset=utf-8');
+		die(json_encode(array(
+			'error' => $message
+		)));
+	}
+	
 	die(Element('page.html', array(
 		'config' => $config,
 		'title' => _('Error'),

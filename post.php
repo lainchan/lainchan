@@ -743,7 +743,15 @@ if (isset($_POST['delete'])) {
 	else
 		rebuildThemes('post', $board['uri']);
 	
-	header('Location: ' . $redirect, true, $config['redirect_http']);
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $redirect, true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json; charset=utf-8');
+		echo json_encode(array(
+			'redirect' => $redirect,
+			'id' => $id
+		));
+	}
 } else {
 	if (!file_exists($config['has_installed'])) {
 		header('Location: install.php', true, $config['redirect_http']);

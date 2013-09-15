@@ -123,6 +123,9 @@ var show_quick_reply = function(){
 			}
 
 			// Move anti-spam nonsense and remove <th>
+			$th.contents().filter(function() {
+				return this.nodeType == 3; // Node.TEXT_NODE
+			}).remove();
 			$th.contents().appendTo($dummyStuff);
 			$th.remove();
 
@@ -180,7 +183,9 @@ var show_quick_reply = function(){
 	});
 	
 	$postForm.find('textarea[name="body"]').removeAttr('id').removeAttr('cols').attr('placeholder', _('Comment'));
-	
+
+	$postForm.find('textarea:not([name="body"]),input[type="hidden"]').appendTo($dummyStuff);
+
 	$postForm.find('br').remove();
 	$postForm.find('table').prepend('<tr><th colspan="2">' + _('Quick Reply') + '</th></tr>');
 	
@@ -232,6 +237,8 @@ var show_quick_reply = function(){
 	}
 
 	$postForm.show();
+	$(window).trigger('quick-reply');
+	
 	$origPostForm = $('form[name="post"]');
 
 	$(window).ready(function() {

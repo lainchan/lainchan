@@ -272,6 +272,7 @@
 		'quick-reply',
 		'page',
 		'file_url',
+		'json_response',
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
