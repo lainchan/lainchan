@@ -12,15 +12,20 @@
  */
 
 $(window).ready(function() {
+	var do_not_ajax = false;
+	
 	var setup_form = function($form) {
 		$form.submit(function() {
+			if (do_not_ajax)
+				return true;
 			var form = this;
 			var submit_txt = $(this).find('input[type="submit"]').val();
-			if (typeof FormData == 'undefined')
+			if (window.FormData === undefined)
 				return true;
 			
 			var formData = new FormData(this);
 			formData.append('json_response', '1');
+			formData.append('post', $(this).find('input[type="submit"]').val());
 
 			var updateProgress = function(e) {
 				$(form).find('input[type="submit"]').val(_('Posting... (#%)').replace('#', Math.round(e.position / e.total * 100)));
@@ -78,7 +83,16 @@ $(window).ready(function() {
 				error: function(xhr, status, er) {
 					// An error occured
 					// TODO
-					alert('Something went wrong!');
+					do_not_ajax = true;
+					$(form).find('input[type="submit"]').each(function() {
+						var $replacement = $('<input type="hidden">');
+						$replacement.attr('name', $(this).attr('name'));
+						$replacement.val(submit_txt);
+						$(this)
+							.after($replacement)
+							.replaceWith($('<input type="button">').val(submit_txt));
+					});
+					$(form).submit();
 				},
 				// Form data
 				data: formData,
@@ -94,7 +108,7 @@ $(window).ready(function() {
 		});
 	};
 	setup_form($('form[name="post"]'));
-	$(window).on('quick-reply', function(e, quickForm) {
+	$(window).on('quick-reply', function() {
 		setup_form($('form#quick-reply'));
 	});
 });
