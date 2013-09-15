@@ -67,6 +67,9 @@ function changeStyle(styleName, link) {
 	if (link) {
 		link.className = 'selected';
 	}
+	
+	if (typeof $ != 'undefined')
+		$(window).trigger('stylesheet', styleName);
 }
 
 
@@ -198,7 +201,7 @@ function citeReply(id, with_link) {
 		// ???
 		body.value += '>>' + id + '\n';
 	}
-	if ($) {
+	if (typeof $ != 'undefined') {
 		$(window).trigger('cite', [id, with_link]);
 		$(body).change();
 	}

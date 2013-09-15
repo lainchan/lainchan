@@ -11,19 +11,21 @@
  *
  */
 
-var show_quick_reply = function(){
-	if($('div.banner').length == 0)
-		return;
-	if($('#quick-reply').length != 0)
-		return;
-
-	$('<style type="text/css">\
+var do_css = function() {
+	$('#quick-reply-css').remove();
+	
+	// Find background of reply posts
+	var dummy_reply = $('<div class="post reply"></div>').appendTo($('body'));
+	var reply_background = dummy_reply.css('background');
+	dummy_reply.remove();
+	
+	$('<style type="text/css" id="quick-reply-css">\
 	#quick-reply {\
 		position: fixed;\
 		right: 0;\
 		top: 5%;\
 		float: right;\
-		background: #D6DAF0;\
+		background: ' + reply_background + ';\
 		display: block;\
 		padding: 0 0 0 0;\
 		width: 350px;\
@@ -83,6 +85,17 @@ var show_quick_reply = function(){
 		}\
 	}\
 	</style>').appendTo($('head'));
+	
+	console.log('h');
+};
+
+var show_quick_reply = function(){
+	if($('div.banner').length == 0)
+		return;
+	if($('#quick-reply').length != 0)
+		return;
+	
+	do_css();
 	
 	var $postForm = $('form[name="post"]').clone();
 	
@@ -193,7 +206,7 @@ var show_quick_reply = function(){
 			$postForm.fadeOut(100);
 		else
 			$postForm.fadeIn(100);
-	});
+	}).on('stylesheet', do_css);
 };
 
 $(window).on('cite', function(e, id, with_link) {
