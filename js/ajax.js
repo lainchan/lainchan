@@ -42,25 +42,31 @@ $(window).ready(function() {
 						$(form).find('input[type="submit"]').val(submit_txt);
 						$(form).find('input[type="submit"]').removeAttr('disabled');
 					} else if (post_response.redirect && post_response.id) {
-						$.ajax({
-							url: post_response.redirect,
-							success: function(data) {
-								console.log(data);
-								$(data).find('div.post.reply').each(function() {
-									var id = $(this).attr('id');
-									if($('#' + id).length == 0) {
-										$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
-										$(document).trigger('new_post', this);
-									}
-								});
-								highlightReply(post_response.id);
-								document.location = '#' + post_response.id;
-								
-								$(form).find('input[type="submit"]').val(submit_txt);
-								$(form).find('input[type="submit"]').removeAttr('disabled');
-							}
-						}, 'html');
-						
+						if ($(form).find('input[name="thread"]')) {
+							document.location = post_response.redirect;
+						} else {
+							$.ajax({
+								url: post_response.redirect,
+								success: function(data) {
+									$(data).find('div.post.reply').each(function() {
+										var id = $(this).attr('id');
+										if($('#' + id).length == 0) {
+											$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
+											$(document).trigger('new_post', this);
+										}
+									});
+									highlightReply(post_response.id);
+									document.location = '#' + post_response.id;
+									
+									$(form).find('input[type="submit"]').val(submit_txt);
+									$(form).find('input[type="submit"]').removeAttr('disabled');
+									$(form).find('input[name="subject"],textarea[name="body"],input[type="file"]').val('');
+								},
+								cache: false,
+								contentType: false,
+								processData: false
+							}, 'html');
+						}
 						$(form).find('input[type="submit"]').val('Posted...');
 					} else {
 						alert(_('An unknown error occured when posting!'));
@@ -71,14 +77,14 @@ $(window).ready(function() {
 				error: function(xhr, status, er) {
 					// An error occured
 					// TODO
-					console.log('Error');
+					alert('Something went wrong!');
 				},
 				// Form data
 				data: formData,
 				cache: false,
 				contentType: false,
 				processData: false
-			}, 'html');
+			}, 'json');
 			
 			$(form).find('input[type="submit"]').val(_('Posting...'));
 			$(form).find('input[type="submit"]').attr('disabled', true);
