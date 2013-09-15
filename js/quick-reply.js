@@ -179,7 +179,7 @@ var show_quick_reply = function(){
 	
 	$postForm.attr('id', 'quick-reply');
 	
-	$postForm.appendTo($('body'));
+	$postForm.appendTo($('body')).hide();
 	
 	// Synchronise body text with original post form
 	$('#body').bind('change input propertychange', function() {
@@ -224,20 +224,23 @@ var show_quick_reply = function(){
 		$postForm.find('th').css('cursor', 'move');
 	}
 
+	$postForm.show();
 	$origPostForm = $('form[name="post"]');
 
-	$(window).scroll(function() {
-		if ($(this).width() <= 800)
-			return;
-		if ($(this).scrollTop() < $origPostForm.offset().top + $origPostForm.height() - 100)
-			$postForm.fadeOut(100);
-		else
-			$postForm.fadeIn(100);
-	}).on('stylesheet', function() {
-		do_css();
-		if ($('link#stylesheet').attr('href')) {
-			$('link#stylesheet')[0].onload = do_css;
-		}
+	$(window).ready(function() {
+		$(window).scroll(function() {
+			if ($(this).width() <= 800)
+				return;
+			if ($(this).scrollTop() < $origPostForm.offset().top + $origPostForm.height() - 100)
+				$postForm.fadeOut(100);
+			else
+				$postForm.fadeIn(100);
+		}).on('stylesheet', function() {
+			do_css();
+			if ($('link#stylesheet').attr('href')) {
+				$('link#stylesheet')[0].onload = do_css;
+			}
+		});
 	});
 };
 
