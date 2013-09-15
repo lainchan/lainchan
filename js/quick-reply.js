@@ -31,7 +31,7 @@ var do_css = function() {
 		float: right;\
 		display: block;\
 		padding: 0 0 0 0;\
-		width: 350px;\
+		width: 300px;\
 	}\
 	#quick-reply table {\
 		border-collapse: collapse;\
@@ -61,9 +61,7 @@ var do_css = function() {
 	}\
 	#quick-reply th .handle {\
 		float: left;\
-		position: absolute;\
-		left: 0;\
-		right: 30px;\
+		width: 100%;\
 		display: inline-block;\
 	}\
 	#quick-reply th .close-btn {\
@@ -97,6 +95,20 @@ var do_css = function() {
 	}\
 	#quick-reply td.submit {\
 		width: 1%;\
+	}\
+	#quick-reply td.recaptcha {\
+		text-align: center;\
+		padding: 0 0 1px 0;\
+	}\
+	#quick-reply td.recaptcha span {\
+		display: inline-block;\
+		width: 100%;\
+		background: white;\
+		border: 1px solid #ccc;\
+		cursor: pointer;\
+	}\
+	#quick-reply td.recaptcha-response {\
+		padding: 0 0 1px 0;\
 	}\
 	@media screen and (max-width: 800px) {\
 		#quick-reply {\
@@ -151,12 +163,58 @@ var show_quick_reply = function(){
 				$('<td class="submit"></td>').append($td.find('input[type="submit"]')).insertAfter($td);
 			}
 
+			// reCAPTCHA
+			if ($td.find('#recaptcha_widget_div').length) {
+				// Just show the image, and have it interact with the real form.
+				var $captchaimg = $td.find('#recaptcha_image img');
+				
+				$captchaimg
+					.removeAttr('id')
+					.removeAttr('style')
+					.addClass('recaptcha_image')
+					.click(function() {
+						$('#recaptcha_reload').click();
+					});
+				
+				// When we get a new captcha...
+				$('#recaptcha_response_field').focus(function() {
+					if ($captchaimg.attr('src') != $('#recaptcha_image img').attr('src')) {
+						$captchaimg.attr('src', $('#recaptcha_image img').attr('src'));
+						$postForm.find('input[name="recaptcha_challenge_field"]').val($('#recaptcha_challenge_field').val());
+						$postForm.find('input[name="recaptcha_response_field"]').val('').focus();
+					}
+				});
+				
+				$postForm.submit(function() {
+					setTimeout(function() {
+						$('#recaptcha_reload').click();
+					}, 200);
+				});
+				
+				// Make a new row for the response text
+				var $newRow = $('<tr><td class="recaptcha-response" colspan="2"></td></tr>');
+				$newRow.children().first().append(
+					$td.find('input').removeAttr('style')
+				);
+				$newRow.find('#recaptcha_response_field')
+					.removeAttr('id')
+					.addClass('recaptcha_response_field')
+					.attr('placeholder', $('#recaptcha_response_field').attr('placeholder'));
+				
+				$('#recaptcha_response_field').addClass('recaptcha_response_field')
+				
+				$td.replaceWith($('<td class="recaptcha" colspan="2"></td>').append($('<span></span>').append($captchaimg)));
+				
+				$newRow.insertAfter(this);
+			}
+
+			// Upload section
 			if ($td.find('input[type="file"]').length) {
 				if ($td.find('input[name="file_url"]').length) {
 					$file_url = $td.find('input[name="file_url"]');
 					
 					// Make a new row for it
-					$newRow = $('<tr><td colspan="2"></td></tr>');
+					var $newRow = $('<tr><td colspan="2"></td></tr>');
 					
 					$file_url.clone().attr('placeholder', _('Upload URL')).appendTo($newRow.find('td'));
 					$file_url.parent().remove();
@@ -195,12 +253,14 @@ var show_quick_reply = function(){
 	
 	$postForm.find('textarea[name="body"]').removeAttr('id').removeAttr('cols').attr('placeholder', _('Comment'));
 
-	$postForm.find('textarea:not([name="body"]),input[type="hidden"]').appendTo($dummyStuff);
+	$postForm.find('textarea:not([name="body"]),input[type="hidden"]').removeAttr('id').appendTo($dummyStuff);
 
 	$postForm.find('br').remove();
 	$postForm.find('table').prepend('<tr><th colspan="2">\
-		<span class="handle">' + _('Quick Reply') + '</span>\
-		<a class="close-btn" href="javascript:void(0)">X</a>\
+		<span class="handle">\
+			<a class="close-btn" href="javascript:void(0)">X</a>\
+			' + _('Quick Reply') + '\
+		</span>\
 		</th></tr>');
 	
 	$postForm.attr('id', 'quick-reply');
@@ -262,8 +322,12 @@ var show_quick_reply = function(){
 		$origPostForm.find('textarea[name="body"]').attr('id', 'body');
 		$postForm.remove();
 	});
-
-	// $postForm.show();
+	
+	// Fix bug when table gets too big for form. Shouldn't exist, but crappy CSS etc.
+	$postForm.show();
+	$postForm.width($postForm.find('table').width());
+	$postForm.hide();
+	
 	$(window).trigger('quick-reply');
 
 	$(window).ready(function() {
