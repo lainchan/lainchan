@@ -25,7 +25,7 @@ $(window).ready(function() {
 			
 			var formData = new FormData(this);
 			formData.append('json_response', '1');
-			formData.append('post', $(this).find('input[type="submit"]').val());
+			formData.append('post', submit_txt);
 
 			var updateProgress = function(e) {
 				$(form).find('input[type="submit"]').val(_('Posting... (#%)').replace('#', Math.round(e.position / e.total * 100)));
@@ -60,8 +60,10 @@ $(window).ready(function() {
 											$(document).trigger('new_post', this);
 										}
 									});
+									
 									highlightReply(post_response.id);
-									document.location = '#' + post_response.id;
+									window.location.hash = post_response.id;
+									$(window).scrollTop($('div.post#reply_' + post_response.id).offset().top);
 									
 									$(form).find('input[type="submit"]').val(submit_txt);
 									$(form).find('input[type="submit"]').removeAttr('disabled');
