@@ -60,7 +60,8 @@ $(window).ready(function() {
 									
 									$(form).find('input[type="submit"]').val(submit_txt);
 									$(form).find('input[type="submit"]').removeAttr('disabled');
-									$(form).find('input[name="subject"],textarea[name="body"],input[type="file"]').val('');
+									$(form).find('input[name="subject"],input[name="file_url"],\
+										textarea[name="body"],input[type="file"]').val('').change();
 								},
 								cache: false,
 								contentType: false,
