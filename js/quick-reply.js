@@ -85,8 +85,6 @@ var do_css = function() {
 		}\
 	}\
 	</style>').appendTo($('head'));
-	
-	console.log('h');
 };
 
 var show_quick_reply = function(){
@@ -206,7 +204,12 @@ var show_quick_reply = function(){
 			$postForm.fadeOut(100);
 		else
 			$postForm.fadeIn(100);
-	}).on('stylesheet', do_css);
+	}).on('stylesheet', function() {
+		do_css();
+		if ($('link#stylesheet').attr('href')) {
+			$('link#stylesheet')[0].onload = do_css;
+		}
+	});
 };
 
 $(window).on('cite', function(e, id, with_link) {
