@@ -7,6 +7,7 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/jquery-ui.custom.min.js'; // Optional; if you want the form to be draggable.
  *   $config['additional_javascript'][] = 'js/quick-reply.js';
  *
  */
@@ -194,7 +195,35 @@ var show_quick_reply = function(){
 	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
 		$('form[name="post"]:first [name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
-	
+
+	if (typeof $postForm.draggable != undefined) {
+		if (localStorage.quickReplyPosition) {
+			var offset = JSON.parse(localStorage.quickReplyPosition);
+			if (offset.right > $(window).width() - $postForm.width())
+				offset.right = $(window).width() - $postForm.width();
+			if (offset.top > $(window).height() - $postForm.height())
+				offset.top = $(window).height() - $postForm.height();
+			$postForm.css('right', offset.right).css('top', offset.top);
+		}
+		$postForm.draggable({
+			handle: 'th',
+			containment: 'window',
+			distance: 10,
+			opacity: 0.9,
+			scroll: false,
+			stop: function() {
+				var offset = {
+					top: $(this).offset().top - $(window).scrollTop(),
+					right: $(window).width() - $(this).offset().left - $(this).width(),
+				};
+				localStorage.quickReplyPosition = JSON.stringify(offset);
+				
+				$postForm.css('right', offset.right).css('top', offset.top).css('left', 'auto');
+			}
+		});
+		$postForm.find('th').css('cursor', 'move');
+	}
+
 	$origPostForm = $('form[name="post"]');
 
 	$(window).scroll(function() {
@@ -218,9 +247,11 @@ $(window).on('cite', function(e, id, with_link) {
 	show_quick_reply();
 	$('#quick-reply textarea').focus();
 	if (with_link) {
-		setTimeout(function() {
-			highlightReply(id);
-			$(window).scrollTop($('#' + id).offset().top);
-		}, 10);
+		$(window).ready(function() {
+			if ($('#' + id).length) {
+				highlightReply(id);
+				$(window).scrollTop($('#' + id).offset().top);
+			}
+		});
 	}
 });
