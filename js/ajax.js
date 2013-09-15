@@ -51,7 +51,7 @@ $(window).ready(function() {
 							document.location = post_response.redirect;
 						} else {
 							$.ajax({
-								url: post_response.redirect,
+								url: document.location,
 								success: function(data) {
 									$(data).find('div.post.reply').each(function() {
 										var id = $(this).attr('id');
