@@ -42,7 +42,7 @@ $(window).ready(function() {
 						$(form).find('input[type="submit"]').val(submit_txt);
 						$(form).find('input[type="submit"]').removeAttr('disabled');
 					} else if (post_response.redirect && post_response.id) {
-						if ($(form).find('input[name="thread"]')) {
+						if (!$(form).find('input[name="thread"]').length) {
 							document.location = post_response.redirect;
 						} else {
 							$.ajax({
