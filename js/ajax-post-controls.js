@@ -42,7 +42,7 @@ $(window).ready(function() {
 						if ($($(form).data('submit-btn')).attr('name') == 'report') {
 							alert(_('Reported post(s).'));
 							if ($(form).hasClass('post-actions')) {
-								$(form).parent().find('input[type="checkbox"].delete').click();
+								$(form).parents('div.post').find('input[type="checkbox"].delete').click();
 							} else {
 								$(form).find('input[name="reason"]').val('');
 							}
