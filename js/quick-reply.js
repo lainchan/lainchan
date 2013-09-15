@@ -17,7 +17,7 @@ var do_css = function() {
 	
 	// Find background of reply posts
 	var dummy_reply = $('<div class="post reply"></div>').appendTo($('body'));
-	var reply_background = dummy_reply.css('background');
+	var reply_background = dummy_reply.css('backgroundColor');
 	var reply_border_style = dummy_reply.css('borderStyle');
 	var reply_border_color = dummy_reply.css('borderColor');
 	var reply_border_width = dummy_reply.css('borderWidth');
