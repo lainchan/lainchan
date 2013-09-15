@@ -18,6 +18,9 @@ var do_css = function() {
 	// Find background of reply posts
 	var dummy_reply = $('<div class="post reply"></div>').appendTo($('body'));
 	var reply_background = dummy_reply.css('background');
+	var reply_border_style = dummy_reply.css('borderStyle');
+	var reply_border_color = dummy_reply.css('borderColor');
+	var reply_border_width = dummy_reply.css('borderWidth');
 	dummy_reply.remove();
 	
 	$('<style type="text/css" id="quick-reply-css">\
@@ -33,6 +36,9 @@ var do_css = function() {
 	#quick-reply table {\
 		border-collapse: collapse;\
 		background: ' + reply_background + ';\
+		border-style: ' + reply_border_style + ';\
+		border-width: ' + reply_border_width + ';\
+		border-color: ' + reply_border_color + ';\
 		margin: 0;\
 		width: 100%;\
 	}\
@@ -67,6 +73,7 @@ var do_css = function() {
 		-webkit-box-sizing:border-box;\
 		-moz-box-sizing: border-box;\
 		font-size: 10pt;\
+		resize: vertical;\
 	}\
 	#quick-reply input, #quick-reply select, #quick-reply textarea {\
 		margin: 0 0 1px 0;\
