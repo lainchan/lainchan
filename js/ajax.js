@@ -75,7 +75,7 @@ $(window).ready(function() {
 								processData: false
 							}, 'html');
 						}
-						$(form).find('input[type="submit"]').val('Posted...');
+						$(form).find('input[type="submit"]').val(_('Posted...'));
 					} else {
 						alert(_('An unknown error occured when posting!'));
 						$(form).find('input[type="submit"]').val(submit_txt);
@@ -96,7 +96,6 @@ $(window).ready(function() {
 					});
 					$(form).submit();
 				},
-				// Form data
 				data: formData,
 				cache: false,
 				contentType: false,

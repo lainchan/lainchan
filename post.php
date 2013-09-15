@@ -1,5 +1,7 @@
 <?php
 
+file_put_contents('post.txt', var_export($_POST, true));
+
 /*
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
@@ -139,7 +141,6 @@ if (isset($_POST['delete'])) {
 	
 	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 } elseif (isset($_POST['post'])) {
-	
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
 	
