@@ -59,6 +59,17 @@ var do_css = function() {
 		padding: 2px 0;\
 		border: 1px solid #222;\
 	}\
+	#quick-reply th .handle {\
+		float: left;\
+		position: absolute;\
+		left: 0;\
+		right: 30px;\
+		display: inline-block;\
+	}\
+	#quick-reply th .close-btn {\
+		float: right;\
+		padding: 0 5px;\
+	}\
 	#quick-reply input[type="text"] {\
 		width: 100%;\
 		padding: 2px;\
@@ -187,7 +198,10 @@ var show_quick_reply = function(){
 	$postForm.find('textarea:not([name="body"]),input[type="hidden"]').appendTo($dummyStuff);
 
 	$postForm.find('br').remove();
-	$postForm.find('table').prepend('<tr><th colspan="2">' + _('Quick Reply') + '</th></tr>');
+	$postForm.find('table').prepend('<tr><th colspan="2">\
+		<span class="handle">' + _('Quick Reply') + '</span>\
+		<a class="close-btn" href="javascript:void(0)">X</a>\
+		</th></tr>');
 	
 	$postForm.attr('id', 'quick-reply');
 	
@@ -208,7 +222,7 @@ var show_quick_reply = function(){
 		$('form[name="post"]:first [name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 
-	if (typeof $postForm.draggable != undefined) {
+	if (typeof $postForm.draggable != 'undefined') {
 		if (localStorage.quickReplyPosition) {
 			var offset = JSON.parse(localStorage.quickReplyPosition);
 			if (offset.right > $(window).width() - $postForm.width())
@@ -218,10 +232,9 @@ var show_quick_reply = function(){
 			$postForm.css('right', offset.right).css('top', offset.top);
 		}
 		$postForm.draggable({
-			handle: 'th',
+			handle: 'th .handle',
 			containment: 'window',
 			distance: 10,
-			opacity: 0.9,
 			scroll: false,
 			stop: function() {
 				var offset = {
@@ -233,8 +246,12 @@ var show_quick_reply = function(){
 				$postForm.css('right', offset.right).css('top', offset.top).css('left', 'auto');
 			}
 		});
-		$postForm.find('th').css('cursor', 'move');
+		$postForm.find('th .handle').css('cursor', 'move');
 	}
+	
+	$postForm.find('th .close-btn').click(function() {
+		$postForm.remove();
+	});
 
 	$postForm.show();
 	$(window).trigger('quick-reply');
