@@ -206,20 +206,29 @@ var show_quick_reply = function(){
 	$postForm.attr('id', 'quick-reply');
 	
 	$postForm.appendTo($('body')).hide();
+	$origPostForm = $('form[name="post"]:first');
 	
 	// Synchronise body text with original post form
-	$('#body').bind('change input propertychange', function() {
+	$origPostForm.find('textarea[name="body"]').bind('change input propertychange', function() {
 		$postForm.find('textarea[name="body"]').val($(this).val());
 	});
 	$postForm.find('textarea[name="body"]').bind('change input propertychange', function() {
-		$('#body').val($(this).val());
+		$origPostForm.find('textarea[name="body"]').val($(this).val());
+	});
+	$postForm.find('textarea[name="body"]').focus(function() {
+		$origPostForm.find('textarea[name="body"]').removeAttr('id');
+		$(this).attr('id', 'body');
+	});
+	$origPostForm.find('textarea[name="body"]').focus(function() {
+		$postForm.find('textarea[name="body"]').removeAttr('id');
+		$(this).attr('id', 'body');
 	});
 	// Synchronise other inputs
-	$('form[name="post"]:first input[type="text"],select').bind('change input propertychange', function() {
+	$origPostForm.find('input[type="text"],select').bind('change input propertychange', function() {
 		$postForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
-		$('form[name="post"]:first [name="' + $(this).attr('name') + '"]').val($(this).val());
+		$origPostForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 	});
 
 	if (typeof $postForm.draggable != 'undefined') {
@@ -255,8 +264,6 @@ var show_quick_reply = function(){
 
 	$postForm.show();
 	$(window).trigger('quick-reply');
-	
-	$origPostForm = $('form[name="post"]');
 
 	$(window).ready(function() {
 		$(window).scroll(function() {
