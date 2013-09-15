@@ -58,7 +58,7 @@ if (isset($_POST['delete'])) {
 			if ($password != '' && $post['password'] != $password)
 				error($config['error']['invalidpassword']);
 			
-			if ($post['time'] >= time() - $config['delete_time']) {
+			if ($post['time'] > time() - $config['delete_time']) {
 				error(sprintf($config['error']['delete_too_soon'], until($post['time'] + $config['delete_time'])));
 			}
 			
@@ -84,8 +84,12 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
-	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
-
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json');
+		echo json_encode(array('success' => true));
+	}
 } elseif (isset($_POST['report'])) {
 	if (!isset($_POST['board'], $_POST['password'], $_POST['reason']))
 		error($config['error']['bot']);
@@ -139,7 +143,12 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
-	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json');
+		echo json_encode(array('success' => true));
+	}
 } elseif (isset($_POST['post'])) {
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
