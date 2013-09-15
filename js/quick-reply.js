@@ -259,10 +259,11 @@ var show_quick_reply = function(){
 	}
 	
 	$postForm.find('th .close-btn').click(function() {
+		$origPostForm.find('textarea[name="body"]').attr('id', 'body');
 		$postForm.remove();
 	});
 
-	$postForm.show();
+	// $postForm.show();
 	$(window).trigger('quick-reply');
 
 	$(window).ready(function() {
@@ -278,7 +279,7 @@ var show_quick_reply = function(){
 			if ($('link#stylesheet').attr('href')) {
 				$('link#stylesheet')[0].onload = do_css;
 			}
-		});
+		}).scroll();
 	});
 };
 
