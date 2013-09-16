@@ -46,7 +46,7 @@
 						{% if ban.expires == 0 %}
 							-
 						{% else %}
-							{{ (ban.expires - ban.set + time()) | until }}
+							{{ (ban.expires - ban.created + time()) | until }}
 						{% endif %}
 					</td>
 					<td style="white-space: nowrap">

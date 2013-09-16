@@ -289,7 +289,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	}
 	
 	if ($type == 'bans') {
-		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `created` DESC';
+		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `creator` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `created` DESC';
 		$sql_table = 'bans';
 		if (!hasPermission($config['mod']['view_banlist']))
 			error($config['error']['noaccess']);
@@ -317,8 +317,9 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	
 	if ($type == 'bans') {
 		foreach ($results as &$ban) {
-			if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
-				$ban['real_ip'] = true;
+			$ban['mask'] = Bans::range_to_string(array($ban['ipstart'], $ban['ipend']));
+			if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false)
+				$ban['single_addr'] = true;
 		}
 	}
 	
