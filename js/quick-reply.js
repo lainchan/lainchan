@@ -249,9 +249,7 @@ var show_quick_reply = function(){
 				});
 			}
 			
-			$td.contents().filter(function() {
-				return this.nodeType == 3; // Node.TEXT_NODE
-			}).remove();
+			$td.find('small').hide();
 		}
 	});
 	
