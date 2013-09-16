@@ -68,7 +68,7 @@ var do_css = function() {
 		float: right;\
 		padding: 0 5px;\
 	}\
-	#quick-reply input[type="text"] {\
+	#quick-reply input[type="text"], #quick-reply select {\
 		width: 100%;\
 		padding: 2px;\
 		font-size: 10pt;\
@@ -248,6 +248,10 @@ var show_quick_reply = function(){
 					}
 				});
 			}
+			
+			$td.contents().filter(function() {
+				return this.nodeType == 3; // Node.TEXT_NODE
+			}).remove();
 		}
 	});
 	
