@@ -40,18 +40,20 @@ CREATE TABLE IF NOT EXISTS `antispam` (
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ip` varchar(39) CHARACTER SET ascii NOT NULL,
-  `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
-  `set` int(11) NOT NULL,
-  `expires` int(11) DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ipstart` varbinary(16) NOT NULL,
+  `ipend` varbinary(16) DEFAULT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `expires` int(10) unsigned DEFAULT NULL,
+  `board` varchar(58) DEFAULT NULL,
+  `creator` int(10) NOT NULL,
   `reason` text,
-  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `seen` tinyint(1) NOT NULL,
+  `post` blob,
   PRIMARY KEY (`id`),
-  KEY `ip` (`ip`),
-  KEY `seen` (`seen`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+  KEY `expires` (`expires`),
+  KEY `ipstart` (`ipstart`,`ipend`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

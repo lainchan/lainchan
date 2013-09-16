@@ -467,6 +467,11 @@ if (file_exists($config['has_installed'])) {
 				$query->bindValue(':seen', $ban['seen']);
 				$query->execute() or error(db_error($query));
 			}
+			
+			// Drop old bans table
+			query("DROP TABLE ``bans``") or error(db_error());
+			// Replace with new table
+			query("RENAME TABLE ``bans_new_temp`` TO ``bans``") or error(db_error());
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
