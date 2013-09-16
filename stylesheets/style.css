@@ -328,6 +328,11 @@ div.pages.top {
 	right: 0;
 	opacity: 0.9;
 }
+@media screen and (max-width: 800px) {
+	div.pages.top {
+		display: none !important;
+	}
+}
 div.pages a.selected {
 	color: black;
 	font-weight: bolder;
