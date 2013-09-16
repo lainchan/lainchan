@@ -289,7 +289,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	}
 	
 	if ($type == 'bans') {
-		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
+		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `created` DESC';
 		$sql_table = 'bans';
 		if (!hasPermission($config['mod']['view_banlist']))
 			error($config['error']['noaccess']);
@@ -740,9 +740,7 @@ function mod_page_ip($ip) {
 		if (!hasPermission($config['mod']['unban']))
 			error($config['error']['noaccess']);
 		
-		require_once 'inc/mod/ban.php';
-		
-		unban($_POST['ban_id']);
+		Bans::delete($_POST['ban_id'], true);
 		
 		header('Location: ?/IP/' . $ip . '#bans', true, $config['redirect_http']);
 		return;
@@ -801,10 +799,7 @@ function mod_page_ip($ip) {
 	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `set` DESC");
-		$query->bindValue(':ip', $ip);
-		$query->execute() or error(db_error($query));
-		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
+		$args['bans'] = Bans::find($ip, false, true);
 	}
 	
 	if (hasPermission($config['mod']['view_notes'])) {
@@ -839,7 +834,7 @@ function mod_ban() {
 	
 	require_once 'inc/mod/ban.php';
 	
-	ban($_POST['ip'], $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+	Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
 	
 	if (isset($_POST['redirect']))
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
@@ -865,58 +860,27 @@ function mod_bans($page_no = 1) {
 			if (preg_match('/^ban_(\d+)$/', $name, $match))
 				$unban[] = $match[1];
 		}
-		if (isset($config['mod']['unban_limit'])){
-		if (count($unban) <= $config['mod']['unban_limit'] || $config['mod']['unban_limit'] == -1){ 
-		if (!empty($unban)) {
-			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		if (isset($config['mod']['unban_limit']) && $config['mod']['unban_limit'] && count($unban) > $config['mod']['unban_limit'])
+			error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban)));
 		
-			foreach ($unban as $id) {
-				modLog("Removed ban #{$id}");
-			}
+		foreach ($unban as $id) {
+			Bans::delete($id, true);
 		}
-		} else {
-		error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban) ));
-		}
-		
-	} else {
-		
-			if (!empty($unban)) {
-			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
-		
-			foreach ($unban as $id) {
-				modLog("Removed ban #{$id}");
-			}
-		}	
-		
-	}
 		header('Location: ?/bans', true, $config['redirect_http']);
+		return;
 	}
 	
-	if ($config['mod']['view_banexpired']) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC LIMIT :offset, :limit");
-	} else {
-		// Filter out expired bans
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` INNER JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
-	}
-	$query->bindValue(':time', time(), PDO::PARAM_INT);
-	$query->bindValue(':limit', $config['mod']['banlist_page'], PDO::PARAM_INT);
-	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['banlist_page'], PDO::PARAM_INT);
-	$query->execute() or error(db_error($query));
-	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
+	$bans = Bans::list_all(($page_no - 1) * $config['mod']['banlist_page'], $config['mod']['banlist_page']);
 	
 	if (empty($bans) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM ``bans``");
-	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn();
-	
 	foreach ($bans as &$ban) {
-		if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
-			$ban['real_ip'] = true;
+		if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false)
+			$ban['single_addr'] = true;
 	}
 	
-	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
+	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => Bans::count()));
 }
 
 
@@ -1217,7 +1181,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		if (isset($_POST['ip']))
 			$ip = $_POST['ip'];
 		
-		ban($ip, $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+		Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
 		
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message

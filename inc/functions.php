@@ -18,6 +18,7 @@ require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
+require_once 'inc/bans.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
 // the user is not currently logged in as a moderator
@@ -619,9 +620,7 @@ function displayBan($ban) {
 	global $config;
 
 	if (!$ban['seen']) {
-		$query = prepare("UPDATE ``bans`` SET `seen` = 1 WHERE `id` = :id");
-		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
+		Bans::seen($ban['id']);
 	}
 
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
@@ -650,62 +649,37 @@ function checkBan($board = false) {
 	if (event('check-ban', $board))
 		return true;
 	
-	$query_where = array();
-	// Simple ban
-	$query_where[] = "`ip` = :ip";
-	// Range ban
-	if ($config['ban_range'])
-		$query_where[] = ":ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!'";
-	// Subnet mask ban
-	if ($config['ban_cidr'] && !isIPv6())
-		$query_where[] = "(					
-			`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
-				AND
-			:iplong >= INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1))
-				AND
-			:iplong < INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) + POW(2, 32 - SUBSTRING_INDEX(`ip`, '/', -1))
-		)";
+	$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board);
 	
-	$query = prepare('SELECT * FROM ``bans`` WHERE (`board` IS NULL' . ($board ? ' OR `board` = :board' : '') .
-		') AND (' . implode(' OR ', $query_where) . ') ORDER BY `expires` IS NULL, `expires` DESC');
-	if ($board)
-		$query->bindValue(':board', $board);
-	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	if ($config['ban_cidr'] && !isIPv6())
-		$query->bindValue(':iplong', ip2long($_SERVER['REMOTE_ADDR']));
-	$query->execute() or error(db_error($query));
-	
-	while ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
+	foreach ($bans as &$ban) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
-			// Ban expired
-			$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
-			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-			$query->execute() or error(db_error($query));
-
+			Bans::delete($ban['id']);
 			if ($config['require_ban_view'] && !$ban['seen']) {
-				displayBan($ban);
+				if (!isset($_POST['json_response'])) {
+					displayBan($ban);
+				} else {
+					header('Content-Type: text/json');
+					die(json_encode(array('error' => true, 'banned' => true)));
+				}
 			}
 		} else {
-			displayBan($ban);
+			if (!isset($_POST['json_response'])) {
+				displayBan($ban);
+			} else {
+				header('Content-Type: text/json');
+				die(json_encode(array('error' => true, 'banned' => true)));
+			}
 		}
 	}
 
-	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
-	purge_bans();
-}
-
-// No reason to keep expired bans in the database (except those that haven't been viewed yet)
-function purge_bans() {
-	global $config;
-	
+	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every
+	// now and then to keep the ban list tidy.
 	if ($config['cache']['enabled'] && $last_time_purged = cache::get('purged_bans_last')) {
 		if (time() - $last_time_purged < $config['purge_bans'] )
 			return;
 	}
 	
-	$query = prepare("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
-	$query->bindValue(':time', time());
-	$query->execute() or error(db_error($query));
+	Bans::purge();
 	
 	if ($config['cache']['enabled'])
 		cache::set('purged_bans_last', time());

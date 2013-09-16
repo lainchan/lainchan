@@ -120,47 +120,13 @@ class Filter {
 				if (!isset($this->reason))
 					error('The ban action requires a reason.');
 				
-				$reason = $this->reason;
+				$this->expires = isset($this->expires) ? $this->expires : false;
+				$this->reject = isset($this->reject) ? $this->reject : true;
+				$this->all_boards = isset($this->all_boards) ? $this->all_boards : false;
 				
-				if (isset($this->expires))
-					$expires = time() + $this->expires;
-				else
-					$expires = 0; // Ban indefinitely
+				Bans::new_ban($_SERVER['REMOTE_ADDR'], $this->reason, $this->expires, $this->all_boards ? false : $board['uri'], -1);
 				
-				if (isset($this->reject))
-					$reject = $this->reject;
-				else
-					$reject = true;
-				
-				if (isset($this->all_boards))
-					$all_boards = $this->all_boards;
-				else
-					$all_boards = false;
-				
-				$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ip, :mod, :set, :expires, :reason, :board, 0)");
-				$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-				$query->bindValue(':mod', -1);
-				$query->bindValue(':set', time());
-				
-				if ($expires)
-					$query->bindValue(':expires', $expires);
-				else
-					$query->bindValue(':expires', null, PDO::PARAM_NULL);
-				
-				if ($reason)
-					$query->bindValue(':reason', $reason);
-				else
-					$query->bindValue(':reason', null, PDO::PARAM_NULL);
-				
-				
-				if ($all_boards)
-					$query->bindValue(':board', null, PDO::PARAM_NULL);
-				else
-					$query->bindValue(':board', $board['uri']);
-				
-				$query->execute() or error(db_error($query));
-				
-				if ($reject) {
+				if ($this->reject) {
 					if (isset($this->message))
 						error($message);
 					

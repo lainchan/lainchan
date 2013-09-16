@@ -1052,8 +1052,8 @@
  * ====================
  */
 
-	// Limit how many bans can be removed via the ban list. Set to -1 for no limit.
-	$config['mod']['unban_limit'] = -1;
+	// Limit how many bans can be removed via the ban list. Set to false (or zero) for no limit.
+	$config['mod']['unban_limit'] = false;
 
 	// Whether or not to lock moderator sessions to IP addresses. This makes cookie theft ineffective.
 	$config['mod']['lock_ip'] = true;
@@ -1097,14 +1097,6 @@
 	//	'color:red;font-weight:bold', // Change name style; optional
 	//	'color:red;font-weight:bold' // Change tripcode style; optional
 	//);
-
-	// Enable IP range bans (eg. "127.*.0.1", "127.0.0.*", and "12*.0.0.1" all match "127.0.0.1"). Puts a
-	// little more load on the database
-	$config['ban_range'] = true;
-
-	// Enable CDIR netmask bans (eg. "10.0.0.0/8" for 10.0.0.0.0 - 10.255.255.255). Useful for stopping
-	// persistent spammers and ban evaders. Again, a little more database load.
-	$config['ban_cidr'] = true;
 
 	// How often (minimum) to purge the ban list of expired bans (which have been seen). Only works when
 	//  $config['cache'] is enabled and working.

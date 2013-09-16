@@ -43,9 +43,23 @@ $(window).ready(function() {
 				},
 				success: function(post_response) {
 					if (post_response.error) {
-						alert(post_response.error);
-						$(form).find('input[type="submit"]').val(submit_txt);
-						$(form).find('input[type="submit"]').removeAttr('disabled');
+						if (post_response.banned) {
+							// You are banned. Must post the form normally so the user can see the ban message.
+							do_not_ajax = true;
+							$(form).find('input[type="submit"]').each(function() {
+								var $replacement = $('<input type="hidden">');
+								$replacement.attr('name', $(this).attr('name'));
+								$replacement.val(submit_txt);
+								$(this)
+									.after($replacement)
+									.replaceWith($('<input type="button">').val(submit_txt));
+							});
+							$(form).submit();
+						} else {
+							alert(post_response.error);
+							$(form).find('input[type="submit"]').val(submit_txt);
+							$(form).find('input[type="submit"]').removeAttr('disabled');
+						}
 					} else if (post_response.redirect && post_response.id) {
 						if (!$(form).find('input[name="thread"]').length) {
 							document.location = post_response.redirect;
@@ -84,7 +98,6 @@ $(window).ready(function() {
 				},
 				error: function(xhr, status, er) {
 					// An error occured
-					// TODO
 					do_not_ajax = true;
 					$(form).find('input[type="submit"]').each(function() {
 						var $replacement = $('<input type="hidden">');

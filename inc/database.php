@@ -22,7 +22,7 @@ class PreparedQueryDebug {
 		
 		if ($config['debug'] && $function == 'execute') {
 			if ($this->explain_query) {
-				$this->explain_query->execute() or error(db_error($explain_query));
+				$this->explain_query->execute() or error(db_error($this->explain_query));
 			}
 			$start = microtime(true);
 		}

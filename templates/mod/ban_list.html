@@ -17,10 +17,10 @@
 				<tr{% if ban.expires != 0 and ban.expires < time() %} style="text-decoration:line-through"{% endif %}>
 					<td style="white-space: nowrap">
 						<input type="checkbox" name="ban_{{ ban.id }}"> 
-						{% if ban.real_ip %}
-							<a href="?/IP/{{ ban.ip }}">{{ ban.ip }}</a>
+						{% if ban.single_addr %}
+							<a href="?/IP/{{ ban.mask }}">{{ ban.mask }}</a>
 						{% else %}
-							{{ ban.ip|e }}
+							{{ ban.mask }}
 						{% endif %}
 					</td>
 					<td>
@@ -38,8 +38,8 @@
 						{% endif %}					
 					</td>
 					<td style="white-space: nowrap">
-						<span title="{{ ban.set|date(config.post_date) }}">
-							{{ ban.set|ago }} ago
+						<span title="{{ ban.created|date(config.post_date) }}">
+							{{ ban.created|ago }} ago
 						</span>
 					</td>
 					<td style="white-space: nowrap">
@@ -77,7 +77,7 @@
 							
 								{% endif %}
 							{% endif %}
-						{% elseif ban.mod == -1 %}
+						{% elseif ban.creator == -1 %}
 							<em>system</em>
 						{% else %}
 							<em>{% trans 'deleted?' %}</em>
