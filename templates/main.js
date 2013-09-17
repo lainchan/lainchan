@@ -67,6 +67,9 @@ function changeStyle(styleName, link) {
 	if (link) {
 		link.className = 'selected';
 	}
+	
+	if (typeof $ != 'undefined')
+		$(window).trigger('stylesheet', styleName);
 }
 
 
@@ -181,22 +184,28 @@ function dopost(form) {
 	return form.elements['body'].value != "" || form.elements['file'].value != "" || (form.elements.file_url && form.elements['file_url'].value != "");
 }
 
-function citeReply(id) {
-	var body = document.getElementById('body');
+function citeReply(id, with_link) {
+	var textarea = document.getElementById('body');
 	
 	if (document.selection) {
 		// IE
-		body.focus();
+		textarea.focus();
 		var sel = document.selection.createRange();
 		sel.text = '>>' + id + '\n';
-	} else if (body.selectionStart || body.selectionStart == '0') {
-		// Mozilla
-		var start = body.selectionStart;
-		var end = body.selectionEnd;
-		body.value = body.value.substring(0, start) + '>>' + id + '\n' + body.value.substring(end, body.value.length);
+	} else if (textarea.selectionStart || textarea.selectionStart == '0') {
+		var start = textarea.selectionStart;
+		var end = textarea.selectionEnd;
+		textarea.value = textarea.value.substring(0, start) + '>>' + id + '\n' + textarea.value.substring(end, textarea.value.length);
+		
+		textarea.selectionStart += ('>>' + id).length + 1;
+		textarea.selectionEnd = textarea.selectionStart;
 	} else {
 		// ???
-		body.value += '>>' + id + '\n';
+		textarea.value += '>>' + id + '\n';
+	}
+	if (typeof $ != 'undefined') {
+		$(window).trigger('cite', [id, with_link]);
+		$(textarea).change();
 	}
 }
 
@@ -214,7 +223,7 @@ function rememberStuff() {
 			document.forms.post.elements['email'].value = localStorage.email;
 		
 		if (window.location.hash.indexOf('q') == 1)
-			citeReply(window.location.hash.substring(2));
+			citeReply(window.location.hash.substring(2), true);
 		
 		if (sessionStorage.body) {
 			var saved = JSON.parse(sessionStorage.body);

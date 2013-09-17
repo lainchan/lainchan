@@ -4,10 +4,7 @@
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
 
-if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
-	// You cannot request this file directly.
-	exit;
-}
+defined('TINYBOARD') or exit;
 
 function mod_page($title, $template, $args, $subtitle = false) {
 	global $config, $mod;
@@ -18,6 +15,7 @@ function mod_page($title, $template, $args, $subtitle = false) {
 		'hide_dashboard_link' => $template == 'mod/dashboard.html',
 		'title' => $title,
 		'subtitle' => $subtitle,
+		'nojavascript' => true,
 		'body' => Element($template,
 				array_merge(
 					array('config' => $config, 'mod' => $mod), 
@@ -291,7 +289,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	}
 	
 	if ($type == 'bans') {
-		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `set` DESC';
+		$query = 'SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `creator` = ``mods``.`id` WHERE ' . $sql_like . ' ORDER BY (`expires` IS NOT NULL AND `expires` < UNIX_TIMESTAMP()), `created` DESC';
 		$sql_table = 'bans';
 		if (!hasPermission($config['mod']['view_banlist']))
 			error($config['error']['noaccess']);
@@ -319,8 +317,9 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	
 	if ($type == 'bans') {
 		foreach ($results as &$ban) {
-			if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
-				$ban['real_ip'] = true;
+			$ban['mask'] = Bans::range_to_string(array($ban['ipstart'], $ban['ipend']));
+			if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false)
+				$ban['single_addr'] = true;
 		}
 	}
 	
@@ -752,9 +751,7 @@ function mod_page_ip($ip) {
 		if (!hasPermission($config['mod']['unban']))
 			error($config['error']['noaccess']);
 		
-		require_once 'inc/mod/ban.php';
-		
-		unban($_POST['ban_id']);
+		Bans::delete($_POST['ban_id'], true);
 		
 		header('Location: ?/IP/' . $ip . '#bans', true, $config['redirect_http']);
 		return;
@@ -813,10 +810,7 @@ function mod_page_ip($ip) {
 	$args['token'] = make_secure_link_token('ban');
 	
 	if (hasPermission($config['mod']['view_ban'])) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `ip` = :ip ORDER BY `set` DESC");
-		$query->bindValue(':ip', $ip);
-		$query->execute() or error(db_error($query));
-		$args['bans'] = $query->fetchAll(PDO::FETCH_ASSOC);
+		$args['bans'] = Bans::find($ip, false, true);
 	}
 	
 	if (hasPermission($config['mod']['view_notes'])) {
@@ -851,7 +845,7 @@ function mod_ban() {
 	
 	require_once 'inc/mod/ban.php';
 	
-	ban($_POST['ip'], $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+	Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
 	
 	if (isset($_POST['redirect']))
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
@@ -877,58 +871,27 @@ function mod_bans($page_no = 1) {
 			if (preg_match('/^ban_(\d+)$/', $name, $match))
 				$unban[] = $match[1];
 		}
-		if (isset($config['mod']['unban_limit'])){
-		if (count($unban) <= $config['mod']['unban_limit'] || $config['mod']['unban_limit'] == -1){ 
-		if (!empty($unban)) {
-			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
+		if (isset($config['mod']['unban_limit']) && $config['mod']['unban_limit'] && count($unban) > $config['mod']['unban_limit'])
+			error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban)));
 		
-			foreach ($unban as $id) {
-				modLog("Removed ban #{$id}");
-			}
+		foreach ($unban as $id) {
+			Bans::delete($id, true);
 		}
-		} else {
-		error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban) ));
-		}
-		
-	} else {
-		
-			if (!empty($unban)) {
-			query('DELETE FROM ``bans`` WHERE `id` = ' . implode(' OR `id` = ', $unban)) or error(db_error());
-		
-			foreach ($unban as $id) {
-				modLog("Removed ban #{$id}");
-			}
-		}	
-		
-	}
 		header('Location: ?/bans', true, $config['redirect_http']);
+		return;
 	}
 	
-	if ($config['mod']['view_banexpired']) {
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` ORDER BY (`expires` IS NOT NULL AND `expires` < :time), `set` DESC LIMIT :offset, :limit");
-	} else {
-		// Filter out expired bans
-		$query = prepare("SELECT ``bans``.*, `username` FROM ``bans`` INNER JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `expires` = 0 OR `expires` > :time ORDER BY `set` DESC LIMIT :offset, :limit");
-	}
-	$query->bindValue(':time', time(), PDO::PARAM_INT);
-	$query->bindValue(':limit', $config['mod']['banlist_page'], PDO::PARAM_INT);
-	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['banlist_page'], PDO::PARAM_INT);
-	$query->execute() or error(db_error($query));
-	$bans = $query->fetchAll(PDO::FETCH_ASSOC);
+	$bans = Bans::list_all(($page_no - 1) * $config['mod']['banlist_page'], $config['mod']['banlist_page']);
 	
 	if (empty($bans) && $page_no > 1)
 		error($config['error']['404']);
 	
-	$query = prepare("SELECT COUNT(*) FROM ``bans``");
-	$query->execute() or error(db_error($query));
-	$count = $query->fetchColumn();
-	
 	foreach ($bans as &$ban) {
-		if (filter_var($ban['ip'], FILTER_VALIDATE_IP) !== false)
-			$ban['real_ip'] = true;
+		if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false)
+			$ban['single_addr'] = true;
 	}
 	
-	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => $count));
+	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => Bans::count()));
 }
 
 
@@ -1327,7 +1290,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		if (isset($_POST['ip']))
 			$ip = $_POST['ip'];
 		
-		ban($ip, $_POST['reason'], parse_time($_POST['length']), $_POST['board'] == '*' ? false : $_POST['board']);
+		Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
 		
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message
@@ -1740,8 +1703,8 @@ function mod_user_new() {
 			}
 		}
 		
-		$_POST['type'] = (int) $_POST['type'];
-		if ($_POST['type'] !== JANITOR && $_POST['type'] !== MOD && $_POST['type'] !== ADMIN)
+		$type = (int)$_POST['type'];
+		if (!isset($config['mod']['groups'][$type]) || $type == DISABLED)
 			error(sprintf($config['error']['invalidfield'], 'type'));
 		
 		$salt = generate_salt();
@@ -1751,7 +1714,7 @@ function mod_user_new() {
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':password', $password);
 		$query->bindValue(':salt', $salt);
-		$query->bindValue(':type', $_POST['type']);
+		$query->bindValue(':type', $type);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
 		
@@ -1785,11 +1748,39 @@ function mod_user_promote($uid, $action) {
 	if (!hasPermission($config['mod']['promoteusers']))
 		error($config['error']['noaccess']);
 	
-	$query = prepare("UPDATE ``mods`` SET `type` = `type` " . ($action == 'promote' ? "+1 WHERE `type` < " . (int)ADMIN : "-1 WHERE `type` > " . (int)JANITOR) . " AND `id` = :id");
+	$query = prepare("SELECT `type`, `username` FROM ``mods`` WHERE `id` = :id");
 	$query->bindValue(':id', $uid);
 	$query->execute() or error(db_error($query));
 	
-	modLog(($action == 'promote' ? 'Promoted' : 'Demoted') . " user #{$uid}");
+	if (!$mod = $query->fetch(PDO::FETCH_ASSOC))
+		error($config['error']['404']);
+	
+	$new_group = false;
+	
+	$groups = $config['mod']['groups'];
+	if ($action == 'demote')
+		$groups = array_reverse($groups, true);
+	
+	foreach ($groups as $group_value => $group_name) {
+		if ($action == 'promote' && $group_value > $mod['type']) {
+			$new_group = $group_value;
+			break;
+		} elseif ($action == 'demote' && $group_value < $mod['type']) {
+			$new_group = $group_value;
+			break;
+		}
+	}
+	
+	if ($new_group === false || $new_group == DISABLED)
+		error(_('Impossible to promote/demote user.'));
+	
+	$query = prepare("UPDATE ``mods`` SET `type` = :group_value WHERE `id` = :id");
+	$query->bindValue(':id', $uid);
+	$query->bindValue(':group_value', $new_group);
+	$query->execute() or error(db_error($query));
+	
+	modLog(($action == 'promote' ? 'Promoted' : 'Demoted') . ' user "' .
+		utf8tohtml($mod['username']) . '" to ' . $config['mod']['groups'][$new_group]);
 	
 	header('Location: ?/users', true, $config['redirect_http']);
 }
@@ -1922,7 +1913,7 @@ function mod_rebuild() {
 	
 	if (isset($_POST['rebuild'])) {
 		@set_time_limit($config['mod']['rebuild_timelimit']);
-		
+				
 		$log = array();
 		$boards = listBoards();
 		$rebuilt_scripts = array();
@@ -1954,6 +1945,7 @@ function mod_rebuild() {
 				continue;
 			
 			openBoard($board['uri']);
+			$config['try_smarter'] = false;
 			
 			if (isset($_POST['rebuild_index'])) {
 				buildIndex();
@@ -2180,14 +2172,8 @@ function mod_config($board_config = false) {
 				
 				
 				$config_append .= ' = ';
-				if (@$var['permissions'] && in_array($value, array(JANITOR, MOD, ADMIN, DISABLED))) {
-					$perm_array = array(
-						JANITOR => 'JANITOR',
-						MOD => 'MOD',
-						ADMIN => 'ADMIN',
-						DISABLED => 'DISABLED'
-					);
-					$config_append .= $perm_array[$value];
+				if (@$var['permissions'] && isset($config['mod']['groups'][$value])) {
+					$config_append .= $config['mod']['groups'][$value];
 				} else {
 					$config_append .= var_export($value, true);
 				}
@@ -2417,11 +2403,21 @@ function mod_debug_recent_posts() {
 	$query = query($query) or error(db_error());
 	$posts = $query->fetchAll(PDO::FETCH_ASSOC);
 	
+	// Fetch recent posts from flood prevention cache
+	$query = query("SELECT * FROM ``flood`` ORDER BY `time` DESC") or error(db_error());
+	$flood_posts = $query->fetchAll(PDO::FETCH_ASSOC);
+	
 	foreach ($posts as &$post) {
 		$post['snippet'] = pm_snippet($post['body']);
+		foreach ($flood_posts as $flood_post) {
+			if ($flood_post['time'] == $post['time'] &&
+				$flood_post['posthash'] == make_comment_hex($post['body_nomarkup']) &&
+				$flood_post['filehash'] == $post['filehash'])
+				$post['in_flood_table'] = true;
+		}
 	}
 	
-	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts));
+	mod_page(_('Debug: Recent posts'), 'mod/debug/recent_posts.html', array('posts' => $posts, 'flood_posts' => $flood_posts));
 }
 
 function mod_debug_sql() {

@@ -3,6 +3,7 @@
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
 
+defined('TINYBOARD') or exit;
 
 /**
  * Class for generating json API compatible with 4chan API

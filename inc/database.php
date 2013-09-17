@@ -4,26 +4,31 @@
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
 
-if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
-	// You cannot request this file directly.
-	exit;
-}
+defined('TINYBOARD') or exit;
 
 class PreparedQueryDebug {
-	protected $query;
+	protected $query, $explain_query = false;
 	
 	public function __construct($query) {
-		global $pdo;
+		global $pdo, $config;
 		$query = preg_replace("/[\n\t]+/", ' ', $query);
 		
 		$this->query = $pdo->prepare($query);
+		if ($config['debug'] && $config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /i', $query))
+			$this->explain_query = $pdo->prepare("EXPLAIN $query");
 	}
 	public function __call($function, $args) {
 		global $config, $debug;
 		
 		if ($config['debug'] && $function == 'execute') {
+			if ($this->explain_query) {
+				$this->explain_query->execute() or error(db_error($this->explain_query));
+			}
 			$start = microtime(true);
 		}
+		
+		if ($this->explain_query && $function == 'bindValue')
+			call_user_func_array(array($this->explain_query, $function), $args);
 		
 		$return = call_user_func_array(array($this->query, $function), $args);
 		
@@ -32,6 +37,7 @@ class PreparedQueryDebug {
 			$debug['sql'][] = array(
 				'query' => $this->query->queryString,
 				'rows' => $this->query->rowCount(),
+				'explain' => $this->explain_query ? $this->explain_query->fetchAll(PDO::FETCH_ASSOC) : null,
 				'time' => '~' . round($time * 1000, 2) . 'ms'
 			);
 			$debug['time']['db_queries'] += $time;
@@ -121,6 +127,9 @@ function query($query) {
 	sql_open();
 	
 	if ($config['debug']) {
+		if ($config['debug_explain'] && preg_match('/^(SELECT|INSERT|UPDATE|DELETE) /i', $query)) {
+			$explain = $pdo->query("EXPLAIN $query") or error(db_error());
+		}
 		$start = microtime(true);
 		$query = $pdo->query($query);
 		if (!$query)
@@ -129,6 +138,7 @@ function query($query) {
 		$debug['sql'][] = array(
 			'query' => $query->queryString,
 			'rows' => $query->rowCount(),
+			'explain' => isset($explain) ? $explain->fetchAll(PDO::FETCH_ASSOC) : null,
 			'time' => '~' . round($time * 1000, 2) . 'ms'
 		);
 		$debug['time']['db_queries'] += $time;

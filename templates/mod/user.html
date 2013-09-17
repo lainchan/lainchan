@@ -28,21 +28,15 @@
 		</tr>
 		{% if new %}
 			<tr>
-				<th>{% trans 'Class' %}</th>
+				<th>{% trans 'Group' %}</th>
 				<td>
 					<ul style="padding:5px 8px;list-style:none">
-						<li>
-							<input type="radio" name="type" id="janitor" value="{{ constant('JANITOR') }}"> 
-							<label for="janitor">{% trans 'Janitor' %}</label>
-						</li>
-						<li>
-							<input type="radio" name="type" id="mod" value="{{ constant('MOD') }}" checked> 
-							<label for="mod">{% trans 'Mod' %}</label>
-						</li>
-						<li>
-							<input type="radio" name="type" id="admin" value="{{ constant('Admin') }}"> 
-							<label for="admin">{% trans 'Admin' %}</label>
-						</li>
+						{% for group_value, group_name in config.mod.groups if group_name != 'Disabled' %}
+							<li>
+								<input type="radio" name="type" id="group_{{ group_name }}" value="{{ group_value }}"> 
+								<label for="group_{{ group_name }}">{% trans group_name %}</label>
+							</li>
+						{% endfor %}
 					</ul>
 				</td>
 			</tr>

@@ -15,9 +15,10 @@
 			<td><small>{{ user.id }}</small></td>
 			<td>{{ user.username|e }}</td>
 			<td>
-				{% if user.type == constant('JANITOR') %}{% trans 'Janitor' %}
-				{% elseif user.type == constant('MOD') %}{% trans 'Mod' %}
-				{% elseif user.type == constant('ADMIN') %}{% trans 'Admin' %}
+				{% if config.mod.groups[user.type] %}
+					{{ config.mod.groups[user.type] }}
+				{% else %}
+					<em>{% trans 'Unknown' %}</em> ({{ user.type }})
 				{% endif %}
 			</td>
 			<td>
@@ -46,11 +47,11 @@
 				</td>
 			{% endif %}
 			<td>
-				{% if mod|hasPermission(config.mod.promoteusers) and user.type < constant('ADMIN') %}
+				{% if mod|hasPermission(config.mod.promoteusers) and user.type < constant(config.mod.groups[0:-1]|last) %}
 					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/promote" title="{% trans 'Promote' %}">&#9650;</a> 
 				{% endif %}
-				{% if mod|hasPermission(config.mod.promoteusers) and user.type > constant('JANITOR') %}
-					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/demote" title="{% trans 'Demote' %}">&#9660;</a> 
+				{% if mod|hasPermission(config.mod.promoteusers) and user.type > constant(config.mod.groups|first) %}
+					<a style="float:left;text-decoration:none" href="?/users/{{ user.id }}/demote" title="{% trans 'Demote' %}"{% if mod.id == user.id %} onclick="return confirm('{% trans 'Are you sure you want to demote yourself?' %}')"{% endif %}>&#9660;</a> 
 				{% endif %}
 				{% if mod|hasPermission(config.mod.modlog) %}
 					<a class="unimportant" style="margin-left:5px;float:right" href="?/log:{{ user.username|e }}">[{% trans 'log' %}]</a> 

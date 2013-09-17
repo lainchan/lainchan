@@ -63,6 +63,8 @@ $(document).ready(function(){
 				post_form.appendTo($(this).parent().parent());
 				//post_form.insertBefore($(this));
 			}
+			
+			$(window).trigger('quick-post-controls', post_form);
 		} else {
 			var elm = $(this).parent().parent().find('form');
 			

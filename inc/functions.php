@@ -9,6 +9,8 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
+define('TINYBOARD', null);
+
 $microtime_start = microtime(true);
 
 require_once 'inc/display.php';
@@ -16,6 +18,7 @@ require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
+require_once 'inc/bans.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
 // the user is not currently logged in as a moderator
@@ -92,7 +95,7 @@ function loadConfig() {
 	if (!isset($config['referer_match']))
 		if (isset($_SERVER['HTTP_HOST'])) {
 			$config['referer_match'] = '/^' .
-				(preg_match($config['url_regex'], $config['root']) ? '' :
+				(preg_match('@^https?://@', $config['root']) ? '' :
 					'https?:\/\/' . $_SERVER['HTTP_HOST']) .
 					preg_quote($config['root'], '/') .
 				'(' .
@@ -264,6 +267,15 @@ function verbose_error_handler($errno, $errstr, $errfile, $errline) {
 		'error' => $errstr,
 		'backtrace' => array_slice(debug_backtrace(), 1)
 	));
+}
+
+function define_groups() {
+	global $config;
+
+	foreach ($config['mod']['groups'] as $group_value => $group_name)
+		defined($group_name) or define($group_name, $group_value, true);
+	
+	ksort($config['mod']['groups']);
 }
 
 function create_antibot($board, $thread = null) {
@@ -573,30 +585,6 @@ function listBoards() {
 	return $boards;
 }
 
-function checkFlood($post) {
-	global $board, $config;
-
-	$query = prepare(sprintf("SELECT COUNT(*) FROM ``posts_%s`` WHERE
-		(`ip` = :ip AND `time` >= :floodtime)
-			OR
-		(`ip` = :ip AND :body != '' AND `body_nomarkup` = :body AND `time` >= :floodsameiptime)
-			OR
-		(:body != '' AND `body_nomarkup` = :body AND `time` >= :floodsametime) LIMIT 1", $board['uri']));
-	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	$query->bindValue(':body', $post['body']);
-	$query->bindValue(':floodtime', time()-$config['flood_time'], PDO::PARAM_INT);
-	$query->bindValue(':floodsameiptime', time()-$config['flood_time_ip'], PDO::PARAM_INT);
-	$query->bindValue(':floodsametime', time()-$config['flood_time_same'], PDO::PARAM_INT);
-	$query->execute() or error(db_error($query));
-	
-	$flood = (bool) $query->fetchColumn();
-
-	if (event('check-flood', $post))
-		return true;
-
-	return $flood;
-}
-
 function until($timestamp) {
 	$difference = $timestamp - time();
 	if ($difference < 60) {
@@ -635,9 +623,7 @@ function displayBan($ban) {
 	global $config;
 
 	if (!$ban['seen']) {
-		$query = prepare("UPDATE ``bans`` SET `seen` = 1 WHERE `id` = :id");
-		$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-		$query->execute() or error(db_error($query));
+		Bans::seen($ban['id']);
 	}
 
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
@@ -655,7 +641,7 @@ function displayBan($ban) {
 	));
 }
 
-function checkBan($board = 0) {
+function checkBan($board = false) {
 	global $config;
 
 	if (!isset($_SERVER['REMOTE_ADDR'])) {
@@ -665,67 +651,38 @@ function checkBan($board = 0) {
 
 	if (event('check-ban', $board))
 		return true;
-
-	$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND `ip` = :ip ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-	$query->bindValue(':board', $board);
-	$query->execute() or error(db_error($query));
-	if ($query->rowCount() < 1 && $config['ban_range']) {
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, `id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board) AND :ip LIKE REPLACE(REPLACE(`ip`, '%', '!%'), '*', '%') ESCAPE '!' ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-		$query->bindValue(':board', $board);
-		$query->execute() or error(db_error($query));
-	}
-
-	if ($query->rowCount() < 1 && $config['ban_cidr'] && !isIPv6()) {
-		// my most insane SQL query yet
-		$query = prepare("SELECT `set`, `expires`, `reason`, `board`, `seen`, ``bans``.`id` FROM ``bans`` WHERE (`board` IS NULL OR `board` = :board)
-			AND (					
-				`ip` REGEXP '^(\[0-9]+\.\[0-9]+\.\[0-9]+\.\[0-9]+\)\/(\[0-9]+)$'
-					AND
-				:ip >= INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1))
-					AND
-				:ip < INET_ATON(SUBSTRING_INDEX(`ip`, '/', 1)) + POW(2, 32 - SUBSTRING_INDEX(`ip`, '/', -1))
-			)
-			ORDER BY `expires` IS NULL DESC, `expires` DESC LIMIT 1");
-		$query->bindValue(':ip', ip2long($_SERVER['REMOTE_ADDR']));
-		$query->bindValue(':board', $board);
-		$query->execute() or error(db_error($query));
-	}
-
-	if ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
-		if ($ban['expires'] && $ban['expires'] < time()) {
-			// Ban expired
-			$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
-			$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-			$query->execute() or error(db_error($query));
-
-			if ($config['require_ban_view'] && !$ban['seen']) {
-				displayBan($ban);
-			}
-
-			return;
-		}
-
-		displayBan($ban);
-	}
-
-	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every now and then to keep the ban list tidy.
-	purge_bans();
-}
-
-// No reason to keep expired bans in the database (except those that haven't been viewed yet)
-function purge_bans() {
-	global $config;
 	
+	$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board);
+	
+	foreach ($bans as &$ban) {
+		if ($ban['expires'] && $ban['expires'] < time()) {
+			Bans::delete($ban['id']);
+			if ($config['require_ban_view'] && !$ban['seen']) {
+				if (!isset($_POST['json_response'])) {
+					displayBan($ban);
+				} else {
+					header('Content-Type: text/json');
+					die(json_encode(array('error' => true, 'banned' => true)));
+				}
+			}
+		} else {
+			if (!isset($_POST['json_response'])) {
+				displayBan($ban);
+			} else {
+				header('Content-Type: text/json');
+				die(json_encode(array('error' => true, 'banned' => true)));
+			}
+		}
+	}
+
+	// I'm not sure where else to put this. It doesn't really matter where; it just needs to be called every
+	// now and then to keep the ban list tidy.
 	if ($config['cache']['enabled'] && $last_time_purged = cache::get('purged_bans_last')) {
 		if (time() - $last_time_purged < $config['purge_bans'] )
 			return;
 	}
 	
-	$query = prepare("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < :time AND `seen` = 1");
-	$query->bindValue(':time', time());
-	$query->execute() or error(db_error($query));
+	Bans::purge();
 	
 	if ($config['cache']['enabled'])
 		cache::set('purged_bans_last', time());
@@ -781,6 +738,22 @@ function threadExists($id) {
 	return false;
 }
 
+function insertFloodPost(array $post) {
+	global $board;
+	
+	$query = prepare("INSERT INTO ``flood`` VALUES (NULL, :ip, :board, :time, :posthash, :filehash, :isreply)");
+	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+	$query->bindValue(':board', $board['uri']);
+	$query->bindValue(':time', time());
+	$query->bindValue(':posthash', make_comment_hex($post['body_nomarkup']));
+	if ($post['has_file'])
+		$query->bindValue(':filehash', $post['filehash']);
+	else
+		$query->bindValue(':filehash', null, PDO::PARAM_NULL);
+	$query->bindValue(':isreply', !$post['op'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+}
+
 function post(array $post) {
 	global $pdo, $board;
 	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
@@ -789,19 +762,19 @@ function post(array $post) {
 	if (!empty($post['subject'])) {
 		$query->bindValue(':subject', $post['subject']);
 	} else {
-		$query->bindValue(':subject', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':subject', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['email'])) {
 		$query->bindValue(':email', $post['email']);
 	} else {
-		$query->bindValue(':email', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':email', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['trip'])) {
 		$query->bindValue(':trip', $post['trip']);
 	} else {
-		$query->bindValue(':trip', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':trip', null, PDO::PARAM_NULL);
 	}
 
 	$query->bindValue(':name', $post['name']);
@@ -812,27 +785,27 @@ function post(array $post) {
 	$query->bindValue(':ip', isset($post['ip']) ? $post['ip'] : $_SERVER['REMOTE_ADDR']);
 
 	if ($post['op'] && $post['mod'] && isset($post['sticky']) && $post['sticky']) {
-		$query->bindValue(':sticky', 1, PDO::PARAM_INT);
+		$query->bindValue(':sticky', true, PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':sticky', 0, PDO::PARAM_INT);
+		$query->bindValue(':sticky', false, PDO::PARAM_INT);
 	}
 
 	if ($post['op'] && $post['mod'] && isset($post['locked']) && $post['locked']) {
-		$query->bindValue(':locked', 1, PDO::PARAM_INT);
+		$query->bindValue(':locked', true, PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':locked', 0, PDO::PARAM_INT);
+		$query->bindValue(':locked', false, PDO::PARAM_INT);
 	}
 
 	if ($post['mod'] && isset($post['capcode']) && $post['capcode']) {
 		$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':capcode', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
 	}
 
 	if (!empty($post['embed'])) {
 		$query->bindValue(':embed', $post['embed']);
 	} else {
-		$query->bindValue(':embed', NULL, PDO::PARAM_NULL);
+		$query->bindValue(':embed', null, PDO::PARAM_NULL);
 	}
 
 	if ($post['op']) {
@@ -1079,10 +1052,16 @@ function index($page, $mod=false) {
 	while ($th = $query->fetch(PDO::FETCH_ASSOC)) {
 		$thread = new Thread($th, $mod ? '?/' : $config['root'], $mod);
 
-		if ($config['cache']['enabled'] && $cached = cache::get("thread_index_{$board['uri']}_{$th['id']}")) {
-			$replies = $cached['replies'];
-			$omitted = $cached['omitted'];
-		} else {
+		if ($config['cache']['enabled']) {
+			$cached = cache::get("thread_index_{$board['uri']}_{$th['id']}");
+			if (isset($cached['replies'], $cached['omitted'])) {
+				$replies = $cached['replies'];
+				$omitted = $cached['omitted'];
+			} else {
+				unset($cached);
+			}
+		}
+		if (!isset($cached)) {
 			$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
 			$posts->bindValue(':limit', ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
@@ -1201,6 +1180,26 @@ function getPages($mod=false) {
 	}
 
 	return $pages;
+}
+
+// Stolen with permission from PlainIB (by Frank Usrs)
+function make_comment_hex($str) {
+	// remove cross-board citations
+	// the numbers don't matter
+	$str = preg_replace('!>>>/[A-Za-z0-9]+/!', '', $str);
+
+	if (function_exists('iconv')) {
+		// remove diacritics and other noise
+		// FIXME: this removes cyrillic entirely
+		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+	}
+
+	$str = strtolower($str);
+
+	// strip all non-alphabet characters
+	$str = preg_replace('/[^a-z]/', '', $str);
+
+	return md5($str);
 }
 
 function makerobot($body) {

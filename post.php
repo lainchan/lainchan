@@ -1,5 +1,7 @@
 <?php
 
+file_put_contents('post.txt', var_export($_POST, true));
+
 /*
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
@@ -56,7 +58,7 @@ if (isset($_POST['delete'])) {
 			if ($password != '' && $post['password'] != $password)
 				error($config['error']['invalidpassword']);
 			
-			if ($post['time'] >= time() - $config['delete_time']) {
+			if ($post['time'] > time() - $config['delete_time']) {
 				error(sprintf($config['error']['delete_too_soon'], until($post['time'] + $config['delete_time'])));
 			}
 			
@@ -82,9 +84,12 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
-	if (!$is_mod) header('X-Associated-Content: "' . $root . $board['dir'] . $config['file_index'] . '"');
-	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
-
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json');
+		echo json_encode(array('success' => true));
+	}
 } elseif (isset($_POST['report'])) {
 	if (!isset($_POST['board'], $_POST['password'], $_POST['reason']))
 		error($config['error']['bot']);
@@ -138,10 +143,13 @@ if (isset($_POST['delete'])) {
 	$is_mod = isset($_POST['mod']) && $_POST['mod'];
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
-	if (!$is_mod) header('X-Associated-Content: "' . $root . $board['dir'] . $config['file_index'] . '"');
-	header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json');
+		echo json_encode(array('success' => true));
+	}
 } elseif (isset($_POST['post'])) {
-	
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
 	
@@ -200,7 +208,7 @@ if (isset($_POST['delete'])) {
 	}
 	
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
-		require 'inc/mod.php';
+		require 'inc/mod/auth.php';
 		if (!$mod) {
 			// Liar. You're not a mod.
 			error($config['error']['notamod']);
@@ -275,7 +283,7 @@ if (isset($_POST['delete'])) {
 	
 	if ($config['allow_upload_by_url'] && isset($_POST['file_url']) && !empty($_POST['file_url'])) {
 		$post['file_url'] = $_POST['file_url'];
-		if (!preg_match($config['url_regex'], $post['file_url']))
+		if (!preg_match('@^https?://@', $post['file_url']))
 			error($config['error']['invalidimg']);
 		
 		if (mb_strpos($post['file_url'], '?') !== false)
@@ -430,11 +438,6 @@ if (isset($_POST['delete'])) {
 		
 	wordfilters($post['body']);
 	
-	// Check for a flood
-	if (!hasPermission($config['mod']['flood'], $board['uri']) && checkFlood($post)) {
-		error($config['error']['flood']);
-	}
-	
 	$post['body'] = escape_markup_modifiers($post['body']);
 	
 	if ($mod && isset($post['raw']) && $post['raw']) {
@@ -470,10 +473,8 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post['tracked_cites'] = markup($post['body'], true);
+
 	
-	require_once 'inc/filters.php';
-	
-	do_filters($post);
 	
 	if ($post['has_file']) {
 		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
@@ -489,9 +490,17 @@ if (isset($_POST['delete'])) {
 		if (!is_readable($upload))
 			error($config['error']['nomove']);
 		
-		$post['filehash'] = $config['file_hash']($upload);
+		$post['filehash'] = md5_file($upload);
 		$post['filesize'] = filesize($upload);
+	}
+	
+	if (!hasPermission($config['mod']['bypass_filters'], $board['uri'])) {
+		require_once 'inc/filters.php';	
 		
+		do_filters($post);
+	}
+	
+	if ($post['has_file']) {	
 		if ($is_an_image && $config['ie_mime_type_detection'] !== false) {
 			// Check IE MIME type detection XSS exploit
 			$buffer = file_get_contents($upload, null, null, null, 255);
@@ -681,6 +690,8 @@ if (isset($_POST['delete'])) {
 	
 	$post['id'] = $id = post($post);
 	
+	insertFloodPost($post);
+	
 	if (isset($post['antispam_hash'])) {
 		incrementSpamHash($post['antispam_hash']);
 	}
@@ -758,7 +769,15 @@ if (isset($_POST['delete'])) {
 	else
 		rebuildThemes('post', $board['uri']);
 	
-	header('Location: ' . $redirect, true, $config['redirect_http']);
+	if (!isset($_POST['json_response'])) {
+		header('Location: ' . $redirect, true, $config['redirect_http']);
+	} else {
+		header('Content-Type: text/json; charset=utf-8');
+		echo json_encode(array(
+			'redirect' => $redirect,
+			'id' => $id
+		));
+	}
 } else {
 	if (!file_exists($config['has_installed'])) {
 		header('Location: install.php', true, $config['redirect_http']);

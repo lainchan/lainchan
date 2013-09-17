@@ -100,7 +100,7 @@
 					</tr>
 					<tr>
 						<th>{% trans 'IP' %}</th>
-						<td>{{ ban.ip }}</td>
+						<td>{{ ban.mask }}</td>
 					</tr>
 					<tr>
 						<th>{% trans 'Reason' %}</th>
@@ -124,7 +124,7 @@
 					</tr>
 					<tr>
 						<th>{% trans 'Set' %}</th>
-						<td>{{ ban.set|date(config.post_date) }}</td>
+						<td>{{ ban.created|date(config.post_date) }}</td>
 					</tr>
 					<tr>
 						<th>{% trans 'Expires' %}</th>

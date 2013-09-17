@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-16 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.13</a>');
+define('VERSION', 'v0.9.6-dev-21 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.90</a>');
 
 require 'inc/functions.php';
 
@@ -401,6 +401,93 @@ if (file_exists($config['has_installed'])) {
 					ADD INDEX `list_threads` (`thread`, `sticky`, `bump`)", $board['uri'])) or error(db_error());
 			}
 		case 'v0.9.6-dev-16':
+		case 'v0.9.6-dev-16 + <a href="https://int.vichan.net/devel/">vichan-devel-4.0.13</a>':
+			query("ALTER TABLE ``bans`` ADD INDEX `seen` (`seen`)") or error(db_error());
+		case 'v0.9.6-dev-17':
+			query("ALTER TABLE ``ip_notes``
+				DROP INDEX `ip`,
+				ADD INDEX `ip_lookup` (`ip`, `time`)") or error(db_error());
+		case 'v0.9.6-dev-18':
+			query("CREATE TABLE IF NOT EXISTS ``flood`` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `ip` varchar(39) NOT NULL,
+				  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
+				  `time` int(11) NOT NULL,
+				  `posthash` char(32) NOT NULL,
+				  `filehash` char(32) DEFAULT NULL,
+				  `isreply` tinyint(1) NOT NULL,
+				  PRIMARY KEY (`id`),
+				  KEY `ip` (`ip`),
+				  KEY `posthash` (`posthash`),
+				  KEY `filehash` (`filehash`),
+				  KEY `time` (`time`)
+				) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;") or error(db_error());
+		case 'v0.9.6-dev-19':
+			query("UPDATE ``mods`` SET `type` = 10 WHERE `type` = 0") or error(db_error());
+			query("UPDATE ``mods`` SET `type` = 20 WHERE `type` = 1") or error(db_error());
+			query("UPDATE ``mods`` SET `type` = 30 WHERE `type` = 2") or error(db_error());
+			query("ALTER TABLE ``mods`` CHANGE `type`  `type` smallint(1) NOT NULL") or error(db_error());
+		case 'v0.9.6-dev-20':
+			query("CREATE TABLE IF NOT EXISTS `bans_new_temp` (
+				`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				`ipstart` varbinary(16) NOT NULL,
+				`ipend` varbinary(16) DEFAULT NULL,
+				`created` int(10) unsigned NOT NULL,
+				`expires` int(10) unsigned DEFAULT NULL,
+				`board` varchar(58) DEFAULT NULL,
+				`creator` int(10) NOT NULL,
+				`reason` text,
+				`seen` tinyint(1) NOT NULL,
+				`post` blob,
+				PRIMARY KEY (`id`),
+				KEY `expires` (`expires`),
+				KEY `ipstart` (`ipstart`,`ipend`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1") or error(db_error());
+			$listquery = query("SELECT * FROM ``bans`` ORDER BY `id`") or error(db_error());
+			while ($ban = $listquery->fetch(PDO::FETCH_ASSOC)) {
+				$query = prepare("INSERT INTO ``bans_new_temp`` VALUES 
+					(NULL, :ipstart, :ipend, :created, :expires, :board, :creator, :reason, :seen, NULL)");
+				
+				$range = Bans::parse_range($ban['ip']);
+				if ($range === false) {
+					// Invalid retard ban; just skip it.
+					continue;
+				}
+				
+				$query->bindValue(':ipstart', $range[0]);
+				if ($range[1] !== false && $range[1] != $range[0])
+					$query->bindValue(':ipend', $range[1]);
+				else
+					$query->bindValue(':ipend', null, PDO::PARAM_NULL);
+				
+				$query->bindValue(':created', $ban['set']);
+				
+				if ($ban['expires'])
+					$query->bindValue(':expires', $ban['expires']);
+				else
+					$query->bindValue(':expires', null, PDO::PARAM_NULL);
+				
+				if ($ban['board'])
+					$query->bindValue(':board', $ban['board']);
+				else
+					$query->bindValue(':board', null, PDO::PARAM_NULL);
+				
+				$query->bindValue(':creator', $ban['mod']);
+				
+				if ($ban['reason'])
+					$query->bindValue(':reason', $ban['reason']);
+				else
+					$query->bindValue(':reason', null, PDO::PARAM_NULL);
+				
+				$query->bindValue(':seen', $ban['seen']);
+				$query->execute() or error(db_error($query));
+			}
+			
+			// Drop old bans table
+			query("DROP TABLE ``bans``") or error(db_error());
+			// Replace with new table
+			query("RENAME TABLE ``bans_new_temp`` TO ``bans``") or error(db_error());
+                case 'v0.9.6-dev-21':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);

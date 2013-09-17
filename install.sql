@@ -40,17 +40,20 @@ CREATE TABLE IF NOT EXISTS `antispam` (
 --
 
 CREATE TABLE IF NOT EXISTS `bans` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ip` varchar(39) CHARACTER SET ascii NOT NULL,
-  `mod` int(11) NOT NULL COMMENT 'which mod made the ban',
-  `set` int(11) NOT NULL,
-  `expires` int(11) DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ipstart` varbinary(16) NOT NULL,
+  `ipend` varbinary(16) DEFAULT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `expires` int(10) unsigned DEFAULT NULL,
+  `board` varchar(58) DEFAULT NULL,
+  `creator` int(10) NOT NULL,
   `reason` text,
-  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
   `seen` tinyint(1) NOT NULL,
+  `post` blob,
   PRIMARY KEY (`id`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+  KEY `expires` (`expires`),
+  KEY `ipstart` (`ipstart`,`ipend`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `ip_notes` (
   `time` int(11) NOT NULL,
   `body` text NOT NULL,
   UNIQUE KEY `id` (`id`),
-  KEY `ip` (`ip`)
+  KEY `ip_lookup` (`ip`, `time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -130,18 +133,18 @@ CREATE TABLE IF NOT EXISTS `mods` (
   `username` varchar(30) NOT NULL,
   `password` char(64) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
   `salt` char(32) CHARACTER SET ascii NOT NULL,
-  `type` smallint(1) NOT NULL COMMENT '0: janitor, 1: mod, 2: admin',
+  `type` smallint(2) NOT NULL,
   `boards` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `mods`
 --
 
 INSERT INTO `mods` VALUES
-(1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 2, '*');
+(1, 'admin', 'cedad442efeef7112fed0f50b011b2b9bf83f6898082f995f69dd7865ca19fb7', '4a44c6c55df862ae901b413feecb0d49', 30, '*');
 
 -- --------------------------------------------------------
 
@@ -255,6 +258,27 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   `value` text,
   KEY `theme` (`theme`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flood`
+--
+
+CREATE TABLE IF NOT EXISTS `flood` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip` varchar(39) NOT NULL,
+  `board` varchar(58) CHARACTER SET utf8 NOT NULL,
+  `time` int(11) NOT NULL,
+  `posthash` char(32) NOT NULL,
+  `filehash` char(32) DEFAULT NULL,
+  `isreply` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ip` (`ip`),
+  KEY `posthash` (`posthash`),
+  KEY `filehash` (`filehash`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

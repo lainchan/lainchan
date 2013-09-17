@@ -4,10 +4,7 @@
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
 
-if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
-	// You cannot request this file directly.
-	exit;
-}
+defined('TINYBOARD') or exit;
 
 class Cache {
 	private static $cache;
@@ -135,7 +132,7 @@ class Cache {
 			case 'apc':
 				return apc_clear_cache('user');
 			case 'php':
-				self::$cache[$key] = array();
+				self::$cache = array();
 				break;
 			case 'redis':
 				if (!self::$cache)

@@ -16,7 +16,13 @@
 		{% for row in result %}
 			<tr>
 				{% for col in row %}
-					<td>{{ col | e }}</td>
+					<td>
+						{% if col != null %}
+							{{ col | e }}
+						{% else %}
+							<em>NULL</em>
+						{% endif %}
+					</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}

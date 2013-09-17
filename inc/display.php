@@ -88,6 +88,14 @@ function error($message, $priority = true, $debug_stuff = false) {
 	// Return the bad request header, necessary for AJAX posts
 	header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
 	
+	// Is there a reason to disable this?
+	if (isset($_POST['json_response'])) {
+		header('Content-Type: text/json; charset=utf-8');
+		die(json_encode(array(
+			'error' => $message
+		)));
+	}
+	
 	die(Element('page.html', array(
 		'config' => $config,
 		'title' => _('Error'),
@@ -536,6 +544,8 @@ class Thread {
 		
 		$hasnoko50 = $this->postCount() >= $config['noko50_min'];
 		
+		event('show-thread', $this);
+
 		$built = Element('post_thread.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'hasnoko50' => $hasnoko50, 'isnoko50' => $isnoko50));
 		
 		return $built;

@@ -30,7 +30,7 @@ it need one.
 ### Recommended
 1.	PHP >= 5.3
 2.	MySQL server >= 5.5.3
-3.	ImageMagick or command-line version (```convert``` and ```identify```)
+3.	ImageMagick (command-line ImageMagick or GraphicsMagick preferred).
 4.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
 
 Contributing

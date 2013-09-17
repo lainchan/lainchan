@@ -320,6 +320,20 @@ div.pages {
 	border-right: 1px solid #B7C5D9;
 	border-bottom: 1px solid #B7C5D9;
 }
+div.pages.top {
+	display: block;
+	padding: 5px 8px;
+	margin-bottom: 5px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	opacity: 0.9;
+}
+@media screen and (max-width: 800px) {
+	div.pages.top {
+		display: none !important;
+	}
+}
 div.pages a.selected {
 	color: black;
 	font-weight: bolder;
