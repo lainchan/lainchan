@@ -617,22 +617,35 @@ function ago($timestamp) {
 }
 
 function displayBan($ban) {
-	global $config;
+	global $config, $board;
 
 	if (!$ban['seen']) {
 		Bans::seen($ban['id']);
 	}
 
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
-
+	if ($ban['post'] && isset($ban['post']['board'], $ban['post']['id'])) {
+		openBoard($ban['post']['board']);
+		
+		$query = query(sprintf("SELECT `thumb`, `file` FROM ``posts_%s`` WHERE `id` = " . (int)$ban['post']['id'], $board['uri']));
+		if ($_post = $query->fetch(PDO::FETCH_ASSOC)) {
+			$ban['post'] = array_merge($ban['post'], $_post);
+		} else {
+			$ban['post']['file'] = 'deleted';
+			$ban['post']['thumb'] = false;
+		}
+		$post = new Post($ban['post']);
+	}
 	// Show banned page and exit
 	die(
 		Element('page.html', array(
 			'title' => _('Banned!'),
 			'config' => $config,
+			'nojavascript' => true,
 			'body' => Element('banned.html', array(
 				'config' => $config,
-				'ban' => $ban
+				'ban' => $ban,
+				'post' => isset($post) ? $post->build() : false
 			)
 		))
 	));

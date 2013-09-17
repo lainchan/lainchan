@@ -821,14 +821,17 @@
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
 
+	// Show the post the user was banned for on the "You are banned" page.
+	$config['ban_show_post'] = false;
+
 	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
 	// a link to an email address or IRC chat room to appeal the ban.
 	$config['ban_page_extra'] = '';
-	
+
 	// Display flags (when available). This config option has no effect unless poster flags are enabled (see
 	// $config['country_flags']). Disable this if you want all previously-assigned flags to be hidden.
 	$config['display_flags'] = true;
-	
+
 	// Location of post flags/icons (where "%s" is the flag name). Defaults to static/flags/%s.png.
 	// $config['uri_flags'] = 'http://static.example.org/flags/%s.png';
 
