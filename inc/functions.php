@@ -634,7 +634,12 @@ function displayBan($ban) {
 			$ban['post']['file'] = 'deleted';
 			$ban['post']['thumb'] = false;
 		}
-		$post = new Post($ban['post']);
+		
+		if ($ban['post']['thread']) {
+			$post = new Post($ban['post']);
+		} else {
+			$post = new Thread($ban['post'], null, false, false);
+		}
 	}
 	// Show banned page and exit
 	die(
@@ -645,7 +650,8 @@ function displayBan($ban) {
 			'body' => Element('banned.html', array(
 				'config' => $config,
 				'ban' => $ban,
-				'post' => isset($post) ? $post->build() : false
+				'board' => $board,
+				'post' => isset($post) ? $post->build(true) : false
 			)
 		))
 	));
