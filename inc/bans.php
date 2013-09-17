@@ -137,9 +137,7 @@ class Bans {
 		
 		while ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 			if ($ban['expires'] && ($ban['seen'] || !$config['require_ban_view']) && $ban['expires'] < time()) {
-				$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
-				$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				self::delete($ban['id']);
 			} else {
 				if ($ban['post'])
 					$ban['post'] = json_decode($ban['post'], true);
