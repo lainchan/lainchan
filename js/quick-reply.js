@@ -301,6 +301,8 @@ var show_quick_reply = function(){
 	if (typeof $postForm.draggable != 'undefined') {
 		if (localStorage.quickReplyPosition) {
 			var offset = JSON.parse(localStorage.quickReplyPosition);
+			if (offset.top < 0)
+				offset.top = 10;
 			if (offset.right > $(window).width() - $postForm.width())
 				offset.right = $(window).width() - $postForm.width();
 			if (offset.top > $(window).height() - $postForm.height())
