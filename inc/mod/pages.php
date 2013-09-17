@@ -1275,7 +1275,8 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 	
 	$security_token = make_secure_link_token($board . '/ban/' . $post);
 	
-	$query = prepare(sprintf('SELECT `ip`, `thread` FROM ``posts_%s`` WHERE `id` = :id', $board));
+	$query = prepare(sprintf('SELECT ' . ($config['ban_show_post'] ? '*' : '`ip`, `thread`') .
+		' FROM ``posts_%s`` WHERE `id` = :id', $board));
 	$query->bindValue(':id', $post);
 	$query->execute() or error(db_error($query));
 	if (!$_post = $query->fetch(PDO::FETCH_ASSOC))
@@ -1290,11 +1291,12 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		if (isset($_POST['ip']))
 			$ip = $_POST['ip'];
 		
-		Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
+		Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board'],
+			false, $config['ban_show_post'] ? $_post : false);
 		
 		if (isset($_POST['public_message'], $_POST['message'])) {
 			// public ban message
-			$length_english = parse_time($_POST['length']) ? 'for ' . until(parse_time($_POST['length'])) : 'permanently';
+			$length_english = Bans::parse_time($_POST['length']) ? 'for ' . until(Bans::parse_time($_POST['length'])) : 'permanently';
 			$_POST['message'] = preg_replace('/[\r\n]/', '', $_POST['message']);
 			$_POST['message'] = str_replace('%length%', $length_english, $_POST['message']);
 			$_POST['message'] = str_replace('%LENGTH%', strtoupper($length_english), $_POST['message']);

@@ -33,7 +33,7 @@ class Bans {
 		return array(inet_pton($range[0]), inet_pton($range[1]));
 	}
 	
-	private static function parse_time($str) {
+	public static function parse_time($str) {
 		if (empty($str))
 			return false;
 	
@@ -137,10 +137,10 @@ class Bans {
 		
 		while ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 			if ($ban['expires'] && ($ban['seen'] || !$config['require_ban_view']) && $ban['expires'] < time()) {
-				$query = prepare("DELETE FROM ``bans`` WHERE `id` = :id");
-				$query->bindValue(':id', $ban['id'], PDO::PARAM_INT);
-				$query->execute() or error(db_error($query));
+				self::delete($ban['id']);
 			} else {
+				if ($ban['post'])
+					$ban['post'] = json_decode($ban['post'], true);
 				$ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
 				$ban_list[] = $ban;
 			}
@@ -197,8 +197,8 @@ class Bans {
 		return true;
 	}
 	
-	static public function new_ban($mask, $reason, $length = false, $board = false, $mod_id = false) {
-		global $mod, $pdo;
+	static public function new_ban($mask, $reason, $length = false, $ban_board = false, $mod_id = false, $post = false) {
+		global $mod, $pdo, $board;
 		
 		if ($mod_id === false) {
 			$mod_id = isset($mod['id']) ? $mod['id'] : -1;
@@ -207,7 +207,7 @@ class Bans {
 		$range = self::parse_range($mask);
 		$mask = self::range_to_string($range);
 		
-		$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ipstart, :ipend, :time, :expires, :board, :mod, :reason, 0, NULL)");
+		$query = prepare("INSERT INTO ``bans`` VALUES (NULL, :ipstart, :ipend, :time, :expires, :board, :mod, :reason, 0, :post)");
 		
 		$query->bindValue(':ipstart', $range[0]);
 		if ($range[1] !== false && $range[1] != $range[0])
@@ -236,10 +236,16 @@ class Bans {
 			$query->bindValue(':expires', null, PDO::PARAM_NULL);
 		}
 		
-		if ($board)
-			$query->bindValue(':board', $board);
+		if ($ban_board)
+			$query->bindValue(':board', $ban_board);
 		else
 			$query->bindValue(':board', null, PDO::PARAM_NULL);
+		
+		if ($post) {
+			$post['board'] = $board['uri'];
+			$query->bindValue(':post', json_encode($post));
+		} else
+			$query->bindValue(':post', null, PDO::PARAM_NULL);
 		
 		$query->execute() or error(db_error($query));
 		
