@@ -73,6 +73,11 @@ find support from a variety of sources:
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
 *	You may find help at [tinyboard.org](http://tinyboard.org/#help).
 
+Tinyboard-Tools:
+-----------------
+## Directories
+*	```tools/``` -- Command-line management scripts for Tinyboard. These should not be publicly executable.
+
 License
 --------
 See [LICENSE.md](http://github.com/savetheinternet/Tinyboard/blob/master/LICENSE.md).

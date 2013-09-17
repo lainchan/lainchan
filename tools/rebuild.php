@@ -64,6 +64,7 @@ foreach($boards as &$board) {
 	if(!$options['quiet'])
 		echo "Opening board /{$board['uri']}/...\n";
 	openBoard($board['uri']);
+	$config['try_smarter'] = false;
 	
 	if($config['file_script'] != $main_js) {
 		// different javascript file
@@ -81,7 +82,7 @@ foreach($boards as &$board) {
 		continue; // do no more
 	
 	if($options['full']) {
-		$query = query(sprintf("SELECT `id` FROM `posts_%s`", $board['uri'])) or error(db_error());
+		$query = query(sprintf("SELECT `id` FROM ``posts_%s``", $board['uri'])) or error(db_error());
 		while($post = $query->fetch()) {
 			if(!$options['quiet'])
 				echo "Rebuilding #{$post['id']}...\n";
@@ -89,7 +90,7 @@ foreach($boards as &$board) {
 		}
 	}
 	
-	$query = query(sprintf("SELECT `id` FROM `posts_%s` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
+	$query = query(sprintf("SELECT `id` FROM ``posts_%s`` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 	while($post = $query->fetch()) {
 		if(!$options['quiet'])
 			echo "Rebuilding #{$post['id']}...\n";
