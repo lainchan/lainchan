@@ -29,7 +29,14 @@ $(window).ready(function() {
 			formData.append('post', submit_txt);
 
 			var updateProgress = function(e) {
-				$(form).find('input[type="submit"]').val(_('Posting... (#%)').replace('#', Math.round(e.position / e.total * 100)));
+				var percentage;
+				if (e.position === undefined) { // Firefox
+					percentage = Math.round(e.loaded * 100 / e.total);
+				}
+				else { // Chrome?
+					percentage = Math.round(e.position * 100 / e.total);
+				}
+				$(form).find('input[type="submit"]').val(_('Posting... (#%)').replace('#', percentage));
 			};
 
 			$.ajax({
