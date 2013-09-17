@@ -232,6 +232,11 @@ var show_quick_reply = function(){
 					$td.removeAttr('colspan');
 				}
 			}
+
+			// Remove oekaki if existent
+			if ($(this).is('#oekaki')) {
+				$(this).remove();
+			}
 			
 			// Remove mod controls, because it looks shit.
 			if ($td.find('input[type="checkbox"]').length) {

@@ -16,7 +16,7 @@ var oekaki_form = '\
 
 function init_oekaki() {
 	// Add oekaki after the file input
-	$('input[type="file"]').parent().parent().after(oekaki_form);
+	$('form[name="post"]:not(#quick-reply) input[type="file"]').parent().parent().after(oekaki_form);
 	// Add "edit in oekaki" links
 	$(".fileinfo .unimportant").append(' <a href="javascript:void(0)" class="edit_in_oekaki">['+_('Edit in oekaki')+']</a>');
 	// Init oekaki vars
