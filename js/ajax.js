@@ -12,6 +12,7 @@
  */
 
 $(window).ready(function() {
+	var settings = new script_settings('ajax');
 	var do_not_ajax = false;
 	
 	var setup_form = function($form) {
@@ -61,7 +62,8 @@ $(window).ready(function() {
 							$(form).find('input[type="submit"]').removeAttr('disabled');
 						}
 					} else if (post_response.redirect && post_response.id) {
-						if (!$(form).find('input[name="thread"]').length) {
+						if (!$(form).find('input[name="thread"]').length
+							|| (!settings.get('always_noko_replies', true) && !post_response.noko)) {
 							document.location = post_response.redirect;
 						} else {
 							$.ajax({

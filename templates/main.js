@@ -249,6 +249,17 @@ function rememberStuff() {
 	}
 }
 
+var script_settings = function(script_name) {
+	this.script_name = script_name;
+	this.get = function(var_name, default_val) {
+		if (typeof tb_settings == 'undefined' ||
+			typeof tb_settings[this.script_name] == 'undefined' ||
+			typeof tb_settings[this.script_name][var_name] == 'undefined')
+			return default_val;
+		return tb_settings[this.script_name][var_name];
+	}
+};
+
 function init() {
 	init_stylechooser();
 	
