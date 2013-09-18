@@ -390,6 +390,8 @@
 	
 	if (settings.get('floating_link', false)) {
 		$(window).ready(function() {
+			if($('div.banner').length == 0)
+				return;
 			$('<style type="text/css">\
 			a.quick-reply-btn {\
 				position: fixed;\
