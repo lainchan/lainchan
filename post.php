@@ -775,6 +775,7 @@ if (isset($_POST['delete'])) {
 		header('Content-Type: text/json; charset=utf-8');
 		echo json_encode(array(
 			'redirect' => $redirect,
+			'noko' => $config['always_noko'] || $noko,
 			'id' => $id
 		));
 	}

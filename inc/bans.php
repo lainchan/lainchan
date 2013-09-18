@@ -253,7 +253,7 @@ class Bans {
 			modLog('Created a new ' .
 				($length > 0 ? preg_replace('/^(\d+) (\w+?)s?$/', '$1-$2', until($length)) : 'permanent') .
 				' ban on ' .
-				($board ? '/' . $board . '/' : 'all boards') .
+				($ban_board ? '/' . $ban_board . '/' : 'all boards') .
 				' for ' .
 				(filter_var($mask, FILTER_VALIDATE_IP) !== false ? "<a href=\"?/IP/$mask\">$mask</a>" : $mask) .
 				' (<small>#' . $pdo->lastInsertId() . '</small>)' .
