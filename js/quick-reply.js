@@ -299,6 +299,8 @@
 		if (typeof $postForm.draggable != 'undefined') {
 			if (localStorage.quickReplyPosition) {
 				var offset = JSON.parse(localStorage.quickReplyPosition);
+				if (offset.top < 0)
+					offset.top = 0;
 				if (offset.right > $(window).width() - $postForm.width())
 					offset.right = $(window).width() - $postForm.width();
 				if (offset.top > $(window).height() - $postForm.height())
@@ -321,40 +323,6 @@
 				}
 			});
 			$postForm.find('th .handle').css('cursor', 'move');
-
-	// Synchronise body text with original post form
-	$origPostForm.find('textarea[name="body"]').bind('change input propertychange', function() {
-		$postForm.find('textarea[name="body"]').val($(this).val());
-	});
-	$postForm.find('textarea[name="body"]').bind('change input propertychange', function() {
-		$origPostForm.find('textarea[name="body"]').val($(this).val());
-	});
-	$postForm.find('textarea[name="body"]').focus(function() {
-		$origPostForm.find('textarea[name="body"]').removeAttr('id');
-		$(this).attr('id', 'body');
-	});
-	$origPostForm.find('textarea[name="body"]').focus(function() {
-		$postForm.find('textarea[name="body"]').removeAttr('id');
-		$(this).attr('id', 'body');
-	});
-	// Synchronise other inputs
-	$origPostForm.find('input[type="text"],select').bind('change input propertychange', function() {
-		$postForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
-	});
-	$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
-		$origPostForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
-	});
-
-	if (typeof $postForm.draggable != 'undefined') {
-		if (localStorage.quickReplyPosition) {
-			var offset = JSON.parse(localStorage.quickReplyPosition);
-			if (offset.top < 0)
-				offset.top = 10;
-			if (offset.right > $(window).width() - $postForm.width())
-				offset.right = $(window).width() - $postForm.width();
-			if (offset.top > $(window).height() - $postForm.height())
-				offset.top = $(window).height() - $postForm.height();
-			$postForm.css('right', offset.right).css('top', offset.top);
 		}
 		
 		$postForm.find('th .close-btn').click(function() {
