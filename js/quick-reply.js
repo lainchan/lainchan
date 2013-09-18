@@ -326,6 +326,7 @@
 		$postForm.find('th .close-btn').click(function() {
 			$origPostForm.find('textarea[name="body"]').attr('id', 'body');
 			$postForm.remove();
+			floating_link();
 		});
 		
 		// Fix bug when table gets too big for form. Shouldn't exist, but crappy CSS etc.
@@ -372,4 +373,48 @@
 			});
 		}
 	});
+	
+	var floating_link = function() {
+		if (!settings.get('floating_link', false))
+			return;
+		$('<a href="javascript:void(0)" class="quick-reply-btn">Quick Reply</a>')
+			.click(function() {
+				show_quick_reply();
+				$(this).remove();
+			}).prependTo($('body'));
+		
+		$(window).on('quick-reply', function() {
+			$('.quick-reply-btn').remove();
+		});
+	};
+	
+	if (settings.get('floating_link', false)) {
+		$(window).ready(function() {
+			$('<style type="text/css">\
+			a.quick-reply-btn {\
+				position: fixed;\
+				right: 0;\
+				top: 0;\
+				display: block;\
+				padding: 5px 13px;\
+				text-decoration: none;\
+			}\
+			</style>').appendTo($('head'));
+			
+			floating_link();
+			
+			if (settings.get('hide_at_top', true)) {
+				$('.quick-reply-btn').hide();
+				
+				$(window).scroll(function() {
+					if ($(this).width() <= 800)
+						return;
+					if ($(this).scrollTop() < $('form[name="post"]:first').offset().top + $('form[name="post"]:first').height() - 100)
+						$('.quick-reply-btn').fadeOut(100);
+					else
+						$('.quick-reply-btn').fadeIn(100);
+				}).scroll();
+			}
+		});
+	}
 })();
