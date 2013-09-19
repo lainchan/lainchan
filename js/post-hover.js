@@ -54,7 +54,7 @@ onready(function(){
 						$post.offset().top + $post.height() >= $(window).scrollTop() &&
 						$post.offset().top <= $(window).scrollTop() + $(window).height()) {
 					// post is in view
-					$post.attr('style', 'border-style: none dashed dashed none; background: ' + $post.css('border-right-color'));
+					$post.addClass('highlighted');
 				} else {
 					var $newPost = $post.clone();
 					$newPost.find('>.reply, >br').remove();
@@ -122,7 +122,7 @@ onready(function(){
 			if(!$post)
 				return;
 			
-			$post.attr('style', '');
+			$post.removeClass('highlighted');
 			if($post.hasClass('hidden') || $post.data('cached') == 'yes')
 				$post.css('display', 'none');
 			$('.post-hover').remove();
