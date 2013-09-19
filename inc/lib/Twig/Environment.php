@@ -16,7 +16,7 @@
  */
 class Twig_Environment
 {
-    const VERSION = '1.13.1';
+    const VERSION = '1.14.0-DEV';
 
     protected $charset;
     protected $loader;
@@ -44,6 +44,7 @@ class Twig_Environment
     protected $functionCallbacks;
     protected $filterCallbacks;
     protected $staging;
+    protected $templateClasses;
 
     /**
      * Constructor.
@@ -107,6 +108,7 @@ class Twig_Environment
         $this->setCache($options['cache']);
         $this->functionCallbacks = array();
         $this->filterCallbacks = array();
+        $this->templateClasses = array();
 
         $this->addExtension(new Twig_Extension_Core());
         $this->addExtension(new Twig_Extension_Escaper($options['autoescape']));
@@ -262,7 +264,13 @@ class Twig_Environment
      */
     public function getTemplateClass($name, $index = null)
     {
-        return $this->templateClassPrefix.md5($this->getLoader()->getCacheKey($name)).(null === $index ? '' : '_'.$index);
+        $suffix = null === $index ? '' : '_'.$index;
+        $cls = $name.$suffix;
+        if (isset($this->templateClasses[$cls])) {
+            return $this->templateClasses[$cls];
+        }
+
+        return $this->templateClasses[$cls] = $this->templateClassPrefix.hash('sha256', $this->getLoader()->getCacheKey($name)).$suffix;
     }
 
     /**
@@ -728,7 +736,7 @@ class Twig_Environment
     public function addNodeVisitor(Twig_NodeVisitorInterface $visitor)
     {
         if ($this->extensionInitialized) {
-            throw new LogicException('Unable to add a node visitor as extensions have already been initialized.', $extension->getName());
+            throw new LogicException('Unable to add a node visitor as extensions have already been initialized.');
         }
 
         $this->staging->addNodeVisitor($visitor);
