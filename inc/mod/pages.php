@@ -2106,9 +2106,18 @@ function mod_config($board_config = false) {
 		
 		if (!$readonly && isset($_POST['code'])) {
 			$code = $_POST['code'];
+			// Save previous instance_config if php_check_syntax fails
+			$old_code = file_get_contents($config_file);
 			file_put_contents($config_file, $code);
-			header('Location: ?/config' . ($board_config ? '/' . $board_config : ''), true, $config['redirect_http']);
-			return;
+			$resp = shell_exec_error('php -l ' . $config_file);
+			if (preg_match('/No syntax errors detected/', $resp)) {
+				header('Location: ?/config' . ($board_config ? '/' . $board_config : ''), true, $config['redirect_http']);
+				return;
+			}
+			else {
+				file_put_contents($config_file, $old_code);
+				error($config['error']['badsyntax'] . $resp);
+			}	
 		}
 		
 		$instance_config = @file_get_contents($config_file);

@@ -1009,6 +1009,7 @@
 	$config['error']['modexists']		= _('That mod <a href="?/users/%d">already exists</a>!');
 	$config['error']['invalidtheme']	= _('That theme doesn\'t exist!');
 	$config['error']['csrf']		= _('Invalid security token! Please go back and try again.');
+	$config['error']['badsyntax']		= _('Your code contained PHP syntax errors. Please go back and correct them. PHP says: ');
 
 /*
  * =========================
