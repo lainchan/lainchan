@@ -88,7 +88,7 @@
 		<br>
 	{% endif %}
 	
-	{% if config.ban_appeals %}
+	{% if config.ban_appeals and (not ban.expires or ban.expires - ban.created > config.ban_appeals_min_length )%}
 		<hr>
 		{% if pending_appeal %}
 			<p>
