@@ -1000,9 +1000,14 @@
 
 	// The root directory, including the trailing slash, for Tinyboard.
 	// Examples: '/', 'http://boards.chan.org/', '/chan/'.
-	if (isset($_SERVER['REQUEST_URI']))
-		$config['root']	 = str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/';
-	else
+	if (isset($_SERVER['REQUEST_URI'])) {
+		$request_uri = $_SERVER['REQUEST_URI'];
+		if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '')
+			$request_uri = substr($request_uri, 0, - 1 - strlen($_SERVER['QUERY_STRING']));
+		$config['root']	 = str_replace('\\', '/', dirname($request_uri)) == '/'
+			? '/' : str_replace('\\', '/', dirname($request_uri)) . '/';
+		unset($request_uri);
+	} else
 		$config['root'] = '/'; // CLI mode
 
 	// The scheme and domain. This is used to get the site's absolute URL (eg. for image identification links).
