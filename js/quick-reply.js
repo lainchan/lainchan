@@ -375,8 +375,8 @@
 				// Honestly, I'm not sure why we need setTimeout() here, but it seems to work.
 				// Same for the "tmp" variable stuff you see inside here:
 				setTimeout(function() {
-					var tmp = $('#quick-reply textarea').val();
-					$('#quick-reply textarea').val('').focus().val(tmp);
+					var tmp = $('#quick-reply textarea[name="body"]').val();
+					$('#quick-reply textarea[name="body"]').val('').focus().val(tmp);
 				}, 1);
 			});
 		}
