@@ -77,16 +77,60 @@
 	</p>
 	<p>{% trans %}Your IP address is{% endtrans %} <strong>{{ ban.ip }}</strong>.</p>
 
-	{% if post %}
+	{% if config.ban_page_extra %}
+		<p>{{ config.ban_page_extra }}</p>
+	{% endif %}
+	
+	{% if post and config.ban_show_post %}
 		<hr>
-		<p>You were banned for the following post on {{ board.url }}:</p>
+		<p>{% trans %}You were banned for the following post on {% endtrans %}{{ board.url }}:</p>
 		{{ post }}
 		<br>
 	{% endif %}
 	
-	{% if config.ban_page_extra %}
-		<p>{{ config.ban_page_extra }}</p>
+	{% if config.ban_appeals %}
+		<hr>
+		{% if pending_appeal %}
+			<p>
+				{% trans %}You submitted an appeal for this ban on{% endtrans %} 
+				<strong>{{ pending_appeal|date(config.ban_date) }}</strong>. {% trans %}It is still pending{% endtrans %}.
+			</p>
+		{% elseif denied_appeals|length >= config.ban_appeals_max %}
+			{% if denied_appeals|length == 1 %}
+				<p>
+					{% trans %}You appealed this ban on{% endtrans %} 
+					<strong>{{ denied_appeals[0]|date(config.ban_date) }}</strong> 
+					{% trans %}and it was denied. You may not appeal this ban again.{% endtrans %}
+				</p>
+			{% else %}
+				<p>{% trans %}You have submitted the maximum number of ban appeals allowed. You may not appeal this ban again.{% endtrans %}</p>
+			{% endif %}
+		{% else %}
+			{% if denied_appeals|length %}
+				{% if denied_appeals|length == 1 %}
+					<p>
+						{% trans %}You appealed this ban on{% endtrans %} 
+						<strong>{{ denied_appeals[0]|date(config.ban_date) }}</strong> 
+						{% trans %}and it was denied.{% endtrans %}
+					</p>
+					<p>{% trans %}You may appeal this ban again. Please enter your reasoning below.{% endtrans %}</p>
+				{% else %}
+					<p>
+						{% trans %}You last appealed this ban on{% endtrans %} 
+						<strong>{{ denied_appeals[denied_appeals|length - 1]|date(config.ban_date) }}</strong> 
+						{% trans %}and it was denied.{% endtrans %}
+					</p>
+					<p>{% trans %}You may appeal this ban again. Please enter your reasoning below.{% endtrans %}</p>
+				{% endif %}
+			{% else %}
+				<p>{% trans %}You may appeal this ban. Please enter your reasoning below.{% endtrans %}</p>
+			{% endif %}
+			<form class="ban-appeal" action="" method="post">
+				<input type="hidden" name="ban_id" value="{{ ban.id }}">
+				<textarea name="appeal" rows="4" cols="40"></textarea>
+				<input type="submit" value="Submit">
+			</form>
+		{% endif %}
 	{% endif %}
 </div>
 {% endfilter %}
-

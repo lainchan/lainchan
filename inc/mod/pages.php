@@ -197,37 +197,7 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	// Form a series of LIKE clauses for the query.
 	// This gets a little complicated.
 	
-	// Escape "escape" character
-	$query = str_replace('!', '!!', $query);
-	
-	// Escape SQL wildcard
-	$query = str_replace('%', '!%', $query);
-	
-	// Use asterisk as wildcard instead
-	$query = str_replace('*', '%', $query);
-	
-	$query = str_replace('`', '!`', $query);
-	
-	// Array of phrases to match
-	$match = array();
-	
-	// Exact phrases ("like this")
-	if (preg_match_all('/"(.+?)"/', $query, $exact_phrases)) {
-		$exact_phrases = $exact_phrases[1];
-		foreach ($exact_phrases as $phrase) {
-			$query = str_replace("\"{$phrase}\"", '', $query);
-			$match[] = $pdo->quote($phrase);
-		}
-	}
-	
-	// Non-exact phrases (ie. plain keywords)
-	$keywords = explode(' ', $query);
-	foreach ($keywords as $word) {
-		if (empty($word))
-			continue;
-		$match[] = $pdo->quote($word);
-	}
-	
+		
 	// Which `field` to search?
 	if ($type == 'posts')
 		$sql_field = array('body_nomarkup', 'filename', 'subject', 'filehash', 'ip', 'name', 'trip');
@@ -237,22 +207,6 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 		$sql_field = 'reason';
 	if ($type == 'log')
 		$sql_field = 'text';
-	
-	// Build the "LIKE 'this' AND LIKE 'that'" etc. part of the SQL query
-	$sql_like = '';
-	foreach ($match as $phrase) {
-		if (!empty($sql_like))
-			$sql_like .= ' AND ';
-		$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
-		if (is_array($sql_field)) {
-			foreach ($sql_field as $field) {
-				$sql_like .= '`' . $field . '` LIKE ' . $phrase . ' ESCAPE \'!\' OR';
-			}
-			$sql_like = preg_replace('/ OR$/', '', $sql_like);
-		} else {
-			$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
-		}
-	}
 	
 	
 	// Compile SQL query
@@ -884,6 +838,68 @@ function mod_bans($page_no = 1) {
 	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => Bans::count()));
 }
 
+function mod_ban_appeals() {
+	global $config, $board;
+	
+	if (!hasPermission($config['mod']['view_ban_appeals']))
+		error($config['error']['noaccess']);
+	
+	// Remove stale ban appeals
+	query("DELETE FROM ``ban_appeals`` WHERE NOT EXISTS (SELECT 1 FROM ``bans`` WHERE `ban_id` = ``bans``.`id`)")
+		or error(db_error());
+	
+	if (isset($_POST['appeal_id']) && (isset($_POST['unban']) || isset($_POST['deny']))) {
+		if (!hasPermission($config['mod']['ban_appeals']))
+			error($config['error']['noaccess']);
+		if (isset($_POST['unban'])) {
+			$query = query("SELECT `ban_id` FROM ``ban_appeals`` WHERE `id` = " .
+				(int)$_POST['appeal_id']) or error(db_error());
+			if ($ban_id = $query->fetchColumn()) {
+				Bans::delete($ban_id);
+				query("DELETE FROM ``ban_appeals`` WHERE `id` = " . (int)$_POST['appeal_id']) or error(db_error());
+			}
+		} else {
+			query("UPDATE ``ban_appeals`` SET `denied` = 1 WHERE `id` = " . (int)$_POST['appeal_id']) or error(db_error());
+		}
+		
+		header('Location: ?/ban-appeals', true, $config['redirect_http']);
+		return;
+	}
+	
+	$query = query("SELECT *, ``ban_appeals``.`id` AS `id` FROM ``ban_appeals``
+		LEFT JOIN ``bans`` ON `ban_id` = ``bans``.`id`
+		WHERE `denied` != 1 ORDER BY `time`") or error(db_error());
+	$ban_appeals = $query->fetchAll(PDO::FETCH_ASSOC);
+	foreach ($ban_appeals as &$ban) {
+		if ($ban['post'])
+			$ban['post'] = json_decode($ban['post'], true);
+		$ban['mask'] = Bans::range_to_string(array($ban['ipstart'], $ban['ipend']));
+		
+		if ($ban['post'] && isset($ban['post']['board'], $ban['post']['id'])) {
+			if (openBoard($ban['post']['board'])) {
+				$query = query(sprintf("SELECT `thumb`, `file` FROM ``posts_%s`` WHERE `id` = " .
+					(int)$ban['post']['id'], $board['uri']));
+				if ($_post = $query->fetch(PDO::FETCH_ASSOC)) {
+					$ban['post'] = array_merge($ban['post'], $_post);
+				} else {
+					$ban['post']['file'] = 'deleted';
+					$ban['post']['thumb'] = false;
+				}
+			} else {
+				$ban['post']['file'] = 'deleted';
+				$ban['post']['thumb'] = false;
+			}
+			
+			if ($ban['post']['thread']) {
+				$ban['post'] = new Post($ban['post']);
+			} else {
+				$ban['post'] = new Thread($ban['post'], null, false, false);
+			}
+		}
+	}
+
+	mod_page(_('Ban appeals'), 'mod/ban_appeals.html', array('ban_appeals' => $ban_appeals));
+}
 
 function mod_lock($board, $unlock, $post) {
 	global $config;

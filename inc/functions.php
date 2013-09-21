@@ -625,11 +625,16 @@ function displayBan($ban) {
 
 	$ban['ip'] = $_SERVER['REMOTE_ADDR'];
 	if ($ban['post'] && isset($ban['post']['board'], $ban['post']['id'])) {
-		openBoard($ban['post']['board']);
-		
-		$query = query(sprintf("SELECT `thumb`, `file` FROM ``posts_%s`` WHERE `id` = " . (int)$ban['post']['id'], $board['uri']));
-		if ($_post = $query->fetch(PDO::FETCH_ASSOC)) {
-			$ban['post'] = array_merge($ban['post'], $_post);
+		if (openBoard($ban['post']['board'])) {
+			
+			$query = query(sprintf("SELECT `thumb`, `file` FROM ``posts_%s`` WHERE `id` = " .
+				(int)$ban['post']['id'], $board['uri']));
+			if ($_post = $query->fetch(PDO::FETCH_ASSOC)) {
+				$ban['post'] = array_merge($ban['post'], $_post);
+			} else {
+				$ban['post']['file'] = 'deleted';
+				$ban['post']['thumb'] = false;
+			}
 		} else {
 			$ban['post']['file'] = 'deleted';
 			$ban['post']['thumb'] = false;
@@ -641,6 +646,21 @@ function displayBan($ban) {
 			$post = new Thread($ban['post'], null, false, false);
 		}
 	}
+	
+	$denied_appeals = array();
+	$pending_appeal = false;
+	
+	if ($config['ban_appeals']) {
+		$query = query("SELECT `time`, `denied` FROM `ban_appeals` WHERE `ban_id` = " . (int)$ban['id']) or error(db_error());
+		while ($ban_appeal = $query->fetch(PDO::FETCH_ASSOC)) {
+			if ($ban_appeal['denied']) {
+				$denied_appeals[] = $ban_appeal['time'];
+			} else {
+				$pending_appeal = $ban_appeal['time'];
+			}
+		}
+	}
+	
 	// Show banned page and exit
 	die(
 		Element('page.html', array(
@@ -651,7 +671,9 @@ function displayBan($ban) {
 				'config' => $config,
 				'ban' => $ban,
 				'board' => $board,
-				'post' => isset($post) ? $post->build(true) : false
+				'post' => isset($post) ? $post->build(true) : false,
+				'denied_appeals' => $denied_appeals,
+				'pending_appeal' => $pending_appeal
 			)
 		))
 	));

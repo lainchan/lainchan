@@ -523,8 +523,30 @@
 	// pure-PHP geolocation library.
 	$config['country_flags'] = false;
 
+/*
+* ====================
+*  Ban settings
+* ====================
+*/
+
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
+
+	// Show the post the user was banned for on the "You are banned" page.
+	$config['ban_show_post'] = false;
+
+	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
+	// a link to an email address or IRC chat room to appeal the ban.
+	$config['ban_page_extra'] = '';
+
+	// Allow users to appeal bans through Tinyboard.
+	$config['ban_appeals'] = false;
+
+	// Do not allow users to appeal bans that are shorter than this length (in seconds).
+	$config['ban_appeals_min_length'] = 60 * 60 * 6; // 6 hours
+
+	// How many ban appeals can be made for a single ban?
+	$config['ban_appeals_max'] = 1;
 
 /*
  * ====================
@@ -820,13 +842,6 @@
 
 	// Automatically remove unnecessary whitespace when compiling HTML files from templates.
 	$config['minify_html'] = true;
-
-	// Show the post the user was banned for on the "You are banned" page.
-	$config['ban_show_post'] = false;
-
-	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
-	// a link to an email address or IRC chat room to appeal the ban.
-	$config['ban_page_extra'] = '';
 
 	// Display flags (when available). This config option has no effect unless poster flags are enabled (see
 	// $config['country_flags']). Disable this if you want all previously-assigned flags to be hidden.
@@ -1322,6 +1337,10 @@
 	$config['mod']['debug_sql'] = DISABLED;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
+	// View ban appeals
+	$config['mod']['view_ban_appeals'] = MOD;
+	// Accept and deny ban appeals
+	$config['mod']['ban_appeals'] = MOD;
 
 	// Config editor permissions
 	$config['mod']['config'] = array();

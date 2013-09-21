@@ -425,3 +425,9 @@ p.intro.thread-hidden {
 	margin: 0px;
 	padding: 0px;
 }
+form.ban-appeal {
+	margin: 9px 20px;
+}
+form.ban-appeal textarea {
+	display: block;
+}
