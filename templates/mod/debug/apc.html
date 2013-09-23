@@ -6,7 +6,7 @@
 		<th class="minimal">Expires</th>
 		<th class="minimal">Size</th>
 	</tr>
-	{% for var in cached_vars %}
+	{% for var in cached_vars if (var.ctime is defined ? var.ctime : var.creation_time) + var.ttl > time() %}
 		<tr>
 			<td class="minimal">{{ var.key is defined ? var.key : var.info }}</td>
 			<td class="minimal">{{ var.nhits is defined ? var.nhits : var.num_hits }}</td>
