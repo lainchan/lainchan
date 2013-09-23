@@ -936,7 +936,6 @@
  */
 
 	// Error messages
-	$config['error']['lurk']		= _('Lurk some more before posting.');
 	$config['error']['bot']			= _('You look like a bot.');
 	$config['error']['referer']		= _('Your browser sent an invalid or no HTTP referer.');
 	$config['error']['toolong']		= _('The %s field was too long.');
