@@ -2368,8 +2368,10 @@ function mod_debug_apc() {
 	// $cached_vars = new APCIterator('user', '/^' . $config['cache']['prefix'] . '/');
 	$cached_vars = array();
 	foreach ($cache_info['cache_list'] as $var) {
+		if ($config['cache']['prefix'] != '' && strpos(isset($var['key']) ? $var['key'] : $var['info'], $config['cache']['prefix']) !== 0)
+			continue;
 		$cached_vars[] = $var;
 	}
-		
+	
 	mod_page(_('Debug: APC'), 'mod/debug/apc.html', array('cached_vars' => $cached_vars));
 }
