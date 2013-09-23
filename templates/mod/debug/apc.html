@@ -1,0 +1,23 @@
+<table class="modlog">
+	<tr>
+		<th class="minimal">Key</th>
+		<th class="minimal">Hits</th>
+		<th class="minimal">Created</th>
+		<th class="minimal">Expires</th>
+		<th class="minimal">Size</th>
+		<th>Value</th>
+	</tr>
+	{% for var in cached_vars %}
+		<tr>
+			<td class="minimal">{{ var.key }}</td>
+			<td class="minimal">{{ var.num_hits }}</td>
+			<td class="minimal">{{ var.creation_time|ago }} ago</td>
+			<td class="minimal">{{ (var.creation_time + var.ttl)|until }} (ttl: {{ var.ttl }}s)</td>
+			<td class="minimal">{{ var.mem_size }} bytes</td>
+			<td style="word-wrap:break-word">
+				{% set value = var.value|json_encode %}
+				<code>{{ value[:80]|e('html') }}{% if value|length > 80 %}&hellip;{% endif %}</code>
+			</td>
+		</tr>
+	{% endfor %}
+</table>

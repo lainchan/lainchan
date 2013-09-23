@@ -1340,6 +1340,8 @@
 	$config['mod']['news_delete'] = ADMIN;
 	// Execute un-filtered SQL queries on the database (?/debug/sql)
 	$config['mod']['debug_sql'] = DISABLED;
+	// Look through all cache values for debugging when APC is enabled (?/debug/apc)
+	$config['mod']['debug_apc'] = ADMIN;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
 	// View ban appeals

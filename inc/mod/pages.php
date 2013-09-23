@@ -2354,3 +2354,16 @@ function mod_debug_sql() {
 	mod_page(_('Debug: SQL'), 'mod/debug/sql.html', $args);
 }
 
+function mod_debug_apc() {
+	global $config;
+	
+	if (!hasPermission($config['mod']['debug_apc']))
+		error($config['error']['noaccess']);
+	
+	if ($config['cache']['enabled'] != 'apc')
+		error('APC is not enabled.');
+	
+	$cached_vars = new APCIterator('user', '/^' . $config['cache']['prefix'] . '/');
+	
+	mod_page(_('Debug: APC'), 'mod/debug/apc.html', array('cached_vars' => $cached_vars));
+}
