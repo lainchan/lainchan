@@ -2363,7 +2363,13 @@ function mod_debug_apc() {
 	if ($config['cache']['enabled'] != 'apc')
 		error('APC is not enabled.');
 	
-	$cached_vars = new APCIterator('user', '/^' . $config['cache']['prefix'] . '/');
+	$cache_info = apc_cache_info('user');
 	
+	// $cached_vars = new APCIterator('user', '/^' . $config['cache']['prefix'] . '/');
+	$cached_vars = array();
+	foreach ($cache_info['cache_list'] as $var) {
+		$cached_vars[] = $var;
+	}
+		
 	mod_page(_('Debug: APC'), 'mod/debug/apc.html', array('cached_vars' => $cached_vars));
 }
