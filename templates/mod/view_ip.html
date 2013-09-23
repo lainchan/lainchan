@@ -57,6 +57,7 @@
 		
 		{% if mod|hasPermission(config.mod.create_notes) %}
 			<form action="" method="post" style="margin:0">
+				<input type="hidden" name="token" value="{{ security_token }}">
 				<table>
 					<tr>
 						<th>{% trans 'Staff' %}</th>
@@ -87,6 +88,7 @@
 		
 		{% for ban in bans %}
 			<form action="" method="post" style="text-align:center">
+				<input type="hidden" name="token" value="{{ security_token }}">
 				<table style="width:400px;margin-bottom:10px;border-bottom:1px solid #ddd;padding:5px">
 					<tr>
 						<th>{% trans 'Status' %}</th>

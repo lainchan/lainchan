@@ -156,7 +156,9 @@ function mod_dashboard() {
 		if ($latest)
 			$args['newer_release'] = $latest;
 	}
-			
+	
+	$args['logout_token'] = make_secure_link_token('logout');
+	
 	mod_page(_('Dashboard'), 'mod/dashboard.html', $args);
 }
 
@@ -389,7 +391,10 @@ function mod_edit_board($boardName) {
 		
 		header('Location: ?/', true, $config['redirect_http']);
 	} else {
-		mod_page(sprintf('%s: ' . $config['board_abbreviation'], _('Edit board'), $board['uri']), 'mod/board.html', array('board' => $board));
+		mod_page(sprintf('%s: ' . $config['board_abbreviation'], _('Edit board'), $board['uri']), 'mod/board.html', array(
+			'board' => $board,
+			'token' => make_secure_link_token('edit/' . $board['uri'])
+		));
 	}
 }
 
@@ -459,7 +464,7 @@ function mod_new_board() {
 		header('Location: ?/' . $board['uri'] . '/' . $config['file_index'], true, $config['redirect_http']);
 	}
 	
-	mod_page(_('New board'), 'mod/board.html', array('new' => true));
+	mod_page(_('New board'), 'mod/board.html', array('new' => true, 'token' => make_secure_link_token('new-board')));
 }
 
 function mod_noticeboard($page_no = 1) {
@@ -502,11 +507,19 @@ function mod_noticeboard($page_no = 1) {
 	if (empty($noticeboard) && $page_no > 1)
 		error($config['error']['404']);
 	
+	foreach ($noticeboard as &$entry) {
+		$entry['delete_token'] = make_secure_link_token('noticeboard/delete/' . $entry['id']);
+	}
+	
 	$query = prepare("SELECT COUNT(*) FROM ``noticeboard``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
-	mod_page(_('Noticeboard'), 'mod/noticeboard.html', array('noticeboard' => $noticeboard, 'count' => $count));
+	mod_page(_('Noticeboard'), 'mod/noticeboard.html', array(
+		'noticeboard' => $noticeboard,
+		'count' => $count,
+		'token' => make_secure_link_token('noticeboard')
+	));
 }
 
 function mod_noticeboard_delete($id) {
@@ -563,11 +576,15 @@ function mod_news($page_no = 1) {
 	if (empty($news) && $page_no > 1)
 		error($config['error']['404']);
 	
+	foreach ($news as &$entry) {
+		$entry['delete_token'] = make_secure_link_token('news/delete/' . $entry['id']);
+	}
+	
 	$query = prepare("SELECT COUNT(*) FROM ``news``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
-	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count));
+	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count, 'token' => make_secure_link_token('news')));
 }
 
 function mod_news_delete($id) {
@@ -773,6 +790,8 @@ function mod_page_ip($ip) {
 		$args['logs'] = array();
 	}
 	
+	$args['security_token'] = make_secure_link_token('IP/' . $ip);
+	
 	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
@@ -835,7 +854,11 @@ function mod_bans($page_no = 1) {
 			$ban['single_addr'] = true;
 	}
 	
-	mod_page(_('Ban list'), 'mod/ban_list.html', array('bans' => $bans, 'count' => Bans::count()));
+	mod_page(_('Ban list'), 'mod/ban_list.html', array(
+		'bans' => $bans,
+		'count' => Bans::count(),
+		'token' => make_secure_link_token('bans')
+	));
 }
 
 function mod_ban_appeals() {
@@ -851,15 +874,23 @@ function mod_ban_appeals() {
 	if (isset($_POST['appeal_id']) && (isset($_POST['unban']) || isset($_POST['deny']))) {
 		if (!hasPermission($config['mod']['ban_appeals']))
 			error($config['error']['noaccess']);
+		
+		$query = query("SELECT *, ``ban_appeals``.`id` AS `id` FROM ``ban_appeals``
+			LEFT JOIN ``bans`` ON `ban_id` = ``bans``.`id`
+			WHERE ``ban_appeals``.`id` = " . (int)$_POST['appeal_id']) or error(db_error());
+		if (!$ban = $query->fetch(PDO::FETCH_ASSOC)) {
+			error(_('Ban appeal not found!'));
+		}
+		
+		$ban['mask'] = Bans::range_to_string(array($ban['ipstart'], $ban['ipend']));
+		
 		if (isset($_POST['unban'])) {
-			$query = query("SELECT `ban_id` FROM ``ban_appeals`` WHERE `id` = " .
-				(int)$_POST['appeal_id']) or error(db_error());
-			if ($ban_id = $query->fetchColumn()) {
-				Bans::delete($ban_id);
-				query("DELETE FROM ``ban_appeals`` WHERE `id` = " . (int)$_POST['appeal_id']) or error(db_error());
-			}
+			modLog('Accepted ban appeal #' . $ban['id'] . ' for ' . $ban['mask']);
+			Bans::delete($ban['ban_id'], true);
+			query("DELETE FROM ``ban_appeals`` WHERE `id` = " . $ban['id']) or error(db_error());
 		} else {
-			query("UPDATE ``ban_appeals`` SET `denied` = 1 WHERE `id` = " . (int)$_POST['appeal_id']) or error(db_error());
+			modLog('Denied ban appeal #' . $ban['id'] . ' for ' . $ban['mask']);
+			query("UPDATE ``ban_appeals`` SET `denied` = 1 WHERE `id` = " . $ban['id']) or error(db_error());
 		}
 		
 		header('Location: ?/ban-appeals', true, $config['redirect_http']);
@@ -898,7 +929,10 @@ function mod_ban_appeals() {
 		}
 	}
 
-	mod_page(_('Ban appeals'), 'mod/ban_appeals.html', array('ban_appeals' => $ban_appeals));
+	mod_page(_('Ban appeals'), 'mod/ban_appeals.html', array(
+		'ban_appeals' => $ban_appeals,
+		'token' => make_secure_link_token('ban-appeals')
+	));
 }
 
 function mod_lock($board, $unlock, $post) {
@@ -1583,7 +1617,12 @@ function mod_user($uid) {
 	
 	$user['boards'] = explode(',', $user['boards']);
 	
-	mod_page(_('Edit user'), 'mod/user.html', array('user' => $user, 'logs' => $log, 'boards' => listBoards()));
+	mod_page(_('Edit user'), 'mod/user.html', array(
+		'user' => $user,
+		'logs' => $log,
+		'boards' => listBoards(),
+		'token' => make_secure_link_token('users/' . $user['id'])
+	));
 }
 
 function mod_user_new() {
@@ -1636,7 +1675,7 @@ function mod_user_new() {
 		return;
 	}
 		
-	mod_page(_('Edit user'), 'mod/user.html', array('new' => true, 'boards' => listBoards()));
+	mod_page(_('New user'), 'mod/user.html', array('new' => true, 'boards' => listBoards(), 'token' => make_secure_link_token('users/new')));
 }
 
 
@@ -1646,8 +1685,17 @@ function mod_users() {
 	if (!hasPermission($config['mod']['manageusers']))
 		error($config['error']['noaccess']);
 	
-	$query = query("SELECT *, (SELECT `time` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`, (SELECT `text` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action` FROM ``mods`` ORDER BY `type` DESC,`id`") or error(db_error());
+	$query = query("SELECT
+		*,
+		(SELECT `time` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `last`,
+		(SELECT `text` FROM ``modlogs`` WHERE `mod` = `id` ORDER BY `time` DESC LIMIT 1) AS `action`
+		FROM ``mods`` ORDER BY `type` DESC,`id`") or error(db_error());
 	$users = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	foreach ($users as &$user) {
+		$user['promote_token'] = make_secure_link_token("users/{$user['id']}/promote");
+		$user['demote_token'] = make_secure_link_token("users/{$user['id']}/demote");
+	}
 	
 	mod_page(sprintf('%s (%d)', _('Manage users'), count($users)), 'mod/users.html', array('users' => $users));
 }
@@ -1740,7 +1788,10 @@ function mod_pm($id, $reply = false) {
 			error($config['error']['404']); // deleted?
 		
 		mod_page(sprintf('%s %s', _('New PM for'), $pm['to_username']), 'mod/new_pm.html', array(
-			'username' => $pm['username'], 'id' => $pm['sender'], 'message' => quote($pm['message'])
+			'username' => $pm['username'],
+			'id' => $pm['sender'],
+			'message' => quote($pm['message']),
+			'token' => make_secure_link_token('new_PM/' . $pm['username'])
 		));
 	} else {
 		mod_page(sprintf('%s &ndash; #%d', _('Private message'), $id), 'mod/pm.html', $pm);
@@ -1812,7 +1863,11 @@ function mod_new_pm($username) {
 		header('Location: ?/', true, $config['redirect_http']);
 	}
 	
-	mod_page(sprintf('%s %s', _('New PM for'), $username), 'mod/new_pm.html', array('username' => $username, 'id' => $id));
+	mod_page(sprintf('%s %s', _('New PM for'), $username), 'mod/new_pm.html', array(
+		'username' => $username,
+		'id' => $id,
+		'token' => make_secure_link_token('new_PM/' . $username)
+	));
 }
 
 function mod_rebuild() {
@@ -1881,7 +1936,10 @@ function mod_rebuild() {
 		return;
 	}
 	
-	mod_page(_('Rebuild'), 'mod/rebuild.html', array('boards' => listBoards()));
+	mod_page(_('Rebuild'), 'mod/rebuild.html', array(
+		'boards' => listBoards(),
+		'token' => make_secure_link_token('rebuild')
+	));
 }
 
 function mod_reports() {
@@ -1936,7 +1994,13 @@ function mod_reports() {
 		}
 		
 		// a little messy and inefficient
-		$append_html = Element('mod/report.html', array('report' => $report, 'config' => $config, 'mod' => $mod));
+		$append_html = Element('mod/report.html', array(
+			'report' => $report,
+			'config' => $config,
+			'mod' => $mod,
+			'token' => make_secure_link_token('reports/' . $report['id'] . '/dismiss'),
+			'token_all' => make_secure_link_token('reports/' . $report['id'] . '/dismissall')
+		));
 		
 		// Bug fix for https://github.com/savetheinternet/Tinyboard/issues/21
 		$po->body = truncate($po->body, $po->link(), $config['body_truncate'] - substr_count($append_html, '<br>'));
@@ -2030,7 +2094,8 @@ function mod_config($board_config = false) {
 			'readonly' => $readonly,
 			'boards' => listBoards(),
 			'board' => $board_config,
-			'file' => $config_file
+			'file' => $config_file,
+			'token' => make_secure_link_token('config' . ($board_config ? '/' . $board_config : ''))
 		));
 		return;
 	}
@@ -2113,17 +2178,18 @@ function mod_config($board_config = false) {
 			}
 		}
 		
-		header('Location: ?/config', true, $config['redirect_http']);
+		header('Location: ?/config' . ($board_config ? '/' . $board_config : ''), true, $config['redirect_http']);
 		
 		exit;
 	}
-	
+
 	mod_page(_('Config editor') . ($board_config ? ': ' . sprintf($config['board_abbreviation'], $board_config) : ''),
 		'mod/config-editor.html', array(
 			'boards' => listBoards(),
 			'board' => $board_config,
 			'conf' => $conf,
-			'file' => $config_file
+			'file' => $config_file,
+			'token' => make_secure_link_token('config' . ($board_config ? '/' . $board_config : ''))
 	));
 }
 
@@ -2149,6 +2215,11 @@ function mod_themes_list() {
 		}
 	}
 	closedir($dir);
+	
+	foreach ($themes as $theme_name => &$theme) {
+		$theme['rebuild_token'] = make_secure_link_token('themes/' . $theme_name . '/rebuild');
+		$theme['uninstall_token'] = make_secure_link_token('themes/' . $theme_name . '/uninstall');
+	}
 
 	mod_page(_('Manage themes'), 'mod/themes.html', array(
 		'themes' => $themes,
@@ -2219,7 +2290,7 @@ function mod_theme_configure($theme_name) {
 			'theme_name' => $theme_name,
 			'theme' => $theme,
 			'result' => $result,
-			'message' => $message,
+			'message' => $message
 		));
 		return;
 	}
@@ -2230,6 +2301,7 @@ function mod_theme_configure($theme_name) {
 		'theme_name' => $theme_name,
 		'theme' => $theme,
 		'settings' => $settings,
+		'token' => make_secure_link_token('themes/' . $theme_name)
 	));
 }
 

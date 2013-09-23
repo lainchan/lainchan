@@ -1,7 +1,8 @@
 {% if bans|count == 0 %}
 	<p style="text-align:center" class="unimportant">({% trans 'There are no active bans.' %})</p>
 {% else %}
-	<form action="" method="post">
+	<form action="?/bans" method="post">
+		<input type="hidden" name="token" value="{{ token }}">
 		<table class="mod" style="width:100%">
 			<tr>
 				<th>{% trans 'IP address/mask' %}</th>

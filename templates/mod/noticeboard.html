@@ -1,7 +1,8 @@
 {% if mod|hasPermission(config.mod.noticeboard_post) %}
 	<fieldset>
 		<legend>{% trans 'New post' %}</legend>
-		<form style="margin:0" action="" method="post">
+		<form style="margin:0" action="?/noticeboard" method="post">
+			<input type="hidden" name="token" value="{{ token }}">
 			<table>
 				<tr>
 					<th>{% trans 'Name' %}</th>
@@ -27,7 +28,7 @@
 	<div class="ban">
 		{% if mod|hasPermission(config.mod.noticeboard_delete) %}
 			<span style="float:right;padding:2px">
-				<a class="unimportant" href="?/noticeboard/delete/{{ post.id }}">[{% trans 'delete' %}]</a>
+				<a class="unimportant" href="?/noticeboard/delete/{{ post.id }}/{{ post.delete_token }}">[{% trans 'delete' %}]</a>
 			</span>
 		{% endif %}
 		<h2 id="{{ post.id }}">

@@ -1,4 +1,5 @@
 <form action="" method="post">
+	<input type="hidden" name="token" value="{{ token }}">
 	{% if not config %}
 		<p style="text-align:center" class="unimportant">(No configuration required.)</p>
 	{% else %}

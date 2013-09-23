@@ -5,6 +5,7 @@
 {% endif %}
 
 <form action="{{ action }}" method="post">
+	<input type="hidden" name="token" value="{{ token }}">
 	<table>
 		<tr>
 			<th>{% trans 'URI' %}</th>
