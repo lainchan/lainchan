@@ -8,7 +8,7 @@ imageboard software package. It is written in PHP and has few dependencies.
 
 Requirements
 ------------
-1.	PHP >= 5.2.5
+1.	PHP >= 5.3
 2.	MySQL server
 3.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
 4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
@@ -19,10 +19,9 @@ operating systems. Tinyboard does not include an Apache ```.htaccess``` file nor
 it need one.
 
 ### Recommended
-1.	PHP >= 5.3
-2.	MySQL server >= 5.5.3
-3.	ImageMagick (command-line ImageMagick or GraphicsMagick preferred).
-4.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
+1.	MySQL server >= 5.5.3
+2.	ImageMagick (command-line ImageMagick or GraphicsMagick preferred).
+3.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
 
 Contributing
 ------------
