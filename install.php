@@ -13,7 +13,7 @@ $page = array(
 	'nojavascript' => true
 );
 
-// this breaks the dispaly of licenses if enabled
+// this breaks the display of licenses if enabled
 $config['minify_html'] = false;
 
 if (file_exists($config['has_installed'])) {
