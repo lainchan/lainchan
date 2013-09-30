@@ -199,27 +199,71 @@ function mod_search($type, $search_query_escaped, $page_no = 1) {
 	// Form a series of LIKE clauses for the query.
 	// This gets a little complicated.
 	
-		
+	// Escape "escape" character
+	$query = str_replace('!', '!!', $query);
+	
+	// Escape SQL wildcard
+	$query = str_replace('%', '!%', $query);
+	
+	// Use asterisk as wildcard instead
+	$query = str_replace('*', '%', $query);
+	
+	$query = str_replace('`', '!`', $query);
+	
+	// Array of phrases to match
+	$match = array();
+
+	// Exact phrases ("like this")
+	if (preg_match_all('/"(.+?)"/', $query, $exact_phrases)) {
+		$exact_phrases = $exact_phrases[1];
+		foreach ($exact_phrases as $phrase) {
+			$query = str_replace("\"{$phrase}\"", '', $query);
+			$match[] = $pdo->quote($phrase);
+		}
+	}
+	
+	// Non-exact phrases (ie. plain keywords)
+	$keywords = explode(' ', $query);
+	foreach ($keywords as $word) {
+		if (empty($word))
+			continue;
+		$match[] = $pdo->quote($word);
+	}
+	
 	// Which `field` to search?
 	if ($type == 'posts')
-		$sql_field = array('body_nomarkup', 'filename', 'subject', 'filehash', 'ip', 'name', 'trip');
+		$sql_field = array('body_nomarkup', 'filename', 'file', 'subject', 'filehash', 'ip', 'name', 'trip');
 	if ($type == 'IP_notes')
 		$sql_field = 'body';
 	if ($type == 'bans')
 		$sql_field = 'reason';
 	if ($type == 'log')
 		$sql_field = 'text';
-	
+
+	// Build the "LIKE 'this' AND LIKE 'that'" etc. part of the SQL query
+	$sql_like = '';
+	foreach ($match as $phrase) {
+		if (!empty($sql_like))
+			$sql_like .= ' AND ';
+		$phrase = preg_replace('/^\'(.+)\'$/', '\'%$1%\'', $phrase);
+		if (is_array($sql_field)) {
+			foreach ($sql_field as $field) {
+				$sql_like .= '`' . $field . '` LIKE ' . $phrase . ' ESCAPE \'!\' OR';
+			}
+			$sql_like = preg_replace('/ OR$/', '', $sql_like);
+		} else {
+			$sql_like .= '`' . $sql_field . '` LIKE ' . $phrase . ' ESCAPE \'!\'';
+		}
+	}
 	
 	// Compile SQL query
 	
 	if ($type == 'posts') {
 		$query = '';
-		
 		$boards = listBoards();
 		if (empty($boards))
 			error(_('There are no boards to search!'));
-		
+			
 		foreach ($boards as $board) {
 			openBoard($board['uri']);
 			if (!hasPermission($config['mod']['search_posts'], $board['uri']))
