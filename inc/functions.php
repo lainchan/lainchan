@@ -1538,7 +1538,25 @@ function markup_url($matches) {
 
 	$markup_urls[] = $url;
 
-	return '<a target="_blank" rel="nofollow" href="'. $config['link_prefix'] . $url . '">' . $url . '</a>' . $after;
+	$link = (object) array(
+		'href' => $url,
+		'text' => $url,
+		'rel' => 'nofollow',
+		'target' => '_blank',
+	);
+	
+	event('markup-url', $link);
+	$link = (array)$link;
+
+	$parts = array();
+	foreach ($link as $attr => $value) {
+		if ($attr == 'text' || $attr == 'after')
+			continue;
+		$parts[] = $attr . '="' . htmlspecialchars($value) . '"';
+	}
+	if (isset($link['after']))
+		$after = $link['after'] . $after;
+	return '<a ' . implode(' ', $parts) . '>' . utf8tohtml($link['text']) . '</a>' . $after;
 }
 
 function unicodify($body) {
