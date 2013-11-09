@@ -10,7 +10,7 @@ Be aware that this is beta software.  Please report any bugs you find.
 The modified Tinyboard templates (post_reply.html and post_thread.html) are subject to the Tinyboard licence (see LICENSE.md).  The portions of this software not derived from Tinyboard are released into the public domain.
 
 
-INSTALLATION
+Installation
 ------------
 
 Create a directory named cc at the root of your Tinyboard installation.  Upload these files into that directory.
