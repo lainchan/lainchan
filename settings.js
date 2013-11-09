@@ -1,7 +1,7 @@
 var settingsPanel = document.createElement("div");
 settingsPanel.innerHTML = '<div style="text-align: right;">Settings</div><div style="display: none;">'
     + '<label><input type="checkbox" name="videoexpand" checked>Expand videos inline</label><br>'
-    + '<label><input type="checkbox" name="videohover" checked>Play videos on hover</label><br>'
+    + '<label><input type="checkbox" name="videohover">Play videos on hover</label><br>'
     + '<label><input type="checkbox" name="videomuted">Start videos muted</label><br>'
     + '</div>';
 
