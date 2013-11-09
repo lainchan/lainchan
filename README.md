@@ -17,6 +17,7 @@ Create a directory named cc at the root of your Tinyboard installation.  Upload 
 Replace the files templates/post_thread.html and templates/post_reply.html with the files given here.
 
 Add these lines to inc/instance-config.php:
+
     $config['allowed_ext_files'][] = 'webm';
     $config['additional_javascript'][] = 'cc/settings.js';
     $config['additional_javascript'][] = 'cc/expandvideo.js';
@@ -24,4 +25,5 @@ Add these lines to inc/instance-config.php:
     event_handler('post', 'postHandler');
 
 And add this to stylesheets/style.css:
+
     video.post-image {display: block; float: left; margin: 10px 20px; border: none;}
