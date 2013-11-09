@@ -11,6 +11,7 @@ The modified Tinyboard templates (post_reply.html and post_thread.html) are subj
 
 
 INSTALLATION
+============
 
 Create a directory named cc at the root of your Tinyboard installation.  Upload these files into that directory.
 
