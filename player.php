@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title><?php echo htmlspecialchars($_GET["t"]) ?></title>
-    <script src="settings.js"></script>
+    <link rel="stylesheet" href="playerstyle.css">
+    <script src="defaults.js"></script>
     <script src="playersettings.js"></script>
 </head>
 <body>

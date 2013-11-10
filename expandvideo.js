@@ -106,12 +106,7 @@ function setupVideo(thumb, url) {
     thumb.onmouseout = unhover;
 }
 
-window.onload = function() {
-    settingsPanel.style.position = "absolute";
-    settingsPanel.style.top = "1em";
-    settingsPanel.style.right = "1em";
-    document.body.insertBefore(settingsPanel, document.body.firstChild);
-
+if (window.addEventListener) window.addEventListener("load", function(e) {
     var thumbs = document.querySelectorAll("a.file");
     for (var i = 0; i < thumbs.length; i++) {
         if (/\.webm$/.test(thumbs[i].pathname)) {
@@ -124,4 +119,4 @@ window.onload = function() {
             }
         }
     }
-};
+}, false);
