@@ -59,6 +59,7 @@ function setupVideo(thumb, url) {
             video.style.position = "static";
             video.style.maxWidth = "";
             video.style.maxHeight = "";
+            video.style.pointerEvents = "auto";
 
             video.style.display = "inline";
             videoHide.style.display = "inline";
@@ -78,11 +79,19 @@ function setupVideo(thumb, url) {
             expanded = false;
             hovering = true;
 
+            var docRight = document.body.parentNode.getBoundingClientRect().right;
+            var thumbRight = thumb.querySelector("img, video").getBoundingClientRect().right;
+            var maxWidth = docRight - thumbRight - 20;
+            if (maxWidth < 250) maxWidth = 250;
+
             video.style.position = "fixed";
             video.style.right = "0px";
             video.style.top = "0px";
-            video.style.maxWidth = (document.body.parentNode.getBoundingClientRect().right - thumb.getBoundingClientRect().right) + "px";
+            var docRight = document.body.parentNode.getBoundingClientRect().right;
+            var thumbRight = thumb.querySelector("img, video").getBoundingClientRect().right;
+            video.style.maxWidth = maxWidth + "px";
             video.style.maxHeight = "100%";
+            video.style.pointerEvents = "none";
 
             video.style.display = "inline";
             videoHide.style.display = "none";
