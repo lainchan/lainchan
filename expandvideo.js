@@ -27,12 +27,12 @@ function setupVideo(thumb, url) {
             video.src = url;
             video.loop = true;
             video.innerText = "Your browser does not support HTML5 video.";
-            video.onclick = function(e) {
+            video.addEventListener("click", function(e) {
                 if (e.shiftKey) {
                     unexpand();
                     e.preventDefault();
                 }
-            };
+            }, false);
 
             videoHide = document.createElement("img");
             videoHide.src = configRoot + "cc/collapse.gif";
@@ -40,7 +40,7 @@ function setupVideo(thumb, url) {
             videoHide.title = "Collapse to thumbnail";
             videoHide.style.verticalAlign = "top";
             videoHide.style.marginRight = "2px";
-            videoHide.onclick = unexpand;
+            videoHide.addEventListener("click", unexpand, false);
 
             videoContainer = document.createElement("div");
             videoContainer.style.whiteSpace = "nowrap";
@@ -50,7 +50,7 @@ function setupVideo(thumb, url) {
         }
     }
 
-    thumb.onclick = function(e) {
+    thumb.addEventListener("click", function(e) {
         if (setting("videoexpand") && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) {
             getVideo();
             expanded = true;
@@ -69,11 +69,11 @@ function setupVideo(thumb, url) {
             video.muted = setting("videomuted");
             video.controls = true;
             video.play();
-            return false;
+            e.preventDefault();
         }
-    };
+    }, false);
 
-    thumb.onmouseover = function(e) {
+    thumb.addEventListener("mouseover", function(e) {
         if (setting("videohover")) {
             getVideo();
             expanded = false;
@@ -101,12 +101,14 @@ function setupVideo(thumb, url) {
             video.controls = false;
             video.play();
         }
-    };
+    }, false);
 
-    thumb.onmouseout = unhover;
+    thumb.addEventListener("mouseout", unhover, false);
 }
 
 if (window.addEventListener) window.addEventListener("load", function(e) {
+    document.body.insertBefore(settingsMenu, document.body.firstChild);
+
     var thumbs = document.querySelectorAll("a.file");
     for (var i = 0; i < thumbs.length; i++) {
         if (/\.webm$/.test(thumbs[i].pathname)) {

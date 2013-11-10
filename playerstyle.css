@@ -7,3 +7,13 @@ video {
     margin-left: auto;
     margin-right: auto;
 }
+#playerheader {
+    text-align: right;
+}
+#playerheader a {
+    color: white;
+    text-decoration: none;
+}
+span.settings {
+    position: relative;
+}

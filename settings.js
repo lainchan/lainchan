@@ -1,12 +1,26 @@
+// Scripts obtain settings by calling this function
+function setting(name) {
+    return JSON.parse(localStorage[name]);
+}
+
+// Default settings
+function setDefault(name, value) {
+    if (!(name in localStorage)) {
+        localStorage[name] = JSON.stringify(value);
+    }
+}
+setDefault("videoexpand", true);
+setDefault("videohover", false);
+setDefault("videomuted", false);
+
 // Create settings menu
-var settingsMenu = document.createElement("div");
-settingsMenu.style.position = "absolute";
-settingsMenu.style.top = "1em";
-settingsMenu.style.right = "1em";
-settingsMenu.innerHTML = '<div style="text-align: right;">Settings</div><div style="display: none;">'
+var settingsMenu = document.createElement("span");
+settingsMenu.className = "settings";
+settingsMenu.innerHTML = '<span>[Settings]</span>'
+    + '<div style="display: none; text-align: left; position: absolute; right: 0px; margin-left: -999em;">'
     + '<label><input type="checkbox" name="videoexpand">Expand videos inline</label><br>'
     + '<label><input type="checkbox" name="videohover">Play videos on hover</label><br>'
-    + '<label><input type="checkbox" name="videomuted">Start videos muted</label><br>'
+    + '<label><input type="checkbox" name="videomuted">Open videos muted</label><br>'
     + '</div>';
 
 function refreshSettings() {
@@ -18,9 +32,9 @@ function refreshSettings() {
 }
 
 function setupCheckbox(box) {
-    box.onchange = function(e) {
+    if (box.addEventListener) box.addEventListener("change", function(e) {
         localStorage[box.name] = JSON.stringify(box.checked);
-    };
+    }, false);
 }
 
 refreshSettings();
@@ -29,18 +43,14 @@ for (var i = 0; i < settingsItems.length; i++) {
     setupCheckbox(settingsItems[i]);
 }
 
-settingsMenu.onmouseover = function(e) {
-    refreshSettings();
-    var settingsSections = settingsMenu.getElementsByTagName("div");
-    settingsSections[0].style.fontWeight = "bold";
-    settingsSections[1].style.display = "block";
-};
-settingsMenu.onmouseout = function(e) {
-    var settingsSections = settingsMenu.getElementsByTagName("div");
-    settingsSections[0].style.fontWeight = "normal";
-    settingsSections[1].style.display = "none";
-};
-
-if (window.addEventListener) window.addEventListener("load", function(e) {
-    document.body.insertBefore(settingsMenu, document.body.firstChild);
-}, false);
+if (settingsMenu.addEventListener) {
+    settingsMenu.addEventListener("mouseover", function(e) {
+        refreshSettings();
+        settingsMenu.getElementsByTagName("span")[0].style.fontWeight = "bold";
+        settingsMenu.getElementsByTagName("div")[0].style.display = "block";
+    }, false);
+    settingsMenu.addEventListener("mouseout", function(e) {
+        settingsMenu.getElementsByTagName("span")[0].style.fontWeight = "normal";
+        settingsMenu.getElementsByTagName("div")[0].style.display = "none";
+    }, false);
+}

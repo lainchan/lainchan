@@ -93,7 +93,7 @@
 </p>
 	<a href="
 		{% if post.file|extension == 'webm' %}
-			{{ config.root }}cc/player.php?v={{ config.uri_img }}{{ post.file }}&amp;t={{ post.filename|e('url') }}
+			{{ config.root }}cc/player.php?v={{ config.uri_img }}{{ post.file }}&amp;t={{ post.filename|e('url') }}&amp;loop=1
 		{% else %}
 			{{ config.uri_img }}{{ post.file }}
 		{% endif %}" target="_blank"{% if post.thumb == 'file' or post.modifiers['is_file'] == '1' or post.filename|extension == 'webm' %} class="file"{% endif %}>
