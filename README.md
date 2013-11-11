@@ -23,6 +23,7 @@ Add these lines to inc/instance-config.php:
     $config['additional_javascript'][] = 'cc/settings.js';
     $config['additional_javascript'][] = 'cc/expandvideo.js';
     require_once 'cc/posthandler.php';
+    event_handler('post', 'postHandler');
 
 And add this to stylesheets/style.css:
 
