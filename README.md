@@ -33,7 +33,7 @@ And add this to stylesheets/style.css:
         border: none;
     }
     span.settings {
-        position: absolute;
+        position: fixed;
         top: 1em;
         right: 1em;
     }
