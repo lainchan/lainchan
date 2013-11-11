@@ -41,11 +41,11 @@ function setupVideo(thumb, url) {
             videoHide.src = configRoot + "cc/collapse.gif";
             videoHide.alt = "[ - ]";
             videoHide.title = "Collapse video";
-            videoHide.style.verticalAlign = "top";
-            videoHide.style.marginRight = "2px";
+            videoHide.style.marginLeft = "-15px";
+            videoHide.style.cssFloat = "left";
 
             videoContainer = document.createElement("div");
-            videoContainer.style.whiteSpace = "nowrap";
+            videoContainer.style.paddingLeft = "15px";
             videoContainer.appendChild(videoHide);
             videoContainer.appendChild(video);
             thumb.parentNode.insertBefore(videoContainer, thumb.nextSibling);
@@ -64,8 +64,8 @@ function setupVideo(thumb, url) {
             hovering = false;
 
             video.style.position = "static";
-            video.style.maxWidth = "";
-            video.style.maxHeight = "";
+            video.style.maxWidth = "100%";
+            video.style.maxHeight = window.innerHeight + "px";
             video.style.pointerEvents = "auto";
 
             video.style.display = "inline";
@@ -132,6 +132,7 @@ function setupVideo(thumb, url) {
     loopControls[1].style.fontWeight = "bold";
     for (var i = 0; i < 2; i++) {
         setupLoopControl(i);
+        loopControls[i].style.whiteSpace = "nowrap";
         fileInfo.appendChild(document.createTextNode(" "));
         fileInfo.appendChild(loopControls[i]);
     }
