@@ -3,6 +3,9 @@ function setupVideo(thumb, url) {
     var videoContainer, videoHide;
     var expanded = false;
     var hovering = false;
+    var loop = true;
+    var loopControls = [document.createElement("span"), document.createElement("span")];
+    var fileInfo = thumb.parentNode.querySelector(".fileinfo");
 
     function unexpand() {
         if (expanded) {
@@ -25,7 +28,7 @@ function setupVideo(thumb, url) {
         if (video == null) {
             video = document.createElement("video");
             video.src = url;
-            video.loop = true;
+            video.loop = loop;
             video.innerText = "Your browser does not support HTML5 video.";
             video.addEventListener("click", function(e) {
                 if (e.shiftKey) {
@@ -104,6 +107,30 @@ function setupVideo(thumb, url) {
     }, false);
 
     thumb.addEventListener("mouseout", unhover, false);
+
+    function setupLoopControl(i) {
+        loopControls[i].addEventListener("click", function(e) {
+            loop = (i != 0);
+            thumb.href = thumb.href.replace(/([\?&])loop=\d+/, "$1loop=" + i);
+            if (video != null) {
+                video.loop = loop;
+                if (loop && video.currentTime >= video.duration) {
+                    video.currentTime = 0;
+                }
+            }
+            loopControls[i].style.fontWeight = "bold";
+            loopControls[1-i].style.fontWeight = "inherit";
+        }, false);
+    }
+
+    loopControls[0].textContent = "[play once]";
+    loopControls[1].textContent = "[loop]";
+    loopControls[1].style.fontWeight = "bold";
+    for (var i = 0; i < 2; i++) {
+        setupLoopControl(i);
+        fileInfo.appendChild(document.createTextNode(" "));
+        fileInfo.appendChild(loopControls[i]);
+    }
 }
 
 if (window.addEventListener) window.addEventListener("load", function(e) {

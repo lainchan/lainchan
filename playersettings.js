@@ -7,10 +7,9 @@ if (window.addEventListener) window.addEventListener("load", function(e) {
     function setupLoopLink(i) {
         loopLinks[i].addEventListener("click", function(e) {
             video.loop = (i != 0);
-            if (i == 1 && video.currentTime >= video.duration) {
+            if (i != 0 && video.currentTime >= video.duration) {
                 video.currentTime = 0;
             }
-            video.play();
             loopLinks[i].style.fontWeight = "bold";
             loopLinks[1-i].style.fontWeight = "inherit";
             e.preventDefault();
