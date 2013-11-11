@@ -40,16 +40,20 @@ function setupVideo(thumb, url) {
             videoHide = document.createElement("img");
             videoHide.src = configRoot + "cc/collapse.gif";
             videoHide.alt = "[ - ]";
-            videoHide.title = "Collapse to thumbnail";
+            videoHide.title = "Collapse video";
             videoHide.style.verticalAlign = "top";
             videoHide.style.marginRight = "2px";
-            videoHide.addEventListener("click", unexpand, false);
 
             videoContainer = document.createElement("div");
             videoContainer.style.whiteSpace = "nowrap";
             videoContainer.appendChild(videoHide);
             videoContainer.appendChild(video);
             thumb.parentNode.insertBefore(videoContainer, thumb.nextSibling);
+
+            // Clicking anywhere in the strip beneath the collapse button collapses the video
+            videoContainer.addEventListener("click", function(e) {
+                if (e.target != video) unexpand();
+            } , false);
         }
     }
 
