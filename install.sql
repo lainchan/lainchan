@@ -280,6 +280,22 @@ CREATE TABLE IF NOT EXISTS `flood` (
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_bin AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ban_appeals`
+--
+
+CREATE TABLE IF NOT EXISTS `ban_appeals` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ban_id` int(10) unsigned NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  `message` text NOT NULL,
+  `denied` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ban_id` (`ban_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

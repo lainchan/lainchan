@@ -13,13 +13,13 @@
 	{% if mod|hasPermission(config.mod.report_dismiss, report.board) or mod|hasPermission(config.mod.report_dismiss_ip, report.board) %}
 		<hr>
 		{% if mod|hasPermission(config.mod.report_dismiss, report.board) %}
-			<a title="{% trans 'Discard abuse report' %}" href="?/reports/{{ report.id }}/dismiss">Dismiss</a>
+			<a title="{% trans 'Discard abuse report' %}" href="?/reports/{{ report.id }}/dismiss/{{ token }}">Dismiss</a>
 		{% endif %}
 		{% if mod|hasPermission(config.mod.report_dismiss_ip, report.board) %}
 			{% if mod|hasPermission(config.mod.report_dismiss, report.board) %}
 			 | 
 			{% endif %}
-			<a title="{% trans 'Discard all abuse reports by this IP address' %}" href="?/reports/{{ report.id }}/dismissall">Dismiss+</a>
+			<a title="{% trans 'Discard all abuse reports by this IP address' %}" href="?/reports/{{ report.id }}/dismissall/{{ token_all }}">Dismiss+</a>
 		{% endif %}
 	{% endif %}
 </div>

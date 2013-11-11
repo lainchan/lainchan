@@ -24,6 +24,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
     protected $env;
     protected $blocks;
     protected $traits;
+    protected $macros;
 
     /**
      * Constructor.
@@ -35,6 +36,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
         $this->env = $env;
         $this->blocks = array();
         $this->traits = array();
+        $this->macros = array();
     }
 
     /**
@@ -326,7 +328,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
      * @param mixed   $object            The object or array from where to get the item
      * @param mixed   $item              The item to get from the array or object
      * @param array   $arguments         An array of arguments to pass if the item is an object method
-     * @param string  $type              The type of attribute (@see Twig_TemplateInterface)
+     * @param string  $type              The type of attribute (@see Twig_Template constants)
      * @param Boolean $isDefinedTest     Whether this is only a defined check
      * @param Boolean $ignoreStrictCheck Whether to ignore the strict attribute check or not
      *
@@ -334,10 +336,10 @@ abstract class Twig_Template implements Twig_TemplateInterface
      *
      * @throws Twig_Error_Runtime if the attribute does not exist and Twig is running in strict mode and $isDefinedTest is false
      */
-    protected function getAttribute($object, $item, array $arguments = array(), $type = Twig_TemplateInterface::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
+    protected function getAttribute($object, $item, array $arguments = array(), $type = Twig_Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
     {
         // array
-        if (Twig_TemplateInterface::METHOD_CALL !== $type) {
+        if (Twig_Template::METHOD_CALL !== $type) {
             $arrayItem = is_bool($item) || is_float($item) ? (int) $item : $item;
 
             if ((is_array($object) && array_key_exists($arrayItem, $object))
@@ -350,7 +352,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
                 return $object[$arrayItem];
             }
 
-            if (Twig_TemplateInterface::ARRAY_CALL === $type || !is_object($object)) {
+            if (Twig_Template::ARRAY_CALL === $type || !is_object($object)) {
                 if ($isDefinedTest) {
                     return false;
                 }
@@ -363,7 +365,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
                     throw new Twig_Error_Runtime(sprintf('Key "%s" in object (with ArrayAccess) of type "%s" does not exist', $arrayItem, get_class($object)), -1, $this->getTemplateName());
                 } elseif (is_array($object)) {
                     throw new Twig_Error_Runtime(sprintf('Key "%s" for array with keys "%s" does not exist', $arrayItem, implode(', ', array_keys($object))), -1, $this->getTemplateName());
-                } elseif (Twig_TemplateInterface::ARRAY_CALL === $type) {
+                } elseif (Twig_Template::ARRAY_CALL === $type) {
                     throw new Twig_Error_Runtime(sprintf('Impossible to access a key ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
                 } else {
                     throw new Twig_Error_Runtime(sprintf('Impossible to access an attribute ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
@@ -386,7 +388,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
         $class = get_class($object);
 
         // object property
-        if (Twig_TemplateInterface::METHOD_CALL !== $type) {
+        if (Twig_Template::METHOD_CALL !== $type) {
             if (isset($object->$item) || array_key_exists((string) $item, $object)) {
                 if ($isDefinedTest) {
                     return true;
@@ -443,6 +445,66 @@ abstract class Twig_Template implements Twig_TemplateInterface
         }
 
         return $ret;
+    }
+
+    /**
+     * Calls macro in a template.
+     *
+     * @param Twig_Template $template        The template
+     * @param string        $macro           The name of macro
+     * @param array         $arguments       The arguments of macro
+     * @param array         $namedNames      An array of names of arguments as keys
+     * @param integer       $namedCount      The count of named arguments
+     * @param integer       $positionalCount The count of positional arguments
+     *
+     * @return string The content of a macro
+     *
+     * @throws Twig_Error_Runtime if the macro is not defined
+     * @throws Twig_Error_Runtime if the argument is defined twice
+     * @throws Twig_Error_Runtime if the argument is unknown
+     */
+    protected function callMacro(Twig_Template $template, $macro, array $arguments, array $namedNames = array(), $namedCount = 0, $positionalCount = -1)
+    {
+        if (!isset($template->macros[$macro]['reflection'])) {
+            if (!isset($template->macros[$macro])) {
+                throw new Twig_Error_Runtime(sprintf('Macro "%s" is not defined in the template "%s".', $macro, $template->getTemplateName()));
+            }
+
+            $template->macros[$macro]['reflection'] = new ReflectionMethod($template, $template->macros[$macro]['method']);
+        }
+
+        if ($namedCount < 1) {
+            return $template->macros[$macro]['reflection']->invokeArgs($template, $arguments);
+        }
+
+        $i = 0;
+        $args = array();
+        foreach ($template->macros[$macro]['arguments'] as $name => $value) {
+            if (isset($namedNames[$name])) {
+                if ($i < $positionalCount) {
+                    throw new Twig_Error_Runtime(sprintf('Argument "%s" is defined twice for macro "%s" defined in the template "%s".', $name, $macro, $template->getTemplateName()));
+                }
+
+                $args[] = $arguments[$name];
+                if (--$namedCount < 1) {
+                    break;
+                }
+            } elseif ($i < $positionalCount) {
+                $args[] = $arguments[$i];
+            } else {
+                $args[] = $value;
+            }
+
+            $i++;
+        }
+
+        if ($namedCount > 0) {
+            $parameters = array_keys(array_diff_key($namedNames, $template->macros[$macro]['arguments']));
+
+            throw new Twig_Error_Runtime(sprintf('Unknown argument%s "%s" for macro "%s" defined in the template "%s".', count($parameters) > 1 ? 's' : '' , implode('", "', $parameters), $macro, $template->getTemplateName()));
+        }
+
+        return $template->macros[$macro]['reflection']->invokeArgs($template, $args);
     }
 
     /**

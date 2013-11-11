@@ -2,6 +2,7 @@
 	<fieldset>
 		<legend>{% trans 'New post' %}</legend>
 		<form style="margin:0" action="" method="post">
+			<input type="hidden" name="token" value="{{ token }}">
 			<table>
 				<tr>
 					<th>
@@ -39,7 +40,7 @@
 	<div class="ban">
 		{% if mod|hasPermission(config.mod.news_delete) %}
 			<span style="float:right;padding:2px">
-				<a class="unimportant" href="?/news/delete/{{ post.id }}">[{% trans 'delete' %}]</a>
+				<a class="unimportant" href="?/news/delete/{{ post.id }}/{{ post.delete_token }}">[{% trans 'delete' %}]</a>
 			</span>
 		{% endif %}
 		<h2 id="{{ post.id }}">

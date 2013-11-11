@@ -86,6 +86,9 @@
 		{% if mod|hasPermission(config.mod.view_banlist) %}
 			<li><a href="?/bans">{% trans 'Ban list' %}</a></li>
 		{% endif %}
+		{% if config.ban_appeals and mod|hasPermission(config.mod.view_ban_appeals) %}
+			<li><a href="?/ban-appeals">{% trans 'Ban appeals' %}</a></li>
+		{% endif %}
 		{% if mod|hasPermission(config.mod.manageusers) %}
 			<li><a href="?/users">{% trans 'Manage users' %}</a></li>
 		{% elseif mod|hasPermission(config.mod.change_password) %}
@@ -161,7 +164,7 @@
 	<legend>{% trans 'User account' %}</legend>
 	
 	<ul>
-		<li><a href="?/logout">{% trans 'Logout' %}</a></li>
+		<li><a href="?/logout/{{ logout_token }}">{% trans 'Logout' %}</a></li>
 	</ul>
 </fieldset>
 

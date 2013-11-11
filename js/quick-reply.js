@@ -370,13 +370,19 @@
 		if ($(this).width() <= 800)
 			return;
 		show_quick_reply();
-		$('#quick-reply textarea').focus();
 		if (with_link) {
-			$(window).ready(function() {
+			$(document).ready(function() {
 				if ($('#' + id).length) {
 					highlightReply(id);
-					$(window).scrollTop($('#' + id).offset().top);
+					$(document).scrollTop($('#' + id).offset().top);
 				}
+				
+				// Honestly, I'm not sure why we need setTimeout() here, but it seems to work.
+				// Same for the "tmp" variable stuff you see inside here:
+				setTimeout(function() {
+					var tmp = $('#quick-reply textarea[name="body"]').val();
+					$('#quick-reply textarea[name="body"]').val('').focus().val(tmp);
+				}, 1);
 			});
 		}
 	});

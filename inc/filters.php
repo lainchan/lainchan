@@ -91,6 +91,8 @@ class Filter {
 				return preg_match($match, $post['subject']);
 			case 'body':
 				return preg_match($match, $post['body_nomarkup']);
+			case 'filehash':
+				return $match === $post['filehash'];
 			case 'filename':
 				if (!$post['has_file'])
 					return false;

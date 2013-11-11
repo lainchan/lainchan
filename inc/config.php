@@ -528,8 +528,30 @@
 	// pure-PHP geolocation library.
 	$config['country_flags'] = false;
 
+/*
+* ====================
+*  Ban settings
+* ====================
+*/
+
 	// Require users to see the ban page at least once for a ban even if it has since expired.
 	$config['require_ban_view'] = true;
+
+	// Show the post the user was banned for on the "You are banned" page.
+	$config['ban_show_post'] = false;
+
+	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
+	// a link to an email address or IRC chat room to appeal the ban.
+	$config['ban_page_extra'] = '';
+
+	// Allow users to appeal bans through Tinyboard.
+	$config['ban_appeals'] = false;
+
+	// Do not allow users to appeal bans that are shorter than this length (in seconds).
+	$config['ban_appeals_min_length'] = 60 * 60 * 6; // 6 hours
+
+	// How many ban appeals can be made for a single ban?
+	$config['ban_appeals_max'] = 1;
 
 /*
  * ====================
@@ -854,13 +876,6 @@
 	//	'bottom' => '',
 	// );
 
-	// Show the post the user was banned for on the "You are banned" page.
-	$config['ban_show_post'] = false;
-
-	// Optional HTML to append to "You are banned" pages. For example, you could include instructions and/or
-	// a link to an email address or IRC chat room to appeal the ban.
-	$config['ban_page_extra'] = '';
-
 	// Display flags (when available). This config option has no effect unless poster flags are enabled (see
 	// $config['country_flags']). Disable this if you want all previously-assigned flags to be hidden.
 	$config['display_flags'] = true;
@@ -954,7 +969,6 @@
  */
 
 	// Error messages
-	$config['error']['lurk']		= _('Lurk some more before posting.');
 	$config['error']['bot']			= _('You look like a bot.');
 	$config['error']['referer']		= _('Your browser sent an invalid or no HTTP referer.');
 	$config['error']['toolong']		= _('The %s field was too long.');
@@ -1019,9 +1033,14 @@
 
 	// The root directory, including the trailing slash, for Tinyboard.
 	// Examples: '/', 'http://boards.chan.org/', '/chan/'.
-	if (isset($_SERVER['REQUEST_URI']))
-		$config['root']	 = str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) == '/' ? '/' : str_replace('\\', '/', dirname($_SERVER['REQUEST_URI'])) . '/';
-	else
+	if (isset($_SERVER['REQUEST_URI'])) {
+		$request_uri = $_SERVER['REQUEST_URI'];
+		if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '')
+			$request_uri = substr($request_uri, 0, - 1 - strlen($_SERVER['QUERY_STRING']));
+		$config['root']	 = str_replace('\\', '/', dirname($request_uri)) == '/'
+			? '/' : str_replace('\\', '/', dirname($request_uri)) . '/';
+		unset($request_uri);
+	} else
 		$config['root'] = '/'; // CLI mode
 
 	// The scheme and domain. This is used to get the site's absolute URL (eg. for image identification links).
@@ -1358,8 +1377,14 @@
 	$config['mod']['news_delete'] = ADMIN;
 	// Execute un-filtered SQL queries on the database (?/debug/sql)
 	$config['mod']['debug_sql'] = DISABLED;
+	// Look through all cache values for debugging when APC is enabled (?/debug/apc)
+	$config['mod']['debug_apc'] = ADMIN;
 	// Edit the current configuration (via web interface)
 	$config['mod']['edit_config'] = ADMIN;
+	// View ban appeals
+	$config['mod']['view_ban_appeals'] = MOD;
+	// Accept and deny ban appeals
+	$config['mod']['ban_appeals'] = MOD;
 
 	// Config editor permissions
 	$config['mod']['config'] = array();

@@ -28,8 +28,8 @@
 							{% if theme_name in themes_in_use %}{% trans 'Reconfigure' %}{% else %}{% trans 'Install' %}{% endif %}
 						</a></li>
 						{% if theme_name in themes_in_use %}
-							<li><a href="?/themes/{{ theme_name }}/rebuild">{% trans 'Rebuild' %}</a></li>
-							<li><a href="?/themes/{{ theme_name }}/uninstall" onclick="return confirm('Are you sure you want to uninstall this theme?');">{% trans 'Uninstall' %}</a></li>
+							<li><a href="?/themes/{{ theme_name }}/rebuild/{{ theme.rebuild_token }}">{% trans 'Rebuild' %}</a></li>
+							<li><a href="?/themes/{{ theme_name }}/uninstall/{{ theme.uninstall_token }}" onclick="return confirm('Are you sure you want to uninstall this theme?');">{% trans 'Uninstall' %}</a></li>
 						{% endif %}
 					</ul></td>
 				</tr>

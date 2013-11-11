@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', 'v0.9.6-dev-21 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.90</a>');
+define('VERSION', 'v0.9.6-dev-22 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.91</a>');
 
 require 'inc/functions.php';
 
@@ -13,7 +13,7 @@ $page = array(
 	'nojavascript' => true
 );
 
-// this breaks the dispaly of licenses if enabled
+// this breaks the display of licenses if enabled
 $config['minify_html'] = false;
 
 if (file_exists($config['has_installed'])) {
@@ -428,7 +428,7 @@ if (file_exists($config['has_installed'])) {
 			query("UPDATE ``mods`` SET `type` = 30 WHERE `type` = 2") or error(db_error());
 			query("ALTER TABLE ``mods`` CHANGE `type`  `type` smallint(1) NOT NULL") or error(db_error());
 		case 'v0.9.6-dev-20':
-			query("CREATE TABLE IF NOT EXISTS `bans_new_temp` (
+			__query("CREATE TABLE IF NOT EXISTS `bans_new_temp` (
 				`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				`ipstart` varbinary(16) NOT NULL,
 				`ipend` varbinary(16) DEFAULT NULL,
@@ -487,7 +487,18 @@ if (file_exists($config['has_installed'])) {
 			query("DROP TABLE ``bans``") or error(db_error());
 			// Replace with new table
 			query("RENAME TABLE ``bans_new_temp`` TO ``bans``") or error(db_error());
-                case 'v0.9.6-dev-21':
+		case 'v0.9.6-dev-21':
+		case 'v0.9.6-dev-21 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.90</a>':
+			__query("CREATE TABLE IF NOT EXISTS ``ban_appeals`` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `ban_id` int(10) unsigned NOT NULL,
+				  `time` int(10) unsigned NOT NULL,
+				  `message` text NOT NULL,
+				  `denied` tinyint(1) NOT NULL,
+				  PRIMARY KEY (`id`),
+				  KEY `ban_id` (`ban_id`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;") or error(db_error());
+		case 'v0.9.6-dev-22':
 		case false:
 			// Update version number
 			file_write($config['has_installed'], VERSION);
