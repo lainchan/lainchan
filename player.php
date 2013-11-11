@@ -15,8 +15,10 @@ $loop = ($_GET['loop'] != "0");
         <a id="loop0" href="<?php echo $params; ?>&amp;loop=0"<?php if (!$loop) echo ' style="font-weight: bold"'; ?>>[play once]</a>
         <a id="loop1" href="<?php echo $params; ?>&amp;loop=1"<?php if ($loop) echo ' style="font-weight: bold"'; ?>>[loop]</a>
     </div>
-    <video controls<?php if ($loop) echo ' loop'; ?> src="<?php echo htmlspecialchars($_GET['v']); ?>">
-        Your browser does not support HTML5 video.
-    </video>
+    <div id="playercontent">
+        <video controls<?php if ($loop) echo ' loop'; ?> src="<?php echo htmlspecialchars($_GET['v']); ?>">
+            Your browser does not support HTML5 video. <a href="<?php echo htmlspecialchars($_GET['v']); ?>">[Download]</a>
+        </video>
+    </div>
 </body>
 </html>
