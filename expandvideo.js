@@ -71,6 +71,7 @@ function setupVideo(thumb, url) {
             video.style.display = "inline";
             videoHide.style.display = "inline";
             videoContainer.style.display = "block";
+            videoContainer.style.position = "static";
             thumb.style.display = "none";
 
             video.muted = setting("videomuted");
@@ -103,6 +104,7 @@ function setupVideo(thumb, url) {
             video.style.display = "inline";
             videoHide.style.display = "none";
             videoContainer.style.display = "inline";
+            videoContainer.style.position = "fixed";
 
             video.muted = setting("videomuted");
             video.controls = false;
