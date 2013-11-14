@@ -6,6 +6,7 @@ function setupVideo(thumb, url) {
     var loop = true;
     var loopControls = [document.createElement("span"), document.createElement("span")];
     var fileInfo = thumb.parentNode.querySelector(".fileinfo");
+    var mouseDown = false;
 
     function unexpand() {
         if (expanded) {
@@ -54,6 +55,23 @@ function setupVideo(thumb, url) {
             videoContainer.addEventListener("click", function(e) {
                 if (e.target != video) unexpand();
             } , false);
+
+            // Dragging to the left collapses the video
+            video.addEventListener("mousedown", function(e) {
+                if (e.button == 0) mouseDown = true;
+            }, false);
+            video.addEventListener("mouseup", function(e) {
+                if (e.button == 0) mouseDown = false;
+            }, false);
+            video.addEventListener("mouseenter", function(e) {
+                mouseDown = false;
+            }, false);
+            video.addEventListener("mouseout", function(e) {
+                if (mouseDown && e.clientX - video.getBoundingClientRect().left <= 0) {
+                    unexpand();
+                }
+                mouseDown = false;
+            }, false);
         }
     }
 
