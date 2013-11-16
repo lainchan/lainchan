@@ -14,6 +14,8 @@ function setupVideo(thumb, url) {
             if (video.pause) video.pause();
             videoContainer.style.display = "none";
             thumb.style.display = "inline";
+            video.style.maxWidth = "inherit";
+            video.style.maxHeight = "inherit";
         }
     }
 
@@ -21,7 +23,9 @@ function setupVideo(thumb, url) {
         if (hovering) {
             hovering = false;
             if (video.pause) video.pause();
-            video.style.display = "none";
+            videoContainer.style.display = "none";
+            video.style.maxWidth = "inherit";
+            video.style.maxHeight = "inherit";
         }
     }
 
@@ -42,6 +46,7 @@ function setupVideo(thumb, url) {
 
             videoContainer = document.createElement("div");
             videoContainer.style.paddingLeft = "15px";
+            videoContainer.style.display = "none";
             videoContainer.appendChild(videoHide);
             videoContainer.appendChild(video);
             thumb.parentNode.insertBefore(videoContainer, thumb.nextSibling);
@@ -65,13 +70,6 @@ function setupVideo(thumb, url) {
         }
     }
 
-    function scrollToVideo() {
-        var bottom = video.getBoundingClientRect().bottom;
-        if (bottom > window.innerHeight) {
-            window.scrollBy(0, bottom - window.innerHeight);
-        }
-    }
-
     thumb.addEventListener("click", function(e) {
         if (setting("videoexpand") && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) {
             getVideo();
@@ -79,10 +77,7 @@ function setupVideo(thumb, url) {
             hovering = false;
 
             video.style.position = "static";
-            video.style.maxWidth = "100%";
-            video.style.maxHeight = window.innerHeight + "px";
-            video.style.pointerEvents = "auto";
-
+            video.style.pointerEvents = "inherit";
             video.style.display = "inline";
             videoHide.style.display = "inline";
             videoContainer.style.display = "block";
@@ -92,14 +87,23 @@ function setupVideo(thumb, url) {
             video.muted = setting("videomuted");
             video.controls = true;
             if (video.readyState == 0) {
-                video.addEventListener("loadedmetadata", scrollToVideo, false);
+                video.addEventListener("loadedmetadata", expand2, false);
             } else {
-                scrollToVideo();
+                setTimeout(expand2, 0);
             }
             video.play();
             e.preventDefault();
         }
     }, false);
+
+    function expand2() {
+        video.style.maxWidth = "100%";
+        video.style.maxHeight = window.innerHeight + "px";
+        var bottom = video.getBoundingClientRect().bottom;
+        if (bottom > window.innerHeight) {
+            window.scrollBy(0, bottom - window.innerHeight);
+        }
+    }
 
     thumb.addEventListener("mouseover", function(e) {
         if (setting("videohover")) {
