@@ -65,6 +65,13 @@ function setupVideo(thumb, url) {
         }
     }
 
+    function scrollToVideo() {
+        var bottom = video.getBoundingClientRect().bottom;
+        if (bottom > window.innerHeight) {
+            window.scrollBy(0, bottom - window.innerHeight);
+        }
+    }
+
     thumb.addEventListener("click", function(e) {
         if (setting("videoexpand") && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) {
             getVideo();
@@ -84,6 +91,11 @@ function setupVideo(thumb, url) {
 
             video.muted = setting("videomuted");
             video.controls = true;
+            if (video.readyState == 0) {
+                video.addEventListener("loadedmetadata", scrollToVideo, false);
+            } else {
+                scrollToVideo();
+            }
             video.play();
             e.preventDefault();
         }
