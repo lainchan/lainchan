@@ -31,12 +31,6 @@ function setupVideo(thumb, url) {
             video.src = url;
             video.loop = loop;
             video.innerText = "Your browser does not support HTML5 video.";
-            video.addEventListener("click", function(e) {
-                if (e.shiftKey) {
-                    unexpand();
-                    e.preventDefault();
-                }
-            }, false);
 
             videoHide = document.createElement("img");
             videoHide.src = configRoot + "cc/collapse.gif";
@@ -44,17 +38,13 @@ function setupVideo(thumb, url) {
             videoHide.title = "Collapse video";
             videoHide.style.marginLeft = "-15px";
             videoHide.style.cssFloat = "left";
+            videoHide.addEventListener("click", unexpand, false);
 
             videoContainer = document.createElement("div");
             videoContainer.style.paddingLeft = "15px";
             videoContainer.appendChild(videoHide);
             videoContainer.appendChild(video);
             thumb.parentNode.insertBefore(videoContainer, thumb.nextSibling);
-
-            // Clicking anywhere in the strip beneath the collapse button collapses the video
-            videoContainer.addEventListener("click", function(e) {
-                if (e.target != video) unexpand();
-            } , false);
 
             // Dragging to the left collapses the video
             video.addEventListener("mousedown", function(e) {
@@ -105,7 +95,7 @@ function setupVideo(thumb, url) {
             expanded = false;
             hovering = true;
 
-            var docRight = document.body.parentNode.getBoundingClientRect().right;
+            var docRight = document.documentElement.getBoundingClientRect().right;
             var thumbRight = thumb.querySelector("img, video").getBoundingClientRect().right;
             var maxWidth = docRight - thumbRight - 20;
             if (maxWidth < 250) maxWidth = 250;
@@ -113,7 +103,7 @@ function setupVideo(thumb, url) {
             video.style.position = "fixed";
             video.style.right = "0px";
             video.style.top = "0px";
-            var docRight = document.body.parentNode.getBoundingClientRect().right;
+            var docRight = document.documentElement.getBoundingClientRect().right;
             var thumbRight = thumb.querySelector("img, video").getBoundingClientRect().right;
             video.style.maxWidth = maxWidth + "px";
             video.style.maxHeight = "100%";
