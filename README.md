@@ -33,6 +33,10 @@ And add this to stylesheets/style.css:
         margin: 10px 20px;
         border: none;
     }
+    div.post video.post-image {
+        padding: 5px;
+        margin: 5px 20px 0 0;
+    }
     span.settings {
         position: fixed;
         top: 1em;
