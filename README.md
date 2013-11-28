@@ -38,8 +38,8 @@ And add this to stylesheets/style.css:
         background: #aaa;
     }
     div.post video.post-image {
-        padding: 5px;
-        margin: 5px 20px 0 0;
+        padding: 0px;
+        margin: 10px 25px 5px 5px;
     }
     span.settings {
         position: fixed;
