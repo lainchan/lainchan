@@ -52,6 +52,10 @@ class EBMLElementTypeList {
     }
 }
 
+// Matroska element types
+global $EBML_ELEMENTS;
+$EBML_ELEMENTS = new EBMLElementTypeList(dirname(__FILE__) . '/matroska-elements.txt');
+
 // Decode big-endian integer
 function ebmlDecodeInt($data, $signed=FALSE, $carryIn=0) {
     $n = $carryIn;
@@ -260,15 +264,14 @@ class EBMLElement {
     private $_datatype;
     private $_content;
     private $_headSize;
-    protected $_elementTypeList;
 
-    public function __construct($id, $content, $headSize, $elementTypeList) {
+    public function __construct($id, $content, $headSize) {
+        global $EBML_ELEMENTS;
         $this->_id = $id;
-        $this->_name = $elementTypeList->name($this->_id);
-        $this->_datatype = $elementTypeList->datatype($this->_id);
+        $this->_name = $EBML_ELEMENTS->name($this->_id);
+        $this->_datatype = $EBML_ELEMENTS->datatype($this->_id);
         $this->_content = $content;
         $this->_headSize = $headSize;
-        $this->_elementTypeList = $elementTypeList;
     }
 
     public function id()       {return $this->_id;}
@@ -298,8 +301,8 @@ class EBMLElementList extends EBMLElement implements Iterator {
     private $_position;
     private static $MAX_ELEMENTS = 10000;
 
-    public function __construct($id, $content, $headSize, $elementTypeList) {
-        parent::__construct($id, $content, $headSize, $elementTypeList);
+    public function __construct($id, $content, $headSize) {
+        parent::__construct($id, $content, $headSize);
         $this->_cache = array();
         $this->_position = 0;
     }
@@ -328,25 +331,26 @@ class EBMLElementList extends EBMLElement implements Iterator {
     }
 
     public function valid() {
+        global $EBML_ELEMENTS;
         if (isset($this->_cache[$this->_position])) return TRUE;
         $this->content()->setPosition($this->_position);
         if ($this->content()->endOfData()) return FALSE;
         $id = $this->content()->readVarInt();
         if ($id === NULL) throw new Exception('invalid ID');
-        if ($this->content()->size() === NULL && !$this->_elementTypeList->validChild($this->id(), $id)) {
+        if ($this->content()->size() === NULL && !$EBML_ELEMENTS->validChild($this->id(), $id)) {
             $this->content()->setSize($this->_position);
             return FALSE;
         }
         $size = $this->content()->readVarInt();
         $headSize = $this->content()->position() - $this->_position;
         $content = $this->content()->nextSlice($size);
-        if ($this->_elementTypeList->datatype($id) == 'container') {
-            $element = new EBMLElementList($id, $content, $headSize, $this->_elementTypeList);
+        if ($EBML_ELEMENTS->datatype($id) == 'container') {
+            $element = new EBMLElementList($id, $content, $headSize);
         } else {
             if ($size === NULL) {
                 throw new Exception('non-container element of unknown size');
             }
-            $element = new EBMLElement($id, $content, $headSize, $this->_elementTypeList);
+            $element = new EBMLElement($id, $content, $headSize);
         }
         $this->_cache[$this->_position] = $element;
         return TRUE;
@@ -468,8 +472,7 @@ function readMatroska($fileHandle) {
     if ($reader->read(4) != "\x1a\x45\xdf\xa3") {
         throw new Exception('not an EBML file');
     }
-    $matroskaElementTypeList = new EBMLElementTypeList(dirname(__FILE__) . '/matroska-elements.txt');
-    $root = new EBMLElementList('root', $reader, 0, $matroskaElementTypeList);
+    $root = new EBMLElementList('root', $reader, 0);
     $header = $root->get('EBML');
     $ebmlVersion = $header->get('EBMLReadVersion', 1);
     $docType = $header->get('DocType');
