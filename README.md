@@ -35,7 +35,6 @@ And add this to stylesheets/style.css:
         float: left;
         margin: 10px 20px;
         border: none;
-        background: #aaa;
     }
     div.post video.post-image {
         padding: 0px;

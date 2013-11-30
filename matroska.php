@@ -497,7 +497,7 @@ function readMatroska($fileHandle) {
     return $root;
 }
 
-function encodeVarInt($n) {
+function ebmlEncodeVarInt($n) {
     $data = '';
     $flag = 0x80;
     while ($n >= $flag) {
@@ -512,11 +512,11 @@ function encodeVarInt($n) {
     return $data;
 }
 
-function encodeElementName($name) {
+function ebmlEncodeElementName($name) {
     global $EBML_ELEMENTS;
-    return encodeVarInt($EBML_ELEMENTS->id($name));
+    return ebmlEncodeVarInt($EBML_ELEMENTS->id($name));
 }
 
-function encodeElement($name, $content) {
-    return encodeElementName($name) . encodeVarInt(strlen($content)) . $content;
+function ebmlEncodeElement($name, $content) {
+    return ebmlEncodeElementName($name) . ebmlEncodeVarInt(strlen($content)) . $content;
 }

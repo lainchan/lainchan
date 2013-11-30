@@ -1,76 +1,53 @@
 <?php
 require dirname(__FILE__) . '/matroska.php';
 
+function matroskaSeekElement($name, $pos) {
+    return ebmlEncodeElement('Seek',
+        ebmlEncodeElement('SeekID', ebmlEncodeElementName($name))
+        . ebmlEncodeElement('SeekPosition', pack('N', $pos))
+    );
+}
+
 // Make video from single VPx keyframe
-function muxVPxFrame($width, $height, $codecID, $data) {
-    $size = strlen($data);
-    $lenSeekHead = 61;
-    $lenCues = 18;
-    $ebml = encodeElement('EBML',
-        encodeElement('EBMLVersion', "\x01")
-        . encodeElement('EBMLReadVersion', "\x01")
-        . encodeElement('EBMLMaxIDLength', "\x04")
-        . encodeElement('EBMLMaxSizeLength', "\x08")
-        . encodeElement('DocType', "webm")
-        . encodeElement('DocTypeVersion', "\x02")
-        . encodeElement('DocTypeReadVersion', "\x02")
+function muxVPxFrame($trackNumber, $videoTrack, $frame) {
+    $lenSeekHead = 73;
+    $lenCues = 24;
+    $ebml = ebmlEncodeElement('EBML',
+        ebmlEncodeElement('DocType', "webm")
+        . ebmlEncodeElement('DocTypeVersion', "\x02")
+        . ebmlEncodeElement('DocTypeReadVersion', "\x02")
     );
-    $info = encodeElement('Info',
-        encodeElement('TimecodeScale', "\x0F\x42\x40")
-        . encodeElement('Duration', "\x41\x20\x00\x00")
-        . encodeElement('MuxingApp', 'f')
-        . encodeElement('WritingApp', 'f')
+    $info = ebmlEncodeElement('Info',
+        ebmlEncodeElement('Duration', "\x41\x20\x00\x00")
+        . ebmlEncodeElement('MuxingApp', 'ccframe')
+        . ebmlEncodeElement('WritingApp', 'ccframe')
     );
-    $tracks = encodeElement('Tracks',
-        encodeElement('TrackEntry',
-            encodeElement('TrackNumber', "\x01")
-            . encodeElement('TrackUID', "\x01")
-            . encodeElement('TrackType', "\x01")
-            . encodeElement('DefaultDuration', "\x98\x96\x80")
-            . encodeElement('CodecID', $codecID)
-            . encodeElement('Video',
-                encodeElement('PixelWidth', pack('N', $width))
-                . encodeElement('PixelHeight', pack('N', $height))
+    $tracks = ebmlEncodeElement('Tracks',
+        ebmlEncodeElement('TrackEntry', $videoTrack->content()->readAll())
+    );
+    $cues = ebmlEncodeElement('Cues',
+        ebmlEncodeElement('CuePoint',
+            ebmlEncodeElement('CueTime', "\x00")
+            . ebmlEncodeElement('CueTrackPositions',
+                ebmlEncodeElement('CueTrack', pack('N', $trackNumber))
+                . ebmlEncodeElement('CueClusterPosition', pack('N', $lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
             )
         )
     );
-    $cues = encodeElement('Cues',
-        encodeElement('CuePoint',
-            encodeElement('CueTime', "\x00")
-            . encodeElement('CueTrackPositions',
-                encodeElement('CueTrack', "\x01")
-                . encodeElement('CueClusterPosition', chr($lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
-            )
-        )
+    if (strlen($cues) != $lenCues) throw new Exception('length of Cues element wrong');
+    $cluster = ebmlEncodeElement('Cluster',
+        ebmlEncodeElement('Timecode', "\x00")
+        . ebmlEncodeElement($frame->name(), $frame->content()->readAll())
+        . ebmlEncodeElement('Void', '')
     );
-    $seekHead = encodeElement('SeekHead',
-        encodeElement('Seek',
-            encodeElement('SeekID', encodeElementName('Info'))
-            . encodeElement('SeekPosition', chr($lenSeekHead))
-        )
-        . encodeElement('Seek',
-            encodeElement('SeekID', encodeElementName('Tracks'))
-            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info)))
-        )
-        . encodeElement('Seek',
-            encodeElement('SeekID', encodeElementName('Cues'))
-            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info) + strlen($tracks)))
-        )
-        . encodeElement('Seek',
-            encodeElement('SeekID', encodeElementName('Cluster'))
-            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
-        )
+    $seekHead = ebmlEncodeElement('SeekHead',
+        matroskaSeekElement('Info', $lenSeekHead)
+        . matroskaSeekElement('Tracks', $lenSeekHead + strlen($info))
+        . matroskaSeekElement('Cues', $lenSeekHead + strlen($info) + strlen($tracks))
+        . matroskaSeekElement('Cluster', $lenSeekHead + strlen($info) + strlen($tracks) + $lenCues)
     );
-    $cluster = "\x1F\x43\xB6\x75\x08" . pack('N', $size + 13) . (
-    //. encodeElement('Cluster',
-        encodeElement('Timecode', "\x00")
-        . "\xA3\x08" . pack('N', $size + 4) . ("\x81\x00\x00\x80" . $data)
-        //. encodeElement('SimpleBlock', "\x81\x00\x00\x80" . $data)
-    );
-    $segment = "\x18\x53\x80\x67\x08" . pack('N', $size + 173) . (
-    // . encodeElement('Segment',
-        $seekHead . $info . $tracks . $cues . $cluster
-    );
+    if (strlen($seekHead) != $lenSeekHead) throw new Exception('length of SeekHead element wrong');
+    $segment = ebmlEncodeElement('Segment', $seekHead . $info . $tracks . $cues . $cluster);
     return $ebml . $segment;
 }
 
@@ -79,23 +56,20 @@ function firstVPxFrame($segment, $trackNumber, $skip=0) {
     foreach($segment as $x1) {
         if ($x1->name() == 'Cluster') {
             $cluserTimecode = $x1->Get('Timecode');
-            foreach($x1 as $x2) {
+            foreach($x1 as $blockGroup) {
                 $blockRaw = NULL;
-                if ($x2->name() == 'SimpleBlock') {
-                    $blockRaw = $x2->value();
-                } elseif ($x2->name() == 'BlockGroup') {
-                    $blockRaw = $x2->get('Block');
+                if ($blockGroup->name() == 'SimpleBlock') {
+                    $blockRaw = $blockGroup->value();
+                } elseif ($blockGroup->name() == 'BlockGroup') {
+                    $blockRaw = $blockGroup->get('Block');
                 }
                 if (isset($blockRaw)) {
                     $block = new MatroskaBlock($blockRaw);
-                    if ($block->trackNumber == $trackNumber) {
-                        $frame = $block->frames[0];
-                        if ($block->keyframe) {
-                            if (!isset($cluserTimecode) || $cluserTimecode + $block->timecode >= $skip) {
-                                return $frame;
-                            } elseif (!isset($frame1)) {
-                                $frame1 = $frame;
-                            }
+                    if ($block->trackNumber == $trackNumber && $block->keyframe) {
+                        if (!isset($cluserTimecode) || $cluserTimecode + $block->timecode >= $skip) {
+                            return $blockGroup;
+                        } elseif (!isset($frame1)) {
+                            $frame1 = $blockGroup;
                         }
                     }
                 }
@@ -175,7 +149,7 @@ function videoData($filename) {
         }
         $frame = firstVPxFrame($segment, $trackNumber, $skip);
         if (!isset($frame)) throw new Exception('no keyframes');
-        $data['frame'] = muxVPxFrame($pixelWidth, $pixelHeight, $codecID, $frame->readAll());
+        $data['frame'] = muxVPxFrame($trackNumber, $videoTrack, $frame);
 
     } catch (Exception $e) {
         error_log($e->getMessage());
