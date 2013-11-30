@@ -1,22 +1,77 @@
 <?php
 require dirname(__FILE__) . '/matroska.php';
 
-// Header for single VPx keyframe
-function vpxFrameHeader($size, $width, $height, $codecID) {
-    return "\x1A\x45\xDF\xA3\x9F\x42\x86\x81\x01\x42\xF7\x81\x01\x42\xF2\x81"
-        . "\x04\x42\xF3\x81\x08\x42\x82\x84\x77\x65\x62\x6D\x42\x87\x81\x02"
-        . "\x42\x85\x81\x02\x18\x53\x80\x67\x08" . pack('N', $size + 173) . "\x11\x4D\x9B"
-        . "\x74\xB8\x4D\xBB\x8B\x53\xAB\x84\x15\x49\xA9\x66\x53\xAC\x81\x3D"
-        . "\x4D\xBB\x8B\x53\xAB\x84\x16\x54\xAE\x6B\x53\xAC\x81\x58\x4D\xBB"
-        . "\x8B\x53\xAB\x84\x1C\x53\xBB\x6B\x53\xAC\x81\x85\x4D\xBB\x8B\x53"
-        . "\xAB\x84\x1F\x43\xB6\x75\x53\xAC\x81\x97\x15\x49\xA9\x66\x96\x2A"
-        . "\xD7\xB1\x83\x0F\x42\x40\x44\x89\x84\x41\x20\x00\x00\x4D\x80\x81"
-        . "\x66\x57\x41\x81\x66\x16\x54\xAE\x6B\xA8\xAE\xA6\xD7\x81\x01\x73"
-        . "\xC5\x81\x01\x83\x81\x01\x23\xE3\x83\x83\x98\x96\x80\x86\x85" . $codecID
-        . "\xE0\x8C\xB0\x84" . pack('N', $width) . "\xBA\x84" . pack('N', $height)
-        . "\x1C\x53\xBB\x6B\x8D\xBB\x8B\xB3\x81\x00\xB7\x86\xF7\x81"
-        . "\x01\xF1\x81\x97\x1F\x43\xB6\x75\x08" . pack('N', $size + 13) . "\xE7\x81\x00"
-        . "\xA3\x08" . pack('N', $size + 4) . "\x81\x00\x00\x80";
+// Make video from single VPx keyframe
+function muxVPxFrame($width, $height, $codecID, $data) {
+    $size = strlen($data);
+    $lenSeekHead = 61;
+    $lenCues = 18;
+    $ebml = encodeElement('EBML',
+        encodeElement('EBMLVersion', "\x01")
+        . encodeElement('EBMLReadVersion', "\x01")
+        . encodeElement('EBMLMaxIDLength', "\x04")
+        . encodeElement('EBMLMaxSizeLength', "\x08")
+        . encodeElement('DocType', "webm")
+        . encodeElement('DocTypeVersion', "\x02")
+        . encodeElement('DocTypeReadVersion', "\x02")
+    );
+    $info = encodeElement('Info',
+        encodeElement('TimecodeScale', "\x0F\x42\x40")
+        . encodeElement('Duration', "\x41\x20\x00\x00")
+        . encodeElement('MuxingApp', 'f')
+        . encodeElement('WritingApp', 'f')
+    );
+    $tracks = encodeElement('Tracks',
+        encodeElement('TrackEntry',
+            encodeElement('TrackNumber', "\x01")
+            . encodeElement('TrackUID', "\x01")
+            . encodeElement('TrackType', "\x01")
+            . encodeElement('DefaultDuration', "\x98\x96\x80")
+            . encodeElement('CodecID', $codecID)
+            . encodeElement('Video',
+                encodeElement('PixelWidth', pack('N', $width))
+                . encodeElement('PixelHeight', pack('N', $height))
+            )
+        )
+    );
+    $cues = encodeElement('Cues',
+        encodeElement('CuePoint',
+            encodeElement('CueTime', "\x00")
+            . encodeElement('CueTrackPositions',
+                encodeElement('CueTrack', "\x01")
+                . encodeElement('CueClusterPosition', chr($lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
+            )
+        )
+    );
+    $seekHead = encodeElement('SeekHead',
+        encodeElement('Seek',
+            encodeElement('SeekID', encodeElementName('Info'))
+            . encodeElement('SeekPosition', chr($lenSeekHead))
+        )
+        . encodeElement('Seek',
+            encodeElement('SeekID', encodeElementName('Tracks'))
+            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info)))
+        )
+        . encodeElement('Seek',
+            encodeElement('SeekID', encodeElementName('Cues'))
+            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info) + strlen($tracks)))
+        )
+        . encodeElement('Seek',
+            encodeElement('SeekID', encodeElementName('Cluster'))
+            . encodeElement('SeekPosition', chr($lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
+        )
+    );
+    $cluster = "\x1F\x43\xB6\x75\x08" . pack('N', $size + 13) . (
+    //. encodeElement('Cluster',
+        encodeElement('Timecode', "\x00")
+        . "\xA3\x08" . pack('N', $size + 4) . ("\x81\x00\x00\x80" . $data)
+        //. encodeElement('SimpleBlock', "\x81\x00\x00\x80" . $data)
+    );
+    $segment = "\x18\x53\x80\x67\x08" . pack('N', $size + 173) . (
+    // . encodeElement('Segment',
+        $seekHead . $info . $tracks . $cues . $cluster
+    );
+    return $ebml . $segment;
 }
 
 // Locate first VPx keyframe of track $trackNumber after timecode $skip
@@ -120,7 +175,7 @@ function videoData($filename) {
         }
         $frame = firstVPxFrame($segment, $trackNumber, $skip);
         if (!isset($frame)) throw new Exception('no keyframes');
-        $data['frame'] = vpxFrameHeader($frame->size(), $pixelWidth, $pixelHeight, $codecID) . $frame->readAll();
+        $data['frame'] = muxVPxFrame($pixelWidth, $pixelHeight, $codecID, $frame->readAll());
 
     } catch (Exception $e) {
         error_log($e->getMessage());

@@ -9,6 +9,7 @@ class EBMLElementType {
 // Information needed to parse all possible element types in a document
 class EBMLElementTypeList {
     private $_els;
+    private $_ids;
 
     public function __construct($filename) {
         $lines = file($filename);
@@ -27,6 +28,7 @@ class EBMLElementTypeList {
                 }
             }
             $this->_els[$id] = $t;
+            $this->_ids[strtoupper($t->name)] = $id;
         }
     }
 
@@ -37,6 +39,12 @@ class EBMLElementTypeList {
     public function name($id) {
         if (!isset($this->_els[$id])) return NULL;
         return $this->_els[$id]->name;
+    }
+
+    public function id($name) {
+        $name = strtoupper($name);
+        if (!isset($this->_ids[$name])) return NULL;
+        return $this->_ids[$name];
     }
 
     public function datatype($id) {
@@ -379,7 +387,7 @@ class EBMLElementList extends EBMLElement implements Iterator {
         foreach ($this as $element) {
             $iElement++;
             if ($iElement > self::$MAX_ELEMENTS) throw new Exception('not supported: too many elements');
-            if ($element->name() == $name) {
+            if (strtoupper($element->name()) == strtoupper($name)) {
                 return $element->value();
             }
         }
@@ -487,4 +495,28 @@ function readMatroska($fileHandle) {
         throw new Exception ('unsupported document type version');
     }
     return $root;
+}
+
+function encodeVarInt($n) {
+    $data = '';
+    $flag = 0x80;
+    while ($n >= $flag) {
+        if ($flag == 0) {
+            throw new Exception('not supported: number too large');
+        }
+        $data = chr($n & 0xFF) . $data;
+        $n = $n >> 8;
+        $flag = $flag >> 1;
+    }
+    $data = chr($n | $flag) . $data;
+    return $data;
+}
+
+function encodeElementName($name) {
+    global $EBML_ELEMENTS;
+    return encodeVarInt($EBML_ELEMENTS->id($name));
+}
+
+function encodeElement($name, $content) {
+    return encodeElementName($name) . encodeVarInt(strlen($content)) . $content;
 }
