@@ -8,15 +8,30 @@ function matroskaSeekElement($name, $pos) {
     );
 }
 
-// Make video from single VPx keyframe
-function muxVPxFrame($trackNumber, $videoTrack, $frame) {
+// Make video from single WebM keyframe
+function muxWebMFrame($videoTrack, $frame) {
     $lenSeekHead = 73;
     $lenCues = 24;
+
+    // Determine version for EBML header
+    $version = 2;
+    $videoAttr = $videoTrack->get('Video');
+    if (isset($videoAttr)) {
+        if ($videoAttr->get('StereoMode') !== NULL) $version = 3;
+        if ($videoAttr->get('AlphaMode') !== NULL) $version = 3;
+    }
+    if ($videoTrack->get('CodecDelay') !== NULL) $version = 4;
+    if ($videoTrack->get('SeekPreRoll') !== NULL) $version = 4;
+    if ($frame->name() == 'BlockGroup' && $frame->get('DiscardPadding') !== NULL) $version = 4;
+
+    // EBML header
     $ebml = ebmlEncodeElement('EBML',
         ebmlEncodeElement('DocType', "webm")
-        . ebmlEncodeElement('DocTypeVersion', "\x02")
+        . ebmlEncodeElement('DocTypeVersion', chr($version))
         . ebmlEncodeElement('DocTypeReadVersion', "\x02")
     );
+
+    // Segment
     $info = ebmlEncodeElement('Info',
         ebmlEncodeElement('Duration', "\x41\x20\x00\x00")
         . ebmlEncodeElement('MuxingApp', 'ccframe')
@@ -29,7 +44,7 @@ function muxVPxFrame($trackNumber, $videoTrack, $frame) {
         ebmlEncodeElement('CuePoint',
             ebmlEncodeElement('CueTime', "\x00")
             . ebmlEncodeElement('CueTrackPositions',
-                ebmlEncodeElement('CueTrack', pack('N', $trackNumber))
+                ebmlEncodeElement('CueTrack', pack('N', $videoTrack->get('TrackNumber')))
                 . ebmlEncodeElement('CueClusterPosition', pack('N', $lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
             )
         )
@@ -48,11 +63,12 @@ function muxVPxFrame($trackNumber, $videoTrack, $frame) {
     );
     if (strlen($seekHead) != $lenSeekHead) throw new Exception('length of SeekHead element wrong');
     $segment = ebmlEncodeElement('Segment', $seekHead . $info . $tracks . $cues . $cluster);
+
     return $ebml . $segment;
 }
 
-// Locate first VPx keyframe of track $trackNumber after timecode $skip
-function firstVPxFrame($segment, $trackNumber, $skip=0) {
+// Locate first WebM keyframe of track $trackNumber after timecode $skip
+function firstWebMFrame($segment, $trackNumber, $skip=0) {
     foreach($segment as $x1) {
         if ($x1->name() == 'Cluster') {
             $cluserTimecode = $x1->Get('Timecode');
@@ -139,17 +155,14 @@ function videoData($filename) {
         // Extract frame to use as thumbnail
         $trackNumber = $videoTrack->get('TrackNumber');
         if (!isset($trackNumber)) throw new Exception('missing track number');
-        $codecID = $videoTrack->get('CodecID');
-        if ($codecID != 'V_VP8' && $codecID != 'V_VP9') throw new Exception('codec is not VP8 or VP9');
-        if (!isset($pixelWidth) || !isset($pixelHeight)) throw new Exception('no width or height');
         if (isset($data['duration']) && $data['duration'] >= 5) {
             $skip = 1e9 / $timecodeScale;
         } else {
             $skip = 0;
         }
-        $frame = firstVPxFrame($segment, $trackNumber, $skip);
+        $frame = firstWebMFrame($segment, $trackNumber, $skip);
         if (!isset($frame)) throw new Exception('no keyframes');
-        $data['frame'] = muxVPxFrame($trackNumber, $videoTrack, $frame);
+        $data['frame'] = muxWebMFrame($videoTrack, $frame);
 
     } catch (Exception $e) {
         error_log($e->getMessage());
