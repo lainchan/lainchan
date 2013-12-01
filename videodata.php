@@ -135,24 +135,23 @@ function videoData($filename) {
 
         // Get track information
         $videoAttr = $videoTrack->get('Video');
-        if (isset($videoAttr)) {
-            $pixelWidth = $videoAttr->get('PixelWidth');
-            $pixelHeight = $videoAttr->get('PixelHeight');
-            if ($pixelWidth == 0 || $pixelHeight == 0) {
-                error_log('bad PixelWidth/PixelHeight');
-                $pixelWidth = NULL;
-                $pixelHeight = NULL;
-            }
-            $data['width'] = $videoAttr->get('DisplayWidth', $pixelWidth);
-            $data['height'] = $videoAttr->get('DisplayHeight', $pixelHeight);
-            if ($data['width'] == 0 || $data['height'] == 0) {
-                error_log('bad DisplayWidth/DisplayHeight');
-                $data['width'] = $pixelWidth;
-                $data['height'] = $pixelHeight;
-            }
-        }
+        if (!isset($videoAttr)) throw new Exception('missing video parameters');
+        $pixelWidth = $videoAttr->get('PixelWidth');
+        $pixelHeight = $videoAttr->get('PixelHeight');
+        if (!isset($pixelWidth) || !isset($pixelHeight)) throw new Exception('no width or height');
+        if ($pixelWidth == 0 || $pixelHeight == 0) throw new Exception('bad PixelWidth/PixelHeight');
+        $displayWidth = $videoAttr->get('DisplayWidth', $pixelWidth);
+        $displayHeight = $videoAttr->get('DisplayHeight', $pixelHeight);
+        if ($displayWidth == 0 || $displayHeight == 0) throw new Exception('bad DisplayWidth/DisplayHeight');
+        $data['width'] = $displayWidth;
+        $data['height'] = $displayHeight;
 
         // Extract frame to use as thumbnail
+        if ($videoAttr->get('AlphaMode') != NULL) {
+            if (!($pixelWidth % 2 == 0 && $pixelHeight % 2 == 0 && $displayWidth % 2 == 0 && $displayHeight % 2 == 0)) {
+                throw new Exception('preview frame blocked due to Chromium bug');
+            }
+        }
         $trackNumber = $videoTrack->get('TrackNumber');
         if (!isset($trackNumber)) throw new Exception('missing track number');
         if (isset($data['duration']) && $data['duration'] >= 5) {
@@ -163,7 +162,6 @@ function videoData($filename) {
         $frame = firstWebMFrame($segment, $trackNumber, $skip);
         if (!isset($frame)) throw new Exception('no keyframes');
         $data['frame'] = muxWebMFrame($videoTrack, $frame);
-
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
