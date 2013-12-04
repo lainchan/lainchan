@@ -1,5 +1,5 @@
 <?php 
-$params = '?v=' . urlencode($_GET['v']) . '&t=' . urlencode($_GET['t']);
+$params = '?v=' . urlencode($_GET['v']) . '&amp;t=' . urlencode($_GET['t']);
 $loop = ($_GET['loop'] != "0");
 ?><!DOCTYPE html>
 <html>
