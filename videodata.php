@@ -107,6 +107,7 @@ function videoData($filename) {
 
     try {
         $root = readMatroska($fileHandle);
+        $data['container'] = $root->get('EBML')->get('DocType');
 
         // Locate segment information and tracks
         $segment = $root->get('Segment');

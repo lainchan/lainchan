@@ -6,6 +6,7 @@ function postHandler($post) {
     if ($post->has_file && $post->extension == 'webm') {
         require_once dirname(__FILE__) . '/videodata.php';
         $videoDetails = videoData($post->file_path);
+        if (!isset($videoDetails['container']) || $videoDetails['container'] != 'webm') return "not a WebM file";
 
         // Set thumbnail
         $thumbName = $board['dir'] . $config['dir']['thumb'] . $post->file_id . '.webm';
