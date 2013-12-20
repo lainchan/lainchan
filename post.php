@@ -402,10 +402,14 @@ if (isset($_POST['delete'])) {
 	$post['name'] = $trip[0];
 	$post['trip'] = isset($trip[1]) ? $trip[1] : '';
 	
+	$noko =  false;
 	if (strtolower($post['email']) == 'noko') {
 		$noko = true;
 		$post['email'] = '';
-	} else $noko = false;
+	} elseif (strtolower($post['email']) == 'nonoko'){
+		$noko = false;
+		$post['email'] = '';
+	}else $noko = $config['always_noko'];
 	
 	if ($post['has_file']) {
 		$post['extension'] = strtolower(mb_substr($post['filename'], mb_strrpos($post['filename'], '.') + 1));
@@ -737,7 +741,7 @@ if (isset($_POST['delete'])) {
 	
 	$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
-	if ($config['always_noko'] || $noko) {
+	if ($noko) {
 		$redirect = $root . $board['dir'] . $config['dir']['res'] .
 			sprintf($config['file_page'], $post['op'] ? $id:$post['thread']) . (!$post['op'] ? '#' . $id : '');
 	   	
@@ -776,7 +780,7 @@ if (isset($_POST['delete'])) {
 		header('Content-Type: text/json; charset=utf-8');
 		echo json_encode(array(
 			'redirect' => $redirect,
-			'noko' => $config['always_noko'] || $noko,
+			'noko' => $noko,
 			'id' => $id
 		));
 	}
