@@ -14,6 +14,9 @@
 $(window).ready(function() {
 	var settings = new script_settings('ajax');
 	var do_not_ajax = false;
+
+	// Enable submit button if disabled (cache problem)
+	$('input[type="submit"]').removeAttr('disabled');
 	
 	var setup_form = function($form) {
 		$form.submit(function() {
