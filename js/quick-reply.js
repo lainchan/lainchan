@@ -29,7 +29,7 @@
 		$('<style type="text/css" id="quick-reply-css">\
 		#quick-reply {\
 			position: fixed;\
-			right: 0;\
+			right: 5%;\
 			top: 5%;\
 			float: right;\
 			display: block;\
@@ -383,20 +383,20 @@
 	});
 	
 	var floating_link = function() {
-		if (!settings.get('floating_link', false))
+		if (!settings.get('floating_link', true))
 			return;
 		$('<a href="javascript:void(0)" class="quick-reply-btn">Quick Reply</a>')
 			.click(function() {
 				show_quick_reply();
 				$(this).remove();
-			}).prependTo($('body'));
+			}).appendTo($('body'));
 		
 		$(window).on('quick-reply', function() {
 			$('.quick-reply-btn').remove();
 		});
 	};
 	
-	if (settings.get('floating_link', false)) {
+	if (settings.get('floating_link', true)) {
 		$(window).ready(function() {
 			if($('div.banner').length == 0)
 				return;
@@ -404,7 +404,7 @@
 			a.quick-reply-btn {\
 				position: fixed;\
 				right: 0;\
-				top: 0;\
+				bottom: 0;\
 				display: block;\
 				padding: 5px 13px;\
 				text-decoration: none;\
