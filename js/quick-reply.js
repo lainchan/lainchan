@@ -235,6 +235,16 @@
 						$td.removeAttr('colspan');
 					}
 				}
+
+				// Remove oekaki if existent
+				if ($(this).is('#oekaki')) {
+					$(this).remove();
+				}
+
+				// Remove upload selection
+				if ($(this).is('#upload_selection')) {
+					$(this).remove();
+				}
 				
 				// Remove mod controls, because it looks shit.
 				if ($td.find('input[type="checkbox"]').length) {
