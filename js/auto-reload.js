@@ -23,7 +23,33 @@ $(document).ready(function(){
 	var poll_interval;
 
 	var end_of_page = false;
+
+	var orig_title = document.title;
+        var new_posts = 0;
+	var first_new_post = null;
+	var update_title = function() {
+		document.title = (new_posts ? "("+new_posts+") " : "") + orig_title;
+	};
+
+	var window_active = true;
+	$(window).focus(function() {
+		window_active = true;
+		recheck_activated();
+	});
+	$(window).blur(function() {
+		window_active = false;
+	});
 	
+	var recheck_activated = function() {
+		if (new_posts && window_active &&
+			$(window).scrollTop() + $(window).height() >=
+			$(first_new_post).position().top) {
+
+			new_posts = 0;
+		}
+		update_title();
+	};
+
 	var poll = function() {
 		$.ajax({
 			url: document.location,
@@ -31,8 +57,13 @@ $(document).ready(function(){
 				$(data).find('div.post.reply').each(function() {
 					var id = $(this).attr('id');
 					if($('#' + id).length == 0) {
+						if (!new_posts) {
+							first_new_post = this;
+						}
 						$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
+						new_posts++;
 						$(document).trigger('new_post', this);
+						recheck_activated();
 					}
 				});
 			}
@@ -43,7 +74,10 @@ $(document).ready(function(){
 	};
 	
 	$(window).scroll(function() {
-		if($(this).scrollTop() + $(this).height() < $('div.post:last').position().top + $('div.post:last').height()) {
+		recheck_activated();
+
+		if($(this).scrollTop() + $(this).height() <
+			$('div.post:last').position().top + $('div.post:last').height()) {
 			end_of_page = false;
 			return;
 		}
