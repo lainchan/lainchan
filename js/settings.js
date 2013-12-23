@@ -30,7 +30,11 @@ tb_settings['quick-reply'] = {
 	// Hide form when scrolled to top of page (where original form is visible)
 	hide_at_top: true,
 	// "Quick reply" button floating at the top right hand corner of the page at all times
-	floating_link: true
+	floating_link: true,
+	// Show remote in quick reply
+	show_remote: false,
+	// Show embedding in quick reply
+	show_embed: false
 };
 
 // ajax.js

@@ -216,13 +216,16 @@
 					if ($td.find('input[name="file_url"]').length) {
 						$file_url = $td.find('input[name="file_url"]');
 						
-						// Make a new row for it
-						var $newRow = $('<tr><td colspan="2"></td></tr>');
+						if (settings.get('show_remote', false)) {
+							// Make a new row for it
+							var $newRow = $('<tr><td colspan="2"></td></tr>');
 						
-						$file_url.clone().attr('placeholder', _('Upload URL')).appendTo($newRow.find('td'));
+							$file_url.clone().attr('placeholder', _('Upload URL')).appendTo($newRow.find('td'));
+						
+							$newRow.insertBefore(this);
+						}
 						$file_url.parent().remove();
-						
-						$newRow.insertBefore(this);
+
 						
 						$td.find('label').remove();
 						$td.contents().filter(function() {
@@ -234,6 +237,11 @@
 					if ($(this).find('input[name="spoiler"]').length) {
 						$td.removeAttr('colspan');
 					}
+				}
+
+				// Disable embedding if configured so
+				if (!settings.get('show_embed', false) && $td.find('input[name="embed"]').length) {
+					$(this).remove();
 				}
 
 				// Remove oekaki if existent
