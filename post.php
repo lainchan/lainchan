@@ -402,14 +402,14 @@ if (isset($_POST['delete'])) {
 	$post['name'] = $trip[0];
 	$post['trip'] = isset($trip[1]) ? $trip[1] : '';
 	
-	$noko =  false;
+	$noko = false;
 	if (strtolower($post['email']) == 'noko') {
 		$noko = true;
 		$post['email'] = '';
 	} elseif (strtolower($post['email']) == 'nonoko'){
 		$noko = false;
 		$post['email'] = '';
-	}else $noko = $config['always_noko'];
+	} else $noko = $config['always_noko'];
 	
 	if ($post['has_file']) {
 		$post['extension'] = strtolower(mb_substr($post['filename'], mb_strrpos($post['filename'], '.') + 1));
