@@ -86,7 +86,11 @@ function error($message, $priority = true, $debug_stuff = false) {
 	}
 
 	// Return the bad request header, necessary for AJAX posts
-	header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+	// czaks: is it really so? the ajax errors only work when this is commented out
+	//        better yet use it when ajax is disabled
+	if (!isset ($_POST['json_response'])) {
+		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+	}
 	
 	// Is there a reason to disable this?
 	if (isset($_POST['json_response'])) {
