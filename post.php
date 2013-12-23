@@ -643,26 +643,26 @@ if (isset($_POST['delete'])) {
 			if ($p = getPostByHash($post['filehash'])) {
 				undoImage($post);
 				error(sprintf($config['error']['fileexists'], 
-					$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
-					$board['dir'] . $config['dir']['res'] .
+					($post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root']) .
+					($board['dir'] . $config['dir']['res'] .
 						($p['thread'] ?
 							$p['thread'] . '.html#' . $p['id']
 						:
 							$p['id'] . '.html'
-						)
+						))
 				));
 			}
 		} else if (!$post['op'] && $config['image_reject_repost_in_thread']) {
 			if ($p = getPostByHashInThread($post['filehash'], $post['thread'])) {
 				undoImage($post);
 				error(sprintf($config['error']['fileexistsinthread'], 
-					$post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'] .
-					$board['dir'] . $config['dir']['res'] .
+					($post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root']) .
+					($board['dir'] . $config['dir']['res'] .
 						($p['thread'] ?
 							$p['thread'] . '.html#' . $p['id']
 						:
 							$p['id'] . '.html'
-						)
+						))
 				));
 			}
 		}
