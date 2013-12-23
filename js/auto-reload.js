@@ -21,6 +21,8 @@ $(document).ready(function(){
 	return; //not thread page
 	
 	var poll_interval;
+
+	var end_of_page = false;
 	
 	var poll = function() {
 		$.ajax({
@@ -36,19 +38,21 @@ $(document).ready(function(){
 			}
 		});
 		
-		poll_interval = setTimeout(poll, 5000);
+		clearTimeout(poll_interval);
+		poll_interval = setTimeout(poll, end_of_page ? 3000 : 10000);
 	};
 	
 	$(window).scroll(function() {
 		if($(this).scrollTop() + $(this).height() < $('div.post:last').position().top + $('div.post:last').height()) {
-			clearTimeout(poll_interval);
-			poll_interval = false;
+			end_of_page = false;
 			return;
 		}
 		
-		if(poll_interval === false) {
-			poll_interval = setTimeout(poll, 1500);
-		}
+		clearTimeout(poll_interval);
+		poll_interval = setTimeout(poll, 100);
+		end_of_page = true;
 	}).trigger('scroll');
+
+	poll_interval = setTimeout(poll, 3000);
 });
 
