@@ -42,7 +42,8 @@
 			return Element('themes/categories/news.html', Array(
 				'settings' => $settings,
 				'config' => $config,
-				'news' => $news
+				'news' => $news,
+		                'boardlist' => createBoardlist(false)
 			));
 		}
 		
