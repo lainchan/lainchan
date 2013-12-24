@@ -4,7 +4,8 @@ var cache = new Array(),
 	thread = false,
 	loading = false,
 	ukkotimer = false;
-if (localStorage.hiddenboards !== null) {
+
+if (localStorage.hiddenboards === undefined) {
 	localStorage.hiddenboards = "{}";
 }
 
