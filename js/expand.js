@@ -27,7 +27,7 @@ $(document).ready(function(){
 					success: function(data) {
 						var last_expanded = false;
 						$(data).find('div.post.reply').each(function() {
-							thread.find('.hidden').remove();
+							thread.find('div.hidden').remove();
 							var post_in_doc = thread.find('#' + $(this).attr('id'));
 							if(post_in_doc.length == 0) {
 								if(last_expanded) {
