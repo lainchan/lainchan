@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-17 18:33-0400\n"
+"POT-Creation-Date: 2013-12-25 16:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../../../js/quick-reply.js:20 ../../../../js/quick-reply.js:21
+#: ../../../../js/quick-reply-old.js:21
 msgid "Submit"
 msgstr "Wyślij"
 
 #: ../../../../js/quick-reply.js:30 ../../../../js/quick-reply.js:31
+#: ../../../../js/quick-reply-old.js:31
 msgid "Quick reply"
 msgstr "Szybka odpowiedź"
 
 #: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
+#: ../../../../js/quick-reply-old.js:33
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
 msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
+#: ../../../../js/quick-reply-old.js:33
 msgid "Return"
 msgstr "Powrót"
 
@@ -156,19 +160,25 @@ msgstr "{0} użytkowników"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
+#: ../../../../templates/themes/ukko/ukko.js:29
+#: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
 msgstr "(schowaj wątki z tego boardu)"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
+#: ../../../../templates/themes/ukko/ukko.js:33
+#: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
 msgstr "(pokaż wątki z tego boardu)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
+#: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
 msgstr "Nie ma więcej wątków do wyświetlenia"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
+#: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
 msgstr "Ładowanie..."
 
@@ -248,3 +258,55 @@ msgstr "Katalog"
 #: ../../../../js/expand-all-images.js:20
 msgid "Expand all images"
 msgstr "Rozwiń wszystkie obrazki"
+
+#: ../../../../js/download-original.js:32
+msgid "Save as original filename"
+msgstr "Zapisz z oryginalną nazwą pliku"
+
+#: ../../../../js/ajax-post-controls.js:43
+msgid "Reported post(s)."
+msgstr "Zaraportowano post(y)."
+
+#: ../../../../js/ajax-post-controls.js:53
+msgid "An unknown error occured!"
+msgstr "Wystąpił nieznany błąd!"
+
+#: ../../../../js/ajax-post-controls.js:60
+msgid "Something went wrong... An unknown error occured!"
+msgstr "Coś poszło źle... wystąpił nieznany błąd!"
+
+#: ../../../../js/ajax-post-controls.js:68
+msgid "Working..."
+msgstr "Przetwarzanie..."
+
+#: ../../../../js/ajax.js:42
+msgid "Posting... (#%)"
+msgstr "Postowanie... (#%)"
+
+#: ../../../../js/ajax.js:104
+msgid "Posted..."
+msgstr "Zapostowano..."
+
+#: ../../../../js/ajax.js:106
+msgid "An unknown error occured when posting!"
+msgstr "Wystąpił nieznany błąd podczas postowania!"
+
+#: ../../../../js/ajax.js:130
+msgid "Posting..."
+msgstr "Postowanie..."
+
+#: ../../../../js/quick-reply.js:223
+msgid "Upload URL"
+msgstr "Wyślij URL"
+
+#: ../../../../js/quick-reply.js:266
+msgid "Spoiler Image"
+msgstr "Schowaj obrazek"
+
+#: ../../../../js/quick-reply.js:277
+msgid "Comment"
+msgstr "Komentarz"
+
+#: ../../../../js/quick-reply.js:285
+msgid "Quick Reply"
+msgstr "Szybka odpowiedź"
