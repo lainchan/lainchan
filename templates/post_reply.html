@@ -38,16 +38,8 @@
 	{% if config.poster_ids %}
 		 ID: {{ post.ip|poster_id(post.thread) }}
 	{% endif %}
-	 <a class="post_no" {% if not index %}onclick="highlightReply({{ post.id }})" {% endif %}href="{{ post.link }}">No.</a>
-	<a class="post_no"
-		{% if not index %}
-			 onclick="citeReply({{ post.id }});"
-		{% endif %}
-		 href="{% if index %}
-			{{ post.link('q') }}
-		{% else %}
-			javascript:void(0);
-		{% endif %}">
+	 <a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? highlightReply({{ post.id }}) : true;" href="{{ post.link }}">No.</a>
+	<a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? citeReply({{ post.id }}) : true;" href="{{ post.link('q') }}">
 		{{ post.id }}
 	</a>
 	</p>
