@@ -884,7 +884,7 @@
 	// Minify Javascript using http://code.google.com/p/minify/.
 	$config['minify_js'] = false;
 
-	// Allows js/quick-reply.js to work. This could make your imageboard more vulnerable to flood attacks.
+	// Allows js/quick-reply-old.js to work. This could make your imageboard more vulnerable to flood attacks.
 	$config['quick_reply'] = false;
 
 /*
