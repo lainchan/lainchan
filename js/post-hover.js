@@ -48,7 +48,9 @@ onready(function(){
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
-						.insertAfter($link.parent());
+						.css('z-index', '100')
+						.addClass('reply').addClass('post')
+						.insertAfter($link.parent())
 					$link.trigger('mousemove');
 				}
 			};
