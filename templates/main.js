@@ -155,6 +155,7 @@ function highlightReply(id) {
 		if (post)
 			post.className += ' highlighted';
 	}
+	return false;
 }
 
 function generatePassword() {
@@ -207,6 +208,7 @@ function citeReply(id, with_link) {
 		$(window).trigger('cite', [id, with_link]);
 		$(textarea).change();
 	}
+	return false;
 }
 
 function rememberStuff() {
