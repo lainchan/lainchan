@@ -31,14 +31,6 @@
 	);
 	
 	$theme['config'][] = Array(
-		'title' => 'CSS file',
-		'name' => 'css',
-		'type' => 'text',
-		'default' => 'catalog.css',
-		'comment' => '(eg. "catalog.css")'
-	);
-	
-	$theme['config'][] = Array(
 		'title' => 'Update on new posts',
 		'name' => 'update_on_posts',
 		'type' => 'checkbox',

@@ -14,8 +14,6 @@
 		$boards = explode(' ', $settings['boards']);
 				
 		if ($action == 'all') {
-			copy('templates/themes/catalog/catalog.css', $config['dir']['home'] . $settings['css']);
-			
 			foreach ($boards as $board) {
 				$b = new Catalog();
 				$b->build($settings, $board);
