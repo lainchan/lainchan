@@ -242,7 +242,7 @@
 				}
 
 				// Remove upload selection
-				if ($(this).is('#upload_selection')) {
+				if ($td.is('#upload_selection')) {
 					$(this).remove();
 				}
 				
