@@ -14,6 +14,7 @@
  *
  */
 
+if (active_page == 'ukko' || active_page == 'thread' || active_page == 'index')
 onready(function(){
 	$('hr:first').before('<div id="expand-all-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)"></a></div>');
 	$('div#expand-all-images a')

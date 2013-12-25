@@ -10,6 +10,7 @@
  *
  */
 
+if (active_page == 'ukko' || active_page == 'index')
 $(document).ready(function(){
 	if($('div.banner').length != 0)
 		return; // not index

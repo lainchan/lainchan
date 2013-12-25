@@ -11,6 +11,7 @@
  *
  */
 
+if (active_page == 'ukko' || active_page == 'thread' || active_page == 'index')
 $(document).ready(function() {
 	var force_anon = function() {
 		if($(this).children('a.capcode').length == 0) {

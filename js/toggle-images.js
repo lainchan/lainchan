@@ -71,7 +71,7 @@ $(document).ready(function(){
 		});
 
 	if (hide_images) {
-		$('img.post-image').each(hideImage);
+		$('img.post-image, .catalog-theme .thread img').each(hideImage);
 		show_hide_hide_images_buttons();
 	}
 	
