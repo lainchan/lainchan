@@ -395,7 +395,7 @@
 	var floating_link = function() {
 		if (!settings.get('floating_link', true))
 			return;
-		$('<a href="javascript:void(0)" class="quick-reply-btn">Quick Reply</a>')
+		$('<a href="javascript:void(0)" class="quick-reply-btn">'+_('Quick Reply')+'</a>')
 			.click(function() {
 				show_quick_reply();
 				$(this).remove();
