@@ -96,19 +96,6 @@
         <a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? citeReply({{ post.id }}) : true;" href="{{ post.link('q') }}">
                 {{ post.id }}
         </a>
-
-	 <a class="post_no" href="{{ post.link }}">No.</a>
-	<a class="post_no"
-		{% if not index %}
-			 onclick="citeReply({{ post.id }});"
-		{% endif %}
-		 href="{% if index %}
-			{{ post.link('q') }}
-		{% else %}
-			javascript:void(0);
-		{% endif %}">
-		{{ post.id }}
-	</a>
 	{% if post.sticky %}
 		{% if config.font_awesome %}
 			<i class="icon-pushpin icon"></i>
