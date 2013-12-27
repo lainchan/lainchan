@@ -61,9 +61,12 @@ function createBoardlist($mod=false) {
 		$body = '[' . $body . ']';
 	
 	$body = trim($body);
+
+	// Message compact-boardlist.js faster, so that page looks less ugly during loading
+	$top = "<script type='text/javascript'>if (typeof do_boardlist != 'undefined') do_boardlist();</script>";
 	
 	return array(
-		'top' => '<div class="boardlist">' . $body . '</div>',
+		'top' => '<div class="boardlist">' . $body . '</div>' . $top,
 		'bottom' => '<div class="boardlist bottom">' . $body . '</div>'
 	);
 }

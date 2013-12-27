@@ -438,7 +438,7 @@ table.mod.config-editor input[type="text"] {
 	width: 98%;
 }
 
-.desktop-style div.boardlist:nth-child(1):hover {
+.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
   background-color: inherit;
 }
 

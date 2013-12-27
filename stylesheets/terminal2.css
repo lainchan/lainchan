@@ -160,7 +160,7 @@ table.modlog tr th {
   background-color: black;
   border-bottom: #00FF00 1px dashed;
 }
-.desktop-style div.boardlist:nth-child(1):hover {
+.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
   background-color: black;
 }
 

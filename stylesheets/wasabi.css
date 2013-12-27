@@ -397,6 +397,6 @@ div.blotter {
 }
 
 
-.desktop-style div.boardlist:nth-child(1):hover {
+.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
   background-color: rgba(100%, 100%, 30%, 0.35);
 }
