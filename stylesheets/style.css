@@ -485,7 +485,7 @@ form.ban-appeal {
 form.ban-appeal textarea {
 	display: block;
 }
-.theme-catalog img {
+.theme-catalog div.thread img {
 	float:none!important;
 	margin: auto;
 	margin-bottom: 12px;
@@ -511,6 +511,6 @@ form.ban-appeal textarea {
         background: rgba(182, 182, 182, 0.12);
         border: 2px solid rgba(111, 111, 111, 0.34);
 }
-.theme-catalog strong {
+.theme-catalog div.thread strong {
     display: block;
 }
