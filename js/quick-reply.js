@@ -401,7 +401,7 @@
 	});
 	
 	var floating_link = function() {
-		if (!settings.get('floating_link', true))
+		if (!settings.get('floating_link', false))
 			return;
 		$('<a href="javascript:void(0)" class="quick-reply-btn">'+_('Quick Reply')+'</a>')
 			.click(function() {
@@ -414,7 +414,7 @@
 		});
 	};
 	
-	if (settings.get('floating_link', true)) {
+	if (settings.get('floating_link', false)) {
 		$(window).ready(function() {
 			if($('div.banner').length == 0)
 				return;
