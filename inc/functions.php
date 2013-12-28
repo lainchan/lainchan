@@ -1365,12 +1365,26 @@ function buildIndex() {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if ($config['try_smarter'] && isset($build_pages) && !empty($build_pages)
+		if (!$config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
 			&& !in_array($page, $build_pages) && is_file($filename))
 			continue;
 		$content = index($page);
 		if (!$content)
 			break;
+
+		// json api
+		if ($config['api']['enabled']) {
+			$threads = $content['threads'];
+			$json = json_encode($api->translatePage($threads));
+			$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
+			file_write($jsonFilename, $json);
+
+			$catalog[$page-1] = $threads;
+		}
+
+		if ($config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
+			&& !in_array($page, $build_pages) && is_file($filename))
+			continue;
 
 		if ($config['try_smarter']) {
 			$antibot = create_antibot($board['uri'], 0 - $page);
@@ -1383,16 +1397,6 @@ function buildIndex() {
 		$content['antibot'] = $antibot;
 
 		file_write($filename, Element('index.html', $content));
-		
-		// json api
-		if ($config['api']['enabled']) {
-			$threads = $content['threads'];
-			$json = json_encode($api->translatePage($threads));
-			$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
-			file_write($jsonFilename, $json);
-
-			$catalog[$page-1] = $threads;
-		}
 	}
 
 	if ($page < $config['max_pages']) {
