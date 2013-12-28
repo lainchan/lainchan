@@ -34,8 +34,16 @@ class Api {
 			'filename' => 'filename',
 			'omitted' => 'omitted_posts',
 			'omitted_images' => 'omitted_images',
+			'replies' => 'replies',
+			'images' => 'images',
 			'sticky' => 'sticky',
 			'locked' => 'locked',
+			'bump' => 'last_modified',
+		);
+
+		$this->threadsPageFields = array(
+			'id' => 'no',
+			'bump' => 'last_modified'
 		);
 
 		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){
@@ -56,11 +64,13 @@ class Api {
 		'omitted_images' => 1,
 		'sticky' => 1,
 		'locked' => 1,
+		'last_modified' => 1
 	);
 
-	private function translatePost($post) {
+	private function translatePost($post, $threadsPage = false) {
 		$apiPost = array();
-		foreach ($this->postFields as $local => $translated) {
+		$fields = $threadsPage ? $this->threadsPageFields : $this->postFields;
+		foreach ($fields as $local => $translated) {
 			if (!isset($post->$local))
 				continue;
 
@@ -71,6 +81,8 @@ class Api {
 			}
 
 		}
+
+		if ($threadsPage) return $apiPost;
 
 		if (isset($post->filename)) {
 			$dotPos = strrpos($post->filename, '.');
@@ -93,14 +105,14 @@ class Api {
 		return $apiPost;
 	}
 
-	function translateThread(Thread $thread) {
+	function translateThread(Thread $thread, $threadsPage = false) {
 		$apiPosts = array();
-		$op = $this->translatePost($thread);
-		$op['resto'] = 0;
+		$op = $this->translatePost($thread, $threadsPage);
+		if (!$threadsPage) $op['resto'] = 0;
 		$apiPosts['posts'][] = $op;
 
 		foreach ($thread->posts as $p) {
-			$apiPosts['posts'][] = $this->translatePost($p);
+			$apiPosts['posts'][] = $this->translatePost($p, $threadsPage);
 		}
 
 		return $apiPosts;
@@ -114,19 +126,19 @@ class Api {
 		return $apiPage;
 	}
 
-	function translateCatalogPage(array $threads) {
+	function translateCatalogPage(array $threads, $threadsPage = false) {
 		$apiPage = array();
 		foreach ($threads as $thread) {
-			$ts = $this->translateThread($thread);
+			$ts = $this->translateThread($thread, $threadsPage);
 			$apiPage['threads'][] = current($ts['posts']);
 		}
 		return $apiPage;
 	}
 
-	function translateCatalog($catalog) {
+	function translateCatalog($catalog, $threadsPage = false) {
 		$apiCatalog = array();
 		foreach ($catalog as $page => $threads) {
-			$apiPage = $this->translateCatalogPage($threads);
+			$apiPage = $this->translateCatalogPage($threads, $threadsPage);
 			$apiPage['page'] = $page;
 			$apiCatalog[] = $apiPage;
 		}
