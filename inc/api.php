@@ -90,6 +90,8 @@ class Api {
 			$dotPos = strrpos($post->filename, '.');
 			$apiPost['filename'] = substr($post->filename, 0, $dotPos);
 			$apiPost['ext'] = substr($post->filename, $dotPos);
+			$dotPos = strrpos($post->file, '.');
+			$apiPost['tim'] = substr($post->file, 0, $dotPos);
 		}
 
 		// Handle country field
