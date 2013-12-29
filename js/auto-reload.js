@@ -9,9 +9,12 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   //$config['additional_javascript'][] = 'js/titlebar-notifications.js';
  *   $config['additional_javascript'][] = 'js/auto-reload.js';
  *
  */
+
+auto_reload_enabled = true; // for watch.js to interop
 
 $(document).ready(function(){
 	if($('div.banner').length == 0)
@@ -24,12 +27,17 @@ $(document).ready(function(){
 
 	var end_of_page = false;
 
-	var orig_title = document.title;
         var new_posts = 0;
 	var first_new_post = null;
-	var update_title = function() {
-		document.title = (new_posts ? "("+new_posts+") " : "") + orig_title;
-	};
+
+	if (typeof update_title == "undefined") {
+	   var update_title = function() { };
+	}
+
+	if (typeof add_title_collector != "undefined")
+	add_title_collector(function(){
+	  return new_posts;
+	});
 
 	var window_active = true;
 	$(window).focus(function() {
@@ -66,6 +74,7 @@ $(document).ready(function(){
 						recheck_activated();
 					}
 				});
+				time_loaded = Date.now(); // interop with watch.js
 			}
 		});
 		
