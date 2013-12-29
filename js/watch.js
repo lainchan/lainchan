@@ -320,7 +320,7 @@ $(function(){
     if (!status) return;
     var refresh = false;
     for(var bid in status) {
-      if (status[bid].new_threads && (active_page == "ukko" || active_page == "index")
+      if ((status[bid].new_threads && (active_page == "ukko" || active_page == "index")) || status[bid].new_threads == 1
             && check_post(this, $('[data-board="'+bid+'"]#thread_'+status[bid].last_thread))) {
 	var st = storage()
 	st[bid].watched = time_loaded;
