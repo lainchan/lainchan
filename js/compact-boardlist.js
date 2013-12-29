@@ -1,48 +1,7 @@
 if (device_type == 'desktop') {
   compact_boardlist = true;
 
-  var do_css = function() {
-    $('#compact-boardlist-css').remove();
-                        
-    $('<style type="text/css" id="compact-boardlist-css">\
-      .compact-boardlist {\
-	padding: 3px;\
-	padding-bottom: 0px;\
-      }\
-      .cb-item {\
-        display: inline-block;\
-        vertical-align: middle;\
-      }\
-      .cb-icon {\
-        padding-bottom: 1px;\
-      }\
-      .cb-fa {\
-        font-size: 21px;\
-        padding: 2px;\
-        padding-top: 0;\
-      }\
-      .cb-cat {\
-        padding: 5px 6px 8px 6px;\
-      }\
-      .cb-menuitem {\
-	display: table-row;\
-      }\
-      .cb-menuitem span {\
-        padding: 5px;\
-        display: table-cell;\
-	text-align: left;\
-	border-top: 1px solid rgba(0, 0, 0, 0.5);\
-      }\
-      .cb-menuitem span.cb-uri {\
-	text-align: right;\
-        padding-left: 0;\
-      }\
-    </style>').appendTo($("head"));
-  };
-
   do_boardlist = function() {
-    do_css();
-
     var categories = [];
     var topbl = $('.boardlist:first');
 

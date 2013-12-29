@@ -514,3 +514,38 @@ form.ban-appeal textarea {
 .theme-catalog div.thread strong {
     display: block;
 }
+.compact-boardlist {
+        padding: 3px;
+        padding-bottom: 0px;
+}
+.compact-boardlist .cb-item {
+        display: inline-block;
+        vertical-align: middle;
+}
+.compact-boardlist .cb-icon {
+        padding-bottom: 1px;
+}
+.compact-boardlist .cb-fa {
+        font-size: 21px;
+        padding: 2px;
+        padding-top: 0;
+}
+.compact-boardlist .cb-cat {
+        padding: 5px 6px 8px 6px;
+}
+
+/* styles also used by watch.js */
+.cb-menuitem {
+        display: table-row;
+}
+.cb-menuitem span {
+        padding: 5px;
+        display: table-cell;
+        text-align: left;
+        border-top: 1px solid rgba(0, 0, 0, 0.5);
+}
+.cb-menuitem span.cb-uri {
+        text-align: right;
+        padding-left: 0;
+}
+
