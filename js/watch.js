@@ -1,6 +1,9 @@
 $(function(){
   // migrate from old name
-  if (typeof localStorage.watch == "string") { localStorage.watch_js = localStorage.watch; }
+  if (typeof localStorage.watch == "string") {
+    localStorage.watch_js = localStorage.watch;
+    delete localStorage.watch;
+  }
 
   var status = {};
 
