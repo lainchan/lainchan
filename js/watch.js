@@ -129,7 +129,7 @@ $(function(){
 
     var bl = $('.boardlist').first();
     $('#watch-pinned, .watch-menu').remove();
-    var pinned = $('<div id="watch-pinned"></div>').css('display', 'inline-block').css('vertical-align', 'middle').appendTo(bl);
+    var pinned = $('<div id="watch-pinned"></div>').appendTo(bl);
 
     var st = storage();
     for (var i in st) {

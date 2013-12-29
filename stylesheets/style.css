@@ -548,3 +548,23 @@ form.ban-appeal textarea {
         text-align: right;
 }
 
+.boardlist:not(.compact-boardlist) #watch-pinned::before {
+	content: " [ ";
+}
+.boardlist:not(.compact-boardlist) #watch-pinned::after {
+	content: " ] ";
+}
+.boardlist:not(.compact-boardlist) #watch-pinned {
+        display: inline;
+}
+.boardlist:not(.compact-boardlist) #watch-pinned a {
+	margin-left: 3pt;
+}
+.boardlist:not(.compact-boardlist) #watch-pinned a:first-child {
+        margin-left: 0pt;
+}
+
+.compact-boardlist #watch-pinned {
+        display: inline-block;
+	vertical-align: middle;
+}
