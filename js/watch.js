@@ -1,4 +1,7 @@
 $(function(){
+  // migrate from old name
+  if (typeof localStorage.watch == "string") { localStorage.watch_js = localStorage.watch; }
+
   var status = {};
 
   time_loaded = Date.now();
@@ -6,11 +9,11 @@ $(function(){
   var updating_suspended = false;
 
   var storage = function() {
-    return JSON.parse(localStorage.watch !== undefined ? localStorage.watch : "{}");
+    return JSON.parse(localStorage.watch_js !== undefined ? localStorage.watch_js : "{}");
   };
 
   var storage_save = function(s) {
-    localStorage.watch = JSON.stringify(s);
+    localStorage.watch_js = JSON.stringify(s);
   };
 
   var osize = function(o) {
