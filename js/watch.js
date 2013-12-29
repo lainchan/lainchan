@@ -12,7 +12,9 @@ $(function(){
   var updating_suspended = false;
 
   var storage = function() {
-    return JSON.parse(localStorage.watch_js !== undefined ? localStorage.watch_js : "{}");
+    var storage = JSON.parse(localStorage.watch_js !== undefined ? localStorage.watch_js : "{}");
+    delete storage.undefined; // fix for some bug
+    return storage;
   };
 
   var storage_save = function(s) {
@@ -73,11 +75,60 @@ $(function(){
     storage_save(st);
     return is_threadwatched(bc, thread);
   };
+  var construct_watchlist_for = function(board, variant) {
+    var list = $("<div class='boardlist top cb-menu watch-menu'></div>");
+    list.attr("data-board", board);
+
+    for (var tid in storage()[board].threads) {
+      // TODO: fix path
+      var newposts = "(0)";
+      if (status && status[board] && status[board].threads && status[board].threads[tid]) {
+        if (status[board].threads[tid] == -404) {
+          newposts = "<i class='icon icon-ban-circle'></i>";
+        }
+        else {
+          newposts = "("+status[board].threads[tid]+")";
+        }
+      }
+
+      var tag;
+      if (variant == 'desktop') {
+        tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri watch-remove'>"+newposts+"</span>");
+	tag.find(".watch-remove").mouseenter(function() {
+          this.oldval = $(this).html();
+          $(this).css("min-width", $(this).width());
+          $(this).html("<i class='icon icon-minus'></i>");
+        })
+        .mouseleave(function() {
+          $(this).html(this.oldval);
+        })
+      }
+      else if (variant == 'mobile') {
+        tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri'>"+newposts+"</span>"
+               +"<span class='cb-uri watch-remove'><i class='icon icon-minus'></i></span>");	
+      }
+
+      tag.attr('data-thread', tid)
+        .addClass("cb-menuitem")
+        .appendTo(list)
+        .find(".watch-remove")
+        .click(function() {
+          var b = $(this).parent().parent().attr("data-board");
+          var t = $(this).parent().attr("data-thread");
+          toggle_threadwatched(b, t);
+          $(this).parent().parent().parent().mouseleave();
+	  $(this).parent().remove();
+          return false;
+        });
+    }
+    return list;
+  };
+
   var update_pinned = function() {
     if (typeof update_title != "undefined") update_title();
 
     var bl = $('.boardlist').first();
-    $('#watch-pinned').remove();
+    $('#watch-pinned, .watch-menu').remove();
     var pinned = $('<div id="watch-pinned"></div>').css('display', 'inline-block').css('vertical-align', 'middle').appendTo(bl);
 
     var st = storage();
@@ -119,54 +170,24 @@ $(function(){
 	    }
           }
 
-	  link.mouseenter(function() {
+	  if (device_type == "desktop")
+	  link.unbind().mouseenter(function() {
 	    updating_suspended = true;
+	    $('.cb-menu').remove();
 
-            var list = $("<div class='boardlist top cb-menu'></div>")
-              .css("top", $(this).position().top + 13 + $(this).height())
-              .css("left", $(this).position().left)
-              .css("right", "auto")
-	      .css("font-style", "normal")
-              .appendTo($(this));
 	    var board = $(this).attr("data-board");
 
-            for (var tid in storage()[board].threads) {
-              // TODO: fix path
-              var newposts = "(0)";
-	      if (status && status[board] && status[board].threads && status[board].threads[tid]) {
-		if (status[board].threads[tid] == -404) {
-		  newposts = "<i class='icon icon-ban-circle'></i>";
-		}
-		else {
-		  newposts = "("+status[board].threads[tid]+")";
-		}
-              }
+	    var wl = construct_watchlist_for(board, "desktop").appendTo($(this))
+              .css("top", $(this).position().top
+                       + ($(this).css('padding-top').replace('px', '')|0)
+                       + ($(this).css('padding-bottom').replace('px', '')|0)
+                       +  $(this).height())
+              .css("left", $(this).position().left)
+              .css("right", "auto")
+              .css("font-style", "normal");
 
-              var tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri'>"+newposts+"</span>");
-
-              tag
-		.attr('data-thread', tid)
-                .addClass("cb-menuitem")
-                .appendTo(list)
-		.find(".cb-uri").mouseenter(function() {
-		  this.oldval = $(this).html();
-		  $(this).css("min-width", $(this).width());
-		  $(this).html("<i class='icon icon-minus'></i>");
-	        })
-	        .mouseleave(function() {
-		  $(this).html(this.oldval);
-	        })
-		.click(function() {
-		  var b = $(this).parent().parent().parent().attr("data-board");
-		  var t = $(this).parent().attr("data-thread");
-		  toggle_threadwatched(b, t);
-		  $(this).parent().parent().parent().mouseleave();
-		  return false;
-		});
-
-	      if (typeof init_hover != "undefined")
-		init_hover.bind(tag[0])();
-	    }
+            if (typeof init_hover != "undefined")
+	      wl.find("a.cb-menuitem").each(init_hover);
 
 	  }).mouseleave(function() {
 	    updating_suspended = false;
@@ -174,6 +195,14 @@ $(function(){
 	  });
 	}
       }
+    }
+
+    if (device_type == "mobile" && (active_page == 'thread' || active_page == 'index')) {
+      var board = $('form[name="post"] input[name="board"]').val();
+
+      var where = $('div[style="text-align:right"]').first();
+      $('.watch-menu').remove();
+      construct_watchlist_for(board, "mobile").css("float", "left").insertBefore(where);
     }
   };
   var fetch_jsons = function() {
