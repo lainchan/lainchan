@@ -24,6 +24,24 @@ onready(function(){
 			return;
 		}
 		
+		var board = $(this);
+		var i = 0;
+		while (board.data('board') === undefined) {
+			board = board.parent();
+			i++;
+			if (i >= 10) return;
+		}
+		var threadid;
+		if ($link.is('[data-thread]')) threadid = 0;
+		else threadid = board.attr('id').replace("thread_", "");
+
+		board = board.data('board');
+
+		var parentboard = board;
+		
+		if ($link.is('[data-thread]')) parentboard = $('form[name="post"] input[name="board"]').val();
+		else if (matches[1] !== undefined) board = matches[1];
+
 		var $post = false;
 		var hovering = false;
 		var hovered_at;
