@@ -19,9 +19,13 @@ onready(function(){
 		var id;
 		var matches;
 
-		if(matches = $link.text().match(/^>>(?:>\/([^\/]+)\/)?(\d+)$/)) {
+                if ($link.is('[data-thread]')) {
+                        id = $link.attr('data-thread');
+                }
+		else if(matches = $link.text().match(/^>>(?:>\/([^\/]+)\/)?(\d+)$/)) {
 			id = matches[2];
-		} else {
+		}
+		else {
 			return;
 		}
 		
@@ -29,15 +33,16 @@ onready(function(){
 		while (board.data('board') === undefined) {
 			board = board.parent();
 		}
-		var threadid = board.attr('id').replace("thread_", "");
+		var threadid;
+		if ($link.is('[data-thread]')) threadid = 0;
+		else threadid = board.attr('id').replace("thread_", "");
+
 		board = board.data('board');
 
 		var parentboard = board;
-
-		if (matches[1] !== undefined) {
-			board = matches[1];
-		}
-
+		
+		if ($link.is('[data-thread]')) parentboard = $('form[name="post"] input[name="board"]').val();
+		else if (matches[1] !== undefined) board = matches[1];
 
 		var $post = false;
 		var hovering = false;
@@ -64,13 +69,15 @@ onready(function(){
 						.attr('id', 'post-hover-' + id)
 						.attr('data-board', board)
 						.addClass('post-hover')
-						.css('position', 'absolute')
 						.css('border-style', 'solid')
 						.css('box-shadow', '1px 1px 1px #999')
 						.css('display', 'block')
+						.css('position', 'absolute')
+						.css('font-style', 'normal')
 						.css('z-index', '100')
 						.addClass('reply').addClass('post')
 						.insertAfter($link.parent())
+
 					$link.trigger('mousemove');
 				}
 			};
@@ -134,13 +141,18 @@ onready(function(){
 			var $hover = $('#post-hover-' + id + '[data-board="' + board + '"]');
 			if($hover.length == 0)
 				return;
+
+			var scrollTop = $(window).scrollTop();
+			if ($link.is("[data-thread]")) scrollTop = 0;
+			var epy = e.pageY;
+			if ($link.is("[data-thread]")) epy -= $(window).scrollTop();			
+
+			var top = (epy ? epy : hovered_at['y']) - 10;
 			
-			var top = (e.pageY ? e.pageY : hovered_at['y']) - 10;
-			
-			if(e.pageY < $(window).scrollTop() + 15) {
-				top = $(window).scrollTop();
-			} else if(e.pageY > $(window).scrollTop() + $(window).height() - $hover.height() - 15) {
-				top = $(window).scrollTop() + $(window).height() - $hover.height() - 15;
+			if(epy < scrollTop + 15) {
+				top = scrollTop;
+			} else if(epy > scrollTop + $(window).height() - $hover.height() - 15) {
+				top = scrollTop + $(window).height() - $hover.height() - 15;
 			}
 			
 			

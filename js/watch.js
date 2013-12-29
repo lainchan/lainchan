@@ -84,7 +84,7 @@ $(function(){
     for (var i in st) {
       if (is_pinned(st[i])) {
 	var link;
-        if (bl.find('[href*="/'+i+'/"]:not(.cb-menuitem)').length) link = bl.find('[href*="/'+i+'/"]').first();
+        if (bl.find('[href*="/'+i+'/index.html"]:not(.cb-menuitem)').length) link = bl.find('[href*="/'+i+'/"]').first();
 
 	// TODO: fix path
         else link = $('<a href="/'+i+'/" class="cb-item cb-cat">/'+i+'/</a>').appendTo(pinned);
@@ -126,6 +126,7 @@ $(function(){
               .css("top", $(this).position().top + 13 + $(this).height())
               .css("left", $(this).position().left)
               .css("right", "auto")
+	      .css("font-style", "normal")
               .appendTo($(this));
 	    var board = $(this).attr("data-board");
 
@@ -162,6 +163,9 @@ $(function(){
 		  $(this).parent().parent().parent().mouseleave();
 		  return false;
 		});
+
+	      if (typeof init_hover != "undefined")
+		init_hover.bind(tag[0])();
 	    }
 
 	  }).mouseleave(function() {
