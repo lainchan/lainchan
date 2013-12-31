@@ -212,14 +212,14 @@ $(function(){
     for (var i in st) {
       if (st[i].watched) {
 	// TODO: fix path
-        var r = $.getJSON("/"+i+"/threads.json", {nocache: Math.random()}, function(j, x, r) {
+        var r = $.getJSON("/"+i+"/threads.json", function(j, x, r) {
 	  handle_board_json(r.board, j);
 	});
 	r.board = i;
       }
       else if (st[i].threads) {
         for (var j in st[i].threads) {
-          var r = $.getJSON("/"+i+"/res/"+j+".json", {nocache: Math.random()}, function(k, x, r) {
+          var r = $.getJSON("/"+i+"/res/"+j+".json", function(k, x, r) {
 	    handle_thread_json(r.board, r.thread, k);
           }).error(function(r) {
 	    if(r.status == 404) handle_thread_404(r.board, r.thread);
