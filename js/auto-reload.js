@@ -61,7 +61,6 @@ $(document).ready(function(){
 	var poll = function() {
 		$.ajax({
 			url: document.location,
-			data: {nocache: Math.random()},
 			success: function(data) {
 				$(data).find('div.post.reply').each(function() {
 					var id = $(this).attr('id');
