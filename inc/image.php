@@ -21,7 +21,7 @@ class Image {
 		} else {
 			$classname = 'Image' . strtoupper($this->format);
 			if (!class_exists($classname)) {
-				error('Unsupported file format: ' . $this->format);
+				error(_('Unsupported file format: ') . $this->format);
 			}
 		}
 		
@@ -59,7 +59,7 @@ class Image {
 		} else {
 			$classname = 'Image' . strtoupper($extension);
 			if (!class_exists($classname)) {
-				error('Unsupported file format: ' . $extension);
+				error(_('Unsupported file format: ') . $extension);
 			}
 		}
 		
@@ -279,13 +279,13 @@ class ImageConvert extends ImageBase {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
 						escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src))) {
 					$this->destroy();
-					error('Failed to redraw image!', null, $error);
+					error(_('Failed to redraw image!'), null, $error);
 				}
 			} else {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
 						escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src))) {
 					$this->destroy();
-					error('Failed to redraw image!', null, $error);
+					error(_('Failed to redraw image!'), null, $error);
 				}
 			}
 		} else {
@@ -321,7 +321,7 @@ class ImageConvert extends ImageBase {
 						escapeshellarg($this->src . '') . " \"#0-{$config['thumb_keep_animation_frames']}\" -o " .
 						escapeshellarg($this->temp))) || !file_exists($this->temp)) {
 					$this->destroy();
-					error('Failed to resize image!', null, $error);
+					error(_('Failed to resize image!'), null, $error);
 				}
 			} else {
 				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
