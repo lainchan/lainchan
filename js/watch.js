@@ -339,7 +339,7 @@ $(function(){
       }
     }
     if (refresh) {
-      update_pinned();
+      fetch_jsons();
       refresh = false;
     }
   });
