@@ -14,7 +14,7 @@
 		if ($action != 'post-thread' && $action != 'post-delete')
 			return;
 		
-		if ($settings['regen_time'] > 0) {
+		if (isset($settings['regen_time']) && $settings['regen_time'] > 0) {
 			if ($last_gen = @filemtime($settings['path'])) {
 				if (time() - $last_gen < (int)$settings['regen_time'])
 					return; // Too soon
