@@ -456,8 +456,11 @@ table.mod.config-editor input[type="text"] {
 
 #attention_bar {
   height: 1.5em;
+  max-height: 1.5em;
   width: 100%;
+  max-width: 100%;
   text-align: center;
+  overflow: hidden;
 }
 #attention_bar_form {
   display: none;
@@ -471,8 +474,7 @@ table.mod.config-editor input[type="text"] {
   text-align: center;
 }
 #attention_bar:hover {
-  background-color: #fff;
-  opacity: 0.8;
+  background-color: rgba(100%, 100%, 100%, 0.2);
 }
 p.intro.thread-hidden {
 	margin: 0px;
