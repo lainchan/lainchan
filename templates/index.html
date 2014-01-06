@@ -36,15 +36,16 @@
 			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
 		</div>
 	</header>
-	
+
 	{% include 'attention_bar.html' %}
+
+	{{ config.ad.top }}
+
 	{% if not no_post_form %}
 		{% include 'post_form.html' %}
 	{% else %}
 		{% include 'boardlist.html' %}
 	{% endif %}
-
-	{{ config.ad.top }}
 
 	{% if config.page_nav_top %}
 		<div class="pages top">
