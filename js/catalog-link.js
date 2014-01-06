@@ -47,6 +47,6 @@ if (subtitle) {
 }
 }
 
-if (active_page != 'ukko') {
+if (active_page == 'thread' || active_page == 'index') {
 	$(document).ready(catalog);
 }
