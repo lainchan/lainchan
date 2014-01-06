@@ -128,7 +128,7 @@ div.banner a:hover {
 	color: #EEF2FF;
 	text-decoration: none;
 }
-img.banner {
+img.banner, img.board_image {
 	display: block;
 	border: 1px solid #a9a9a9;
 	margin: 12px auto 0 auto;
