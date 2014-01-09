@@ -1525,3 +1525,8 @@
 	// is the absolute maximum, because MySQL cannot handle table names greater than 64 characters.
 	$config['board_regex'] = '[0-9a-zA-Z$_\x{0080}-\x{FFFF}]{1,58}';
 
+	// Youtube.js embed HTML code
+	$config['youtube_js_html'] = '<div class="video-container" data-video="$2">'.
+		'<a href="$0" target="_blank" class="file">'.
+		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
+		'</a></div>';

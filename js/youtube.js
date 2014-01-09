@@ -15,8 +15,7 @@
 *	$config['embedding'] = array();
 *	$config['embedding'][0] = array(
 *		'/^https?:\/\/(\w+\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9\-_]{10,11})(&.+)?$/i',
-*		'<div class="video-container" data-video="$2"><a href="$0" target="_blank" class="file"><img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/></a></div>'
-);
+*		$config['youtube_js_html']);
 *   $config['additional_javascript'][] = 'js/jquery.min.js';
 *   $config['additional_javascript'][] = 'js/youtube.js';
 *
