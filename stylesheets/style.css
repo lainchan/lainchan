@@ -148,7 +148,7 @@ div.post img.icon {
 	margin: 0 5px;
 	padding: 0;
 }
-div.post i.icon {
+div.post i.fa {
 	margin: 0 4px;
 	font-size: 16px;
 }
@@ -430,4 +430,87 @@ form.ban-appeal {
 }
 form.ban-appeal textarea {
 	display: block;
+}
+.theme-catalog div.thread img {
+	float:none!important;
+	margin: auto;
+	margin-bottom: 12px;
+	max-height: 150px;
+	max-width: 200px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.55);
+	border: 2px solid rgba(153, 153, 153, 0);
+}
+.theme-catalog div.thread {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom:25px;
+	margin-left: 20px;
+	margin-right: 15px;
+	text-align:center;
+	font-weight:normal;
+	width:205px;      
+	overflow:hidden;
+	position: relative;
+	font-size:11px;
+	padding: 15px;
+	max-height:300px;
+        background: rgba(182, 182, 182, 0.12);
+        border: 2px solid rgba(111, 111, 111, 0.34);
+}
+.theme-catalog div.thread strong {
+    display: block;
+}
+.compact-boardlist {
+        padding: 3px;
+        padding-bottom: 0px;
+}
+.compact-boardlist .cb-item {
+        display: inline-block;
+        vertical-align: middle;
+}
+.compact-boardlist .cb-icon {
+        padding-bottom: 1px;
+}
+.compact-boardlist .cb-fa {
+        font-size: 21px;
+        padding: 2px;
+        padding-top: 0;
+}
+.compact-boardlist .cb-cat {
+        padding: 5px 6px 8px 6px;
+}
+
+/* styles also used by watch.js */
+.cb-menuitem {
+        display: table-row;
+}
+.cb-menuitem span {
+        padding: 5px;
+        display: table-cell;
+        text-align: left;
+        border-top: 1px solid rgba(0, 0, 0, 0.5);
+}
+.cb-menuitem span.cb-uri {
+        text-align: right;
+}
+
+.boardlist:not(.compact-boardlist) #watch-pinned::before {
+	content: " [ ";
+}
+.boardlist:not(.compact-boardlist) #watch-pinned::after {
+	content: " ] ";
+}
+.boardlist:not(.compact-boardlist) #watch-pinned {
+        display: inline;
+}
+.boardlist:not(.compact-boardlist) #watch-pinned a {
+	margin-left: 3pt;
+}
+.boardlist:not(.compact-boardlist) #watch-pinned a:first-child {
+        margin-left: 0pt;
+}
+
+.compact-boardlist #watch-pinned {
+        display: inline-block;
+	vertical-align: middle;
 }
