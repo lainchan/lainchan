@@ -1552,11 +1552,11 @@ function markup_url($matches) {
 	foreach ($link as $attr => $value) {
 		if ($attr == 'text' || $attr == 'after')
 			continue;
-		$parts[] = $attr . '="' . htmlspecialchars($value) . '"';
+		$parts[] = $attr . '="' . $value . '"';
 	}
 	if (isset($link['after']))
 		$after = $link['after'] . $after;
-	return '<a ' . implode(' ', $parts) . '>' . utf8tohtml($link['text']) . '</a>' . $after;
+	return '<a ' . implode(' ', $parts) . '>' . $link['text'] . '</a>' . $after;
 }
 
 function unicodify($body) {
