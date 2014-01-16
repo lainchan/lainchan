@@ -40,12 +40,12 @@ $(document).ready(function(){
 		.click(function() {
 			hide_locked_threads = !hide_locked_threads;
 			if (hide_locked_threads) {
-				$('img.icon[title="Locked"]').each(function() {
+				$('img.icon[title="Locked"], i.fa-lock.fa').each(function() {
 					hideLockedThread(getThreadFromIcon($(this)));
 				});
 				localStorage.hidelockedthreads = true;
 			} else {
-				$('img.icon[title="Locked"]').each(function() {
+				$('img.icon[title="Locked"], i.fa-lock.fa').each(function() {
 					restoreLockedThread(getThreadFromIcon($(this)));
 				});
 				delete localStorage.hidelockedthreads;
@@ -55,9 +55,16 @@ $(document).ready(function(){
 		});
 	
 	if (hide_locked_threads) {
-		$('img.icon[title="Locked"]').each(function() {
+		$('img.icon[title="Locked"], i.fa-lock.fa').each(function() {
 			hideLockedThread(getThreadFromIcon($(this)));
 		});
 	}
+        $(document).bind('new_post', function(e, post) {
+		if (hide_locked_threads) {
+			$(post).find('img.icon[title="Locked"], i.fa-lock.fa').each(function() {
+	                        hideLockedThread(getThreadFromIcon($(this)));
+       		        });
+		}
+	});
 });
 
