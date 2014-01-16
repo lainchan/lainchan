@@ -84,7 +84,7 @@ $(function(){
       var newposts = "(0)";
       if (status && status[board] && status[board].threads && status[board].threads[tid]) {
         if (status[board].threads[tid] == -404) {
-          newposts = "<i class='icon icon-ban-circle'></i>";
+          newposts = "<i class='fa fa-ban-circle'></i>";
         }
         else {
           newposts = "("+status[board].threads[tid]+")";
@@ -97,7 +97,7 @@ $(function(){
 	tag.find(".watch-remove").mouseenter(function() {
           this.oldval = $(this).html();
           $(this).css("min-width", $(this).width());
-          $(this).html("<i class='icon icon-minus'></i>");
+          $(this).html("<i class='fa fa-minus'></i>");
         })
         .mouseleave(function() {
           $(this).html(this.oldval);
@@ -105,7 +105,7 @@ $(function(){
       }
       else if (variant == 'mobile') {
         tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri'>"+newposts+"</span>"
-               +"<span class='cb-uri watch-remove'><i class='icon icon-minus'></i></span>");	
+               +"<span class='cb-uri watch-remove'><i class='fa fa-minus'></i></span>");	
       }
 
       tag.attr('data-thread', tid)

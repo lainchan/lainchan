@@ -27,7 +27,7 @@ if (device_type == 'desktop') {
       }
       else if (item.name.match(/^fa_/)) {
         var icon = item.name.replace(/^fa_/, '')
-        $('<a class="cb-item cb-fa" href="'+categories[i].boards[0].href+'"><i class="icon-'+icon+' icon"></i></a>')
+        $('<a class="cb-item cb-fa" href="'+categories[i].boards[0].href+'"><i class="fa-'+icon+' fa"></i></a>')
           .appendTo(topbl)
       }
       else {
@@ -47,7 +47,7 @@ if (device_type == 'desktop') {
 	        tag = $("<a href='"+board.href+"'><span>"+board.name+"</span><span class='cb-uri'>/"+board.uri+"/</span></a>")
 	      }
 	      else {
-	        tag = $("<a href='"+board.href+"'><span>"+board.uri+"</span><span class='cb-uri'><i class='icon icon-globe'></i></span></a>")
+	        tag = $("<a href='"+board.href+"'><span>"+board.uri+"</span><span class='cb-uri'><i class='fa fa-globe'></i></span></a>")
 	      }
 	      tag
 		.addClass("cb-menuitem")
