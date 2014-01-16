@@ -148,7 +148,7 @@ div.post img.icon {
 	margin: 0 5px;
 	padding: 0;
 }
-div.post i.icon {
+div.post i.fa {
 	margin: 0 4px;
 	font-size: 16px;
 }
@@ -570,3 +570,4 @@ form.ban-appeal textarea {
         display: inline-block;
 	vertical-align: middle;
 }
+
