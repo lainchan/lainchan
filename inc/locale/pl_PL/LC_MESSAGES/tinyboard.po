@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-29 01:35+0100\n"
+"POT-Creation-Date: 2014-01-18 20:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,8 @@ msgstr "Wstecz"
 msgid "Next"
 msgstr "Dalej"
 
-#: /var/www/html/Tinyboard/inc/image.php:21
+#: /var/www/html/Tinyboard/inc/image.php:21 ../../../../inc/image.php:24
+#: ../../../../inc/image.php:62
 msgid "Unsupported file format: "
 msgstr "Niewspierany format pliku: "
 
@@ -75,6 +76,7 @@ msgstr "Stwórz nowy board"
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:169
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:133
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:115
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:73
 msgid "all boards"
 msgstr "wszystkie boardy"
 
@@ -994,6 +996,8 @@ msgstr "Weryfikacja"
 #. line 3
 #. line 84
 #. line 3
+#. line 84
+#. line 3
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:149
 #: /var/www/html/Tinyboard/templates/cache/dd/1a/77e08f0c1b4ecf707c5a3e5a70be.php:22
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:165
@@ -1026,6 +1030,7 @@ msgstr "Osadź"
 #. line 94
 #. line 97
 #. line 112
+#. line 111
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:179
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:206
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:291
@@ -1033,6 +1038,7 @@ msgstr "Osadź"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:276
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:306
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
 msgid "Flags"
 msgstr "Flagi"
 
@@ -1106,6 +1112,8 @@ msgstr "Flagi"
 #. line 117
 #. line 116
 #. line 117
+#. line 115
+#. line 116
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:188
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:191
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:215
@@ -1120,6 +1128,7 @@ msgstr "Flagi"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:320
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:319
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:323
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
 msgid "Sticky"
 msgstr "Przyklejony"
 
@@ -1193,6 +1202,8 @@ msgstr "Przyklejony"
 #. line 121
 #. line 120
 #. line 121
+#. line 119
+#. line 120
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:200
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:203
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:227
@@ -1207,6 +1218,7 @@ msgstr "Przyklejony"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:334
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:333
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:337
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
 msgid "Lock"
 msgstr "Zablokowany"
 
@@ -1280,6 +1292,8 @@ msgstr "Zablokowany"
 #. line 125
 #. line 124
 #. line 125
+#. line 123
+#. line 124
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:212
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:215
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:239
@@ -1294,6 +1308,7 @@ msgstr "Zablokowany"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:348
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:347
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:351
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
 msgid "Raw HTML"
 msgstr "Czysty HTML"
 
@@ -1307,6 +1322,7 @@ msgstr "Czysty HTML"
 #. line 14
 #. line 132
 #. line 14
+#. line 131
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:230
 #: /var/www/html/Tinyboard/templates/cache/dd/1a/77e08f0c1b4ecf707c5a3e5a70be.php:23
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:257
@@ -1322,6 +1338,7 @@ msgstr "Czysty HTML"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:31
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:48
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
 msgid "Password"
 msgstr "Hasło"
 
@@ -1329,6 +1346,7 @@ msgstr "Hasło"
 #. line 119
 #. line 122
 #. line 137
+#. line 136
 #: /var/www/html/Tinyboard/templates/cache/1d/5e/91ec2bc929b77377b8b877d82db4.php:236
 #: ../../../../templates/cache/d1/2d/eda9403e966240c642b13ca43eb6.php:266
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:351
@@ -1336,6 +1354,7 @@ msgstr "Hasło"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:344
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:374
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:377
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 msgid "(For file deletion.)"
 msgstr "(do usuwania postów)"
 
@@ -1401,6 +1420,7 @@ msgstr[2] "%count% postów"
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:604
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:569
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:580
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:116
 msgid "and"
 msgstr "oraz"
 
@@ -1454,6 +1474,8 @@ msgstr "pominięte. Kliknij Odpowiedź aby zobaczyć."
 #: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:153
 #: ../../../../templates/cache/e5/67/00152f100a684a6ff580e1afded8e907bdea04b4818d725ebfeb103d70d9.php:68
 #: ../../../../templates/cache/e5/67/00152f100a684a6ff580e1afded8e907bdea04b4818d725ebfeb103d70d9.php:71
+#: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:120
+#: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:138
 msgid "Return to dashboard"
 msgstr "Powróć na tablicę"
 
@@ -1461,6 +1483,7 @@ msgstr "Powróć na tablicę"
 #. line 31
 #. line 32
 #. line 39
+#. line 33
 #: /var/www/html/Tinyboard/templates/cache/0b/22/d0c24fb343dd5fe77600d77dcc1b.php:165
 #: ../../../../templates/cache/82/20/1c3352a2eb8f4503c0f7634bca15.php:177
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:106
@@ -1469,6 +1492,7 @@ msgstr "Powróć na tablicę"
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:128
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:143
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:146
+#: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:134
 msgid "Posting mode: Reply"
 msgstr "Tryb postowania: Odpowiedź"
 
@@ -1489,6 +1513,8 @@ msgstr "Tryb postowania: Odpowiedź"
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:200
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:150
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:203
+#: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:138
+#: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:186
 msgid "Return"
 msgstr "Powrót"
 
@@ -1526,6 +1552,9 @@ msgstr "Usuń post"
 #. line 8
 #. line 108
 #. line 32
+#. line 8
+#. line 32
+#. line 23
 #: /var/www/html/Tinyboard/templates/cache/dd/1a/77e08f0c1b4ecf707c5a3e5a70be.php:32
 #: /var/www/html/Tinyboard/mod.php:1801
 #: ../../../../templates/cache/a8/a6/1022091d3402e085395b12e6279a.php:32
@@ -1704,6 +1733,8 @@ msgstr "Wyrażenie:"
 #. line 16
 #. line 115
 #. line 16
+#. line 115
+#. line 16
 #: /var/www/html/Tinyboard/mod.php:172
 #: ../../../../templates/cache/55/dd/8ffe738533bd12359200e5745905.php:72
 #: ../../../../templates/cache/c3/de/6ff26042c5b94cc80055e6f209d2.php:19
@@ -1788,6 +1819,7 @@ msgstr "temu"
 #. line 118
 #. line 184
 #. line 65
+#. line 33
 #: /var/www/html/Tinyboard/mod.php:405 /var/www/html/Tinyboard/mod.php:1801
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:278
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:427
@@ -1813,6 +1845,7 @@ msgstr "Board"
 #. line 185
 #. line 89
 #. line 185
+#. line 89
 #: /var/www/html/Tinyboard/mod.php:406
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:430
 #: ../../../../templates/cache/4c/fb/a3bf13b0badfc09442bd42da1cce.php:358
@@ -2000,6 +2033,7 @@ msgstr "Nie można się ponownie zalogować po zmianie hasła. (?)"
 #. line 11
 #. line 43
 #. line 128
+#. line 43
 #: /var/www/html/Tinyboard/mod.php:1801
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:300
 #: ../../../../templates/cache/4c/fb/a3bf13b0badfc09442bd42da1cce.php:134
@@ -2017,6 +2051,7 @@ msgstr "Ustawione"
 #. line 13
 #. line 47
 #. line 132
+#. line 47
 #: /var/www/html/Tinyboard/mod.php:1801
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:309
 #: ../../../../templates/cache/4c/fb/a3bf13b0badfc09442bd42da1cce.php:140
@@ -2056,6 +2091,7 @@ msgstr "Wygasa"
 #. line 63
 #. line 152
 #. line 182
+#. line 67
 #: /var/www/html/Tinyboard/mod.php:1801
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:74
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:169
@@ -2149,6 +2185,7 @@ msgstr "Nowy board"
 #. line 18
 #. line 104
 #. line 20
+#. line 18
 #: ../../../../inc/mod/pages.php:586 ../../../../inc/mod/pages.php:612
 #: ../../../../inc/mod/pages.php:628 ../../../../inc/mod/pages.php:762
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:247
@@ -2589,6 +2626,7 @@ msgstr "Nowa notka"
 #. line 94
 #. line 7
 #. line 94
+#. line 7
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:226
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:240
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
@@ -2633,6 +2671,7 @@ msgstr "nigdy"
 #. line 14
 #. line 57
 #. line 142
+#. line 57
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:331
 #: ../../../../templates/cache/4c/fb/a3bf13b0badfc09442bd42da1cce.php:143
 #: ../../../../templates/cache/24/a0/f1ddafed7a8f9625e747a5ca33f5.php:356
@@ -2681,36 +2720,43 @@ msgstr "Czas"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:41
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:36
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:35
 msgid "You were banned! ;_;"
 msgstr "Byłeś zbanowany! ;_;"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:46
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:42
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:41
 msgid "You are banned! ;_;"
 msgstr "Jesteś zbanowany! ;_;"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:56
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:53
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:52
 msgid "You were banned from"
 msgstr "Byłeś zbanowany na"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:61
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:59
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:58
 msgid "You have been banned from"
 msgstr "Zostałeś zbanowany na"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:83
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
 msgstr "z następującego powodu:"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:88
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:89
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
 msgstr "z nieokreślonego powodu."
 
 #. line 32
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:109
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:111
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
 msgid "Your ban was filed on"
 msgstr "Twój ban został nałożony"
 
@@ -2719,27 +2765,33 @@ msgstr "Twój ban został nałożony"
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:150
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:124
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:157
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:123
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:156
 msgid "has since expired. Refresh the page to continue."
 msgstr "już wygasł. Odśwież stronę, aby kontynuować."
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:125
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:130
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:129
 msgid "expires"
 msgstr "wygasa"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:128
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:134
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
 msgstr "od teraz, czyli"
 
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:176
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:184
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
 msgstr "nie wygaśnie"
 
 #. line 78
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:184
 #: ../../../../templates/cache/e5/22/4711dd22e4c786b4de405db7a449.php:193
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:192
 msgid "Your IP address is"
 msgstr "Twój adres IP to"
 
@@ -3227,3 +3279,69 @@ msgstr "Nie możesz ponownie apelować o zdjęcie tego bana."
 #: ../../../../post.php:818
 msgid "There is already a pending appeal for this ban."
 msgstr "W tej chwili oczekuje apelacja o zdjęcie tego bana."
+
+#: ../../../../inc/image.php:282 ../../../../inc/image.php:288
+msgid "Failed to redraw image!"
+msgstr "Nie udało się przerysować obrazka!"
+
+#: ../../../../inc/image.php:324 ../../../../inc/image.php:343
+#: ../../../../inc/image.php:368
+msgid "Failed to resize image!"
+msgstr "Nie udało się zmienić rozmiaru obrazka!"
+
+#. line 86
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:215
+msgid "You were banned for the following post on"
+msgstr "Byłeś zbanowany za następującego posta"
+
+#. line 95
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
+msgid "You submitted an appeal for this ban on"
+msgstr "Przesłałeś apelacje"
+
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
+msgid "It is still pending"
+msgstr "Apelacja wciąż oczekuje na rozpatrzenie"
+
+#. line 101
+#. line 112
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
+msgid "You appealed this ban on"
+msgstr "Wysłano apelacje o zdjęcie tego bana"
+
+#. line 103
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
+msgid "and it was denied. You may not appeal this ban again."
+msgstr "i została ona odrzucona. Nie mozesz apelować o zdjęcie tego bana ponownie."
+
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
+msgid ""
+"You have submitted the maximum number of ban appeals allowed. You may not "
+"appeal this ban again."
+msgstr ""
+"Wysłałeś maksymalną możliwą ilość apelacji. Nie możesz apelować o zdjęcie "
+"tego bana ponownie."
+
+#. line 114
+#. line 121
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:297
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:318
+msgid "and it was denied."
+msgstr "i została ona odrzucona."
+
+#. line 116
+#. line 123
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:302
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:323
+msgid "You may appeal this ban again. Please enter your reasoning below."
+msgstr "Możesz apelować o zdjęcie tego bana ponownie. Wpisz poniżej swoje powody."
+
+#. line 119
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
+msgid "You last appealed this ban on"
+msgstr "Ostatnio apelowano o zdjęcie tego bana"
+
+#: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
+msgid "You may appeal this ban. Please enter your reasoning below."
+msgstr "Możesz apelować o zdjęcie tego bana. Wpisz poniżej swoje powody."
