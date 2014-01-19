@@ -1,3 +1,20 @@
+/*
+ * watch.js      
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/watch.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2014 Marcin Łabanowski <marcin@6irc.net>
+ *
+ * Usage:
+ *   $config['api']['enabled'] = true;
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   #$config['additional_javascript'][] = 'js/titlebar-notifications.js';
+ *   #$config['additional_javascript'][] = 'js/auto-reload.js';
+ *   #$config['additional_javascript'][] = 'js/compact-boardlist.js';
+ *   $config['additional_javascript'][] = 'js/watch.js';
+ *              
+ */
+
 $(function(){
   // migrate from old name
   if (typeof localStorage.watch == "string") {
