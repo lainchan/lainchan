@@ -1,6 +1,6 @@
 /*
  * upload-selection.js - makes upload fields in post form more compact
- * https://github.com/vichan-devel/Tinyboard/blob/master/js/watch.js
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/upload-selection.js
  *
  * Released under the MIT license
  * Copyright (c) 2014 Marcin Łabanowski <marcin@6irc.net>
