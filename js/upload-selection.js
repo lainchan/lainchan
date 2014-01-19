@@ -1,3 +1,17 @@
+/*
+ * upload-selection.js - makes upload fields in post form more compact
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/watch.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2014 Marcin Łabanowski <marcin@6irc.net>
+ *
+ * Usage:
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/upload-selection.js';
+ *   //$config['additional_javascript'][] = 'js/oekaki.js'; //WARNING: unsupported
+ *                                                  
+ */
+
 $(function(){
   var enabled_file = true;
   var enabled_url = $("#upload_url").length > 0;
