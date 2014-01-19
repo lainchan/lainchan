@@ -15,8 +15,9 @@
  *   )
  *
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/mobile-style.js';
  *   $config['additional_javascript'][] = 'js/compact-boardlist.js';
- *   #$config['additional_javascript'][] = 'js/watch.js';
+ *   //$config['additional_javascript'][] = 'js/watch.js';
  *
  */
 

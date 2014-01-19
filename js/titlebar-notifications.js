@@ -7,8 +7,8 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/titlebar-notifications.js';
- *   #$config['additional_javascript'][] = 'js/auto-reload.js';
- *   #$config['additional_javascript'][] = 'js/watch.js';
+ *   //$config['additional_javascript'][] = 'js/auto-reload.js';
+ *   //$config['additional_javascript'][] = 'js/watch.js';
  *
  */
 
