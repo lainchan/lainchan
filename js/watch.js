@@ -1,5 +1,5 @@
 /*
- * watch.js      
+ * watch.js - board watch, thread watch and board pinning
  * https://github.com/vichan-devel/Tinyboard/blob/master/js/watch.js
  *
  * Released under the MIT license
