@@ -1,4 +1,16 @@
-// This script puts a link to the catalog below the board subtitle, and next to the board list.
+/*
+ * catalog-link.js - This script puts a link to the catalog below the board
+ *                   subtitle and next to the board list.
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/catalog-link.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2013 copypaste <wizardchan@hush.com>
+ * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
+ *
+ * Usage:
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/catalog-link.js';
+ */
 
 function catalog() {
 var board = $("input[name='board']");

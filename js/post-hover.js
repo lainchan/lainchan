@@ -4,6 +4,8 @@
  *
  * Released under the MIT license
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
+ * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
+ * Copyright (c) 2013 Macil Tech <maciltech@gmail.com>
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
