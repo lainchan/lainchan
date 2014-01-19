@@ -1,3 +1,25 @@
+/*
+ * compact-boardlist.js
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/compact-boardlist.js
+ *
+ * Released under the MIT license
+ * Copyright (c) 2014 Marcin Łabanowski <marcin@6irc.net>
+ *
+ * Usage:
+ *   $config['boards'] = array(
+ *     "icon_vichan" => array('*'), # would refer to /static/icons/vichan.png
+ *     "Regular" => array('b', 'cp', 'r+oc', 'id', 'waifu'),
+ *     "Topical" => array('sci', "Offsite board name" => '//int.vichan.net/s/'),
+ *     "fa_search" => array("search" => "/search.php") # would refer to a search 
+ *                                                     # font-awesome icon
+ *   )
+ *
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/compact-boardlist.js';
+ *   #$config['additional_javascript'][] = 'js/watch.js';
+ *
+ */
+
 if (device_type == 'desktop') {
   compact_boardlist = true;
 
