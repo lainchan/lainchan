@@ -1,5 +1,5 @@
 /*
- * titlebar-notifications.js
+ * titlebar-notifications.js - a library for showing number of new events in titlebar
  * https://github.com/vichan-devel/Tinyboard/blob/master/js/titlebar-notifications.js
  *
  * Released under the MIT license
