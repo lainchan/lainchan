@@ -1,5 +1,6 @@
 /*
- * compact-boardlist.js
+ * compact-boardlist.js - a compact boardlist implementation making it
+ *                        act more like a menubar
  * https://github.com/vichan-devel/Tinyboard/blob/master/js/compact-boardlist.js
  *
  * Released under the MIT license
