@@ -1,3 +1,22 @@
+/*
+ * oekaki.js
+ * https://github.com/vichan-devel/Tinyboard/blob/master/js/oekaki.js
+ *
+ * Warning: this script is unsupported and staged for deletion/replacement
+ * Please consult this bug report:
+ *   https://github.com/vichan-devel/Tinyboard/issues/20
+ *
+ * Released under the MIT license
+ * Copyright (c) 2013 copypaste <wizardchan@hush.com>
+ * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
+ *
+ * Usage: (it wouldn't work when mixed with ajax.js)
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/oekaki.js';
+ *   $config['additional_javascript'][] = 'js/jscolor/jscolor.js';
+ *   //$config['additional_javascript'][] = 'js/upload-selection.js';
+ */
+
 $(function() {
 // Init
 var oekaki_form = '\
@@ -239,7 +258,16 @@ $("form[name='post']").on("submit", function(e){
 			success: function(data) {
 				location.reload();
 			},
-			error: function(jq, data) {alert($('h2',jq.responseText).text());}
+			error: function(jq, data, et) {
+if (jq.responseText == '' && data == 'error') {
+//probably jquery bug, ignore
+location.reload();
+}
+else
+{
+ alert($('h2',jq.responseText).text());
+}
+}
 		});
 	}
 
