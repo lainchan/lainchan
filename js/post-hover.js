@@ -168,7 +168,7 @@ onready(function(){
 	$('div.body a:not([rel="nofollow"])').each(init_hover);
 	
 	// allow to work with auto-reload.js, etc.
-	$(document).bind('new_post', function(e, post) {
+	$(document).on('new_post', function(e, post) {
 		$(post).find('div.body a:not([rel="nofollow"])').each(init_hover);
 	});
 });

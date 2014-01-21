@@ -27,7 +27,7 @@ onready(function(){
         $('div[id^="thread_"]').each(inline_expanding_filename);
                                         
         // allow to work with auto-reload.js, etc.
-        $(document).bind('new_post', function(e, post) {
+        $(document).on('new_post', function(e, post) {
                 inline_expanding_filename.call(post);
         });
 });

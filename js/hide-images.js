@@ -84,7 +84,7 @@ $(document).ready(function(){
 
 	$('div.post > a > img.post-image, div > a > img.post-image').each(handle_images);
 
-        $(document).bind('new_post', function(e, post) {
+        $(document).on('new_post', function(e, post) {
                 $(post).find('> a > img.post-image').each(handle_images);
         });
 });

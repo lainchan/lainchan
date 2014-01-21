@@ -189,7 +189,7 @@ $(function(){
           }
 
 	  if (device_type == "desktop")
-	  link.unbind().mouseenter(function() {
+	  link.off().mouseenter(function() {
 	    updating_suspended = true;
 	    $('.cb-menu').remove();
 

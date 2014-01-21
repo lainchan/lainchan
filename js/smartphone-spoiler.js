@@ -25,7 +25,7 @@ onready(function(){
 		fix_spoilers(document);
 
 	        // allow to work with auto-reload.js, etc.
-	        $(document).bind('new_post', function(e, post) {
+	        $(document).on('new_post', function(e, post) {
 	                fix_spoilers(post);
         	});             
 	

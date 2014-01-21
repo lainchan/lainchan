@@ -38,7 +38,7 @@ onready(function(){
 	do_embed_yt(document);
 
         // allow to work with auto-reload.js, etc.
-        $(document).bind('new_post', function(e, post) {
+        $(document).on('new_post', function(e, post) {
                 do_embed_yt(post);
         });
 });

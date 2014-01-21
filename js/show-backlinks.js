@@ -48,7 +48,7 @@ onready(function(){
 	
 	$('div.post.reply').each(showBackLinks);
 
-        $(document).bind('new_post', function(e, post) {
+        $(document).on('new_post', function(e, post) {
 		if ($(post).hasClass("reply")) {
 			showBackLinks.call(post);
 		}

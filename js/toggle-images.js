@@ -76,7 +76,7 @@ $(document).ready(function(){
 		show_hide_hide_images_buttons();
 	}
 	
-	$(document).bind('new_post', function(e, post) {
+	$(document).on('new_post', function(e, post) {
 		if (hide_images) {
 			$(post).find('img.post-image').each(hideImage);
 		}

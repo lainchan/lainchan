@@ -78,7 +78,7 @@ $(document).ready(function(){
 
 	$('div.post.op').each(do_hide_threads);
 
-	$(document).bind('new_post', function(e, post) {
+	$(document).on('new_post', function(e, post) {
 		do_hide_threads.call($(post).find('div.post.op')[0]);
 	});
 });

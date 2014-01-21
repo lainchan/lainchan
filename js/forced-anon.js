@@ -79,7 +79,7 @@ $(document).ready(function() {
 	if(forced_anon)
 		enable_fa();
 	
-	$(document).bind('new_post', function(e, post) {
+	$(document).on('new_post', function(e, post) {
 		if(forced_anon)
 			$(post).find('p.intro label').each(force_anon);
 	});

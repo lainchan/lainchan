@@ -57,7 +57,7 @@ onready(function(){
 		$('div[id^="thread_"]').each(inline_expand_post);
 
 		// allow to work with auto-reload.js, etc.
-		$(document).bind('new_post', function(e, post) {
+		$(document).on('new_post', function(e, post) {
 			inline_expand_post.call(post);
 		});
 	} else {

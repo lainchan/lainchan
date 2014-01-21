@@ -57,7 +57,7 @@ $(document).ready(function(){
 
 	$('div.post.op span.omitted').each(do_expand);
 
-	$(document).bind("new_post", function(e, post) {
+	$(document).on("new_post", function(e, post) {
 		if (!$(post).hasClass("reply")) {
 			$(post).find('div.post.op span.omitted').each(do_expand);
 		}

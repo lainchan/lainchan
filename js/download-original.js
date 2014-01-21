@@ -36,7 +36,7 @@ onready(function(){
 
 	$('.postfilename').each(do_original_filename);
 
-        $(document).bind('new_post', function(e, post) {
+        $(document).on('new_post', function(e, post) {
 		$(post).find('.postfilename').each(do_original_filename);
 	});
 });

@@ -83,7 +83,7 @@ $(document).ready(function(){
 
 	$('div.post input[type=checkbox].delete').each(init_qpc);
 
-	$(document).bind('new_post', function(e, post) {
+	$(document).on('new_post', function(e, post) {
 		$(post).find('input[type=checkbox].delete').each(init_qpc);
 	});
 });

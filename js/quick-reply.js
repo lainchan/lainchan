@@ -293,10 +293,10 @@
 		$origPostForm = $('form[name="post"]:first');
 		
 		// Synchronise body text with original post form
-		$origPostForm.find('textarea[name="body"]').bind('change input propertychange', function() {
+		$origPostForm.find('textarea[name="body"]').on('change input propertychange', function() {
 			$postForm.find('textarea[name="body"]').val($(this).val());
 		});
-		$postForm.find('textarea[name="body"]').bind('change input propertychange', function() {
+		$postForm.find('textarea[name="body"]').on('change input propertychange', function() {
 			$origPostForm.find('textarea[name="body"]').val($(this).val());
 		});
 		$postForm.find('textarea[name="body"]').focus(function() {
@@ -308,10 +308,10 @@
 			$(this).attr('id', 'body');
 		});
 		// Synchronise other inputs
-		$origPostForm.find('input[type="text"],select').bind('change input propertychange', function() {
+		$origPostForm.find('input[type="text"],select').on('change input propertychange', function() {
 			$postForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 		});
-		$postForm.find('input[type="text"],select').bind('change input propertychange', function() {
+		$postForm.find('input[type="text"],select').on('change input propertychange', function() {
 			$origPostForm.find('[name="' + $(this).attr('name') + '"]').val($(this).val());
 		});
 
