@@ -23,6 +23,15 @@ $(function(){
     delete localStorage.watch;
   }
 
+  var window_active = true;
+  $(window).focus(function() {
+    window_active = true;
+    $(window).trigger('scroll');
+  });
+  $(window).blur(function() {
+    window_active = false;
+  });
+
   var status = {};
 
   time_loaded = Date.now();
@@ -225,6 +234,7 @@ $(function(){
   };
   var fetch_jsons = function() {
     if (updating_suspended) return;
+    if (window_active) check_scroll();
 
     var st = storage();
     for (var i in st) {
@@ -334,7 +344,7 @@ $(function(){
       post.position().top + post.height();
   }
 
-  $(window).scroll(function() { 
+  var check_scroll = function() {
     if (!status) return;
     var refresh = false;
     for(var bid in status) {
@@ -356,11 +366,16 @@ $(function(){
 	}
       }
     }
+    return refresh;
+  };
+
+  $(window).scroll(function() { 
+    var refresh = check_scroll();
     if (refresh) {
       fetch_jsons();
       refresh = false;
     }
-  }).trigger("scroll");
+  });
 
   if (typeof add_title_collector != "undefined")
   add_title_collector(function() {
