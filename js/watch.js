@@ -11,6 +11,7 @@
  *   $config['additional_javascript'][] = 'js/mobile-style.js';
  *   //$config['additional_javascript'][] = 'js/titlebar-notifications.js';
  *   //$config['additional_javascript'][] = 'js/auto-reload.js';
+ *   //$config['additional_javascript'][] = 'js/hide-threads.js';
  *   //$config['additional_javascript'][] = 'js/compact-boardlist.js';
  *   $config['additional_javascript'][] = 'js/watch.js';
  *              
@@ -265,9 +266,25 @@ $(function(){
 
     var new_threads = 0;
 
+    var hidden_data = {};
+    if (localStorage.hiddenthreads) {
+      hidden_data = JSON.parse(localStorage.hiddenthreads);
+    }
+
     for (var i in json) {
       for (var j in json[i].threads) {
         var thread = json[i].threads[j];
+
+	if (hidden_data[board]) { // hide threads integration
+	  var cont = false;
+	  for (var k in hidden_data[board]) {
+	    if (parseInt(k) == thread.no) {
+	      cont = true;
+	      break;
+	    }
+	  }
+	  if (cont) continue;
+	}
 
 	if (thread.last_modified > storage()[board].watched / 1000) {
 	  last_thread = thread.no;
