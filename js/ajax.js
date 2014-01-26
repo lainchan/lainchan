@@ -86,7 +86,7 @@ $(window).ready(function() {
 											$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
 											$(document).trigger('new_post', this);
 											// watch.js & auto-reload.js retrigger
-											setTimeout(function() { window.trigger("scroll"); }, 100);
+											setTimeout(function() { $(window).trigger("scroll"); }, 100);
 										}
 									});
 									
