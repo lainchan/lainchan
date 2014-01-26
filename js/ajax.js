@@ -85,6 +85,8 @@ $(window).ready(function() {
 										if($('#' + id).length == 0) {
 											$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
 											$(document).trigger('new_post', this);
+											// watch.js & auto-reload.js retrigger
+											setTimeout(function() { window.trigger("scroll"); }, 100);
 										}
 									});
 									

@@ -360,7 +360,7 @@ $(function(){
       fetch_jsons();
       refresh = false;
     }
-  });
+  }).trigger("scroll");
 
   if (typeof add_title_collector != "undefined")
   add_title_collector(function() {
