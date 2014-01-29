@@ -108,7 +108,6 @@ $(function(){
     list.attr("data-board", board);
 
     for (var tid in storage()[board].threads) {
-      // TODO: fix path
       var newposts = "(0)";
       if (status && status[board] && status[board].threads && status[board].threads[tid]) {
         if (status[board].threads[tid] == -404) {
@@ -121,7 +120,7 @@ $(function(){
 
       var tag;
       if (variant == 'desktop') {
-        tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri watch-remove'>"+newposts+"</span>");
+        tag = $("<a href='"+modRoot+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri watch-remove'>"+newposts+"</span>");
 	tag.find(".watch-remove").mouseenter(function() {
           this.oldval = $(this).html();
           $(this).css("min-width", $(this).width());
@@ -132,7 +131,7 @@ $(function(){
         })
       }
       else if (variant == 'mobile') {
-        tag = $("<a href='/"+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri'>"+newposts+"</span>"
+        tag = $("<a href='"+modRoot+board+"/res/"+tid+".html'><span>#"+tid+"</span><span class='cb-uri'>"+newposts+"</span>"
                +"<span class='cb-uri watch-remove'><i class='fa fa-minus'></i></span>");	
       }
 
@@ -163,10 +162,9 @@ $(function(){
     for (var i in st) {
       if (is_pinned(st[i])) {
 	var link;
-        if (bl.find('[href*="/'+i+'/index.html"]:not(.cb-menuitem)').length) link = bl.find('[href*="/'+i+'/"]').first();
+        if (bl.find('[href*="'+modRoot+i+'/index.html"]:not(.cb-menuitem)').length) link = bl.find('[href*="'+modRoot+i+'/"]').first();
 
-	// TODO: fix path
-        else link = $('<a href="/'+i+'/" class="cb-item cb-cat">/'+i+'/</a>').appendTo(pinned);
+        else link = $('<a href="'+modRoot+i+'/" class="cb-item cb-cat">/'+i+'/</a>').appendTo(pinned);
 
 	if (link[0].origtitle === undefined) {
 	  link[0].origtitle = link.html();
@@ -240,15 +238,14 @@ $(function(){
     var st = storage();
     for (var i in st) {
       if (st[i].watched) {
-	// TODO: fix path
-        var r = $.getJSON("/"+i+"/threads.json", function(j, x, r) {
+        var r = $.getJSON(configRoot+i+"/threads.json", function(j, x, r) {
 	  handle_board_json(r.board, j);
 	});
 	r.board = i;
       }
       else if (st[i].threads) {
         for (var j in st[i].threads) {
-          var r = $.getJSON("/"+i+"/res/"+j+".json", function(k, x, r) {
+          var r = $.getJSON(configRoot+i+"/res/"+j+".json", function(k, x, r) {
 	    handle_thread_json(r.board, r.thread, k);
           }).error(function(r) {
 	    if(r.status == 404) handle_thread_404(r.board, r.thread);
