@@ -43,3 +43,11 @@ tb_settings['ajax'] = {
 	// Always act as if "noko" was typed when posting replies with the ajax script
 	always_noko_replies: false	
 };
+
+// wpaint.js
+tb_settings['wpaint'] = {
+	// Canvas width
+	width: 500,
+	// Canvas height
+	height: 250
+};
