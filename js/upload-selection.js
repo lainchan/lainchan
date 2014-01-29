@@ -7,8 +7,8 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   //$config['additional_javascript'][] = 'js/wpaint.js';
  *   $config['additional_javascript'][] = 'js/upload-selection.js';
- *   //$config['additional_javascript'][] = 'js/oekaki.js'; //WARNING: unsupported
  *                                                  
  */
 
@@ -16,7 +16,7 @@ $(function(){
   var enabled_file = true;
   var enabled_url = $("#upload_url").length > 0;
   var enabled_embed = $("#upload_embed").length > 0;
-  var enabled_oekaki = $("#oekaki").length > 0;
+  var enabled_oekaki = typeof window.oekaki != "undefined";
 
   var disable_all = function() {
     $("#upload").hide();
@@ -26,8 +26,8 @@ $(function(){
     $("#oekaki").hide();
 
     if (enabled_oekaki) {
-      if ($("#confirm_oekaki").is(':checked')) {
-        $("#confirm_oekaki").click();
+      if (window.oekaki.initialized) {
+        window.oekaki.deinit();
       }
     }
   };
@@ -55,9 +55,7 @@ $(function(){
     disable_all();
     $("#oekaki").show();
 
-    if (!$("#confirm_oekaki").is(':checked')) {
-      $("#confirm_oekaki").click();
-    }
+    window.oekaki.init();
   };
 
   if (enabled_url || enabled_embed || enabled_oekaki) {
