@@ -21,7 +21,7 @@ $(window).ready(function() {
 	
 	var setup_form = function($form) {
 		$form.submit(function() {
-			if (do_not_ajax || $("#confirm_oekaki").is(":checked"))
+			if (do_not_ajax)
 				return true;
 			var form = this;
 			var submit_txt = $(this).find('input[type="submit"]').val();
