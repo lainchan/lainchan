@@ -102,7 +102,7 @@ oekaki.init = function() {
   $(window).on('stylesheet', function() {
     oekaki.do_css();
     if ($('link#stylesheet').attr('href')) {
-      $('link#stylesheet')[0].onload = do_css;
+      $('link#stylesheet')[0].onload = oekaki.do_css;
     }
   });
 
