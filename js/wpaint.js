@@ -86,6 +86,8 @@ oekaki.init = function() {
         alsoResize: "#wpaintdiv, #wpaintdiv canvas",
       });
 
+
+      $("#wpaintdiv input").on("keydown", function(e) { if (e.keycode == 13) e.preventDefault(); });
       $('#wpaintctr .ui-resizable-se').css({'height':'12px', 'width':'12px'});
     }
   });
