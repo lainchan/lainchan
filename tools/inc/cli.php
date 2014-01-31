@@ -13,6 +13,10 @@ error_reporting(E_ALL);
 set_time_limit(0);
 $shell_path = getcwd();
 
+if (isset ($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && $_SERVER['REMOTE_ADDR'] != '::1') {
+	die("This script is executable only from Command Line Interface.");
+}
+
 if(getenv('TINYBOARD_PATH') !== false)
 	$dir = getenv('TINYBOARD_PATH');
 elseif(file_exists('inc/functions.php'))
