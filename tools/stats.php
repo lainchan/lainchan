@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 require dirname(__FILE__) . '/inc/cli.php';
                 
