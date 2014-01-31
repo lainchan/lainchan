@@ -7,7 +7,7 @@
 		{% if config.font_awesome %}<link rel="stylesheet" media="screen" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 		<script type="text/javascript">
 			var configRoot="{{ config.root }}";
-			var inMod = {% if mod %}true{% else %}false{% end %};
+			var inMod = {% if mod %}true{% else %}false{% endif %};
 			var modRoot="{{ config.root }}"+(inMod ? "mod.php?/" : "");
 		</script>
 		{% if not nojavascript %}
