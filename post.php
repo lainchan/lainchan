@@ -1,7 +1,4 @@
 <?php
-
-file_put_contents('post.txt', var_export($_POST, true));
-
 /*
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
