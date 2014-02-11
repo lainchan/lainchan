@@ -1,17 +1,5 @@
-/*!
- * jQuery UI Selectable @VERSION
- * http://jqueryui.com
- *
- * Copyright 2014 jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-.ui-selectable {
-	-ms-touch-action: none;
-	touch-action: none;
-}
-.ui-selectable-helper {
-	position: absolute;
-	z-index: 100;
-	border: 1px dotted black;
-}
+/*! jQuery UI - v1.10.4 - 2014-02-09
+* http://jqueryui.com
+* Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
+
+.ui-selectable-helper{position:absolute;z-index:100;border:1px dotted black}
