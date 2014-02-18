@@ -1057,7 +1057,7 @@ function clean() {
 
 	$query->execute() or error(db_error($query));
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-		deletePost($post['id']);
+		deletePost($post['id'], false, false);
 	}
 }
 
