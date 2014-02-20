@@ -14,14 +14,14 @@
 				<td>{{ test.name }}</td>
 				<td class="minimal" style="text-align:center">
 					{% if test.result %}
-						<i style="font-size:11pt;color:#090" class="icon-check-sign"></i>
+						<i style="font-size:11pt;color:#090" class="fa fa-check"></i>
 					{% else %}
 						{% if test.required %}
 							{%  set errors = errors + 1 %}
-							<i style="font-size:11pt;color:#d00" class="icon-exclamation-sign"></i>
+							<i style="font-size:11pt;color:#d00" class="fa fa-exclamation"></i>
 						{% else %}
 							{%  set warnings = warnings + 1 %}
-							<i style="font-size:11pt;color:#f80" class="icon-warning-sign"></i>
+							<i style="font-size:11pt;color:#f80" class="fa fa-warning"></i>
 						{% endif %}
 					{% endif %}
 				</td>
@@ -34,18 +34,18 @@
 			{% for test in tests if not test.result%}
 				<li style="margin-bottom:5px">
 					{% if test.required %}
-						<i style="font-size:11pt;color:#d00" class="icon-exclamation-sign"></i> <strong>Error:</strong> 
+						<i style="font-size:11pt;color:#d00" class="fa fa-exclamation"></i> <strong>Error:</strong> 
 					{% else %}
-						<i style="font-size:11pt;color:#f80" class="icon-warning-sign"></i> <strong>Warning:</strong> 
+						<i style="font-size:11pt;color:#f80" class="fa fa-warning"></i> <strong>Warning:</strong> 
 					{% endif %}
 					{{ test.message }}
 				</li>
 			{% endfor %}
 		</ul>
 		{% if errors %}
-			<p style="text-align:center"><a href="?step=2">Clik here to ignore errors and attempt installing anyway (not recommended).</a></p>
+			<p style="text-align:center"><a href="?step=2">Click here to ignore errors and attempt installing anyway (not recommended).</a></p>
 		{% else %}
-			<p style="text-align:center"><a href="?step=2">Clik here to proceed with installation.</a></p>
+			<p style="text-align:center"><a href="?step=2">Click here to proceed with installation.</a></p>
 		{% endif %}
 	{% else %}
 		<p>There were no errors or warnings. Good!</p>
