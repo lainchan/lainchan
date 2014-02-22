@@ -164,10 +164,8 @@ function setupVideo(thumb, url) {
     }
 }
 
-if (window.addEventListener) window.addEventListener("load", function(e) {
-    document.body.insertBefore(settingsMenu, document.body.firstChild);
-
-    var thumbs = document.querySelectorAll("a.file");
+function setupVideosIn(element) {
+    var thumbs = element.querySelectorAll("a.file");
     for (var i = 0; i < thumbs.length; i++) {
         if (/\.webm$/.test(thumbs[i].pathname)) {
             setupVideo(thumbs[i], thumbs[i].href);
@@ -179,4 +177,25 @@ if (window.addEventListener) window.addEventListener("load", function(e) {
             }
         }
     }
+}
+
+if (window.addEventListener) window.addEventListener("load", function(e) {
+    document.body.insertBefore(settingsMenu, document.body.firstChild);
+    setupVideosIn(document);
+    if (window.MutationObserver) {
+        var observer = new MutationObserver(function(mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                var additions = mutations[i].addedNodes;
+                if (additions == null) continue;
+                for (var j = 0; j < additions.length; j++) {
+                    var node = additions[j];
+                    if (node.nodeType == 1) {
+                        setupVideosIn(node);
+                    }
+                }
+            }
+        });
+        observer.observe(document.body, {childList: true, subtree: true});
+    }
 }, false);
+
