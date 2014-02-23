@@ -25,7 +25,7 @@ while ($val = $q->fetch()) {
 
 	$f = $lc->fetch();
         if ($val['bump'] != $f['aq']) {
-                $query = prepare(sprintf("UPDATE ``posts_%s`` SET `bump`=$f[aq]
+                $query = prepare(sprintf("UPDATE ``posts_%s`` SET `bump`=:bump
 	                                  WHERE `id`=:id", $board));
 		$query->bindValue(":bump", $f['aq']);
 		$query->bindValue(":id", $val['id']);
