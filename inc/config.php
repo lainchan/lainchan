@@ -523,10 +523,12 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
-	// Attach country flags to posts. Requires the PHP "geoip" extension to be installed:
-	// http://www.php.net/manual/en/intro.geoip.php. In the future, maybe I will find and include a proper
-	// pure-PHP geolocation library.
+	// Attach country flags to posts.
 	$config['country_flags'] = false;
+
+	// Load all country flags from one file
+	$config['country_flags_condensed'] = true;
+	$config['country_flags_condensed_css'] = 'static/flags/flags.css';
 
 /*
 * ====================
@@ -1070,6 +1072,9 @@
 	$config['dir']['themes_uri'] = 'templates/themes';
 	// Home directory. Used by themes.
 	$config['dir']['home'] = '';
+
+	// Location of a blank 1x1 gif file. Only used when country_flags_condensed is enabled
+	$config['uri_blank'] = $config['root'] . 'static/blank.gif';
 
 	// Static images. These can be URLs OR base64 (data URI scheme). These are only used if
 	// $config['font_awesome'] is false (default).
