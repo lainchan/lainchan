@@ -100,7 +100,7 @@ function loadConfig() {
                 $configstr .= file_get_contents($board['dir'] . '/config.php');
         }
 	$matches = array();
-	preg_match_all('/$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
+	preg_match_all('/\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
 	if ($matches && isset ($matches[2]) && $matches[2]) {
 		$matches = $matches[2];
 		$config['locale'] = $matches[count($matches)-1];
