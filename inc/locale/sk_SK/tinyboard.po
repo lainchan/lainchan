@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Tinyboard + vichan 4.4.94\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-23 18:52+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-01-18 20:29+0100\n"
+"PO-Revision-Date: 2014-02-23 13:45+0100\n"
+"Last-Translator: dubcheck <admin@alokal.eu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # Translation for config.php - for use in inc/instance-config.php or board/config.php.
 # $config['robot_mute_descritpion'] = _('Bol si zablokovaný pre neoriginálny obsah.');
@@ -77,6 +76,7 @@ msgstr ""
 # $config['error']['invalidtheme']	= _('Zadaná téma neexistuje!');
 # $config['error']['csrf']		= _('Neplatný bezpečnostný token! Prosím, vráť sa a skús to znova.');
 # $config['error']['badsyntax']		= _('PHP kód obsahuje chyby syntaxu. Oprav ich, prosím. PHP hovorí: ');
+
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:783
 msgid ""
@@ -180,11 +180,8 @@ msgstr "Prihlásenie"
 
 #: /var/www/html/Tinyboard/inc/display.php:208
 #, php-format
-msgid ""
-"Post too long. Click <a href=\"%s\">here</a> to view the full text.</span>"
-msgstr ""
-"Príliš dlhý príspevok. Klikni <a href=\"%s\">sem</a> pre zobrazenie celého "
-"textu.</span>"
+msgid "Post too long. Click <a href=\"%s\">here</a> to view the full text.</span>"
+msgstr "Príliš dlhý príspevok. Klikni <a href=\"%s\">sem</a> pre zobrazenie celého textu.</span>"
 
 #. line 5
 #: /var/www/html/Tinyboard/inc/display.php:272
@@ -264,7 +261,6 @@ msgstr "Odstrániť súbor"
 #: ../../../../inc/mod/pages.php:1425 ../../../../inc/mod/pages.php:1494
 #: ../../../../inc/display.php:405 ../../../../inc/display.php:534
 #: ../../../../inc/display.php:408 ../../../../inc/display.php:537
-#: ../../../../inc/mod/pages.php:1491
 msgid "Edit post"
 msgstr "Upraviť príspevok"
 
@@ -1195,7 +1191,6 @@ msgstr "Novinky"
 #: ../../../../templates/cache/3a/df/ab38a77244cb9c729b4c6f99759a.php:235
 #: ../../../../inc/mod/pages.php:2043 ../../../../inc/mod/pages.php:2179
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:238
-#: ../../../../inc/mod/pages.php:2176
 msgid "Report queue"
 msgstr "Front nahlásení"
 
@@ -1209,7 +1204,6 @@ msgstr "Front nahlásení"
 #: ../../../../templates/cache/3a/df/ab38a77244cb9c729b4c6f99759a.php:253
 #: ../../../../inc/mod/pages.php:931 ../../../../inc/mod/pages.php:914
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:256
-#: ../../../../inc/mod/pages.php:911
 msgid "Ban list"
 msgstr "Zoznam banov"
 
@@ -1224,7 +1218,6 @@ msgstr "Zoznam banov"
 #: ../../../../templates/cache/3a/df/ab38a77244cb9c729b4c6f99759a.php:262
 #: ../../../../inc/mod/pages.php:1764 ../../../../inc/mod/pages.php:1855
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:274
-#: ../../../../inc/mod/pages.php:1852
 msgid "Manage users"
 msgstr "Spravovať užívateľov"
 
@@ -1274,7 +1267,6 @@ msgstr "Zobraziť konfiguráciu"
 #: ../../../../templates/cache/3a/df/ab38a77244cb9c729b4c6f99759a.php:279
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
-#: ../../../../inc/mod/pages.php:2385
 msgid "Manage themes"
 msgstr "Spravovať témy"
 
@@ -1430,7 +1422,7 @@ msgstr "Akcia"
 #: ../../../../inc/mod/pages.php:1948 ../../../../inc/mod/pages.php:1963
 #: ../../../../inc/mod/pages.php:2036 ../../../../inc/mod/pages.php:2093
 #: ../../../../inc/mod/pages.php:2215 ../../../../inc/mod/pages.php:2226
-#: ../../../../inc/mod/pages.php:2367 ../../../../inc/mod/pages.php:2364
+#: ../../../../inc/mod/pages.php:2367
 msgid "Themes directory doesn't exist!"
 msgstr "Adresár \"themes\" neexistuje!"
 
@@ -1439,7 +1431,7 @@ msgstr "Adresár \"themes\" neexistuje!"
 #: ../../../../inc/mod/pages.php:1950 ../../../../inc/mod/pages.php:1965
 #: ../../../../inc/mod/pages.php:2038 ../../../../inc/mod/pages.php:2095
 #: ../../../../inc/mod/pages.php:2217 ../../../../inc/mod/pages.php:2228
-#: ../../../../inc/mod/pages.php:2369 ../../../../inc/mod/pages.php:2366
+#: ../../../../inc/mod/pages.php:2369
 msgid "Cannot open themes directory; check permissions."
 msgstr "Nebolo možné otvoriť adresár \"themes\"; skontroluj oprávnenia."
 
@@ -1502,7 +1494,6 @@ msgstr "Inštalovať"
 #: ../../../../inc/mod/pages.php:1963 ../../../../inc/mod/pages.php:1967
 #: ../../../../inc/mod/pages.php:2090 ../../../../inc/mod/pages.php:2094
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:309
-#: ../../../../inc/mod/pages.php:2087 ../../../../inc/mod/pages.php:2091
 msgid "Rebuild"
 msgstr "Prestavať"
 
@@ -1709,7 +1700,6 @@ msgstr "Nebolo možné otvoriť dosku po jej vytvorení."
 #: ../../../../inc/mod/pages.php:957 ../../../../inc/mod/pages.php:1020
 #: ../../../../inc/mod/pages.php:1027 ../../../../inc/mod/pages.php:1120
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
-#: ../../../../inc/mod/pages.php:1188
 msgid "Target and source board are the same."
 msgstr "Cieľová a zdrojová doska sú rovnaké."
 
@@ -1762,7 +1752,6 @@ msgstr "Nová doska"
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:275
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:64
-#: ../../../../inc/mod/pages.php:849
 msgid "IP"
 msgstr "IP adresa"
 
@@ -1781,7 +1770,6 @@ msgstr "IP adresa"
 #: ../../../../inc/mod/pages.php:848 ../../../../inc/mod/pages.php:1367
 #: ../../../../inc/mod/pages.php:862 ../../../../inc/mod/pages.php:1432
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:440
-#: ../../../../inc/mod/pages.php:859 ../../../../inc/mod/pages.php:1429
 msgid "New ban"
 msgstr "Nový ban"
 
@@ -1789,7 +1777,7 @@ msgstr "Nový ban"
 #: ../../../../inc/mod/pages.php:987 ../../../../inc/mod/pages.php:1121
 #: ../../../../inc/mod/pages.php:1184 ../../../../inc/mod/pages.php:1191
 #: ../../../../inc/mod/pages.php:1285 ../../../../inc/mod/pages.php:1296
-#: ../../../../inc/mod/pages.php:1357 ../../../../inc/mod/pages.php:1354
+#: ../../../../inc/mod/pages.php:1357
 msgid "Impossible to move thread; there is only one board."
 msgstr "Nie je možné presunúť vlákno; existuje iba jedna doska."
 
@@ -1799,7 +1787,7 @@ msgstr "Nie je možné presunúť vlákno; existuje iba jedna doska."
 #: ../../../../templates/cache/dd/1a/7d548894242b9d7bff167de40716.php:106
 #: ../../../../inc/mod/pages.php:1188 ../../../../inc/mod/pages.php:1195
 #: ../../../../inc/mod/pages.php:1289 ../../../../inc/mod/pages.php:1300
-#: ../../../../inc/mod/pages.php:1361 ../../../../inc/mod/pages.php:1358
+#: ../../../../inc/mod/pages.php:1361
 msgid "Move thread"
 msgstr "Presunúť vlákno"
 
@@ -1812,7 +1800,7 @@ msgstr "Presunúť vlákno"
 #: ../../../../inc/mod/pages.php:1555 ../../../../inc/mod/pages.php:1608
 #: ../../../../inc/mod/pages.php:1687 ../../../../inc/mod/pages.php:1740
 #: ../../../../inc/mod/pages.php:1698 ../../../../inc/mod/pages.php:1751
-#: ../../../../inc/mod/pages.php:1775 ../../../../inc/mod/pages.php:1772
+#: ../../../../inc/mod/pages.php:1775
 msgid "Edit user"
 msgstr "Upraviť užívateľa"
 
@@ -1826,8 +1814,7 @@ msgstr "Upraviť užívateľa"
 #: ../../../../inc/mod/pages.php:1756 ../../../../inc/mod/pages.php:1815
 #: ../../../../inc/mod/pages.php:1888 ../../../../inc/mod/pages.php:1826
 #: ../../../../inc/mod/pages.php:1899 ../../../../inc/mod/pages.php:1945
-#: ../../../../inc/mod/pages.php:2021 ../../../../inc/mod/pages.php:1942
-#: ../../../../inc/mod/pages.php:2018
+#: ../../../../inc/mod/pages.php:2021
 msgid "New PM for"
 msgstr "Nová SS pre"
 
@@ -1836,7 +1823,6 @@ msgstr "Nová SS pre"
 #: ../../../../inc/mod/pages.php:1609 ../../../../inc/mod/pages.php:1681
 #: ../../../../inc/mod/pages.php:1687 ../../../../inc/mod/pages.php:1819
 #: ../../../../inc/mod/pages.php:1830 ../../../../inc/mod/pages.php:1952
-#: ../../../../inc/mod/pages.php:1949
 msgid "Private message"
 msgstr "Súkromná správa"
 
@@ -1852,7 +1838,6 @@ msgstr "Súkromná správa"
 #: ../../../../templates/cache/3a/df/ab38a77244cb9c729b4c6f99759a.php:197
 #: ../../../../inc/mod/pages.php:1851 ../../../../inc/mod/pages.php:1973
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:200
-#: ../../../../inc/mod/pages.php:1970
 msgid "PM inbox"
 msgstr "Schránka SS"
 
@@ -1863,7 +1848,6 @@ msgstr "Schránka SS"
 #: ../../../../inc/mod/pages.php:2100 ../../../../inc/mod/pages.php:2199
 #: ../../../../inc/mod/pages.php:2111 ../../../../inc/mod/pages.php:2210
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
-#: ../../../../inc/mod/pages.php:2253 ../../../../inc/mod/pages.php:2347
 msgid "Config editor"
 msgstr "Editor konfigurácie"
 
@@ -1872,7 +1856,6 @@ msgstr "Editor konfigurácie"
 #: ../../../../inc/mod/pages.php:2119 ../../../../inc/mod/pages.php:2192
 #: ../../../../inc/mod/pages.php:2249 ../../../../inc/mod/pages.php:2371
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
-#: ../../../../inc/mod/pages.php:2529
 msgid "Debug: Anti-spam"
 msgstr "Debug: Antispam"
 
@@ -1881,7 +1864,6 @@ msgstr "Debug: Antispam"
 #: ../../../../inc/mod/pages.php:2041 ../../../../inc/mod/pages.php:2114
 #: ../../../../inc/mod/pages.php:2171 ../../../../inc/mod/pages.php:2293
 #: ../../../../inc/mod/pages.php:2307 ../../../../inc/mod/pages.php:2453
-#: ../../../../inc/mod/pages.php:2450
 #, php-format
 msgid "Installed theme: %s"
 msgstr "Téma %s bola nainštalovaná"
@@ -1891,7 +1873,6 @@ msgstr "Téma %s bola nainštalovaná"
 #: ../../../../inc/mod/pages.php:2052 ../../../../inc/mod/pages.php:2125
 #: ../../../../inc/mod/pages.php:2182 ../../../../inc/mod/pages.php:2304
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
-#: ../../../../inc/mod/pages.php:2461
 #, php-format
 msgid "Configuring theme: %s"
 msgstr "Konfigurovanie témy: %s"
@@ -1901,7 +1882,6 @@ msgstr "Konfigurovanie témy: %s"
 #: ../../../../inc/mod/pages.php:2080 ../../../../inc/mod/pages.php:2153
 #: ../../../../inc/mod/pages.php:2210 ../../../../inc/mod/pages.php:2332
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
-#: ../../../../inc/mod/pages.php:2490
 #, php-format
 msgid "Rebuilt theme: %s"
 msgstr "Prestavaná téma: %s"
@@ -1918,7 +1898,7 @@ msgstr ""
 #: ../../../../inc/mod/pages.php:2128 ../../../../inc/mod/pages.php:2143
 #: ../../../../inc/mod/pages.php:2216 ../../../../inc/mod/pages.php:2273
 #: ../../../../inc/mod/pages.php:2395 ../../../../inc/mod/pages.php:2409
-#: ../../../../inc/mod/pages.php:2566 ../../../../inc/mod/pages.php:2563
+#: ../../../../inc/mod/pages.php:2566
 msgid "Debug: Recent posts"
 msgstr "Debug: Posledné príspevky"
 
@@ -1926,7 +1906,7 @@ msgstr "Debug: Posledné príspevky"
 #: ../../../../inc/mod/pages.php:2152 ../../../../inc/mod/pages.php:2167
 #: ../../../../inc/mod/pages.php:2240 ../../../../inc/mod/pages.php:2297
 #: ../../../../inc/mod/pages.php:2419 ../../../../inc/mod/pages.php:2433
-#: ../../../../inc/mod/pages.php:2590 ../../../../inc/mod/pages.php:2587
+#: ../../../../inc/mod/pages.php:2590
 msgid "Debug: SQL"
 msgstr "Debug: SQL"
 
@@ -2606,9 +2586,7 @@ msgstr "Nainštalovať tému"
 #: ../../../../inc/display.php:241 ../../../../inc/display.php:244
 #, php-format
 msgid "Post too long. Click <a href=\"%s\">here</a> to view the full text."
-msgstr ""
-"Príliš dlhý príspevok. Klikni <a href=\"%s\">sem</a> pre zobrazenie celého "
-"textu."
+msgstr "Príliš dlhý príspevok. Klikni <a href=\"%s\">sem</a> pre zobrazenie celého textu."
 
 #: ../../../../inc/display.php:342 ../../../../inc/display.php:443
 #: ../../../../inc/display.php:347 ../../../../inc/display.php:449
@@ -2637,11 +2615,8 @@ msgstr "Odstrániť všetky príspevky IP adresy na všetkých doskách"
 #: ../../../../inc/display.php:431 ../../../../inc/display.php:437
 #: ../../../../inc/display.php:432 ../../../../inc/display.php:469
 #: ../../../../inc/display.php:491 ../../../../inc/display.php:494
-msgid ""
-"Are you sure you want to delete all posts by this IP address, across all "
-"boards?"
-msgstr ""
-"Naozaj chceš odstrániť všetky príspevky tejto IP adresy na všetkých doskách?"
+msgid "Are you sure you want to delete all posts by this IP address, across all boards?"
+msgstr "Naozaj chceš odstrániť všetky príspevky tejto IP adresy na všetkých doskách?"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
@@ -2695,7 +2670,7 @@ msgid "Move reply to another board"
 msgstr "Presunúť odpoveď do inej dosky"
 
 #: ../../../../inc/mod/pages.php:1094 ../../../../inc/mod/pages.php:1105
-#: ../../../../inc/mod/pages.php:1165 ../../../../inc/mod/pages.php:1162
+#: ../../../../inc/mod/pages.php:1165
 msgid "Move reply"
 msgstr "Presunúť odpoveď"
 
@@ -2744,25 +2719,24 @@ msgstr[2] "Posledných %count% príspevkov"
 msgid "Or URL"
 msgstr "Alebo adresa"
 
-#: ../../../../inc/mod/pages.php:939 ../../../../inc/mod/pages.php:936
+#: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
 msgstr "Odvolanie sa na ban nebolo nájdené!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
-#: ../../../../inc/mod/pages.php:986
 msgid "Ban appeals"
 msgstr "Odvolania sa na ban"
 
-#: ../../../../inc/mod/pages.php:1833 ../../../../inc/mod/pages.php:1830
+#: ../../../../inc/mod/pages.php:1833
 msgid "New user"
 msgstr "Nový užívateľ"
 
-#: ../../../../inc/mod/pages.php:1888 ../../../../inc/mod/pages.php:1885
+#: ../../../../inc/mod/pages.php:1888
 msgid "Impossible to promote/demote user."
 msgstr "Nie je možné povýšiť/degradovať užívateľa."
 
-#: ../../../../inc/mod/pages.php:2612 ../../../../inc/mod/pages.php:2609
+#: ../../../../inc/mod/pages.php:2612
 msgid "Debug: APC"
 msgstr "Debug: APC"
 
@@ -2785,19 +2759,19 @@ msgstr "Čas odvolania sa"
 msgid "Appeal reason"
 msgstr "Dôvod odvolania sa"
 
-#: ../../../../post.php:802 ../../../../post.php:812
+#: ../../../../post.php:802
 msgid "That ban doesn't exist or is not for you."
 msgstr "Ban neexistuje, alebo nie je pre Teba."
 
-#: ../../../../post.php:806 ../../../../post.php:816
+#: ../../../../post.php:806
 msgid "You cannot appeal a ban of this length."
 msgstr "Nie je možné sa odvolať na takto dlhý ban."
 
-#: ../../../../post.php:813 ../../../../post.php:823
+#: ../../../../post.php:813
 msgid "You cannot appeal this ban again."
 msgstr "Nie je možné sa znova odvolať na tento ban."
 
-#: ../../../../post.php:818 ../../../../post.php:828
+#: ../../../../post.php:818
 msgid "There is already a pending appeal for this ban."
 msgstr "Čakajúce odvolanie sa na tento ban už existuje."
 
@@ -2834,17 +2808,11 @@ msgstr "Odvolal si sa na tento ban"
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 msgid "and it was denied. You may not appeal this ban again."
-msgstr ""
-"a Tvoje odvolanie bolo odmietnuté. Nie je možné sa znova odvolať na tento "
-"ban."
+msgstr "a Tvoje odvolanie bolo odmietnuté. Nie je možné sa znova odvolať na tento ban."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
-msgid ""
-"You have submitted the maximum number of ban appeals allowed. You may not "
-"appeal this ban again."
-msgstr ""
-"Odoslal si maximálny počet odvolaní sa na ban. Nemôžeš sa znova odvolať na "
-"tento ban."
+msgid "You have submitted the maximum number of ban appeals allowed. You may not appeal this ban again."
+msgstr "Odoslal si maximálny počet odvolaní sa na ban. Nemôžeš sa znova odvolať na tento ban."
 
 #. line 114
 #. line 121
@@ -2858,8 +2826,7 @@ msgstr "a Tvoje odvolanie sa bolo odmietnuté"
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:302
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:323
 msgid "You may appeal this ban again. Please enter your reasoning below."
-msgstr ""
-"Na tento ban sa môžeš odvolať znova. Prosím, zadaj svoje odôvodnenie nižšie."
+msgstr "Na tento ban sa môžeš odvolať znova. Prosím, zadaj svoje odôvodnenie nižšie."
 
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
@@ -2869,262 +2836,3 @@ msgstr "Naposledy si sa odvolal na tento ban"
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 msgid "You may appeal this ban. Please enter your reasoning below."
 msgstr "Môžeš sa na tento ban odvolať. Prosím, zadaj svoje odôvodnenie nižšie."
-
-#. How long before Tinyboard forgets about a mute?
-#. 2 weeks
-#. If you want to alter the algorithm a bit. Default value is 2.
-#. (n^x where x is the number of previous mutes)
-#: ../../../../inc/config.php:474
-msgid "You have been muted for unoriginal content."
-msgstr ""
-
-#. The names on the post buttons. (On most imageboards, these are both just "Post").
-#: ../../../../inc/config.php:771
-msgid "New Topic"
-msgstr ""
-
-#: ../../../../inc/config.php:772
-msgid "New Reply"
-msgstr ""
-
-#.
-#. * ====================
-#. *  Error messages
-#. * ====================
-#.
-#. Error messages
-#: ../../../../inc/config.php:962
-msgid "You look like a bot."
-msgstr ""
-
-#: ../../../../inc/config.php:963
-msgid "Your browser sent an invalid or no HTTP referer."
-msgstr ""
-
-#: ../../../../inc/config.php:964
-#, php-format
-msgid "The %s field was too long."
-msgstr ""
-
-#: ../../../../inc/config.php:965
-msgid "The body was too long."
-msgstr ""
-
-#: ../../../../inc/config.php:966
-msgid "The body was too short or empty."
-msgstr ""
-
-#: ../../../../inc/config.php:967
-msgid "You must upload an image."
-msgstr ""
-
-#: ../../../../inc/config.php:968
-msgid "The server failed to handle your upload."
-msgstr ""
-
-#: ../../../../inc/config.php:969
-msgid "Unsupported image format."
-msgstr ""
-
-#: ../../../../inc/config.php:970
-msgid "Invalid board!"
-msgstr ""
-
-#: ../../../../inc/config.php:971
-msgid "Thread specified does not exist."
-msgstr ""
-
-#: ../../../../inc/config.php:972
-msgid "Thread locked. You may not reply at this time."
-msgstr ""
-
-#: ../../../../inc/config.php:973
-msgid "Thread has reached its maximum reply limit."
-msgstr ""
-
-#: ../../../../inc/config.php:974
-msgid "Thread has reached its maximum image limit."
-msgstr ""
-
-#: ../../../../inc/config.php:975
-msgid "You didn't make a post."
-msgstr ""
-
-#: ../../../../inc/config.php:976
-msgid "Flood detected; Post discarded."
-msgstr ""
-
-#: ../../../../inc/config.php:977
-msgid "Your request looks automated; Post discarded."
-msgstr ""
-
-#: ../../../../inc/config.php:978
-msgid "Unoriginal content!"
-msgstr ""
-
-#: ../../../../inc/config.php:979
-#, php-format
-msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr ""
-
-#: ../../../../inc/config.php:980
-#, php-format
-msgid "You are muted! Expires in %d seconds."
-msgstr ""
-
-#: ../../../../inc/config.php:981
-#, php-format
-msgid "Your IP address is listed in %s."
-msgstr ""
-
-#: ../../../../inc/config.php:982
-msgid "Too many links; flood detected."
-msgstr ""
-
-#: ../../../../inc/config.php:983
-msgid "Too many cites; post discarded."
-msgstr ""
-
-#: ../../../../inc/config.php:984
-msgid "Too many cross-board links; post discarded."
-msgstr ""
-
-#: ../../../../inc/config.php:985
-msgid "You didn't select anything to delete."
-msgstr ""
-
-#: ../../../../inc/config.php:986
-msgid "You didn't select anything to report."
-msgstr ""
-
-#: ../../../../inc/config.php:987
-msgid "You can't report that many posts at once."
-msgstr ""
-
-#: ../../../../inc/config.php:988
-msgid "Wrong password…"
-msgstr ""
-
-#: ../../../../inc/config.php:989
-msgid "Invalid image."
-msgstr ""
-
-#: ../../../../inc/config.php:990
-msgid "Unknown file extension."
-msgstr ""
-
-#: ../../../../inc/config.php:991
-msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
-msgstr ""
-
-#: ../../../../inc/config.php:992
-msgid "The file was too big."
-msgstr ""
-
-#: ../../../../inc/config.php:993
-#, php-format
-msgid "That file <a href=\"%s\">already exists</a>!"
-msgstr ""
-
-#: ../../../../inc/config.php:994
-#, php-format
-msgid "That file <a href=\"%s\">already exists</a> in this thread!"
-msgstr ""
-
-#: ../../../../inc/config.php:995
-#, php-format
-msgid "You'll have to wait another %s before deleting that."
-msgstr ""
-
-#: ../../../../inc/config.php:996
-msgid "MIME type detection XSS exploit (IE) detected; post discarded."
-msgstr ""
-
-#: ../../../../inc/config.php:997
-msgid "Couldn't make sense of the URL of the video you tried to embed."
-msgstr ""
-
-#: ../../../../inc/config.php:998
-msgid "You seem to have mistyped the verification."
-msgstr ""
-
-#. Moderator errors
-#: ../../../../inc/config.php:1001
-#, php-format
-msgid ""
-"You are only allowed to unban %s users at a time. You tried to unban %u "
-"users."
-msgstr ""
-
-#: ../../../../inc/config.php:1002
-msgid "Invalid username and/or password."
-msgstr ""
-
-#: ../../../../inc/config.php:1003
-msgid "You are not a mod…"
-msgstr ""
-
-#: ../../../../inc/config.php:1004
-msgid ""
-"Invalid username and/or password. Your user may have been deleted or changed."
-msgstr ""
-
-#: ../../../../inc/config.php:1005
-msgid "Invalid/malformed cookies."
-msgstr ""
-
-#: ../../../../inc/config.php:1006
-msgid "Your browser didn't submit an input when it should have."
-msgstr ""
-
-#: ../../../../inc/config.php:1007
-#, php-format
-msgid "The %s field is required."
-msgstr ""
-
-#: ../../../../inc/config.php:1008
-#, php-format
-msgid "The %s field was invalid."
-msgstr ""
-
-#: ../../../../inc/config.php:1009
-#, php-format
-msgid "There is already a %s board."
-msgstr ""
-
-#: ../../../../inc/config.php:1010
-msgid "You don't have permission to do that."
-msgstr ""
-
-#: ../../../../inc/config.php:1011
-msgid "That post doesn't exist…"
-msgstr ""
-
-#: ../../../../inc/config.php:1012
-msgid "Page not found."
-msgstr ""
-
-#: ../../../../inc/config.php:1013
-#, php-format
-msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr ""
-
-#: ../../../../inc/config.php:1014
-msgid "That theme doesn't exist!"
-msgstr ""
-
-#: ../../../../inc/config.php:1015
-msgid "Invalid security token! Please go back and try again."
-msgstr ""
-
-#: ../../../../inc/config.php:1016
-msgid ""
-"Your code contained PHP syntax errors. Please go back and correct them. PHP "
-"says: "
-msgstr ""
-
-#. Default public ban message. In public ban messages, %length% is replaced with "for x days" or
-#. "permanently" (with %LENGTH% being the uppercase equivalent).
-#: ../../../../inc/config.php:1179
-msgid "USER WAS BANNED FOR THIS POST"
-msgstr ""
