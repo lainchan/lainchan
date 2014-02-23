@@ -288,9 +288,11 @@ function ready() {
 	}
 }
 
-onready(init);
-
 {% endraw %}
+
+var post_date = "{{ config.post_date }}";
+
+onready(init);
 
 {% if config.google_analytics %}{% raw %}
 
