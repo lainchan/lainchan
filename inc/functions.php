@@ -28,8 +28,25 @@ register_shutdown_function('fatal_error_handler');
 mb_internal_encoding('UTF-8');
 loadConfig();
 
+function init_locale($locale, $error='error') {
+	if (_setlocale(LC_ALL, $locale) === false) {
+		$error('The specified locale (' . $locale . ') does not exist on your platform!');
+	}
+	if (extension_loaded('gettext')) {
+		bindtextdomain('tinyboard', './inc/locale');
+		bind_textdomain_codeset('tinyboard', 'UTF-8');
+		textdomain('tinyboard');
+	} else {
+		_bindtextdomain('tinyboard', './inc/locale');
+		_bind_textdomain_codeset('tinyboard', 'UTF-8');
+		_textdomain('tinyboard');
+	}
+}
+$current_locale = 'en';
+
+
 function loadConfig() {
-	global $board, $config, $__ip, $debug, $__version, $microtime_start;
+	global $board, $config, $__ip, $debug, $__version, $microtime_start, $current_locale;
 
 	$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
 
@@ -70,14 +87,41 @@ function loadConfig() {
 		$config[$key] = array();
 	}
 
-	require 'inc/config.php';
 	if (!file_exists('inc/instance-config.php'))
 		$error('Tinyboard is not configured! Create inc/instance-config.php.');
+
+	// Initialize locale as early as possible
+
+	$config['locale'] = 'en';
+
+	$configstr = file_get_contents('inc/instance-config.php');
+
+        if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
+                $configstr .= file_get_contents($board['dir'] . '/config.php');
+        }
+	$matches = array();
+	preg_match_all('/$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
+	if ($matches && isset ($matches[2]) && $matches[2]) {
+		$matches = $matches[2];
+		$config['locale'] = $matches[count($matches)-1];
+	}
+
+	if ($config['locale'] != $current_locale) {
+		$current_locale = $config['locale'];
+		init_locale($config['locale'], $error);
+	}
+
+	require 'inc/config.php';
 
 	require 'inc/instance-config.php';
 
 	if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
 		require $board['dir'] . '/config.php';
+	}
+
+	if ($config['locale'] != $current_locale) {
+		$current_locale = $config['locale'];
+		init_locale($config['locale'], $error);
 	}
 
 	if (!isset($__version))
@@ -173,21 +217,6 @@ function loadConfig() {
 	// ::ffff:0.0.0.0
 	if (preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 		$_SERVER['REMOTE_ADDR'] = $m[2];
-
-	if ($config['locale'] != 'en') {
-		if (_setlocale(LC_ALL, $config['locale']) === false) {
-			$error('The specified locale (' . $config['locale'] . ') does not exist on your platform!');
-		}
-		if (extension_loaded('gettext')) {
-			bindtextdomain('tinyboard', './inc/locale');
-			bind_textdomain_codeset('tinyboard', 'UTF-8');
-			textdomain('tinyboard');
-		} else {
-			_bindtextdomain('tinyboard', './inc/locale');
-			_bind_textdomain_codeset('tinyboard', 'UTF-8');
-			_textdomain('tinyboard');
-		}
-	}
 
 	if ($config['syslog'])
 		openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
