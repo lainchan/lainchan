@@ -168,6 +168,9 @@ function loadConfig() {
 	if (!isset($config['dir']['static']))
 		$config['dir']['static'] = $config['root'] . 'static/';
 
+	if (!isset($config['image_blank']))
+		$config['image_blank'] = $config['dir']['static'] . 'blank.gif';
+
 	if (!isset($config['image_sticky']))
 		$config['image_sticky'] = $config['dir']['static'] . 'sticky.gif';
 	if (!isset($config['image_locked']))
