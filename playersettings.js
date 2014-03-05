@@ -21,6 +21,7 @@ if (window.addEventListener) window.addEventListener("load", function(e) {
         setupLoopLink(i);
     }
 
-    video.muted = setting("videomuted");
+    video.muted = (setting("videovolume") == 0);
+    video.volume = setting("videovolume");
     video.play();
 }, false);

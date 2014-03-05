@@ -11,7 +11,7 @@ function setDefault(name, value) {
 }
 setDefault("videoexpand", true);
 setDefault("videohover", false);
-setDefault("videomuted", false);
+setDefault("videovolume", 1.0);
 
 // Create settings menu
 var settingsMenu = document.createElement("span");
@@ -20,27 +20,35 @@ settingsMenu.innerHTML = '<span>[Settings]</span>'
     + '<div style="display: none; text-align: left; position: absolute; right: 0px; margin-left: -999em; margin-top: -1px; padding-top: 1px;">'
     + '<label><input type="checkbox" name="videoexpand">Expand videos inline</label><br>'
     + '<label><input type="checkbox" name="videohover">Play videos on hover</label><br>'
-    + '<label><input type="checkbox" name="videomuted">Open videos muted</label><br>'
+    + '<label><input type="range" name="videovolume" min="0" max="1" step="0.01" style="width: 4em; height: 1ex; vertical-align: middle; margin: 0px;">Default volume</label><br>'
     + '</div>';
 
 function refreshSettings() {
     var settingsItems = settingsMenu.getElementsByTagName("input");
     for (var i = 0; i < settingsItems.length; i++) {
-        var box = settingsItems[i];
-        box.checked = setting(box.name);
+        var control = settingsItems[i];
+        if (control.type == "checkbox") {
+            control.checked = setting(control.name);
+        } else if (control.type == "range") {
+            control.value = setting(control.name);
+        }
     }
 }
 
-function setupCheckbox(box) {
-    if (box.addEventListener) box.addEventListener("change", function(e) {
-        localStorage[box.name] = JSON.stringify(box.checked);
+function setupControl(control) {
+    if (control.addEventListener) control.addEventListener("change", function(e) {
+        if (control.type == "checkbox") {
+            localStorage[control.name] = JSON.stringify(control.checked);
+        } else if (control.type == "range") {
+            localStorage[control.name] = JSON.stringify(control.value);
+        }
     }, false);
 }
 
 refreshSettings();
 var settingsItems = settingsMenu.getElementsByTagName("input");
 for (var i = 0; i < settingsItems.length; i++) {
-    setupCheckbox(settingsItems[i]);
+    setupControl(settingsItems[i]);
 }
 
 if (settingsMenu.addEventListener) {

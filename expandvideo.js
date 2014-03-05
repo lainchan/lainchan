@@ -84,7 +84,8 @@ function setupVideo(thumb, url) {
             videoContainer.style.position = "static";
             thumb.style.display = "none";
 
-            video.muted = setting("videomuted");
+            video.muted = (setting("videovolume") == 0);
+            video.volume = setting("videovolume");
             video.controls = true;
             if (video.readyState == 0) {
                 video.addEventListener("loadedmetadata", expand2, false);
@@ -130,7 +131,8 @@ function setupVideo(thumb, url) {
             videoContainer.style.display = "inline";
             videoContainer.style.position = "fixed";
 
-            video.muted = setting("videomuted");
+            video.muted = (setting("videovolume") == 0);
+            video.volume = setting("videovolume");
             video.controls = false;
             video.play();
         }
