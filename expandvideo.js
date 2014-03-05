@@ -29,6 +29,7 @@ function setupVideo(thumb, url) {
         }
     }
 
+    // Create video element if does not exist yet
     function getVideo() {
         if (video == null) {
             video = document.createElement("video");
@@ -70,6 +71,7 @@ function setupVideo(thumb, url) {
         }
     }
 
+    // Clicking on thumbnail expands video
     thumb.addEventListener("click", function(e) {
         if (setting("videoexpand") && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) {
             getVideo();
@@ -106,6 +108,7 @@ function setupVideo(thumb, url) {
         }
     }
 
+    // Hovering over thumbnail displays video
     thumb.addEventListener("mouseover", function(e) {
         if (setting("videohover")) {
             getVideo();
@@ -140,6 +143,24 @@ function setupVideo(thumb, url) {
 
     thumb.addEventListener("mouseout", unhover, false);
 
+    // Scroll wheel on thumbnail adjusts default volume
+    thumb.addEventListener("wheel", function(e) {
+        if (setting("videohover")) {
+            var volume = setting("videovolume");
+            if (e.deltaY > 0) volume -= 0.1;
+            if (e.deltaY < 0) volume += 0.1;
+            if (volume < 0) volume = 0;
+            if (volume > 1) volume = 1;
+            if (video != null) {
+                video.muted = (volume == 0);
+                video.volume = volume;
+            }
+            changeSetting("videovolume", volume);
+            e.preventDefault();
+        }
+    }, false);
+
+    // [play once] vs [loop] controls
     function setupLoopControl(i) {
         loopControls[i].addEventListener("click", function(e) {
             loop = (i != 0);
@@ -182,8 +203,13 @@ function setupVideosIn(element) {
 }
 
 if (window.addEventListener) window.addEventListener("load", function(e) {
-    document.body.insertBefore(settingsMenu, document.body.firstChild);
+    // Insert menu from settings.js
+    if (typeof settingsMenu != "undefined") document.body.insertBefore(settingsMenu, document.body.firstChild);
+
+    // Setup Javascript events for videos in document now
     setupVideosIn(document);
+
+    // Setup Javascript events for videos added by updater
     if (window.MutationObserver) {
         var observer = new MutationObserver(function(mutations) {
             for (var i = 0; i < mutations.length; i++) {

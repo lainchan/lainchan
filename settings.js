@@ -3,10 +3,15 @@ function setting(name) {
     return JSON.parse(localStorage[name]);
 }
 
+// Settings should be changed with this function
+function changeSetting(name, value) {
+    localStorage[name] = JSON.stringify(value);
+}
+
 // Default settings
 function setDefault(name, value) {
     if (!(name in localStorage)) {
-        localStorage[name] = JSON.stringify(value);
+        changeSetting(name, value);
     }
 }
 setDefault("videoexpand", true);
@@ -38,9 +43,9 @@ function refreshSettings() {
 function setupControl(control) {
     if (control.addEventListener) control.addEventListener("change", function(e) {
         if (control.type == "checkbox") {
-            localStorage[control.name] = JSON.stringify(control.checked);
+            changeSetting(control.name, control.checked);
         } else if (control.type == "range") {
-            localStorage[control.name] = JSON.stringify(control.value);
+            changeSetting(control.name, control.value);
         }
     }, false);
 }
