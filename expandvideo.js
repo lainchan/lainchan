@@ -106,6 +106,9 @@ function setupVideo(thumb, url) {
         if (bottom > window.innerHeight) {
             window.scrollBy(0, bottom - window.innerHeight);
         }
+        // work around Firefox volume control bug
+        video.volume = Math.max(setting("videovolume") - 0.001, 0);
+        video.volume = setting("videovolume");
     }
 
     // Hovering over thumbnail displays video
