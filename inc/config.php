@@ -1464,7 +1464,7 @@
 
 	// Whether or not to enable the 4chan-compatible API, disabled by default. See
 	// https://github.com/4chan/4chan-API for API specification.
-	$config['api']['enabled'] = false;
+	$config['api']['enabled'] = true;
 
 	// Extra fields in to be shown in the array that are not in the 4chan-API. You can get these by taking a
 	// look at the schema for posts_ tables. The array should be formatted as $db_column => $translated_name.
