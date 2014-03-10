@@ -1,22 +1,32 @@
+// Default settings
+var defaultSettings = {
+    "videoexpand": true,
+    "videohover": false,
+    "videovolume": 1.0
+};
+
+// Non-persistent settings for when localStorage is absent/disabled
+var tempSettings = {};
+
 // Scripts obtain settings by calling this function
 function setting(name) {
-    return JSON.parse(localStorage[name]);
+    if (localStorage) {
+        if (localStorage[name] === undefined) return defaultSettings[name];
+        return JSON.parse(localStorage[name]);
+    } else {
+        if (tempSettings[name] === undefined) return defaultSettings[name];
+        return tempSettings[name];
+    }
 }
 
 // Settings should be changed with this function
 function changeSetting(name, value) {
-    localStorage[name] = JSON.stringify(value);
-}
-
-// Default settings
-function setDefault(name, value) {
-    if (!(name in localStorage)) {
-        changeSetting(name, value);
+    if (localStorage) {
+        localStorage[name] = JSON.stringify(value);
+    } else {
+        tempSettings[name] = value;
     }
 }
-setDefault("videoexpand", true);
-setDefault("videohover", false);
-setDefault("videovolume", 1.0);
 
 // Create settings menu
 var settingsMenu = document.createElement("span");
