@@ -1590,7 +1590,7 @@ function markup_url($matches) {
 	$markup_urls[] = $url;
 
 	$link = (object) array(
-		'href' => $url,
+		'href' => $config['link_prefix'] . $url,
 		'text' => $url,
 		'rel' => 'nofollow',
 		'target' => '_blank',
