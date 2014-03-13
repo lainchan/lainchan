@@ -32,11 +32,8 @@ onready(function(){
 		}
 		
 		var board = $(this);
-		var i = 0;
 		while (board.data('board') === undefined) {
 			board = board.parent();
-			i++;
-			if (i >= 10) return;
 		}
 		var threadid;
 		if ($link.is('[data-thread]')) threadid = 0;
