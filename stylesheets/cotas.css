@@ -1,0 +1,149 @@
+/**
+ * festaduro.css
+ * For 55chan adapted from kusaba by sinuca
+ */
+body {
+	font-family:arial,helvetica,sans-serif;
+	background-image: url(img/cotas.gif);
+	background-repeat:repeat;
+	background-position: center top;
+	color: #FFFFFF;
+	font-size: 10pt;
+}
+
+h1 {
+	color: #054500;
+	font-family:arial,helvetica,sans-serif;
+	font-size: 24pt;
+	font-weight: normal;
+}
+
+header div.subtitle {
+	font-size: 16px;
+	color: #054500;
+	font-weight: bold;
+	margin: 1em 0;
+}
+
+a, a:visited {
+	color: #0000EE;
+}
+
+a:hover {
+	color: #00990B;
+}
+
+/*reply mode*/
+div.banner {
+	background-color: #054500;
+	color: #FFF;
+	padding: 2px;
+	font-size: 10pt;
+	font-weight: normal;
+}
+
+form table tr th {
+	background-color: #9309C6;
+	color: #054500;
+	border: 1px solid #054500;
+	font-size: 10pt;
+	padding: 0px 5px;
+	line-height: 20px;
+}
+
+p.intro {
+	color: #054500;
+}
+
+p.intro span.name {
+	color: #800000;
+}
+
+p.fileinfo {
+	color: #000000;
+}
+
+p.fileinfo span.unimportant, p.fileinfo a {
+	font-size: 12px;
+}
+
+div.post.reply {
+	background: #D6F0E4;
+	border-width: medium 1px 1px medium;
+	border-style: none solid solid none;
+	border-color: #E5D959 #E5D959;
+	color: #000000;
+}
+
+div.post.op div.body {
+	background-color: #000000;
+}
+
+div.post.reply.post-hover {
+	background-color: #F0E0D6;
+	border: 1px dotted #000!important;
+}
+
+div.post.reply div.body a {
+	color: #0000EE;
+}
+
+div.post.reply div.body a:hover {
+	color: #00990B;
+}
+
+div.post.reply.highlighted {
+	background: #F0E0D6;
+}
+
+p.intro a.email span.name {
+	color: #0000EE;
+}
+
+p.intro a.email:hover span.name {
+	color: #0000EE;
+}
+
+div.pages {
+	background: transparent;
+	border: 2px;
+	border-style: groove;
+}
+
+hr {
+	border-width: 1px medium medium;
+	border-style: solid none none;
+	border-color: #117743
+}
+
+div.boardlist {
+	padding: 0.4em;
+	font-size: 13px;
+	color: #000;
+}
+
+div.boardlist a {
+	text-decoration: none;
+	padding: 0.2em 0.1em;
+	color: #000;
+}
+
+div.boardlist a:hover {
+	color: #00990B;
+}
+
+div#playerW {
+	display: none!important;
+}
+
+div.delete {
+	color: #000000;
+}
+
+.unimportant {
+	color: #000000;
+}
+
+img.board_image {
+	border:0px;
+}
