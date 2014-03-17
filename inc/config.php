@@ -1376,6 +1376,8 @@
 	$config['mod']['view_ban_appeals'] = MOD;
 	// Accept and deny ban appeals
 	$config['mod']['ban_appeals'] = MOD;
+	// View the recent posts page
+	$config['mod']['recent'] = MOD;
 
 	// Config editor permissions
 	$config['mod']['config'] = array();
