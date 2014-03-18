@@ -1,0 +1,40 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.uri_stylesheets }}{{ settings.css }}">
+</head>
+<body>
+	<header>
+		<div class="favelito">
+			<img src="{{ config.root }}static/favelito.png" alt="Favelito">
+		</div>
+		<h1 class="title">{{ settings.title }}</h1>
+		<div class="subtitle">"{{ settings.subtitle }}"</div>
+	</header>
+	
+	<div class="news-content">
+		{% if news|count == 0 %}
+			<p style="text-align:center" class="unimportant">(No news to show.)</p>
+		{% else %}
+			{% for entry in news %}
+				<h2 id="{{ entry.id }}">
+					{% if entry.subject %}
+						{{ entry.subject }}
+					{% else %}
+						<em>no subject</em>
+					{% endif %}
+					<span class="unimportant"> &mdash; by {{ entry.name }} at {{ entry.time|date(config.post_date) }}</span>
+				</h2>
+				<p>{{ entry.body }}</p>
+			{% endfor %}
+		{% endif %}
+	</div>
+	
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2012 Tinyboard Development Group</p>
+</body>
+</html>
+{% endfilter %}

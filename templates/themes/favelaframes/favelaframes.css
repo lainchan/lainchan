@@ -1,0 +1,84 @@
+body {
+	font-family: sans-serif;
+	background: none repeat scroll 0 0 #EEFDFF;
+	font-size: 12px;
+	margin: 6px;
+	padding: 0;
+}
+
+h1.title {
+	font-family: Verdana, Tahoma, sans-serif;
+	font-size: 23px;
+	color: #333300;
+	margin-top: 1em;
+	background: none;
+	letter-spacing: normal;
+}
+
+header div.subtitle {
+	font-family: Verdana, Tahoma, sans-serif;
+	color: #333300;
+	font-weight: normal;
+	font-size: medium;
+	font-style: italic;
+}
+
+div.favelito {
+	text-align: center;
+}
+
+.favelito {
+	display: block;
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+div.news-content {
+	margin-left: 1em;
+	text-align: justify;
+}
+
+h2 {
+	color: #000;
+	background: #D6F0E4;
+}
+
+div.sidebar h2 {
+	font-family: Verdana, Tahoma, sans-serif;
+	font-size: 18px;
+}
+
+div.sidebar h3 {
+	margin: 0;
+	background: #D6F0E4;
+	font-size: 100%
+}
+
+div.fav_irc h4 {
+	font-family: Verdana, Tahoma, sans-serif;
+	margin: 0;
+	font-size: 10px;
+	background: #D6F0E4;
+}
+
+div.fav_irc h4 a {
+	color: #FF7800;
+	text-decoration: none;
+	vertical-align: top;
+}
+
+ul.fav_nav {
+	margin-top: 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul.fav_nav a {
+	text-decoration: none;
+	color: #555500;
+}
+
+.sidebar a:hover {
+	text-decoration: underline;
+}

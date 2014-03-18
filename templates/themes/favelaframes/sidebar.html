@@ -1,0 +1,38 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.uri_stylesheets }}{{ settings.css }}">
+	
+	<base target="main"/>
+</head>
+<body>
+	<div class="sidebar">
+		<h2>{{ settings.title }}</h2>
+		<div class="fav_irc">
+			<h4>
+				<a href="{{ settings.irc_url }}" target="_blank">{{ settings.irc_address }}</a>
+			</h4>
+		</div>
+		
+		{% for category, boards in categories %}
+			<h3>
+				{{ category }}
+			</h3>
+			<div id="{{ category }}" class="fav_category_div">
+				<ul class="fav_nav">
+					{% for board in boards %}
+						<li>
+							<a href="{{ board.uri }}">/{{ board.uri }} - {{ board.title|e }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endfor %}
+	</div>
+</body>
+</html>
+{% endfilter %}
