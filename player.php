@@ -1,4 +1,5 @@
 <?php 
+/* This file is dedicated to the public domain; you may do as you wish with it. */
 $params = '?v=' . urlencode($_GET['v']) . '&amp;t=' . urlencode($_GET['t']);
 $loop = ($_GET['loop'] != "0");
 ?><!DOCTYPE html>

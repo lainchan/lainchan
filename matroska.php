@@ -1,4 +1,6 @@
 <?php
+/* This file is dedicated to the public domain; you may do as you wish with it. */
+
 // Information needed to parse an element type
 class EBMLElementType {
     public $name;

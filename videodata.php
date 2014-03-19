@@ -1,4 +1,5 @@
 <?php
+/* This file is dedicated to the public domain; you may do as you wish with it. */
 require dirname(__FILE__) . '/matroska.php';
 
 function matroskaSeekElement($name, $pos) {

@@ -1,4 +1,6 @@
 <?php
+// Glue code for handling a Tinyboard post.
+// Portions of this file are derived from Tinyboard code.
 
 function postHandler($post) {
     global $board, $config;

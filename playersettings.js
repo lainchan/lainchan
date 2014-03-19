@@ -1,3 +1,4 @@
+/* This file is dedicated to the public domain; you may do as you wish with it. */
 if (window.addEventListener) window.addEventListener("load", function(e) {
     document.getElementById("playerheader").appendChild(settingsMenu);
 

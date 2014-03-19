@@ -1,14 +1,13 @@
-This project is an effort to enable imageboards to host small video clips.  With modern video compression, it's possible to share much higher-quality videos in a few megabytes than the with animated GIF files.
+This project is an effort to enable imageboards to host small video clips.  With modern video compression, it's possible to share much higher-quality videos in a few megabytes than what you can do with animated GIF files.
 
-The software here extends [Tinyboard](http://tinyboard.org/) to display metadata and create pseudo-thumbnails for WebM video files.  It is intended to work on very basic web hosting services, including any hosting service that can run Tinyboard.  In particular, it does not depend on any video conversion software such as FFmpeg.  For this reason, it cannot create true thumbnails, but uses pseudo-thumbnails consisting of a single frame extracted from the video.
+The software here extends [Tinyboard](http://tinyboard.org/) to display metadata and create pseudo-thumbnails for WebM video files.  It is intended to work on very basic web hosting services, including any hosting service that can run Tinyboard.  In particular, it does not depend on any external video conversion software such as FFmpeg or Libav.  Rather, it parses the video container to extract a single frame from the video to use in place of a thumbnail.  If you can run FFmpeg or Libav on your server, it's a good idea to modify this code to use those tools to create true thumbnails; in the future, an option will be added to enable this.
 
 A board using this code can be found at:
 http://containerchan.org/tb/demo/
 
 Be aware that this is beta software.  Please report any bugs you find.
 
-The modified Tinyboard templates (post_reply.html and post_thread.html) are subject to the Tinyboard licence (see LICENSE.md).  The portions of this software not derived from Tinyboard are released into the public domain.
-
+Much of the code is not specific to Tinyboard, and you are welcome to use it in your own projects.  See the [core](https://github.com/ccd0/containerchan/tree/core) branch for a version without material from Tinyboard.
 
 Installation
 ------------
@@ -45,3 +44,8 @@ And add this to stylesheets/style.css:
         top: 1em;
         right: 1em;
     }
+
+License
+-------
+
+See [LICENSE.md](https://github.com/ccd0/containerchan/blob/master/LICENSE.md).

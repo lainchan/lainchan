@@ -1,3 +1,6 @@
+/* This file is dedicated to the public domain; you may do as you wish with it. */
+/* Note: This code expects the global variable configRoot to be set. */
+
 function setupVideo(thumb, url) {
     var video = null;
     var videoContainer, videoHide;

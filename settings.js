@@ -1,3 +1,5 @@
+/* This file is dedicated to the public domain; you may do as you wish with it. */
+
 // Default settings
 var defaultSettings = {
     "videoexpand": true,
