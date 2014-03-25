@@ -2266,7 +2266,7 @@ function mod_recent_posts($lim) {
 		$body .= $replacement . '</div>';
 	}
 
-	echo Element('modpage.html', array(
+	echo Element('page.html', array(
 		'config' => $config,
 		'mod' => $mod,
 		'hide_dashboard_link' => true,
