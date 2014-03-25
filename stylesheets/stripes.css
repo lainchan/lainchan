@@ -13,6 +13,7 @@ div.boardlist:nth-child(1):hover {
 }
 div.reply, div.pages {
 	background: -moz-linear-gradient(bottom, #323232  40%, #2E2E2E 75%) !important;
+	background: linear-gradient(to top, #323232  40%, #2E2E2E 75%) !important;
 	border: 1px solid #2D2D2D !important;
 	box-shadow: 0px 0px 10px #2C2C2C;
 	color: #BBB !important;
