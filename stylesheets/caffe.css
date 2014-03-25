@@ -103,7 +103,7 @@ html, body {
 a {
         color: #755144;
 }
-a:hover {
+a:hover, a:visited:hover {
         color: #a47a6b;
 }
 .adminbar {
@@ -111,9 +111,13 @@ a:hover {
         float:right;
         font-size: .8em;
 }
-.desktop-style div.boardlist:nth-child(1):hover{
+.desktop-style div.boardlist:nth-child(1) .boardlist {
 background-color: #261712;   
 }
+.desktop-style div.boardlist:nth-child(1):hover {
+background-color: #261712;
+}
+
 
 .adminbar a {
         font-weight: bold;
