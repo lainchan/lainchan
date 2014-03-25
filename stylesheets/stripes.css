@@ -11,6 +11,9 @@ body {
 div.boardlist:nth-child(1):hover {
 	background: #222 !important;
 }
+div.boardlist:nth-child(1) .boardlist {
+	background: #222 !important;
+}
 div.reply, div.pages {
 	background: -moz-linear-gradient(bottom, #323232  40%, #2E2E2E 75%) !important;
 	background: linear-gradient(to top, #323232  40%, #2E2E2E 75%) !important;
@@ -21,7 +24,7 @@ div.reply, div.pages {
 .reply {
 	margin-top: 0.5em !important;
 }
-.body a, a:hover {
+.body a, a:hover, a:visited:hover {
 	color: #FF6666;
 }
 table th { background: none !important }
