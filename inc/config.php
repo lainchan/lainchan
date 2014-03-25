@@ -523,10 +523,12 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
-	// Attach country flags to posts. Requires the PHP "geoip" extension to be installed:
-	// http://www.php.net/manual/en/intro.geoip.php. In the future, maybe I will find and include a proper
-	// pure-PHP geolocation library.
+	// Attach country flags to posts.
 	$config['country_flags'] = false;
+
+	// Load all country flags from one file
+	$config['country_flags_condensed'] = true;
+	$config['country_flags_condensed_css'] = 'static/flags/flags.css';
 
 /*
 * ====================
@@ -1071,6 +1073,9 @@
 	// Home directory. Used by themes.
 	$config['dir']['home'] = '';
 
+	// Location of a blank 1x1 gif file. Only used when country_flags_condensed is enabled
+	// $config['image_blank'] = 'static/blank.gif';
+
 	// Static images. These can be URLs OR base64 (data URI scheme). These are only used if
 	// $config['font_awesome'] is false (default).
 	// $config['image_sticky']	= 'static/sticky.gif';
@@ -1461,7 +1466,7 @@
 
 	// Whether or not to enable the 4chan-compatible API, disabled by default. See
 	// https://github.com/4chan/4chan-API for API specification.
-	$config['api']['enabled'] = false;
+	$config['api']['enabled'] = true;
 
 	// Extra fields in to be shown in the array that are not in the 4chan-API. You can get these by taking a
 	// look at the schema for posts_ tables. The array should be formatted as $db_column => $translated_name.

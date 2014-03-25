@@ -43,9 +43,7 @@ class Api {
 
 		$this->threadsPageFields = array(
 			'id' => 'no',
-			'bump' => 'last_modified',
-                        'replies' => 'replies',
-                        'images' => 'images',
+			'bump' => 'last_modified'
 		);
 
 		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){

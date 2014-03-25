@@ -1,0 +1,431 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-23 18:52+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: dubcheck <admin@alokal.eu>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../../js/toggle-locked-threads.js:41
+#: ../../../../js/toggle-locked-threads.js:56
+msgid "Show locked threads"
+msgstr "Zobraziť zamknuté vlákna"
+
+#: ../../../../js/toggle-locked-threads.js:41
+#: ../../../../js/toggle-locked-threads.js:56
+msgid "Hide locked threads"
+msgstr "Skryť zamknuté vlákna"
+
+#: ../../../../js/hide-images.js:51 ../../../../js/quick-post-controls.js:32
+#: ../../../../js/upload-selection.js:61
+msgid "File"
+msgstr "Súbor"
+
+#: ../../../../js/hide-images.js:51
+msgid "hide"
+msgstr "skryť"
+
+#: ../../../../js/hide-images.js:57
+msgid "show"
+msgstr "ukázať"
+
+#: ../../../../js/watch.js:330 ../../../../js/watch.js:331
+msgid "Stop watching this thread"
+msgstr "Zastaviť sledovanie tohto vlákna"
+
+#: ../../../../js/watch.js:330 ../../../../js/watch.js:331
+msgid "Watch this thread"
+msgstr "Sledovať toto vlákno"
+
+#: ../../../../js/watch.js:341 ../../../../js/watch.js:342
+#: ../../../../js/watch.js:350
+msgid "Unpin this board"
+msgstr "Odopnúť túto dosku"
+
+#: ../../../../js/watch.js:341 ../../../../js/watch.js:342
+#: ../../../../js/watch.js:350
+msgid "Pin this board"
+msgstr "Pripnúť túto dosku"
+
+#: ../../../../js/watch.js:343 ../../../../js/watch.js:348
+#: ../../../../js/watch.js:349
+msgid "Stop watching this board"
+msgstr "Zastaviť sledovanie tejto dosky"
+
+#: ../../../../js/watch.js:343 ../../../../js/watch.js:348
+#: ../../../../js/watch.js:349
+msgid "Watch this board"
+msgstr "Sledovať túto dosku"
+
+#: ../../../../js/quick-reply.js:224
+msgid "Upload URL"
+msgstr "Adresa súboru"
+
+#: ../../../../js/quick-reply.js:267
+msgid "Spoiler Image"
+msgstr "Skrytý obrázok"
+
+#: ../../../../js/quick-reply.js:278
+msgid "Comment"
+msgstr "Komentár"
+
+#: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
+msgid "Quick Reply"
+msgstr "Rýchla odpoveď"
+
+#: ../../../../js/style-select.js:41
+msgid "Style: "
+msgstr "Štýl:"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Sun"
+msgstr "Ne"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Mon"
+msgstr "Po"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Tue"
+msgstr "Ut"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Wed"
+msgstr "St"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Thu"
+msgstr "Št"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Fri"
+msgstr "Pi"
+
+#: ../../../../js/local-time.js:41 ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:40
+msgid "Sat"
+msgstr "So"
+
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
+#: ../../../../js/forced-anon.js:71
+msgid "Forced anonymity"
+msgstr "Vynútená anonymita"
+
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
+msgid "enabled"
+msgstr "zapnutá"
+
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
+msgid "disabled"
+msgstr "vypnutá"
+
+#: ../../../../js/quick-reply-old.js:23
+msgid "Submit"
+msgstr "Odoslať"
+
+#: ../../../../js/quick-reply-old.js:33
+msgid "Quick reply"
+msgstr "Rýchla odpoveď"
+
+#: ../../../../js/quick-reply-old.js:35
+#, python-brace-format
+msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
+msgstr "Režim prispievania: Odpoveď na <small>&gt;&gt;{0}</small>"
+
+#: ../../../../js/quick-reply-old.js:35
+msgid "Return"
+msgstr "Návrat"
+
+#: ../../../../js/expand.js:22
+msgid "Click reply to view."
+msgstr "Klikni na Odpoveď pre ich zobrazenie."
+
+#: ../../../../js/expand.js:22
+msgid "Click to expand"
+msgstr "Klikni sem pre zobrazenie"
+
+#: ../../../../js/expand.js:46
+msgid "Hide expanded replies"
+msgstr "Skryť zobrazené odpovede"
+
+#: ../../../../js/ajax-post-controls.js:43
+msgid "Reported post(s)."
+msgstr "Príspevok nahlásený."
+
+#: ../../../../js/ajax-post-controls.js:53
+msgid "An unknown error occured!"
+msgstr "Nastala neznáma chyba!"
+
+#: ../../../../js/ajax-post-controls.js:60
+msgid "Something went wrong... An unknown error occured!"
+msgstr "Stalo sa niečo zlé... Nastala neznáma chyba!"
+
+#: ../../../../js/ajax-post-controls.js:68
+msgid "Working..."
+msgstr "Pracujem..."
+
+#: ../../../../js/ajax.js:45
+msgid "Posting... (#%)"
+msgstr "Odosielam...  (#%)"
+
+#: ../../../../js/ajax.js:109
+msgid "Posted..."
+msgstr "Odoslané..."
+
+#: ../../../../js/ajax.js:111
+msgid "An unknown error occured when posting!"
+msgstr "Pri odosielaní nastala neznáma chyba!"
+
+#: ../../../../js/ajax.js:135
+msgid "Posting..."
+msgstr "Odosielam..."
+
+#: ../../../../js/wpaint.js:113
+msgid "Click on any image on this site to load it into oekaki applet"
+msgstr ""
+"Klikni na akýkoľvek obrázok na tejto stránke pre jeho načítanie do Oekaki"
+
+#: ../../../../js/quick-post-controls.js:29
+msgid "Password"
+msgstr "Heslo"
+
+#: ../../../../js/quick-post-controls.js:31
+msgid "Delete file only"
+msgstr "Odstrániť iba súbor"
+
+#: ../../../../js/quick-post-controls.js:33
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: ../../../../js/quick-post-controls.js:37
+msgid "Reason"
+msgstr "Dôvod"
+
+#: ../../../../js/quick-post-controls.js:39
+msgid "Report"
+msgstr "Nahlásiť"
+
+#: ../../../../js/catalog-link.js:33 ../../../../js/catalog-link.js:44
+#: ../../../../js/catalog-link.js:52
+msgid "Catalog"
+msgstr "Katalóg"
+
+#: ../../../../js/upload-selection.js:45
+msgid "URL"
+msgstr "Adresa"
+
+#: ../../../../js/upload-selection.js:60
+msgid "Select"
+msgstr "Vybrať"
+
+#: ../../../../js/upload-selection.js:63
+msgid "Remote"
+msgstr "Vzdialený"
+
+#: ../../../../js/upload-selection.js:66
+msgid "Embed"
+msgstr "Vložiť"
+
+#: ../../../../js/upload-selection.js:69
+msgid "Oekaki"
+msgstr "Oekaki"
+
+#: ../../../../js/toggle-images.js:42
+msgid "hidden"
+msgstr "skrytý"
+
+#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+msgid "Show images"
+msgstr "Zobraziť obrázky"
+
+#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+msgid "Hide images"
+msgstr "Skryť obrázky"
+
+#: ../../../../js/expand-all-images.js:22
+msgid "Expand all images"
+msgstr "Otvoriť všetky obrázky"
+
+#: ../../../../js/download-original.js:33
+msgid "Save as original filename"
+msgstr "Uložiť s pôvodným názvom"
+
+#: ../../../../templates/themes/ukko/ukko.js:29
+#: ../../../../templates/themes/ukko/ukko.js:40
+msgid "(hide threads from this board)"
+msgstr "(skryť vlákna z tejto dosky)"
+
+#: ../../../../templates/themes/ukko/ukko.js:33
+#: ../../../../templates/themes/ukko/ukko.js:45
+msgid "(show threads from this board)"
+msgstr "(zobraziť vlákna z tejto dosky)"
+
+#: ../../../../templates/themes/ukko/ukko.js:58
+msgid "No more threads to display"
+msgstr "Žiadne ďalšie vlákna na zobrazenie"
+
+#: ../../../../templates/themes/ukko/ukko.js:80
+msgid "Loading..."
+msgstr "Načítanie..."
+
+#: ../../../../templates/main.js:6
+msgid "Hello!"
+msgstr "Ahoj!"
+
+#: ../../../../templates/main.js:18
+#, python-brace-format
+msgid "{0} users"
+msgstr "{0} užívateľov"
+
+#: ../../../../js/local-time.js:29
+msgid "Sunday"
+msgstr "Nedeľa"
+
+#: ../../../../js/local-time.js:29
+msgid "Monday"
+msgstr "Pondelok"
+
+#: ../../../../js/local-time.js:29
+msgid "Tuesday"
+msgstr "Utorok"
+
+#: ../../../../js/local-time.js:29
+msgid "Wednesday"
+msgstr "Streda"
+
+#: ../../../../js/local-time.js:29
+msgid "Thursday"
+msgstr "Štvrtok"
+
+#: ../../../../js/local-time.js:29
+msgid "Friday"
+msgstr "Piatok"
+
+#: ../../../../js/local-time.js:29
+msgid "Saturday"
+msgstr "Sobota"
+
+#: ../../../../js/local-time.js:31
+msgid "January"
+msgstr "Január"
+
+#: ../../../../js/local-time.js:31
+msgid "February"
+msgstr "Február"
+
+#: ../../../../js/local-time.js:31
+msgid "March"
+msgstr "Marec"
+
+#: ../../../../js/local-time.js:31
+msgid "April"
+msgstr "Apríl"
+
+#: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
+msgid "May"
+msgstr "Máj"
+
+#: ../../../../js/local-time.js:31
+msgid "June"
+msgstr "Jún"
+
+#: ../../../../js/local-time.js:31
+msgid "July"
+msgstr "Júl"
+
+#: ../../../../js/local-time.js:31
+msgid "August"
+msgstr "August"
+
+#: ../../../../js/local-time.js:31
+msgid "September"
+msgstr "September"
+
+#: ../../../../js/local-time.js:31
+msgid "October"
+msgstr "Október"
+
+#: ../../../../js/local-time.js:31
+msgid "November"
+msgstr "November"
+
+#: ../../../../js/local-time.js:31
+msgid "December"
+msgstr "December"
+
+#: ../../../../js/local-time.js:32
+msgid "Jan"
+msgstr "Jan"
+
+#: ../../../../js/local-time.js:32
+msgid "Feb"
+msgstr "Feb"
+
+#: ../../../../js/local-time.js:32
+msgid "Mar"
+msgstr "Mar"
+
+#: ../../../../js/local-time.js:32
+msgid "Apr"
+msgstr "Apr"
+
+#: ../../../../js/local-time.js:32
+msgid "Jun"
+msgstr "Jún"
+
+#: ../../../../js/local-time.js:32
+msgid "Jul"
+msgstr "Júl"
+
+#: ../../../../js/local-time.js:32
+msgid "Aug"
+msgstr "Aug"
+
+#: ../../../../js/local-time.js:32
+msgid "Sep"
+msgstr "Sep"
+
+#: ../../../../js/local-time.js:32
+msgid "Oct"
+msgstr "Okt"
+
+#: ../../../../js/local-time.js:32
+msgid "Nov"
+msgstr "Nov"
+
+#: ../../../../js/local-time.js:32
+msgid "Dec"
+msgstr "Dec"
+
+#: ../../../../js/local-time.js:33
+msgid "AM"
+msgstr "Doobeda"
+
+#: ../../../../js/local-time.js:34
+msgid "PM"
+msgstr "Poobede"
+
+#: ../../../../js/local-time.js:35
+msgid "am"
+msgstr "doobeda"
+
+#: ../../../../js/local-time.js:36
+msgid "pm"
+msgstr "poobede"
