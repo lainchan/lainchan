@@ -330,7 +330,7 @@ if (isset($_POST['delete'])) {
 	
 	// Check for a file
 	if ($post['op'] && !isset($post['no_longer_require_an_image_for_op'])) {
-		if (!isset($_FILES['file']['tmp_name']) || $_FILES['file']['tmp_name'] == '' && $config['force_image_op'])
+		if ((!isset($_FILES['file']['tmp_name']) || $_FILES['file']['tmp_name'] == '') && $config['force_image_op'])
 			error($config['error']['noimage']);
 	}
 	
