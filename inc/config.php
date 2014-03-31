@@ -23,6 +23,7 @@
  *
  */
 
+	defined('TINYBOARD') or exit;
 
 /*
  * =======================
