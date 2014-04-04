@@ -18,49 +18,50 @@ $(document).ready(function(){
 		return; // not index
 	$('div.post.op span.omitted').each(function() {
 	
-	var do_expand = function() {
-		$(this)
-			.html($(this).text().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
-			.find('a').click(function() {
-				var thread = $(this).parent().parent().parent();
-				var id = thread.attr('id').replace(/^thread_/, '');
-				$.ajax({
-					url: thread.find('p.intro a.post_no:first').attr('href'),
-					context: document.body,
-					success: function(data) {
-						var last_expanded = false;
-						$(data).find('div.post.reply').each(function() {
-							thread.find('div.hidden').remove();
-							var post_in_doc = thread.find('#' + $(this).attr('id'));
-							if(post_in_doc.length == 0) {
-								if(last_expanded) {
-									$(this).addClass('expanded').insertAfter(last_expanded).before('<br class="expanded">');
+		var do_expand = function() {
+			$(this)
+				.html($(this).html().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
+				.find('a').click(function() {
+					var thread = $(this).parent().parent().parent();
+					var id = thread.attr('id').replace(/^thread_/, '');
+					$.ajax({
+						url: thread.find('p.intro a.post_no:first').attr('href'),
+						context: document.body,
+						success: function(data) {
+							var last_expanded = false;
+							$(data).find('div.post.reply').each(function() {
+								thread.find('div.hidden').remove();
+								var post_in_doc = thread.find('#' + $(this).attr('id'));
+								if(post_in_doc.length == 0) {
+									if(last_expanded) {
+										$(this).addClass('expanded').insertAfter(last_expanded).before('<br class="expanded">');
+									} else {
+										$(this).addClass('expanded').insertAfter(thread.find('div.post:first')).after('<br class="expanded">');
+									}
+									last_expanded = $(this);
+									$(document).trigger('new_post', this);
 								} else {
-									$(this).addClass('expanded').insertAfter(thread.find('div.post:first')).after('<br class="expanded">');
+									last_expanded = post_in_doc;
 								}
-								last_expanded = $(this);
-								$(document).trigger('new_post', this);
-							} else {
-								last_expanded = post_in_doc;
-							}
-						});
-						$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
-							.insertAfter(thread.find('span.omitted').css('display', 'none'))
-							.click(function() {
-								thread.find('.expanded').remove();
-								$(this).prev().css('display', '');
-								$(this).remove();
 							});
-					}
+							$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
+								.insertAfter(thread.find('span.omitted').css('display', 'none'))
+								.click(function() {
+									thread.find('.expanded').remove();
+									$(this).prev().css('display', '');
+									$(this).remove();
+								});
+						}
+					});
 				});
-			});
-	}
-
-	$('div.post.op span.omitted').each(do_expand);
-
-	$(document).bind("new_post", function(e, post) {
-		if (!$(post).hasClass("reply")) {
-			$(post).find('div.post.op span.omitted').each(do_expand);
 		}
+
+		$('div.post.op span.omitted').each(do_expand);
+
+		$(document).bind("new_post", function(e, post) {
+			if (!$(post).hasClass("reply")) {
+				$(post).find('div.post.op span.omitted').each(do_expand);
+			}
+		});
 	});
 });
