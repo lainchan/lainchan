@@ -208,9 +208,9 @@ function setupVideosIn(element) {
     }
 }
 
-if (window.addEventListener) window.addEventListener("load", function(e) {
+onready(function(){
     // Insert menu from settings.js
-    if (typeof settingsMenu != "undefined") document.body.insertBefore(settingsMenu, document.body.firstChild);
+    if (typeof settingsMenu != "undefined") document.body.insertBefore(settingsMenu, document.getElementsByTagName("hr")[0]);
 
     // Setup Javascript events for videos in document now
     setupVideosIn(document);
@@ -231,5 +231,5 @@ if (window.addEventListener) window.addEventListener("load", function(e) {
         });
         observer.observe(document.body, {childList: true, subtree: true});
     }
-}, false);
+});
 
