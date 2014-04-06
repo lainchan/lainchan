@@ -1,6 +1,10 @@
 /* This file is dedicated to the public domain; you may do as you wish with it. */
 /* Note: This code expects the global variable configRoot to be set. */
 
+if (typeof _ == 'undefined') {
+  var _ = function(a) { return a; };
+}
+
 function setupVideo(thumb, url) {
     var video = null;
     var videoContainer, videoHide;
@@ -38,7 +42,7 @@ function setupVideo(thumb, url) {
             video = document.createElement("video");
             video.src = url;
             video.loop = loop;
-            video.innerText = "Your browser does not support HTML5 video.";
+            video.innerText = _("Your browser does not support HTML5 video.");
 
             videoHide = document.createElement("img");
             videoHide.src = configRoot + "static/collapse.gif";
@@ -182,8 +186,8 @@ function setupVideo(thumb, url) {
         }, false);
     }
 
-    loopControls[0].textContent = "[play once]";
-    loopControls[1].textContent = "[loop]";
+    loopControls[0].textContent = _("[play once]");
+    loopControls[1].textContent = _("[loop]");
     loopControls[1].style.fontWeight = "bold";
     for (var i = 0; i < 2; i++) {
         setupLoopControl(i);
