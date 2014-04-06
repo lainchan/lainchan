@@ -582,9 +582,3 @@ form.ban-appeal textarea {
         padding: 0px;
         margin: 10px 25px 5px 5px;
     }
-    span.settings {
-        position: fixed;
-        top: 1em;
-        right: 1em;
-    }
-
