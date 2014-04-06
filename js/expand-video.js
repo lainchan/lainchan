@@ -41,7 +41,7 @@ function setupVideo(thumb, url) {
             video.innerText = "Your browser does not support HTML5 video.";
 
             videoHide = document.createElement("img");
-            videoHide.src = configRoot + "cc/collapse.gif";
+            videoHide.src = configRoot + "static/collapse.gif";
             videoHide.alt = "[ - ]";
             videoHide.title = "Collapse video";
             videoHide.style.marginLeft = "-15px";
