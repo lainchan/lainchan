@@ -33,7 +33,7 @@ function changeSetting(name, value) {
 // Create settings menu
 var settingsMenu = document.createElement("span");
 settingsMenu.className = "settings";
-settingsMenu.innerHTML = '<span>[Settings]</span>'
+settingsMenu.innerHTML = '<span>[WebM Settings]</span>'
     + '<div style="display: none; text-align: left; position: absolute; right: 0px; margin-left: -999em; margin-top: -1px; padding-top: 1px;">'
     + '<label><input type="checkbox" name="videoexpand">Expand videos inline</label><br>'
     + '<label><input type="checkbox" name="videohover">Play videos on hover</label><br>'
