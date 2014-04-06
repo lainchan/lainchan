@@ -570,3 +570,21 @@ form.ban-appeal textarea {
         display: inline-block;
 	vertical-align: middle;
 }
+
+/* Containerchan */
+    video.post-image {
+        display: block;
+        float: left;
+        margin: 10px 20px;
+        border: none;
+    }
+    div.post video.post-image {
+        padding: 0px;
+        margin: 10px 25px 5px 5px;
+    }
+    span.settings {
+        position: fixed;
+        top: 1em;
+        right: 1em;
+    }
+
