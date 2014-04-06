@@ -228,6 +228,12 @@ function loadConfig() {
 		require_once 'inc/lib/recaptcha/recaptchalib.php';
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
+
+	if (in_array('webm', $config['allowed_ext_files'])) {
+		require_once 'inc/lib/webm/posthandler.php';
+		event_handler('post', 'postHandler');
+	}
+
 	event('load-config');
 	
 	if ($config['debug']) {
