@@ -7,9 +7,9 @@ $loop = ($_GET['loop'] != "0");
 <head>
     <meta charset="utf-8">
     <title><?php echo htmlspecialchars($_GET['t']); ?></title>
-    <link rel="stylesheet" href="playerstyle.css">
-    <script src="settings.js"></script>
-    <script src="playersettings.js"></script>
+    <link rel="stylesheet" href="stylesheets/webm/playerstyle.css">
+    <script src="js/webm-settings.js"></script>
+    <script src="js/webm/playersettings.js"></script>
 </head>
 <body>
     <div id="playerheader">
