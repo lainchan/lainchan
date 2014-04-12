@@ -2,7 +2,7 @@
  
 
 /*
- *  Copyright (c) 2010-2013 Tinyboard Development Group
+ *  Copyright (c) 2010-2014 Tinyboard Development Group
  */
 //
 require 'inc/functions.php';
