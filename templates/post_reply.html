@@ -5,35 +5,14 @@
 <p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
-		{% if post.subject|length > 0 %}
-			{# show subject #}
-			<span class="subject">{{ post.subject|bidi_cleanup }}</span> 
-		{% endif %}
-		{% if post.email|length > 0 %}
-			{# start email #}
-			<a class="email" href="mailto:{{ post.email }}">
-		{% endif %}
-		{% set capcode = post.capcode|capcode %}
-		<span {% if capcode.name %}style="{{ capcode.name }}" {% endif %}class="name">{{ post.name|bidi_cleanup }}</span>
-		{% if post.trip|length > 0 %}
-			<span {% if capcode.trip %}style="{{ capcode.trip }}" {% endif %}class="trip">{{ post.trip }}</span>
-		{% endif %}
-		{% if post.email|length > 0 %}
-			{# end email #}
-			</a>
-		{% endif %}
-		{% if capcode %}
-			{{ capcode.cap }}
-		{% endif %}
-		{% if post.mod and post.mod|hasPermission(config.mod.show_ip, board.uri) %}
-			 [<a class="ip-link" style="margin:0;" href="?/IP/{{ post.ip }}">{{ post.ip }}</a>]
-		{% endif %}
+		{% include 'post/subject.html' %}
+		{% include 'post/name.html' %}
+		{% include 'post/ip.html' %}
 		{% include 'post/flag.html' %}
-		 <time datetime="{{ post.time|date('%Y-%m-%dT%H:%M:%S') }}{{ timezone() }}">{{ post.time|date(config.post_date) }}</time>
+		{% include 'post/time.html' %}
 	</label>
-	{% if config.poster_ids %}
-		 ID: {{ post.ip|poster_id(post.thread) }}
-	{% endif %}
+	{% include 'post/poster_id.html' %}
+
 	 <a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? highlightReply({{ post.id }}) : true;" href="{{ post.link }}">No.</a>
 	<a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? citeReply({{ post.id }}) : true;" href="{{ post.link('q') }}">
 		{{ post.id }}
