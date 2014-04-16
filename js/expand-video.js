@@ -6,6 +6,9 @@ if (typeof _ == 'undefined') {
 }
 
 function setupVideo(thumb, url) {
+    if (thumb.videoAlreadySetUp) return;
+    thumb.videoAlreadySetUp = true;
+
     var video = null;
     var videoContainer, videoHide;
     var expanded = false;
