@@ -37,7 +37,7 @@ $options['quick'] = isset($opts['quick']);
 $options['full'] = isset($opts['full']) || isset($opts['f']);
 
 if(!$options['quiet'])
-	echo "== Tinyboard {$config['version']} ==\n";	
+	echo "== Tinyboard + vichan {$config['version']} ==\n";	
 
 if(!$options['quiet'])
 	echo "Clearing template cache...\n";
