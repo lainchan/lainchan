@@ -25,7 +25,7 @@ THE SOFTWARE.
 This code is licensed under BOTH a vichan license and a Tinyboard license.
 You must agree to both (not either) licensing terms in order to use this
 software. The original Tinyboard license can be found in a LICENSE.Tinyboard.md
-file, it is included below for a convenience:
+file, it is included below for your convenience:
 
 Copyright (c) 2010-2014 Tinyboard Development Group (tinyboard.org)
 
