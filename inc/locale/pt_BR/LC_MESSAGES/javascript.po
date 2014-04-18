@@ -4,13 +4,14 @@
 # 
 # Translators:
 # anaodev <daniel@agenciaredpanda.com>, 2014
+# hitmonkey <sac@55ch.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 21:48+0000\n"
-"Last-Translator: anaodev <daniel@agenciaredpanda.com>\n"
+"PO-Revision-Date: 2014-04-18 22:34+0000\n"
+"Last-Translator: hitmonkey <sac@55ch.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +45,7 @@ msgstr "mostrar"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Show locked threads"
-msgstr "Mostrar threads fechadas"
+msgstr "Mostrar threads trancadas"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -53,7 +54,7 @@ msgstr "Mostrar threads fechadas"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Hide locked threads"
-msgstr "Esconder threads fechadas"
+msgstr "Esconder threads trancadas"
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
 msgid "URL"
@@ -107,16 +108,16 @@ msgstr "Deletar"
 #: ../../../../js/quick-post-controls.js:35
 #: ../../../../js/quick-post-controls.js:37
 msgid "Reason"
-msgstr "Razão"
+msgstr "Motivo"
 
 #: ../../../../js/quick-post-controls.js:37
 #: ../../../../js/quick-post-controls.js:39
 msgid "Report"
-msgstr "Reportar"
+msgstr "Denunciar"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr "Clique para ver a resposta."
+msgstr "Clique em responder para ver a resposta."
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click to expand"
@@ -148,7 +149,7 @@ msgstr "Carregar"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr "Alternar apagador"
+msgstr "Alternar borracha."
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
@@ -197,7 +198,7 @@ msgstr "desabilitado"
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sun"
-msgstr "Domingo"
+msgstr "Dom"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
@@ -249,7 +250,7 @@ msgstr "Resposta rápida"
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr "Modo de mensagem: Respondendo a <small>&gt;&gt;{0}</small>"
+msgstr "Modo de resposta: Respondendo a <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
@@ -302,7 +303,7 @@ msgstr "Salvar com nome de arquivo original"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr "Post(s) reportado(s)"
+msgstr "Post(s) denunciado(s)."
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
@@ -318,11 +319,11 @@ msgstr "Trabalhando..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr "Postando... (#%)"
+msgstr "Enviando... (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
-msgstr "Postado..."
+msgstr "Enviado..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
@@ -340,7 +341,7 @@ msgstr "URL de upload"
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
 #: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
-msgstr "Spoiler imagem"
+msgstr "Imagem Spoiler"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
@@ -523,23 +524,23 @@ msgstr "Dez"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
-msgstr "Manhã"
+msgstr "AM"
 
 #: ../../../../js/local-time.js:34
 msgid "PM"
-msgstr "Noite"
+msgstr "PM"
 
 #: ../../../../js/local-time.js:35
 msgid "am"
-msgstr "manhã"
+msgstr "am"
 
 #: ../../../../js/local-time.js:36
 msgid "pm"
-msgstr "noite"
+msgstr "pm"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr "Seu browser não suporta HTML5 video."
+msgstr "Seu browser não suporta videos em HTML5."
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
