@@ -149,6 +149,10 @@ if (isset($_POST['delete'])) {
 } elseif (isset($_POST['post'])) {
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
+
+	// Check if board exists
+	if (!openBoard($post['board']))
+		error($config['error']['noboard']);
 	
 	if (!isset($_POST['name']))
 		$_POST['name'] = $config['anonymous'];
@@ -172,7 +176,7 @@ if (isset($_POST['delete'])) {
 		$post['thread'] = round($_POST['quick-reply']);
 	} else
 		$post['op'] = true;
-	
+
 	if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
 	    (!$post['op'] && $_POST['post'] == $config['button_reply'])))
 		error($config['error']['bot']);
@@ -184,10 +188,6 @@ if (isset($_POST['delete'])) {
 	
 	checkDNSBL();
 		
-	// Check if board exists
-	if (!openBoard($post['board']))
-		error($config['error']['noboard']);
-	
 	// Check if banned
 	checkBan($board['uri']);
 	
