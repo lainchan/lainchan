@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# anaodev <daniel@agenciaredpanda.com>, 2014
+# anaodev <xmas@yopmail.com>, 2014
 # hitmonkey <sac@55ch.org>, 2014
+# anaodev <xmas@yopmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 22:34+0000\n"
-"Last-Translator: hitmonkey <sac@55ch.org>\n"
+"PO-Revision-Date: 2014-04-18 22:49+0000\n"
+"Last-Translator: anaodev <xmas@yopmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
-msgstr "Estilo:"
+msgstr "Estilo: "
 
 #: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
