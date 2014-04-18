@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# dubcheck <admin@alokal.eu>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Tinyboard+vichan-devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 17:26+0000\n"
-"Last-Translator: czaks <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-04-18 18:36+0000\n"
+"Last-Translator: dubcheck <admin@alokal.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,51 +128,51 @@ msgstr "Skryť zobrazené odpovede"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr ""
+msgstr "Veľkosť štetca"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
-msgstr ""
+msgstr "Nastaviť text"
 
 #: ../../../../js/oekaki.js:10
 msgid "Clear"
-msgstr ""
+msgstr "Vyčistiť"
 
 #: ../../../../js/oekaki.js:10
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: ../../../../js/oekaki.js:10
 msgid "Load"
-msgstr ""
+msgstr "Načítať"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr ""
+msgstr "Zmeniť gumu"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
-msgstr ""
+msgstr "Vybrať farbu"
 
 #: ../../../../js/oekaki.js:11
 msgid "Fill"
-msgstr ""
+msgstr "Vyplniť"
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
-msgstr ""
+msgstr "Použiť miesto súboru oekaki?"
 
 #: ../../../../js/oekaki.js:21
 msgid "Edit in oekaki"
-msgstr ""
+msgstr "Upraviť v oekaki"
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr ""
+msgstr "Napíš nejaký text"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr ""
+msgstr "Vlož písmo alebo nechaj prázdne"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -538,28 +539,28 @@ msgstr "poobede"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr ""
+msgstr "Tvoj prehliadač nepodporuje HTML5 videá."
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
-msgstr ""
+msgstr "[hrať raz]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 msgid "[loop]"
-msgstr ""
+msgstr "[slučka]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr ""
+msgstr "Nastavenia WebM"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr ""
+msgstr "Otvoriť videá v riadku"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr ""
+msgstr "Spustiť videá pri ukázaní na ne"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr ""
+msgstr "Pôvodná hlasitosť"
