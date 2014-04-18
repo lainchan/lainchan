@@ -1273,7 +1273,9 @@ function make_comment_hex($str) {
 	if (function_exists('iconv')) {
 		// remove diacritics and other noise
 		// FIXME: this removes cyrillic entirely
-		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		$oldstr = $str;
+		$str = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		if (!$str) $str = $oldstr;
 	}
 
 	$str = strtolower($str);
