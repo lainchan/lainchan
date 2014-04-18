@@ -68,6 +68,7 @@ $(document).ready(function(){
 						delete hidden_data[board][id];
 						store_data();
 						thread_container.find(fields_to_hide).show();
+						thread_container.find(".hidden").hide();
 						$(this).remove();
 						hidden_div.remove();
 					});
