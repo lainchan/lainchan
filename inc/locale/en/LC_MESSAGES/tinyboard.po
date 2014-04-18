@@ -2196,15 +2196,12 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 msgid "and it was denied. You may not appeal this ban again."
 msgstr ""
-"i została ona odrzucona. Nie mozesz apelować o zdjęcie tego bana ponownie."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
 msgid ""
 "You have submitted the maximum number of ban appeals allowed. You may not "
 "appeal this ban again."
 msgstr ""
-"Wysłałeś maksymalną możliwą ilość apelacji. Nie możesz apelować o zdjęcie "
-"tego bana ponownie."
 
 #. line 114
 #. line 121
@@ -2239,7 +2236,6 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:323
 msgid "You may appeal this ban again. Please enter your reasoning below."
 msgstr ""
-"Możesz apelować o zdjęcie tego bana ponownie. Wpisz poniżej swoje powody."
 
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
