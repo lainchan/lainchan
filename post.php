@@ -150,6 +150,8 @@ if (isset($_POST['delete'])) {
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
 
+	$post = array('board' => $_POST['board']);
+
 	// Check if board exists
 	if (!openBoard($post['board']))
 		error($config['error']['noboard']);
@@ -164,9 +166,7 @@ if (isset($_POST['delete'])) {
 		$_POST['subject'] = '';
 	
 	if (!isset($_POST['password']))
-		$_POST['password'] = '';
-	
-	$post = array('board' => $_POST['board']);
+		$_POST['password'] = '';	
 	
 	if (isset($_POST['thread'])) {
 		$post['op'] = false;
