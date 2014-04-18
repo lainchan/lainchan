@@ -2,15 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Translators:
-# anaodev <daniel@agenciaredpanda.com>, 2014
+# anaodev <xmas@yopmail.com>, 2014
 # hitmonkey <sac@55ch.org>, 2014
+# anaodev <xmas@yopmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 22:25+0000\n"
-"Last-Translator: hitmonkey <sac@55ch.org>\n"
+"PO-Revision-Date: 2014-04-18 23:04+0000\n"
+"Last-Translator: anaodev <xmas@yopmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "Tem certeza que quer deletar esse arquivo?"
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 msgid "Spoiler File"
-msgstr "Arquivo Spoiler"
+msgstr "Arquivo spoiler"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
@@ -223,7 +224,7 @@ msgstr "Pinar tópico"
 #: ../../../../inc/display.php:496 ../../../../inc/display.php:518
 #: ../../../../inc/display.php:521
 msgid "Allow thread to be bumped"
-msgstr "Retirar limite de bump."
+msgstr "Retirar limite de bump"
 
 #: ../../../../inc/display.php:498 ../../../../inc/display.php:520
 #: ../../../../inc/display.php:523
