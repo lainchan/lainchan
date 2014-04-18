@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-23 19:40+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2014-04-18 19:24+0200\n"
+"PO-Revision-Date: 2014-04-18 18:51+0000\n"
+"Last-Translator: czaks <marcin@6irc.net>\n"
+"Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
@@ -332,19 +332,23 @@ msgid "Posting..."
 msgstr "Posteando..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
+#: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
 msgstr "Subir URL"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
+#: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
 msgstr "Imagen Spoiler"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
+#: ../../../../js/quick-reply.js:279
 msgid "Comment"
 msgstr "Comentario"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
+#: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
 msgstr "Respuesta rápida"
 
@@ -531,3 +535,31 @@ msgstr "am"
 #: ../../../../js/local-time.js:36
 msgid "pm"
 msgstr "pm"
+
+#: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
+msgid "Your browser does not support HTML5 video."
+msgstr ""
+
+#: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
+msgid "[play once]"
+msgstr ""
+
+#: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
+msgid "[loop]"
+msgstr ""
+
+#: ../../../../js/webm-settings.js:42
+msgid "WebM Settings"
+msgstr ""
+
+#: ../../../../js/webm-settings.js:44
+msgid "Expand videos inline"
+msgstr ""
+
+#: ../../../../js/webm-settings.js:45
+msgid "Play videos on hover"
+msgstr ""
+
+#: ../../../../js/webm-settings.js:46
+msgid "Default volume"
+msgstr ""

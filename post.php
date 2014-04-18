@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright (c) 2010-2013 Tinyboard Development Group
+ *  Copyright (c) 2010-2014 Tinyboard Development Group
  */
 
 require 'inc/functions.php';
@@ -149,6 +149,12 @@ if (isset($_POST['delete'])) {
 } elseif (isset($_POST['post'])) {
 	if (!isset($_POST['body'], $_POST['board']))
 		error($config['error']['bot']);
+
+	$post = array('board' => $_POST['board']);
+
+	// Check if board exists
+	if (!openBoard($post['board']))
+		error($config['error']['noboard']);
 	
 	if (!isset($_POST['name']))
 		$_POST['name'] = $config['anonymous'];
@@ -160,9 +166,7 @@ if (isset($_POST['delete'])) {
 		$_POST['subject'] = '';
 	
 	if (!isset($_POST['password']))
-		$_POST['password'] = '';
-	
-	$post = array('board' => $_POST['board']);
+		$_POST['password'] = '';	
 	
 	if (isset($_POST['thread'])) {
 		$post['op'] = false;
@@ -172,7 +176,7 @@ if (isset($_POST['delete'])) {
 		$post['thread'] = round($_POST['quick-reply']);
 	} else
 		$post['op'] = true;
-	
+
 	if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
 	    (!$post['op'] && $_POST['post'] == $config['button_reply'])))
 		error($config['error']['bot']);
@@ -184,10 +188,6 @@ if (isset($_POST['delete'])) {
 	
 	checkDNSBL();
 		
-	// Check if board exists
-	if (!openBoard($post['board']))
-		error($config['error']['noboard']);
-	
 	// Check if banned
 	checkBan($board['uri']);
 	

@@ -101,7 +101,7 @@
 				{{ antibot.html() }}
 			</th>
 			<td>
-				<input type="text" name="embed" size="30" maxlength="120" autocomplete="off">
+				<input type="text" name="embed" value="" size="30" maxlength="120" autocomplete="off">
 			</td>
 		</tr>
 		{% endif %}
@@ -130,9 +130,14 @@
 			<th>
 				{% trans %}Password{% endtrans %}
 				{{ antibot.html() }}
+				<!-- Chrome, you suck so hard with your autofill mechanism -->
+				<!-- I tried N different tricks, this sucks most, but only this one -->
+				<!-- disables autofill successfully -->
+				<input type='text' style='display: none'>
+				<input type='password' style='display: none'>
 			</th>
 			<td>
-				<input type="password" name="password" size="12" maxlength="18" autocomplete="off"> 
+				<input type="password" name="password" value="" size="12" maxlength="18" autocomplete="off"> 
 				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
 				{{ antibot.html() }}
 			</td>

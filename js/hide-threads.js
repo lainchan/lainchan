@@ -35,6 +35,8 @@ $(document).ready(function(){
 			}
 		}
 	}
+
+	var fields_to_hide = 'div.post,div.video-container,video,img,p.fileinfo,a.hide-thread-link,br';
 	
 	var do_hide_threads = function() {
 		var id = $(this).children('p.intro').children('a.post_no:eq(1)').text();
@@ -52,7 +54,7 @@ $(document).ready(function(){
 				hidden_data[board][id] = Math.round(Date.now() / 1000);
 				store_data();
 				
-				thread_container.find('div.post,div.video-container,img,p.fileinfo,a.hide-thread-link,br').hide();
+				thread_container.find(fields_to_hide).hide();
 				
 				var hidden_div = thread_container.find('div.post.op > p.intro').clone();
 				hidden_div.addClass('thread-hidden');
@@ -65,7 +67,8 @@ $(document).ready(function(){
 					.click(function() {
 						delete hidden_data[board][id];
 						store_data();
-						thread_container.find('div.post,div.video-container,img,p.fileinfo,a.hide-thread-link,br').show();
+						thread_container.find(fields_to_hide).show();
+						thread_container.find(".hidden").hide();
 						$(this).remove();
 						hidden_div.remove();
 					});

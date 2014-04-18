@@ -228,6 +228,12 @@ function loadConfig() {
 		require_once 'inc/lib/recaptcha/recaptchalib.php';
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
+
+	if (in_array('webm', $config['allowed_ext_files'])) {
+		require_once 'inc/lib/webm/posthandler.php';
+		event_handler('post', 'postHandler');
+	}
+
 	event('load-config');
 	
 	if ($config['debug']) {
@@ -1267,7 +1273,9 @@ function make_comment_hex($str) {
 	if (function_exists('iconv')) {
 		// remove diacritics and other noise
 		// FIXME: this removes cyrillic entirely
-		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		$oldstr = $str;
+		$str = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+		if (!$str) $str = $oldstr;
 	}
 
 	$str = strtolower($str);

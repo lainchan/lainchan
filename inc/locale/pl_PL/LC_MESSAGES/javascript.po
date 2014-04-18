@@ -1,91 +1,41 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# czaks <marcin@6irc.net>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-23 19:40+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2014-04-18 19:24+0200\n"
+"PO-Revision-Date: 2014-04-18 18:51+0000\n"
+"Last-Translator: czaks <marcin@6irc.net>\n"
+"Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pl_PL\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../../../../js/quick-reply.js:20 ../../../../js/quick-reply.js:21
-#: ../../../../js/quick-reply-old.js:21 ../../../../js/quick-reply-old.js:23
-msgid "Submit"
-msgstr "Wyślij"
+#: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
+msgid "Style: "
+msgstr "Styl: "
 
-#: ../../../../js/quick-reply.js:30 ../../../../js/quick-reply.js:31
-#: ../../../../js/quick-reply-old.js:31 ../../../../js/quick-reply-old.js:33
-msgid "Quick reply"
-msgstr "Szybka odpowiedź"
+#: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
+#: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
+#: ../../../../js/quick-post-controls.js:32
+#: ../../../../js/upload-selection.js:61
+msgid "File"
+msgstr "Plik"
 
-#: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
-#: ../../../../js/quick-reply-old.js:33 ../../../../js/quick-reply-old.js:35
-#, python-brace-format
-msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
+#: ../../../../js/hide-images.js:50 ../../../../js/hide-images.js:51
+msgid "hide"
+msgstr "ukryj"
 
-#: ../../../../js/quick-reply.js:32 ../../../../js/quick-reply.js:33
-#: ../../../../js/quick-reply-old.js:33 ../../../../js/quick-reply-old.js:35
-msgid "Return"
-msgstr "Powrót"
-
-#: ../../../../js/expand.js:20 ../../../../js/expand.js:22
-msgid "Click reply to view."
-msgstr "Kliknij Odpowiedź aby zobaczyć."
-
-#: ../../../../js/expand.js:20 ../../../../js/expand.js:22
-msgid "Click to expand"
-msgstr "Kliknij aby rozwinąć"
-
-#: ../../../../js/expand.js:41 ../../../../js/expand.js:45
-#: ../../../../js/expand.js:43 ../../../../js/expand.js:44
-#: ../../../../js/expand.js:46
-msgid "Hide expanded replies"
-msgstr "Schowaj rozwinięte odpowiedzi"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Mon"
-msgstr "pon"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Tue"
-msgstr "wto"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Wed"
-msgstr "śro"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Thu"
-msgstr "czw"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Fri"
-msgstr "pią"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Sat"
-msgstr "sob"
-
-#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
-msgid "Sun"
-msgstr "nie"
+#: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
+msgid "show"
+msgstr "pokaż"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -104,117 +54,6 @@ msgstr "Pokaż zablokowane tematy"
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Hide locked threads"
 msgstr "Schowaj zablokowane tematy"
-
-#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
-#: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
-#: ../../../../js/forced-anon.js:66 ../../../../js/forced-anon.js:70
-#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
-#: ../../../../js/forced-anon.js:71
-msgid "Forced anonymity"
-msgstr "Wymuszona anonimowość"
-
-#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
-#: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
-#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
-msgid "enabled"
-msgstr "włączona"
-
-#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
-#: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
-#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
-msgid "disabled"
-msgstr "wyłączona"
-
-#: ../../../../js/quick-post-controls.js:27
-#: ../../../../js/quick-post-controls.js:29
-msgid "Password"
-msgstr "Hasło"
-
-#: ../../../../js/quick-post-controls.js:29
-#: ../../../../js/quick-post-controls.js:31
-msgid "Delete file only"
-msgstr "Usuń tylko plik"
-
-#: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:50
-#: ../../../../js/upload-selection.js:51 ../../../../js/hide-images.js:51
-#: ../../../../js/quick-post-controls.js:32
-#: ../../../../js/upload-selection.js:61
-msgid "File"
-msgstr "Plik"
-
-#: ../../../../js/quick-post-controls.js:31
-#: ../../../../js/quick-post-controls.js:33
-msgid "Delete"
-msgstr "Usuń"
-
-#: ../../../../js/quick-post-controls.js:35
-#: ../../../../js/quick-post-controls.js:37
-msgid "Reason"
-msgstr "Powód"
-
-#: ../../../../js/quick-post-controls.js:37
-#: ../../../../js/quick-post-controls.js:39
-msgid "Report"
-msgstr "Zgłoszenie"
-
-#: ../../../../js/hide-images.js:50 ../../../../js/hide-images.js:51
-msgid "hide"
-msgstr "ukryj"
-
-#: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
-msgid "show"
-msgstr "pokaż"
-
-#: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
-msgid "hidden"
-msgstr "ukryte"
-
-#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
-#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
-msgid "Show images"
-msgstr "Pokaż obrazki"
-
-#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
-#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
-msgid "Hide images"
-msgstr "Ukryj obrazki"
-
-#: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
-msgid "Style: "
-msgstr "Styl: "
-
-#: ../../../../templates/main.js:6
-msgid "Hello!"
-msgstr "Witaj!"
-
-#: ../../../../templates/main.js:18
-#, python-brace-format
-msgid "{0} users"
-msgstr "{0} użytkowników"
-
-#: ../../../../templates/themes/ukko/ukko.js:28
-#: ../../../../templates/themes/ukko/ukko.js:39
-#: ../../../../templates/themes/ukko/ukko.js:29
-#: ../../../../templates/themes/ukko/ukko.js:40
-msgid "(hide threads from this board)"
-msgstr "(schowaj wątki z tego boardu)"
-
-#: ../../../../templates/themes/ukko/ukko.js:32
-#: ../../../../templates/themes/ukko/ukko.js:44
-#: ../../../../templates/themes/ukko/ukko.js:33
-#: ../../../../templates/themes/ukko/ukko.js:45
-msgid "(show threads from this board)"
-msgstr "(pokaż wątki z tego boardu)"
-
-#: ../../../../templates/themes/ukko/ukko.js:57
-#: ../../../../templates/themes/ukko/ukko.js:58
-msgid "No more threads to display"
-msgstr "Nie ma więcej wątków do wyświetlenia"
-
-#: ../../../../templates/themes/ukko/ukko.js:79
-#: ../../../../templates/themes/ukko/ukko.js:80
-msgid "Loading..."
-msgstr "Ładowanie..."
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
 msgid "URL"
@@ -235,6 +74,57 @@ msgstr "Osadź"
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
 msgid "Oekaki"
 msgstr "Oekaki"
+
+#: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
+msgid "hidden"
+msgstr "ukryte"
+
+#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
+#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+msgid "Show images"
+msgstr "Pokaż obrazki"
+
+#: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
+#: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+msgid "Hide images"
+msgstr "Ukryj obrazki"
+
+#: ../../../../js/quick-post-controls.js:27
+#: ../../../../js/quick-post-controls.js:29
+msgid "Password"
+msgstr "Hasło"
+
+#: ../../../../js/quick-post-controls.js:29
+#: ../../../../js/quick-post-controls.js:31
+msgid "Delete file only"
+msgstr "Usuń tylko plik"
+
+#: ../../../../js/quick-post-controls.js:31
+#: ../../../../js/quick-post-controls.js:33
+msgid "Delete"
+msgstr "Usuń"
+
+#: ../../../../js/quick-post-controls.js:35
+#: ../../../../js/quick-post-controls.js:37
+msgid "Reason"
+msgstr "Powód"
+
+#: ../../../../js/quick-post-controls.js:37
+#: ../../../../js/quick-post-controls.js:39
+msgid "Report"
+msgstr "Zgłoszenie"
+
+#: ../../../../js/expand.js:20 ../../../../js/expand.js:22
+msgid "Click reply to view."
+msgstr "Kliknij Odpowiedź aby zobaczyć."
+
+#: ../../../../js/expand.js:20 ../../../../js/expand.js:22
+msgid "Click to expand"
+msgstr "Kliknij aby rozwinąć"
+
+#: ../../../../js/expand.js:44 ../../../../js/expand.js:46
+msgid "Hide expanded replies"
+msgstr "Schowaj rozwinięte odpowiedzi"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
@@ -284,17 +174,126 @@ msgstr "Podaj jakiś tekst"
 msgid "Enter font or leave empty"
 msgstr "Podaj czcionkę, bądź pozostaw puste"
 
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
+#: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
+#: ../../../../js/forced-anon.js:66 ../../../../js/forced-anon.js:70
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
+#: ../../../../js/forced-anon.js:71
+msgid "Forced anonymity"
+msgstr "Wymuszona anonimowość"
+
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
+#: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
+msgid "enabled"
+msgstr "włączona"
+
+#: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
+#: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
+#: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
+msgid "disabled"
+msgstr "wyłączona"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Sun"
+msgstr "nie"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Mon"
+msgstr "pon"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Tue"
+msgstr "wto"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Wed"
+msgstr "śro"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Thu"
+msgstr "czw"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Fri"
+msgstr "pią"
+
+#: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
+msgid "Sat"
+msgstr "sob"
+
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
 msgid "Catalog"
 msgstr "Katalog"
 
+#: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
+#: ../../../../js/quick-reply-old.js:23
+msgid "Submit"
+msgstr "Wyślij"
+
+#: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
+#: ../../../../js/quick-reply-old.js:33
+msgid "Quick reply"
+msgstr "Szybka odpowiedź"
+
+#: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
+#: ../../../../js/quick-reply-old.js:35
+#, python-brace-format
+msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
+msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
+
+#: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
+#: ../../../../js/quick-reply-old.js:35
+msgid "Return"
+msgstr "Powrót"
+
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
 #: ../../../../js/expand-all-images.js:22
 msgid "Expand all images"
 msgstr "Rozwiń wszystkie obrazki"
+
+#: ../../../../templates/main.js:6
+msgid "Hello!"
+msgstr "Witaj!"
+
+#: ../../../../templates/main.js:18
+#, python-brace-format
+msgid "{0} users"
+msgstr "{0} użytkowników"
+
+#: ../../../../templates/themes/ukko/ukko.js:28
+#: ../../../../templates/themes/ukko/ukko.js:39
+#: ../../../../templates/themes/ukko/ukko.js:29
+#: ../../../../templates/themes/ukko/ukko.js:40
+msgid "(hide threads from this board)"
+msgstr "(schowaj wątki z tego boardu)"
+
+#: ../../../../templates/themes/ukko/ukko.js:32
+#: ../../../../templates/themes/ukko/ukko.js:44
+#: ../../../../templates/themes/ukko/ukko.js:33
+#: ../../../../templates/themes/ukko/ukko.js:45
+msgid "(show threads from this board)"
+msgstr "(pokaż wątki z tego boardu)"
+
+#: ../../../../templates/themes/ukko/ukko.js:57
+#: ../../../../templates/themes/ukko/ukko.js:58
+msgid "No more threads to display"
+msgstr "Nie ma więcej wątków do wyświetlenia"
+
+#: ../../../../templates/themes/ukko/ukko.js:79
+#: ../../../../templates/themes/ukko/ukko.js:80
+msgid "Loading..."
+msgstr "Ładowanie..."
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
@@ -334,19 +333,23 @@ msgid "Posting..."
 msgstr "Postowanie..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
+#: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
 msgstr "Wyślij URL"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
+#: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
 msgstr "Schowaj obrazek"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
+#: ../../../../js/quick-reply.js:279
 msgid "Comment"
 msgstr "Komentarz"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
+#: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
 msgstr "Szybka odpowiedź"
 
@@ -396,9 +399,7 @@ msgstr "Obserwuj ten board"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
-msgstr ""
-"Kliknij w jakikolwiek obrazek na tej stronie aby załadować go do apletu "
-"oekaki"
+msgstr "Kliknij w jakikolwiek obrazek na tej stronie aby załadować go do apletu oekaki"
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
@@ -535,3 +536,31 @@ msgstr "am"
 #: ../../../../js/local-time.js:36
 msgid "pm"
 msgstr "pm"
+
+#: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
+msgid "Your browser does not support HTML5 video."
+msgstr "Twoja przeglądarka nie obsługuje wideo HTML5."
+
+#: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
+msgid "[play once]"
+msgstr "[puść raz]"
+
+#: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
+msgid "[loop]"
+msgstr "[zapętl]"
+
+#: ../../../../js/webm-settings.js:42
+msgid "WebM Settings"
+msgstr "Ustawienia WebM"
+
+#: ../../../../js/webm-settings.js:44
+msgid "Expand videos inline"
+msgstr "Rozwiń wideo w miejscu"
+
+#: ../../../../js/webm-settings.js:45
+msgid "Play videos on hover"
+msgstr "Puszczaj wideo po najechaniu"
+
+#: ../../../../js/webm-settings.js:46
+msgid "Default volume"
+msgstr "Domyślna głośność"

@@ -36,6 +36,7 @@
 			display: block;\
 			padding: 0 0 0 0;\
 			width: 300px;\
+			z-index: 100;\
 		}\
 		#quick-reply table {\
 			border-collapse: collapse;\
