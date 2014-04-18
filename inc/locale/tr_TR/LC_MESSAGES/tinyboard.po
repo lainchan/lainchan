@@ -5,10 +5,10 @@
 # Tunai <tunayuyar39@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Tinyboard+vichan-devel\n"
+"Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 17:38+0000\n"
+"PO-Revision-Date: 2014-04-18 20:50+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"

@@ -2,13 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Translators:
+# anaodev <daniel@agenciaredpanda.com>, 2014
+# hitmonkey <sac@55ch.org>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Tinyboard+vichan-devel\n"
+"Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 17:38+0000\n"
-"Last-Translator: czaks <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-04-18 21:49+0000\n"
+"Last-Translator: hitmonkey <sac@55ch.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +25,8 @@ msgstr ""
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "segundos"
+msgstr[1] "segundos"
 
 #: ../../../../inc/functions.php:585 ../../../../inc/functions.php:602
 #: ../../../../inc/functions.php:593 ../../../../inc/functions.php:610
@@ -33,8 +35,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "segundos"
+msgstr[1] "minutos"
 
 #: ../../../../inc/functions.php:587 ../../../../inc/functions.php:604
 #: ../../../../inc/functions.php:595 ../../../../inc/functions.php:612
@@ -43,8 +45,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:633 ../../../../inc/functions.php:650
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hora"
+msgstr[1] "horas"
 
 #: ../../../../inc/functions.php:589 ../../../../inc/functions.php:606
 #: ../../../../inc/functions.php:597 ../../../../inc/functions.php:614
@@ -53,8 +55,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:635 ../../../../inc/functions.php:652
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "dia"
+msgstr[1] "dias"
 
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
 #: ../../../../inc/functions.php:599 ../../../../inc/functions.php:616
@@ -63,8 +65,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:637 ../../../../inc/functions.php:654
 msgid "week"
 msgid_plural "weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "semana"
+msgstr[1] "semanas"
 
 #: ../../../../inc/functions.php:594 ../../../../inc/functions.php:611
 #: ../../../../inc/functions.php:602 ../../../../inc/functions.php:619
@@ -73,14 +75,14 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:640 ../../../../inc/functions.php:657
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ano"
+msgstr[1] "anos"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
 #: ../../../../inc/functions.php:708
 msgid "Banned!"
-msgstr ""
+msgstr "banido!"
 
 #. There is no previous page.
 #: ../../../../inc/functions.php:1125 ../../../../inc/functions.php:1139
@@ -105,12 +107,12 @@ msgstr "Proximo"
 #: ../../../../inc/display.php:93 ../../../../inc/display.php:105
 #: ../../../../inc/display.php:108
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: ../../../../inc/display.php:94 ../../../../inc/display.php:106
 #: ../../../../inc/display.php:109
 msgid "An error has occured."
-msgstr ""
+msgstr "Ocorreu algum erro."
 
 #: ../../../../inc/display.php:110 ../../../../inc/mod/pages.php:62
 #: ../../../../inc/mod/pages.php:60 ../../../../inc/display.php:122
@@ -122,48 +124,48 @@ msgstr "Login"
 #: ../../../../inc/display.php:244
 #, php-format
 msgid "Post too long. Click <a href=\"%s\">here</a> to view the full text."
-msgstr ""
+msgstr "Mensagem muito longa. Clique <a href=\"%s\">aqui</a> para ver o texto completo."
 
 #: ../../../../inc/display.php:368 ../../../../inc/display.php:473
 #: ../../../../inc/display.php:385 ../../../../inc/display.php:495
 #: ../../../../inc/display.php:388 ../../../../inc/display.php:498
 msgid "Ban"
-msgstr ""
+msgstr "Banir"
 
 #: ../../../../inc/display.php:372 ../../../../inc/display.php:477
 #: ../../../../inc/display.php:389 ../../../../inc/display.php:499
 #: ../../../../inc/display.php:392 ../../../../inc/display.php:502
 msgid "Ban & Delete"
-msgstr ""
+msgstr "Banir & Deletar"
 
 #: ../../../../inc/display.php:376 ../../../../inc/display.php:481
 #: ../../../../inc/display.php:393 ../../../../inc/display.php:503
 #: ../../../../inc/display.php:396 ../../../../inc/display.php:506
 msgid "Delete file"
-msgstr ""
+msgstr "Deletar arquivo"
 
 #: ../../../../inc/display.php:376 ../../../../inc/display.php:481
 #: ../../../../inc/display.php:393 ../../../../inc/display.php:503
 #: ../../../../inc/display.php:396 ../../../../inc/display.php:506
 msgid "Are you sure you want to delete this file?"
-msgstr ""
+msgstr "Tem certeza que quer deletar esse arquivo?"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 msgid "Spoiler File"
-msgstr ""
+msgstr "Arquivo Spoiler"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 msgid "Are you sure you want to spoiler this file?"
-msgstr ""
+msgstr "Você tem certeza de que quer tornar o arquivo spoiler?"
 
 #: ../../../../inc/display.php:384 ../../../../inc/display.php:401
 #: ../../../../inc/display.php:404
 msgid "Move reply to another board"
-msgstr ""
+msgstr "Mover resposta para outra board"
 
 #: ../../../../inc/display.php:388 ../../../../inc/display.php:512
 #: ../../../../inc/mod/pages.php:1425 ../../../../inc/mod/pages.php:1494
@@ -184,64 +186,64 @@ msgstr "Deletar"
 #: ../../../../inc/display.php:461 ../../../../inc/display.php:483
 #: ../../../../inc/display.php:486
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar isto?"
 
 #: ../../../../inc/display.php:465 ../../../../inc/display.php:487
 #: ../../../../inc/display.php:490
 msgid "Delete all posts by IP"
-msgstr ""
+msgstr "Deletar todos os posts por IP"
 
 #: ../../../../inc/display.php:465 ../../../../inc/display.php:487
 #: ../../../../inc/display.php:490
 msgid "Are you sure you want to delete all posts by this IP address?"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar todos os posts deste IP?"
 
 #: ../../../../inc/display.php:469 ../../../../inc/display.php:491
 #: ../../../../inc/display.php:494
 msgid "Delete all posts by IP across all boards"
-msgstr ""
+msgstr "Deletar todos os posts deste IP em todas as boards"
 
 #: ../../../../inc/display.php:469 ../../../../inc/display.php:491
 #: ../../../../inc/display.php:494
 msgid ""
 "Are you sure you want to delete all posts by this IP address, across all "
 "boards?"
-msgstr ""
+msgstr "Tem certeza que quer deletar todos os posts deste IP em todas as boards?"
 
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:512
 #: ../../../../inc/display.php:515
 msgid "Make thread not sticky"
-msgstr ""
+msgstr "Despinar tópico"
 
 #: ../../../../inc/display.php:492 ../../../../inc/display.php:514
 #: ../../../../inc/display.php:517
 msgid "Make thread sticky"
-msgstr ""
+msgstr "Pinar tópico"
 
 #: ../../../../inc/display.php:496 ../../../../inc/display.php:518
 #: ../../../../inc/display.php:521
 msgid "Allow thread to be bumped"
-msgstr ""
+msgstr "Retirar limite de bump."
 
 #: ../../../../inc/display.php:498 ../../../../inc/display.php:520
 #: ../../../../inc/display.php:523
 msgid "Prevent thread from being bumped"
-msgstr ""
+msgstr "Adicionar limite de bump"
 
 #: ../../../../inc/display.php:503 ../../../../inc/display.php:525
 #: ../../../../inc/display.php:528
 msgid "Unlock thread"
-msgstr ""
+msgstr "Desbloquear thread"
 
 #: ../../../../inc/display.php:505 ../../../../inc/display.php:527
 #: ../../../../inc/display.php:530
 msgid "Lock thread"
-msgstr ""
+msgstr "Trancar tópico"
 
 #: ../../../../inc/display.php:508 ../../../../inc/display.php:530
 #: ../../../../inc/display.php:533
 msgid "Move thread to another board"
-msgstr ""
+msgstr "Mover tópico para outra board"
 
 #. How long before Tinyboard forgets about a mute?
 #. 2 weeks
@@ -250,7 +252,7 @@ msgstr ""
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
 #: ../../../../inc/config.php:474
 msgid "You have been muted for unoriginal content."
-msgstr ""
+msgstr "Você foi silenciado por conteúdo repetido."
 
 #. The names on the post buttons. (On most imageboards, these are both just
 #. "Post").
@@ -260,13 +262,13 @@ msgstr ""
 #: ../../../../inc/config.php:772 ../../../../inc/config.php:774
 #: ../../../../inc/config.php:776
 msgid "New Topic"
-msgstr ""
+msgstr "Novo tópico"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
 #: ../../../../inc/config.php:773 ../../../../inc/config.php:775
 #: ../../../../inc/config.php:777
 msgid "New Reply"
-msgstr ""
+msgstr "Responder"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
@@ -275,7 +277,7 @@ msgstr ""
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
-msgstr ""
+msgstr "Todas as marcas, registros de copyright, comentários e imagens nesta pagina pertencem e são responsabilidade de seus respectivos donos."
 
 #. * ====================
 #. *  Error messages
@@ -364,13 +366,13 @@ msgstr "Tópico trancado, você não pode postar."
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:978
 msgid "Thread has reached its maximum reply limit."
-msgstr ""
+msgstr "O tópico atingiu o limite de respostas."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:979
 msgid "Thread has reached its maximum image limit."
-msgstr ""
+msgstr "O tópico alcançou o limite máximo de imagens"
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
@@ -530,7 +532,7 @@ msgstr "Você errou o codigo de verificação."
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
 "users."
-msgstr ""
+msgstr "Você só tem permissão de desbanir %s usuários por vez, e você tentou desbanir %u usuários."
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
@@ -632,7 +634,7 @@ msgstr "Token de segurança inválido! Retorne e tente de novo."
 #: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
 #: ../../../../inc/config.php:1187
 msgid "USER WAS BANNED FOR THIS POST"
-msgstr ""
+msgstr "O USUÁRIO FOI BANIDO POR ESTA MENSAGEM"
 
 #: ../../../../inc/mod/pages.php:66 ../../../../inc/mod/pages.php:64
 msgid "Confirm action"
@@ -648,12 +650,12 @@ msgstr "Dashboard"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
-msgstr ""
+msgstr "Não tenho boards para procurar!"
 
 #. $results now contains the search results
 #: ../../../../inc/mod/pages.php:335 ../../../../inc/mod/pages.php:334
 msgid "Search results"
-msgstr ""
+msgstr "Resultados da pesquisa"
 
 #: ../../../../inc/mod/pages.php:436 ../../../../inc/mod/pages.php:438
 msgid "Edit board"
@@ -726,7 +728,7 @@ msgstr "Lista de expulsões"
 
 #: ../../../../inc/mod/pages.php:1105 ../../../../inc/mod/pages.php:1165
 msgid "Move reply"
-msgstr ""
+msgstr "Mover resposta"
 
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
 msgid "Target and source board are the same."
@@ -823,32 +825,32 @@ msgstr "Debug: Mensagens recentes"
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
 msgid "Debug: SQL"
-msgstr ""
+msgstr "Debug: SQL"
 
 #. Print error
 #: ../../../../inc/database.php:72 ../../../../inc/database.php:94
 msgid "Database error: "
-msgstr ""
+msgstr "Erro no banco de dados:"
 
 #: ../../../../banned.php:4
 msgid "Banned?"
-msgstr ""
+msgstr "Banido?"
 
 #: ../../../../banned.php:5
 msgid "You are not banned."
-msgstr ""
+msgstr "Você não está banido."
 
 #. line 6
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:41
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:44
 msgid "Go back"
-msgstr ""
+msgstr "Voltar"
 
 #. line 13
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:56
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:59
 msgid "Error information"
-msgstr ""
+msgstr "Informações do erro"
 
 #. line 2
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:22
@@ -999,7 +1001,7 @@ msgstr "Voltar"
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:61
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:64
 msgid "(No news to show.)"
-msgstr ""
+msgstr "(Sem noticias para mostrar.)"
 
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:85
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:146
@@ -1035,8 +1037,8 @@ msgstr "em"
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 msgid "1 reply"
 msgid_plural "%count% replies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 resposta"
+msgstr[1] "%count% respostas"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:102
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:105
@@ -1071,7 +1073,7 @@ msgstr "Responder"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:605
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 msgid "View All"
-msgstr ""
+msgstr "Ver todos"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:561
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:526
@@ -1081,8 +1083,8 @@ msgstr ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:335
 msgid "Last 1 Post"
 msgid_plural "Last %count% Posts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ultima mensagem"
+msgstr[1] "Últimas %count% Mensagens"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:598
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:563
@@ -1241,7 +1243,7 @@ msgstr "Verification"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
 msgid "Or URL"
-msgstr ""
+msgstr "Ou URL"
 
 #. line 100
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
@@ -1359,26 +1361,26 @@ msgstr "(Para excluir arquivos)"
 
 #: ../../../../search.php:5
 msgid "Post search is disabled"
-msgstr ""
+msgstr "A pesquisa de mensagens está desativada."
 
 #: ../../../../search.php:25 ../../../../search.php:31
 msgid "Wait a while before searching again, please."
-msgstr ""
+msgstr "Aguarde um momento antes de pesquisar novamente, por favor."
 
 #: ../../../../search.php:131
 msgid "Query too broad."
-msgstr ""
+msgstr "Pesquisa pouco especifica."
 
 #: ../../../../search.php:152
 #, php-format
 msgid "%d result in"
 msgid_plural "%d results in"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d resultado em"
+msgstr[1] "%d resultados em"
 
 #: ../../../../search.php:163
 msgid "No results."
-msgstr ""
+msgstr "Sem resultados."
 
 #. line 115
 #. line 16
@@ -1423,31 +1425,31 @@ msgstr "Procurar"
 
 #: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
-msgstr ""
+msgstr "Apelo de expulsão não encontrado!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
 msgid "Ban appeals"
-msgstr ""
+msgstr "Apelos a expulsões"
 
 #: ../../../../inc/mod/pages.php:1833
 msgid "New user"
-msgstr ""
+msgstr "Novo usuário"
 
 #: ../../../../inc/mod/pages.php:1888
 msgid "Impossible to promote/demote user."
-msgstr ""
+msgstr "Impossível promover/rebaixar usuário."
 
 #: ../../../../inc/mod/pages.php:2612
 msgid "Debug: APC"
-msgstr ""
+msgstr "Debug: APC"
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
-msgstr ""
+msgstr "Seu código contém erros de sintaxe PHP. Por favor volte e corrija-os. PHP diz:"
 
 #. line 2
 #. line 6
@@ -1497,7 +1499,7 @@ msgstr "Configuração"
 #. line 127
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:357
 msgid "Other"
-msgstr ""
+msgstr "Outro"
 
 #. line 139
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:391
@@ -1872,21 +1874,21 @@ msgstr "nunca"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:161
 msgid "Seen"
-msgstr ""
+msgstr "Visto"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:375
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:201
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:167
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:295
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:381
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:207
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:173
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:301
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #. line 163
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:419
@@ -1908,7 +1910,7 @@ msgstr "Remover expulsão"
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:379
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:259
 msgid "Time"
-msgstr ""
+msgstr "Tempo"
 
 #. line 185
 #. line 89
@@ -1935,7 +1937,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:387
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:267
 msgid "Action"
-msgstr ""
+msgstr "Ação"
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:73
 msgid "(or subnet)"
@@ -1987,26 +1989,26 @@ msgstr "Frase:"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:38
 msgid "Posts"
-msgstr ""
+msgstr "Mensagens"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:49
 msgid "IP address notes"
-msgstr ""
+msgstr "Notas de IP"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:62
 msgid "Bans"
-msgstr ""
+msgstr "Expulsões"
 
 #. line 18
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:88
 msgid ""
 "(Search is case-insensitive and based on keywords. To match exact phrases, "
 "use \"quotes\". Use an asterisk (*) for wildcard.)"
-msgstr ""
+msgstr "(A pesquisa não diferencia maiúsculas de minusculas, é baseado em palavras chave. Use \"aspas\" para procurar frases exatas e Use asterisco (*) como coringa.)"
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
 msgid "There are no active bans."
-msgstr ""
+msgstr "Não existem expulsões ativas."
 
 #. line 8
 #. line 47
@@ -2015,7 +2017,7 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:39
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:137
 msgid "IP address/mask"
-msgstr ""
+msgstr "Endereço de IP/mascara"
 
 #. line 12
 #. line 51
@@ -2024,12 +2026,12 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:55
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:153
 msgid "Duration"
-msgstr ""
+msgstr "Duração"
 
 #. line 92
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:269
 msgid "Unban selected"
-msgstr ""
+msgstr "Remover expulsões selecionadas"
 
 #. line 6
 #. line 4
@@ -2053,12 +2055,12 @@ msgstr "Prosseguir"
 #. line 80
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:210
 msgid "Appeal time"
-msgstr ""
+msgstr "Tempo de apelo"
 
 #. line 84
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:220
 msgid "Appeal reason"
-msgstr ""
+msgstr "Motivo de apelo"
 
 #: ../../../../templates/cache/7d/63/b6fd83bf4ed7f6031a2b3373b997d2d40617bf98899fe672a0aae48520c5.php:31
 msgid "There are no reports."
@@ -2066,99 +2068,99 @@ msgstr "Não há denúncias no momento."
 
 #: ../../../../post.php:802 ../../../../post.php:811
 msgid "That ban doesn't exist or is not for you."
-msgstr ""
+msgstr "Esta expulsão não existe, ou não é pra você."
 
 #: ../../../../post.php:806 ../../../../post.php:815
 msgid "You cannot appeal a ban of this length."
-msgstr ""
+msgstr "Você não pode apelar um expulsão desta duração."
 
 #: ../../../../post.php:813 ../../../../post.php:822
 msgid "You cannot appeal this ban again."
-msgstr ""
+msgstr "Você não pode apelar mais de uma vez."
 
 #: ../../../../post.php:818 ../../../../post.php:827
 msgid "There is already a pending appeal for this ban."
-msgstr ""
+msgstr "Já existe um apelo pendente a esta expulsão."
 
 #: ../../../../inc/image.php:24 ../../../../inc/image.php:62
 msgid "Unsupported file format: "
-msgstr ""
+msgstr "Formato de arquivo não aceito:"
 
 #: ../../../../inc/image.php:282 ../../../../inc/image.php:288
 msgid "Failed to redraw image!"
-msgstr ""
+msgstr "Falha ao redesenhar a imagem!"
 
 #: ../../../../inc/image.php:324 ../../../../inc/image.php:343
 #: ../../../../inc/image.php:368 ../../../../inc/image.php:342
 #: ../../../../inc/image.php:366
 msgid "Failed to resize image!"
-msgstr ""
+msgstr "Falha ao redimensionar a imagem!"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:35
 msgid "You were banned! ;_;"
-msgstr ""
+msgstr "Você foi expuso! ;_;"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:41
 msgid "You are banned! ;_;"
-msgstr ""
+msgstr "Você está expulso! ;_;"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:52
 msgid "You were banned from"
-msgstr ""
+msgstr "Você foi banido da"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:58
 msgid "You have been banned from"
-msgstr ""
+msgstr "Você foi banido de"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
-msgstr ""
+msgstr "pelo seguinte motivo:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
-msgstr ""
+msgstr "por um motivo não especificado."
 
 #. line 32
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
 msgid "Your ban was filed on"
-msgstr ""
+msgstr "Sua expulsão foi feita as"
 
 #. line 51
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:123
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:156
 msgid "has since expired. Refresh the page to continue."
-msgstr ""
+msgstr "expirou desde então. recarregue a pagina para continuar."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:129
 msgid "expires"
-msgstr ""
+msgstr "expira"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
-msgstr ""
+msgstr "por hora, que é"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
-msgstr ""
+msgstr "não vai expirar"
 
 #. line 78
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:192
 msgid "Your IP address is"
-msgstr ""
+msgstr "Seu endereço de IP é"
 
 #. line 86
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:215
 msgid "You were banned for the following post on"
-msgstr ""
+msgstr "Você foi banido para a seguinte mensagem as"
 
 #. line 95
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
 msgid "You submitted an appeal for this ban on"
-msgstr ""
+msgstr "Você enviou um apelo para que este banimento no"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 msgid "It is still pending"
-msgstr ""
+msgstr "Ele ainda está pendente"
 
 #. line 101
 #. line 112
@@ -2175,18 +2177,18 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
 msgid "You appealed this ban on"
-msgstr ""
+msgstr "Você apelou sua expulsão no"
 
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 msgid "and it was denied. You may not appeal this ban again."
-msgstr ""
+msgstr "e foi rejeitado. Você não pode apelar esta expulsão novamente."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
 msgid ""
 "You have submitted the maximum number of ban appeals allowed. You may not "
 "appeal this ban again."
-msgstr ""
+msgstr "Você excedeu o limite de apelos. Você não pode apelar por esta expulsão novamente."
 
 #. line 114
 #. line 121
@@ -2203,7 +2205,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:297
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:318
 msgid "and it was denied."
-msgstr ""
+msgstr "e foi negado."
 
 #. line 116
 #. line 123
@@ -2220,16 +2222,16 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:302
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:323
 msgid "You may appeal this ban again. Please enter your reasoning below."
-msgstr ""
+msgstr "Você ainda pode apelar por esta expulsão. Digite abaixo suas razões para recorrer."
 
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
 msgid "You last appealed this ban on"
-msgstr ""
+msgstr "Seu ultimo apelo deste banimento foi no"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 msgid "You may appeal this ban. Please enter your reasoning below."
-msgstr ""
+msgstr "Você pode apelar por este banimento. Digite seus motivos abaixo."
 
 #. line 4
 #. line 16
@@ -2243,7 +2245,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:375
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:255
 msgid "IP address"
-msgstr ""
+msgstr "Endereço de IP"
 
 #. line 3
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:26
@@ -2261,7 +2263,7 @@ msgstr "Ultima ação"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:80
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:94
 msgid "none"
@@ -2277,7 +2279,7 @@ msgstr "Rebaixar"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:191
 msgid "Are you sure you want to demote yourself?"
-msgstr ""
+msgstr "Tem certeza que quer se rebaixar?"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:204
 msgid "log"
@@ -2290,27 +2292,27 @@ msgstr "MP"
 #. line 6
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:36
 msgid "Thread ID"
-msgstr ""
+msgstr "Thread ID"
 
 #. line 14
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:51
 msgid "Leave shadow thread"
-msgstr ""
+msgstr "Deixar um tópico cópia"
 
 #. line 18
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:58
 msgid "locks thread; replies to it with a link."
-msgstr ""
+msgstr "Thread fechada; Responder somento pelo link"
 
 #. line 22
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:65
 msgid "Target board"
-msgstr ""
+msgstr "Board alvo"
 
 #. line 8
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:40
 msgid "Select board"
-msgstr ""
+msgstr "Selecionar board"
 
 #. line 17
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:73
@@ -2322,23 +2324,23 @@ msgid ""
 "<strong>name</strong>. To apply a filter, simply add to your query, for "
 "example, <em>name:Anonymous</em> or <em>subject:\"Some Thread\"</em>. "
 "Wildcards cannot be used in filters."
-msgstr ""
+msgstr "A pesquisa diferencia maiúsculas de minúsculas e com base palavras-chave. Para buscar as frases exatas, use \"aspas\". Use um asterisco (*) para curinga </ p> <p style=\"font-size:8pt;margin:5px\"> Você pode aplicar as seguintes filtros para suas pesquisas:. ID <strong> </ strong>, <strong > linha </ strong>, <strong> sujeito </ strong>, e <strong> nome </ strong>. Para aplicar um filtro, basta adicionar a sua consulta, por exemplo, <em> nome: Anônimo </ em> ou assunto <em>: \"Alguns Tópicos\" </ em>. Caracteres especiais não podem ser utilizados em filtros."
 
 #. line 2
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:25
 msgid "Are you sure you want to do that?"
-msgstr ""
+msgstr "Tem certeza de que quer fazer isso?"
 
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:31
 msgid "Click to proceed to"
-msgstr ""
+msgstr "Clique para prosseguir à"
 
 #. line 5
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:39
 msgid ""
 "You are probably seeing this message because Javascript being disabled. This"
 " is a necessary security measure to prevent CSRF attacks."
-msgstr ""
+msgstr "Você provavelmente está vendo esta mensagem porque Javascript desativado. Esta é uma medida de segurança necessária para evitar ataques CSRF."
 
 #. line 7
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
@@ -2360,85 +2362,85 @@ msgstr "Descartar todas denúncias desnecessárias deste IP"
 #. line 4
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #. line 34
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:105
 msgid "Delete forever"
-msgstr ""
+msgstr "Deletar permanentemente"
 
 #. line 39
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:119
 msgid "Reply with quote"
-msgstr ""
+msgstr "Responde com quote"
 
 #. line 18
 #: ../../../../templates/cache/1f/f5/c63468797b4f93a8005563716a720117a6d51a804f2124a4c5158ca78525.php:62
 msgid "Send message"
-msgstr ""
+msgstr "Enviar mensagem"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:25
 msgid "There are no themes available."
-msgstr ""
+msgstr "Não há temas disponíveis."
 
 #. line 11
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:50
 msgid "Version"
-msgstr ""
+msgstr "Versão"
 
 #. line 15
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:60
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #. line 19
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:70
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #. line 27
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:93
 msgid "Use theme"
-msgstr ""
+msgstr "Usar tema"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:100
 msgid "Reconfigure"
-msgstr ""
+msgstr "Reconfigurar"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:102
 msgid "Install"
-msgstr ""
+msgstr "Instalar"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:123
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstalar"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:72
 msgid "new; optional"
-msgstr ""
+msgstr "Novo; opcional"
 
 #. line 32
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:98
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #. line 56
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:161
 msgid "All boards"
-msgstr ""
+msgstr "Todas as boards"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:223
 msgid "Create user"
-msgstr ""
+msgstr "Criar usuário"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:229
 msgid "Save changes"
-msgstr ""
+msgstr "Salvar alterações"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:236
 msgid "Delete user"
-msgstr ""
+msgstr "Deletar usuário"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
 msgid "View more logs for this user."
-msgstr ""
+msgstr "Ver mais logs deste usuário."

@@ -6,10 +6,10 @@
 # cicus <mercurio@index.hu>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Tinyboard+vichan-devel\n"
+"Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 17:38+0000\n"
+"PO-Revision-Date: 2014-04-18 20:50+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -410,14 +410,14 @@ msgstr "Nem eredeti tartalom! El lettél némítva %d másodpercre."
 #: ../../../../inc/config.php:985
 #, php-format
 msgid "You are muted! Expires in %d seconds."
-msgstr ""
+msgstr "Némítva lettél! Lejár: %d másodperc múlva."
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:986
 #, php-format
 msgid "Your IP address is listed in %s."
-msgstr ""
+msgstr "Az IP címed listázva van itt: %s."
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
@@ -793,70 +793,70 @@ msgstr "Témák mappa nem létezik!"
 
 #: ../../../../inc/mod/pages.php:2228 ../../../../inc/mod/pages.php:2369
 msgid "Cannot open themes directory; check permissions."
-msgstr ""
+msgstr "Témák mappa nem megnyitható: ellenőrizd az engedélyeket."
 
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
 msgid "Manage themes"
-msgstr ""
+msgstr "Témák rendezése"
 
 #: ../../../../inc/mod/pages.php:2307 ../../../../inc/mod/pages.php:2453
 #, php-format
 msgid "Installed theme: %s"
-msgstr ""
+msgstr "Telepített téma: %s"
 
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
 #, php-format
 msgid "Configuring theme: %s"
-msgstr ""
+msgstr "Konfiguráló téma: %s"
 
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
 #, php-format
 msgid "Rebuilt theme: %s"
-msgstr ""
+msgstr "Újjáépített téma: %s"
 
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
 msgid "Debug: Anti-spam"
-msgstr ""
+msgstr "Hibaellenőrzés: Spamszűrő"
 
 #: ../../../../inc/mod/pages.php:2409 ../../../../inc/mod/pages.php:2566
 msgid "Debug: Recent posts"
-msgstr ""
+msgstr "Hibaellenőrzés: Legutóbbi hozzászólások"
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
 msgid "Debug: SQL"
-msgstr ""
+msgstr "Hibaellenőrzés: SQL"
 
 #. Print error
 #: ../../../../inc/database.php:72 ../../../../inc/database.php:94
 msgid "Database error: "
-msgstr ""
+msgstr "Adatbázis hiba:"
 
 #: ../../../../banned.php:4
 msgid "Banned?"
-msgstr ""
+msgstr "Kitiltva?"
 
 #: ../../../../banned.php:5
 msgid "You are not banned."
-msgstr ""
+msgstr "Ki vagy tiltva."
 
 #. line 6
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:41
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:44
 msgid "Go back"
-msgstr ""
+msgstr "Vissza"
 
 #. line 13
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:56
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:59
 msgid "Error information"
-msgstr ""
+msgstr "Hiba részletei"
 
 #. line 2
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:22
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:25
 msgid "Delete Post"
-msgstr ""
+msgstr "Hozzászólást Töröl"
 
 #. line 3
 #. line 84
@@ -884,7 +884,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:29
 msgid "File"
-msgstr ""
+msgstr "Fájl"
 
 #. line 132
 #. line 14
@@ -909,7 +909,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #. line 8
 #. line 108
@@ -961,13 +961,13 @@ msgstr ""
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:37
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:141
 msgid "Reason"
-msgstr ""
+msgstr "Indok"
 
 #. line 10
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:44
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:47
 msgid "Report"
-msgstr ""
+msgstr "Jelent"
 
 #: ../../../../templates/cache/f5/e3/343716327c6183713f70a3fb57f1.php:149
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:134
@@ -979,7 +979,7 @@ msgstr ""
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:120
 #: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:138
 msgid "Return to dashboard"
-msgstr ""
+msgstr "Visszatérés az irányítófalra"
 
 #. line 39
 #. line 33
@@ -987,7 +987,7 @@ msgstr ""
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:146
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:134
 msgid "Posting mode: Reply"
-msgstr ""
+msgstr "Hozzászólás módja: Válasz"
 
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:147
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:200
@@ -996,12 +996,12 @@ msgstr ""
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:138
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:186
 msgid "Return"
-msgstr ""
+msgstr "Vissza"
 
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:61
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:64
 msgid "(No news to show.)"
-msgstr ""
+msgstr "(Nincsenek új hírek.)"
 
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:85
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:146
@@ -1009,7 +1009,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:144
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:88
 msgid "no subject"
-msgstr ""
+msgstr "nincs téma"
 
 #. line 44
 #. line 56
@@ -1020,7 +1020,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:153
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:94
 msgid "by"
-msgstr ""
+msgstr "-tól"
 
 #. line 50
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:95
@@ -1028,7 +1028,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:157
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:98
 msgid "at"
-msgstr ""
+msgstr "itt:"
 
 #. line 28
 #. line 26
@@ -1043,7 +1043,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:102
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:105
 msgid "File:"
-msgstr ""
+msgstr "Fájl:"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:115
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:127
@@ -1055,7 +1055,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:209
 #: ../../../../templates/cache/9b/6a/0d0c5add399e8dfbd5c8c097ea68815306312248498dae4682282190e561.php:128
 msgid "Spoiler Image"
-msgstr ""
+msgstr "Spoiler Kép"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:530
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:495
@@ -1064,7 +1064,7 @@ msgstr ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:591
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:304
 msgid "Reply"
-msgstr ""
+msgstr "Válasz"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:544
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:509
@@ -1073,7 +1073,7 @@ msgstr ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:605
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 msgid "View All"
-msgstr ""
+msgstr "Mind megjelenítése"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:561
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:526
@@ -1105,7 +1105,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:665
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:378
 msgid "and"
-msgstr ""
+msgstr "és"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:616
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:581
@@ -1125,7 +1125,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:682
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:395
 msgid "omitted. Click reply to view."
-msgstr ""
+msgstr "elrejtve. Kattints a válaszra a megjelenítéshez."
 
 #. line 7
 #. line 14
@@ -1153,7 +1153,7 @@ msgstr ""
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:33
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:40
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #. line 15
 #. line 24
@@ -1168,7 +1168,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:91
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:47
 msgid "Email"
-msgstr ""
+msgstr "Drótposta"
 
 #. line 23
 #. line 46
@@ -1195,13 +1195,13 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:150
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:61
 msgid "Subject"
-msgstr ""
+msgstr "Téma"
 
 #. line 27
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:68
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:71
 msgid "Update"
-msgstr ""
+msgstr "Frissít"
 
 #. line 32
 #. line 57
@@ -1216,40 +1216,40 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:181
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:79
 msgid "Comment"
-msgstr ""
+msgstr "Hozzászólás"
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:97
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:100
 msgid "Currently editing raw HTML."
-msgstr ""
+msgstr "Jelenleg nyers HTML-t szerkesztesz."
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:105
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:108
 msgid "Edit markup instead?"
-msgstr ""
+msgstr "Szerkeszted a jelölést inkább?"
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:115
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:118
 msgid "Edit raw HTML instead?"
-msgstr ""
+msgstr "Szerkeszted a nyers HTML-t inkább?"
 
 #. line 73
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:226
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:229
 msgid "Verification"
-msgstr ""
+msgstr "Megerősítés"
 
 #. line 90
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
 msgid "Or URL"
-msgstr ""
+msgstr "Vagy URL"
 
 #. line 100
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:285
 msgid "Embed"
-msgstr ""
+msgstr "Beilleszt"
 
 #. line 112
 #. line 111
@@ -1257,7 +1257,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
 msgid "Flags"
-msgstr ""
+msgstr "Zászlók"
 
 #. line 116
 #. line 117
@@ -1287,7 +1287,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:323
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
 msgid "Sticky"
-msgstr ""
+msgstr "Ragacs"
 
 #. line 120
 #. line 121
@@ -1317,7 +1317,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:337
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
 msgid "Lock"
-msgstr ""
+msgstr "Zár"
 
 #. line 124
 #. line 125
@@ -1347,7 +1347,7 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:351
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
 msgid "Raw HTML"
-msgstr ""
+msgstr "Nyers HTML"
 
 #. line 137
 #. line 136
@@ -1357,19 +1357,19 @@ msgstr ""
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
 msgid "(For file deletion.)"
-msgstr ""
+msgstr "(Fájl törléshez.)"
 
 #: ../../../../search.php:5
 msgid "Post search is disabled"
-msgstr ""
+msgstr "Üzenetek közötti keresés kikapcsolva"
 
 #: ../../../../search.php:25 ../../../../search.php:31
 msgid "Wait a while before searching again, please."
-msgstr ""
+msgstr "Légyszíves várj egy kicsit mielőtt újra használnád a keresőt."
 
 #: ../../../../search.php:131
 msgid "Query too broad."
-msgstr ""
+msgstr "A bevitt adat túl széles."
 
 #: ../../../../search.php:152
 #, php-format
@@ -1380,7 +1380,7 @@ msgstr[1] ""
 
 #: ../../../../search.php:163
 msgid "No results."
-msgstr ""
+msgstr "Nincs megjelenítendő eredmény."
 
 #. line 115
 #. line 16
@@ -1421,35 +1421,35 @@ msgstr ""
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:66
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:25
 msgid "Search"
-msgstr ""
+msgstr "Keres"
 
 #: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
-msgstr ""
+msgstr "Kitiltási fellebbezés nem található!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
 msgid "Ban appeals"
-msgstr ""
+msgstr "Kitiltási fellebbezések"
 
 #: ../../../../inc/mod/pages.php:1833
 msgid "New user"
-msgstr ""
+msgstr "Új felhasználó"
 
 #: ../../../../inc/mod/pages.php:1888
 msgid "Impossible to promote/demote user."
-msgstr ""
+msgstr "Nem lehetséges előléptetni/lefokozni a felhasználót."
 
 #: ../../../../inc/mod/pages.php:2612
 msgid "Debug: APC"
-msgstr ""
+msgstr "Hibakeresés: APC"
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
-msgstr ""
+msgstr "A PHP kódod szabálytalan részeket tartalmazott. Lépj vissza és javítsd ki őket. PHP varázsló mondja:"
 
 #. line 2
 #. line 6
@@ -1463,77 +1463,77 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:38
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:139
 msgid "Boards"
-msgstr ""
+msgstr "Táblák"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:79
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:215
 msgid "edit"
-msgstr ""
+msgstr "szerkeszt"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:97
 msgid "Create new board"
-msgstr ""
+msgstr "Új tábla készítése"
 
 #. line 32
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:108
 msgid "Messages"
-msgstr ""
+msgstr "Üzenetek"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:188
 msgid "View all noticeboard entries"
-msgstr ""
+msgstr "Mutassa az üzenőfal összes bejegyzését"
 
 #. line 76
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:222
 msgid "Administration"
-msgstr ""
+msgstr "Adminisztráció"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:282
 msgid "Change password"
-msgstr ""
+msgstr "Jelszóváltás"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:318
 msgid "Configuration"
-msgstr ""
+msgstr "Konfiguráció"
 
 #. line 127
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:357
 msgid "Other"
-msgstr ""
+msgstr "Egyéb"
 
 #. line 139
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:391
 msgid "Debug"
-msgstr ""
+msgstr "Hibakeresés"
 
 #. line 141
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:396
 msgid "Anti-spam"
-msgstr ""
+msgstr "Spamvédelem"
 
 #. line 142
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:400
 msgid "Recent posts"
-msgstr ""
+msgstr "Legutóbbi üzenetek"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:407
 msgid "SQL"
-msgstr ""
+msgstr "Strukturált Lekérdezőnyelv"
 
 #. line 164
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:446
 msgid "User account"
-msgstr ""
+msgstr "Felhasználói fiók"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:454
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #. line 3
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:27
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:27
 msgid "New post"
-msgstr ""
+msgstr "Új üzenet"
 
 #. line 16
 #. line 28
@@ -1542,17 +1542,17 @@ msgstr ""
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:55
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:83
 msgid "Body"
-msgstr ""
+msgstr "Test"
 
 #. line 21
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:63
 msgid "Post to noticeboard"
-msgstr ""
+msgstr "Beküldés az üzenőfalra"
 
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:90
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:118
 msgid "delete"
-msgstr ""
+msgstr "töröl"
 
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:138
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:123
@@ -1567,12 +1567,12 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:345
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:415
 msgid "deleted?"
-msgstr ""
+msgstr "törölve?"
 
 #. line 33
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:91
 msgid "Post news entry"
-msgstr ""
+msgstr "Küld a hírek bejegyzésbe"
 
 #. line 24
 #. line 63
@@ -1633,7 +1633,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:165
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:371
 msgid "Staff"
-msgstr ""
+msgstr "Személyzet"
 
 #. line 25
 #. line 68
@@ -1655,7 +1655,7 @@ msgstr ""
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:197
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:63
 msgid "Note"
-msgstr ""
+msgstr "Jegyzet"
 
 #. line 26
 #. line 22
@@ -1668,23 +1668,23 @@ msgstr ""
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:79
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:67
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #. line 25
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:96
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:88
 msgid "Actions"
-msgstr ""
+msgstr "Tevékenységek"
 
 #. line 49
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:154
 msgid "remove"
-msgstr ""
+msgstr "eltávolít"
 
 #. line 76
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:208
 msgid "New note"
-msgstr ""
+msgstr "Új jegyzet"
 
 #. line 94
 #. line 7
@@ -1702,22 +1702,22 @@ msgstr ""
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:259
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:44
 msgid "Expired"
-msgstr ""
+msgstr "Lejárt"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:265
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:50
 msgid "Active"
-msgstr ""
+msgstr "Hatályos"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:299
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:91
 msgid "no reason"
-msgstr ""
+msgstr "nincs indok"
 
 #. line 118
 #. line 184
@@ -1774,7 +1774,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:383
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:263
 msgid "Board"
-msgstr ""
+msgstr "Tábla"
 
 #. line 71
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:323
@@ -1785,7 +1785,7 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:100
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:227
 msgid "all boards"
-msgstr ""
+msgstr "minden tábla"
 
 #. line 128
 #. line 11
@@ -1812,7 +1812,7 @@ msgstr ""
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:149
 msgid "Set"
-msgstr ""
+msgstr "Beállít"
 
 #. line 132
 #. line 13
@@ -1839,7 +1839,7 @@ msgstr ""
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:135
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:157
 msgid "Expires"
-msgstr ""
+msgstr "Lejár"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:357
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:173
@@ -1847,7 +1847,7 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:155
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:267
 msgid "never"
-msgstr ""
+msgstr "soha"
 
 #. line 142
 #. line 14
@@ -1874,26 +1874,26 @@ msgstr ""
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:161
 msgid "Seen"
-msgstr ""
+msgstr "Látta"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:375
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:201
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:167
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:295
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:381
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:207
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:173
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:301
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #. line 163
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:419
 msgid "Remove ban"
-msgstr ""
+msgstr "Kitiltást felold"
 
 #. line 183
 #. line 5
@@ -1910,7 +1910,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:379
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:259
 msgid "Time"
-msgstr ""
+msgstr "Idő"
 
 #. line 185
 #. line 89
@@ -1937,15 +1937,15 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:387
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:267
 msgid "Action"
-msgstr ""
+msgstr "Tevékenység"
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:73
 msgid "(or subnet)"
-msgstr ""
+msgstr "(vagy alhálózat)"
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:88
 msgid "hidden"
-msgstr ""
+msgstr "rejtett"
 
 #. line 41
 #. line 27
@@ -1953,22 +1953,22 @@ msgstr ""
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:117
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:92
 msgid "Message"
-msgstr ""
+msgstr "Üzenet"
 
 #. line 46
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:133
 msgid "public; attached to post"
-msgstr ""
+msgstr "nyilvános: üzenethez csatolva"
 
 #. line 58
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:150
 msgid "Length"
-msgstr ""
+msgstr "Hossz"
 
 #. line 88
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:212
 msgid "New Ban"
-msgstr ""
+msgstr "Új Kitiltás"
 
 #. line 2
 #. line 5
@@ -1985,30 +1985,30 @@ msgstr ""
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:31
 msgid "Phrase:"
-msgstr ""
+msgstr "Kifejezés:"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:38
 msgid "Posts"
-msgstr ""
+msgstr "Hozzászólások"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:49
 msgid "IP address notes"
-msgstr ""
+msgstr "IP cím jegyzetek"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:62
 msgid "Bans"
-msgstr ""
+msgstr "Kitiltások"
 
 #. line 18
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:88
 msgid ""
 "(Search is case-insensitive and based on keywords. To match exact phrases, "
 "use \"quotes\". Use an asterisk (*) for wildcard.)"
-msgstr ""
+msgstr "(A keresés figyelmen kívül hagyja az ékezeteket és kulcsszavakon alapul. Pontos kifejezésekhez használj \"idézőjeleket\". Ismeretlen részekhez pedig (*) csillagot.)"
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
 msgid "There are no active bans."
-msgstr ""
+msgstr "Nincsenek érvényben lévő kitiltások."
 
 #. line 8
 #. line 47
@@ -2017,7 +2017,7 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:39
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:137
 msgid "IP address/mask"
-msgstr ""
+msgstr "IP cím/maszk"
 
 #. line 12
 #. line 51
@@ -2026,12 +2026,12 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:55
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:153
 msgid "Duration"
-msgstr ""
+msgstr "Időtartam"
 
 #. line 92
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:269
 msgid "Unban selected"
-msgstr ""
+msgstr "Kiválasztottak kitiltását felold"
 
 #. line 6
 #. line 4
@@ -2045,122 +2045,122 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:30
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:45
 msgid "Username"
-msgstr ""
+msgstr "Felhasználónév"
 
 #. line 23
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:60
 msgid "Continue"
-msgstr ""
+msgstr "Folytat"
 
 #. line 80
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:210
 msgid "Appeal time"
-msgstr ""
+msgstr "Fellebbezés ideje"
 
 #. line 84
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:220
 msgid "Appeal reason"
-msgstr ""
+msgstr "Fellebbezés indoka"
 
 #: ../../../../templates/cache/7d/63/b6fd83bf4ed7f6031a2b3373b997d2d40617bf98899fe672a0aae48520c5.php:31
 msgid "There are no reports."
-msgstr ""
+msgstr "Nincsenek jelentések"
 
 #: ../../../../post.php:802 ../../../../post.php:811
 msgid "That ban doesn't exist or is not for you."
-msgstr ""
+msgstr "A kitiltás nem létezik illetve nem téged érint."
 
 #: ../../../../post.php:806 ../../../../post.php:815
 msgid "You cannot appeal a ban of this length."
-msgstr ""
+msgstr "Nem fellebbezhetsz meg egy ilyen időtartamú kitiltást."
 
 #: ../../../../post.php:813 ../../../../post.php:822
 msgid "You cannot appeal this ban again."
-msgstr ""
+msgstr "Nem fellebbezheted meg ezt a kitiltást többször."
 
 #: ../../../../post.php:818 ../../../../post.php:827
 msgid "There is already a pending appeal for this ban."
-msgstr ""
+msgstr "Már van benyújtott fellebbezés a kitiltásra."
 
 #: ../../../../inc/image.php:24 ../../../../inc/image.php:62
 msgid "Unsupported file format: "
-msgstr ""
+msgstr "Nem támogatott fájlformátum:"
 
 #: ../../../../inc/image.php:282 ../../../../inc/image.php:288
 msgid "Failed to redraw image!"
-msgstr ""
+msgstr "Hiba a kép újrarajzolása közben!"
 
 #: ../../../../inc/image.php:324 ../../../../inc/image.php:343
 #: ../../../../inc/image.php:368 ../../../../inc/image.php:342
 #: ../../../../inc/image.php:366
 msgid "Failed to resize image!"
-msgstr ""
+msgstr "Hiba a kép átméretezése közben!"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:35
 msgid "You were banned! ;_;"
-msgstr ""
+msgstr "Ki lettél tiltva! ;__;"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:41
 msgid "You are banned! ;_;"
-msgstr ""
+msgstr "Ki vagy tiltva! ;__;"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:52
 msgid "You were banned from"
-msgstr ""
+msgstr "Ki lettél tiltva a"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:58
 msgid "You have been banned from"
-msgstr ""
+msgstr "Ki vagy tiltva a"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
-msgstr ""
+msgstr "a következő okkal:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
-msgstr ""
+msgstr "nem meghatározott indok miatt."
 
 #. line 32
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
 msgid "Your ban was filed on"
-msgstr ""
+msgstr "A kitiltásod érvénybe lépett"
 
 #. line 51
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:123
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:156
 msgid "has since expired. Refresh the page to continue."
-msgstr ""
+msgstr "óta lejárt. Frissítsd az oldalt a továbblépéshez."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:129
 msgid "expires"
-msgstr ""
+msgstr "lejár"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
-msgstr ""
+msgstr "mostantól, amely"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
-msgstr ""
+msgstr "nem jár le"
 
 #. line 78
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:192
 msgid "Your IP address is"
-msgstr ""
+msgstr "Az IP címed"
 
 #. line 86
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:215
 msgid "You were banned for the following post on"
-msgstr ""
+msgstr "Ki lettél tiltva a következő hozzászólás miatt"
 
 #. line 95
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
 msgid "You submitted an appeal for this ban on"
-msgstr ""
+msgstr "A kitiltás fellebbezését beküldted"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 msgid "It is still pending"
-msgstr ""
+msgstr "Még mindig függőben van."
 
 #. line 101
 #. line 112
@@ -2177,7 +2177,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
 msgid "You appealed this ban on"
-msgstr ""
+msgstr "Megfellebbezted a kitiltást"
 
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
@@ -2205,7 +2205,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:297
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:318
 msgid "and it was denied."
-msgstr ""
+msgstr "és meg lett tagadva."
 
 #. line 116
 #. line 123
@@ -2227,11 +2227,11 @@ msgstr ""
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
 msgid "You last appealed this ban on"
-msgstr ""
+msgstr "Utoljára megfellebbezted ezt a kitiltást"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 msgid "You may appeal this ban. Please enter your reasoning below."
-msgstr ""
+msgstr "A kitiltásod megfellebbezhető, a szövegezést alább küldheted el."
 
 #. line 4
 #. line 16
@@ -2245,25 +2245,25 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:375
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:255
 msgid "IP address"
-msgstr ""
+msgstr "IP cím"
 
 #. line 3
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:26
 msgid "ID"
-msgstr ""
+msgstr "Azonosító"
 
 #. line 5
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:34
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:45
 msgid "Last action"
-msgstr ""
+msgstr "Utolsó tevékenység"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:80
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:94
 msgid "none"
