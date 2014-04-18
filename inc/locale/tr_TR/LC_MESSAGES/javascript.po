@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Tunai <tunayuyar39@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Tinyboard JS Çevirisi"
+"Project-Id-Version: Tinyboard+vichan-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 20:19+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Tunay Uyar tunayuyar39@gmail.com"
-"Language-Team: Türkçe"
-"Language: TR"
+"POT-Creation-Date: 2014-04-18 19:24+0200\n"
+"PO-Revision-Date: 2014-04-18 17:26+0000\n"
+"Last-Translator: czaks <marcin@6irc.net>\n"
+"Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
@@ -194,30 +195,37 @@ msgid "disabled"
 msgstr "etkin değil"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Sun"
 msgstr "Paz"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Mon"
 msgstr "Pzt"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Tue"
 msgstr "Sa"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Wed"
 msgstr "Çrş"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Thu"
 msgstr "Per"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Fri"
 msgstr "Cu"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
+#: ../../../../js/local-time.js:30
 msgid "Sat"
 msgstr "Cts"
 
@@ -325,19 +333,23 @@ msgid "Posting..."
 msgstr "Gönderiliyor..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
+#: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
 msgstr "Yükleme linki"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
+#: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
 msgstr "Spoiler"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
+#: ../../../../js/quick-reply.js:279
 msgid "Comment"
 msgstr "Yorum"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
+#: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
 msgstr "Çabuk Cevaplama"
 
@@ -388,3 +400,167 @@ msgstr "Bu tahtayı izle"
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
 msgstr "Oekaki'ye atmak için website üzerindeki herhangi bir resme tıklayın"
+
+#: ../../../../js/local-time.js:29
+msgid "Sunday"
+msgstr "Pazar"
+
+#: ../../../../js/local-time.js:29
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: ../../../../js/local-time.js:29
+msgid "Tuesday"
+msgstr "Sal"
+
+#: ../../../../js/local-time.js:29
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: ../../../../js/local-time.js:29
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: ../../../../js/local-time.js:29
+msgid "Friday"
+msgstr "Cuma"
+
+#: ../../../../js/local-time.js:29
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: ../../../../js/local-time.js:31
+msgid "January"
+msgstr "Ocak"
+
+#: ../../../../js/local-time.js:31
+msgid "February"
+msgstr "Şubat"
+
+#: ../../../../js/local-time.js:31
+msgid "March"
+msgstr "Mart"
+
+#: ../../../../js/local-time.js:31
+msgid "April"
+msgstr "Nisan"
+
+#: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
+msgid "May"
+msgstr "Mayıs"
+
+#: ../../../../js/local-time.js:31
+msgid "June"
+msgstr "Haziran"
+
+#: ../../../../js/local-time.js:31
+msgid "July"
+msgstr "Temmuz"
+
+#: ../../../../js/local-time.js:31
+msgid "August"
+msgstr "Ağustos"
+
+#: ../../../../js/local-time.js:31
+msgid "September"
+msgstr "Eylül"
+
+#: ../../../../js/local-time.js:31
+msgid "October"
+msgstr "kim"
+
+#: ../../../../js/local-time.js:31
+msgid "November"
+msgstr "Kasım"
+
+#: ../../../../js/local-time.js:31
+msgid "December"
+msgstr "Aralık"
+
+#: ../../../../js/local-time.js:32
+msgid "Jan"
+msgstr "Oca"
+
+#: ../../../../js/local-time.js:32
+msgid "Feb"
+msgstr "Şub"
+
+#: ../../../../js/local-time.js:32
+msgid "Mar"
+msgstr "Mar"
+
+#: ../../../../js/local-time.js:32
+msgid "Apr"
+msgstr "Nis"
+
+#: ../../../../js/local-time.js:32
+msgid "Jun"
+msgstr "Haz"
+
+#: ../../../../js/local-time.js:32
+msgid "Jul"
+msgstr "Tem"
+
+#: ../../../../js/local-time.js:32
+msgid "Aug"
+msgstr "Ağu"
+
+#: ../../../../js/local-time.js:32
+msgid "Sep"
+msgstr "Eyl"
+
+#: ../../../../js/local-time.js:32
+msgid "Oct"
+msgstr "Eki"
+
+#: ../../../../js/local-time.js:32
+msgid "Nov"
+msgstr "Kas"
+
+#: ../../../../js/local-time.js:32
+msgid "Dec"
+msgstr "Ara"
+
+#: ../../../../js/local-time.js:33
+msgid "AM"
+msgstr "ÖÖ"
+
+#: ../../../../js/local-time.js:34
+msgid "PM"
+msgstr "ÖS"
+
+#: ../../../../js/local-time.js:35
+msgid "am"
+msgstr "öö"
+
+#: ../../../../js/local-time.js:36
+msgid "pm"
+msgstr "ös"
+
+#: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
+msgid "Your browser does not support HTML5 video."
+msgstr "Tarayıcınız HTML5 videoları desteklemiyor"
+
+#: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
+msgid "[play once]"
+msgstr "[bir kere oynat]"
+
+#: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
+msgid "[loop]"
+msgstr "[devamlı]"
+
+#: ../../../../js/webm-settings.js:42
+msgid "WebM Settings"
+msgstr "WebM Ayarları"
+
+#: ../../../../js/webm-settings.js:44
+msgid "Expand videos inline"
+msgstr "Videoları içerde genişlet"
+
+#: ../../../../js/webm-settings.js:45
+msgid "Play videos on hover"
+msgstr "Mouse üstüne gelince videolar oynasın"
+
+#: ../../../../js/webm-settings.js:46
+msgid "Default volume"
+msgstr "Ses"

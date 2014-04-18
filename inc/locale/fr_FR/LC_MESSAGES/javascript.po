@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# banginis <asesuarbanesu@gmail.com>, 2014
+# kaf <admin@cable6.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Tinyboard+vichan-devel\n"
@@ -11,31 +11,31 @@ msgstr ""
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
 "PO-Revision-Date: 2014-04-18 17:26+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
-"Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/lt_LT/)\n"
+"Language-Team: French (France) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt_LT\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
-msgstr "Stilius"
+msgstr "Style:"
 
 #: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
 #: ../../../../js/quick-post-controls.js:32
 #: ../../../../js/upload-selection.js:61
 msgid "File"
-msgstr "Failas"
+msgstr "Fichier"
 
 #: ../../../../js/hide-images.js:50 ../../../../js/hide-images.js:51
 msgid "hide"
-msgstr "slėpti"
+msgstr "masquer"
 
 #: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
 msgid "show"
-msgstr "rodyti"
+msgstr "montrer"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -44,7 +44,7 @@ msgstr "rodyti"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Show locked threads"
-msgstr "Rodyti užrakintas temas"
+msgstr "Montrer les fils vérouillés"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -53,15 +53,15 @@ msgstr "Rodyti užrakintas temas"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Hide locked threads"
-msgstr "Paslėpti užrakintas temas"
+msgstr "Masquer les fils vérouillés"
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../../../../js/upload-selection.js:50 ../../../../js/upload-selection.js:60
 msgid "Select"
-msgstr ""
+msgstr "Choisissez"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 msgid "Remote"
@@ -77,46 +77,46 @@ msgstr ""
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
 msgid "hidden"
-msgstr ""
+msgstr "caché"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Show images"
-msgstr ""
+msgstr "Montrer les images"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Hide images"
-msgstr ""
+msgstr "Masquer les Images"
 
 #: ../../../../js/quick-post-controls.js:27
 #: ../../../../js/quick-post-controls.js:29
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: ../../../../js/quick-post-controls.js:29
 #: ../../../../js/quick-post-controls.js:31
 msgid "Delete file only"
-msgstr ""
+msgstr "Supprimer le fichier uniquement"
 
 #: ../../../../js/quick-post-controls.js:31
 #: ../../../../js/quick-post-controls.js:33
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: ../../../../js/quick-post-controls.js:35
 #: ../../../../js/quick-post-controls.js:37
 msgid "Reason"
-msgstr ""
+msgstr "Raison"
 
 #: ../../../../js/quick-post-controls.js:37
 #: ../../../../js/quick-post-controls.js:39
 msgid "Report"
-msgstr ""
+msgstr "Signaler"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr ""
+msgstr "Cliquer sur répondre pour voir les réponses."
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click to expand"
@@ -128,27 +128,27 @@ msgstr ""
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr ""
+msgstr "Taille du pinceau"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
-msgstr ""
+msgstr "Saisir le texte"
 
 #: ../../../../js/oekaki.js:10
 msgid "Clear"
-msgstr ""
+msgstr "Effacer"
 
 #: ../../../../js/oekaki.js:10
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: ../../../../js/oekaki.js:10
 msgid "Load"
-msgstr ""
+msgstr "Charger"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr ""
+msgstr "Sélectionner la gomme"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
@@ -156,7 +156,7 @@ msgstr ""
 
 #: ../../../../js/oekaki.js:11
 msgid "Fill"
-msgstr ""
+msgstr "Remplir"
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
@@ -168,11 +168,11 @@ msgstr ""
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr ""
+msgstr "Entrer du texte"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr ""
+msgstr "Entrer une police ou laissez vide"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -180,81 +180,81 @@ msgstr ""
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 #: ../../../../js/forced-anon.js:71
 msgid "Forced anonymity"
-msgstr ""
+msgstr "Anonymat forcé."
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 msgid "enabled"
-msgstr ""
+msgstr "activé"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
 msgid "disabled"
-msgstr ""
+msgstr "désactivé"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sun"
-msgstr ""
+msgstr "Dim"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Mon"
-msgstr ""
+msgstr "Lun"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Tue"
-msgstr ""
+msgstr "Mar"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Wed"
-msgstr ""
+msgstr "Mer"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Thu"
-msgstr ""
+msgstr "Jeu"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Fri"
-msgstr ""
+msgstr "Ven"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sat"
-msgstr ""
+msgstr "Sam"
 
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
 msgid "Catalog"
-msgstr ""
+msgstr "Catalogue"
 
 #: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
 #: ../../../../js/quick-reply-old.js:23
 msgid "Submit"
-msgstr ""
+msgstr "Envoyer"
 
 #: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
 #: ../../../../js/quick-reply-old.js:33
 msgid "Quick reply"
-msgstr ""
+msgstr "Réponse rapide"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr ""
+msgstr "Mode de messagerie: Réponse à <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 msgid "Return"
-msgstr ""
+msgstr "Retour"
 
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
@@ -264,53 +264,53 @@ msgstr ""
 
 #: ../../../../templates/main.js:6
 msgid "Hello!"
-msgstr ""
+msgstr "Bonjour!"
 
 #: ../../../../templates/main.js:18
 #, python-brace-format
 msgid "{0} users"
-msgstr ""
+msgstr "{0} utilisateurs"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
-msgstr ""
+msgstr "(masquer les fis de cette planche)"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
-msgstr ""
+msgstr "(montrer les fils de cette planche)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
-msgstr ""
+msgstr "Plus aucun fil à afficher"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
-msgstr ""
+msgstr "Chargement…"
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
 msgid "Save as original filename"
-msgstr ""
+msgstr "Sauvegarder avec le nom de fichier d'origine"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr ""
+msgstr "Message(s) signalé(s)."
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
-msgstr ""
+msgstr "Une erreur inconnu s'est produite !"
 
 #: ../../../../js/ajax-post-controls.js:60
 msgid "Something went wrong... An unknown error occured!"
-msgstr ""
+msgstr "Quelque chose s'est mal passé… Une erreur inconnu s'est produite !"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
@@ -326,7 +326,7 @@ msgstr ""
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'envoi du message!"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
@@ -335,7 +335,7 @@ msgstr ""
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
-msgstr ""
+msgstr "URL d'upload"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
 #: ../../../../js/quick-reply.js:268
@@ -345,25 +345,25 @@ msgstr ""
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
 #: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
-msgstr ""
+msgstr "Réponse Rapide"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Stop watching this thread"
-msgstr ""
+msgstr "Arrêter de surveiller le fil"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Watch this thread"
-msgstr ""
+msgstr "Surveiller ce fil"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -371,7 +371,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr ""
+msgstr "Désépingler cette planche"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -379,7 +379,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr ""
+msgstr "Épingler cette planche"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -387,7 +387,7 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Stop watching this board"
-msgstr ""
+msgstr "Arrêter de surveiller cette planche"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -395,7 +395,7 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Watch this board"
-msgstr ""
+msgstr "Surveiller cette planche"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
@@ -403,123 +403,123 @@ msgstr ""
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
-msgstr "Sekmadienis"
+msgstr "Dimanche"
 
 #: ../../../../js/local-time.js:29
 msgid "Monday"
-msgstr "Pirmadienis"
+msgstr "Lundi"
 
 #: ../../../../js/local-time.js:29
 msgid "Tuesday"
-msgstr "Antradienis"
+msgstr "Mardi"
 
 #: ../../../../js/local-time.js:29
 msgid "Wednesday"
-msgstr "Trečiadienis"
+msgstr "Mercredi"
 
 #: ../../../../js/local-time.js:29
 msgid "Thursday"
-msgstr "Ketvirtadienis"
+msgstr "Jeudi"
 
 #: ../../../../js/local-time.js:29
 msgid "Friday"
-msgstr "Penktadienis"
+msgstr "Vendredi"
 
 #: ../../../../js/local-time.js:29
 msgid "Saturday"
-msgstr "Šeštadienis"
+msgstr "Samedi"
 
 #: ../../../../js/local-time.js:31
 msgid "January"
-msgstr "Sausis"
+msgstr "Janvier"
 
 #: ../../../../js/local-time.js:31
 msgid "February"
-msgstr "Vasaris"
+msgstr "Février"
 
 #: ../../../../js/local-time.js:31
 msgid "March"
-msgstr "Kovas"
+msgstr "Mars"
 
 #: ../../../../js/local-time.js:31
 msgid "April"
-msgstr "Balandis"
+msgstr "Avril"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: ../../../../js/local-time.js:31
 msgid "June"
-msgstr ""
+msgstr "Juin"
 
 #: ../../../../js/local-time.js:31
 msgid "July"
-msgstr ""
+msgstr "Juillet"
 
 #: ../../../../js/local-time.js:31
 msgid "August"
-msgstr ""
+msgstr "Aout"
 
 #: ../../../../js/local-time.js:31
 msgid "September"
-msgstr ""
+msgstr "Septembre"
 
 #: ../../../../js/local-time.js:31
 msgid "October"
-msgstr ""
+msgstr "Otobre"
 
 #: ../../../../js/local-time.js:31
 msgid "November"
-msgstr ""
+msgstr "Novembre"
 
 #: ../../../../js/local-time.js:31
 msgid "December"
-msgstr ""
+msgstr "Décembre"
 
 #: ../../../../js/local-time.js:32
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: ../../../../js/local-time.js:32
 msgid "Feb"
-msgstr ""
+msgstr "Fev"
 
 #: ../../../../js/local-time.js:32
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: ../../../../js/local-time.js:32
 msgid "Apr"
-msgstr ""
+msgstr "Avr"
 
 #: ../../../../js/local-time.js:32
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: ../../../../js/local-time.js:32
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: ../../../../js/local-time.js:32
 msgid "Aug"
-msgstr ""
+msgstr "Aou"
 
 #: ../../../../js/local-time.js:32
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: ../../../../js/local-time.js:32
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 #: ../../../../js/local-time.js:32
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: ../../../../js/local-time.js:32
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
@@ -539,19 +539,19 @@ msgstr ""
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr ""
+msgstr "Votre navigateur ne supporte pas les vidéos HTML5."
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
-msgstr ""
+msgstr "[jouer une fois]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 msgid "[loop]"
-msgstr ""
+msgstr "[boucler]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr "WebM nustatymai"
+msgstr "Paramètres Webm"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
@@ -563,4 +563,4 @@ msgstr ""
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr ""
+msgstr "Volume par défaut"

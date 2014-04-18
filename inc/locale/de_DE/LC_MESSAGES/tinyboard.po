@@ -9,12 +9,12 @@ msgstr ""
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
 "PO-Revision-Date: 2014-04-18 17:38+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
+"Language-Team: German (Germany) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../../../../inc/functions.php:583 ../../../../inc/functions.php:600
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
@@ -90,7 +90,7 @@ msgstr ""
 #: ../../../../inc/functions.php:1200 ../../../../inc/functions.php:1214
 #: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
 msgid "Previous"
-msgstr "Anterior"
+msgstr ""
 
 #. There is no next page.
 #: ../../../../inc/functions.php:1144 ../../../../inc/functions.php:1153
@@ -100,7 +100,7 @@ msgstr "Anterior"
 #: ../../../../inc/functions.php:1219 ../../../../inc/functions.php:1228
 #: ../../../../inc/functions.php:1234
 msgid "Next"
-msgstr "Proximo"
+msgstr ""
 
 #: ../../../../inc/display.php:93 ../../../../inc/display.php:105
 #: ../../../../inc/display.php:108
@@ -116,7 +116,7 @@ msgstr ""
 #: ../../../../inc/mod/pages.php:60 ../../../../inc/display.php:122
 #: ../../../../inc/display.php:125
 msgid "Login"
-msgstr "Login"
+msgstr ""
 
 #: ../../../../inc/display.php:229 ../../../../inc/display.php:241
 #: ../../../../inc/display.php:244
@@ -170,7 +170,7 @@ msgstr ""
 #: ../../../../inc/display.php:405 ../../../../inc/display.php:534
 #: ../../../../inc/display.php:408 ../../../../inc/display.php:537
 msgid "Edit post"
-msgstr "Editar mensagem"
+msgstr ""
 
 #. line 5
 #: ../../../../inc/display.php:461
@@ -179,7 +179,7 @@ msgstr "Editar mensagem"
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:36
 #: ../../../../inc/display.php:486
 msgid "Delete"
-msgstr "Deletar"
+msgstr ""
 
 #: ../../../../inc/display.php:461 ../../../../inc/display.php:483
 #: ../../../../inc/display.php:486
@@ -283,7 +283,7 @@ msgstr ""
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr "Lurke mais antes de postar."
+msgstr ""
 
 #. * ====================
 #. *  Error messages
@@ -297,68 +297,68 @@ msgstr "Lurke mais antes de postar."
 #: ../../../../inc/config.php:963 ../../../../inc/config.php:965
 #: ../../../../inc/config.php:967
 msgid "You look like a bot."
-msgstr "Você não parece humano."
+msgstr ""
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
 #: ../../../../inc/config.php:968
 msgid "Your browser sent an invalid or no HTTP referer."
-msgstr "Seu browser enviou um referial HTTP inválido ou não enviou o referencial."
+msgstr ""
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
 #: ../../../../inc/config.php:969
 #, php-format
 msgid "The %s field was too long."
-msgstr "O campo %s é longo demais."
+msgstr ""
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
 #: ../../../../inc/config.php:970
 msgid "The body was too long."
-msgstr "O corpo do texto é longo demais."
+msgstr ""
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
 #: ../../../../inc/config.php:971
 msgid "The body was too short or empty."
-msgstr "O corpo do texto é pequeno demais ou inexistente."
+msgstr ""
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
 #: ../../../../inc/config.php:972
 msgid "You must upload an image."
-msgstr "Você deve fazer upload de uma imagem."
+msgstr ""
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
 #: ../../../../inc/config.php:973
 msgid "The server failed to handle your upload."
-msgstr "O servidor não conseguiu lidar com seu upload."
+msgstr ""
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:974
 msgid "Unsupported image format."
-msgstr "Tipo de imagem não aceito."
+msgstr ""
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:975
 msgid "Invalid board!"
-msgstr "Board inválida!"
+msgstr ""
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:976
 msgid "Thread specified does not exist."
-msgstr "O tópico especificado não existe.."
+msgstr ""
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:977
 msgid "Thread locked. You may not reply at this time."
-msgstr "Tópico trancado, você não pode postar."
+msgstr ""
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
@@ -376,151 +376,151 @@ msgstr ""
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:980
 msgid "You didn't make a post."
-msgstr "Você não escreveu uma mensagem."
+msgstr ""
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:981
 msgid "Flood detected; Post discarded."
-msgstr "Flood detectado; Sua mensagem foi descartada."
+msgstr ""
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:982
 msgid "Your request looks automated; Post discarded."
-msgstr "Sua requisição parece automatizada; Mensagem descartada."
+msgstr ""
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:983
 msgid "Unoriginal content!"
-msgstr "Conteudo não original!"
+msgstr ""
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:984
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr "Conteudo não original! Você está impedido de postar por %d segundos."
+msgstr ""
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:985
 #, php-format
 msgid "You are muted! Expires in %d seconds."
-msgstr "Você está impedido de postar! Expira em %d segundos."
+msgstr ""
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:986
 #, php-format
 msgid "Your IP address is listed in %s."
-msgstr "Seu IP está listado em %s."
+msgstr ""
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:987
 msgid "Too many links; flood detected."
-msgstr "Links demais; Flood detectado."
+msgstr ""
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:988
 msgid "Too many cites; post discarded."
-msgstr "Citações demais; Post descartado."
+msgstr ""
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:989
 msgid "Too many cross-board links; post discarded."
-msgstr "Links entre boards demais; Post descartado."
+msgstr ""
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:990
 msgid "You didn't select anything to delete."
-msgstr "Você não selecionou nada para deletar."
+msgstr ""
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:991
 msgid "You didn't select anything to report."
-msgstr "Você não selecionou nada para denunciar."
+msgstr ""
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:992
 msgid "You can't report that many posts at once."
-msgstr "Você não pode denunciar tantas mensagens ao mesmo tempo."
+msgstr ""
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:993
 msgid "Wrong password…"
-msgstr "Senha incorreta…"
+msgstr ""
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:994
 msgid "Invalid image."
-msgstr "Imagem inválida."
+msgstr ""
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:995
 msgid "Unknown file extension."
-msgstr "Extenção de arquivo desconhecida."
+msgstr ""
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:996
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
-msgstr "Tamanho maximo de arquivos: %maxsz% bytes<br>O tamanho do seu arquivo: %filesz% bytes"
+msgstr ""
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:997
 msgid "The file was too big."
-msgstr "Seu arquivo é grande demais."
+msgstr ""
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:998
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
-msgstr "O arquivo <a href=\"%s\">já existe</a>!"
+msgstr ""
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:999
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
-msgstr "O arquivo <a href=\"%s\">já existe</a> neste tópico!"
+msgstr ""
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:1000
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
-msgstr "Você terá que esperar %s segundos antes de deletar isso."
+msgstr ""
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1001
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
-msgstr "Exploit XSS do tipo MIME (IE) detectado; mensagem descartada."
+msgstr ""
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:1002
 msgid "Couldn't make sense of the URL of the video you tried to embed."
-msgstr "Não consegui processar a URL do video que você tentou integrar"
+msgstr ""
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:1003
 msgid "You seem to have mistyped the verification."
-msgstr "Você errou o codigo de verificação."
+msgstr ""
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
@@ -536,13 +536,13 @@ msgstr ""
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1007
 msgid "Invalid username and/or password."
-msgstr "Login e/ou senha inválido(s)."
+msgstr ""
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1008
 msgid "You are not a mod…"
-msgstr "Você não é mod…"
+msgstr ""
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
@@ -550,77 +550,77 @@ msgstr "Você não é mod…"
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
-msgstr "Login e/ou senha inválido(s). Seu login deve ter sido mudado ou removido."
+msgstr ""
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1010
 msgid "Invalid/malformed cookies."
-msgstr "Cookies inválidos ou mal formados."
+msgstr ""
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011
 msgid "Your browser didn't submit an input when it should have."
-msgstr "Seu browser não enviou uma entrada quando ele deveria."
+msgstr ""
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
 #: ../../../../inc/config.php:1012
 #, php-format
 msgid "The %s field is required."
-msgstr "O campo %s é necessário."
+msgstr ""
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1013
 #, php-format
 msgid "The %s field was invalid."
-msgstr "O campo %s é inválido."
+msgstr ""
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1014
 #, php-format
 msgid "There is already a %s board."
-msgstr "A board %s já existe."
+msgstr ""
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1015
 msgid "You don't have permission to do that."
-msgstr "Você não tem permissão para fazer isso."
+msgstr ""
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1016
 msgid "That post doesn't exist…"
-msgstr "Este post já existe…"
+msgstr ""
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1017
 msgid "Page not found."
-msgstr "Pagina não encontrada."
+msgstr ""
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1018
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr "Este mod <a href=\"?/users/%d\">já existe</a>!"
+msgstr ""
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019
 msgid "That theme doesn't exist!"
-msgstr "Este tema não existe!"
+msgstr ""
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1020
 msgid "Invalid security token! Please go back and try again."
-msgstr "Token de segurança inválido! Retorne e tente de novo."
+msgstr ""
 
 #. Default public ban message. In public ban messages, %length% is replaced
 #. with "for x days" or
@@ -636,15 +636,15 @@ msgstr ""
 
 #: ../../../../inc/mod/pages.php:66 ../../../../inc/mod/pages.php:64
 msgid "Confirm action"
-msgstr "Confirmar ação"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:110 ../../../../inc/mod/pages.php:108
 msgid "Could not find current version! (Check .installed)"
-msgstr "Não foi possivel encontrar a versão atual! (Cheque o .installed)"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:162
 msgid "Dashboard"
-msgstr "Dashboard"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
@@ -657,33 +657,33 @@ msgstr ""
 
 #: ../../../../inc/mod/pages.php:436 ../../../../inc/mod/pages.php:438
 msgid "Edit board"
-msgstr "Editar board"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:486 ../../../../inc/mod/pages.php:491
 msgid "Couldn't open board after creation."
-msgstr "Não foi possivel abrir a board após a criação."
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:506 ../../../../inc/mod/pages.php:511
 msgid "New board"
-msgstr "Nova board"
+msgstr ""
 
 #. line 37
 #: ../../../../inc/mod/pages.php:553 ../../../../inc/mod/pages.php:562
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:121
 msgid "Noticeboard"
-msgstr "Quadro de noticias"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:614 ../../../../inc/mod/pages.php:631
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:194
 msgid "News"
-msgstr "Noticias"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:654 ../../../../inc/mod/pages.php:681
 #: ../../../../inc/mod/pages.php:671 ../../../../inc/mod/pages.php:698
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:300
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:75
 msgid "Moderation log"
-msgstr "Log da moderação"
+msgstr ""
 
 #. line 104
 #. line 20
@@ -710,19 +710,19 @@ msgstr "Log da moderação"
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:64
 msgid "IP"
-msgstr "IP"
+msgstr ""
 
 #. line 171
 #: ../../../../inc/mod/pages.php:848 ../../../../inc/mod/pages.php:1367
 #: ../../../../inc/mod/pages.php:862 ../../../../inc/mod/pages.php:1432
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:440
 msgid "New ban"
-msgstr "Nova expulsão"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:931 ../../../../inc/mod/pages.php:914
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:256
 msgid "Ban list"
-msgstr "Lista de expulsões"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1105 ../../../../inc/mod/pages.php:1165
 msgid "Move reply"
@@ -730,96 +730,96 @@ msgstr ""
 
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
 msgid "Target and source board are the same."
-msgstr "Board alvo e fonte são as mesmas."
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1296 ../../../../inc/mod/pages.php:1357
 msgid "Impossible to move thread; there is only one board."
-msgstr "Impossivel de mover o tópico; Só existe uma board."
+msgstr ""
 
 #. line 39
 #: ../../../../inc/mod/pages.php:1300 ../../../../inc/mod/pages.php:1361
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:114
 msgid "Move thread"
-msgstr "Mover tópico"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1698 ../../../../inc/mod/pages.php:1751
 #: ../../../../inc/mod/pages.php:1775
 msgid "Edit user"
-msgstr "Editar usuário"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1764 ../../../../inc/mod/pages.php:1855
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:274
 msgid "Manage users"
-msgstr "Administrar usuários"
+msgstr ""
 
 #. deleted?
 #: ../../../../inc/mod/pages.php:1826 ../../../../inc/mod/pages.php:1899
 #: ../../../../inc/mod/pages.php:1945 ../../../../inc/mod/pages.php:2021
 msgid "New PM for"
-msgstr "Nova MP para"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1830 ../../../../inc/mod/pages.php:1952
 msgid "Private message"
-msgstr "Mensagem pessoal"
+msgstr ""
 
 #. line 68
 #: ../../../../inc/mod/pages.php:1851 ../../../../inc/mod/pages.php:1973
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:200
 msgid "PM inbox"
-msgstr "Entrada de MP"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:1963 ../../../../inc/mod/pages.php:1967
 #: ../../../../inc/mod/pages.php:2090 ../../../../inc/mod/pages.php:2094
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:309
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:115
 msgid "Rebuild"
-msgstr "Reconstruir"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2043 ../../../../inc/mod/pages.php:2179
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:238
 msgid "Report queue"
-msgstr "Fila de denuncias"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2111 ../../../../inc/mod/pages.php:2210
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
 msgid "Config editor"
-msgstr "Editor de configurações"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2226 ../../../../inc/mod/pages.php:2367
 msgid "Themes directory doesn't exist!"
-msgstr "Diretório de temas não existe!"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2228 ../../../../inc/mod/pages.php:2369
 msgid "Cannot open themes directory; check permissions."
-msgstr "Não é possivel abrir diretorio de temas; reveja suas permissões."
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
 msgid "Manage themes"
-msgstr "Administrar temas"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2307 ../../../../inc/mod/pages.php:2453
 #, php-format
 msgid "Installed theme: %s"
-msgstr "Tema instalado: %s"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
 #, php-format
 msgid "Configuring theme: %s"
-msgstr "Configurando tema: %s"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
 #, php-format
 msgid "Rebuilt theme: %s"
-msgstr "Reconstruir tema: %s"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
 msgid "Debug: Anti-spam"
-msgstr "Debug: Anti-spam"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2409 ../../../../inc/mod/pages.php:2566
 msgid "Debug: Recent posts"
-msgstr "Debug: Mensagens recentes"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
 msgid "Debug: SQL"
@@ -854,7 +854,7 @@ msgstr ""
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:22
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:25
 msgid "Delete Post"
-msgstr "Deletar Mensagem"
+msgstr ""
 
 #. line 3
 #. line 84
@@ -882,7 +882,7 @@ msgstr "Deletar Mensagem"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:29
 msgid "File"
-msgstr "Arquivo"
+msgstr ""
 
 #. line 132
 #. line 14
@@ -907,7 +907,7 @@ msgstr "Arquivo"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
 msgid "Password"
-msgstr "Senha"
+msgstr ""
 
 #. line 8
 #. line 108
@@ -959,13 +959,13 @@ msgstr "Senha"
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:37
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:141
 msgid "Reason"
-msgstr "Razão"
+msgstr ""
 
 #. line 10
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:44
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:47
 msgid "Report"
-msgstr "Denunciar"
+msgstr ""
 
 #: ../../../../templates/cache/f5/e3/343716327c6183713f70a3fb57f1.php:149
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:134
@@ -977,7 +977,7 @@ msgstr "Denunciar"
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:120
 #: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:138
 msgid "Return to dashboard"
-msgstr "Voltar à dashboard"
+msgstr ""
 
 #. line 39
 #. line 33
@@ -985,7 +985,7 @@ msgstr "Voltar à dashboard"
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:146
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:134
 msgid "Posting mode: Reply"
-msgstr "Modo de postagem: Resposta"
+msgstr ""
 
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:147
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:200
@@ -994,7 +994,7 @@ msgstr "Modo de postagem: Resposta"
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:138
 #: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:186
 msgid "Return"
-msgstr "Voltar"
+msgstr ""
 
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:61
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:64
@@ -1007,7 +1007,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:144
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:88
 msgid "no subject"
-msgstr "sem assunto"
+msgstr ""
 
 #. line 44
 #. line 56
@@ -1018,7 +1018,7 @@ msgstr "sem assunto"
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:153
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:94
 msgid "by"
-msgstr "por"
+msgstr ""
 
 #. line 50
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:95
@@ -1026,7 +1026,7 @@ msgstr "por"
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:157
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:98
 msgid "at"
-msgstr "em"
+msgstr ""
 
 #. line 28
 #. line 26
@@ -1041,7 +1041,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:102
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:105
 msgid "File:"
-msgstr "Arquivo:"
+msgstr ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:115
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:127
@@ -1053,7 +1053,7 @@ msgstr "Arquivo:"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:209
 #: ../../../../templates/cache/9b/6a/0d0c5add399e8dfbd5c8c097ea68815306312248498dae4682282190e561.php:128
 msgid "Spoiler Image"
-msgstr "Imagem Spoiler"
+msgstr ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:530
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:495
@@ -1062,7 +1062,7 @@ msgstr "Imagem Spoiler"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:591
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:304
 msgid "Reply"
-msgstr "Responder"
+msgstr ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:544
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:509
@@ -1092,8 +1092,8 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:372
 msgid "1 post"
 msgid_plural "%count% posts"
-msgstr[0] "1 mensagem"
-msgstr[1] "%count% mensagens"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:604
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:569
@@ -1103,7 +1103,7 @@ msgstr[1] "%count% mensagens"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:665
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:378
 msgid "and"
-msgstr "e"
+msgstr ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:616
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:581
@@ -1113,8 +1113,8 @@ msgstr "e"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:390
 msgid "1 image reply"
 msgid_plural "%count% image replies"
-msgstr[0] "1 resposta com imagem"
-msgstr[1] "%count% respostas com imagem"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:621
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:586
@@ -1123,7 +1123,7 @@ msgstr[1] "%count% respostas com imagem"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:682
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:395
 msgid "omitted. Click reply to view."
-msgstr "omitidas. Clique em responder para visualizar."
+msgstr ""
 
 #. line 7
 #. line 14
@@ -1151,7 +1151,7 @@ msgstr "omitidas. Clique em responder para visualizar."
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:33
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:40
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #. line 15
 #. line 24
@@ -1166,7 +1166,7 @@ msgstr "Nome"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:91
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:47
 msgid "Email"
-msgstr "E-mail"
+msgstr ""
 
 #. line 23
 #. line 46
@@ -1193,13 +1193,13 @@ msgstr "E-mail"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:150
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:61
 msgid "Subject"
-msgstr "Assunto"
+msgstr ""
 
 #. line 27
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:68
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:71
 msgid "Update"
-msgstr "Atualizar"
+msgstr ""
 
 #. line 32
 #. line 57
@@ -1214,28 +1214,28 @@ msgstr "Atualizar"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:181
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:79
 msgid "Comment"
-msgstr "Comentar"
+msgstr ""
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:97
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:100
 msgid "Currently editing raw HTML."
-msgstr "Editando em HTML puro."
+msgstr ""
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:105
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:108
 msgid "Edit markup instead?"
-msgstr "Editar markup em vez disso?"
+msgstr ""
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:115
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:118
 msgid "Edit raw HTML instead?"
-msgstr "Editar em HTML puro em vez disso?"
+msgstr ""
 
 #. line 73
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:226
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:229
 msgid "Verification"
-msgstr "Verification"
+msgstr ""
 
 #. line 90
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
@@ -1247,7 +1247,7 @@ msgstr ""
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:285
 msgid "Embed"
-msgstr "Inserir"
+msgstr ""
 
 #. line 112
 #. line 111
@@ -1255,7 +1255,7 @@ msgstr "Inserir"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
 msgid "Flags"
-msgstr "Sinalizações"
+msgstr ""
 
 #. line 116
 #. line 117
@@ -1285,7 +1285,7 @@ msgstr "Sinalizações"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:323
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
 msgid "Sticky"
-msgstr "Fixar"
+msgstr ""
 
 #. line 120
 #. line 121
@@ -1315,7 +1315,7 @@ msgstr "Fixar"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:337
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
 msgid "Lock"
-msgstr "Trancar"
+msgstr ""
 
 #. line 124
 #. line 125
@@ -1345,7 +1345,7 @@ msgstr "Trancar"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:351
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
 msgid "Raw HTML"
-msgstr "HTML Puro"
+msgstr ""
 
 #. line 137
 #. line 136
@@ -1355,7 +1355,7 @@ msgstr "HTML Puro"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
 msgid "(For file deletion.)"
-msgstr "(Para excluir arquivos)"
+msgstr ""
 
 #: ../../../../search.php:5
 msgid "Post search is disabled"
@@ -1419,7 +1419,7 @@ msgstr ""
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:66
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:25
 msgid "Search"
-msgstr "Procurar"
+msgstr ""
 
 #: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
@@ -1461,38 +1461,38 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:38
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:139
 msgid "Boards"
-msgstr "Boards"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:79
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:215
 msgid "edit"
-msgstr "editar"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:97
 msgid "Create new board"
-msgstr "Criar nova board"
+msgstr ""
 
 #. line 32
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:108
 msgid "Messages"
-msgstr "Mensagens"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:188
 msgid "View all noticeboard entries"
-msgstr "Ver todas as noticias do quadro de noticias"
+msgstr ""
 
 #. line 76
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:222
 msgid "Administration"
-msgstr "Administração"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:282
 msgid "Change password"
-msgstr "Mudar senha"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:318
 msgid "Configuration"
-msgstr "Configuração"
+msgstr ""
 
 #. line 127
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:357
@@ -1502,36 +1502,36 @@ msgstr ""
 #. line 139
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:391
 msgid "Debug"
-msgstr "Debug"
+msgstr ""
 
 #. line 141
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:396
 msgid "Anti-spam"
-msgstr "Anti-spam"
+msgstr ""
 
 #. line 142
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:400
 msgid "Recent posts"
-msgstr "Mensagens recentes"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:407
 msgid "SQL"
-msgstr "SQL"
+msgstr ""
 
 #. line 164
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:446
 msgid "User account"
-msgstr "Conta de usuário"
+msgstr ""
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:454
 msgid "Logout"
-msgstr "Sair"
+msgstr ""
 
 #. line 3
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:27
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:27
 msgid "New post"
-msgstr "Nova mensagem"
+msgstr ""
 
 #. line 16
 #. line 28
@@ -1540,17 +1540,17 @@ msgstr "Nova mensagem"
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:55
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:83
 msgid "Body"
-msgstr "Mensagem"
+msgstr ""
 
 #. line 21
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:63
 msgid "Post to noticeboard"
-msgstr "Postar no quadro de notícias"
+msgstr ""
 
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:90
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:118
 msgid "delete"
-msgstr "deletar"
+msgstr ""
 
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:138
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:123
@@ -1565,12 +1565,12 @@ msgstr "deletar"
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:345
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:415
 msgid "deleted?"
-msgstr "deletado?"
+msgstr ""
 
 #. line 33
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:91
 msgid "Post news entry"
-msgstr "Postar nova notícia"
+msgstr ""
 
 #. line 24
 #. line 63
@@ -1631,7 +1631,7 @@ msgstr "Postar nova notícia"
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:165
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:371
 msgid "Staff"
-msgstr "Equipe"
+msgstr ""
 
 #. line 25
 #. line 68
@@ -1653,7 +1653,7 @@ msgstr "Equipe"
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:197
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:63
 msgid "Note"
-msgstr "Nota"
+msgstr ""
 
 #. line 26
 #. line 22
@@ -1666,23 +1666,23 @@ msgstr "Nota"
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:79
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:67
 msgid "Date"
-msgstr "Data"
+msgstr ""
 
 #. line 25
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:96
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:88
 msgid "Actions"
-msgstr "Ações"
+msgstr ""
 
 #. line 49
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:154
 msgid "remove"
-msgstr "remover"
+msgstr ""
 
 #. line 76
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:208
 msgid "New note"
-msgstr "Nova nota"
+msgstr ""
 
 #. line 94
 #. line 7
@@ -1700,22 +1700,22 @@ msgstr "Nova nota"
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
-msgstr "Situação"
+msgstr ""
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:259
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:44
 msgid "Expired"
-msgstr "Expirado"
+msgstr ""
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:265
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:50
 msgid "Active"
-msgstr "Ativo"
+msgstr ""
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:299
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:91
 msgid "no reason"
-msgstr "sem razão especificada"
+msgstr ""
 
 #. line 118
 #. line 184
@@ -1772,7 +1772,7 @@ msgstr "sem razão especificada"
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:383
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:263
 msgid "Board"
-msgstr "Board"
+msgstr ""
 
 #. line 71
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:323
@@ -1783,7 +1783,7 @@ msgstr "Board"
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:100
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:227
 msgid "all boards"
-msgstr "todas as boards"
+msgstr ""
 
 #. line 128
 #. line 11
@@ -1810,7 +1810,7 @@ msgstr "todas as boards"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:149
 msgid "Set"
-msgstr "Configurar"
+msgstr ""
 
 #. line 132
 #. line 13
@@ -1837,7 +1837,7 @@ msgstr "Configurar"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:135
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:157
 msgid "Expires"
-msgstr "Expira em"
+msgstr ""
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:357
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:173
@@ -1845,7 +1845,7 @@ msgstr "Expira em"
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:155
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:267
 msgid "never"
-msgstr "nunca"
+msgstr ""
 
 #. line 142
 #. line 14
@@ -1891,7 +1891,7 @@ msgstr ""
 #. line 163
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:419
 msgid "Remove ban"
-msgstr "Remover expulsão"
+msgstr ""
 
 #. line 183
 #. line 5
@@ -1939,11 +1939,11 @@ msgstr ""
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:73
 msgid "(or subnet)"
-msgstr "(ou subnet)"
+msgstr ""
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:88
 msgid "hidden"
-msgstr "oculto"
+msgstr ""
 
 #. line 41
 #. line 27
@@ -1951,22 +1951,22 @@ msgstr "oculto"
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:117
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:92
 msgid "Message"
-msgstr "Mensagem"
+msgstr ""
 
 #. line 46
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:133
 msgid "public; attached to post"
-msgstr "público; anexado à mensagem"
+msgstr ""
 
 #. line 58
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:150
 msgid "Length"
-msgstr "Tamanho"
+msgstr ""
 
 #. line 88
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:212
 msgid "New Ban"
-msgstr "Nova Expulsão"
+msgstr ""
 
 #. line 2
 #. line 5
@@ -1983,7 +1983,7 @@ msgstr "Nova Expulsão"
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:31
 msgid "Phrase:"
-msgstr "Frase:"
+msgstr ""
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:38
 msgid "Posts"
@@ -2043,12 +2043,12 @@ msgstr ""
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:30
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:45
 msgid "Username"
-msgstr "Usuário"
+msgstr ""
 
 #. line 23
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:60
 msgid "Continue"
-msgstr "Prosseguir"
+msgstr ""
 
 #. line 80
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:210
@@ -2062,7 +2062,7 @@ msgstr ""
 
 #: ../../../../templates/cache/7d/63/b6fd83bf4ed7f6031a2b3373b997d2d40617bf98899fe672a0aae48520c5.php:31
 msgid "There are no reports."
-msgstr "Não há denúncias no momento."
+msgstr ""
 
 #: ../../../../post.php:802 ../../../../post.php:811
 msgid "That ban doesn't exist or is not for you."
@@ -2248,16 +2248,16 @@ msgstr ""
 #. line 3
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:26
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. line 5
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:34
 msgid "Type"
-msgstr "Tipo"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:45
 msgid "Last action"
-msgstr "Ultima ação"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:80
 msgid "Unknown"
@@ -2265,15 +2265,15 @@ msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:94
 msgid "none"
-msgstr "nenhum"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:174
 msgid "Promote"
-msgstr "Promover"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:187
 msgid "Demote"
-msgstr "Rebaixar"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:191
 msgid "Are you sure you want to demote yourself?"
@@ -2281,11 +2281,11 @@ msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:204
 msgid "log"
-msgstr "registro"
+msgstr ""
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:226
 msgid "PM"
-msgstr "MP"
+msgstr ""
 
 #. line 6
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:36
@@ -2343,19 +2343,19 @@ msgstr ""
 #. line 7
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
 msgid "Report date"
-msgstr "Data da denúncia"
+msgstr ""
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:54
 msgid "Reported by"
-msgstr "Denunciado por"
+msgstr ""
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:73
 msgid "Discard abuse report"
-msgstr "Descartar denúncia desnecessária"
+msgstr ""
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:93
 msgid "Discard all abuse reports by this IP address"
-msgstr "Descartar todas denúncias desnecessárias deste IP"
+msgstr ""
 
 #. line 4
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27

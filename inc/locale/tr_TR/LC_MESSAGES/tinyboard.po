@@ -1,74 +1,79 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Translators:
+# Tunai <tunayuyar39@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Tinyboard Türkçe Çeviri\n"
+"Project-Id-Version: Tinyboard+vichan-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 20:19+0100\n"
-"PO-Revision-Date: 2014-02-20 22:38+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Tunay Uyar <tunayuyar39@gmail.com>\n"
+"POT-Creation-Date: 2014-04-18 19:24+0200\n"
+"PO-Revision-Date: 2014-04-18 17:38+0000\n"
+"Last-Translator: czaks <marcin@6irc.net>\n"
+"Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.4\n"
 "Language: tr_TR\n"
-
-#: ../../../../inc/lib/gettext/examples/pigs_dropin.php:77
-msgid ""
-"This is how the story goes.\n"
-"\n"
-msgstr ""
-"Şimdi hikaye şöyle başlıyor.\n"
-"\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../../../../inc/functions.php:583 ../../../../inc/functions.php:600
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
+#: ../../../../inc/functions.php:620 ../../../../inc/functions.php:637
+#: ../../../../inc/functions.php:623 ../../../../inc/functions.php:640
+#: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "saniye"
-msgstr[1] "saniye"
 
 #: ../../../../inc/functions.php:585 ../../../../inc/functions.php:602
 #: ../../../../inc/functions.php:593 ../../../../inc/functions.php:610
+#: ../../../../inc/functions.php:622 ../../../../inc/functions.php:639
+#: ../../../../inc/functions.php:625 ../../../../inc/functions.php:642
+#: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "dakika"
-msgstr[1] "dakika"
 
 #: ../../../../inc/functions.php:587 ../../../../inc/functions.php:604
 #: ../../../../inc/functions.php:595 ../../../../inc/functions.php:612
+#: ../../../../inc/functions.php:624 ../../../../inc/functions.php:641
+#: ../../../../inc/functions.php:627 ../../../../inc/functions.php:644
+#: ../../../../inc/functions.php:633 ../../../../inc/functions.php:650
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "saat"
-msgstr[1] "saat"
 
 #: ../../../../inc/functions.php:589 ../../../../inc/functions.php:606
 #: ../../../../inc/functions.php:597 ../../../../inc/functions.php:614
+#: ../../../../inc/functions.php:626 ../../../../inc/functions.php:643
+#: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
+#: ../../../../inc/functions.php:635 ../../../../inc/functions.php:652
 msgid "day"
 msgid_plural "days"
 msgstr[0] "gün"
-msgstr[1] "gün"
 
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
 #: ../../../../inc/functions.php:599 ../../../../inc/functions.php:616
+#: ../../../../inc/functions.php:628 ../../../../inc/functions.php:645
+#: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
+#: ../../../../inc/functions.php:637 ../../../../inc/functions.php:654
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "hafta"
-msgstr[1] "hafta"
 
 #: ../../../../inc/functions.php:594 ../../../../inc/functions.php:611
 #: ../../../../inc/functions.php:602 ../../../../inc/functions.php:619
+#: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
+#: ../../../../inc/functions.php:634 ../../../../inc/functions.php:651
+#: ../../../../inc/functions.php:640 ../../../../inc/functions.php:657
 msgid "year"
 msgid_plural "years"
 msgstr[0] "yıl"
-msgstr[1] "yıl"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
+#: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
+#: ../../../../inc/functions.php:708
 msgid "Banned!"
 msgstr "Ban!"
 
@@ -76,6 +81,9 @@ msgstr "Ban!"
 #: ../../../../inc/functions.php:1125 ../../../../inc/functions.php:1139
 #: ../../../../inc/functions.php:1165 ../../../../inc/functions.php:1179
 #: ../../../../inc/functions.php:1168 ../../../../inc/functions.php:1182
+#: ../../../../inc/functions.php:1197 ../../../../inc/functions.php:1211
+#: ../../../../inc/functions.php:1200 ../../../../inc/functions.php:1214
+#: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
 msgid "Previous"
 msgstr "Geri"
 
@@ -83,6 +91,9 @@ msgstr "Geri"
 #: ../../../../inc/functions.php:1144 ../../../../inc/functions.php:1153
 #: ../../../../inc/functions.php:1184 ../../../../inc/functions.php:1193
 #: ../../../../inc/functions.php:1187 ../../../../inc/functions.php:1196
+#: ../../../../inc/functions.php:1216 ../../../../inc/functions.php:1225
+#: ../../../../inc/functions.php:1219 ../../../../inc/functions.php:1228
+#: ../../../../inc/functions.php:1234
 msgid "Next"
 msgstr "İleri"
 
@@ -187,7 +198,9 @@ msgstr "Bu IP'nin bütün tahtalardaki gönderilerini sil"
 
 #: ../../../../inc/display.php:469 ../../../../inc/display.php:491
 #: ../../../../inc/display.php:494
-msgid "Are you sure you want to delete all posts by this IP address, across all boards?"
+msgid ""
+"Are you sure you want to delete all posts by this IP address, across all "
+"boards?"
 msgstr "Bu IP'nin bütün tahtalardaki girdilerini silmek istediğinizden emin misiniz?"
 
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:512
@@ -230,319 +243,389 @@ msgstr "Konuyu başka bir tahtaya taşı"
 #. If you want to alter the algorithm a bit. Default value is 2.
 #. (n^x where x is the number of previous mutes)
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
+#: ../../../../inc/config.php:474
 msgid "You have been muted for unoriginal content."
 msgstr "Özgün içerik koymamaktan susturuldunuz."
 
-#. The names on the post buttons. (On most imageboards, these are both just "Post").
+#. The names on the post buttons. (On most imageboards, these are both just
+#. "Post").
+#. The names on the post buttons. (On most imageboards, these are both just
+#. "Post").
 #: ../../../../inc/config.php:677 ../../../../inc/config.php:781
-#: ../../../../inc/config.php:772
+#: ../../../../inc/config.php:772 ../../../../inc/config.php:774
+#: ../../../../inc/config.php:776
 msgid "New Topic"
 msgstr "Yeni Konu"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
-#: ../../../../inc/config.php:773
+#: ../../../../inc/config.php:773 ../../../../inc/config.php:775
+#: ../../../../inc/config.php:777
 msgid "New Reply"
 msgstr "Cevapla"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
-#: ../../../../inc/config.php:784
-msgid "All trademarks, copyrights, comments, and images on this page are owned by and are the responsibility of their respective parties."
+#: ../../../../inc/config.php:784 ../../../../inc/config.php:786
+#: ../../../../inc/config.php:788
+msgid ""
+"All trademarks, copyrights, comments, and images on this page are owned by "
+"and are the responsibility of their respective parties."
 msgstr "Bütün hakları saklıdır."
 
-#.
 #. * ====================
 #. *  Error messages
 #. * ====================
-#.
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
 msgstr "Katılmadan önce biraz daha dolaşın bakalım."
 
-#.
 #. * ====================
 #. *  Error messages
 #. * ====================
-#.
+#. Error messages
+#. * ====================
+#. *  Error messages
+#. * ====================
 #. Error messages
 #: ../../../../inc/config.php:867 ../../../../inc/config.php:972
-#: ../../../../inc/config.php:963
+#: ../../../../inc/config.php:963 ../../../../inc/config.php:965
+#: ../../../../inc/config.php:967
 msgid "You look like a bot."
 msgstr "Bot gibi duruyorsunuz burdan."
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
-#: ../../../../inc/config.php:964
+#: ../../../../inc/config.php:964 ../../../../inc/config.php:966
+#: ../../../../inc/config.php:968
 msgid "Your browser sent an invalid or no HTTP referer."
 msgstr "Tarayıcınız geçersiz bir HTTP referansı yolladı."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
-#: ../../../../inc/config.php:965
+#: ../../../../inc/config.php:965 ../../../../inc/config.php:967
+#: ../../../../inc/config.php:969
 #, php-format
 msgid "The %s field was too long."
 msgstr "%s çok uzun."
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
-#: ../../../../inc/config.php:966
+#: ../../../../inc/config.php:966 ../../../../inc/config.php:968
+#: ../../../../inc/config.php:970
 msgid "The body was too long."
 msgstr "İçerik çok uzun."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
-#: ../../../../inc/config.php:967
+#: ../../../../inc/config.php:967 ../../../../inc/config.php:969
+#: ../../../../inc/config.php:971
 msgid "The body was too short or empty."
 msgstr "İçerik çok kısa ya da bış"
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
-#: ../../../../inc/config.php:968
+#: ../../../../inc/config.php:968 ../../../../inc/config.php:970
+#: ../../../../inc/config.php:972
 msgid "You must upload an image."
 msgstr "Bir resim yüklemelisiniz."
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
-#: ../../../../inc/config.php:969
+#: ../../../../inc/config.php:969 ../../../../inc/config.php:971
+#: ../../../../inc/config.php:973
 msgid "The server failed to handle your upload."
 msgstr "Sunucumuz yüklemenizi kaldıramadı."
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
-#: ../../../../inc/config.php:970
+#: ../../../../inc/config.php:970 ../../../../inc/config.php:972
+#: ../../../../inc/config.php:974
 msgid "Unsupported image format."
 msgstr "Desteklenmeyen resim formatı."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
-#: ../../../../inc/config.php:971
+#: ../../../../inc/config.php:971 ../../../../inc/config.php:973
+#: ../../../../inc/config.php:975
 msgid "Invalid board!"
 msgstr "Geçersiz tahta!"
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
-#: ../../../../inc/config.php:972
+#: ../../../../inc/config.php:972 ../../../../inc/config.php:974
+#: ../../../../inc/config.php:976
 msgid "Thread specified does not exist."
 msgstr "Böyle bir konu yok."
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
-#: ../../../../inc/config.php:973
+#: ../../../../inc/config.php:973 ../../../../inc/config.php:975
+#: ../../../../inc/config.php:977
 msgid "Thread locked. You may not reply at this time."
 msgstr "Konu kilitlendi. Şu an cevaplayamassınız."
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
-#: ../../../../inc/config.php:974
+#: ../../../../inc/config.php:974 ../../../../inc/config.php:976
+#: ../../../../inc/config.php:978
 msgid "Thread has reached its maximum reply limit."
 msgstr "Konu azami cevap sayısına ulaştı."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
-#: ../../../../inc/config.php:975
+#: ../../../../inc/config.php:975 ../../../../inc/config.php:977
+#: ../../../../inc/config.php:979
 msgid "Thread has reached its maximum image limit."
 msgstr "Konu azami resim limitine ulaştı."
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
-#: ../../../../inc/config.php:976
+#: ../../../../inc/config.php:976 ../../../../inc/config.php:978
+#: ../../../../inc/config.php:980
 msgid "You didn't make a post."
 msgstr "Bi'şey yapmadınız."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
-#: ../../../../inc/config.php:977
+#: ../../../../inc/config.php:977 ../../../../inc/config.php:979
+#: ../../../../inc/config.php:981
 msgid "Flood detected; Post discarded."
 msgstr "Floodcu pezevenk."
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
-#: ../../../../inc/config.php:978
+#: ../../../../inc/config.php:978 ../../../../inc/config.php:980
+#: ../../../../inc/config.php:982
 msgid "Your request looks automated; Post discarded."
 msgstr "Robot gibi görünüyorsunuz."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
-#: ../../../../inc/config.php:979
+#: ../../../../inc/config.php:979 ../../../../inc/config.php:981
+#: ../../../../inc/config.php:983
 msgid "Unoriginal content!"
 msgstr "Özgün olmayan içerik!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
-#: ../../../../inc/config.php:980
+#: ../../../../inc/config.php:980 ../../../../inc/config.php:982
+#: ../../../../inc/config.php:984
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
 msgstr "Özgün olmayan içerik! %d saniye susturuldunuz."
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
-#: ../../../../inc/config.php:981
+#: ../../../../inc/config.php:981 ../../../../inc/config.php:983
+#: ../../../../inc/config.php:985
 #, php-format
 msgid "You are muted! Expires in %d seconds."
 msgstr "Susturuldunuz! %d saniyeye geçer."
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
-#: ../../../../inc/config.php:982
+#: ../../../../inc/config.php:982 ../../../../inc/config.php:984
+#: ../../../../inc/config.php:986
 #, php-format
 msgid "Your IP address is listed in %s."
 msgstr "IP adresiniz %s listesinde."
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
-#: ../../../../inc/config.php:983
+#: ../../../../inc/config.php:983 ../../../../inc/config.php:985
+#: ../../../../inc/config.php:987
 msgid "Too many links; flood detected."
 msgstr "Çok fazla link var, flood gibi."
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
-#: ../../../../inc/config.php:984
+#: ../../../../inc/config.php:984 ../../../../inc/config.php:986
+#: ../../../../inc/config.php:988
 msgid "Too many cites; post discarded."
 msgstr "Çok fazla alıntı var."
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
-#: ../../../../inc/config.php:985
+#: ../../../../inc/config.php:985 ../../../../inc/config.php:987
+#: ../../../../inc/config.php:989
 msgid "Too many cross-board links; post discarded."
 msgstr "Çok fazla çapraz tahta linki."
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
-#: ../../../../inc/config.php:986
+#: ../../../../inc/config.php:986 ../../../../inc/config.php:988
+#: ../../../../inc/config.php:990
 msgid "You didn't select anything to delete."
 msgstr "Silmek için bir şey seçmediniz."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
-#: ../../../../inc/config.php:987
+#: ../../../../inc/config.php:987 ../../../../inc/config.php:989
+#: ../../../../inc/config.php:991
 msgid "You didn't select anything to report."
 msgstr "Şikayet edecek bir şey seçmediniz."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
-#: ../../../../inc/config.php:988
+#: ../../../../inc/config.php:988 ../../../../inc/config.php:990
+#: ../../../../inc/config.php:992
 msgid "You can't report that many posts at once."
 msgstr "Bu kadar çok girdiyi bir kerede şikayet edemezsiniz."
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
-#: ../../../../inc/config.php:989
+#: ../../../../inc/config.php:989 ../../../../inc/config.php:991
+#: ../../../../inc/config.php:993
 msgid "Wrong password…"
 msgstr "Yanlış şifre..."
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
-#: ../../../../inc/config.php:990
+#: ../../../../inc/config.php:990 ../../../../inc/config.php:992
+#: ../../../../inc/config.php:994
 msgid "Invalid image."
 msgstr "Geçersiz resim."
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
-#: ../../../../inc/config.php:991
+#: ../../../../inc/config.php:991 ../../../../inc/config.php:993
+#: ../../../../inc/config.php:995
 msgid "Unknown file extension."
 msgstr "Bilinmeyen dosya uzantısı."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
-#: ../../../../inc/config.php:992
+#: ../../../../inc/config.php:992 ../../../../inc/config.php:994
+#: ../../../../inc/config.php:996
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
 msgstr "Azami dosya boyutu: %maxsz% byte <br> Dosyanızın boyutu %filesz% byte"
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
-#: ../../../../inc/config.php:993
+#: ../../../../inc/config.php:993 ../../../../inc/config.php:995
+#: ../../../../inc/config.php:997
 msgid "The file was too big."
 msgstr "Dosyanız çok büyük."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
-#: ../../../../inc/config.php:994
+#: ../../../../inc/config.php:994 ../../../../inc/config.php:996
+#: ../../../../inc/config.php:998
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
 msgstr " <a href=\"%s\"> Bu dosya </a> zaten var.!"
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
-#: ../../../../inc/config.php:995
+#: ../../../../inc/config.php:995 ../../../../inc/config.php:997
+#: ../../../../inc/config.php:999
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
 msgstr " <a href=\"%s\">Bu dosya </a> bu konuda zaten var!"
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
-#: ../../../../inc/config.php:996
+#: ../../../../inc/config.php:996 ../../../../inc/config.php:998
+#: ../../../../inc/config.php:1000
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
 msgstr "Silmeden önce %s kadar beklemelisiniz."
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
-#: ../../../../inc/config.php:997
+#: ../../../../inc/config.php:997 ../../../../inc/config.php:999
+#: ../../../../inc/config.php:1001
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
 msgstr "FATAL ÖRÖR"
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
-#: ../../../../inc/config.php:998
+#: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
+#: ../../../../inc/config.php:1002
 msgid "Couldn't make sense of the URL of the video you tried to embed."
 msgstr "Gömmeye çalıştığınız video linkinden bişey anlayamadık."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
-#: ../../../../inc/config.php:999
+#: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
+#: ../../../../inc/config.php:1003
 msgid "You seem to have mistyped the verification."
 msgstr "Doğrulamayı yanlış girmiş gibisin."
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
-#: ../../../../inc/config.php:1002
+#: ../../../../inc/config.php:1002 ../../../../inc/config.php:1004
+#: ../../../../inc/config.php:1006
 #, php-format
-msgid "You are only allowed to unban %s users at a time. You tried to unban %u users."
+msgid ""
+"You are only allowed to unban %s users at a time. You tried to unban %u "
+"users."
 msgstr "Bir seferde sadece %s kullanıcının banını kaldırabilirsiniz. Siz %u kullanıcı denediniz."
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
-#: ../../../../inc/config.php:1003
+#: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
+#: ../../../../inc/config.php:1007
 msgid "Invalid username and/or password."
 msgstr "Geçersiz kullanıcı adı ve/veya şifre."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
-#: ../../../../inc/config.php:1004
+#: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
+#: ../../../../inc/config.php:1008
 msgid "You are not a mod…"
 msgstr "Mod değilsiniz ki..."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
-#: ../../../../inc/config.php:1005
-msgid "Invalid username and/or password. Your user may have been deleted or changed."
+#: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
+#: ../../../../inc/config.php:1009
+msgid ""
+"Invalid username and/or password. Your user may have been deleted or "
+"changed."
 msgstr "Geçersiz kullanıcı adı ve/veya şifre. Kullanıcı hesabınız silinmiş ya da değiştirilmiş olabilir."
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
-#: ../../../../inc/config.php:1006
+#: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
+#: ../../../../inc/config.php:1010
 msgid "Invalid/malformed cookies."
 msgstr "Geçersiz ya da bayatlamış kurabiye."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
-#: ../../../../inc/config.php:1007
+#: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
+#: ../../../../inc/config.php:1011
 msgid "Your browser didn't submit an input when it should have."
 msgstr "Tarayıcınız zamanında göndermesi gerekeni göndermedi"
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
-#: ../../../../inc/config.php:1008
+#: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
+#: ../../../../inc/config.php:1012
 #, php-format
 msgid "The %s field is required."
 msgstr "%s gerekli."
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
-#: ../../../../inc/config.php:1009
+#: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
+#: ../../../../inc/config.php:1013
 #, php-format
 msgid "The %s field was invalid."
 msgstr "%s geçersiz."
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
-#: ../../../../inc/config.php:1010
+#: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
+#: ../../../../inc/config.php:1014
 #, php-format
 msgid "There is already a %s board."
 msgstr "Zaten %s böyle bir tahta var."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
-#: ../../../../inc/config.php:1011
+#: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
+#: ../../../../inc/config.php:1015
 msgid "You don't have permission to do that."
 msgstr "Bunu yapmak için izniniz yok."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
-#: ../../../../inc/config.php:1012
+#: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
+#: ../../../../inc/config.php:1016
 msgid "That post doesn't exist…"
 msgstr "Böyle bir girdi yok..."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
-#: ../../../../inc/config.php:1013
+#: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
+#: ../../../../inc/config.php:1017
 msgid "Page not found."
 msgstr "Sayfa bulunamadı."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
-#: ../../../../inc/config.php:1014
+#: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
+#: ../../../../inc/config.php:1018
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
 msgstr "<a href=\"?/users/%d\">Böyle bir mod</a>! zaten var!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
-#: ../../../../inc/config.php:1015
+#: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
+#: ../../../../inc/config.php:1019
 msgid "That theme doesn't exist!"
 msgstr "Böyle bir tema yok."
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
-#: ../../../../inc/config.php:1016
+#: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
+#: ../../../../inc/config.php:1020
 msgid "Invalid security token! Please go back and try again."
 msgstr "Güvenlik kodu yanlış! Lütfen tekrar deneyin."
 
-#. Default public ban message. In public ban messages, %length% is replaced with "for x days" or
+#. Default public ban message. In public ban messages, %length% is replaced
+#. with "for x days" or
+#. "permanently" (with %LENGTH% being the uppercase equivalent).
+#. Default public ban message. In public ban messages, %length% is replaced
+#. with "for x days" or
 #. "permanently" (with %LENGTH% being the uppercase equivalent).
 #: ../../../../inc/config.php:1086 ../../../../inc/config.php:1189
-#: ../../../../inc/config.php:1180
+#: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
+#: ../../../../inc/config.php:1187
 msgid "USER WAS BANNED FOR THIS POST"
 msgstr "KULLANICI BU GİRDİ SEBEBİYLE BANLANDI"
 
@@ -606,6 +689,17 @@ msgstr "Moderasyon logları"
 #. line 104
 #. line 20
 #. line 18
+#. line 104
+#. line 20
+#. line 18
+#. line 104
+#. line 20
+#. line 18
+#. line 104
+#. line 20
+#. line 18
+#. line 104
+#. line 20
 #: ../../../../inc/mod/pages.php:838 ../../../../inc/mod/pages.php:852
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:275
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
@@ -672,6 +766,7 @@ msgstr "ÖM Kutusu"
 #: ../../../../inc/mod/pages.php:1963 ../../../../inc/mod/pages.php:1967
 #: ../../../../inc/mod/pages.php:2090 ../../../../inc/mod/pages.php:2094
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:309
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:115
 msgid "Rebuild"
 msgstr "Yeniden yapılandır"
 
@@ -767,6 +862,16 @@ msgstr "Girdiyi sil"
 #. line 3
 #. line 84
 #. line 3
+#. line 84
+#. line 3
+#. line 84
+#. line 3
+#. line 84
+#. line 3
+#. line 84
+#. line 3
+#. line 84
+#. line 3
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:26
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:250
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
@@ -780,12 +885,22 @@ msgstr "Dosya"
 #. line 14
 #. line 131
 #. line 14
+#. line 131
+#. line 14
+#. line 131
+#. line 14
+#. line 131
+#. line 21
+#. line 14
+#. line 131
+#. line 14
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:28
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:364
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:31
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:48
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
 msgid "Password"
 msgstr "Şifre"
 
@@ -805,12 +920,39 @@ msgstr "Şifre"
 #. line 32
 #. line 9
 #. line 23
+#. line 8
+#. line 5
+#. line 8
+#. line 108
+#. line 32
+#. line 9
+#. line 23
+#. line 5
+#. line 8
+#. line 108
+#. line 32
+#. line 9
+#. line 23
+#. line 48
+#. line 5
+#. line 8
+#. line 108
+#. line 32
+#. line 9
+#. line 23
+#. line 48
+#. line 5
+#. line 8
+#. line 108
+#. line 32
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:39
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:42
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:285
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:99
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:43
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:77
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:37
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:141
 msgid "Reason"
 msgstr "Sebep"
 
@@ -865,6 +1007,7 @@ msgstr "konu yok"
 #. line 44
 #. line 56
 #. line 44
+#. line 56
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:91
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:125
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:153
@@ -887,8 +1030,7 @@ msgstr "."
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 msgid "1 reply"
 msgid_plural "%count% replies"
-msgstr[0] "1 cevap"
-msgstr[1] "%count% cevap"
+msgstr[0] "%count% cevap"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:102
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:105
@@ -903,55 +1045,74 @@ msgstr "Dosya:"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:130
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:168
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:209
+#: ../../../../templates/cache/9b/6a/0d0c5add399e8dfbd5c8c097ea68815306312248498dae4682282190e561.php:128
 msgid "Spoiler Image"
 msgstr "Spoiler"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:530
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:495
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:506
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:532
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:591
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:304
 msgid "Reply"
 msgstr "Cevapla"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:544
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:509
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:520
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:546
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:605
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 msgid "View All"
 msgstr "Hepsini Gör"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:561
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:526
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:537
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:563
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:622
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:335
 msgid "Last 1 Post"
 msgid_plural "Last %count% Posts"
-msgstr[0] "Son 1 Gönderi"
-msgstr[1] "Son %count% Gönderi"
+msgstr[0] "Son %count% gönderi"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:598
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:563
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:574
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:600
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:659
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:372
 msgid "1 post"
 msgid_plural "%count% posts"
-msgstr[0] "1 cevap"
-msgstr[1] "%count% cevap"
+msgstr[0] "%count% gönderi"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:604
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:569
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:580
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:116
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:606
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:665
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:378
 msgid "and"
 msgstr "ve"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:616
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:581
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:592
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:618
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:677
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:390
 msgid "1 image reply"
 msgid_plural "%count% image replies"
-msgstr[0] "1 resimli cevap"
-msgstr[1] "%count% resimli cevap"
+msgstr[0] "%count% imaj"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:621
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:586
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:597
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:623
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:682
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:395
 msgid "omitted. Click reply to view."
 msgstr "gizlendi. Görmek için cevaplaya basın."
 
@@ -964,6 +1125,14 @@ msgstr "gizlendi. Görmek için cevaplaya basın."
 #. line 7
 #. line 8
 #. line 14
+#. line 8
+#. line 14
+#. line 8
+#. line 14
+#. line 7
+#. line 8
+#. line 7
+#. line 14
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:30
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:66
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:38
@@ -971,9 +1140,12 @@ msgstr "gizlendi. Görmek için cevaplaya basın."
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:48
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:69
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:33
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:40
 msgid "Name"
 msgstr "İsim"
 
+#. line 15
+#. line 24
 #. line 15
 #. line 24
 #. line 15
@@ -997,6 +1169,14 @@ msgstr "E-posta"
 #. line 23
 #. line 12
 #. line 46
+#. line 12
+#. line 46
+#. line 12
+#. line 46
+#. line 23
+#. line 12
+#. line 24
+#. line 46
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:58
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:147
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:48
@@ -1012,6 +1192,8 @@ msgstr "Konu"
 msgid "Update"
 msgstr "Güncelle"
 
+#. line 32
+#. line 57
 #. line 32
 #. line 57
 #. line 32
@@ -1078,6 +1260,16 @@ msgstr "Bayrak"
 #. line 116
 #. line 115
 #. line 116
+#. line 115
+#. line 116
+#. line 115
+#. line 116
+#. line 115
+#. line 116
+#. line 115
+#. line 116
+#. line 115
+#. line 116
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:316
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:320
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:319
@@ -1094,6 +1286,16 @@ msgstr "Yapışkan"
 #. line 121
 #. line 120
 #. line 121
+#. line 119
+#. line 120
+#. line 119
+#. line 120
+#. line 119
+#. line 120
+#. line 119
+#. line 120
+#. line 119
+#. line 120
 #. line 119
 #. line 120
 #. line 119
@@ -1118,6 +1320,16 @@ msgstr "Kilitli"
 #. line 124
 #. line 123
 #. line 124
+#. line 123
+#. line 124
+#. line 123
+#. line 124
+#. line 123
+#. line 124
+#. line 123
+#. line 124
+#. line 123
+#. line 124
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:344
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:348
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:347
@@ -1128,9 +1340,11 @@ msgstr "Sadece HTML"
 
 #. line 137
 #. line 136
+#. line 141
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:374
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:377
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
 msgid "(For file deletion.)"
 msgstr "(Dosya silmek için.)"
 
@@ -1151,7 +1365,6 @@ msgstr "Çok geniş arama."
 msgid "%d result in"
 msgid_plural "%d results in"
 msgstr[0] "%d sonuç"
-msgstr[1] "%d sonuç"
 
 #: ../../../../search.php:163
 msgid "No results."
@@ -1167,11 +1380,34 @@ msgstr "Sonuç yok."
 #. line 16
 #. line 2
 #. line 13
+#. line 115
+#. line 16
+#. line 2
+#. line 13
+#. line 115
+#. line 16
+#. line 2
+#. line 13
+#. line 115
+#. line 16
+#. line 2
+#. line 13
+#. line 2
+#. line 115
+#. line 16
+#. line 2
+#. line 13
+#. line 2
+#. line 115
+#. line 16
+#. line 2
+#. line 13
 #: ../../../../search.php:168
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:334
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:83
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:66
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:25
 msgid "Search"
 msgstr "Arama"
 
@@ -1197,13 +1433,23 @@ msgid "Debug: APC"
 msgstr "Debug: APC"
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
-msgid "Your code contained PHP syntax errors. Please go back and correct them. PHP says: "
+#: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
+msgid ""
+"Your code contained PHP syntax errors. Please go back and correct them. PHP "
+"says: "
 msgstr "Kodunuz PHP hataları içeriyor. Lütfen geri dönüp düzeltin. PHP:"
 
 #. line 2
 #. line 6
+#. line 2
+#. line 6
+#. line 2
+#. line 46
+#. line 6
+#. line 2
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:25
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:38
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:139
 msgid "Boards"
 msgstr "Tahtalar"
 
@@ -1280,6 +1526,7 @@ msgstr "Yeni gönderi"
 #. line 16
 #. line 28
 #. line 16
+#. line 28
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:55
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:83
 msgid "Body"
@@ -1302,6 +1549,11 @@ msgstr "sil"
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:197
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:70
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:42
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:67
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:99
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:345
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:415
 msgid "deleted?"
 msgstr "silindi?"
 
@@ -1328,6 +1580,36 @@ msgstr "Haber gönder"
 #. line 15
 #. line 3
 #. line 67
+#. line 24
+#. line 63
+#. line 152
+#. line 182
+#. line 15
+#. line 67
+#. line 24
+#. line 63
+#. line 152
+#. line 182
+#. line 15
+#. line 3
+#. line 67
+#. line 17
+#. line 54
+#. line 133
+#. line 24
+#. line 63
+#. line 152
+#. line 182
+#. line 15
+#. line 3
+#. line 67
+#. line 17
+#. line 54
+#. line 133
+#. line 24
+#. line 63
+#. line 152
+#. line 182
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:81
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:186
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:391
@@ -1335,6 +1617,9 @@ msgstr "Haber gönder"
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:67
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:183
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:26
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:59
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:165
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:371
 msgid "Staff"
 msgstr "Yönetim"
 
@@ -1344,17 +1629,38 @@ msgstr "Yönetim"
 #. line 68
 #. line 25
 #. line 68
+#. line 25
+#. line 68
+#. line 25
+#. line 68
+#. line 18
+#. line 25
+#. line 68
+#. line 18
+#. line 25
+#. line 68
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:85
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:197
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:63
 msgid "Note"
 msgstr "Not"
 
 #. line 26
+#. line 22
+#. line 26
+#. line 19
+#. line 26
+#. line 19
+#. line 26
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:89
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:79
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:67
 msgid "Date"
 msgstr "Tarih"
 
+#. line 25
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:96
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:88
 msgid "Actions"
 msgstr "Hareketler"
 
@@ -1374,6 +1680,13 @@ msgstr "Yeni not"
 #. line 7
 #. line 94
 #. line 7
+#. line 94
+#. line 7
+#. line 94
+#. line 7
+#. line 94
+#. line 7
+#. line 94
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
@@ -1409,12 +1722,45 @@ msgstr "sebepsizce"
 #. line 10
 #. line 6
 #. line 33
+#. line 3
+#. line 118
+#. line 184
+#. line 65
+#. line 10
+#. line 33
+#. line 3
+#. line 118
+#. line 184
+#. line 65
+#. line 10
+#. line 6
+#. line 33
+#. line 49
+#. line 136
+#. line 3
+#. line 95
+#. line 118
+#. line 184
+#. line 65
+#. line 10
+#. line 6
+#. line 33
+#. line 49
+#. line 136
+#. line 3
+#. line 118
+#. line 184
+#. line 65
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:309
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:472
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:160
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:47
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:101
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:38
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:26
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:145
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:383
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:263
 msgid "Board"
 msgstr "Tahta"
 
@@ -1425,6 +1771,7 @@ msgstr "Tahta"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:115
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:73
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:100
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:227
 msgid "all boards"
 msgstr "tüm tahtalar"
 
@@ -1436,9 +1783,22 @@ msgstr "tüm tahtalar"
 #. line 128
 #. line 11
 #. line 43
+#. line 128
+#. line 11
+#. line 43
+#. line 128
+#. line 11
+#. line 43
+#. line 50
+#. line 128
+#. line 11
+#. line 43
+#. line 50
+#. line 128
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:333
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:51
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:149
 msgid "Set"
 msgstr "Ayarla"
 
@@ -1450,9 +1810,22 @@ msgstr "Ayarla"
 #. line 132
 #. line 13
 #. line 47
+#. line 132
+#. line 13
+#. line 47
+#. line 132
+#. line 13
+#. line 47
+#. line 52
+#. line 132
+#. line 13
+#. line 47
+#. line 52
+#. line 132
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:343
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:59
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:135
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:157
 msgid "Expires"
 msgstr "Süresi bitecek"
 
@@ -1460,6 +1833,7 @@ msgstr "Süresi bitecek"
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:173
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:149
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:155
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:267
 msgid "never"
 msgstr "hiç bir zaman"
 
@@ -1471,21 +1845,36 @@ msgstr "hiç bir zaman"
 #. line 142
 #. line 14
 #. line 57
+#. line 142
+#. line 14
+#. line 57
+#. line 142
+#. line 14
+#. line 57
+#. line 53
+#. line 142
+#. line 14
+#. line 57
+#. line 53
+#. line 142
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:367
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:63
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:161
 msgid "Seen"
 msgstr "Görüldü"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:375
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:201
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:167
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:295
 msgid "Yes"
 msgstr "Evet"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:381
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:207
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:173
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:301
 msgid "No"
 msgstr "Hayır"
 
@@ -1496,8 +1885,18 @@ msgstr "Banı kaldır"
 
 #. line 183
 #. line 5
+#. line 183
+#. line 5
+#. line 135
+#. line 94
+#. line 183
+#. line 5
+#. line 135
+#. line 183
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:468
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:34
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:379
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:259
 msgid "Time"
 msgstr "Zaman"
 
@@ -1508,9 +1907,23 @@ msgstr "Zaman"
 #. line 185
 #. line 7
 #. line 89
+#. line 185
+#. line 89
+#. line 185
+#. line 7
+#. line 89
+#. line 137
+#. line 96
+#. line 185
+#. line 7
+#. line 89
+#. line 137
+#. line 185
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:476
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:234
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:42
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:387
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:267
 msgid "Action"
 msgstr "Hareket"
 
@@ -1523,7 +1936,10 @@ msgid "hidden"
 msgstr "gizli"
 
 #. line 41
+#. line 27
+#. line 41
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:117
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:92
 msgid "Message"
 msgstr "Mesaj"
 
@@ -1542,6 +1958,16 @@ msgstr "Uzunluk"
 msgid "New Ban"
 msgstr "Yeni Ban"
 
+#. line 2
+#. line 5
+#. line 2
+#. line 5
+#. line 2
+#. line 5
+#. line 2
+#. line 5
+#. line 2
+#. line 5
 #. line 2
 #. line 5
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
@@ -1563,7 +1989,9 @@ msgstr "Banlar"
 
 #. line 18
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:88
-msgid "(Search is case-insensitive and based on keywords. To match exact phrases, use \"quotes\". Use an asterisk (*) for wildcard.)"
+msgid ""
+"(Search is case-insensitive and based on keywords. To match exact phrases, "
+"use \"quotes\". Use an asterisk (*) for wildcard.)"
 msgstr "Arama büyük-küçük harf duyarlı değildir. Tam bir ifade araması yapmak istiyorsanız \"ifade\" şekinde arama yapabilirsiniz."
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
@@ -1571,12 +1999,20 @@ msgid "There are no active bans."
 msgstr "Aktif ban yok."
 
 #. line 8
+#. line 47
+#. line 8
+#. line 47
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:39
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:137
 msgid "IP address/mask"
 msgstr "IP adresi/mask"
 
 #. line 12
+#. line 51
+#. line 12
+#. line 51
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:55
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:153
 msgid "Duration"
 msgstr "Süresi"
 
@@ -1587,8 +2023,15 @@ msgstr "Banı kaldır"
 
 #. line 6
 #. line 4
+#. line 6
+#. line 4
+#. line 11
+#. line 6
+#. line 4
+#. line 6
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:34
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:30
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:45
 msgid "Username"
 msgstr "Kullanıcı adı"
 
@@ -1636,7 +2079,8 @@ msgid "Failed to redraw image!"
 msgstr "Resmi işlerken, işleyemedik!"
 
 #: ../../../../inc/image.php:324 ../../../../inc/image.php:343
-#: ../../../../inc/image.php:368
+#: ../../../../inc/image.php:368 ../../../../inc/image.php:342
+#: ../../../../inc/image.php:366
 msgid "Failed to resize image!"
 msgstr "Resmi yeniden boyutlandıramadık!"
 
@@ -1710,6 +2154,14 @@ msgstr "Hala bekliyor"
 #. line 112
 #. line 101
 #. line 112
+#. line 101
+#. line 112
+#. line 101
+#. line 112
+#. line 101
+#. line 112
+#. line 101
+#. line 112
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
 msgid "You appealed this ban on"
@@ -1721,9 +2173,19 @@ msgid "and it was denied. You may not appeal this ban again."
 msgstr "ve geri çevrildi, tekrar müracaat edemezsiniz."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
-msgid "You have submitted the maximum number of ban appeals allowed. You may not appeal this ban again."
+msgid ""
+"You have submitted the maximum number of ban appeals allowed. You may not "
+"appeal this ban again."
 msgstr "Müracaat sınırını aştınız ulan."
 
+#. line 114
+#. line 121
+#. line 114
+#. line 121
+#. line 114
+#. line 121
+#. line 114
+#. line 121
 #. line 114
 #. line 121
 #. line 114
@@ -1733,6 +2195,14 @@ msgstr "Müracaat sınırını aştınız ulan."
 msgid "and it was denied."
 msgstr "ve geri çevrildi."
 
+#. line 116
+#. line 123
+#. line 116
+#. line 123
+#. line 116
+#. line 123
+#. line 116
+#. line 123
 #. line 116
 #. line 123
 #. line 116
@@ -1752,7 +2222,16 @@ msgid "You may appeal this ban. Please enter your reasoning below."
 msgstr "Bu ban için tekrar müracaat edebilirsiniz:"
 
 #. line 4
+#. line 16
+#. line 134
+#. line 93
+#. line 4
+#. line 16
+#. line 134
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:30
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:55
+#: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:375
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:255
 msgid "IP address"
 msgstr "IP adresi"
 
@@ -1825,7 +2304,14 @@ msgstr "Tahtayı seçin"
 
 #. line 17
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:73
-msgid "Search is case-insensitive and based on keywords. To match exact phrases, use \"quotes\". Use an asterisk (*) for wildcard.</p><p style=\"font-size:8pt;margin:5px\">You may apply the following filters to your searches: <strong>id</strong>, <strong>thread</strong>, <strong>subject</strong>, and <strong>name</strong>. To apply a filter, simply add to your query, for example, <em>name:Anonymous</em> or <em>subject:\"Some Thread\"</em>. Wildcards cannot be used in filters."
+msgid ""
+"Search is case-insensitive and based on keywords. To match exact phrases, "
+"use \"quotes\". Use an asterisk (*) for wildcard.</p><p style=\"font-"
+"size:8pt;margin:5px\">You may apply the following filters to your searches: "
+"<strong>id</strong>, <strong>thread</strong>, <strong>subject</strong>, and "
+"<strong>name</strong>. To apply a filter, simply add to your query, for "
+"example, <em>name:Anonymous</em> or <em>subject:\"Some Thread\"</em>. "
+"Wildcards cannot be used in filters."
 msgstr "Arama büyük-küçük harf duyarlı değildir."
 
 #. line 2
@@ -1839,6 +2325,110 @@ msgstr "Devam etmek için tıklayın"
 
 #. line 5
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:39
-msgid "You are probably seeing this message because Javascript being disabled. This is a necessary security measure to prevent CSRF attacks."
+msgid ""
+"You are probably seeing this message because Javascript being disabled. This"
+" is a necessary security measure to prevent CSRF attacks."
 msgstr "Bu mesajı görüyorsanız büyük ihtimalle Javascript kapalı olduğu içindir. Bu önlemi saldırıları önlemek için aldık."
 
+#. line 7
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
+msgid "Report date"
+msgstr "Şikayet zamanı"
+
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:54
+msgid "Reported by"
+msgstr "Şikayet eden:"
+
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:73
+msgid "Discard abuse report"
+msgstr "Suistimal raporunu çöpe at"
+
+#: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:93
+msgid "Discard all abuse reports by this IP address"
+msgstr "Bu IP adresinden gelen bütün şikayetleri çöpe at"
+
+#. line 4
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27
+msgid "From"
+msgstr "Şurdan"
+
+#. line 34
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:105
+msgid "Delete forever"
+msgstr "Sil"
+
+#. line 39
+#: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:119
+msgid "Reply with quote"
+msgstr "Alıntı yaparak yanıtla"
+
+#. line 18
+#: ../../../../templates/cache/1f/f5/c63468797b4f93a8005563716a720117a6d51a804f2124a4c5158ca78525.php:62
+msgid "Send message"
+msgstr "Mesaj gönder"
+
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:25
+msgid "There are no themes available."
+msgstr "Kullanılabilir tema bulunmuyor."
+
+#. line 11
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:50
+msgid "Version"
+msgstr "Versiyon"
+
+#. line 15
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:60
+msgid "Description"
+msgstr "Tanım"
+
+#. line 19
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:70
+msgid "Thumbnail"
+msgstr "Önizleme"
+
+#. line 27
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:93
+msgid "Use theme"
+msgstr "Temayı kullan"
+
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:100
+msgid "Reconfigure"
+msgstr "Yeniden ayarla"
+
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:102
+msgid "Install"
+msgstr "Yükle"
+
+#: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:123
+msgid "Uninstall"
+msgstr "Kaldır"
+
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:72
+msgid "new; optional"
+msgstr "yeni; opsiyonel"
+
+#. line 32
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:98
+msgid "Group"
+msgstr "Grup"
+
+#. line 56
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:161
+msgid "All boards"
+msgstr "Tüm tahtalar"
+
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:223
+msgid "Create user"
+msgstr "Kullanıcı oluştur"
+
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:229
+msgid "Save changes"
+msgstr "Değişiklikleri kaydet"
+
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:236
+msgid "Delete user"
+msgstr "Kullanıcıyı sil"
+
+#: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
+msgid "View more logs for this user."
+msgstr "Bu kullanıcı için daha fazla log görüntüle"
