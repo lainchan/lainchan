@@ -58,7 +58,7 @@ Support
 Tinyboard is still beta software -- there are bound to be bugs. If you find a
 bug, please report it.
 
-If you need assistance with installing, configuring, or using Tinyboard, you may
+If you need assistance with installing, configuring, or using vichan, you may
 find support from a variety of sources:
 
 *	If you're unsure about how to enable or configure certain features, make
@@ -69,7 +69,7 @@ find support from a variety of sources:
 Tinyboard support
 -----------------
 vichan is based on a Tinyboard, so both engines have very much in common. These
-links may be helpful for you. 
+links may be helpful for you as well: 
 
 *	Tinyboard documentation can be found [here](http://tinyboard.org/docs/).
 *	You can join Tinyboard's IRC channel for support and general queries: 
@@ -90,7 +90,7 @@ Localisation
 ------------
 Wanting to have vichan in your language? You can contribute your translations at this URL:
 
-https://www.transifex.com/organization/6ircnet/dashboard/tinyboard-vichan-devel
+https://www.transifex.com/projects/p/tinyboard-vichan-devel/
 
 License
 --------
