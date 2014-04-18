@@ -241,7 +241,6 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE  `bans` ADD  `seen` BOOLEAN NOT NULL") or error(db_error());
 		case 'v0.9.6-dev-8':
 		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.1</a>':
-			query("CREATE TABLE IF NOT EXISTS `search_queries` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
 		case 'v0.9.6-dev-8 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.2</a>':
 			query("ALTER TABLE  `mods` CHANGE  `password`  `password` CHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  'SHA256'") or error(db_error());
 			query("ALTER TABLE  `mods` ADD  `salt` CHAR( 32 ) NOT NULL AFTER  `password`") or error(db_error());
@@ -520,6 +519,9 @@ if (file_exists($config['has_installed'])) {
 				break;
 			}
 		case false:
+			// TODO: enhance Tinyboard -> vichan upgrade path.
+			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
+
 			// Update version number
 			file_write($config['has_installed'], VERSION);
 			
