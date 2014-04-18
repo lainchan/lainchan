@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.4.98');
+define('VERSION', '4.4.98-pre');
 
 require 'inc/functions.php';
 
