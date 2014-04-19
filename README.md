@@ -6,8 +6,8 @@ About
 vichan is a free light-weight, fast, highly configurable and user-friendly
 imageboard software package. It is written in PHP and has few dependencies.
 
-vichan is a fork of [Tinyboard](http://tinyboard.org/), a great imageboard package, actively building on it
-and adding a lot of features and another improvements.
+vichan is a fork of [Tinyboard](http://tinyboard.org/), a great imageboard package, actively
+building on it and adding a lot of features and another improvements.
 
 Support and announcements: https://int.vichan.net/devel/
 
@@ -26,7 +26,9 @@ it need one.
 ### Recommended
 1.	MySQL/MariaDB server >= 5.5.3
 2.	ImageMagick (command-line ImageMagick or GraphicsMagick preferred).
-3.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
+3.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php),
+	[XCache](http://xcache.lighttpd.net/) or
+	[Memcached](http://www.php.net/manual/en/intro.memcached.php)
 
 Contributing
 ------------
@@ -64,10 +66,10 @@ find support from a variety of sources:
 *	If you're unsure about how to enable or configure certain features, make
 	sure you have read the comments in ```inc/config.php```.
 *	Check out an [official vichan board](http://int.vichan.net/devel/).
-*	You can join vichan's IRC channel for support [irc.6irc.net #vichan-devel](irc://irc.6irc.net/vichan-devel)
+*	You can join vichan's IRC channel for support
+	[irc.6irc.net #vichan-devel](irc://irc.6irc.net/vichan-devel)
 
-Tinyboard support
------------------
+### Tinyboard support
 vichan is based on a Tinyboard, so both engines have very much in common. These
 links may be helpful for you as well: 
 
