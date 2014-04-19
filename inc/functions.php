@@ -201,6 +201,10 @@ function loadConfig() {
 		$config['additional_javascript_url'] = $config['root'];
 	if (!isset($config['uri_flags']))
 		$config['uri_flags'] = $config['root'] . 'static/flags/%s.png';
+	if (!isset($config['user_flag']))
+		$config['user_flag'] = false;
+	if (!isset($config['user_flags']))
+		$config['user_flags'] = [];
 
 	if ($config['root_file']) {
 		chdir($config['root_file']);

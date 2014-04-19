@@ -469,6 +469,20 @@ if (isset($_POST['delete'])) {
 		}
 	}
 	
+	if ($config['user_flag'] && isset($_POST['user_flag']))
+	if (!empty($_POST['user_flag']) ){
+		
+		$user_flag = $_POST['user_flag'];
+		
+		if (!isset($config['user_flags'][$user_flag]))
+			error('Invalid flag selection!');
+
+		$flag_alt = isset($user_flag_alt) ? $user_flag_alt : $config['user_flags'][$user_flag];
+
+		$post['body'] .= "\n<tinyboard flag>" . strtolower($user_flag) . "</tinyboard>" .
+		"\n<tinyboard flag alt>" . $flag_alt . "</tinyboard>";
+	}
+	
 	if (mysql_version() >= 50503) {
 		$post['body_nomarkup'] = $post['body']; // Assume we're using the utf8mb4 charset
 	} else {

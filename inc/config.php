@@ -531,6 +531,21 @@
 	$config['country_flags_condensed'] = true;
 	$config['country_flags_condensed_css'] = 'static/flags/flags.css';
 
+	// Let the user choose a /pol/-like user_flag that will be shown in the post. For the user flags, please be aware
+	// that you will have to disable BOTH country_flags and contry_flags_condensed optimization (at least on a board
+	// where they are enabled).
+	$config['user_flag'] = false;
+	
+	// List of user_flag the user can choose. Flag must be placed in the directory set by $config['uri_flags']
+	$config['user_flags'] = [];
+	/* example: 
+	$config['user_flags'] = array (
+		'nz' => 'Nazi',
+		'cm' => 'Communist',
+		'eu' => 'Europe'
+	);
+	*/
+	
 /*
 * ====================
 *  Ban settings

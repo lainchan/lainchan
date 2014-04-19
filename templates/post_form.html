@@ -79,6 +79,19 @@
 			</td>
 		</tr>
 		{% endif %}
+		{% if config.user_flag %}
+			<tr>
+				<th>{% trans %}Flag{% endtrans %}</th>
+				<td>
+					<select name="user_flag" id="user_flag">
+						<option value="">{% trans %}None{% endtrans %}</option>
+						{% for flag, text in config.user_flags %}
+							<option value="{{ flag }}">{{ text }}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+		{% endif %}
 		<tr id="upload">
 			<th>
 				{% trans %}File{% endtrans %}
