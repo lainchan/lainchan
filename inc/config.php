@@ -274,6 +274,7 @@
 		'page',
 		'file_url',
 		'json_response',
+		'user_flag',
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
