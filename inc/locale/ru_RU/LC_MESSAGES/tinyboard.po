@@ -1,6 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 # Assada <assada@mail.ua>, 2014
 # cookiezeater <cookiezeater@mail.ru>, 2014
@@ -8,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-19 11:04+0000\n"
-"Last-Translator: Assada <assada@mail.ua>\n"
+"POT-Creation-Date: 2014-04-20 00:49+0200\n"
+"PO-Revision-Date: 2014-04-19 22:54+0000\n"
+"Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,6 +24,7 @@ msgstr ""
 #: ../../../../inc/functions.php:620 ../../../../inc/functions.php:637
 #: ../../../../inc/functions.php:623 ../../../../inc/functions.php:640
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
+#: ../../../../inc/functions.php:643 ../../../../inc/functions.php:660
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "секунда"
@@ -34,6 +36,7 @@ msgstr[2] "секунд"
 #: ../../../../inc/functions.php:622 ../../../../inc/functions.php:639
 #: ../../../../inc/functions.php:625 ../../../../inc/functions.php:642
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
+#: ../../../../inc/functions.php:645 ../../../../inc/functions.php:662
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "минута"
@@ -45,6 +48,7 @@ msgstr[2] "минут"
 #: ../../../../inc/functions.php:624 ../../../../inc/functions.php:641
 #: ../../../../inc/functions.php:627 ../../../../inc/functions.php:644
 #: ../../../../inc/functions.php:633 ../../../../inc/functions.php:650
+#: ../../../../inc/functions.php:647 ../../../../inc/functions.php:664
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "час"
@@ -56,6 +60,7 @@ msgstr[2] "часа"
 #: ../../../../inc/functions.php:626 ../../../../inc/functions.php:643
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
 #: ../../../../inc/functions.php:635 ../../../../inc/functions.php:652
+#: ../../../../inc/functions.php:649 ../../../../inc/functions.php:666
 msgid "day"
 msgid_plural "days"
 msgstr[0] "день"
@@ -67,6 +72,7 @@ msgstr[2] "дней"
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:645
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 #: ../../../../inc/functions.php:637 ../../../../inc/functions.php:654
+#: ../../../../inc/functions.php:651 ../../../../inc/functions.php:668
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "неделя"
@@ -78,6 +84,7 @@ msgstr[2] "недель"
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 #: ../../../../inc/functions.php:634 ../../../../inc/functions.php:651
 #: ../../../../inc/functions.php:640 ../../../../inc/functions.php:657
+#: ../../../../inc/functions.php:654 ../../../../inc/functions.php:671
 msgid "year"
 msgid_plural "years"
 msgstr[0] "год"
@@ -86,7 +93,7 @@ msgstr[2] "лет"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
-#: ../../../../inc/functions.php:708
+#: ../../../../inc/functions.php:708 ../../../../inc/functions.php:722
 msgid "Banned!"
 msgstr "Забанен!"
 
@@ -97,6 +104,7 @@ msgstr "Забанен!"
 #: ../../../../inc/functions.php:1197 ../../../../inc/functions.php:1211
 #: ../../../../inc/functions.php:1200 ../../../../inc/functions.php:1214
 #: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
+#: ../../../../inc/functions.php:1234
 msgid "Previous"
 msgstr "Предыдущий"
 
@@ -106,7 +114,8 @@ msgstr "Предыдущий"
 #: ../../../../inc/functions.php:1187 ../../../../inc/functions.php:1196
 #: ../../../../inc/functions.php:1216 ../../../../inc/functions.php:1225
 #: ../../../../inc/functions.php:1219 ../../../../inc/functions.php:1228
-#: ../../../../inc/functions.php:1234
+#: ../../../../inc/functions.php:1234 ../../../../inc/functions.php:1239
+#: ../../../../inc/functions.php:1248
 msgid "Next"
 msgstr "Следующий"
 
@@ -256,7 +265,7 @@ msgstr "Переместить тред в другую доску"
 #. If you want to alter the algorithm a bit. Default value is 2.
 #. (n^x where x is the number of previous mutes)
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
-#: ../../../../inc/config.php:474
+#: ../../../../inc/config.php:474 ../../../../inc/config.php:475
 msgid "You have been muted for unoriginal content."
 msgstr ""
 
@@ -266,20 +275,20 @@ msgstr ""
 #. "Post").
 #: ../../../../inc/config.php:677 ../../../../inc/config.php:781
 #: ../../../../inc/config.php:772 ../../../../inc/config.php:774
-#: ../../../../inc/config.php:776
+#: ../../../../inc/config.php:776 ../../../../inc/config.php:792
 msgid "New Topic"
 msgstr "Новый тред"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
 #: ../../../../inc/config.php:773 ../../../../inc/config.php:775
-#: ../../../../inc/config.php:777
+#: ../../../../inc/config.php:777 ../../../../inc/config.php:793
 msgid "New Reply"
 msgstr "Новый ответ"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
 #: ../../../../inc/config.php:784 ../../../../inc/config.php:786
-#: ../../../../inc/config.php:788
+#: ../../../../inc/config.php:788 ../../../../inc/config.php:804
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
@@ -303,237 +312,237 @@ msgstr ""
 #. Error messages
 #: ../../../../inc/config.php:867 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:963 ../../../../inc/config.php:965
-#: ../../../../inc/config.php:967
+#: ../../../../inc/config.php:967 ../../../../inc/config.php:983
 msgid "You look like a bot."
 msgstr "Ты похож на бота."
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
-#: ../../../../inc/config.php:968
+#: ../../../../inc/config.php:968 ../../../../inc/config.php:984
 msgid "Your browser sent an invalid or no HTTP referer."
 msgstr "Твой браузер послал ошибочный HTTP referer. Ну или совсем его не отправил."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
-#: ../../../../inc/config.php:969
+#: ../../../../inc/config.php:969 ../../../../inc/config.php:985
 #, php-format
 msgid "The %s field was too long."
 msgstr "Поле %s слишком длинное."
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
-#: ../../../../inc/config.php:970
+#: ../../../../inc/config.php:970 ../../../../inc/config.php:986
 msgid "The body was too long."
 msgstr "Содержимое очень большое."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
-#: ../../../../inc/config.php:971
+#: ../../../../inc/config.php:971 ../../../../inc/config.php:987
 msgid "The body was too short or empty."
 msgstr "Содержимое очень короткое или отсутствует"
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
-#: ../../../../inc/config.php:972
+#: ../../../../inc/config.php:972 ../../../../inc/config.php:988
 msgid "You must upload an image."
 msgstr "Ты должен загрузить изображение."
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
-#: ../../../../inc/config.php:973
+#: ../../../../inc/config.php:973 ../../../../inc/config.php:989
 msgid "The server failed to handle your upload."
 msgstr ""
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
-#: ../../../../inc/config.php:974
+#: ../../../../inc/config.php:974 ../../../../inc/config.php:990
 msgid "Unsupported image format."
 msgstr "Не поддерживаемый формат изображения."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
-#: ../../../../inc/config.php:975
+#: ../../../../inc/config.php:975 ../../../../inc/config.php:991
 msgid "Invalid board!"
 msgstr "Неверная доска."
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
-#: ../../../../inc/config.php:976
+#: ../../../../inc/config.php:976 ../../../../inc/config.php:992
 msgid "Thread specified does not exist."
 msgstr ""
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
-#: ../../../../inc/config.php:977
+#: ../../../../inc/config.php:977 ../../../../inc/config.php:993
 msgid "Thread locked. You may not reply at this time."
 msgstr "Тред закрыт. Ты не можешь писать сюда."
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
-#: ../../../../inc/config.php:978
+#: ../../../../inc/config.php:978 ../../../../inc/config.php:994
 msgid "Thread has reached its maximum reply limit."
 msgstr "Тред достиг максимального количества ответов."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
-#: ../../../../inc/config.php:979
+#: ../../../../inc/config.php:979 ../../../../inc/config.php:995
 msgid "Thread has reached its maximum image limit."
 msgstr "Тред достиг максимального количества изображений."
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
-#: ../../../../inc/config.php:980
+#: ../../../../inc/config.php:980 ../../../../inc/config.php:996
 msgid "You didn't make a post."
 msgstr "Ты не можешь создать тред."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
-#: ../../../../inc/config.php:981
+#: ../../../../inc/config.php:981 ../../../../inc/config.php:997
 msgid "Flood detected; Post discarded."
 msgstr "Обнаружен флуд. Пост отклонен."
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:980
-#: ../../../../inc/config.php:982
+#: ../../../../inc/config.php:982 ../../../../inc/config.php:998
 msgid "Your request looks automated; Post discarded."
 msgstr "Ваш запрос похож на автоматический. Пост отклонен."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
-#: ../../../../inc/config.php:983
+#: ../../../../inc/config.php:983 ../../../../inc/config.php:999
 msgid "Unoriginal content!"
 msgstr "Не оригинальный контент."
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
-#: ../../../../inc/config.php:984
+#: ../../../../inc/config.php:984 ../../../../inc/config.php:1000
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
 msgstr ""
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
-#: ../../../../inc/config.php:985
+#: ../../../../inc/config.php:985 ../../../../inc/config.php:1001
 #, php-format
 msgid "You are muted! Expires in %d seconds."
 msgstr ""
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
-#: ../../../../inc/config.php:986
+#: ../../../../inc/config.php:986 ../../../../inc/config.php:1002
 #, php-format
 msgid "Your IP address is listed in %s."
 msgstr ""
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
-#: ../../../../inc/config.php:987
+#: ../../../../inc/config.php:987 ../../../../inc/config.php:1003
 msgid "Too many links; flood detected."
 msgstr "Слишком много ссылок. Обнаружен флуд."
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:986
-#: ../../../../inc/config.php:988
+#: ../../../../inc/config.php:988 ../../../../inc/config.php:1004
 msgid "Too many cites; post discarded."
 msgstr ""
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
-#: ../../../../inc/config.php:989
+#: ../../../../inc/config.php:989 ../../../../inc/config.php:1005
 msgid "Too many cross-board links; post discarded."
 msgstr "Слишком много отсылок на доски. Отклонено."
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
-#: ../../../../inc/config.php:990
+#: ../../../../inc/config.php:990 ../../../../inc/config.php:1006
 msgid "You didn't select anything to delete."
 msgstr "Ты не выбрал ничего для удаления."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
-#: ../../../../inc/config.php:991
+#: ../../../../inc/config.php:991 ../../../../inc/config.php:1007
 msgid "You didn't select anything to report."
 msgstr "Ты ничего не выбрал для жалобы."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
-#: ../../../../inc/config.php:992
+#: ../../../../inc/config.php:992 ../../../../inc/config.php:1008
 msgid "You can't report that many posts at once."
 msgstr ""
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
-#: ../../../../inc/config.php:993
+#: ../../../../inc/config.php:993 ../../../../inc/config.php:1009
 msgid "Wrong password…"
 msgstr "Ошибка пароля. "
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
-#: ../../../../inc/config.php:994
+#: ../../../../inc/config.php:994 ../../../../inc/config.php:1010
 msgid "Invalid image."
 msgstr "Неверное изображение"
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
-#: ../../../../inc/config.php:995
+#: ../../../../inc/config.php:995 ../../../../inc/config.php:1011
 msgid "Unknown file extension."
 msgstr "Неизвестное расширение файла."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
-#: ../../../../inc/config.php:996
+#: ../../../../inc/config.php:996 ../../../../inc/config.php:1012
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
 msgstr "Максимальный размер файла: %maxsz% байт<br> А твой файл: %filesz% байт."
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
-#: ../../../../inc/config.php:997
+#: ../../../../inc/config.php:997 ../../../../inc/config.php:1013
 msgid "The file was too big."
 msgstr "Этот файл слишком большой."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
-#: ../../../../inc/config.php:998
+#: ../../../../inc/config.php:998 ../../../../inc/config.php:1014
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
 msgstr "Этот файл <a href=\"%s\">уже существует</a>!"
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
-#: ../../../../inc/config.php:999
+#: ../../../../inc/config.php:999 ../../../../inc/config.php:1015
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
 msgstr "Этот файл <a href=\"%s\">уже существует</a> в этом треде."
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
-#: ../../../../inc/config.php:1000
+#: ../../../../inc/config.php:1000 ../../../../inc/config.php:1016
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
 msgstr ""
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
-#: ../../../../inc/config.php:1001
+#: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
 msgstr ""
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
-#: ../../../../inc/config.php:1002
+#: ../../../../inc/config.php:1002 ../../../../inc/config.php:1018
 msgid "Couldn't make sense of the URL of the video you tried to embed."
 msgstr ""
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
-#: ../../../../inc/config.php:1003
+#: ../../../../inc/config.php:1003 ../../../../inc/config.php:1019
 msgid "You seem to have mistyped the verification."
 msgstr ""
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1004
-#: ../../../../inc/config.php:1006
+#: ../../../../inc/config.php:1006 ../../../../inc/config.php:1022
 #, php-format
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
@@ -542,19 +551,19 @@ msgstr ""
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
-#: ../../../../inc/config.php:1007
+#: ../../../../inc/config.php:1007 ../../../../inc/config.php:1023
 msgid "Invalid username and/or password."
 msgstr "Ошибочный логин и\\или пароль."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
-#: ../../../../inc/config.php:1008
+#: ../../../../inc/config.php:1008 ../../../../inc/config.php:1024
 msgid "You are not a mod…"
 msgstr "Ты не модератор..."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
-#: ../../../../inc/config.php:1009
+#: ../../../../inc/config.php:1009 ../../../../inc/config.php:1025
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
@@ -562,71 +571,71 @@ msgstr ""
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
-#: ../../../../inc/config.php:1010
+#: ../../../../inc/config.php:1010 ../../../../inc/config.php:1026
 msgid "Invalid/malformed cookies."
 msgstr ""
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
-#: ../../../../inc/config.php:1011
+#: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 msgid "Your browser didn't submit an input when it should have."
 msgstr ""
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
-#: ../../../../inc/config.php:1012
+#: ../../../../inc/config.php:1012 ../../../../inc/config.php:1028
 #, php-format
 msgid "The %s field is required."
 msgstr "Необходимо заполнить поле %s"
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
-#: ../../../../inc/config.php:1013
+#: ../../../../inc/config.php:1013 ../../../../inc/config.php:1029
 #, php-format
 msgid "The %s field was invalid."
 msgstr "Поле %s заполнено с ошибкой. "
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
-#: ../../../../inc/config.php:1014
+#: ../../../../inc/config.php:1014 ../../../../inc/config.php:1030
 #, php-format
 msgid "There is already a %s board."
 msgstr ""
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
-#: ../../../../inc/config.php:1015
+#: ../../../../inc/config.php:1015 ../../../../inc/config.php:1031
 msgid "You don't have permission to do that."
 msgstr "У тебя нет прав для этого."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
-#: ../../../../inc/config.php:1016
+#: ../../../../inc/config.php:1016 ../../../../inc/config.php:1032
 msgid "That post doesn't exist…"
 msgstr "Такого поста не существует."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
-#: ../../../../inc/config.php:1017
+#: ../../../../inc/config.php:1017 ../../../../inc/config.php:1033
 msgid "Page not found."
 msgstr "Страница не найдена."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
-#: ../../../../inc/config.php:1018
+#: ../../../../inc/config.php:1018 ../../../../inc/config.php:1034
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
 msgstr ""
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
-#: ../../../../inc/config.php:1019
+#: ../../../../inc/config.php:1019 ../../../../inc/config.php:1035
 msgid "That theme doesn't exist!"
 msgstr "Этой темы не существует."
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
-#: ../../../../inc/config.php:1020
+#: ../../../../inc/config.php:1020 ../../../../inc/config.php:1036
 msgid "Invalid security token! Please go back and try again."
 msgstr "Ошибка безопасности. Вернись назад и попробуй снова."
 
@@ -638,7 +647,7 @@ msgstr "Ошибка безопасности. Вернись назад и по
 #. "permanently" (with %LENGTH% being the uppercase equivalent).
 #: ../../../../inc/config.php:1086 ../../../../inc/config.php:1189
 #: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
-#: ../../../../inc/config.php:1187
+#: ../../../../inc/config.php:1187 ../../../../inc/config.php:1203
 msgid "USER WAS BANNED FOR THIS POST"
 msgstr "АВТОР ЭТОГО ПОСТА ЗАБЛОКИРОВАН"
 
@@ -713,6 +722,9 @@ msgstr "Логи модерации"
 #. line 18
 #. line 104
 #. line 20
+#. line 104
+#. line 20
+#. line 18
 #: ../../../../inc/mod/pages.php:838 ../../../../inc/mod/pages.php:852
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:275
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
@@ -885,10 +897,13 @@ msgstr "удалить пост"
 #. line 3
 #. line 84
 #. line 3
+#. line 97
+#. line 3
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:26
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:250
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:29
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:290
 msgid "File"
 msgstr "Файл"
 
@@ -907,6 +922,7 @@ msgstr "Файл"
 #. line 14
 #. line 131
 #. line 14
+#. line 144
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:28
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:364
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
@@ -914,6 +930,7 @@ msgstr "Файл"
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:48
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:400
 msgid "Password"
 msgstr "Пaроль"
 
@@ -958,6 +975,11 @@ msgstr "Пaроль"
 #. line 8
 #. line 108
 #. line 32
+#. line 5
+#. line 8
+#. line 108
+#. line 32
+#. line 23
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:39
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:42
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:285
@@ -1250,22 +1272,28 @@ msgid "Verification"
 msgstr "Подтверждение"
 
 #. line 90
+#. line 103
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:302
 msgid "Or URL"
 msgstr "Или URL"
 
 #. line 100
+#. line 113
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:285
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:322
 msgid "Embed"
 msgstr "Вставить медиа"
 
 #. line 112
 #. line 111
+#. line 124
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:306
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:342
 msgid "Flags"
 msgstr "Флаги"
 
@@ -1291,11 +1319,15 @@ msgstr "Флаги"
 #. line 116
 #. line 115
 #. line 116
+#. line 128
+#. line 129
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:316
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:320
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:319
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:323
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:352
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:356
 msgid "Sticky"
 msgstr "Sticky"
 
@@ -1321,11 +1353,15 @@ msgstr "Sticky"
 #. line 120
 #. line 119
 #. line 120
+#. line 132
+#. line 133
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:330
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:334
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:333
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:337
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:366
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:370
 msgid "Lock"
 msgstr "Lock"
 
@@ -1351,21 +1387,27 @@ msgstr "Lock"
 #. line 124
 #. line 123
 #. line 124
+#. line 136
+#. line 137
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:344
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:348
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:347
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:351
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:380
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:384
 msgid "Raw HTML"
 msgstr "Сырой HTML"
 
 #. line 137
 #. line 136
 #. line 141
+#. line 154
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:374
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:377
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:415
 msgid "(For file deletion.)"
 msgstr "(Для удаления файлов.)"
 
@@ -1374,14 +1416,15 @@ msgid "Post search is disabled"
 msgstr ""
 
 #: ../../../../search.php:25 ../../../../search.php:31
+#: ../../../../search.php:29 ../../../../search.php:35
 msgid "Wait a while before searching again, please."
 msgstr ""
 
-#: ../../../../search.php:131
+#: ../../../../search.php:131 ../../../../search.php:135
 msgid "Query too broad."
 msgstr ""
 
-#: ../../../../search.php:152
+#: ../../../../search.php:152 ../../../../search.php:156
 #, php-format
 msgid "%d result in"
 msgid_plural "%d results in"
@@ -1389,7 +1432,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../../../../search.php:163
+#: ../../../../search.php:163 ../../../../search.php:167
 msgid "No results."
 msgstr "Нет результатов"
 
@@ -1425,12 +1468,15 @@ msgstr "Нет результатов"
 #. line 16
 #. line 2
 #. line 13
+#. line 115
+#. line 16
 #: ../../../../search.php:168
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:334
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:83
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:66
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:25
+#: ../../../../search.php:172
 msgid "Search"
 msgstr "Поиск"
 
@@ -1457,6 +1503,7 @@ msgstr ""
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
+#: ../../../../inc/config.php:1037
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
@@ -1633,6 +1680,11 @@ msgstr ""
 #. line 63
 #. line 152
 #. line 182
+#. line 24
+#. line 63
+#. line 152
+#. line 182
+#. line 67
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:81
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:186
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:391
@@ -1660,6 +1712,8 @@ msgstr ""
 #. line 25
 #. line 68
 #. line 18
+#. line 25
+#. line 68
 #. line 25
 #. line 68
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:85
@@ -1710,6 +1764,7 @@ msgstr "Новая заметка"
 #. line 94
 #. line 7
 #. line 94
+#. line 7
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
@@ -1774,6 +1829,11 @@ msgstr "без причины"
 #. line 118
 #. line 184
 #. line 65
+#. line 3
+#. line 118
+#. line 184
+#. line 65
+#. line 33
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:309
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:472
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:160
@@ -1818,6 +1878,7 @@ msgstr "все доски"
 #. line 43
 #. line 50
 #. line 128
+#. line 43
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:333
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:51
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
@@ -1845,6 +1906,7 @@ msgstr ""
 #. line 47
 #. line 52
 #. line 132
+#. line 47
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:343
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:59
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:135
@@ -1880,6 +1942,7 @@ msgstr "никогда"
 #. line 57
 #. line 53
 #. line 142
+#. line 57
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:367
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:63
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
@@ -1942,6 +2005,7 @@ msgstr "Время"
 #. line 89
 #. line 137
 #. line 185
+#. line 89
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:476
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:234
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:42
@@ -1993,6 +2057,7 @@ msgstr "Новый бан"
 #. line 5
 #. line 2
 #. line 5
+#. line 2
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:31
 msgid "Phrase:"
@@ -2077,19 +2142,19 @@ msgstr ""
 msgid "There are no reports."
 msgstr ""
 
-#: ../../../../post.php:802 ../../../../post.php:811
+#: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
 msgid "That ban doesn't exist or is not for you."
 msgstr ""
 
-#: ../../../../post.php:806 ../../../../post.php:815
+#: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
 msgid "You cannot appeal a ban of this length."
 msgstr ""
 
-#: ../../../../post.php:813 ../../../../post.php:822
+#: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
 msgid "You cannot appeal this ban again."
 msgstr ""
 
-#: ../../../../post.php:818 ../../../../post.php:827
+#: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
 msgid "There is already a pending appeal for this ban."
 msgstr ""
 
@@ -2455,3 +2520,13 @@ msgstr "Удалить"
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
 msgid "View more logs for this user."
 msgstr "Показать все логи этого пользователя."
+
+#. line 84
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
+msgid "Flag"
+msgstr ""
+
+#. line 87
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
+msgid "None"
+msgstr ""

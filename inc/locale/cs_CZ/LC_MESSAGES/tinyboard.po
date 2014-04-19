@@ -1,13 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
+# 
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 20:50+0000\n"
+"POT-Creation-Date: 2014-04-20 00:49+0200\n"
+"PO-Revision-Date: 2014-04-19 22:54+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +22,7 @@ msgstr ""
 #: ../../../../inc/functions.php:620 ../../../../inc/functions.php:637
 #: ../../../../inc/functions.php:623 ../../../../inc/functions.php:640
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
+#: ../../../../inc/functions.php:643 ../../../../inc/functions.php:660
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunda"
@@ -32,6 +34,7 @@ msgstr[2] "sekund"
 #: ../../../../inc/functions.php:622 ../../../../inc/functions.php:639
 #: ../../../../inc/functions.php:625 ../../../../inc/functions.php:642
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
+#: ../../../../inc/functions.php:645 ../../../../inc/functions.php:662
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuta"
@@ -43,6 +46,7 @@ msgstr[2] "minut"
 #: ../../../../inc/functions.php:624 ../../../../inc/functions.php:641
 #: ../../../../inc/functions.php:627 ../../../../inc/functions.php:644
 #: ../../../../inc/functions.php:633 ../../../../inc/functions.php:650
+#: ../../../../inc/functions.php:647 ../../../../inc/functions.php:664
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "hodina"
@@ -54,6 +58,7 @@ msgstr[2] "hodin"
 #: ../../../../inc/functions.php:626 ../../../../inc/functions.php:643
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
 #: ../../../../inc/functions.php:635 ../../../../inc/functions.php:652
+#: ../../../../inc/functions.php:649 ../../../../inc/functions.php:666
 msgid "day"
 msgid_plural "days"
 msgstr[0] "den"
@@ -65,6 +70,7 @@ msgstr[2] "dnů"
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:645
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 #: ../../../../inc/functions.php:637 ../../../../inc/functions.php:654
+#: ../../../../inc/functions.php:651 ../../../../inc/functions.php:668
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "týden"
@@ -76,6 +82,7 @@ msgstr[2] "týdnů"
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 #: ../../../../inc/functions.php:634 ../../../../inc/functions.php:651
 #: ../../../../inc/functions.php:640 ../../../../inc/functions.php:657
+#: ../../../../inc/functions.php:654 ../../../../inc/functions.php:671
 msgid "year"
 msgid_plural "years"
 msgstr[0] "rok"
@@ -84,7 +91,7 @@ msgstr[2] "let"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
-#: ../../../../inc/functions.php:708
+#: ../../../../inc/functions.php:708 ../../../../inc/functions.php:722
 msgid "Banned!"
 msgstr "Máš ban!"
 
@@ -95,6 +102,7 @@ msgstr "Máš ban!"
 #: ../../../../inc/functions.php:1197 ../../../../inc/functions.php:1211
 #: ../../../../inc/functions.php:1200 ../../../../inc/functions.php:1214
 #: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
+#: ../../../../inc/functions.php:1234
 msgid "Previous"
 msgstr "Předchozí"
 
@@ -104,7 +112,8 @@ msgstr "Předchozí"
 #: ../../../../inc/functions.php:1187 ../../../../inc/functions.php:1196
 #: ../../../../inc/functions.php:1216 ../../../../inc/functions.php:1225
 #: ../../../../inc/functions.php:1219 ../../../../inc/functions.php:1228
-#: ../../../../inc/functions.php:1234
+#: ../../../../inc/functions.php:1234 ../../../../inc/functions.php:1239
+#: ../../../../inc/functions.php:1248
 msgid "Next"
 msgstr "Další"
 
@@ -254,7 +263,7 @@ msgstr "Přesunout vlákno na jiný board"
 #. If you want to alter the algorithm a bit. Default value is 2.
 #. (n^x where x is the number of previous mutes)
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
-#: ../../../../inc/config.php:474
+#: ../../../../inc/config.php:474 ../../../../inc/config.php:475
 msgid "You have been muted for unoriginal content."
 msgstr "Byl jsi umlčen za neoriginální obsah."
 
@@ -264,20 +273,20 @@ msgstr "Byl jsi umlčen za neoriginální obsah."
 #. "Post").
 #: ../../../../inc/config.php:677 ../../../../inc/config.php:781
 #: ../../../../inc/config.php:772 ../../../../inc/config.php:774
-#: ../../../../inc/config.php:776
+#: ../../../../inc/config.php:776 ../../../../inc/config.php:792
 msgid "New Topic"
 msgstr "Nové téma"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
 #: ../../../../inc/config.php:773 ../../../../inc/config.php:775
-#: ../../../../inc/config.php:777
+#: ../../../../inc/config.php:777 ../../../../inc/config.php:793
 msgid "New Reply"
 msgstr "Nová odpověď"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
 #: ../../../../inc/config.php:784 ../../../../inc/config.php:786
-#: ../../../../inc/config.php:788
+#: ../../../../inc/config.php:788 ../../../../inc/config.php:804
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
@@ -301,237 +310,237 @@ msgstr "Než něco pošleš, zjisti si, jak to tu chodí."
 #. Error messages
 #: ../../../../inc/config.php:867 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:963 ../../../../inc/config.php:965
-#: ../../../../inc/config.php:967
+#: ../../../../inc/config.php:967 ../../../../inc/config.php:983
 msgid "You look like a bot."
 msgstr "Vypadáš jako robot."
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
-#: ../../../../inc/config.php:968
+#: ../../../../inc/config.php:968 ../../../../inc/config.php:984
 msgid "Your browser sent an invalid or no HTTP referer."
 msgstr "Tvůj prohlížeč neposlal žádný nebo poslal neplatný HTTP referer."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
-#: ../../../../inc/config.php:969
+#: ../../../../inc/config.php:969 ../../../../inc/config.php:985
 #, php-format
 msgid "The %s field was too long."
 msgstr "Pole %s je příliš dlouhé."
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
-#: ../../../../inc/config.php:970
+#: ../../../../inc/config.php:970 ../../../../inc/config.php:986
 msgid "The body was too long."
 msgstr "Tělo je příliš dlouhé."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
-#: ../../../../inc/config.php:971
+#: ../../../../inc/config.php:971 ../../../../inc/config.php:987
 msgid "The body was too short or empty."
 msgstr "Tělo je příliš krátké nebo prázdné."
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
-#: ../../../../inc/config.php:972
+#: ../../../../inc/config.php:972 ../../../../inc/config.php:988
 msgid "You must upload an image."
 msgstr "Musíš nahrát obrázek."
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
-#: ../../../../inc/config.php:973
+#: ../../../../inc/config.php:973 ../../../../inc/config.php:989
 msgid "The server failed to handle your upload."
 msgstr "Server nedokázal zpracovat tvůj upload."
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
-#: ../../../../inc/config.php:974
+#: ../../../../inc/config.php:974 ../../../../inc/config.php:990
 msgid "Unsupported image format."
 msgstr "Nepodporovaný formát obrázku."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
-#: ../../../../inc/config.php:975
+#: ../../../../inc/config.php:975 ../../../../inc/config.php:991
 msgid "Invalid board!"
 msgstr "Neplatný board!"
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
-#: ../../../../inc/config.php:976
+#: ../../../../inc/config.php:976 ../../../../inc/config.php:992
 msgid "Thread specified does not exist."
 msgstr "Dané vlákno neexistuje."
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
-#: ../../../../inc/config.php:977
+#: ../../../../inc/config.php:977 ../../../../inc/config.php:993
 msgid "Thread locked. You may not reply at this time."
 msgstr "Vlákno bylo zamknuto. Teď na něj nemůžeš odpovídat."
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
-#: ../../../../inc/config.php:978
+#: ../../../../inc/config.php:978 ../../../../inc/config.php:994
 msgid "Thread has reached its maximum reply limit."
 msgstr "Vlákno dosáhlo limit na počet odpovědí."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
-#: ../../../../inc/config.php:979
+#: ../../../../inc/config.php:979 ../../../../inc/config.php:995
 msgid "Thread has reached its maximum image limit."
 msgstr "Vlákno dosáhlo limit na počet obrázků."
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
-#: ../../../../inc/config.php:980
+#: ../../../../inc/config.php:980 ../../../../inc/config.php:996
 msgid "You didn't make a post."
 msgstr "Nic jsi neposlal."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
-#: ../../../../inc/config.php:981
+#: ../../../../inc/config.php:981 ../../../../inc/config.php:997
 msgid "Flood detected; Post discarded."
 msgstr "Detekován flood; příspěvek zahozen."
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:980
-#: ../../../../inc/config.php:982
+#: ../../../../inc/config.php:982 ../../../../inc/config.php:998
 msgid "Your request looks automated; Post discarded."
 msgstr "Tvůj požadavek vypadá strojově; příspěvek zahozen."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
-#: ../../../../inc/config.php:983
+#: ../../../../inc/config.php:983 ../../../../inc/config.php:999
 msgid "Unoriginal content!"
 msgstr "Neoriginální obsah!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
-#: ../../../../inc/config.php:984
+#: ../../../../inc/config.php:984 ../../../../inc/config.php:1000
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
 msgstr "Neoriginální obsah! Byl jsi na %d sekund umlčen."
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
-#: ../../../../inc/config.php:985
+#: ../../../../inc/config.php:985 ../../../../inc/config.php:1001
 #, php-format
 msgid "You are muted! Expires in %d seconds."
 msgstr "Byl jsi umlčen! Mluvit budeš moct až za %d sekund."
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
-#: ../../../../inc/config.php:986
+#: ../../../../inc/config.php:986 ../../../../inc/config.php:1002
 #, php-format
 msgid "Your IP address is listed in %s."
 msgstr "Tvoje IP adresa figuruje v %s."
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
-#: ../../../../inc/config.php:987
+#: ../../../../inc/config.php:987 ../../../../inc/config.php:1003
 msgid "Too many links; flood detected."
 msgstr "Příliš mnoho odkazů; detekován flood."
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:986
-#: ../../../../inc/config.php:988
+#: ../../../../inc/config.php:988 ../../../../inc/config.php:1004
 msgid "Too many cites; post discarded."
 msgstr "Příliš mnoho citací; příspěvek zahozen."
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
-#: ../../../../inc/config.php:989
+#: ../../../../inc/config.php:989 ../../../../inc/config.php:1005
 msgid "Too many cross-board links; post discarded."
 msgstr "Příliš mnoho odkazů napříč boardy; příspěvek zahozen."
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
-#: ../../../../inc/config.php:990
+#: ../../../../inc/config.php:990 ../../../../inc/config.php:1006
 msgid "You didn't select anything to delete."
 msgstr "Nevybral jsi nic ke smazání."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
-#: ../../../../inc/config.php:991
+#: ../../../../inc/config.php:991 ../../../../inc/config.php:1007
 msgid "You didn't select anything to report."
 msgstr "Nevybral jsi nic k nahlášení."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
-#: ../../../../inc/config.php:992
+#: ../../../../inc/config.php:992 ../../../../inc/config.php:1008
 msgid "You can't report that many posts at once."
 msgstr "Nemůžeš nahlásit tolik příspěvků najednou."
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
-#: ../../../../inc/config.php:993
+#: ../../../../inc/config.php:993 ../../../../inc/config.php:1009
 msgid "Wrong password…"
 msgstr "Špatné heslo…"
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
-#: ../../../../inc/config.php:994
+#: ../../../../inc/config.php:994 ../../../../inc/config.php:1010
 msgid "Invalid image."
 msgstr "Neplatný obrázek."
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
-#: ../../../../inc/config.php:995
+#: ../../../../inc/config.php:995 ../../../../inc/config.php:1011
 msgid "Unknown file extension."
 msgstr "Neznámá přípona souboru."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
-#: ../../../../inc/config.php:996
+#: ../../../../inc/config.php:996 ../../../../inc/config.php:1012
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
 msgstr "Maximální velikost souboru: %maxsz% bajtů<br>Velikost tvého souboru: %filesz% bajtů"
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
-#: ../../../../inc/config.php:997
+#: ../../../../inc/config.php:997 ../../../../inc/config.php:1013
 msgid "The file was too big."
 msgstr "Soubor je příliš velký."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
-#: ../../../../inc/config.php:998
+#: ../../../../inc/config.php:998 ../../../../inc/config.php:1014
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
 msgstr "Tenhle soubor <a href=\"%s\">už tu je</a>!"
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
-#: ../../../../inc/config.php:999
+#: ../../../../inc/config.php:999 ../../../../inc/config.php:1015
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
 msgstr "Tenhle soubor <a href=\"%s\">tu už v tomhle vláknu je</a>!"
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
-#: ../../../../inc/config.php:1000
+#: ../../../../inc/config.php:1000 ../../../../inc/config.php:1016
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
 msgstr "Než to budeš moct smazat, budeš muset počkat ještě %s."
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
-#: ../../../../inc/config.php:1001
+#: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
 msgstr "Detekován MIME type detection XSS exploit (IE); příspěvek zahozen."
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
-#: ../../../../inc/config.php:1002
+#: ../../../../inc/config.php:1002 ../../../../inc/config.php:1018
 msgid "Couldn't make sense of the URL of the video you tried to embed."
 msgstr "Nechápu URL videa, co jsi zkusil vložit."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
-#: ../../../../inc/config.php:1003
+#: ../../../../inc/config.php:1003 ../../../../inc/config.php:1019
 msgid "You seem to have mistyped the verification."
 msgstr "Asi jsi se upsal u ověření."
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1004
-#: ../../../../inc/config.php:1006
+#: ../../../../inc/config.php:1006 ../../../../inc/config.php:1022
 #, php-format
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
@@ -540,19 +549,19 @@ msgstr "Najednou můžeš odbanovat jen %s uživatel. Zkusil jsi jich odbanovat 
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
-#: ../../../../inc/config.php:1007
+#: ../../../../inc/config.php:1007 ../../../../inc/config.php:1023
 msgid "Invalid username and/or password."
 msgstr "Neplatné uživatelské jméno a/nebo heslo."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
-#: ../../../../inc/config.php:1008
+#: ../../../../inc/config.php:1008 ../../../../inc/config.php:1024
 msgid "You are not a mod…"
 msgstr "Nejsi moderátor…"
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
-#: ../../../../inc/config.php:1009
+#: ../../../../inc/config.php:1009 ../../../../inc/config.php:1025
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
@@ -560,71 +569,71 @@ msgstr "Neplatné uživatelské jméno a/nebo heslo. Tvůj uživatel mohl být s
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
-#: ../../../../inc/config.php:1010
+#: ../../../../inc/config.php:1010 ../../../../inc/config.php:1026
 msgid "Invalid/malformed cookies."
 msgstr "Neplatné cookies."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
-#: ../../../../inc/config.php:1011
+#: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 msgid "Your browser didn't submit an input when it should have."
 msgstr "Tvůj prohlížeč něco neposlal, i když by měl."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
-#: ../../../../inc/config.php:1012
+#: ../../../../inc/config.php:1012 ../../../../inc/config.php:1028
 #, php-format
 msgid "The %s field is required."
 msgstr "Pole %s je povinné."
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
-#: ../../../../inc/config.php:1013
+#: ../../../../inc/config.php:1013 ../../../../inc/config.php:1029
 #, php-format
 msgid "The %s field was invalid."
 msgstr "Pole %s je neplatné."
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
-#: ../../../../inc/config.php:1014
+#: ../../../../inc/config.php:1014 ../../../../inc/config.php:1030
 #, php-format
 msgid "There is already a %s board."
 msgstr "Board %s už tu je."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
-#: ../../../../inc/config.php:1015
+#: ../../../../inc/config.php:1015 ../../../../inc/config.php:1031
 msgid "You don't have permission to do that."
 msgstr "Na to nemáš oprávnění."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
-#: ../../../../inc/config.php:1016
+#: ../../../../inc/config.php:1016 ../../../../inc/config.php:1032
 msgid "That post doesn't exist…"
 msgstr "Ten příspěvek neexistuje…"
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
-#: ../../../../inc/config.php:1017
+#: ../../../../inc/config.php:1017 ../../../../inc/config.php:1033
 msgid "Page not found."
 msgstr "Stránka nenalezena."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
-#: ../../../../inc/config.php:1018
+#: ../../../../inc/config.php:1018 ../../../../inc/config.php:1034
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
 msgstr "Tento moderátor <a href=\"?/users/%d\">už existuje</a>!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
-#: ../../../../inc/config.php:1019
+#: ../../../../inc/config.php:1019 ../../../../inc/config.php:1035
 msgid "That theme doesn't exist!"
 msgstr "Toto téma neexistuje!"
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
-#: ../../../../inc/config.php:1020
+#: ../../../../inc/config.php:1020 ../../../../inc/config.php:1036
 msgid "Invalid security token! Please go back and try again."
 msgstr "Neplatný bezpečností token! Vrať se, prosím, a zkus to znova."
 
@@ -636,7 +645,7 @@ msgstr "Neplatný bezpečností token! Vrať se, prosím, a zkus to znova."
 #. "permanently" (with %LENGTH% being the uppercase equivalent).
 #: ../../../../inc/config.php:1086 ../../../../inc/config.php:1189
 #: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
-#: ../../../../inc/config.php:1187
+#: ../../../../inc/config.php:1187 ../../../../inc/config.php:1203
 msgid "USER WAS BANNED FOR THIS POST"
 msgstr "UŽIVATEL ZA PŘÍSPĚVEK DOSTAL BAN"
 
@@ -711,6 +720,9 @@ msgstr "Log moderací"
 #. line 18
 #. line 104
 #. line 20
+#. line 104
+#. line 20
+#. line 18
 #: ../../../../inc/mod/pages.php:838 ../../../../inc/mod/pages.php:852
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:275
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
@@ -883,10 +895,13 @@ msgstr "Smazat příspěvek"
 #. line 3
 #. line 84
 #. line 3
+#. line 97
+#. line 3
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:26
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:250
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:29
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:290
 msgid "File"
 msgstr "Soubor"
 
@@ -905,6 +920,7 @@ msgstr "Soubor"
 #. line 14
 #. line 131
 #. line 14
+#. line 144
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:28
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:364
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
@@ -912,6 +928,7 @@ msgstr "Soubor"
 #: ../../../../templates/cache/00/31/a027d7b6d57819b6e43e58620f3f4c76194dd75db65fc888a5053ce62803.php:48
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:400
 msgid "Password"
 msgstr "Heslo"
 
@@ -956,6 +973,11 @@ msgstr "Heslo"
 #. line 8
 #. line 108
 #. line 32
+#. line 5
+#. line 8
+#. line 108
+#. line 32
+#. line 23
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:39
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:42
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:285
@@ -1248,22 +1270,28 @@ msgid "Verification"
 msgstr "Ověření"
 
 #. line 90
+#. line 103
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:302
 msgid "Or URL"
 msgstr ""
 
 #. line 100
+#. line 113
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:285
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:322
 msgid "Embed"
 msgstr "Vložit"
 
 #. line 112
 #. line 111
+#. line 124
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:306
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:342
 msgid "Flags"
 msgstr "Flagy"
 
@@ -1289,11 +1317,15 @@ msgstr "Flagy"
 #. line 116
 #. line 115
 #. line 116
+#. line 128
+#. line 129
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:316
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:320
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:319
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:323
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:352
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:356
 msgid "Sticky"
 msgstr "Přilepené"
 
@@ -1319,11 +1351,15 @@ msgstr "Přilepené"
 #. line 120
 #. line 119
 #. line 120
+#. line 132
+#. line 133
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:330
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:334
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:333
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:337
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:366
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:370
 msgid "Lock"
 msgstr "Zamknout"
 
@@ -1349,21 +1385,27 @@ msgstr "Zamknout"
 #. line 124
 #. line 123
 #. line 124
+#. line 136
+#. line 137
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:344
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:348
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:347
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:351
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:380
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:384
 msgid "Raw HTML"
 msgstr "Čisté HTML"
 
 #. line 137
 #. line 136
 #. line 141
+#. line 154
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:374
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:377
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:415
 msgid "(For file deletion.)"
 msgstr "(Pro smazání souboru.)"
 
@@ -1372,14 +1414,15 @@ msgid "Post search is disabled"
 msgstr "Vyhledávání příspěvků není povolené."
 
 #: ../../../../search.php:25 ../../../../search.php:31
+#: ../../../../search.php:29 ../../../../search.php:35
 msgid "Wait a while before searching again, please."
 msgstr "Před dalším pokusem o vyhledávání chvíli počkej, prosím."
 
-#: ../../../../search.php:131
+#: ../../../../search.php:131 ../../../../search.php:135
 msgid "Query too broad."
 msgstr "Dotaz je příliš široký."
 
-#: ../../../../search.php:152
+#: ../../../../search.php:152 ../../../../search.php:156
 #, php-format
 msgid "%d result in"
 msgid_plural "%d results in"
@@ -1387,7 +1430,7 @@ msgstr[0] "%d výsledek v"
 msgstr[1] "%d výsledky v"
 msgstr[2] "%d výsledků v"
 
-#: ../../../../search.php:163
+#: ../../../../search.php:163 ../../../../search.php:167
 msgid "No results."
 msgstr "Žádné výsledky."
 
@@ -1423,12 +1466,15 @@ msgstr "Žádné výsledky."
 #. line 16
 #. line 2
 #. line 13
+#. line 115
+#. line 16
 #: ../../../../search.php:168
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:334
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:83
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:66
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:25
+#: ../../../../search.php:172
 msgid "Search"
 msgstr "Hledat"
 
@@ -1455,6 +1501,7 @@ msgstr ""
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
+#: ../../../../inc/config.php:1037
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
@@ -1631,6 +1678,11 @@ msgstr ""
 #. line 63
 #. line 152
 #. line 182
+#. line 24
+#. line 63
+#. line 152
+#. line 182
+#. line 67
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:81
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:186
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:391
@@ -1658,6 +1710,8 @@ msgstr "Personál"
 #. line 25
 #. line 68
 #. line 18
+#. line 25
+#. line 68
 #. line 25
 #. line 68
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:85
@@ -1708,6 +1762,7 @@ msgstr "Nová poznámka"
 #. line 94
 #. line 7
 #. line 94
+#. line 7
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
@@ -1772,6 +1827,11 @@ msgstr "bez důvodu"
 #. line 118
 #. line 184
 #. line 65
+#. line 3
+#. line 118
+#. line 184
+#. line 65
+#. line 33
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:309
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:472
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:160
@@ -1816,6 +1876,7 @@ msgstr "všechny boardy"
 #. line 43
 #. line 50
 #. line 128
+#. line 43
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:333
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:51
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
@@ -1843,6 +1904,7 @@ msgstr "Nastavit"
 #. line 47
 #. line 52
 #. line 132
+#. line 47
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:343
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:59
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:135
@@ -1878,6 +1940,7 @@ msgstr "nikdy"
 #. line 57
 #. line 53
 #. line 142
+#. line 57
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:367
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:63
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
@@ -1940,6 +2003,7 @@ msgstr "Čas"
 #. line 89
 #. line 137
 #. line 185
+#. line 89
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:476
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:234
 #: ../../../../templates/cache/f8/05/d647b76d6ba28842b313895b0d435295026f1912dc49639bd64e3b42eba3.php:42
@@ -1991,6 +2055,7 @@ msgstr "Nový ban"
 #. line 5
 #. line 2
 #. line 5
+#. line 2
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:31
 msgid "Phrase:"
@@ -2075,19 +2140,19 @@ msgstr ""
 msgid "There are no reports."
 msgstr "Nic nebylo nahlášeno."
 
-#: ../../../../post.php:802 ../../../../post.php:811
+#: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
 msgid "That ban doesn't exist or is not for you."
 msgstr ""
 
-#: ../../../../post.php:806 ../../../../post.php:815
+#: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
 msgid "You cannot appeal a ban of this length."
 msgstr ""
 
-#: ../../../../post.php:813 ../../../../post.php:822
+#: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
 msgid "You cannot appeal this ban again."
 msgstr ""
 
-#: ../../../../post.php:818 ../../../../post.php:827
+#: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
 msgid "There is already a pending appeal for this ban."
 msgstr ""
 
@@ -2452,4 +2517,14 @@ msgstr ""
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
 msgid "View more logs for this user."
+msgstr ""
+
+#. line 84
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
+msgid "Flag"
+msgstr ""
+
+#. line 87
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
+msgid "None"
 msgstr ""

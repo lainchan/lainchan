@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 18:51+0000\n"
+"POT-Creation-Date: 2014-04-20 00:49+0200\n"
+"PO-Revision-Date: 2014-04-19 22:53+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -564,3 +564,7 @@ msgstr "Spustiť videá pri ukázaní na ne"
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
 msgstr "Pôvodná hlasitosť"
+
+#: ../../../../js/treeview.js:18
+msgid "Tree view"
+msgstr ""
