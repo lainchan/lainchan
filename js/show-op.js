@@ -18,9 +18,9 @@ $(document).ready(function(){
 		var OP;
 		
 		if ($('div.banner').length == 0) {
-			OP = $(this).parent().find('div.post.op a.post_no:eq(1)').text();
+			OP = parseInt($(this).parent().find('div.post.op a.post_no:eq(1)').text());
 		} else {
-			OP = $('div.post.op a.post_no:eq(1)').text();
+			OP = parseInt($('div.post.op a.post_no:eq(1)').text());
 		}
 		
 		$(this).find('div.body a:not([rel="nofollow"])').each(function() {
@@ -41,7 +41,13 @@ $(document).ready(function(){
 	
 	// allow to work with auto-reload.js, etc.
 	$(document).on('new_post', function(e, post) {
-		$(post).each(showOPLinks);
+		if ($(post).is('div.post.reply')) {
+			$(post).each(showOPLinks);
+		}
+		else {
+			$(post).find('div.post.reply').each(showOPLinks);
+		}
 	});
 });
+
 
