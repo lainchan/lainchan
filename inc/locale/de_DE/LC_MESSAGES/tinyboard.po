@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Translators:
+# zzrutkjf <fgnthjrj@byom.de>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-18 19:24+0200\n"
-"PO-Revision-Date: 2014-04-18 20:50+0000\n"
-"Last-Translator: czaks <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-04-19 21:43+0000\n"
+"Last-Translator: zzrutkjf <fgnthjrj@byom.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +24,8 @@ msgstr ""
 #: ../../../../inc/functions.php:629 ../../../../inc/functions.php:646
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sekunde"
+msgstr[1] "Sekunden"
 
 #: ../../../../inc/functions.php:585 ../../../../inc/functions.php:602
 #: ../../../../inc/functions.php:593 ../../../../inc/functions.php:610
@@ -33,8 +34,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:631 ../../../../inc/functions.php:648
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Minute"
+msgstr[1] "Minuten"
 
 #: ../../../../inc/functions.php:587 ../../../../inc/functions.php:604
 #: ../../../../inc/functions.php:595 ../../../../inc/functions.php:612
@@ -43,8 +44,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:633 ../../../../inc/functions.php:650
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stunde"
+msgstr[1] "Stunden"
 
 #: ../../../../inc/functions.php:589 ../../../../inc/functions.php:606
 #: ../../../../inc/functions.php:597 ../../../../inc/functions.php:614
@@ -53,8 +54,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:635 ../../../../inc/functions.php:652
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tag"
+msgstr[1] "Tage"
 
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
 #: ../../../../inc/functions.php:599 ../../../../inc/functions.php:616
@@ -63,8 +64,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:637 ../../../../inc/functions.php:654
 msgid "week"
 msgid_plural "weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Woche"
+msgstr[1] "Wochen"
 
 #: ../../../../inc/functions.php:594 ../../../../inc/functions.php:611
 #: ../../../../inc/functions.php:602 ../../../../inc/functions.php:619
@@ -73,14 +74,14 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:640 ../../../../inc/functions.php:657
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Jahr"
+msgstr[1] "Jahre"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
 #: ../../../../inc/functions.php:708
 msgid "Banned!"
-msgstr ""
+msgstr "Gebannt!"
 
 #. There is no previous page.
 #: ../../../../inc/functions.php:1125 ../../../../inc/functions.php:1139
@@ -90,7 +91,7 @@ msgstr ""
 #: ../../../../inc/functions.php:1200 ../../../../inc/functions.php:1214
 #: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
 msgid "Previous"
-msgstr ""
+msgstr "Vorheriges"
 
 #. There is no next page.
 #: ../../../../inc/functions.php:1144 ../../../../inc/functions.php:1153
@@ -100,77 +101,77 @@ msgstr ""
 #: ../../../../inc/functions.php:1219 ../../../../inc/functions.php:1228
 #: ../../../../inc/functions.php:1234
 msgid "Next"
-msgstr ""
+msgstr "Nächstes"
 
 #: ../../../../inc/display.php:93 ../../../../inc/display.php:105
 #: ../../../../inc/display.php:108
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: ../../../../inc/display.php:94 ../../../../inc/display.php:106
 #: ../../../../inc/display.php:109
 msgid "An error has occured."
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten"
 
 #: ../../../../inc/display.php:110 ../../../../inc/mod/pages.php:62
 #: ../../../../inc/mod/pages.php:60 ../../../../inc/display.php:122
 #: ../../../../inc/display.php:125
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: ../../../../inc/display.php:229 ../../../../inc/display.php:241
 #: ../../../../inc/display.php:244
 #, php-format
 msgid "Post too long. Click <a href=\"%s\">here</a> to view the full text."
-msgstr ""
+msgstr "Post zu lang. Klicke <a href=\"%s\">hier</a> um alles anzuzeigen."
 
 #: ../../../../inc/display.php:368 ../../../../inc/display.php:473
 #: ../../../../inc/display.php:385 ../../../../inc/display.php:495
 #: ../../../../inc/display.php:388 ../../../../inc/display.php:498
 msgid "Ban"
-msgstr ""
+msgstr "Bannen"
 
 #: ../../../../inc/display.php:372 ../../../../inc/display.php:477
 #: ../../../../inc/display.php:389 ../../../../inc/display.php:499
 #: ../../../../inc/display.php:392 ../../../../inc/display.php:502
 msgid "Ban & Delete"
-msgstr ""
+msgstr "Bannen & Löschen"
 
 #: ../../../../inc/display.php:376 ../../../../inc/display.php:481
 #: ../../../../inc/display.php:393 ../../../../inc/display.php:503
 #: ../../../../inc/display.php:396 ../../../../inc/display.php:506
 msgid "Delete file"
-msgstr ""
+msgstr "Datei löschen"
 
 #: ../../../../inc/display.php:376 ../../../../inc/display.php:481
 #: ../../../../inc/display.php:393 ../../../../inc/display.php:503
 #: ../../../../inc/display.php:396 ../../../../inc/display.php:506
 msgid "Are you sure you want to delete this file?"
-msgstr ""
+msgstr "Bist du sicher dass du diese Datei löschen willst?"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 msgid "Spoiler File"
-msgstr ""
+msgstr "Datei spoilern"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 msgid "Are you sure you want to spoiler this file?"
-msgstr ""
+msgstr "Bist du sicher das du diese Datei spoilern willst?"
 
 #: ../../../../inc/display.php:384 ../../../../inc/display.php:401
 #: ../../../../inc/display.php:404
 msgid "Move reply to another board"
-msgstr ""
+msgstr "Antwort in ein anderes Brett verschieben"
 
 #: ../../../../inc/display.php:388 ../../../../inc/display.php:512
 #: ../../../../inc/mod/pages.php:1425 ../../../../inc/mod/pages.php:1494
 #: ../../../../inc/display.php:405 ../../../../inc/display.php:534
 #: ../../../../inc/display.php:408 ../../../../inc/display.php:537
 msgid "Edit post"
-msgstr ""
+msgstr "Post editieren"
 
 #. line 5
 #: ../../../../inc/display.php:461
@@ -179,22 +180,22 @@ msgstr ""
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:36
 #: ../../../../inc/display.php:486
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: ../../../../inc/display.php:461 ../../../../inc/display.php:483
 #: ../../../../inc/display.php:486
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Bist du sicher dass du das löschen willst?"
 
 #: ../../../../inc/display.php:465 ../../../../inc/display.php:487
 #: ../../../../inc/display.php:490
 msgid "Delete all posts by IP"
-msgstr ""
+msgstr "Alle Posts dieser IP löschen"
 
 #: ../../../../inc/display.php:465 ../../../../inc/display.php:487
 #: ../../../../inc/display.php:490
 msgid "Are you sure you want to delete all posts by this IP address?"
-msgstr ""
+msgstr "Bist du sicher dass du alle Posts dieser IP löschen willst?"
 
 #: ../../../../inc/display.php:469 ../../../../inc/display.php:491
 #: ../../../../inc/display.php:494
@@ -211,37 +212,37 @@ msgstr ""
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:512
 #: ../../../../inc/display.php:515
 msgid "Make thread not sticky"
-msgstr ""
+msgstr "Faden nicht mehr anpinnen"
 
 #: ../../../../inc/display.php:492 ../../../../inc/display.php:514
 #: ../../../../inc/display.php:517
 msgid "Make thread sticky"
-msgstr ""
+msgstr "Faden anpinnen"
 
 #: ../../../../inc/display.php:496 ../../../../inc/display.php:518
 #: ../../../../inc/display.php:521
 msgid "Allow thread to be bumped"
-msgstr ""
+msgstr "Faden darf gestoßen werden"
 
 #: ../../../../inc/display.php:498 ../../../../inc/display.php:520
 #: ../../../../inc/display.php:523
 msgid "Prevent thread from being bumped"
-msgstr ""
+msgstr "Faden darf nicht gestoßen werden"
 
 #: ../../../../inc/display.php:503 ../../../../inc/display.php:525
 #: ../../../../inc/display.php:528
 msgid "Unlock thread"
-msgstr ""
+msgstr "Faden aufmachen"
 
 #: ../../../../inc/display.php:505 ../../../../inc/display.php:527
 #: ../../../../inc/display.php:530
 msgid "Lock thread"
-msgstr ""
+msgstr "Faden schließen"
 
 #: ../../../../inc/display.php:508 ../../../../inc/display.php:530
 #: ../../../../inc/display.php:533
 msgid "Move thread to another board"
-msgstr ""
+msgstr "Faden in anderes Brett verschieben"
 
 #. How long before Tinyboard forgets about a mute?
 #. 2 weeks
@@ -250,7 +251,7 @@ msgstr ""
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
 #: ../../../../inc/config.php:474
 msgid "You have been muted for unoriginal content."
-msgstr ""
+msgstr "Du wurdest für unorginellen Inhalt stumm gestellt"
 
 #. The names on the post buttons. (On most imageboards, these are both just
 #. "Post").
@@ -260,13 +261,13 @@ msgstr ""
 #: ../../../../inc/config.php:772 ../../../../inc/config.php:774
 #: ../../../../inc/config.php:776
 msgid "New Topic"
-msgstr ""
+msgstr "Neuer Faden"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
 #: ../../../../inc/config.php:773 ../../../../inc/config.php:775
 #: ../../../../inc/config.php:777
 msgid "New Reply"
-msgstr ""
+msgstr "Neue Antwort"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
@@ -275,7 +276,7 @@ msgstr ""
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
-msgstr ""
+msgstr "Alle Warenzeichen, Urheberrechte, Kommentare und Bilder auf dieser Seite sind Eigentum und in der Verantwortung der jeweiligen Parteien."
 
 #. * ====================
 #. *  Error messages
@@ -283,7 +284,7 @@ msgstr ""
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr ""
+msgstr "Lauer meer bevor du pfostierst"
 
 #. * ====================
 #. *  Error messages
@@ -297,137 +298,137 @@ msgstr ""
 #: ../../../../inc/config.php:963 ../../../../inc/config.php:965
 #: ../../../../inc/config.php:967
 msgid "You look like a bot."
-msgstr ""
+msgstr "Du bist wie ein Bot"
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
 #: ../../../../inc/config.php:968
 msgid "Your browser sent an invalid or no HTTP referer."
-msgstr ""
+msgstr "Dein Browser sendet fehlerhafte oder keine HTTP-Referer"
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
 #: ../../../../inc/config.php:969
 #, php-format
 msgid "The %s field was too long."
-msgstr ""
+msgstr "Das %s Feld war zu lang."
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
 #: ../../../../inc/config.php:970
 msgid "The body was too long."
-msgstr ""
+msgstr "Text zu lang."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
 #: ../../../../inc/config.php:971
 msgid "The body was too short or empty."
-msgstr ""
+msgstr "Text zu kurz oder leer."
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
 #: ../../../../inc/config.php:972
 msgid "You must upload an image."
-msgstr ""
+msgstr "Du musst ein Bild hochladen"
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
 #: ../../../../inc/config.php:973
 msgid "The server failed to handle your upload."
-msgstr ""
+msgstr "Der Server kann nicht mit der hochgeladenen Datei umgehen."
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:974
 msgid "Unsupported image format."
-msgstr ""
+msgstr "Dateiformat nicht erlaubt."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:975
 msgid "Invalid board!"
-msgstr ""
+msgstr "Fehlendes Brett!"
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:976
 msgid "Thread specified does not exist."
-msgstr ""
+msgstr "Der angegebene Faden existiert nicht."
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:977
 msgid "Thread locked. You may not reply at this time."
-msgstr ""
+msgstr "Faden geschloßen. Posten ist zur Zeit nicht möglcih"
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:978
 msgid "Thread has reached its maximum reply limit."
-msgstr ""
+msgstr "Der Faden hat die maximale Anzahl an Posts erreicht."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:979
 msgid "Thread has reached its maximum image limit."
-msgstr ""
+msgstr "Der Faden hat die maximale Anzahl an Bildern erreicht. "
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:980
 msgid "You didn't make a post."
-msgstr ""
+msgstr "Du hast nicht gepostet."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:981
 msgid "Flood detected; Post discarded."
-msgstr ""
+msgstr "Spam-Flut erkannt; Post abewehrt."
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:982
 msgid "Your request looks automated; Post discarded."
-msgstr ""
+msgstr "Deine Aktivitäten scheinen automatisiert zu sein; Post abgewehrt."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:983
 msgid "Unoriginal content!"
-msgstr ""
+msgstr "Unorigineller Inhalt!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:984
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr ""
+msgstr "Unorigineller Inhalt! Du wurdest für %d Sekunden auf stumm geschaltet."
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:985
 #, php-format
 msgid "You are muted! Expires in %d seconds."
-msgstr ""
+msgstr "Du bist noch %d Sekunden auf stumm geschaltet."
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:986
 #, php-format
 msgid "Your IP address is listed in %s."
-msgstr ""
+msgstr "Deine IP-Adresse ist aufgeführt in %s."
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:987
 msgid "Too many links; flood detected."
-msgstr ""
+msgstr "Zu viele Verlinkungen; Spam-Flut erkannt."
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:988
 msgid "Too many cites; post discarded."
-msgstr ""
+msgstr "Zu viele Zitate; Spam-Flut erkannt."
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
@@ -439,70 +440,70 @@ msgstr ""
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:990
 msgid "You didn't select anything to delete."
-msgstr ""
+msgstr "Du hast nichts zum löschen ausgewählt."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:991
 msgid "You didn't select anything to report."
-msgstr ""
+msgstr "Du hast nichts zum melden ausgwählt."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:992
 msgid "You can't report that many posts at once."
-msgstr ""
+msgstr "Du kannst nicht so viele Posts auf ein mal melden."
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:993
 msgid "Wrong password…"
-msgstr ""
+msgstr "Falsches Passwort."
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:994
 msgid "Invalid image."
-msgstr ""
+msgstr "Ungültiges Bild."
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:995
 msgid "Unknown file extension."
-msgstr ""
+msgstr "Unbekannte Dateiendung."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:996
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
-msgstr ""
+msgstr "Maximale Dateigröße: %maxsz% bytes<br>Deine Dateigröße: %filesz% bytes"
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:997
 msgid "The file was too big."
-msgstr ""
+msgstr "Die Datei ist zu groß."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:998
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
-msgstr ""
+msgstr "Diese Datei <a href=\"%s\">existiert bereits</a>!"
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:999
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
-msgstr ""
+msgstr "Diese Datei <a href=\"%s\">existiert bereits</a> in diesem Faden!"
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:1000
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
-msgstr ""
+msgstr "Du musst noch %s warten bevor du das löschen kannst."
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
@@ -514,13 +515,13 @@ msgstr ""
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:1002
 msgid "Couldn't make sense of the URL of the video you tried to embed."
-msgstr ""
+msgstr "Es macht keinen Sinn diese Video-URL einzubetten."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:1003
 msgid "You seem to have mistyped the verification."
-msgstr ""
+msgstr "Du hast das Captcha falsch eingegeben."
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
@@ -530,19 +531,19 @@ msgstr ""
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
 "users."
-msgstr ""
+msgstr "Du darfst maximal %s User zur gleichen Zeit unbannen. Du wolltest %u User unbannen.."
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1007
 msgid "Invalid username and/or password."
-msgstr ""
+msgstr "Falscher Nutzername und/oder Passwort."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1008
 msgid "You are not a mod…"
-msgstr ""
+msgstr "Du bist kein Mod."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
@@ -550,77 +551,77 @@ msgstr ""
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
-msgstr ""
+msgstr "Falscher Nutzername und/oder Passwort. Vielleicht hat sich ihr Benutzer geändert."
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1010
 msgid "Invalid/malformed cookies."
-msgstr ""
+msgstr "Ungültige Cookies."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011
 msgid "Your browser didn't submit an input when it should have."
-msgstr ""
+msgstr "Dein Browser übermittelt keine Daten wenn er sollte."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
 #: ../../../../inc/config.php:1012
 #, php-format
 msgid "The %s field is required."
-msgstr ""
+msgstr "Das Feld %s darf nicht leer bleiben."
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1013
 #, php-format
 msgid "The %s field was invalid."
-msgstr ""
+msgstr "Das Feld %s beinhaltet einen Fehler."
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1014
 #, php-format
 msgid "There is already a %s board."
-msgstr ""
+msgstr "Ein %s-Brett existiert bereits."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1015
 msgid "You don't have permission to do that."
-msgstr ""
+msgstr "Du hast nicht die Berechtigung das zu tun."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1016
 msgid "That post doesn't exist…"
-msgstr ""
+msgstr "Dieser Post existiert nicht..."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1017
 msgid "Page not found."
-msgstr ""
+msgstr "Seite nicht gefunden."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1018
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr ""
+msgstr "Der Mod <a href=\"?/users/%d\">existiert bereits</a>!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019
 msgid "That theme doesn't exist!"
-msgstr ""
+msgstr "Dieses Theme existiert nicht"
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1020
 msgid "Invalid security token! Please go back and try again."
-msgstr ""
+msgstr "Falsche Sicherheitszeichen! Bitte gehe zurück und probiere es erneut!"
 
 #. Default public ban message. In public ban messages, %length% is replaced
 #. with "for x days" or
@@ -632,46 +633,46 @@ msgstr ""
 #: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
 #: ../../../../inc/config.php:1187
 msgid "USER WAS BANNED FOR THIS POST"
-msgstr ""
+msgstr "USER WURDE FÜR DIESEN POST GEBANNT"
 
 #: ../../../../inc/mod/pages.php:66 ../../../../inc/mod/pages.php:64
 msgid "Confirm action"
-msgstr ""
+msgstr "Bestätigungsaktion"
 
 #: ../../../../inc/mod/pages.php:110 ../../../../inc/mod/pages.php:108
 msgid "Could not find current version! (Check .installed)"
-msgstr ""
+msgstr "Die aktuelle Version wurde nicht gefunden! (Überprüfe .installed)"
 
 #: ../../../../inc/mod/pages.php:162
 msgid "Dashboard"
-msgstr ""
+msgstr "Übersicht"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
-msgstr ""
+msgstr "Keine Bretter zum suchen vorhanden!"
 
 #. $results now contains the search results
 #: ../../../../inc/mod/pages.php:335 ../../../../inc/mod/pages.php:334
 msgid "Search results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: ../../../../inc/mod/pages.php:436 ../../../../inc/mod/pages.php:438
 msgid "Edit board"
-msgstr ""
+msgstr "Brett ändern"
 
 #: ../../../../inc/mod/pages.php:486 ../../../../inc/mod/pages.php:491
 msgid "Couldn't open board after creation."
-msgstr ""
+msgstr "Brett kann nicht geöffnet werden."
 
 #: ../../../../inc/mod/pages.php:506 ../../../../inc/mod/pages.php:511
 msgid "New board"
-msgstr ""
+msgstr "Neues Brett"
 
 #. line 37
 #: ../../../../inc/mod/pages.php:553 ../../../../inc/mod/pages.php:562
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:121
 msgid "Noticeboard"
-msgstr ""
+msgstr "Informationen"
 
 #: ../../../../inc/mod/pages.php:614 ../../../../inc/mod/pages.php:631
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:194
