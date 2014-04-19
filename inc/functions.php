@@ -612,17 +612,27 @@ function hasPermission($action = null, $board = null, $_mod = null) {
 	return true;
 }
 
-function listBoards() {
+function listBoards($just_uri = false) {
 	global $config;
 
-	if ($config['cache']['enabled'] && ($boards = cache::get('all_boards')))
+	$just_uri ? $cache_name = 'all_boards_uri' : $cache_name = 'all_boards';
+
+	if ($config['cache']['enabled'] && ($boards = cache::get($cache_name)))
 		return $boards;
 
-	$query = query("SELECT * FROM ``boards`` ORDER BY `uri`") or error(db_error());
-	$boards = $query->fetchAll();
-
+	if (!$just_uri) {
+		$query = query("SELECT ``boards``.`uri` uri, ``boards``.`title` title, ``boards``.`subtitle` subtitle, ``board_create``.`time` time FROM ``boards`` LEFT JOIN ``board_create`` ON ``boards``.`uri` = ``board_create``.`uri` ORDER BY ``boards``.`uri`") or error(db_error());
+		$boards = $query->fetchAll();
+	} else {
+		$boards = array();
+		$query = query("SELECT `uri` FROM ``boards``") or error(db_error());
+		while ($board = $query->fetchColumn()) {
+			$boards[] = $board;
+		}
+	}
+ 
 	if ($config['cache']['enabled'])
-		cache::set('all_boards', $boards);
+		cache::set($cache_name, $boards);
 
 	return $boards;
 }
