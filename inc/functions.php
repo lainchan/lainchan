@@ -621,7 +621,7 @@ function listBoards($just_uri = false) {
 		return $boards;
 
 	if (!$just_uri) {
-		$query = query("SELECT ``boards``.`uri` uri, ``boards``.`title` title, ``boards``.`subtitle` subtitle, ``board_create``.`time` time FROM ``boards`` LEFT JOIN ``board_create`` ON ``boards``.`uri` = ``board_create``.`uri` ORDER BY ``boards``.`uri`") or error(db_error());
+		$query = query("SELECT * FROM ``boards`` ORDER BY `uri`") or error(db_error());
 		$boards = $query->fetchAll();
 	} else {
 		$boards = array();
