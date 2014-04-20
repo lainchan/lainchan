@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.4.98-pre');
+define('VERSION', '4.4.98');
 
 require 'inc/functions.php';
 
@@ -518,6 +518,9 @@ if (file_exists($config['has_installed'])) {
 				
 				break;
 			}
+		case '4.4.98-pre':
+			if (!$twig) load_twig();
+			$twig->clearCacheFiles();
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
