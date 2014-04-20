@@ -4,13 +4,14 @@
 # 
 # Translators:
 # limbobarrage <ijynyjdl@grr.la>, 2014
+# cicus <mercurio@index.hu>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-20 00:49+0200\n"
-"PO-Revision-Date: 2014-04-19 22:53+0000\n"
-"Last-Translator: czaks <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-04-20 15:00+0000\n"
+"Last-Translator: cicus <mercurio@index.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +66,7 @@ msgstr "Kiválaszt"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 msgid "Remote"
-msgstr "Távirányít"
+msgstr "Külső link"
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
 msgid "Embed"
@@ -73,7 +74,7 @@ msgstr "Beágyaz"
 
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
 msgid "Oekaki"
-msgstr "Rajzod"
+msgstr "Saját rajz"
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
 msgid "hidden"
@@ -82,12 +83,12 @@ msgstr "rejtett"
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Show images"
-msgstr "Képek mutatása"
+msgstr "Mutassa a képeket"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Hide images"
-msgstr "Képek elrejtése"
+msgstr "Rejtse el a képeket"
 
 #: ../../../../js/quick-post-controls.js:27
 #: ../../../../js/quick-post-controls.js:29
@@ -107,7 +108,7 @@ msgstr "Törlés"
 #: ../../../../js/quick-post-controls.js:35
 #: ../../../../js/quick-post-controls.js:37
 msgid "Reason"
-msgstr "Indok"
+msgstr "Ok"
 
 #: ../../../../js/quick-post-controls.js:37
 #: ../../../../js/quick-post-controls.js:39
@@ -148,7 +149,7 @@ msgstr "Betöltés"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr "Radír átkapcsolása"
+msgstr "Radírt kapcsol"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
@@ -249,7 +250,7 @@ msgstr "Gyors válasz"
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr "Hozzászólás módja: Válasz a <small>&gt;&gt;{0}</small>"
+msgstr "Hozzászólás módja: Válasz erre: <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
@@ -345,7 +346,7 @@ msgstr "Spoiler Kép"
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
 msgid "Comment"
-msgstr "Komment"
+msgstr "Hozzászólás"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
@@ -371,7 +372,7 @@ msgstr "Figyelje ezt a szálat"
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr "Tábla kiemelésének megszüntetése"
+msgstr "Tábla kiemelés megszüntetése"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -379,7 +380,7 @@ msgstr "Tábla kiemelésének megszüntetése"
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr "Tábla kiemelése"
+msgstr "Emelje ki a táblát"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -555,11 +556,11 @@ msgstr "WebM beállítások"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr "Videók kinagyítása belül"
+msgstr "Videók kinagyítása szálon belül"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr "Videók lebegő lejátszása "
+msgstr "Videók lejátszása ha az egérmutató föléjük ér"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
@@ -567,4 +568,4 @@ msgstr "Alap hangerő"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr ""
+msgstr "Fa nézet"
