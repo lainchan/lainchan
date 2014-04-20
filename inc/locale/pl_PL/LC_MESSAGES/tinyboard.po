@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-20 00:49+0200\n"
-"PO-Revision-Date: 2014-04-19 22:54+0000\n"
+"PO-Revision-Date: 2014-04-19 23:00+0000\n"
 "Last-Translator: czaks <marcin@6irc.net>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
@@ -2523,9 +2523,9 @@ msgstr "Zobacz więcej logów tego użytkownika"
 #. line 84
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
 msgid "Flag"
-msgstr ""
+msgstr "Flaga"
 
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
 msgid "None"
-msgstr ""
+msgstr "Brak"
