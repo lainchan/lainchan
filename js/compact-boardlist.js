@@ -54,6 +54,11 @@ if (device_type == 'desktop') {
         $('<a class="cb-item cb-fa" href="'+categories[i].boards[0].href+'"><i class="fa-'+icon+' fa"></i></a>')
           .appendTo(topbl)
       }
+      else if (item.name.match(/^d_/)) {
+        var icon = item.name.replace(/^d_/, '')
+        $('<a class="cb-item cb-cat" href="'+categories[i].boards[0].href+'">'+icon+'</a>')
+          .appendTo(topbl)
+      }
       else {
         $("<a class='cb-item cb-cat' href='javascript:void(0)'>"+item.name+"</a>")
  	  .appendTo(topbl)
