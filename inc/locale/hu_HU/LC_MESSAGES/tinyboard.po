@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-20 00:49+0200\n"
-"PO-Revision-Date: 2014-04-20 14:56+0000\n"
+"PO-Revision-Date: 2014-04-20 19:50+0000\n"
 "Last-Translator: cicus <mercurio@index.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -1190,7 +1190,7 @@ msgstr "Név"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:91
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:47
 msgid "Email"
-msgstr "Elektronikus levélcím"
+msgstr "Email"
 
 #. line 23
 #. line 46
