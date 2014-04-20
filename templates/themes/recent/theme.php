@@ -45,6 +45,11 @@
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_images'], $query);
+			
+			if ($query == '') {
+				error(_("Can't build the RecentPosts theme, because there are no boards to be fetched."));
+			}
+
 			$query = query($query) or error(db_error());
 			
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
