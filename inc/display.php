@@ -88,6 +88,10 @@ function error($message, $priority = true, $debug_stuff = false) {
 		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
 	}
 
+	if ($config['debug']) {
+		$debug_stuff['backtrace'] = debug_backtrace();
+	}
+
 	// Return the bad request header, necessary for AJAX posts
 	// czaks: is it really so? the ajax errors only work when this is commented out
 	//        better yet use it when ajax is disabled
