@@ -78,6 +78,15 @@ links may be helpful for you as well:
 	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
 *	You may find help at [tinyboard.org](http://tinyboard.org/#help).
 
+Donations
+---------
+Do you like our work? You can motivate us financially to do better ;)
+* Bitcoin: [![tip for next commit](http://tip4commit.com/projects/708.svg)](http://tip4commit.com/projects/708)
+
+You can also ask us to develop some feature specially for you <3. Join our IRC
+channel and ask for a quote (there are a few of us, who work with the codebase
+and are skilled enough to develop such features pretty quickly).
+
 CLI tools
 -----------------
 There are a few command line interface tools, based on Tinyboard-Tools. These need
