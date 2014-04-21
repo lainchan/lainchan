@@ -326,13 +326,23 @@ function create_antibot($board, $thread = null) {
 	return _create_antibot($board, $thread);
 }
 
-function rebuildThemes($action, $board = false) {
+function rebuildThemes($action, $boardname = false) {
+	global $config, $board;
+
+	// Save the global variables
+	$_config = $config;
+	$_board = $board;
+
 	// List themes
 	$query = query("SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
 	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
-		rebuildTheme($theme['theme'], $action, $board);
+		rebuildTheme($theme['theme'], $action, $boardname);
 	}
+
+	// Restore them
+	$config = $_config;
+	$board = $_board;
 }
 
 
