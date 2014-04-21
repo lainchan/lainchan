@@ -1208,7 +1208,7 @@
 	// When moving a thread to another board and choosing to keep a "shadow thread", an automated post (with
 	// a capcode) will be made, linking to the new location for the thread. "%s" will be replaced with a
 	// standard cross-board post citation (>>>/board/xxx)
-	$config['mod']['shadow_mesage'] = 'Moved to %s.';
+	$config['mod']['shadow_mesage'] = _('Moved to %s.');
 	// Capcode to use when posting the above message.
 	$config['mod']['shadow_capcode'] = 'Mod';
 	// Name to use when posting the above message. If false, $config['anonymous'] will be used.
