@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# copypaste <admin@8chan.co>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-21 19:05+0000\n"
-"Last-Translator: czaks <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-04-22 21:06+0000\n"
+"Last-Translator: copypaste <admin@8chan.co>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2480,115 +2481,115 @@ msgstr "Probablemente que estás viendo este mensaje porque el Javascript está 
 #. line 7
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
 msgid "Report date"
-msgstr ""
+msgstr "Fecha del reporte"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:54
 msgid "Reported by"
-msgstr ""
+msgstr "Reportado por"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:73
 msgid "Discard abuse report"
-msgstr ""
+msgstr "Desechar reporte de abuso"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:93
 msgid "Discard all abuse reports by this IP address"
-msgstr ""
+msgstr "Desechar todos los reportes de abuso por esta dirección IP"
 
 #. line 4
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #. line 34
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:105
 msgid "Delete forever"
-msgstr ""
+msgstr "Borrar para siempre"
 
 #. line 39
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:119
 msgid "Reply with quote"
-msgstr ""
+msgstr "Responder con cita"
 
 #. line 18
 #: ../../../../templates/cache/1f/f5/c63468797b4f93a8005563716a720117a6d51a804f2124a4c5158ca78525.php:62
 msgid "Send message"
-msgstr ""
+msgstr "Enviar mensaje"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:25
 msgid "There are no themes available."
-msgstr ""
+msgstr "No hay ningún tema disponible."
 
 #. line 11
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:50
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #. line 15
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:60
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #. line 19
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:70
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #. line 27
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:93
 msgid "Use theme"
-msgstr ""
+msgstr "Usar tema"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:100
 msgid "Reconfigure"
-msgstr ""
+msgstr "Reconfigurar"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:102
 msgid "Install"
-msgstr ""
+msgstr "Instalar"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:123
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstalar"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:72
 msgid "new; optional"
-msgstr ""
+msgstr "nueva; opcional"
 
 #. line 32
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:98
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #. line 56
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:161
 msgid "All boards"
-msgstr ""
+msgstr "Todos los tablones"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:223
 msgid "Create user"
-msgstr ""
+msgstr "Crear usuario"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:229
 msgid "Save changes"
-msgstr ""
+msgstr "Guardar los cambios"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:236
 msgid "Delete user"
-msgstr ""
+msgstr "Borrar usuario"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
 msgid "View more logs for this user."
-msgstr ""
+msgstr "Muestra más registros de este usuario"
 
 #. line 84
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
 msgid "Flag"
-msgstr ""
+msgstr "Bandera"
 
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
 msgid "None"
-msgstr ""
+msgstr "Nada"
 
 #. When moving a thread to another board and choosing to keep a "shadow
 #. thread", an automated post (with
@@ -2598,10 +2599,10 @@ msgstr ""
 #: ../../../../inc/config.php:1211
 #, php-format
 msgid "Moved to %s."
-msgstr ""
+msgstr "Movido a %s."
 
 #: ../../../../templates/themes/recent/theme.php:50
 msgid ""
 "Can't build the RecentPosts theme, because there are no boards to be "
 "fetched."
-msgstr ""
+msgstr "No se puede generar el tema de RecentPosts; no hay ningún tablón para generar."
