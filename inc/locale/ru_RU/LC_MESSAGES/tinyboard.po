@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-22 09:09+0000\n"
-"Last-Translator: cookiezeater <cookiezeater@mail.ru>\n"
+"PO-Revision-Date: 2014-04-22 20:14+0000\n"
+"Last-Translator: Assada <assada@mail.ua>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -318,7 +318,7 @@ msgstr "Все права, копирайты на этой странице п�
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr "Error. Lurk some more before posting."
+msgstr ""
 
 #. * ====================
 #. *  Error messages
@@ -436,7 +436,7 @@ msgstr "Не оригинальный контент."
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:1000
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr "Unoriginal content! You have been muted for %d seconds."
+msgstr ""
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
@@ -618,7 +618,7 @@ msgstr "Поле %s заполнено с ошибкой. "
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1030
 #, php-format
 msgid "There is already a %s board."
-msgstr "Борда %s уже существует."
+msgstr "Доска %s уже существует."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
@@ -643,7 +643,7 @@ msgstr "Страница не найдена."
 #: ../../../../inc/config.php:1018 ../../../../inc/config.php:1034
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr ""
+msgstr "Этот модератор <a href=\"?/users/%d\">уже есть!</a>!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
@@ -683,7 +683,7 @@ msgstr "Дашборд"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
-msgstr "Нет борд для осуществления поиска."
+msgstr "Нет досок для осуществления поиска."
 
 #. $results now contains the search results
 #: ../../../../inc/mod/pages.php:335 ../../../../inc/mod/pages.php:334
@@ -706,7 +706,7 @@ msgstr "Новая доска"
 #: ../../../../inc/mod/pages.php:553 ../../../../inc/mod/pages.php:562
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:121
 msgid "Noticeboard"
-msgstr "Блог"
+msgstr "Пангель уведомлений"
 
 #: ../../../../inc/mod/pages.php:614 ../../../../inc/mod/pages.php:631
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:194
@@ -1526,7 +1526,7 @@ msgstr "Поиск"
 
 #: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
-msgstr "Жалоб на баны нету!"
+msgstr "Жалоб на баны нет!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
@@ -1945,7 +1945,7 @@ msgstr "все доски"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:125
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:149
 msgid "Set"
-msgstr ""
+msgstr "Установить"
 
 #. line 132
 #. line 13
@@ -2546,7 +2546,7 @@ msgstr "Описание"
 #. line 19
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:70
 msgid "Thumbnail"
-msgstr ""
+msgstr "Миниатюра"
 
 #. line 27
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:93
@@ -2567,7 +2567,7 @@ msgstr "Удалить"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:72
 msgid "new; optional"
-msgstr ""
+msgstr "новый; опционально"
 
 #. line 32
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:98
@@ -2603,7 +2603,7 @@ msgstr ""
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
 msgid "None"
-msgstr ""
+msgstr "Ничего"
 
 #. When moving a thread to another board and choosing to keep a "shadow
 #. thread", an automated post (with
@@ -2613,7 +2613,7 @@ msgstr ""
 #: ../../../../inc/config.php:1211
 #, php-format
 msgid "Moved to %s."
-msgstr ""
+msgstr "Перемещено  в %s."
 
 #: ../../../../templates/themes/recent/theme.php:50
 msgid ""
