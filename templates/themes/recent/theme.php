@@ -42,7 +42,7 @@
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `file` != 'deleted' AND `thumb` != 'spoiler' UNION ALL ", $_board['uri'], $_board['uri']);
+				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `files` IS NOT NULL UNION ALL ", $_board['uri'], $_board['uri']);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `time` DESC LIMIT ' . (int)$settings['limit_images'], $query);
 			
@@ -54,10 +54,14 @@
 			
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
+				if (isset($post['files']))
+					$files = json_decode($post['files']);
+
+                if ($files[0]->file == 'deleted') continue;
 				
 				// board settings won't be available in the template file, so generate links now
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
-				$post['src'] = $config['uri_thumb'] . $post['thumb'];
+				if ($files) $post['src'] = $config['uri_thumb'] . $files[0]->thumb;
 				
 				$recent_images[] = $post;
 			}
@@ -105,7 +109,7 @@
 			$stats['unique_posters'] = number_format($query->fetchColumn());
 			
 			// Active content
-			$query = 'SELECT SUM(`filesize`) FROM (';
+			/*$query = 'SELECT SUM(`filesize`) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
@@ -113,7 +117,7 @@
 			}
 			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
 			$query = query($query) or error(db_error());
-			$stats['active_content'] = $query->fetchColumn();
+			$stats['active_content'] = $query->fetchColumn();*/
 			
 			return Element('themes/recent/recent.html', Array(
 				'settings' => $settings,

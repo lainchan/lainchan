@@ -109,6 +109,9 @@ form table tr td div label {
 .unimportant, .unimportant * {
 	font-size: 10px;
 }
+.file {
+    float: left;
+}
 p.fileinfo {
 	display: block;
 	margin: 0;

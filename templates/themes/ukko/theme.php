@@ -51,14 +51,14 @@
 					
 					$num_images = 0;
 					while ($po = $posts->fetch()) {
-						if ($po['file'])
+						if ($po['files'])
 							$num_images++;
 						
 						$thread->add(new Post($po, $mod ? '?/' : $config['root'], $mod));
 					
 					}
 					if ($posts->rowCount() == ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
-						$ct = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `file` IS NOT NULL AND `thread` = :thread", $post['board'], $post['board']));
+						$ct = prepare(sprintf("SELECT COUNT(`id`) as `num` FROM ``posts_%s`` WHERE `thread` = :thread UNION ALL SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `files` IS NOT NULL AND `thread` = :thread", $post['board'], $post['board']));
 						$ct->bindValue(':thread', $post['id'], PDO::PARAM_INT);
 						$ct->execute() or error(db_error($count));
 						

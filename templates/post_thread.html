@@ -2,38 +2,8 @@
 {# tabs and new lines will be ignored #}
 
 <div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
-
-{% if post.embed %}
-	{{ post.embed }}
-{% elseif post.file == 'deleted' %}
-	<img class="post-image deleted" src="{{ config.image_deleted }}" alt="" />
-{% elseif post.file and post.file %}
-	<p class="fileinfo">{% trans %}File:{% endtrans %} <a href="{{ config.uri_img }}{{ post.file }}">{{ post.file }}</a> <span class="unimportant">
-	(
-		{% if post.thumb == 'spoiler' %}
-			{% trans %}Spoiler Image{% endtrans %}, 
-		{% endif %}
-		{{ post.filesize|filesize }}
-		{% if post.filewidth and post.fileheight %}
-			, {{ post.filewidth}}x{{ post.fileheight }}
-			{% if config.show_ratio %}
-				, {{ post.ratio }}
-			{% endif %}
-		{% endif %}
-		{% if config.show_filename and post.filename %}
-			, 
-			{% if post.filename|length > config.max_filename_display %}
-				<span class="postfilename" title="{{ post.filename|e }}">{{ post.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
-			{% else %}
-				<span class="postfilename">{{ post.filename|e|bidi_cleanup }}</span>
-			{% endif %}
-		{% endif %}
-		{% include "post/image_identification.html" %}
-	)
-	</span></p>
-	{% include "post/image.html" %}
-{% endif %}
-<div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
+{% include 'post/fileinfo.html' %}
+<div class="post op" {%if post.num_files > 1%}style='clear:both'{%endif%}><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% include 'post/subject.html' %}

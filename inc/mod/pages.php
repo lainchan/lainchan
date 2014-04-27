@@ -1538,10 +1538,10 @@ function mod_deletefile($board, $post) {
 
 function mod_spoiler_image($board, $post) {
 	global $config, $mod;
-       
+	   
 	if (!openBoard($board))
 		error($config['error']['noboard']);
-       
+	   
 	if (!hasPermission($config['mod']['spoilerimage'], $board))
 		error($config['error']['noaccess']);
 
@@ -1572,7 +1572,7 @@ function mod_spoiler_image($board, $post) {
 
 	// Rebuild themes
 	rebuildThemes('post-delete', $board);
-       
+	   
 	// Redirect
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }

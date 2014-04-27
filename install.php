@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.4.98');
+define('VERSION', '4.9.90');
 
 require 'inc/functions.php';
 
@@ -260,7 +260,7 @@ if (file_exists($config['has_installed'])) {
 					$_query->execute() or error(db_error($_query));
 				}
 			}
-                case 'v0.9.6-dev-9':
+				case 'v0.9.6-dev-9':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.3</a>':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.4-gold</a>':
 		case 'v0.9.6-dev-9 + <a href="https://github.com/vichan-devel/Tinyboard/">vichan-devel-4.0.5-gold</a>':
@@ -521,6 +521,14 @@ if (file_exists($config['has_installed'])) {
 		case '4.4.98-pre':
 			if (!$twig) load_twig();
 			$twig->clearCacheFiles();
+		case '4.4.98':
+			foreach ($boards as &$board) {
+				query(sprintf('ALTER TABLE ``posts_%s`` ADD `files` text DEFAULT NULL AFTER `bump`;', $board['uri'])) or error(db_error());
+				query(sprintf('ALTER TABLE ``posts_%s`` ADD `num_files` int(11) DEFAULT 0 AFTER `files`;', $board['uri'])) or error(db_error());
+				query(sprintf('UPDATE ``posts_%s`` SET `files` = CONCAT(\'[{"file":"\',`filename`,\'", "size":"\',`filesize`,\'", "width":"\',`filewidth`,\'","height":"\',`fileheight`,\'","thumbwidth":"\',`thumbwidth`,\'","thumbheight":"\',`thumbheight`,\'", "file_path":"%s\/src\/\',`filename`,\'","thumb_path":"%s\/thumb\/\',`filename`,\'"}]\') WHERE `file` IS NOT NULL', $board['uri'], $board['uri'], $board['uri'])) or error(db_error());
+				query(sprintf('ALTER TABLE ``posts_%s`` DROP COLUMN `thumb`, DROP COLUMN `thumbwidth`, DROP COLUMN `thumbheight`, DROP COLUMN `file`, DROP COLUMN `fileheight`, DROP COLUMN `filesize`, DROP COLUMN `filename`', $board['uri'])) or error(db_error());
+				query(sprintf('ALTER TABLE ``posts_%s`` REBUILD', $board['uri'])) or error(db_error());
+			}
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
@@ -586,7 +594,7 @@ if ($step == 0) {
 			'required' => false
 		)
 	);
-	
+
 	$tests = array(
 		array(
 			'category' => 'PHP',
@@ -678,6 +686,13 @@ if ($step == 0) {
 			'result' => $can_exec && shell_exec('which gifsicle'),
 			'required' => false,
 			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`md5sum` (quick file hashing)',
+			'result' => $can_exec && shell_exec('echo "vichan" | md5sum') == "141225c362da02b5c359c45b665168de  -\n",
+			'required' => false,
+			'message' => '(Optional) `md5sum` was not found or executable; file hashing for multiple images will be slower.',
 		),
 		array(
 			'category' => 'File permissions',
@@ -833,9 +848,9 @@ if ($step == 0) {
 		}
 		
 		file_write($config['has_installed'], VERSION);
-		if (!file_unlink(__FILE__)) {
+		/*if (!file_unlink(__FILE__)) {
 			$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';
-		}
+		}*/
 	}
 	
 	echo Element('page.html', $page);

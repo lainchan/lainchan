@@ -25,7 +25,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			new Twig_SimpleFilter('until', 'until'),
 			new Twig_SimpleFilter('push', 'twig_push_filter'),
 			new Twig_SimpleFilter('bidi_cleanup', 'bidi_cleanup'),
-			new Twig_SimpleFilter('addslashes', 'addslashes')
+			new Twig_SimpleFilter('addslashes', 'addslashes'),
 		);
 	}
 	
@@ -42,6 +42,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			new Twig_SimpleFunction('timezone', 'twig_timezone_function'),
 			new Twig_SimpleFunction('hiddenInputs', 'hiddenInputs'),
 			new Twig_SimpleFunction('hiddenInputsHash', 'hiddenInputsHash'),
+            new Twig_SimpleFunction('ratio', 'twig_ratio_function')
 		);
 	}
 	
@@ -100,3 +101,6 @@ function twig_truncate_filter($value, $length = 30, $preserve = false, $separato
 	return $value;
 }
 
+function twig_ratio_function($w, $h) {
+	return fraction($w, $h, ':');
+}

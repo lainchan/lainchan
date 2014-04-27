@@ -96,9 +96,9 @@ function loadConfig() {
 
 	$configstr = file_get_contents('inc/instance-config.php');
 
-        if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
-                $configstr .= file_get_contents($board['dir'] . '/config.php');
-        }
+		if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
+				$configstr .= file_get_contents($board['dir'] . '/config.php');
+		}
 	$matches = array();
 	preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
 	if ($matches && isset ($matches[2]) && $matches[2]) {
@@ -859,7 +859,7 @@ function insertFloodPost(array $post) {
 
 function post(array $post) {
 	global $pdo, $board;
-	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
+	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :files, :num_files, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
 
 	// Basic stuff
 	if (!empty($post['subject'])) {
@@ -919,31 +919,12 @@ function post(array $post) {
 	}
 
 	if ($post['has_file']) {
-		$query->bindValue(':thumb', $post['thumb']);
-		$query->bindValue(':thumbwidth', $post['thumbwidth'], PDO::PARAM_INT);
-		$query->bindValue(':thumbheight', $post['thumbheight'], PDO::PARAM_INT);
-		$query->bindValue(':file', $post['file']);
-
-		if (isset($post['width'], $post['height'])) {
-			$query->bindValue(':width', $post['width'], PDO::PARAM_INT);
-			$query->bindValue(':height', $post['height'], PDO::PARAM_INT);
-		} else {
-			$query->bindValue(':width', null, PDO::PARAM_NULL);
-			$query->bindValue(':height', null, PDO::PARAM_NULL);
-		}
-
-		$query->bindValue(':filesize', $post['filesize'], PDO::PARAM_INT);
-		$query->bindValue(':filename', $post['filename']);
+		$query->bindValue(':files', json_encode($post['files']));
+		$query->bindValue(':num_files', $post['num_files']);
 		$query->bindValue(':filehash', $post['filehash']);
 	} else {
-		$query->bindValue(':thumb', null, PDO::PARAM_NULL);
-		$query->bindValue(':thumbwidth', null, PDO::PARAM_NULL);
-		$query->bindValue(':thumbheight', null, PDO::PARAM_NULL);
-		$query->bindValue(':file', null, PDO::PARAM_NULL);
-		$query->bindValue(':width', null, PDO::PARAM_NULL);
-		$query->bindValue(':height', null, PDO::PARAM_NULL);
-		$query->bindValue(':filesize', null, PDO::PARAM_NULL);
-		$query->bindValue(':filename', null, PDO::PARAM_NULL);
+		$query->bindValue(':files', null, PDO::PARAM_NULL);
+		$query->bindValue(':num_files', 0);
 		$query->bindValue(':filehash', null, PDO::PARAM_NULL);
 	}
 
@@ -974,28 +955,31 @@ function bumpThread($id) {
 function deleteFile($id, $remove_entirely_if_already=true) {
 	global $board, $config;
 
-	$query = prepare(sprintf("SELECT `thread`,`thumb`,`file` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT `thread`, `files` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['invalidpost']);
+    $files = json_decode($post['files']);
 
-	if ($post['file'] == 'deleted' && !$post['thread'])
+	if ($files[0]->file == 'deleted' && !$post['thread'])
 		return; // Can't delete OP's image completely.
 
-	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `thumb` = NULL, `thumbwidth` = NULL, `thumbheight` = NULL, `filewidth` = NULL, `fileheight` = NULL, `filesize` = NULL, `filename` = NULL, `filehash` = NULL, `file` = :file WHERE `id` = :id", $board['uri']));
-	if ($post['file'] == 'deleted' && $remove_entirely_if_already) {
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `files` = :file WHERE `id` = :id", $board['uri']));
+	if ($files[0]->file == 'deleted' && $remove_entirely_if_already) {
 		// Already deleted; remove file fully
 		$query->bindValue(':file', null, PDO::PARAM_NULL);
 	} else {
-		// Delete thumbnail
-		file_unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
+        foreach ($files as $i => $file) {
+            // Delete thumbnail
+            file_unlink($board['dir'] . $config['dir']['thumb'] . $file->thumb);
 
-		// Delete file
-		file_unlink($board['dir'] . $config['dir']['img'] . $post['file']);
+            // Delete file
+            file_unlink($board['dir'] . $config['dir']['img'] . $file->file);
+        }
 
 		// Set file to 'deleted'
-		$query->bindValue(':file', 'deleted', PDO::PARAM_INT);
+		$query->bindValue(':file', '[{"file":"deleted"}]', PDO::PARAM_STR);
 	}
 
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
@@ -1035,7 +1019,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	global $board, $config;
 
 	// Select post and replies (if thread) in one query
-	$query = prepare(sprintf("SELECT `id`,`thread`,`thumb`,`file` FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT `id`,`thread`,`files` FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
@@ -1065,13 +1049,12 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 			// Rebuild thread
 			$rebuild = &$post['thread'];
 		}
-		if ($post['thumb']) {
-			// Delete thumbnail
-			file_unlink($board['dir'] . $config['dir']['thumb'] . $post['thumb']);
-		}
-		if ($post['file']) {
+		if ($post['files']) {
 			// Delete file
-			file_unlink($board['dir'] . $config['dir']['img'] . $post['file']);
+			foreach (json_decode($post['files']) as $i => $f) {
+				file_unlink($board['dir'] . $config['dir']['img'] . $f->file);
+				file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
+			}
 		}
 
 		$ids[] = (int)$post['id'];
@@ -1188,8 +1171,8 @@ function index($page, $mod=false) {
 
 		$num_images = 0;
 		foreach ($replies as $po) {
-			if ($po['file'])
-				$num_images++;
+			if ($po['num_files'])
+				$num_images+=$po['num_files'];
 
 			$thread->add(new Post($po, $mod ? '?/' : $config['root'], $mod));
 		}
@@ -1347,7 +1330,7 @@ function checkRobot($body) {
 // Returns an associative array with 'replies' and 'images' keys
 function numPosts($id) {
 	global $board;
-	$query = prepare(sprintf("SELECT COUNT(*) AS `replies`, COUNT(NULLIF(`file`, 0)) AS `images` FROM ``posts_%s`` WHERE `thread` = :thread", $board['uri'], $board['uri']));
+	$query = prepare(sprintf("SELECT COUNT(*) AS `replies`, SUM(`num_files`) AS `images` FROM ``posts_%s`` WHERE `thread` = :thread", $board['uri'], $board['uri']));
 	$query->bindValue(':thread', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
@@ -1905,7 +1888,7 @@ function markup(&$body, $track_cites = false) {
 	}
 	
 	// replace tabs with 8 spaces
-	$body = str_replace("\t", '        ', $body);
+	$body = str_replace("\t", '		', $body);
 		
 	return $tracked_cites;
 }
@@ -2232,13 +2215,15 @@ function getPostByHashInThread($hash, $thread) {
 }
 
 function undoImage(array $post) {
-	if (!$post['has_file'])
+	if (!$post['has_file'] || !isset($post['files']))
 		return;
 
-	if (isset($post['file_path']))
-		file_unlink($post['file_path']);
-	if (isset($post['thumb_path']))
-		file_unlink($post['thumb_path']);
+	foreach ($post['files'] as $key => $file) {
+		if (isset($file['file_path']))
+			file_unlink($file['file_path']);
+		if (isset($file['thumb_path']))
+			file_unlink($file['thumb_path']);
+	}
 }
 
 function rDNS($ip_addr) {

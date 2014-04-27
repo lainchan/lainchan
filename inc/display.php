@@ -94,7 +94,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 
 	// Return the bad request header, necessary for AJAX posts
 	// czaks: is it really so? the ajax errors only work when this is commented out
-	//        better yet use it when ajax is disabled
+	//		better yet use it when ajax is disabled
 	if (!isset ($_POST['json_response'])) {
 		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
 	}
@@ -338,6 +338,9 @@ class Post {
 		foreach ($post as $key => $value) {
 			$this->{$key} = $value;
 		}
+
+		if (isset($this->files))
+			$this->files = json_decode($this->files);
 		
 		$this->subject = utf8tohtml($this->subject);
 		$this->name = utf8tohtml($this->name);
@@ -396,7 +399,7 @@ class Post {
 				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['dir'] . 'ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
-			if (!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
+			if (!empty($this->files) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['dir'] . 'deletefile/' . $this->id);
 			
 			// Spoiler file (keep post)
@@ -418,9 +421,6 @@ class Post {
 		return $built;
 	}
 	
-	public function ratio() {
-		return fraction($this->filewidth, $this->fileheight, ':');
-	}
 	
 	public function build($index=false) {
 		global $board, $config;
@@ -438,6 +438,9 @@ class Thread {
 		foreach ($post as $key => $value) {
 			$this->{$key} = $value;
 		}
+		
+		if (isset($this->files))
+			$this->files = json_decode($this->files);
 		
 		$this->subject = utf8tohtml($this->subject);
 		$this->name = utf8tohtml($this->name);
@@ -477,7 +480,7 @@ class Thread {
 		$this->posts[] = $post;
 	}
 	public function postCount() {
-	       return count($this->posts) + $this->omitted;
+		   return count($this->posts) + $this->omitted;
 	}
 	public function postControls() {
 		global $board, $config;
@@ -506,7 +509,7 @@ class Thread {
 				$built .= ' <a title="'._('Ban & Delete').'" href="?/' . $board['dir'] . 'ban&amp;delete/' . $this->id . '">' . $config['mod']['link_bandelete'] . '</a>';
 			
 			// Delete file (keep post)
-			if (!empty($this->file) && $this->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
+			if (!empty($this->files) && $this->files[0]->file != 'deleted' && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 				$built .= ' ' . secure_link_confirm($config['mod']['link_deletefile'], _('Delete file'), _('Are you sure you want to delete this file?'), $board['dir'] . 'deletefile/' . $this->id);
 
 			// Spoiler file (keep post)
@@ -544,10 +547,6 @@ class Thread {
 				$built = '<span class="controls op">' . $built . '</span>';
 		}
 		return $built;
-	}
-	
-	public function ratio() {
-		return fraction($this->filewidth, $this->fileheight, ':');
 	}
 	
 	public function build($index=false, $isnoko50=false) {

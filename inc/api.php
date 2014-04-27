@@ -26,12 +26,6 @@ class Api {
 			'trip' => 'trip',
 			'capcode' => 'capcode',
 			'time' => 'time',
-			'thumbheight' => 'tn_w',
-			'thumbwidth' => 'tn_h',
-			'fileheight' => 'w',
-			'filewidth' => 'h',
-			'filesize' => 'fsize',
-			'filename' => 'filename',
 			'omitted' => 'omitted_posts',
 			'omitted_images' => 'omitted_images',
 			'replies' => 'replies',
@@ -44,6 +38,15 @@ class Api {
 		$this->threadsPageFields = array(
 			'id' => 'no',
 			'bump' => 'last_modified'
+		);
+
+		$this->fileFields = array(
+			'thumbheight' => 'tn_w',
+			'thumbwidth' => 'tn_h',
+			'height' => 'w',
+			'width' => 'h',
+			'size' => 'fsize',
+			'file' => 'filename',
 		);
 
 		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){
@@ -67,30 +70,26 @@ class Api {
 		'last_modified' => 1
 	);
 
-	private function translatePost($post, $threadsPage = false) {
-		$apiPost = array();
-		$fields = $threadsPage ? $this->threadsPageFields : $this->postFields;
+	private function translateFields($fields, $object, &$apiPost) {
 		foreach ($fields as $local => $translated) {
-			if (!isset($post->$local))
+			if (!isset($object->$local))
 				continue;
 
 			$toInt = isset(self::$ints[$translated]);
-			$val = $post->$local;
+			$val = $object->$local;
 			if ($val !== null && $val !== '') {
 				$apiPost[$translated] = $toInt ? (int) $val : $val;
 			}
 
 		}
+	}
+
+	private function translatePost($post, $threadsPage = false) {
+		$apiPost = array();
+		$fields = $threadsPage ? $this->threadsPageFields : $this->postFields;
+		$this->translateFields($fields, $post, $apiPost);
 
 		if ($threadsPage) return $apiPost;
-
-		if (isset($post->filename)) {
-			$dotPos = strrpos($post->filename, '.');
-			$apiPost['filename'] = substr($post->filename, 0, $dotPos);
-			$apiPost['ext'] = substr($post->filename, $dotPos);
-			$dotPos = strrpos($post->file, '.');
-			$apiPost['tim'] = substr($post->file, 0, $dotPos);
-		}
 
 		// Handle country field
 		if (isset($post->body_nomarkup) && $this->config['country_flags']) {
@@ -102,6 +101,18 @@ class Api {
 					$apiPost['country_name'] = $modifiers['flag alt'];
 				}
 			}
+		}
+
+		// Handle files
+		// Note: 4chan only supports one file, so only the first file is taken into account for 4chan-compatible API.
+		if (isset($post->files) && $post->files && !$threadsPage) {
+			$file = $post->files[0];
+			$this->translateFields($this->fileFields, $file, $apiPost);
+			$dotPos = strrpos($file->file, '.');
+			$apiPost['filename'] = substr($file->file, 0, $dotPos);
+			$apiPost['ext'] = substr($file->file, $dotPos);
+			$dotPos = strrpos($file->file, '.');
+			$apiPost['tim'] = substr($file->file, 0, $dotPos);
 		}
 
 		return $apiPost;

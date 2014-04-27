@@ -40,7 +40,10 @@
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id']));
 				$post['board_name'] = $board['name'];
-				$post['file'] = $config['uri_thumb'] . $post['thumb'];
+				if (isset($post['files']))
+					$files = json_decode($post['files']);
+                    if ($files[0]->file == 'deleted') continue;
+					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 				$recent_posts[] = $post;
 			}
 			

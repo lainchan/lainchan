@@ -607,6 +607,17 @@
  *  Image settings
  * ====================
  */
+	// Maximum number of images allowed. Increasing this number enabled multi image.
+	// If you make it more than 1, make sure to enable the below script for the post form to change.
+	// $config['additional_javascript'][] = 'js/multi_image.js';
+	$config['max_images'] = 1;
+
+	// Method to use for determing the max filesize. 
+	// "split" means that your max filesize is split between the images. For example, if your max filesize
+	// is 2MB, the filesizes of all files must add up to 2MB for it to work. 
+	// "each" means that each file can be 2MB, so if your max_images is 3, each post could contain 6MB of 
+	// images. "split" is recommended.
+	$config['multiimage_method'] = 'split';
 
 	// For resizing, maximum thumbnail dimensions.
 	$config['thumb_width'] = 255;
@@ -628,22 +639,22 @@
 	/*
 	 * Thumbnailing method:
 	 *
-	 *   'gd'           PHP GD (default). Only handles the most basic image formats (GIF, JPEG, PNG).
-	 *                  GD is a prerequisite for Tinyboard no matter what method you choose.
+	 *   'gd'		   PHP GD (default). Only handles the most basic image formats (GIF, JPEG, PNG).
+	 *				  GD is a prerequisite for Tinyboard no matter what method you choose.
 	 *
-	 *   'imagick'      PHP's ImageMagick bindings. Fast and efficient, supporting many image formats. 
-	 *                  A few minor bugs. http://pecl.php.net/package/imagick
+	 *   'imagick'	  PHP's ImageMagick bindings. Fast and efficient, supporting many image formats. 
+	 *				  A few minor bugs. http://pecl.php.net/package/imagick
 	 *
-	 *   'convert'      The command line version of ImageMagick (`convert`). Fixes most of the bugs in
-	 *                  PHP Imagick. `convert` produces the best still thumbnails and is highly recommended.
+	 *   'convert'	  The command line version of ImageMagick (`convert`). Fixes most of the bugs in
+	 *				  PHP Imagick. `convert` produces the best still thumbnails and is highly recommended.
 	 *
-	 *   'gm'           GraphicsMagick (`gm`) is a fork of ImageMagick with many improvements. It is more
-	 *                  efficient and gets thumbnailing done using fewer resources.
+	 *   'gm'		   GraphicsMagick (`gm`) is a fork of ImageMagick with many improvements. It is more
+	 *				  efficient and gets thumbnailing done using fewer resources.
 	 *
 	 *   'convert+gifscale'
-	 *    OR  'gm+gifsicle'  Same as above, with the exception of using `gifsicle` (command line application)
-	 *                       instead of `convert` for resizing GIFs. It's faster and resulting animated
-	 *                       thumbnails have less artifacts than if resized with ImageMagick.
+	 *	OR  'gm+gifsicle'  Same as above, with the exception of using `gifsicle` (command line application)
+	 *					   instead of `convert` for resizing GIFs. It's faster and resulting animated
+	 *					   thumbnails have less artifacts than if resized with ImageMagick.
 	 */
 	$config['thumb_method'] = 'gd';
 	// $config['thumb_method'] = 'convert';
@@ -693,7 +704,7 @@
 
 	// An alternative function for generating image filenames, instead of the default UNIX timestamp.
 	// $config['filename_func'] = function($post) {
-	//      return sprintf("%s", time() . substr(microtime(), 2, 3));
+	//	  return sprintf("%s", time() . substr(microtime(), 2, 3));
 	// };
 
 	// Thumbnail to use for the non-image file uploads.
@@ -986,6 +997,7 @@
 	$config['error']['toolong_body']	= _('The body was too long.');
 	$config['error']['tooshort_body']	= _('The body was too short or empty.');
 	$config['error']['noimage']		= _('You must upload an image.');
+	$config['error']['toomanyimages'] = _('You have attempted to upload too many images!');
 	$config['error']['nomove']		= _('The server failed to handle your upload.');
 	$config['error']['fileext']		= _('Unsupported image format.');
 	$config['error']['noboard']		= _('Invalid board!');
@@ -1444,16 +1456,16 @@
 	$config['search']['enable'] = false;
 
 	// Maximal number of queries per IP address per minutes
-        $config['search']['queries_per_minutes'] = Array(15, 2);
+    $config['search']['queries_per_minutes'] = Array(15, 2);
 
 	// Global maximal number of queries per minutes
-        $config['search']['queries_per_minutes_all'] = Array(50, 2);
+    $config['search']['queries_per_minutes_all'] = Array(50, 2);
 
 	// Limit of search results
-        $config['search']['search_limit'] = 100;
-        
+    $config['search']['search_limit'] = 100;
+		
 	// Boards for searching
-        //$config['search']['boards'] = array('a', 'b', 'c', 'd', 'e');
+    //$config['search']['boards'] = array('a', 'b', 'c', 'd', 'e');
 
 /*
  * ====================
