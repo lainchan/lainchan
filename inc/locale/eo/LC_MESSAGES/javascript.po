@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-23 16:08+0000\n"
+"PO-Revision-Date: 2014-04-24 04:27+0000\n"
 "Last-Translator: neniu <katnoj1@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Elekti"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 msgid "Remote"
-msgstr ""
+msgstr "Dista"
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
 msgid "Embed"
@@ -128,15 +128,15 @@ msgstr "Kaŝi grandigitajn respondojn"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr ""
+msgstr "Penika grandeco"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
-msgstr ""
+msgstr "Fiksi tekston"
 
 #: ../../../../js/oekaki.js:10
 msgid "Clear"
-msgstr ""
+msgstr "Viŝi"
 
 #: ../../../../js/oekaki.js:10
 msgid "Save"
@@ -144,23 +144,23 @@ msgstr "Konservi"
 
 #: ../../../../js/oekaki.js:10
 msgid "Load"
-msgstr ""
+msgstr "Ŝarĝi"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr ""
+msgstr "Baskuli viŝilon"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
-msgstr ""
+msgstr "Preni koloron"
 
 #: ../../../../js/oekaki.js:11
 msgid "Fill"
-msgstr ""
+msgstr "Plenumi"
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
-msgstr ""
+msgstr "Ĉu uzi oekaki-on anstataŭ dosieron?"
 
 #: ../../../../js/oekaki.js:21
 msgid "Edit in oekaki"
@@ -168,11 +168,11 @@ msgstr "Redakti en oekaki"
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr ""
+msgstr "Entajpu tekston"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr ""
+msgstr "Enigu tiparon aŭ lasu malplena"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -180,19 +180,19 @@ msgstr ""
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 #: ../../../../js/forced-anon.js:71
 msgid "Forced anonymity"
-msgstr ""
+msgstr "Perforta anonimeco"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 msgid "enabled"
-msgstr ""
+msgstr "ebligita"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
 msgid "disabled"
-msgstr ""
+msgstr "malebligita"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
@@ -233,12 +233,12 @@ msgstr "Sab"
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
 msgid "Catalog"
-msgstr ""
+msgstr "Katalogo"
 
 #: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
 #: ../../../../js/quick-reply-old.js:23
 msgid "Submit"
-msgstr ""
+msgstr "Sendi"
 
 #: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
 #: ../../../../js/quick-reply-old.js:33
@@ -249,12 +249,12 @@ msgstr "Rapida respondo"
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr ""
+msgstr "Afiŝtipo: Respondo al <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 msgid "Return"
-msgstr ""
+msgstr "Reiri"
 
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
@@ -269,52 +269,52 @@ msgstr "Saluton!"
 #: ../../../../templates/main.js:18
 #, python-brace-format
 msgid "{0} users"
-msgstr ""
+msgstr "{0} uzantoj"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
-msgstr ""
+msgstr "(kaŝi fadenojn de ĉi tiu tabulo)"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
-msgstr ""
+msgstr "(vidigi fadenojn de ĉi tiu tabulo)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
-msgstr ""
+msgstr "Neniom plu fadenoj por vidigi"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
-msgstr ""
+msgstr "Ŝarĝanta..."
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
 msgid "Save as original filename"
-msgstr ""
+msgstr "Konservi kiel originala dosiernomo"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr ""
+msgstr "Raportita(j) afiŝo(j)"
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
-msgstr ""
+msgstr "Nekonata eraro okazis!"
 
 #: ../../../../js/ajax-post-controls.js:60
 msgid "Something went wrong... An unknown error occured!"
-msgstr ""
+msgstr "Io malĝustis...Nekonata eraro okazis!"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
-msgstr ""
+msgstr "Laborado..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
@@ -326,7 +326,7 @@ msgstr "Afiŝita..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr ""
+msgstr "Nekonata eraro okazis dum afiŝando!"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
@@ -371,7 +371,7 @@ msgstr "Gvati ĉi tiun fadenon"
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr ""
+msgstr "Malfiksi ĉi tiun tabulon"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -379,7 +379,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr ""
+msgstr "Fiksi ĉi tiun tabulon"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -387,7 +387,7 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Stop watching this board"
-msgstr ""
+msgstr "Ĉesi de gvati ĉi tiun tabulon"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -395,11 +395,11 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Watch this board"
-msgstr ""
+msgstr "Gvati ĉi tiun tabulon"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
-msgstr ""
+msgstr "Klaku je iu ajn bildo en ĉi tiu retejo por ŝarĝigi ĝin al aplikaĵo oekaki"
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
@@ -431,135 +431,135 @@ msgstr "Sabato"
 
 #: ../../../../js/local-time.js:31
 msgid "January"
-msgstr ""
+msgstr "Januaro"
 
 #: ../../../../js/local-time.js:31
 msgid "February"
-msgstr ""
+msgstr "Februaro"
 
 #: ../../../../js/local-time.js:31
 msgid "March"
-msgstr ""
+msgstr "Marto"
 
 #: ../../../../js/local-time.js:31
 msgid "April"
-msgstr ""
+msgstr "Aprilo"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
 msgid "May"
-msgstr ""
+msgstr "Majo"
 
 #: ../../../../js/local-time.js:31
 msgid "June"
-msgstr ""
+msgstr "Junio"
 
 #: ../../../../js/local-time.js:31
 msgid "July"
-msgstr ""
+msgstr "Julio"
 
 #: ../../../../js/local-time.js:31
 msgid "August"
-msgstr ""
+msgstr "Aŭgusto"
 
 #: ../../../../js/local-time.js:31
 msgid "September"
-msgstr ""
+msgstr "Septembro"
 
 #: ../../../../js/local-time.js:31
 msgid "October"
-msgstr ""
+msgstr "Oktobro"
 
 #: ../../../../js/local-time.js:31
 msgid "November"
-msgstr ""
+msgstr "Novembro"
 
 #: ../../../../js/local-time.js:31
 msgid "December"
-msgstr ""
+msgstr "Decembro"
 
 #: ../../../../js/local-time.js:32
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: ../../../../js/local-time.js:32
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: ../../../../js/local-time.js:32
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: ../../../../js/local-time.js:32
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: ../../../../js/local-time.js:32
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: ../../../../js/local-time.js:32
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: ../../../../js/local-time.js:32
 msgid "Aug"
-msgstr ""
+msgstr "Aŭg"
 
 #: ../../../../js/local-time.js:32
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: ../../../../js/local-time.js:32
 msgid "Oct"
-msgstr ""
+msgstr "Okt"
 
 #: ../../../../js/local-time.js:32
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: ../../../../js/local-time.js:32
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: ../../../../js/local-time.js:34
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: ../../../../js/local-time.js:35
 msgid "am"
-msgstr ""
+msgstr "am"
 
 #: ../../../../js/local-time.js:36
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr ""
+msgstr "Via retumilo ne subtenas HTML5 videon."
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
-msgstr ""
+msgstr "[ludi unufoje]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 msgid "[loop]"
-msgstr ""
+msgstr "[ludi daŭre]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr ""
+msgstr "WebM Opcioj"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr ""
+msgstr "Grandigi videojn interne"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr ""
+msgstr "Ludi videojn en ŝvebi"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
