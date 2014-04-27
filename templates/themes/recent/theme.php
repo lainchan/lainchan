@@ -61,7 +61,7 @@
 				
 				// board settings won't be available in the template file, so generate links now
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
-				if ($files) $post['src'] = $config['uri_thumb'] . $files[0]->thumb;
+				if ($files) $post['src'] = $config['uri_thumb'] . $files[0]->file;
 				
 				$recent_images[] = $post;
 			}
