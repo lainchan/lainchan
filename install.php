@@ -527,7 +527,7 @@ if (file_exists($config['has_installed'])) {
 				query(sprintf('ALTER TABLE ``posts_%s`` ADD `num_files` int(11) DEFAULT 0 AFTER `files`;', $board['uri'])) or error(db_error());
 				query(sprintf('UPDATE ``posts_%s`` SET `files` = CONCAT(\'[{"file":"\',`filename`,\'", "size":"\',`filesize`,\'", "width":"\',`filewidth`,\'","height":"\',`fileheight`,\'","thumbwidth":"\',`thumbwidth`,\'","thumbheight":"\',`thumbheight`,\'", "file_path":"%s\/src\/\',`filename`,\'","thumb_path":"%s\/thumb\/\',`filename`,\'"}]\') WHERE `file` IS NOT NULL', $board['uri'], $board['uri'], $board['uri'])) or error(db_error());
 				query(sprintf('ALTER TABLE ``posts_%s`` DROP COLUMN `thumb`, DROP COLUMN `thumbwidth`, DROP COLUMN `thumbheight`, DROP COLUMN `file`, DROP COLUMN `fileheight`, DROP COLUMN `filesize`, DROP COLUMN `filename`', $board['uri'])) or error(db_error());
-				query(sprintf('ALTER TABLE ``posts_%s`` REBUILD', $board['uri'])) or error(db_error());
+				query(sprintf('ALTER TABLE ``posts_%s`` REBUILD', $board['uri'])); // or error(db_error()); apparently this didn't work for my mariadb installation, let's just don't quit if it doesn't succeed
 			}
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
