@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-25 23:26+0000\n"
+"PO-Revision-Date: 2014-04-28 21:04+0000\n"
 "Last-Translator: neniu <katnoj1@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +303,7 @@ msgstr "Nova Respondo"
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
-msgstr "Ĉiuj registritaj markoj, kopirajtoj, komentoj, kaj bildoj en ĉi tiu paĝo alpartenas al kaj estas la respondeco de siaj respektivaj partioj. "
+msgstr "Ĉiuj registritaj markoj, kopirajtoj, komentoj, kaj bildoj en ĉi tiu paĝo alpartenas al, kaj estas la respondeco de siaj respektivaj partioj. "
 
 #. * ====================
 #. *  Error messages
@@ -311,7 +311,7 @@ msgstr "Ĉiuj registritaj markoj, kopirajtoj, komentoj, kaj bildoj en ĉi tiu pa
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr "Gvatu iom plu antaŭ afiŝando."
+msgstr "Gvatu iom plu antaŭ afiŝi."
 
 #. * ====================
 #. *  Error messages
@@ -1221,7 +1221,7 @@ msgstr "Nomo"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:91
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:47
 msgid "Email"
-msgstr "Retpoŝto"
+msgstr "Retpoŝtadreso"
 
 #. line 23
 #. line 46
@@ -2136,7 +2136,7 @@ msgstr "Malpermesoj"
 msgid ""
 "(Search is case-insensitive and based on keywords. To match exact phrases, "
 "use \"quotes\". Use an asterisk (*) for wildcard.)"
-msgstr ""
+msgstr "(Serĉo estas uskleca-indiferenta kajbazita je ŝlosilvortoj. Por kongrui frazojn, uzu \"citaĵmarkojn\". Uzu steleton (*) por wildcard.)"
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
 msgid "There are no active bans."
@@ -2238,30 +2238,30 @@ msgstr "Vi estas malpermesita! ;_;"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:52
 msgid "You were banned from"
-msgstr ""
+msgstr "Vi malpermesiĝis de"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:58
 msgid "You have been banned from"
-msgstr ""
+msgstr "Vi malpermesiĝis de"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
-msgstr ""
+msgstr "pro la jena kialo:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
-msgstr ""
+msgstr "pro nespecifita kialo."
 
 #. line 32
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
 msgid "Your ban was filed on"
-msgstr ""
+msgstr "Via malpermeso fajlis je"
 
 #. line 51
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:123
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:156
 msgid "has since expired. Refresh the page to continue."
-msgstr ""
+msgstr "jam finiĝis. Refreŝigu la paĝon por daŭri."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:129
 msgid "expires"
@@ -2269,7 +2269,7 @@ msgstr "finiĝas"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
-msgstr ""
+msgstr "ekde nun, kiu estas je"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
@@ -2292,7 +2292,7 @@ msgstr ""
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 msgid "It is still pending"
-msgstr ""
+msgstr "Ĝi jam pritraktatas."
 
 #. line 101
 #. line 112
@@ -2311,18 +2311,18 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
 msgid "You appealed this ban on"
-msgstr ""
+msgstr "Vi apelaciis ĉi tiun malpermeson je"
 
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 msgid "and it was denied. You may not appeal this ban again."
-msgstr ""
+msgstr "kaj ĝi estas forneiita.. Vi ne povas apelacii ĉi tiun malpermeson denove."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
 msgid ""
 "You have submitted the maximum number of ban appeals allowed. You may not "
 "appeal this ban again."
-msgstr ""
+msgstr "Vi sendis la maksimuman kiomon de apelacioj akcepteblaj. Vi ne povas apelacii ĉi tiun malpermeson denove."
 
 #. line 114
 #. line 121
@@ -2341,7 +2341,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:297
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:318
 msgid "and it was denied."
-msgstr ""
+msgstr "kaj malakceptiĝis."
 
 #. line 116
 #. line 123
@@ -2360,16 +2360,16 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:302
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:323
 msgid "You may appeal this ban again. Please enter your reasoning below."
-msgstr ""
+msgstr "Vi povas apelacii ĉi tiun malpermeson denove. Bonvolu enskribi viajn kialojn suben."
 
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
 msgid "You last appealed this ban on"
-msgstr ""
+msgstr "Vi laste apelaciis ĉi tiun malpermeson je"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 msgid "You may appeal this ban. Please enter your reasoning below."
-msgstr ""
+msgstr "Vi povas apelacii ĉi tiun malpermeson. Bonvolu enskribi viajn kialojn suben."
 
 #. line 4
 #. line 16
@@ -2435,12 +2435,12 @@ msgstr "Fadeno ID"
 #. line 14
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:51
 msgid "Leave shadow thread"
-msgstr ""
+msgstr "Restigi ombran fadenon"
 
 #. line 18
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:58
 msgid "locks thread; replies to it with a link."
-msgstr ""
+msgstr "fermas fadenon; respondas al ĝi kun ligilo."
 
 #. line 22
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:65
@@ -2478,7 +2478,7 @@ msgstr "Klaku por iri al"
 msgid ""
 "You are probably seeing this message because Javascript being disabled. This"
 " is a necessary security measure to prevent CSRF attacks."
-msgstr ""
+msgstr "Vi probable vidas ĉi tiun mesaĝon ĉar Ĝajavaskripto estas malŝaltita.  Nepras por sekurigi kontraŭ CSRF atakoj."
 
 #. line 7
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
@@ -2491,11 +2491,11 @@ msgstr "Raportita de"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:73
 msgid "Discard abuse report"
-msgstr ""
+msgstr "Forigi raporton pri misuzo"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:93
 msgid "Discard all abuse reports by this IP address"
-msgstr ""
+msgstr "Forigi ĉiom da la raportoj pri misuzo de ĉi tiu IP adreso"
 
 #. line 4
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27
