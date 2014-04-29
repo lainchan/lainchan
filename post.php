@@ -320,6 +320,7 @@ if (isset($_POST['delete'])) {
 		$_FILES['file'] = array(
 			'name' => basename($url_without_params),
 			'tmp_name' => $post['file_tmp'],
+			'file_tmp' => true,
 			'error' => 0,
 			'size' => filesize($post['file_tmp'])
 		);
@@ -704,7 +705,7 @@ if (isset($_POST['delete'])) {
 				chmod($file['file'], 0644);
 			} elseif (!@move_uploaded_file($file['tmp_name'], $file['file']))
 				error($config['error']['nomove']);
-		}
+			}
 		}
 
 		if ($config['image_reject_repost']) {
@@ -757,7 +758,11 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post = (object)$post;
-	if ($error = event('post', $post)) {
+	$post->files = array_map(function($a) { return (object)$a; }, $post->files);
+	$error = event('post', $post);
+	$post->files = array_map(function($a) { return (array)$a; }, $post->files);
+
+	if ($error) {
 		undoImage((array)$post);
 		error($error);
 	}
