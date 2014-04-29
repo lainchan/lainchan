@@ -171,9 +171,6 @@ if (isset($_POST['delete'])) {
 	if (isset($_POST['thread'])) {
 		$post['op'] = false;
 		$post['thread'] = round($_POST['thread']);
-	} elseif ($config['quick_reply'] && isset($_POST['quick-reply'])) {
-		$post['op'] = false;
-		$post['thread'] = round($_POST['quick-reply']);
 	} else
 		$post['op'] = true;
 
