@@ -105,7 +105,6 @@ https://www.transifex.com/projects/p/tinyboard-vichan-devel/
 
 Oekaki
 ------
-
 vichan makes use of [wPaint](https://github.com/websanova/wPaint) for oekaki. After you pull the repository, however, you will need to download wPaint separately using git's `submodule` feature. Use the following commands:
 
 ```
@@ -114,6 +113,10 @@ git submodule update
 ```
 
 To enable oekaki, add all the scripts listed in `js/oekaki.js` to your `instance-config.php`.
+
+WebM support
+------------
+Read `inc/lib/webm/README.md` for information about enabling webm.
 
 License
 --------
