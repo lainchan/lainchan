@@ -5,7 +5,7 @@
 	$theme['name'] = 'Catalog';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 'Show a post catalog.';
-	$theme['version'] = 'v0.1';
+	$theme['version'] = 'v0.2';
 	
 	// Theme configuration	
 	$theme['config'] = Array();
@@ -37,6 +37,15 @@
 		'default' => false,
 		'comment' => 'Without this checked, the catalog only updates on new threads.'
 	);
+
+        $theme['config'][] = Array(
+                'title' => 'Use tooltipster',
+                'name' => 'use_tooltipster',
+                'type' => 'checkbox',
+                'default' => true,
+                'comment' => 'Check this if you wish to show a nice tooltip with info about the thread on mouse over.'
+        );
+
 
 	// Unique function name for building everything
 	$theme['build_function'] = 'catalog_build';
