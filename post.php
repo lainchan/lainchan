@@ -758,7 +758,11 @@ if (isset($_POST['delete'])) {
 	}
 	
 	$post = (object)$post;
-	if ($error = event('post', $post)) {
+	$post->files = array_map(function($a) { return (object)$a; }, $post->files);
+	$error = event('post', $post);
+	$post->files = array_map(function($a) { return (array)$a; }, $post->files);
+
+	if ($error) {
 		undoImage((array)$post);
 		error($error);
 	}
