@@ -1193,13 +1193,14 @@ function mod_move($originBoard, $postID) {
 		// indicate that the post is a thread
 		$post['op'] = true;
 		
-		if ($post['file']) {
+		if ($post['files']) {
+			$post['files'] = json_decode($post['files'], TRUE);
 			$post['has_file'] = true;
-			$post['width'] = &$post['filewidth'];
-			$post['height'] = &$post['fileheight'];
-			
-			$file_src = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file'];
-			$file_thumb = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb'];
+			foreach ($post['files'] as $i => &$file) {
+				var_dump($file);
+				$file['file_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file'];
+				$file['thumb_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb'];
+			}
 		} else {
 			$post['has_file'] = false;
 		}
@@ -1215,9 +1216,11 @@ function mod_move($originBoard, $postID) {
 		
 		if ($post['has_file']) {
 			// copy image
-			$clone($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			if (!in_array($post['thumb'], array('spoiler', 'deleted', 'file')))
-				$clone($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			foreach ($post['files'] as $i => &$file) {
+				$clone($file['file_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file']);
+				if (!in_array($file['thumb'], array('spoiler', 'deleted', 'file')))
+					$clone($file['thumb_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb']);
+			}
 		}
 		
 		// go back to the original board to fetch replies
@@ -1233,13 +1236,13 @@ function mod_move($originBoard, $postID) {
 			$post['mod'] = true;
 			$post['thread'] = $newID;
 			
-			if ($post['file']) {
+			if ($post['files']) {
+				$post['files'] = json_decode($post['files'], TRUE);
 				$post['has_file'] = true;
-				$post['width'] = &$post['filewidth'];
-				$post['height'] = &$post['fileheight'];
-				
-				$post['file_src'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file'];
-				$post['file_thumb'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb'];
+				foreach ($post['files'] as $i => &$file) {
+					$file['file_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file'];
+					$file['thumb_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb'];
+				}
 			} else {
 				$post['has_file'] = false;
 			}
@@ -1274,14 +1277,16 @@ function mod_move($originBoard, $postID) {
 			$post['op'] = false;
 			$post['tracked_cites'] = markup($post['body'], true);
 			
+			if ($post['has_file']) {
+				// copy image
+				foreach ($post['files'] as $i => &$file) {
+					$clone($file['file_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file']);
+					$clone($file['thumb_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb']);
+				}
+			}
 			// insert reply
 			$newIDs[$post['id']] = $newPostID = post($post);
 			
-			if ($post['has_file']) {
-				// copy image
-				$clone($post['file_src'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-				$clone($post['file_thumb'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
-			}
 			
 			if (!empty($post['tracked_cites'])) {
 				$insert_rows = array();
