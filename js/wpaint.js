@@ -83,7 +83,7 @@ oekaki.init = function() {
         stop: function(event,ui) {
           $("#wpaintdiv").wPaint("resize");
         },
-        alsoResize: "#wpaintdiv, #wpaintdiv canvas",
+        alsoResize: "#wpaintdiv",
       });
 
       $('#wpaintctr .ui-resizable-se').css({'height':'12px', 'width':'12px'});
