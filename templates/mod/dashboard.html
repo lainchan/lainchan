@@ -100,6 +100,9 @@
 		{% if mod|hasPermission(config.mod.modlog) %}
 			<li><a href="?/log">{% trans 'Moderation log' %}</a></li>
 		{% endif %}
+		{% if mod|hasPermission(config.mod.recent) %}
+			<li><a href="?/recent/25">{% trans 'Recent posts' %}</a></li>
+		{% endif %}
 		{% if mod|hasPermission(config.mod.rebuild) %}
 			<li><a href="?/rebuild">{% trans 'Rebuild' %}</a></li>
 		{% endif %}

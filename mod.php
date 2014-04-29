@@ -65,6 +65,8 @@ $pages = array(
 	'/bans/(\d+)'				=> 'secure_POST bans',		// ban list
 	'/ban-appeals'				=> 'secure_POST ban_appeals',	// view ban appeals
 	
+	'/recent/(\d+)'				=> 'recent_posts',		// view recent posts
+
 	'/search'				=> 'search_redirect',		// search
 	'/search/(posts|IP_notes|bans|log)/(.+)/(\d+)'	=> 'search',		// search
 	'/search/(posts|IP_notes|bans|log)/(.+)'	=> 'search',		// search

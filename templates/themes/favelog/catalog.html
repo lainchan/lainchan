@@ -1,0 +1,79 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>{{ settings.title }}</title>
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.root }}stylesheets/{{ settings.css }}"/>
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+	{% if settings.use_tooltipster %}<link rel="stylesheet" media="screen" href="{{ config.root }}stylesheets/tooltipster.css"/>{% endif %}
+	<script type="text/javascript" src="{{ config.additional_javascript_url }}js/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ config.additional_javascript_url }}js/jquery.mixitup.min.js"></script>
+	{% if settings.use_tooltipster %}<script type="text/javascript" src="{{ config.additional_javascript_url }}js/jquery.tooltipster.min.js"></script>
+	<script type="text/javascript">
+		var use_tooltipster = true;
+	</script>{% else %}
+	<script type="text/javascript">
+		var use_tooltipster = false;
+	</script>
+	{% endif %}
+	<script type="text/javascript" src="{{ config.additional_javascript_url }}js/favelog.js"></script>
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+	{% if config.font_awesome %}<link rel="stylesheet" media="screen" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+	<script type="text/javascript" src="{{ config.url_javascript }}"></script>
+</head>
+<body>
+	{{ boardlist.top }}
+	<header>
+		<h1>{{ settings.title }} (<a href="{{link}}">/{{ board }}/</a>)</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
+	
+	<ul style="display: none">
+		<li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
+		<li id="sort-last-reply" class="sort" data-sort="data-lastreply" data-order="asc">{% trans 'Last reply' %}</li>
+		<li id="sort-creation-date" class="sort" data-sort="data-time" data-order="asc">{% trans 'Creation date' %}</li>
+		<li id="sort-reply-count" class="sort" data-sort="data-reply" data-order="asc">{% trans 'Reply count' %}</li>
+		<li id="sort-random" class="sort" data-sort="random">{% trans 'Random' %}</li>
+	</ul>
+
+	<span>{% trans 'Sort by' %}: </span>
+	<select id="selectorzilla" style="display: inline-block">
+		<option selected value="bump-order">{% trans 'Bump order' %}</option>
+		<option value="last-reply">{% trans 'Last reply' %}</option>
+		<option value="creation-date">{% trans 'Creation date' %}</option>
+		<option value="reply-count">{% trans 'Reply count' %}</option>
+		<option value="random">{% trans 'Random' %}</option>
+	</select>
+
+	<span>{% trans 'Image size' %}: </span>
+	<select id="imgurzilla" style="display: inline-block">
+		<option selected value="small">{% trans 'Small' %}</option>
+		<option value="large">{% trans 'Large' %}</option>
+	</select>
+	<div class="threads">
+		<ul id="Grid">
+		{% for post in recent_posts %}
+			<li class="mix" data-reply="{{ post.reply_count }}" data-bump="{{ post.bump }}" data-lastreply="{{ post.last_reply }}" data-time="{{ post.time }}">
+				<div class="thread grid-li grid-size-small">
+					<a href="{{post.link}}">
+						<img id="img-{{ post.id }}" data-subject="{% if post.subject %}{{ post.subject }}{% endif %}" data-name="{{ post.name }}" data-muhdifference="{{ post.muhdifference }}" data-last-reply="{% if post.last_reply %}{{ post.last_reply }}{% endif %}" data-last-subject="{% if post.last_reply_subject %}{{ post.last_reply_subject }}{% endif %}" data-last-name="{% if post.last_reply %}{{ post.last_reply_name }}{% endif %}" data-last-difference="{% if post.last_reply %}{{ post.last_reply_difference }}{% endif %}" src="{{post.file}}" class="{{post.board}} thread-image" title="{{post.bump|date('%b %d %H:%M')}}">
+					</a>
+					<p>
+						<span class="replies">
+							<strong>R: {{ post.reply_count }} / I: {{ post.image_count }}</strong><br/>
+							{{ post.body }}
+						</span>
+					</p>
+				</div>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+	
+	<hr/>
+	<p class="unimportant" style="margin-top:20px;text-align:center;">Powered by <a href="http://tinyboard.org/">Tinyboard</a> {{ config.version }} | <a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2013 Tinyboard Development Group</p>
+</body>
+</html>
+{% endfilter %}

@@ -7,6 +7,7 @@
  * Released under the MIT license
  * Copyright (c) 2012-2013 Michael Save <savetheinternet@tinyboard.org>
  * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
+ * Copyright (c) 2014 sinuca <#55ch@rizon.net>
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
@@ -25,6 +26,16 @@ onready(function(){
 				if (!$(this).parent()[0].dataset.expanded)
 					$(this).parent().click();
 			});
-			$(this).parent().remove();
+
+			$('hr:first').before('<div id="shrink-all-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)"></a></div>');
+			$('div#shrink-all-images a')
+				.text(_('Shrink all images'))
+				.click(function(){
+					$('a img.post-image').each(function() {
+						if ($(this).parent()[0].dataset.expanded)
+							$(this).parent().click();
+					});
+					$(this).parent().remove();
+				});
 		});
 });
