@@ -519,6 +519,45 @@ form.ban-appeal textarea {
 .theme-catalog div.thread strong {
     display: block;
 }
+.theme-catalog div.threads{
+        text-align: center;
+        margin-left: -20px;
+}
+
+.theme-catalog div.grid-size-small {
+        width: 200px;
+        max-width: 200px;
+        max-height: 350px;
+}       
+
+.theme-catalog div.grid-size-large {
+        width: 300px;
+        max-width: 300px;
+        max-height: 450px;
+}       
+
+.theme-catalog img.thread-image {
+        height: auto;
+        max-width: 100%;
+}
+
+@media (max-width: 420px) {
+        .theme-catalog ul#Grid {
+                padding-left: 18px;
+        }
+        .theme-catalog div.thread {
+                width: auto;
+                margin-left: 0;
+                margin-right: 0;
+
+        }
+        .theme-catalog div.threads {
+                overflow: hidden;
+        }
+}
+
+@include url("tooltipster/tooltipster.css");
+
 .compact-boardlist {
         padding: 3px;
         padding-bottom: 0px;
