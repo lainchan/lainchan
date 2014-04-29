@@ -774,11 +774,6 @@
 	// Number of reports you can create at once.
 	$config['report_limit'] = 3;
 
-	// Attention Whoring Bar
-	// REMEMBER TO CHMOD attentionbar.txt PROPERLY
-	// Oh, and add jQuery in additional_javascript.
-	$config['attention_bar'] = false;
-
 	// Allow unfiltered HTML in board subtitle. This is useful for placing icons and links.
 	$config['allow_subtitle_html'] = false;
 
