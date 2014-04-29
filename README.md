@@ -103,6 +103,18 @@ Wanting to have vichan in your language? You can contribute your translations at
 
 https://www.transifex.com/projects/p/tinyboard-vichan-devel/
 
+Oekaki
+------
+
+vichan makes use of [wPaint](https://github.com/websanova/wPaint) for oekaki. After you pull the repository, however, you will need to download wPaint separately using git's `submodule` feature. Use the following commands:
+
+```
+git submodule init
+git submodule update
+```
+
+To enable oekaki, add all the scripts listed in `js/oekaki.js` to your `instance-config.php`.
+
 License
 --------
 See [LICENSE.md](http://github.com/vichan-devel/vichan/blob/master/LICENSE.md).
