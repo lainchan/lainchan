@@ -1096,13 +1096,13 @@ function mod_move_reply($originBoard, $postID) {
 			$post['op'] = true;
 		}
 		
-		if ($post['file']) {
+		if ($post['files']) {
+			$post['files'] = json_decode($post['files'], TRUE);
 			$post['has_file'] = true;
-			$post['width'] = &$post['filewidth'];
-			$post['height'] = &$post['fileheight'];
-			
-			$file_src = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file'];
-			$file_thumb = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb'];
+			foreach ($post['files'] as $i => &$file) {
+				$file['file_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file'];
+				$file['thumb_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb'];
+			}
 		} else {
 			$post['has_file'] = false;
 		}
@@ -1117,10 +1117,12 @@ function mod_move_reply($originBoard, $postID) {
 		$newID = post($post);
 		
 		if ($post['has_file']) {
-			// move the image
-			rename($file_src, sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $post['file']);
-			if ($post['thumb'] != 'spoiler') { //trying to move/copy the spoiler thumb raises an error
-				rename($file_thumb, sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $post['thumb']);
+			foreach ($post['files'] as $i => &$file) {
+				// move the image
+				rename($file['file_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file']);
+				if ($file['thumb'] != 'spoiler') { //trying to move/copy the spoiler thumb raises an error
+					rename($file['thumb_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb']);
+				}
 			}
 		}
 
