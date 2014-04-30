@@ -111,11 +111,14 @@ form table tr td div label {
 }
 .file {
     float: left;
+    margin-right: 2px;
+}
+.multifile {
+    border: 2px dashed #B7C5D9;
 }
 p.fileinfo {
 	display: block;
 	margin: 0;
-	padding-right: 7em;
 }
 div.banner {
 	background-color: #E04000;
