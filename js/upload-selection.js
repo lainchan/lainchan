@@ -23,6 +23,7 @@ $(function(){
     $("#upload_file").hide();
     $("#upload_url").hide();
     $("#upload_embed").hide();
+    $(".add_image").hide();
 
     if (enabled_oekaki) {
       if (window.oekaki.initialized) {
@@ -35,6 +36,7 @@ $(function(){
     disable_all();
     $("#upload").show();
     $("#upload_file").show();
+    $(".add_image").show();
   };
 
   enable_url = function() {
