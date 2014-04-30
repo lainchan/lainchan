@@ -96,7 +96,6 @@
 				'body' => $body,
 				'mod' => $mod,
 				'boardlist' => createBoardlist($mod),
-		                'return' => ($mod ? '?' . $board['url'] . $config['file_index'] : $config['root'] . $board['dir'] . $config['file_index'])
 			));
 		}
 		
