@@ -48,7 +48,7 @@
 		{% set lastcount = config.noko50_count %}
 		<a href="{{ post.root }}{{ board.dir }}{{ config.dir.res }}{{ config.file_page50|sprintf(post.id) }}">[{% trans %}Last 1 Post{% plural lastcount %}Last {{ count }} Posts{% endtrans %}]</a>
 	{% endif %}
-	{{ post.postControls }}
+	{% include 'post/post_controls.html' %}
 	</p>
 	<div class="body">
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}

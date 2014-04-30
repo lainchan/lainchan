@@ -1519,7 +1519,7 @@ function mod_delete($board, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
-function mod_deletefile($board, $post) {
+function mod_deletefile($board, $post, $file) {
 	global $config, $mod;
 	
 	if (!openBoard($board))
@@ -1529,7 +1529,7 @@ function mod_deletefile($board, $post) {
 		error($config['error']['noaccess']);
 	
 	// Delete file
-	deleteFile($post);
+	deleteFile($post, TRUE, $file);
 	// Record the action
 	modLog("Deleted file from post #{$post}");
 	
@@ -1542,7 +1542,7 @@ function mod_deletefile($board, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
-function mod_spoiler_image($board, $post) {
+function mod_spoiler_image($board, $post, $file) {
 	global $config, $mod;
 	   
 	if (!openBoard($board))
@@ -1551,19 +1551,21 @@ function mod_spoiler_image($board, $post) {
 	if (!hasPermission($config['mod']['spoilerimage'], $board))
 		error($config['error']['noaccess']);
 
-	// Delete file
-	$query = prepare(sprintf("SELECT `thumb`, `thread` FROM ``posts_%s`` WHERE id = :id", $board));
+	// Delete file thumbnail
+	$query = prepare(sprintf("SELECT `files`, `thread` FROM ``posts_%s`` WHERE id = :id", $board));
 	$query->bindValue(':id', $post, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	$result = $query->fetch(PDO::FETCH_ASSOC);
+	$files = json_decode($result['files']);
 
-	file_unlink($board . '/' . $config['dir']['thumb'] . $result['thumb']);
-
+	file_unlink($board . '/' . $config['dir']['thumb'] . $files[$file]->thumb);
+	$files[$file]->thumb = 'spoiler';
+	$files[$file]->thumbheight = 128;
+	$files[$file]->thumbwidth = 128;
+	
 	// Make thumbnail spoiler
-	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `thumb` = :thumb, `thumbwidth` = :thumbwidth, `thumbheight` = :thumbheight WHERE `id` = :id", $board));
-	$query->bindValue(':thumb', "spoiler");
-	$query->bindValue(':thumbwidth', 128, PDO::PARAM_INT);
-	$query->bindValue(':thumbheight', 128, PDO::PARAM_INT);
+	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `files` = :files WHERE `id` = :id", $board));
+	$query->bindValue(':files', json_encode($files));
 	$query->bindValue(':id', $post, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 

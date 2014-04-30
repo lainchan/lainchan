@@ -42,7 +42,9 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			new Twig_SimpleFunction('timezone', 'twig_timezone_function'),
 			new Twig_SimpleFunction('hiddenInputs', 'hiddenInputs'),
 			new Twig_SimpleFunction('hiddenInputsHash', 'hiddenInputsHash'),
-            new Twig_SimpleFunction('ratio', 'twig_ratio_function')
+			new Twig_SimpleFunction('ratio', 'twig_ratio_function'),
+			new Twig_SimpleFunction('secure_link_confirm', 'twig_secure_link_confirm'),
+			new Twig_SimpleFunction('secure_link', 'twig_secure_link')
 		);
 	}
 	
@@ -103,4 +105,12 @@ function twig_truncate_filter($value, $length = 30, $preserve = false, $separato
 
 function twig_ratio_function($w, $h) {
 	return fraction($w, $h, ':');
+}
+function twig_secure_link_confirm($text, $title, $confirm_message, $href) {
+	global $config;
+
+	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+}
+function twig_secure_link($href) {
+	return $href . '/' . make_secure_link_token($href);
 }

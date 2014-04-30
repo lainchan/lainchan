@@ -952,35 +952,39 @@ function bumpThread($id) {
 }
 
 // Remove file from post
-function deleteFile($id, $remove_entirely_if_already=true) {
+function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 	global $board, $config;
 
-	$query = prepare(sprintf("SELECT `thread`, `files` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
+	$query = prepare(sprintf("SELECT `thread`, `files`, `num_files` FROM ``posts_%s`` WHERE `id` = :id LIMIT 1", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
 		error($config['error']['invalidpost']);
-    $files = json_decode($post['files']);
+	$files = json_decode($post['files']);
+	$file_to_delete = $file !== false ? $files[(int)$file] : (object)array('file' => false);
 
-	if ($files[0]->file == 'deleted' && !$post['thread'])
+	if ($files[0]->file == 'deleted' && $post['num_files'] == 1 && !$post['thread'])
 		return; // Can't delete OP's image completely.
 
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `files` = :file WHERE `id` = :id", $board['uri']));
-	if ($files[0]->file == 'deleted' && $remove_entirely_if_already) {
+	if (($file && $file_to_delete->file == 'deleted') && $remove_entirely_if_already) {
 		// Already deleted; remove file fully
-		$query->bindValue(':file', null, PDO::PARAM_NULL);
+		$files[$file] = null;
 	} else {
-        foreach ($files as $i => $file) {
-            // Delete thumbnail
-            file_unlink($board['dir'] . $config['dir']['thumb'] . $file->thumb);
+		foreach ($files as $i => $f) {
+			if (($file !== false && $i == $file) || $file === null) {
+				// Delete thumbnail
+				file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
+				unset($files[$i]->thumb);
 
-            // Delete file
-            file_unlink($board['dir'] . $config['dir']['img'] . $file->file);
-        }
-
-		// Set file to 'deleted'
-		$query->bindValue(':file', '[{"file":"deleted"}]', PDO::PARAM_STR);
+				// Delete file
+				file_unlink($board['dir'] . $config['dir']['img'] . $f->file);
+				$files[$i]->file = 'deleted';
+			}
+		}
 	}
+
+	$query->bindValue(':file', json_encode($files), PDO::PARAM_STR);
 
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
@@ -1052,8 +1056,10 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 		if ($post['files']) {
 			// Delete file
 			foreach (json_decode($post['files']) as $i => $f) {
-				file_unlink($board['dir'] . $config['dir']['img'] . $f->file);
-				file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
+				if ($f->file !== 'deleted') {
+					file_unlink($board['dir'] . $config['dir']['img'] . $f->file);
+					file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
+				}
 			}
 		}
 
@@ -1195,7 +1201,7 @@ function index($page, $mod=false) {
 		'post_url' => $config['post_url'],
 		'config' => $config,
 		'boardlist' => createBoardlist($mod),
-		'threads' => $threads
+		'threads' => $threads,
 	);
 }
 

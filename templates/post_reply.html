@@ -17,8 +17,8 @@
 		{{ post.id }}
 	</a>
 	</p>
-    {% include 'post/fileinfo.html' %}
-	{{ post.postControls }}
+    {% include 'post/fileinfo.html' %} 
+    {% include 'post/post_controls.html' %}
 	<div class="body" {% if post.files|length > 1 %}style="clear:both"{% endif %}>
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 		{% if post.modifiers['ban message'] %}
