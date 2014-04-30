@@ -1,40 +1,41 @@
 <?php
-	$theme = Array();
+	$theme = array();
 	
 	// Theme name
-	$theme['name'] = 'Ukko';
+	$theme['name'] = 'Overboard (Ukko)';
 	// Description (you can use Tinyboard markup here)
 	$theme['description'] = 'Board with threads and messages from all boards';
-	$theme['version'] = 'v0.1';
+	$theme['version'] = 'v0.2';
 	
 	// Theme configuration	
-	$theme['config'] = Array();
+	$theme['config'] = array();
 	
-	$theme['config'][] = Array(
+	$theme['config'][] = array(
 		'title' => 'Board name',
 		'name' => 'title',
 		'type' => 'text',
 		'default' => 'Ukko'
 	);
-	$theme['config'][] = Array(
+	$theme['config'][] = array(
 		'title' => 'Board URI',
 		'name' => 'uri',
 		'type' => 'text',
+		'default' => '*',
 		'comment' => '(ukko for example)'
 	);	
-	$theme['config'][] = Array(
+	$theme['config'][] = array(
 		'title' => 'Subtitle',
 		'name' => 'subtitle',
 		'type' => 'text',
 		'comment' => '(%s = thread limit. for example "%s freshly bumped threads")'
 	);		
-	$theme['config'][] = Array(
+	$theme['config'][] = array(
 		'title' => 'Excluded boards',
 		'name' => 'exclude',
 		'type' => 'text',
 		'comment' => '(space seperated)'
 	);
-	$theme['config'][] = Array(
+	$theme['config'][] = array(
 		'title' => 'Number of threads',
 		'name' => 'thread_limit',
 		'type' => 'text',

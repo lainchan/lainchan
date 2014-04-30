@@ -58,7 +58,7 @@ $(document).ready(function() {
 			$('.pages').show().html(_("No more threads to display"));
 		}
 		while($(window).scrollTop() + $(window).height() + 1000 > $(document).height() && !loading && overflow.length > 0) {
-			var page = '../' + overflow[0].board + '/' + overflow[0].page;
+			var page = modRoot + overflow[0].board + '/' + overflow[0].page;
 			thread = $('div#thread_' + overflow[0].id + '[data-board="' + overflow[0].board + '"]');
 			if (thread.length > 0 && thread.attr("data-cached") !== 'yes') { // already present
 				overflow.shift();
