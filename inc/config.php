@@ -1521,6 +1521,23 @@
 	// 	// ...
 	// };
 
+	// You can also enable themes (like ukko) in mod panel like this:
+	// require_once("templates/themes/ukko/theme.php");
+	//
+	// $config['mod']['custom_pages']['/\*/'] = function() {
+	//        global $mod;
+	//
+	//        $ukko = new ukko();
+	//        $ukko->settings = array();
+	//        $ukko->settings['uri'] = '*';
+	//        $ukko->settings['title'] = 'derp';
+	//        $ukko->settings['subtitle'] = 'derpity';
+	//        $ukko->settings['thread_limit'] = 15;
+	//        $ukko->settings['exclude'] = '';
+	//
+	//        echo $ukko->build($mod);
+	// };
+
 	// Example: Add links to dashboard (will all be in a new "Other" category).
 	// $config['mod']['dashboard_links']['Something'] = '?/something';
 
