@@ -25,6 +25,7 @@ onready(function(){
 					if (e.which == 2 || e.metaKey)
 						return true;
 					if (!this.dataset.src) {
+						this.parentNode.removeAttribute('style');
 						this.dataset.expanded = 'true';
 						this.dataset.src= this.childNodes[0].src;
 						this.dataset.width = this.childNodes[0].style.width;
@@ -39,6 +40,7 @@ onready(function(){
 							delete this.style.filter;
 						}
 					} else {
+						this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
 						this.childNodes[0].src = this.dataset.src;
 						this.childNodes[0].style.width = this.dataset.width;
 						this.childNodes[0].style.height = this.dataset.height;
