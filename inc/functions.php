@@ -2074,8 +2074,8 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 		foreach ($allPosts as $index => $post) {
 			if ($index == count($allPosts)-count($thread->posts))
 				break;  
-			if ($post->file)
-				$thread->omitted_images++;
+			if ($post->files)
+				$thread->omitted_images += count(json_decode($post->files));
 		}
 	}
 
