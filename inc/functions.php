@@ -2041,8 +2041,8 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 			if (!isset($thread)) {
 				$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 			} else {
-				if ($post['file'])
-					$num_images++;
+				if ($post['files'])
+					$num_images += $post['num_files'];
 					
 				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod));
 			}
@@ -2075,7 +2075,7 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 			if ($index == count($allPosts)-count($thread->posts))
 				break;  
 			if ($post->files)
-				$thread->omitted_images += count(json_decode($post->files));
+				$thread->omitted_images += $post->num_files;
 		}
 	}
 
