@@ -204,7 +204,7 @@ function loadConfig() {
 	if (!isset($config['user_flag']))
 		$config['user_flag'] = false;
 	if (!isset($config['user_flags']))
-		$config['user_flags'] = [];
+		$config['user_flags'] = array();
 
 	if ($config['root_file']) {
 		chdir($config['root_file']);
