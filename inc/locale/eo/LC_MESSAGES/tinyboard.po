@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-28 21:04+0000\n"
+"PO-Revision-Date: 2014-04-30 18:20+0000\n"
 "Last-Translator: neniu <katnoj1@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "La servilo malsukcesis prilabori vian alŝuton."
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:990
 msgid "Unsupported image format."
-msgstr "Malsubtenita bildotipo."
+msgstr "Nesubtenita bildotipo."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
@@ -2200,19 +2200,19 @@ msgstr "Neniom da raportoj."
 
 #: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
 msgid "That ban doesn't exist or is not for you."
-msgstr ""
+msgstr "Tiu malpermeso ne ekzistas aŭ ne estas via."
 
 #: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
 msgid "You cannot appeal a ban of this length."
-msgstr ""
+msgstr "Vi ne povas apelacii kontraŭ malpermeso de tiu daŭro."
 
 #: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
 msgid "You cannot appeal this ban again."
-msgstr ""
+msgstr "Vi ne povas apelacii kontraŭ ĉi tiu malpermeso denove."
 
 #: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
 msgid "There is already a pending appeal for this ban."
-msgstr ""
+msgstr "Jam pritraktatas apelacio por ĉi tiu malpermeso."
 
 #: ../../../../inc/image.php:24 ../../../../inc/image.php:62
 msgid "Unsupported file format: "
@@ -2283,12 +2283,12 @@ msgstr "Via IP adreso estas"
 #. line 86
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:215
 msgid "You were banned for the following post on"
-msgstr ""
+msgstr "Vi fariĝis malpermesita pro la jena afiŝo je"
 
 #. line 95
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
 msgid "You submitted an appeal for this ban on"
-msgstr ""
+msgstr "Vi sendis apelacion por ĉi tiu malpermeso je"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 msgid "It is still pending"
