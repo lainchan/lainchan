@@ -204,7 +204,7 @@ function loadConfig() {
 	if (!isset($config['user_flag']))
 		$config['user_flag'] = false;
 	if (!isset($config['user_flags']))
-		$config['user_flags'] = [];
+		$config['user_flags'] = array();
 
 	if ($config['root_file']) {
 		chdir($config['root_file']);
@@ -2041,8 +2041,8 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 			if (!isset($thread)) {
 				$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 			} else {
-				if ($post['file'])
-					$num_images++;
+				if ($post['files'])
+					$num_images += $post['num_files'];
 					
 				$thread->add(new Post($post, $mod ? '?/' : $config['root'], $mod));
 			}
@@ -2074,8 +2074,8 @@ function buildThread50($id, $return = false, $mod = false, $thread = null, $anti
 		foreach ($allPosts as $index => $post) {
 			if ($index == count($allPosts)-count($thread->posts))
 				break;  
-			if ($post->file)
-				$thread->omitted_images++;
+			if ($post->files)
+				$thread->omitted_images += $post->num_files;
 		}
 	}
 
