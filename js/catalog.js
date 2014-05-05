@@ -1,4 +1,4 @@
-$().ready(function(){
+if (active_page == 'catalog') $(function(){
 
 	$("#selectorzilla").change(function(){
 		sheit = this.value;
