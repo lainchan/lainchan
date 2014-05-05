@@ -94,9 +94,15 @@ $(document).ready(function(){
 		
 		clearTimeout(poll_interval);
 
-		poll_interval_delay = end_of_page
-		    ? poll_interval_mindelay_bottom
-		    : poll_interval_mindelay_top;
+		// If there are no new posts, double the delay. Otherwise set it to the min.
+		if(new_posts == 0) {
+			poll_interval_delay *= 2;
+		} else {
+			poll_interval_delay = end_of_page
+			    ? poll_interval_mindelay_bottom
+			    : poll_interval_mindelay_top;
+		}
+
 		poll_interval = setTimeout(poll, poll_interval_delay);
 	};
 	
