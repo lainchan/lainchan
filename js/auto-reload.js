@@ -27,20 +27,16 @@ $(document).ready(function(){
 	
 	var poll_interval;
 
+
+	// Grab the settings
+	var settings = new script_settings('auto-reload');
+	var poll_interval_mindelay_bottom = settings.get('min_delay_bottom', 3000);
+	var poll_interval_mindelay_top    = settings.get('min_delay_top', 10000);
+	var poll_interval_maxdelay        = settings.get('max_delay', 600000);
+	var poll_interval_shortdelay      = settings.get('quick_delay', 100);
+
 	// number of ms to wait before reloading
-	var poll_interval_delay;
-
-	// If at the bottom of the page, reload more quickly.
-	var poll_interval_mindelay_bottom = 3000;
-	var poll_interval_mindelay_top    = 10000;
-
-	poll_interval_delay = poll_interval_mindelay_bottom;
-
-	// Don't take longer than this to reload.
-	var poll_interval_maxdelay = 600000;
-
-	// Upon scrolling to the bottom, reload very quickly.
-	var poll_interval_shortdelay = 100;
+	var poll_interval_delay = poll_interval_mindelay_bottom;
 
 	var end_of_page = false;
 
