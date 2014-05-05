@@ -21,6 +21,7 @@
 		<h1>{{ settings.title }} (<a href="{{link}}">/{{ board }}/</a>)</h1>
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
+
         <ul style="display: none">
                 <li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
                 <li id="sort-last-reply" class="sort" data-sort="data-lastreply" data-order="asc">{% trans 'Last reply' %}</li>
@@ -49,7 +50,12 @@
                         <li class="mix" data-reply="{{ post.reply_count }}" data-bump="{{ post.bump }}" data-lastreply="{{ post.last_reply }}" data-time="{{ post.time }}">
                                 <div class="thread grid-li grid-size-small">  
                                         <a href="{{post.link}}">  
-                                                <img id="img-{{ post.id }}" data-subject="{% if post.subject %}{{ post.subject }}{% endif %}" data-name="{{ post.name }}" data-muhdifference="{{ post.muhdifference }}" data-last-reply="{% if post.last_reply %}{{ post.last_reply }}{% endif %}" data-last-subject="{% if post.last_reply_subject %}{{ post.last_reply_subject }}{% endif %}" data-last-name="{% if post.last_reply %}{{ post.last_reply_name }}{% endif %}" data-last-difference="{% if post.last_reply %}{{ post.last_reply_difference }}{% endif %}" src="{{post.file}}" class="{{post.board}} thread-image" title="{{post.bump|date('%b %d %H:%M')}}">
+						{% if post.youtube %}
+							<img src="http://img.youtube.com/vi/{{ post.youtube }}/0.jpg" 
+						{% else %}
+							<img src="{{post.file}}" 
+						{% endif %}
+                                                 id="img-{{ post.id }}" data-subject="{% if post.subject %}{{ post.subject }}{% endif %}" data-name="{{ post.name }}" data-muhdifference="{{ post.muhdifference }}" data-last-reply="{% if post.last_reply %}{{ post.last_reply }}{% endif %}" data-last-subject="{% if post.last_reply_subject %}{{ post.last_reply_subject }}{% endif %}" data-last-name="{% if post.last_reply %}{{ post.last_reply_name }}{% endif %}" data-last-difference="{% if post.last_reply %}{{ post.last_reply_difference }}{% endif %}" class="{{post.board}} thread-image" title="{{post.bump|date('%b %d %H:%M')}}">
                                         </a>
                                         <p>
                                                 <span class="replies">
