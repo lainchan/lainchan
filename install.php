@@ -506,12 +506,12 @@ if (file_exists($config['has_installed'])) {
 		case 'v0.9.6-dev-22 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.96</a>':
 		case 'v0.9.6-dev-22 + <a href="https://int.vichan.net/devel/">vichan-devel-4.4.97</a>':
 		case '4.4.97':
-			if (!isset($_GET['confirm'])) {
+			if (!isset($_GET['confirm2'])) {
 				$page['title'] = 'License Change';
 				$page['body'] = '<p style="text-align:center">You are upgrading to a version which uses an amended license. The licenses included with vichan distributions prior to this version (4.4.98) are still valid for those versions, but no longer apply to this and newer versions.</p>' .
 					'<textarea style="width:700px;height:370px;margin:auto;display:block;background:white;color:black" disabled>' . htmlentities(file_get_contents('LICENSE.md')) . '</textarea>
 					<p style="text-align:center">
-						<a href="?confirm=1">I have read and understood the agreement. Proceed to upgrading.</a>
+						<a href="?confirm2=1">I have read and understood the agreement. Proceed to upgrading.</a>
 					</p>';
 				
 				file_write($config['has_installed'], '4.4.97');
@@ -522,6 +522,18 @@ if (file_exists($config['has_installed'])) {
 			if (!$twig) load_twig();
 			$twig->clearCacheFiles();
 		case '4.4.98':
+			if (!isset($_GET['confirm3'])) {
+				$page['title'] = 'Breaking change';
+				$page['body'] = '<p style="text-align:center">You are upgrading to the 5.0 branch of vichan. Please back up your database, because the process is irreversible. At the current time, if you want a very stable vichan experience, please use the 4.5 branch. This warning will be lifted as soon as we all agree that 5.0 branch is stable enough</p>' .
+					<p style="text-align:center">
+						<a href="?confirm3=1">I have read and understood the warning. Proceed to upgrading.</a>
+					</p>';
+				
+				file_write($config['has_installed'], '4.4.98');
+				
+				break;
+			}
+
 			foreach ($boards as &$board) {
 				query(sprintf('ALTER TABLE ``posts_%s`` ADD `files` text DEFAULT NULL AFTER `bump`;', $board['uri'])) or error(db_error());
 				query(sprintf('ALTER TABLE ``posts_%s`` ADD `num_files` int(11) DEFAULT 0 AFTER `files`;', $board['uri'])) or error(db_error());
