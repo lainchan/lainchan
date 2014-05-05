@@ -524,7 +524,7 @@ if (file_exists($config['has_installed'])) {
 		case '4.4.98':
 			if (!isset($_GET['confirm3'])) {
 				$page['title'] = 'Breaking change';
-				$page['body'] = '<p style="text-align:center">You are upgrading to the 5.0 branch of vichan. Please back up your database, because the process is irreversible. At the current time, if you want a very stable vichan experience, please use the 4.5 branch. This warning will be lifted as soon as we all agree that 5.0 branch is stable enough</p>' .
+				$page['body'] = '<p style="text-align:center">You are upgrading to the 5.0 branch of vichan. Please back up your database, because the process is irreversible. At the current time, if you want a very stable vichan experience, please use the 4.5 branch. This warning will be lifted as soon as we all agree that 5.0 branch is stable enough</p>
 					<p style="text-align:center">
 						<a href="?confirm3=1">I have read and understood the warning. Proceed to upgrading.</a>
 					</p>';
