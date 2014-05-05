@@ -36,6 +36,9 @@ $(document).ready(function(){
 
 	poll_interval_delay = poll_interval_mindelay_bottom;
 
+	// Don't take longer than this to reload.
+	var poll_interval_maxdelay = 600000;
+
 	// Upon scrolling to the bottom, reload very quickly.
 	var poll_interval_shortdelay = 100;
 
@@ -97,6 +100,11 @@ $(document).ready(function(){
 		// If there are no new posts, double the delay. Otherwise set it to the min.
 		if(new_posts == 0) {
 			poll_interval_delay *= 2;
+
+			// Don't increase the delay beyond the maximum
+			if(poll_interval_delay > poll_interval_maxdelay) {
+				poll_interval_delay = poll_interval_maxdelay;
+			}
 		} else {
 			poll_interval_delay = end_of_page
 			    ? poll_interval_mindelay_bottom
