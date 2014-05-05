@@ -38,10 +38,10 @@ $(document).ready(function(){
 	}
 
 	var handle_images = function() {
+		var index = $(this).parents('.file').index();
 		var img = this;
 		var fileinfo = $(this).parent().prev();
-		var id = $(this).parent().parent().find('>p.intro>a.post_no:eq(1),>div.post.op>p.intro>a.post_no:eq(1)').text();
-
+		var id = $(this).parents('div.post, div[id^="thread_"]').attr('id').split('_')[1];
 		var board = $(this).parents('[id^="thread_"]').data("board");
 
 		if (!hidden_data[board]) {
@@ -51,11 +51,21 @@ $(document).ready(function(){
 		var replacement = $('<span>'+_('File')+' <small>(<a class="hide-image-link" href="javascript:void(0)">'+_('hide')+'</a>)</small>: </span>');
 				
 		replacement.find('a').click(function() {
-			hidden_data[board][id] = Math.round(Date.now() / 1000);
+			if (hidden_data[board][id]) {
+				hidden_data[board][id]['ts'] = Math.round(Date.now() / 1000);
+				if (hidden_data[board][id]['index'].indexOf(index) === -1)
+					hidden_data[board][id]['index'].push(index);
+			} else {
+				hidden_data[board][id] = {ts: Math.round(Date.now() / 1000), index: [index]};
+			}
 			store_data();
 			
 			var show_link = $('<a class="show-image-link" href="javascript:void(0)">'+_('show')+'</a>').click(function() {
-				delete hidden_data[board][id];
+				var i = hidden_data[board][id]['index'].indexOf(index);
+				if (i > -1) hidden_data[board][id]['index'].splice(i,1);
+				
+				if (hidden_data[board][id]['index'].length === 0)
+					delete hidden_data[board][id];
 				store_data();
 				
 				$(img)
@@ -70,6 +80,7 @@ $(document).ready(function(){
 			if ($(img).parent()[0].dataset.expanded == 'true') {
 				$(img).parent().click();
 			}
+		
 			$(img)
 				.data('orig', img.src)
 				.attr('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==')
@@ -78,7 +89,7 @@ $(document).ready(function(){
 		
 		$(this).parent().prev().contents().first().replaceWith(replacement);
 		
-		if (hidden_data[board][id])
+		if (hidden_data[board][id] && hidden_data[board][id]['index'].indexOf(index) !== -1)
 			$(this).parent().prev().find('.hide-image-link').click();
 	};
 

@@ -2261,17 +2261,13 @@ function mod_recent_posts($lim) {
 			// Still need to fix this:
 			$po = new Thread($post, '?/', $mod, false);
 			$string = $po->build(true);
-			$replacement = str_replace('<p class="fileinfo">', 
-				'<div class="post-wrapper" data-board="'.$post['board'].'"><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['id'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br><p class="fileinfo">', 
-				$string);
+			$string = '<div class="post-wrapper" data-board="'.$post['board'].'"><hr/><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['id'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br>' . $string;
 		} else {
 			$po = new Post($post, '?/', $mod);
 			$string = $po->build(true);
-			$replacement = str_replace('<div class="post reply"', 
-				'<div class="post-wrapper" data-board="'.$post['board'].'"><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['thread'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br><div class="post reply"', 
-				$string);
+			$string = '<div class="post-wrapper" data-board="'.$post['board'].'"><hr/><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['thread'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br>' . $string; 
 		}
-		$body .= $replacement . '</div>';
+		$body .= $string . '</div>';
 	}
 
 	echo Element('page.html', array(
