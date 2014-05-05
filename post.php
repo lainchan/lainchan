@@ -42,6 +42,10 @@ if (isset($_POST['delete'])) {
 	
 	// Check if banned
 	checkBan($board['uri']);
+
+	// Check if deletion enabled
+	if (!$config['allow_delete'])
+		error(_('Post deletion is not allowed!'));
 	
 	if (empty($delete))
 		error($config['error']['nodelete']);
@@ -88,7 +92,7 @@ if (isset($_POST['delete'])) {
 		echo json_encode(array('success' => true));
 	}
 } elseif (isset($_POST['report'])) {
-	if (!isset($_POST['board'], $_POST['password'], $_POST['reason']))
+	if (!isset($_POST['board'], $_POST['reason']))
 		error($config['error']['bot']);
 	
 	$report = array();

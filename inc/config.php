@@ -450,6 +450,8 @@
 	// Maximum filename length to display (the rest can be viewed upon mouseover).
 	$config['max_filename_display'] = 30;
 
+	// Allow users to delete their own posts?
+	$config['allow_delete'] = true;
 	// How long after posting should you have to wait before being able to delete that post? (In seconds.)
 	$config['delete_time'] = 10;
 	// Reply limit (stops bumping thread when this is reached).
