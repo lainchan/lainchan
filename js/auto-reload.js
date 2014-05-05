@@ -27,6 +27,17 @@ $(document).ready(function(){
 	
 	var poll_interval;
 
+
+	// Grab the settings
+	var settings = new script_settings('auto-reload');
+	var poll_interval_mindelay_bottom = settings.get('min_delay_bottom', 3000);
+	var poll_interval_mindelay_top    = settings.get('min_delay_top', 10000);
+	var poll_interval_maxdelay        = settings.get('max_delay', 600000);
+	var poll_interval_shortdelay      = settings.get('quick_delay', 100);
+
+	// number of ms to wait before reloading
+	var poll_interval_delay = poll_interval_mindelay_bottom;
+
 	var end_of_page = false;
 
         var new_posts = 0;
@@ -45,6 +56,13 @@ $(document).ready(function(){
 	$(window).focus(function() {
 		window_active = true;
 		recheck_activated();
+
+		// Reset the delay if needed
+		if(settings.get('reset_focus', true)) {
+			poll_interval_delay = end_of_page
+			    ? poll_interval_mindelay_bottom
+			    : poll_interval_mindelay_top;
+		}
 	});
 	$(window).blur(function() {
 		window_active = false;
@@ -81,7 +99,22 @@ $(document).ready(function(){
 		});
 		
 		clearTimeout(poll_interval);
-		poll_interval = setTimeout(poll, end_of_page ? 3000 : 10000);
+
+		// If there are no new posts, double the delay. Otherwise set it to the min.
+		if(new_posts == 0) {
+			poll_interval_delay *= 2;
+
+			// Don't increase the delay beyond the maximum
+			if(poll_interval_delay > poll_interval_maxdelay) {
+				poll_interval_delay = poll_interval_maxdelay;
+			}
+		} else {
+			poll_interval_delay = end_of_page
+			    ? poll_interval_mindelay_bottom
+			    : poll_interval_mindelay_top;
+		}
+
+		poll_interval = setTimeout(poll, poll_interval_delay);
 	};
 	
 	$(window).scroll(function() {
@@ -94,10 +127,10 @@ $(document).ready(function(){
 		}
 		
 		clearTimeout(poll_interval);
-		poll_interval = setTimeout(poll, 100);
+		poll_interval = setTimeout(poll, poll_interval_shortdelay);
 		end_of_page = true;
 	}).trigger('scroll');
 
-	poll_interval = setTimeout(poll, 3000);
+	poll_interval = setTimeout(poll, poll_interval_delay);
 });
 
