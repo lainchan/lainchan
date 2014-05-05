@@ -27,6 +27,18 @@ $(document).ready(function(){
 	
 	var poll_interval;
 
+	// number of ms to wait before reloading
+	var poll_interval_delay;
+
+	// If at the bottom of the page, reload more quickly.
+	var poll_interval_mindelay_bottom = 3000;
+	var poll_interval_mindelay_top    = 10000;
+
+	poll_interval_delay = poll_interval_mindelay_bottom;
+
+	// Upon scrolling to the bottom, reload very quickly.
+	var poll_interval_shortdelay = 100;
+
 	var end_of_page = false;
 
         var new_posts = 0;
@@ -81,7 +93,11 @@ $(document).ready(function(){
 		});
 		
 		clearTimeout(poll_interval);
-		poll_interval = setTimeout(poll, end_of_page ? 3000 : 10000);
+
+		poll_interval_delay = end_of_page
+		    ? poll_interval_mindelay_bottom
+		    : poll_interval_mindelay_top;
+		poll_interval = setTimeout(poll, poll_interval_delay);
 	};
 	
 	$(window).scroll(function() {
@@ -94,10 +110,10 @@ $(document).ready(function(){
 		}
 		
 		clearTimeout(poll_interval);
-		poll_interval = setTimeout(poll, 100);
+		poll_interval = setTimeout(poll, poll_interval_shortdelay);
 		end_of_page = true;
 	}).trigger('scroll');
 
-	poll_interval = setTimeout(poll, 3000);
+	poll_interval = setTimeout(poll, poll_interval_delay);
 });
 
