@@ -1096,9 +1096,9 @@
 
 	// Static images. These can be URLs OR base64 (data URI scheme). These are only used if
 	// $config['font_awesome'] is false (default).
-	// $config['image_sticky']	= 'static/sticky.gif';
+	// $config['image_sticky']	= 'static/sticky.png';
 	// $config['image_locked']	= 'static/locked.gif';
-	// $config['image_bumplocked']	= 'static/sage.gif'.
+	// $config['image_bumplocked']	= 'static/sage.png'.
 
 	// If you want to put images and other dynamic-static stuff on another (preferably cookieless) domain.
 	// This will override $config['root'] and $config['dir']['...'] directives. "%s" will get replaced with
