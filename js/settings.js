@@ -61,5 +61,7 @@ tb_settings['auto-reload'] = {
 	// Maximum delay before reloading the page
 	max_delay: 600000,
 	//Delay to wait before reloading when the user scrolls to the bottom
-	quick_delay: 100
+	quick_delay: 100,
+	// Reset the delay to the minimum upon focussing the window.
+	reset_focus: true
 };

@@ -56,6 +56,13 @@ $(document).ready(function(){
 	$(window).focus(function() {
 		window_active = true;
 		recheck_activated();
+
+		// Reset the delay if needed
+		if(settings.get('reset_focus', true)) {
+			poll_interval_delay = end_of_page
+			    ? poll_interval_mindelay_bottom
+			    : poll_interval_mindelay_top;
+		}
 	});
 	$(window).blur(function() {
 		window_active = false;
