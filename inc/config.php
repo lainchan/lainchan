@@ -1433,6 +1433,9 @@
 	// 	'db',
 	// );
 
+	// Allow OP to remove arbitrary posts in his thread
+	$config['user_moderation'] = false;
+
 /*
  * ====================
  *  Public post search
