@@ -742,8 +742,12 @@
 	// Display the file's original filename.
 	$config['show_filename'] = true;
 
-	// Display image identification links using regex.info/exif, TinEye and Google Images.
+	// Display image identification links using ImgOps, regex.info/exif and Google Images.
 	$config['image_identification'] = false;
+	// Which of the identification links to display. Only works if $config['image_identification'] is true.
+	$config['image_identification_imgops'] = true;
+	$config['image_identification_exif'] = true;
+	$config['image_identification_google'] = true;
 	
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
