@@ -641,7 +641,7 @@ if (isset($_POST['delete'])) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
 					if($error = shell_exec_error('exiftool -overwrite_original -ignoreMinorErrors -q -q -all= ' .
 						escapeshellarg($upload)))
-						error('Could not strip EXIF metadata!', null, $error);
+						error(_('Could not strip EXIF metadata!'), null, $error);
 				} else {
 					$image->to($post['file']);
 					$dont_copy_file = true;
