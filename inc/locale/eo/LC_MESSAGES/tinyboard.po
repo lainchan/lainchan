@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-30 18:20+0000\n"
+"PO-Revision-Date: 2014-05-05 18:49+0000\n"
 "Last-Translator: neniu <katnoj1@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -536,13 +536,13 @@ msgstr "Vi devos esperi %s antaŭ vi povos forviŝi tion."
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
-msgstr "MIME-tipo percepto XSS exploit (IE) perceptita; afiŝon forigita."
+msgstr "MIME-tipo detection XSS exploit (IE) perceptita; afiŝon forigita."
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1018
 msgid "Couldn't make sense of the URL of the video you tried to embed."
-msgstr "Maleblis kompreni la URL-on de la videon vi provis enmeti."
+msgstr "Maleblis kompreni la URL-on de la videon kiun vi provis enmeti."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
@@ -590,7 +590,7 @@ msgstr "Malvalidaj/misformitaj cookie-oj."
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 msgid "Your browser didn't submit an input when it should have."
-msgstr "Via retumilo ne faris enigon kiam enigo farendis."
+msgstr "Via retumilo ne faris enigon kiam ĝi devis."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
