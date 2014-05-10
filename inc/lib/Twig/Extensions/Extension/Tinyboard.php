@@ -13,6 +13,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			new Twig_SimpleFilter('filesize', 'format_bytes'),
 			new Twig_SimpleFilter('truncate', 'twig_truncate_filter'),
 			new Twig_SimpleFilter('truncate_body', 'truncate'),
+			new Twig_SimpleFilter('truncate_filename', 'truncate_filename'),
 			new Twig_SimpleFilter('extension', 'twig_extension_filter'),
 			new Twig_SimpleFilter('sprintf', 'sprintf'),
 			new Twig_SimpleFilter('capcode', 'capcode'),

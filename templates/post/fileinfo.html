@@ -22,7 +22,7 @@
 			{% if config.show_filename and file.filename %}
 				, 
 				{% if file.filename|length > config.max_filename_display %}
-					<span class="postfilename" title="{{ file.filename|e }}">{{ file.filename|truncate(config.max_filename_display)|bidi_cleanup }}</span>
+					<span class="postfilename" title="{{ file.filename|e }}">{{ file.filename|truncate_filename(config.max_filename_display)|bidi_cleanup }}</span>
 				{% else %}
 					<span class="postfilename">{{ file.filename|e|bidi_cleanup }}</span>
 				{% endif %}
