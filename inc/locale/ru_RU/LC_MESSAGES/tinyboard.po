@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-22 20:14+0000\n"
+"PO-Revision-Date: 2014-05-06 10:23+0000\n"
 "Last-Translator: Assada <assada@mail.ua>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -318,7 +318,7 @@ msgstr "Все права, копирайты на этой странице п�
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr ""
+msgstr "Луркай еще немного, прежде чем отправлять."
 
 #. * ====================
 #. *  Error messages
@@ -436,7 +436,7 @@ msgstr "Не оригинальный контент."
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:1000
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr ""
+msgstr "Не оригинальный контент. Кляп на %d секунд."
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
@@ -543,7 +543,7 @@ msgstr ""
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
-msgstr ""
+msgstr "Обнаружен XSS (IE). Пост отклонен."
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
@@ -597,7 +597,7 @@ msgstr "Неверные/испорченные куки."
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 msgid "Your browser didn't submit an input when it should have."
-msgstr ""
+msgstr "Твой браузер не отправляет нужных данных, а должен."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
@@ -819,7 +819,7 @@ msgstr "Ребилд"
 #: ../../../../inc/mod/pages.php:2043 ../../../../inc/mod/pages.php:2179
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:238
 msgid "Report queue"
-msgstr ""
+msgstr "Очередь жалоб"
 
 #: ../../../../inc/mod/pages.php:2111 ../../../../inc/mod/pages.php:2210
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
@@ -1078,7 +1078,7 @@ msgstr "без темы"
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:153
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:94
 msgid "by"
-msgstr ""
+msgstr "by"
 
 #. line 50
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:95
@@ -1086,7 +1086,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:157
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:98
 msgid "at"
-msgstr ""
+msgstr "на"
 
 #. line 28
 #. line 26
@@ -1670,7 +1670,7 @@ msgstr "удалить"
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:345
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:415
 msgid "deleted?"
-msgstr ""
+msgstr "удален?"
 
 #. line 33
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:91
@@ -1827,7 +1827,7 @@ msgstr "Статус"
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:259
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:44
 msgid "Expired"
-msgstr ""
+msgstr "Истекло"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:265
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:50
@@ -2013,7 +2013,7 @@ msgstr "никогда"
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:161
 msgid "Seen"
-msgstr ""
+msgstr "Замечен"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:375
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:201
@@ -2129,7 +2129,7 @@ msgstr "Новый бан"
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:25
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:31
 msgid "Phrase:"
-msgstr ""
+msgstr "Фраза:"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:38
 msgid "Posts"
@@ -2137,7 +2137,7 @@ msgstr "Посты"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:49
 msgid "IP address notes"
-msgstr ""
+msgstr "Заметки для IP"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:62
 msgid "Bans"
@@ -2152,7 +2152,7 @@ msgstr ""
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
 msgid "There are no active bans."
-msgstr ""
+msgstr "Нет активных банов."
 
 #. line 8
 #. line 47
@@ -2199,20 +2199,20 @@ msgstr "Продолжить"
 #. line 80
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:210
 msgid "Appeal time"
-msgstr ""
+msgstr "Время обжалования"
 
 #. line 84
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:220
 msgid "Appeal reason"
-msgstr ""
+msgstr "Причина обжалования"
 
 #: ../../../../templates/cache/7d/63/b6fd83bf4ed7f6031a2b3373b997d2d40617bf98899fe672a0aae48520c5.php:31
 msgid "There are no reports."
-msgstr ""
+msgstr "Нет сообщений."
 
 #: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
 msgid "That ban doesn't exist or is not for you."
-msgstr ""
+msgstr "Этого бана нет или он не для вас."
 
 #: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
 msgid "You cannot appeal a ban of this length."
@@ -2220,7 +2220,7 @@ msgstr ""
 
 #: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
 msgid "You cannot appeal this ban again."
-msgstr ""
+msgstr "Ты не можешь обжаловать этот бан снова."
 
 #: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
 msgid "There is already a pending appeal for this ban."
@@ -2228,11 +2228,11 @@ msgstr ""
 
 #: ../../../../inc/image.php:24 ../../../../inc/image.php:62
 msgid "Unsupported file format: "
-msgstr ""
+msgstr "Формат файла не поддерживается:"
 
 #: ../../../../inc/image.php:282 ../../../../inc/image.php:288
 msgid "Failed to redraw image!"
-msgstr ""
+msgstr "Не удалось перерисовать изображение!"
 
 #: ../../../../inc/image.php:324 ../../../../inc/image.php:343
 #: ../../../../inc/image.php:368 ../../../../inc/image.php:342
@@ -2258,11 +2258,11 @@ msgstr "Вас забанили в "
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
-msgstr ""
+msgstr "по следующей причине:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
-msgstr ""
+msgstr "по неопределенный причине."
 
 #. line 32
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
@@ -2281,11 +2281,11 @@ msgstr "истекает"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
-msgstr ""
+msgstr "прямо сейчас, который находится на"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
-msgstr ""
+msgstr "еще не истек"
 
 #. line 78
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:192
@@ -2300,11 +2300,11 @@ msgstr ""
 #. line 95
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
 msgid "You submitted an appeal for this ban on"
-msgstr ""
+msgstr "Ты подал апелляцию на этот бан"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 msgid "It is still pending"
-msgstr ""
+msgstr "Пока не принято"
 
 #. line 101
 #. line 112
@@ -2323,18 +2323,18 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:257
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:289
 msgid "You appealed this ban on"
-msgstr ""
+msgstr "Ты обжаловал запрет на"
 
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 msgid "and it was denied. You may not appeal this ban again."
-msgstr ""
+msgstr "и отклонен. Вы не можете обжаловать это бан снова."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
 msgid ""
 "You have submitted the maximum number of ban appeals allowed. You may not "
 "appeal this ban again."
-msgstr ""
+msgstr "Ты отправил достаточное количество апелляций. Больше не нужно!"
 
 #. line 114
 #. line 121
@@ -2353,7 +2353,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:297
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:318
 msgid "and it was denied."
-msgstr ""
+msgstr "и отклонен."
 
 #. line 116
 #. line 123
@@ -2381,7 +2381,7 @@ msgstr ""
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 msgid "You may appeal this ban. Please enter your reasoning below."
-msgstr ""
+msgstr "Ты можешь обжаловать этот бан. Введи причину апелляции."
 
 #. line 4
 #. line 16
@@ -2598,7 +2598,7 @@ msgstr "Показать все логи этого пользователя."
 #. line 84
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
 msgid "Flag"
-msgstr ""
+msgstr "Флаг"
 
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
