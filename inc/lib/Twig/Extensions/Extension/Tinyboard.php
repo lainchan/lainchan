@@ -13,7 +13,7 @@ class Twig_Extensions_Extension_Tinyboard extends Twig_Extension
 			new Twig_SimpleFilter('filesize', 'format_bytes'),
 			new Twig_SimpleFilter('truncate', 'twig_truncate_filter'),
 			new Twig_SimpleFilter('truncate_body', 'truncate'),
-			new Twig_SimpleFilter('truncate_filename', 'truncate_filename'),
+			new Twig_SimpleFilter('truncate_filename', 'twig_filename_truncate_filter'),
 			new Twig_SimpleFilter('extension', 'twig_extension_filter'),
 			new Twig_SimpleFilter('sprintf', 'sprintf'),
 			new Twig_SimpleFilter('capcode', 'capcode'),
@@ -100,6 +100,22 @@ function twig_truncate_filter($value, $length = 30, $preserve = false, $separato
 			}
 		}
 		return mb_substr($value, 0, $length) . $separator;
+	}
+	return $value;
+}
+
+function twig_filename_truncate_filter($value, $length = 30, $separator = '&hellip;') {
+	if (mb_strlen($value) > $length) {
+		$value = strrev($value);
+		$array = array_reverse(explode(".", $value, 2));
+		$array = array_map("strrev", $array);
+		
+		$filename = &$array[0];
+		$extension = isset($array[1]) ? $array[1] : false;
+
+		$filename = mb_substr($filename, 0, $length - ($extension ? mb_strlen($extension) + 1 : 0)) . $separator;
+
+		return implode(".", $array);
 	}
 	return $value;
 }

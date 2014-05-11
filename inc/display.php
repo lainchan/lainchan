@@ -253,16 +253,6 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 	return $body;
 }
 
-function truncate_filename($filename, $length) {
-	if (strlen($filename) <= $length) return $filename;
-	$matches = array();
-	if (!preg_match("/.*(\\..+)/", $filename, $matches)) return $filename // what, no extension
-	$length -= strlen($matches[1]);
-	if ($length <= 0) return '(...)' . $matches[1]; // lmao
-	$filename = substr($filename, 0, $length) . '(...)' . $matches[1];
-	return $filename;
-}
-
 function bidi_cleanup($data) {
 	// Closes all embedded RTL and LTR unicode formatting blocks in a string so that
 	// it can be used inside another without controlling its direction.
