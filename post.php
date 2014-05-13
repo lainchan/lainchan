@@ -568,7 +568,8 @@ if (isset($_POST['delete'])) {
 		}
 		
 		if ($output = shell_exec_error("cat $filenames | md5sum")) {
-			$hash = explode(' ', $output)[0];
+			$explodedvar = explode(' ', $output);
+			$hash = $explodedvar[0];
 			$post['filehash'] = $hash;
 		} elseif ($config['max_images'] === 1) {
 			$post['filehash'] = md5_file($upload);
