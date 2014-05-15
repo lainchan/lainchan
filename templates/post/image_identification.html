@@ -1,14 +1,14 @@
-{% if post.thumb != 'file' and config.image_identification %}
+{% if file.thumb != 'file' and config.image_identification %}
 	, 
 	<span class='image_id'>
 		{% if config.image_identification_imgops %}
-			<a href="http://imgops.com/{{ config.domain }}{{ config.uri_img }}{{ post.file }}">io</a>
+			<a href="http://imgops.com/{{ config.domain }}{{ config.uri_img }}{{ file.file }}">io</a> 
 		{% endif %}
-		{% if config.image_identification_exif and post.file|extension == 'jpg' %}
-			<a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">e</a> 
+		{% if config.image_identification_exif and file.file|extension == 'jpg' %}
+			<a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ file.file }}">e</a> 
 		{% endif %}
 		{% if config.image_identification_google %}
-			<a href="http://www.google.com/searchbyimage?image_url={{ config.domain }}{{ config.uri_img }}{{ post.file }}">g</a>
+			<a href="http://www.google.com/searchbyimage?image_url={{ config.domain }}{{ config.uri_img }}{{ file.file }}">g</a>
 		{% endif %}
 	</span>
 {% endif %}
