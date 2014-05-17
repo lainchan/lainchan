@@ -385,7 +385,6 @@ if (isset($_POST['delete'])) {
 			error(_('Unrecognized file size determination method.'));
 		}
 
-		$size = $_FILES['file']['size'];
 		if ($size > $config['max_filesize'])
 			error(sprintf3($config['error']['filesize'], array(
 				'sz' => number_format($size),
