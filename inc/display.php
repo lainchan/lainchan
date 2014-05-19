@@ -109,6 +109,18 @@ function error($message, $priority = true, $debug_stuff = false) {
 		)));
 	}
 	
+	$pw = $config['db']['password'];
+	$debug_callback = function(&$item) use (&$debug_callback, $pw) {
+		global $config;
+		if (is_array($item)) {
+			$item = array_filter($item, $debug_callback);
+		}
+		return ($item !== $pw || !$pw);
+	};
+
+
+	$debug_stuff = array_filter($debug_stuff, $debug_callback);
+
 	die(Element('page.html', array(
 		'config' => $config,
 		'title' => _('Error'),
