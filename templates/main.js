@@ -264,10 +264,14 @@ var script_settings = function(script_name) {
 
 function init() {
 	init_stylechooser();
-	
+
+	{% endraw %}	
+	{% if config.allow_delete %}
 	if (document.forms.postcontrols) {
 		document.forms.postcontrols.password.value = localStorage.password;
 	}
+	{% endif %}
+	{% raw %}
 	
 	if (window.location.hash.indexOf('q') != 1 && window.location.hash.substring(1))
 		highlightReply(window.location.hash.substring(1));
