@@ -94,6 +94,7 @@ function setupVideo(thumb, url) {
             videoHide.style.display = "inline";
             videoContainer.style.display = "block";
             videoContainer.style.position = "static";
+            video.parentNode.parentNode.removeAttribute('style');
             thumb.style.display = "none";
 
             video.muted = (setting("videovolume") == 0);
