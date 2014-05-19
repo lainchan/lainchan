@@ -48,9 +48,9 @@
 	{% else %}
 		<a title="{% trans %}Move reply to another board{% endtrans %}" href="?/{{ board.dir }}move_reply/{{ post.id }}">{{ config.mod.link_move }}</a>&nbsp;
 	{% endif %}
+{% endif %}
 {% if mod|hasPermission(config.mod.editpost, board.uri) %}
 	<a title="{% trans %}Edit post{% endtrans %}" href="?/{{ board.dir }}edit{% if config.mod.raw_html_default %}_raw{% endif %}/{{ post.id }}">{{ config.mod.link_editpost }}</a>&nbsp;
-{% endif %}
 {% endif %}
 </span>
 
