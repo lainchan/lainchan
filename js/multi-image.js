@@ -16,7 +16,7 @@ function multi_image() {
         e.preventDefault();
         $('#upload_url').remove();
 
-        var images_len = $('input[type=file]').length;
+        var images_len = $('form:not([id="quick-reply"]) [type=file]').length;
         
         if (!(images_len >= max_images)) {
             $('.add_image').after('<br/><input type="file" name="file'+(images_len+1)+'" id="upload_file'+(images_len+1)+'">');
