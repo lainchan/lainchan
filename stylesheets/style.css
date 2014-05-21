@@ -116,6 +116,12 @@ form table tr td div label {
 .multifile {
     border: 2px dashed #B7C5D9;
 }
+.file:not(.multifile) .post-image {
+    float: left;
+}
+.file:not(.multifile) {
+    float: none;
+}
 p.fileinfo {
 	display: block;
 	margin: 0;
