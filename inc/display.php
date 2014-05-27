@@ -118,7 +118,8 @@ function error($message, $priority = true, $debug_stuff = false) {
 	};
 
 
-	$debug_stuff = array_filter($debug_stuff, $debug_callback);
+	if ($debug_stuff) 
+		$debug_stuff = array_filter($debug_stuff, $debug_callback);
 
 	die(Element('page.html', array(
 		'config' => $config,
