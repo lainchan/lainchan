@@ -324,7 +324,7 @@ if (isset($_POST['delete'])) {
 		curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 		
 		if (curl_exec($curl) === false)
-			error($config['error']['nomove']);
+			error($config['error']['nomove'] . '<br/>Curl says: ' . curl_error($curl));
 		
 		curl_close($curl);
 		
