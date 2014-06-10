@@ -150,7 +150,7 @@ function mod_dashboard() {
 				$latest = false;
 			}
 	
-			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, $_SERVER['HTTPS'], true);
+			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']), true);
 		}
 		
 		if ($latest)
