@@ -13,7 +13,17 @@ function unanimate_gif(e) {
 	$(e).parent().prepend(c);
 	c.attr('width', $(e).width());
 	c.attr('height',$(e).height());
-	c[0].getContext('2d').drawImage(e, 0, 0, $(e).width(), $(e).height());
+	function draw_image() {
+		c[0].getContext('2d').drawImage(e, 0, 0, $(e).width(), $(e).height())
+	};
+	
+	// Fix drawing image before loaded. Note that Chrome needs to check .complete because load() is NOT called if loaded from cache.
+	if (!e.complete) {
+		e.onload = draw_image;
+	} else {
+		draw_image();
+	}
+
 	$(e).hide();
 }
 
