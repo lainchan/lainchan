@@ -69,13 +69,13 @@ function setCookies() {
 			$mod['hash'][0] . // password
 			':' .
 			$mod['hash'][1], // salt
-		time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, $_SERVER['HTTPS'], $config['cookies']['httponly']);
+		time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'], $config['cookies']['httponly']);
 }
 
 function destroyCookies() {
 	global $config;
 	// Delete the cookies
-	setcookie($config['cookies']['mod'], 'deleted', time() - $config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path'] : '/', null, $_SERVER['HTTPS'], true);
+	setcookie($config['cookies']['mod'], 'deleted', time() - $config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path'] : '/', null, isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'], true);
 }
 
 function modLog($action, $_board=null) {
