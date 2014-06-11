@@ -538,7 +538,7 @@ if (file_exists($config['has_installed'])) {
 			foreach ($boards as &$board) {
 				query(sprintf('ALTER TABLE ``posts_%s`` ADD `files` text DEFAULT NULL AFTER `bump`;', $board['uri'])) or error(db_error());
 				query(sprintf('ALTER TABLE ``posts_%s`` ADD `num_files` int(11) DEFAULT 0 AFTER `files`;', $board['uri'])) or error(db_error());
-				query(sprintf('UPDATE ``posts_%s`` SET `files` = CONCAT(\'[{"file":"\',`file`,\'", "thumb":"\',`thumb`,\'", "filename":"\',`filename`,\'", "size":"\',`filesize`,\'",  "width":"\',`filewidth`,\'","height":"\',`fileheight`,\'","thumbwidth":"\',`thumbwidth`,\'","thumbheight":"\',`thumbheight`,\'", "file_path":"%s\/src\/\',`filename`,\'","thumb_path":"%s\/thumb\/\',`filename`,\'"}]\') WHERE `file` IS NOT NULL', $board['uri'], $board['uri'], $board['uri'])) or error(db_error());
+				query(sprintf('UPDATE ``posts_%s`` SET `files` = CONCAT(\'[{"file":"\',`file`,\'", "thumb":"\',`thumb`,\'", "filename":"\',`filename`,\'", "size":"\',`filesize`,\'",  "width":"\',`filewidth`,\'","height":"\',`fileheight`,\'","thumbwidth":"\',`thumbwidth`,\'","thumbheight":"\',`thumbheight`,\'"}]\') WHERE `file` IS NOT NULL', $board['uri'], $board['uri'], $board['uri'])) or error(db_error());
 				query(sprintf('UPDATE ``posts_%s`` SET `num_files` = 1 WHERE `file` IS NOT NULL', $board['uri'])) or error(db_error());
 				query(sprintf('ALTER TABLE ``posts_%s`` DROP COLUMN `thumb`, DROP COLUMN `thumbwidth`, DROP COLUMN `thumbheight`, DROP COLUMN `file`, DROP COLUMN `fileheight`, DROP COLUMN `filesize`, DROP COLUMN `filewidth`, DROP COLUMN `filename`', $board['uri'])) or error(db_error());
 				query(sprintf('REPAIR TABLE ``posts_%s``', $board['uri']));
