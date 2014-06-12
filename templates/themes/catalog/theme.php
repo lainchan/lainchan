@@ -60,6 +60,13 @@
 				$recent_posts[] = $post;
 			}
 			
+			$required_scripts = array('js/jquery.mixitup.min.js', 'js/jquery.tooltipster.min.js', 'js/catalog.js');
+
+			foreach($required_scripts as $i => $s) {
+				if (!in_array($s, $config['additional_javascript']))
+					$config['additional_javascript'][] = $s;
+			}
+
 			file_write($config['dir']['home'] . $board_name . '/catalog.html', Element('themes/catalog/catalog.html', Array(
 				'settings' => $settings,
 				'config' => $config,
