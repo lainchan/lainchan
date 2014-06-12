@@ -2,6 +2,7 @@
 {# tabs and new lines will be ignored #}
 
 <div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
+{% if not index %}<a id="{{ post.id }}" class="post_anchor"></a>{% endif %}
 
 {% if post.embed %}
 	{{ post.embed }}
@@ -33,7 +34,7 @@
 	</span></p>
 	{% include "post/image.html" %}
 {% endif %}
-<div class="post op"><p class="intro"{% if not index %} id="{{ post.id }}"{% endif %}>
+<div class="post op"><p class="intro">
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% include 'post/subject.html' %}
@@ -42,11 +43,9 @@
 		{% include 'post/flag.html' %}
 		{% include 'post/time.html' %}
 	</label>
-	{% include 'post/poster_id.html' %}
-         <a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? highlightReply({{ post.id }}) : true;" href="{{ post.link }}">No.</a>
-        <a class="post_no" onclick="return document.querySelectorAll('div.banner').length ? citeReply({{ post.id }}) : true;" href="{{ post.link('q') }}">
-                {{ post.id }}
-        </a>
+	{% include 'post/poster_id.html' %}&nbsp;
+	<a class="post_no" id="post_no_{{ post.id }}" onclick="highlightReply({{ post.id }})" href="{{ post.link }}">No.</a>
+	<a class="post_no" onclick="citeReply({{ post.id }})" href="{{ post.link('q') }}">{{ post.id }}</a>
 	{% if post.sticky %}
 		{% if config.font_awesome %}
 			<i class="fa fa-thumb-tack"></i>
