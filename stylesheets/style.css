@@ -25,7 +25,7 @@ a.post_no {
 p.intro a.post_no {
 	color: inherit;
 }
-p.intro a.post_no, p.intro a.email {
+p.intro a.post_no, p.intro a.email, p.intro a.post_anchor {
 	margin: 0;
 }
 p.intro a.email span.name {

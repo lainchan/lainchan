@@ -48,7 +48,8 @@ onready(function(){
 							delete this.style.filter;
 						}
 					} else {
-						this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
+						if (~this.parentNode.className.indexOf('multifile'))
+							this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
 						this.childNodes[0].src = this.dataset.src;
 						this.childNodes[0].style.width = this.dataset.width;
 						this.childNodes[0].style.height = this.dataset.height;

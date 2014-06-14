@@ -20,10 +20,15 @@ $(function(){
 
   var disable_all = function() {
     $("#upload").hide();
-    $("#upload_file").hide();
+    $("[id^=upload_file]").hide();
+    $(".file_separator").hide();
     $("#upload_url").hide();
     $("#upload_embed").hide();
     $(".add_image").hide();
+
+    $('[id^=upload_file]').each(function(i, v) {
+        $(v).val('');
+    });
 
     if (enabled_oekaki) {
       if (window.oekaki.initialized) {
@@ -35,7 +40,8 @@ $(function(){
   enable_file = function() {
     disable_all();
     $("#upload").show();
-    $("#upload_file").show();
+    $(".file_separator").show();
+    $("[id^=upload_file]").show();
     $(".add_image").show();
   };
 
