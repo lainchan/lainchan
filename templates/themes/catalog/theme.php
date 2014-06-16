@@ -50,7 +50,7 @@
 					if ($files[0]->file == 'deleted') continue;
 					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 
-                                if ($settings['use_tooltipster']) {
+                                if (isset($settings['use_tooltipster']) && $settings['use_tooltipster']) {
                                         $post['muhdifference'] = ago(time() - $post['time']);
                        
                                         if ($post['last_reply'])
@@ -60,7 +60,7 @@
 				$recent_posts[] = $post;
 			}
 			
-			$required_scripts = array('js/jquery.mixitup.min.js', 'js/jquery.tooltipster.min.js', 'js/catalog.js');
+			$required_scripts = array('js/jquery.min.js', 'js/jquery.mixitup.min.js', 'js/jquery.tooltipster.min.js', 'js/catalog.js');
 
 			foreach($required_scripts as $i => $s) {
 				if (!in_array($s, $config['additional_javascript']))
