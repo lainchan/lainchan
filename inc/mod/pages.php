@@ -962,17 +962,22 @@ function mod_ban_appeals() {
 		
 		if ($ban['post'] && isset($ban['post']['board'], $ban['post']['id'])) {
 			if (openBoard($ban['post']['board'])) {
-				$query = query(sprintf("SELECT `thumb`, `file` FROM ``posts_%s`` WHERE `id` = " .
+				$query = query(sprintf("SELECT `num_files`, `files` FROM ``posts_%s`` WHERE `id` = " .
 					(int)$ban['post']['id'], $board['uri']));
 				if ($_post = $query->fetch(PDO::FETCH_ASSOC)) {
+					$_post['files'] = $_post['files'] ? json_decode($_post['files']) : array();
 					$ban['post'] = array_merge($ban['post'], $_post);
 				} else {
-					$ban['post']['file'] = 'deleted';
-					$ban['post']['thumb'] = false;
+					$ban['post']['files'] = array(array());
+					$ban['post']['files'][0]['file'] = 'deleted';
+					$ban['post']['files'][0]['thumb'] = false;
+					$ban['post']['num_files'] = 1;
 				}
 			} else {
-				$ban['post']['file'] = 'deleted';
-				$ban['post']['thumb'] = false;
+				$ban['post']['files'] = array(array());
+				$ban['post']['files'][0]['file'] = 'deleted';
+				$ban['post']['files'][0]['thumb'] = false;
+				$ban['post']['num_files'] = 1;
 			}
 			
 			if ($ban['post']['thread']) {
