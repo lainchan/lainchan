@@ -2,10 +2,14 @@
 <!doctype html>
 <html>
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width" />
+	<meta charset="utf-8">
 	<title>{{ settings.title }}</title>
-	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}">
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
 <body>
 	{{ boardlist.top }}
@@ -25,7 +29,7 @@
 					{% else %}
 						<em>no subject</em>
 					{% endif %}
-					<span class="unimportant"> &mdash; by {{ entry.name }} at {{ entry.time|date(config.post_date) }}</span>
+					<span class="unimportant"> &mdash; by {{ entry.name }} at {{ entry.time|date(config.post_date, config.timezone) }}</span>
 				</h2>
 				<p>{{ entry.body }}</p>
 			{% endfor %}
