@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-30 21:37+0000\n"
+"PO-Revision-Date: 2014-05-07 10:56+0000\n"
 "Last-Translator: diggydoc <aigryz@gmail.com>\n"
 "Language-Team: Latvian (Latvia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/lv_LV/)\n"
 "MIME-Version: 1.0\n"
@@ -65,15 +65,15 @@ msgstr "Izvēlēties"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 msgid "Remote"
-msgstr ""
+msgstr "Attālināti"
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
 msgid "Embed"
-msgstr ""
+msgstr "Ieguldīt"
 
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
 msgid "Oekaki"
-msgstr ""
+msgstr "Oekaki"
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
 msgid "hidden"
@@ -160,19 +160,19 @@ msgstr "Aizpildīt"
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
-msgstr ""
+msgstr "Lietot oekaki faila vietā?"
 
 #: ../../../../js/oekaki.js:21
 msgid "Edit in oekaki"
-msgstr ""
+msgstr "Rediģēt oekaki"
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr ""
+msgstr "Ierakstiet tekstu"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr ""
+msgstr "Ierakstiet fontu, vai atstājiet tukšu"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -180,7 +180,7 @@ msgstr ""
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 #: ../../../../js/forced-anon.js:71
 msgid "Forced anonymity"
-msgstr ""
+msgstr "Piespiedu anonimitāte"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
@@ -197,173 +197,173 @@ msgstr "izslēgts"
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sun"
-msgstr ""
+msgstr "SV"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Mon"
-msgstr ""
+msgstr "PR"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Tue"
-msgstr ""
+msgstr "OT"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Wed"
-msgstr ""
+msgstr "TR"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Thu"
-msgstr ""
+msgstr "CE"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Fri"
-msgstr ""
+msgstr "PK"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sat"
-msgstr ""
+msgstr "SE"
 
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
 msgid "Catalog"
-msgstr ""
+msgstr "Katalogs"
 
 #: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
 #: ../../../../js/quick-reply-old.js:23
 msgid "Submit"
-msgstr ""
+msgstr "Nosūtīt"
 
 #: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
 #: ../../../../js/quick-reply-old.js:33
 msgid "Quick reply"
-msgstr ""
+msgstr "Ātrā atbilde"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr ""
+msgstr "Rakstīšanas režīms: Atbilde <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 msgid "Return"
-msgstr ""
+msgstr "Atgriezties"
 
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
 #: ../../../../js/expand-all-images.js:22
 msgid "Expand all images"
-msgstr ""
+msgstr "Izvērst visus attēlus"
 
 #: ../../../../templates/main.js:6
 msgid "Hello!"
-msgstr ""
+msgstr "Sveicināti!"
 
 #: ../../../../templates/main.js:18
 #, python-brace-format
 msgid "{0} users"
-msgstr ""
+msgstr "{0} lietotāji"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
-msgstr ""
+msgstr "(paslēpt pavedienus no šī dēļa)"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
-msgstr ""
+msgstr "(rādīt pavedienus no šī dēļa)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
-msgstr ""
+msgstr "Nav vairāk rādāmu pavedienu"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
-msgstr ""
+msgstr "Ielāde..."
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
 msgid "Save as original filename"
-msgstr ""
+msgstr "Saglabāt kā jaunu faila nosaukumu"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr ""
+msgstr "Noziņotie ieraksti."
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
-msgstr ""
+msgstr "Radusies nezināma kļūme!"
 
 #: ../../../../js/ajax-post-controls.js:60
 msgid "Something went wrong... An unknown error occured!"
-msgstr ""
+msgstr "Kaut kas nogāja greizi... radusies nezināma kļūme!"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
-msgstr ""
+msgstr "Apstrādā..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr ""
+msgstr "Ieraksta... (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
-msgstr ""
+msgstr "Ierakstīts..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr ""
+msgstr "Radusies nezināma kļūme ierakstot ziņojumu!"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
-msgstr ""
+msgstr "Ieraksta..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
-msgstr ""
+msgstr "Augšupielādēt URL"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
 #: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
-msgstr ""
+msgstr "Spoilera attēls"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
 msgid "Comment"
-msgstr ""
+msgstr "Komentārs"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
 #: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
-msgstr ""
+msgstr "Ātrā atbilde"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Stop watching this thread"
-msgstr ""
+msgstr "Pārstāt uzraudzīt šo pavedienu"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Watch this thread"
-msgstr ""
+msgstr "Uzraudzīt šo pavedienu"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -371,7 +371,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr ""
+msgstr "Atspraust dēli"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -379,7 +379,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr ""
+msgstr "Piespraust dēli"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -387,7 +387,7 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Stop watching this board"
-msgstr ""
+msgstr "Pārstāt uzraudzīt šo dēli"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -395,176 +395,176 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Watch this board"
-msgstr ""
+msgstr "Uzraudzīt šo dēli"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
-msgstr ""
+msgstr "Uzklikšķiniet uz jebkura attēla, lai ielādētu to oekaki sīklietnotnē"
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
-msgstr ""
+msgstr "Svētdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Monday"
-msgstr ""
+msgstr "Pirmdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Tuesday"
-msgstr ""
+msgstr "Otrdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Wednesday"
-msgstr ""
+msgstr "Trešdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Thursday"
-msgstr ""
+msgstr "Ceturtdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Friday"
-msgstr ""
+msgstr "Piektdiena"
 
 #: ../../../../js/local-time.js:29
 msgid "Saturday"
-msgstr ""
+msgstr "Sestdiena"
 
 #: ../../../../js/local-time.js:31
 msgid "January"
-msgstr ""
+msgstr "Janvāris"
 
 #: ../../../../js/local-time.js:31
 msgid "February"
-msgstr ""
+msgstr "Februāris"
 
 #: ../../../../js/local-time.js:31
 msgid "March"
-msgstr ""
+msgstr "Marts"
 
 #: ../../../../js/local-time.js:31
 msgid "April"
-msgstr ""
+msgstr "Aprīlis"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
 msgid "May"
-msgstr ""
+msgstr "Maijs"
 
 #: ../../../../js/local-time.js:31
 msgid "June"
-msgstr ""
+msgstr "Jūnijs"
 
 #: ../../../../js/local-time.js:31
 msgid "July"
-msgstr ""
+msgstr "ūlijs"
 
 #: ../../../../js/local-time.js:31
 msgid "August"
-msgstr ""
+msgstr "Augusts"
 
 #: ../../../../js/local-time.js:31
 msgid "September"
-msgstr ""
+msgstr "Septembris"
 
 #: ../../../../js/local-time.js:31
 msgid "October"
-msgstr ""
+msgstr "Oktobris"
 
 #: ../../../../js/local-time.js:31
 msgid "November"
-msgstr ""
+msgstr "Novembris"
 
 #: ../../../../js/local-time.js:31
 msgid "December"
-msgstr ""
+msgstr "Decembris"
 
 #: ../../../../js/local-time.js:32
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: ../../../../js/local-time.js:32
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: ../../../../js/local-time.js:32
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: ../../../../js/local-time.js:32
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: ../../../../js/local-time.js:32
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: ../../../../js/local-time.js:32
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: ../../../../js/local-time.js:32
 msgid "Aug"
-msgstr ""
+msgstr "Aug"
 
 #: ../../../../js/local-time.js:32
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: ../../../../js/local-time.js:32
 msgid "Oct"
-msgstr ""
+msgstr "Okt"
 
 #: ../../../../js/local-time.js:32
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: ../../../../js/local-time.js:32
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: ../../../../js/local-time.js:34
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: ../../../../js/local-time.js:35
 msgid "am"
-msgstr ""
+msgstr "am"
 
 #: ../../../../js/local-time.js:36
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr ""
+msgstr "Jūsu pārlūks neatbalsta HTML 5 video."
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
-msgstr ""
+msgstr "[atspēlēt vienreiz]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 msgid "[loop]"
-msgstr ""
+msgstr "[atspēlēt atkārtoti]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr ""
+msgstr "WebM uzstādījumi"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr ""
+msgstr "Izvērst video iekļauti"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr ""
+msgstr "Atspēlēt video uzbraucot"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr ""
+msgstr "Noklusējuma skaļums"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr ""
+msgstr "Koka skatījums"

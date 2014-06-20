@@ -6,19 +6,19 @@ body {
 	color:#bebebe;
 	
 	background-color: #1e1e1e;
-	background-image: url('img/testorange_testo.png'), url('img/testorange_top_bg.gif'), url('img/testorange_bg.gif');
+	background-image: url('img/testorange_testo.png'), url('img/testorange_top_bg.png'), url('img/testorange_bg.png');
 	background-repeat: no-repeat, repeat-x, repeat;
 	background-attachment: fixed, scroll, scroll;
 	background-position: right bottom, 0% 0%, 0% 0%;
 }
 
 .desktop-style .bl-menu{
-background-image: url('img/testorange_bg.gif');
+background-image: url('img/testorange_bg.png');
 	background-repeat: repeat;
 } 
 
 .boardlist .board a {
-background-image: url('img/testorange_bg.gif');
+background-image: url('img/testorange_bg.png');
 	background-repeat: repeat;
 }
 

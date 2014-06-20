@@ -52,10 +52,19 @@ if (isset($_POST['delete'])) {
 		$query->execute() or error(db_error($query));
 		
 		if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-			if ($password != '' && $post['password'] != $password)
+			$thread = false;
+			if ($config['user_moderation'] && $post['thread']) {
+				$thread_query = prepare(sprintf("SELECT `time`,`password` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
+				$thread_query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
+				$thread_query->execute() or error(db_error($query));
+
+				$thread = $thread_query->fetch(PDO::FETCH_ASSOC);	
+			}
+
+			if ($password != '' && $post['password'] != $password && (!$thread || $thread['password'] != $password))
 				error($config['error']['invalidpassword']);
 			
-			if ($post['time'] > time() - $config['delete_time']) {
+			if ($post['time'] > time() - $config['delete_time'] && (!$thread || $thread['password'] != $password)) {
 				error(sprintf($config['error']['delete_too_soon'], until($post['time'] + $config['delete_time'])));
 			}
 			
@@ -632,7 +641,7 @@ if (isset($_POST['delete'])) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
 					if($error = shell_exec_error('exiftool -overwrite_original -ignoreMinorErrors -q -q -all= ' .
 						escapeshellarg($upload)))
-						error('Could not strip EXIF metadata!', null, $error);
+						error(_('Could not strip EXIF metadata!'), null, $error);
 				} else {
 					$image->to($post['file']);
 					$dont_copy_file = true;

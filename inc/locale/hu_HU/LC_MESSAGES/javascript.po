@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-20 00:49+0200\n"
-"PO-Revision-Date: 2014-04-20 15:00+0000\n"
+"POT-Creation-Date: 2014-04-21 21:04+0200\n"
+"PO-Revision-Date: 2014-05-07 17:41+0000\n"
 "Last-Translator: cicus <mercurio@index.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -560,7 +560,7 @@ msgstr "Videók kinagyítása szálon belül"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr "Videók lejátszása ha az egérmutató föléjük ér"
+msgstr "Videók lebegő lejátszása ha az egérmutató föléjük ér"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"

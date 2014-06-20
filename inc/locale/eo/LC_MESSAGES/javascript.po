@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-24 04:27+0000\n"
+"PO-Revision-Date: 2014-05-05 18:55+0000\n"
 "Last-Translator: neniu <katnoj1@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "Raporti"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr "Klaku respondi por vidi."
+msgstr "Klaku je respondi por vidi."
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click to expand"
