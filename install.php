@@ -523,6 +523,7 @@ if (file_exists($config['has_installed'])) {
 			$twig->clearCacheFiles();
 		case '4.4.98':
 		case '4.5.0':
+		case '4.5.1':
 			if (!isset($_GET['confirm3'])) {
 				$page['title'] = 'Breaking change';
 				$page['body'] = '<p style="text-align:center">You are upgrading to the 5.0 branch of vichan. Please back up your database, because the process is irreversible. At the current time, if you want a very stable vichan experience, please use the 4.5 branch. This warning will be lifted as soon as we all agree that 5.0 branch is stable enough</p>
@@ -530,7 +531,7 @@ if (file_exists($config['has_installed'])) {
 						<a href="?confirm3=1">I have read and understood the warning. Proceed to upgrading.</a>
 					</p>';
 				
-				file_write($config['has_installed'], '4.5.0');
+				file_write($config['has_installed'], '4.5.1');
 				
 				break;
 			}
