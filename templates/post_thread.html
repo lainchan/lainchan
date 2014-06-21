@@ -3,6 +3,7 @@
 
 <div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
 {% if not index %}<a id="{{ post.id }}" class="post_anchor"></a>{% endif %}
+
 {% include 'post/fileinfo.html' %}
 <div class="post op" {%if post.num_files > 1%}style='clear:both'{%endif%}><p class="intro">
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />

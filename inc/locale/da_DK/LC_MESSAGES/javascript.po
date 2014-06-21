@@ -3,39 +3,39 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Marcin Łabanowski <marcin@6irc.net>, 2014
+# sildeperker <nicholas.adam.wood@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-05-30 21:23+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
-"Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pl_PL/)\n"
+"PO-Revision-Date: 2014-05-24 22:53+0000\n"
+"Last-Translator: sildeperker <nicholas.adam.wood@gmail.com>\n"
+"Language-Team: Danish (Denmark) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl_PL\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: da_DK\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
-msgstr "Styl: "
+msgstr "Stil"
 
 #: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
 #: ../../../../js/quick-post-controls.js:32
 #: ../../../../js/upload-selection.js:61
 msgid "File"
-msgstr "Plik"
+msgstr "Fil"
 
 #: ../../../../js/hide-images.js:50 ../../../../js/hide-images.js:51
 msgid "hide"
-msgstr "ukryj"
+msgstr "skjul"
 
 #: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
 msgid "show"
-msgstr "pokaż"
+msgstr "vis"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -44,7 +44,7 @@ msgstr "pokaż"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Show locked threads"
-msgstr "Pokaż zablokowane tematy"
+msgstr "Vis låste tråde"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -53,7 +53,7 @@ msgstr "Pokaż zablokowane tematy"
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Hide locked threads"
-msgstr "Schowaj zablokowane tematy"
+msgstr "Skjul låste tråde"
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
 msgid "URL"
@@ -61,15 +61,15 @@ msgstr "URL"
 
 #: ../../../../js/upload-selection.js:50 ../../../../js/upload-selection.js:60
 msgid "Select"
-msgstr "Wybierz"
+msgstr ""
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 msgid "Remote"
-msgstr "Zdalny"
+msgstr ""
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
 msgid "Embed"
-msgstr "Osadź"
+msgstr "Indlejr"
 
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
 msgid "Oekaki"
@@ -77,102 +77,102 @@ msgstr "Oekaki"
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
 msgid "hidden"
-msgstr "ukryte"
+msgstr "Skjult"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Show images"
-msgstr "Pokaż obrazki"
+msgstr "Vis billeder"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Hide images"
-msgstr "Ukryj obrazki"
+msgstr "Skjul billeder"
 
 #: ../../../../js/quick-post-controls.js:27
 #: ../../../../js/quick-post-controls.js:29
 msgid "Password"
-msgstr "Hasło"
+msgstr "Adgangskode"
 
 #: ../../../../js/quick-post-controls.js:29
 #: ../../../../js/quick-post-controls.js:31
 msgid "Delete file only"
-msgstr "Usuń tylko plik"
+msgstr "Slet kun fil"
 
 #: ../../../../js/quick-post-controls.js:31
 #: ../../../../js/quick-post-controls.js:33
 msgid "Delete"
-msgstr "Usuń"
+msgstr "Slet"
 
 #: ../../../../js/quick-post-controls.js:35
 #: ../../../../js/quick-post-controls.js:37
 msgid "Reason"
-msgstr "Powód"
+msgstr "Grund"
 
 #: ../../../../js/quick-post-controls.js:37
 #: ../../../../js/quick-post-controls.js:39
 msgid "Report"
-msgstr "Zgłoszenie"
+msgstr "Anmeld"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr "Kliknij Odpowiedź aby zobaczyć."
+msgstr "Klik svar for at vise"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click to expand"
-msgstr "Kliknij aby rozwinąć"
+msgstr "Klik for at udvide"
 
 #: ../../../../js/expand.js:44 ../../../../js/expand.js:46
 msgid "Hide expanded replies"
-msgstr "Schowaj rozwinięte odpowiedzi"
+msgstr "Skjul udvidede svar"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr "Rozmiar pędzla"
+msgstr "Penselstørrelse"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
-msgstr "Ustaw tekst"
+msgstr ""
 
 #: ../../../../js/oekaki.js:10
 msgid "Clear"
-msgstr "Wyczyść"
+msgstr "Ryd"
 
 #: ../../../../js/oekaki.js:10
 msgid "Save"
-msgstr "Zapisz"
+msgstr "Gem"
 
 #: ../../../../js/oekaki.js:10
 msgid "Load"
-msgstr "Załaduj"
+msgstr "Indlæs"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr "Przełącz gumkę"
+msgstr ""
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
-msgstr "Wybierz kolor"
+msgstr "Læs farve"
 
 #: ../../../../js/oekaki.js:11
 msgid "Fill"
-msgstr "Wypełnij"
+msgstr ""
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
-msgstr "Użyć oekaki zamiast pliku?"
+msgstr "Brug oekaki istedet for fil?"
 
 #: ../../../../js/oekaki.js:21
 msgid "Edit in oekaki"
-msgstr "Edytuj w oekaki"
+msgstr "Redigér i oekaki"
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr "Podaj jakiś tekst"
+msgstr "Skriv noget"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr "Podaj czcionkę, bądź pozostaw puste"
+msgstr "Vælg skrifttype eller lad stå tomt"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -180,54 +180,54 @@ msgstr "Podaj czcionkę, bądź pozostaw puste"
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 #: ../../../../js/forced-anon.js:71
 msgid "Forced anonymity"
-msgstr "Wymuszona anonimowość"
+msgstr "Tvungen anonymitet"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 msgid "enabled"
-msgstr "włączona"
+msgstr "aktiveret"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
 msgid "disabled"
-msgstr "wyłączona"
+msgstr "deaktiveret"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sun"
-msgstr "nie"
+msgstr "søn"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Mon"
-msgstr "pon"
+msgstr "man"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Tue"
-msgstr "wto"
+msgstr "tir"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Wed"
-msgstr "śro"
+msgstr "ons"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Thu"
-msgstr "czw"
+msgstr "tor"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Fri"
-msgstr "pią"
+msgstr "fre"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sat"
-msgstr "sob"
+msgstr "lør"
 
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
@@ -238,132 +238,132 @@ msgstr "Katalog"
 #: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
 #: ../../../../js/quick-reply-old.js:23
 msgid "Submit"
-msgstr "Wyślij"
+msgstr "Send"
 
 #: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
 #: ../../../../js/quick-reply-old.js:33
 msgid "Quick reply"
-msgstr "Szybka odpowiedź"
+msgstr "Hurtigt svar"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr "Tryb postowania: Odpowiedź na <small>&gt;&gt;{0}</small>"
+msgstr "Post tilstand: Svar til <small>&gt:&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 msgid "Return"
-msgstr "Powrót"
+msgstr ""
 
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
 #: ../../../../js/expand-all-images.js:22
 msgid "Expand all images"
-msgstr "Rozwiń wszystkie obrazki"
+msgstr "Udvid alle billeder"
 
 #: ../../../../templates/main.js:6
 msgid "Hello!"
-msgstr "Witaj!"
+msgstr "Hej!"
 
 #: ../../../../templates/main.js:18
 #, python-brace-format
 msgid "{0} users"
-msgstr "{0} użytkowników"
+msgstr "{0} brugere"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
-msgstr "(schowaj wątki z tego boardu)"
+msgstr "(skjul tråde fra dette board)"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
-msgstr "(pokaż wątki z tego boardu)"
+msgstr "(vis tråde fra dette board)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
-msgstr "Nie ma więcej wątków do wyświetlenia"
+msgstr "Ikke flere tråde at vise"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
-msgstr "Ładowanie..."
+msgstr "Indlæser..."
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
 msgid "Save as original filename"
-msgstr "Zapisz z oryginalną nazwą pliku"
+msgstr "Gem under oprindelige filnavn"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr "Zaraportowano post(y)."
+msgstr "Anmeldte post(s)."
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
-msgstr "Wystąpił nieznany błąd!"
+msgstr "Der forekom en ukendt fejl!"
 
 #: ../../../../js/ajax-post-controls.js:60
 msgid "Something went wrong... An unknown error occured!"
-msgstr "Coś poszło źle... wystąpił nieznany błąd!"
+msgstr "Noget gik galt... Der forekom en ukendt fejl!"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
-msgstr "Przetwarzanie..."
+msgstr "Arbjeder..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr "Postowanie... (#%)"
+msgstr "Poster... (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
-msgstr "Zapostowano..."
+msgstr "Postet..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr "Wystąpił nieznany błąd podczas postowania!"
+msgstr ""
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
-msgstr "Postowanie..."
+msgstr "Poster..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
-msgstr "Wyślij URL"
+msgstr "Upload URL"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
 #: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
-msgstr "Schowaj obrazek"
+msgstr ""
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
 msgid "Comment"
-msgstr "Komentarz"
+msgstr "Kommentar"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
 #: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
-msgstr "Szybka odpowiedź"
+msgstr "Hurtigt Svar"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Stop watching this thread"
-msgstr "Przestań obserwować ten wątek"
+msgstr "Stop med at følge denne tråd"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Watch this thread"
-msgstr "Obserwuj ten wątek"
+msgstr "Følg tråd"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -371,7 +371,7 @@ msgstr "Obserwuj ten wątek"
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr "Odepnij ten board"
+msgstr "Frigør dette board"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -379,7 +379,7 @@ msgstr "Odepnij ten board"
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr "Przypnij ten board"
+msgstr "Fastgør dette board"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -387,7 +387,7 @@ msgstr "Przypnij ten board"
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Stop watching this board"
-msgstr "Przestań obserwować ten board"
+msgstr "Stop med at følge dette board"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -395,55 +395,55 @@ msgstr "Przestań obserwować ten board"
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Watch this board"
-msgstr "Obserwuj ten board"
+msgstr "Følg dette board"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
-msgstr "Kliknij w jakikolwiek obrazek na tej stronie aby załadować go do apletu oekaki"
+msgstr "Klik på et billede på siden for at indlæse det til oekaki appletten"
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
-msgstr "Niedziela"
+msgstr "søndag"
 
 #: ../../../../js/local-time.js:29
 msgid "Monday"
-msgstr "Poniedziałek"
+msgstr "mandag"
 
 #: ../../../../js/local-time.js:29
 msgid "Tuesday"
-msgstr "Wtorek"
+msgstr "tirsdag"
 
 #: ../../../../js/local-time.js:29
 msgid "Wednesday"
-msgstr "Środa"
+msgstr "onsdag"
 
 #: ../../../../js/local-time.js:29
 msgid "Thursday"
-msgstr "Czwartek"
+msgstr "torsdag"
 
 #: ../../../../js/local-time.js:29
 msgid "Friday"
-msgstr "Piątek"
+msgstr "fredag"
 
 #: ../../../../js/local-time.js:29
 msgid "Saturday"
-msgstr "Sobota"
+msgstr "lørdag"
 
 #: ../../../../js/local-time.js:31
 msgid "January"
-msgstr "stycznia"
+msgstr "januar"
 
 #: ../../../../js/local-time.js:31
 msgid "February"
-msgstr "lutego"
+msgstr "februar"
 
 #: ../../../../js/local-time.js:31
 msgid "March"
-msgstr "marca"
+msgstr "marts"
 
 #: ../../../../js/local-time.js:31
 msgid "April"
-msgstr "kwietnia"
+msgstr "april"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
 msgid "May"
@@ -451,39 +451,39 @@ msgstr "maj"
 
 #: ../../../../js/local-time.js:31
 msgid "June"
-msgstr "czerwca"
+msgstr "juni"
 
 #: ../../../../js/local-time.js:31
 msgid "July"
-msgstr "lipca"
+msgstr "juli"
 
 #: ../../../../js/local-time.js:31
 msgid "August"
-msgstr "sierpnia"
+msgstr "august"
 
 #: ../../../../js/local-time.js:31
 msgid "September"
-msgstr "września"
+msgstr "september"
 
 #: ../../../../js/local-time.js:31
 msgid "October"
-msgstr "października"
+msgstr "oktober"
 
 #: ../../../../js/local-time.js:31
 msgid "November"
-msgstr "listopada"
+msgstr "november"
 
 #: ../../../../js/local-time.js:31
 msgid "December"
-msgstr "grudnia"
+msgstr "december"
 
 #: ../../../../js/local-time.js:32
 msgid "Jan"
-msgstr "sty"
+msgstr "jan"
 
 #: ../../../../js/local-time.js:32
 msgid "Feb"
-msgstr "lut"
+msgstr "feb"
 
 #: ../../../../js/local-time.js:32
 msgid "Mar"
@@ -491,35 +491,35 @@ msgstr "mar"
 
 #: ../../../../js/local-time.js:32
 msgid "Apr"
-msgstr "kwi"
+msgstr "apr"
 
 #: ../../../../js/local-time.js:32
 msgid "Jun"
-msgstr "cze"
+msgstr "jun"
 
 #: ../../../../js/local-time.js:32
 msgid "Jul"
-msgstr "lip"
+msgstr "jul"
 
 #: ../../../../js/local-time.js:32
 msgid "Aug"
-msgstr "sie"
+msgstr "aug"
 
 #: ../../../../js/local-time.js:32
 msgid "Sep"
-msgstr "wrz"
+msgstr "sep"
 
 #: ../../../../js/local-time.js:32
 msgid "Oct"
-msgstr "paź"
+msgstr "okt"
 
 #: ../../../../js/local-time.js:32
 msgid "Nov"
-msgstr "lis"
+msgstr "nov"
 
 #: ../../../../js/local-time.js:32
 msgid "Dec"
-msgstr "gru"
+msgstr "dec"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
@@ -539,32 +539,32 @@ msgstr "pm"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr "Twoja przeglądarka nie obsługuje wideo HTML5."
+msgstr "Din browser understøtter ikke HTML5 video"
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 msgid "[play once]"
-msgstr "[puść raz]"
+msgstr "[afspil en gang]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 msgid "[loop]"
-msgstr "[zapętl]"
+msgstr "[gentag]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr "Ustawienia WebM"
+msgstr "WebM indstillinger"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr "Rozwiń wideo w miejscu"
+msgstr ""
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr "Puszczaj wideo po najechaniu"
+msgstr "Afspil videoer når musen føres over dem"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr "Domyślna głośność"
+msgstr "Standard lydstyrke"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr "Widok drzewa"
+msgstr ""

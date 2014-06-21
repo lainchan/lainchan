@@ -60,7 +60,3 @@ copyright notices untouched. Beside, we give you absolutely no guarantees.
 Tinyboard and vichan licenses also clarify, that the copyright notices found
 in the template footers are also covered by the copyright notice preservation
 clause.
-
-# Exception
-It is explicitly allowed for the Tinyboard upstream, to take vichan
-changesets under a Tinyboard license.
