@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-22 15:55+0000\n"
-"Last-Translator: Tunai <tunayuyar39@gmail.com>\n"
+"POT-Creation-Date: 2014-06-21 20:55+0200\n"
+"PO-Revision-Date: 2014-06-21 18:56+0000\n"
+"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr "Stil: "
 #: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
 #: ../../../../js/quick-post-controls.js:32
-#: ../../../../js/upload-selection.js:61
+#: ../../../../js/upload-selection.js:61 ../../../../js/upload-selection.js:69
 msgid "File"
 msgstr "Dosya"
 
@@ -34,6 +34,7 @@ msgid "hide"
 msgstr "gizle"
 
 #: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
+#: ../../../../js/hide-images.js:63
 msgid "show"
 msgstr "göster"
 
@@ -56,22 +57,27 @@ msgid "Hide locked threads"
 msgstr "Gizli konuları kilitle"
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
+#: ../../../../js/upload-selection.js:53
 msgid "URL"
 msgstr "URL"
 
 #: ../../../../js/upload-selection.js:50 ../../../../js/upload-selection.js:60
+#: ../../../../js/upload-selection.js:68
 msgid "Select"
 msgstr "Seç"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
+#: ../../../../js/upload-selection.js:71
 msgid "Remote"
 msgstr "Uzak"
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
+#: ../../../../js/upload-selection.js:74
 msgid "Embed"
 msgstr "Göm"
 
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
+#: ../../../../js/upload-selection.js:77
 msgid "Oekaki"
 msgstr "Oekaki"
 
@@ -259,6 +265,7 @@ msgstr "Geri dön"
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
 #: ../../../../js/expand-all-images.js:22
+#: ../../../../js/expand-all-images.js:23
 msgid "Expand all images"
 msgstr "Bütün resimleri genişlet"
 
@@ -542,10 +549,12 @@ msgid "Your browser does not support HTML5 video."
 msgstr "Tarayıcınız HTML5 videoları desteklemiyor"
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
+#: ../../../../js/expand-video.js:193
 msgid "[play once]"
 msgstr "[bir kere oynat]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
+#: ../../../../js/expand-video.js:194
 msgid "[loop]"
 msgstr "[devamlı]"
 
@@ -568,3 +577,15 @@ msgstr "Ses"
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
 msgstr "Gezgin görünümü"
+
+#: ../../../../js/expand-all-images.js:32
+msgid "Shrink all images"
+msgstr ""
+
+#: ../../../../js/no-animated-gif.js:33
+msgid "Animate GIFs"
+msgstr ""
+
+#: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
+msgid "Unanimate GIFs"
+msgstr ""
