@@ -4,13 +4,14 @@
 # 
 # Translators:
 # copypaste <admin@8chan.co>, 2014
+# mgaj <mgaj@cock.li>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-21 21:04+0200\n"
-"PO-Revision-Date: 2014-04-22 21:06+0000\n"
-"Last-Translator: copypaste <admin@8chan.co>\n"
+"PO-Revision-Date: 2014-05-16 15:47+0000\n"
+"Last-Translator: mgaj <mgaj@cock.li>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -886,7 +887,7 @@ msgstr "Información errónea"
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:22
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:25
 msgid "Delete Post"
-msgstr "Eleminar Post"
+msgstr "Eliminar Post"
 
 #. line 3
 #. line 84
