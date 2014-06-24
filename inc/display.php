@@ -377,10 +377,10 @@ class Post {
 				$this->body
 			);
 	}
-	public function link($pre = '') {
+	public function link($pre = '', $page = false) {
 		global $config, $board;
 		
-		return $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->thread) . '#' . $pre . $this->id;
+		return $this->root . $board['dir'] . $config['dir']['res'] . sprintf(($page ? $page : $config['file_page']), $this->thread) . '#' . $pre . $this->id;
 	}
 	public function postControls() {
 		global $board, $config;
@@ -482,10 +482,10 @@ class Thread {
 				$this->body
 			);
 	}
-	public function link($pre = '') {
+	public function link($pre = '', $page = false) {
 		global $config, $board;
 		
-		return $this->root . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $this->id) . '#' . $pre . $this->id;
+		return $this->root . $board['dir'] . $config['dir']['res'] . sprintf(($page ? $page : $config['file_page']), $this->id) . '#' . $pre . $this->id;
 	}
 	public function add(Post $post) {
 		$this->posts[] = $post;
