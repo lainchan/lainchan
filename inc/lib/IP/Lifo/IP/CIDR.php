@@ -254,11 +254,29 @@ class CIDR
      * and the starting IP is not on a valid network boundrary (eg: Displaying
      * an IP from an interface).
      *
-     * @return string IP in CIDR notation "ipaddr/prefix"
+     * <b>Note: The CIDR block returned is NOT always bit aligned.</b>
+     *
+     * @return string IP in CIDR notation "start_ip/prefix"
      */
     public function getCidr()
     {
         return $this->start . '/' . $this->prefix;
+    }
+
+    /**
+     * Get the TRUE cidr notation for the subnet block.
+     *
+     * This is useful for when you want a string representation of the IP/prefix
+     * and the starting IP is not on a valid network boundrary (eg: Displaying
+     * an IP from an interface).
+     *
+     * <b>Note: The CIDR block returned is ALWAYS bit aligned.</b>
+     *
+     * @return string IP in CIDR notation "network/prefix"
+     */
+    public function getTrueCidr()
+    {
+        return $this->getNetwork() . '/' . $this->prefix;
     }
 
     /**
@@ -382,8 +400,9 @@ class CIDR
     {
         // use fixed length HEX strings so we can easily do STRING comparisons
         // instead of using slower bccomp() math.
-        list($lo,$hi)   = array_map(function($v){ return sprintf("%032s", IP::inet_ptoh($v)); }, CIDR::cidr_to_range($ip));
-        list($min,$max) = array_map(function($v){ return sprintf("%032s", IP::inet_ptoh($v)); }, CIDR::cidr_to_range($cidr));
+        $map = function($v){ return sprintf("%032s", IP::inet_ptoh($v)); };
+        list($lo,$hi)   = array_map($map, CIDR::cidr_to_range($ip));
+        list($min,$max) = array_map($map, CIDR::cidr_to_range($cidr));
 
         /** visualization of logic used below
             lo-hi   = $ip to check
@@ -447,7 +466,8 @@ class CIDR
         }
 
         // force bit length to 32 or 128 depending on type of IP
-        $bitlen = (false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ? 128 : 32;
+        $version = IP::isIPv4($ip) ? 4 : 6;
+        $bitlen = $version == 4 ? 32 : 128;
 
         if ($bits === null) {
             // if no prefix is given use the length of the binary string which
@@ -469,7 +489,7 @@ class CIDR
         // calculate "broadcast" (not technically a broadcast in IPv6)
         $ip2 = BC::bcor($ip1, BC::bcnot($netmask));
 
-        return array(IP::inet_dtop($ip1), IP::inet_dtop($ip2));
+        return array(IP::inet_dtop($ip1, $version), IP::inet_dtop($ip2, $version));
     }
 
     /**
