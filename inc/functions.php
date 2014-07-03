@@ -240,6 +240,9 @@ function loadConfig() {
 		event_handler('post', 'postHandler');
 	}
 
+	if (is_array($config['anonymous']))
+		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
+
 	event('load-config');
 	
 	if ($config['debug']) {

@@ -773,7 +773,8 @@
 	//  $config['board_path'] if you wish to change the URL.
 	$config['board_abbreviation'] = '/%s/';
 
-	// The default name (ie. Anonymous).
+	// The default name (ie. Anonymous). Can be an array - in that case it's picked randomly from the array.
+	// Example: $config['anonymous'] = array('Bernd', 'Senpai', 'Jonne', 'ChanPro');
 	$config['anonymous'] = 'Anonymous';
 
 	// Number of reports you can create at once.
