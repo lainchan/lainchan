@@ -344,7 +344,7 @@ if (isset($_POST['delete'])) {
 	$post['email'] = str_replace(' ', '%20', htmlspecialchars($_POST['email']));
 	$post['body'] = $_POST['body'];
 	$post['password'] = $_POST['password'];
-	$post['has_file'] = (!isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || !empty($_FILES)));
+	$post['has_file'] = (!isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || !empty($_FILES['file']['name'])));
 	
 	if (!($post['has_file'] || isset($post['embed'])) || (($post['op'] && $config['force_body_op']) || (!$post['op'] && $config['force_body']))) {
 		$stripped_whitespace = preg_replace('/[\s]/u', '', $post['body']);
