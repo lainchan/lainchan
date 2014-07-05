@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  Copyright (c) 2010-2013 Tinyboard Development Group
+ *  Copyright (c) 2010-2014 Tinyboard Development Group
  */
 
 if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
@@ -545,6 +545,28 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 	// Close
 	if (!fclose($fp))
 		error('Unable to close file: ' . $path);
+
+	/**
+	 * Create gzipped file.
+	 *
+	 * When writing into a file foo.bar and the size is larger or equal to 1
+	 * KiB, this also produces the gzipped version foo.bar.gz
+	 *
+	 * This is useful with nginx with gzip_static on.
+	 */
+	if ($config['gzip_static']) {
+		$gzpath = "$path.gz";
+
+		if ($bytes & ~0x3ff) {  // if ($bytes >= 1024)
+			if (file_put_contents($gzpath, gzencode($data), $simple ? 0 : LOCK_EX) === false)
+				error("Unable to write to file: $gzpath");
+			if (!touch($gzpath, filemtime($path), fileatime($path)))
+				error("Unable to touch file: $gzpath");
+		}
+		else {
+			@unlink($gzpath);
+		}
+	}
 
 	if (!$skip_purge && isset($config['purge'])) {
 		// Purge cache
