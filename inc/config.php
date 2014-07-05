@@ -776,10 +776,11 @@
 	// The default name (e.g. Anonymous). Can be an array - in that case it's picked randomly from the array.
 	// Example: $config['anonymous'] = array('Bernd', 'Senpai', 'Jonne', 'ChanPro');
 	$config['anonymous'] = 'Anonymous';
-	// Pick the default name based on the poster's country. Can contain subarrays and is picked randomly from the them.
+	// Pick the default name based on the poster's country or city. Can contain subarrays and is picked randomly from them.
 	// If the user posts from a country you have not set a name for, his name is going to be whatever you set in $config['anonymous'].
 	// Example 1: $config['country_anonymous'] = array('cz' => 'Pepik', 'pl' => 'Karol Wojtyla', 'de' => 'Bernd', 'fi' => 'Jonne');
 	// Example 2: $config['country_anonymous'] = array('cz' => array('Pepik', 'Bohus', 'Lada'), 'pl' => array('Karol Wojtyla', 'Demon Pedofyl');
+	// Example 3: $config['country_anonymous'] = array('cz' => array('Prague' => 'Pepik', 'Ostrava' => array('Bohus', 'Lada')), 'pl' => array('Karol Wojtyla', 'Demon Pedofyl'));
 	$config['country_anonymous'] = false;
 
 	// Number of reports you can create at once.
