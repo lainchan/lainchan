@@ -26,10 +26,6 @@ abstract class IP
     {
         // shortcut for IPv4 addresses
         if (strpos($ip, ':') === false && strpos($ip, '.') !== false) {
-            // remove any cidr block notation
-            if (($o = strpos($ip, '/')) !== false) {
-                $ip = substr($ip, 0, $o);
-            }
             return sprintf('%u', ip2long($ip));
         }
 
@@ -59,11 +55,8 @@ abstract class IP
 
     /**
      * Convert a decimal string into a human readable IP address.
-     *
-     * @param decimal $decimal Decimal number to convert into presentational IP string.
-     * @param integer $version Force IP version to 4 or 6. Leave null for automatic.
      */
-    public static function inet_dtop($decimal, $version = null)
+    public static function inet_dtop($decimal, $expand = false)
     {
         $parts = array();
         $parts[1] = bcdiv($decimal,                  '79228162514264337593543950336', 0);   // >> 96
@@ -81,27 +74,25 @@ abstract class IP
             $part = (int) $part;
         }
 
-        if (!$version) {
-            // if the first 96bits is all zeros then we can safely assume we
-            // actually have an IPv4 address. Even though it's technically possible
-            // you're not really ever going to see an IPv6 address in the range:
-            // ::0 - ::ffff
-            // It's feasible to see an IPv6 address of "::", in which case the
-            // caller is going to have to account for that on their own (or
-            // pass $version to this function).
-            if (($parts[1] | $parts[2] | $parts[3]) == 0) {
-                $version = 4;
-            }
-        }
-
-        if ($version == 4) {
+        // if the first 96bits is all zeros then we can safely assume we
+        // actually have an IPv4 address. Even though it's technically possible
+        // you're not really ever going to see an IPv6 address in the range:
+        // ::0 - ::ffff
+        // It's feasible to see an IPv6 address of "::", in which case the
+        // caller is going to have to account for that on their own.
+        if (($parts[1] | $parts[2] | $parts[3]) == 0) {
             $ip = long2ip($parts[4]);
         } else {
             $packed = pack('N4', $parts[1], $parts[2], $parts[3], $parts[4]);
             $ip = inet_ntop($packed);
         }
 
-        return $ip;
+        // Turn IPv6 to IPv4 if it's IPv4
+        if (preg_match('/^::\d+\./', $ip)) {
+            return substr($ip, 2);
+        }
+
+        return $expand ? self::inet_expand($ip) : $ip;
     }
 
     /**
@@ -116,11 +107,8 @@ abstract class IP
     /**
      * Convert a human readable (presentational) IP address into a BINARY string.
      */
-    public static function inet_ptob($ip, $bits = null)
+    public static function inet_ptob($ip, $bits = 128)
     {
-        if ($bits === null) {
-            $bits = self::isIPv4($ip) ? 32 : 128;
-        }
         return BC::bcdecbin(self::inet_ptod($ip), $bits);
     }
 
@@ -169,7 +157,7 @@ abstract class IP
      * One use-case for this is IP 6to4 tunnels used in networking.
      *
      * @example
-     *      to_ipv6("10.10.10.10") == a0a:a0a
+     *      to_ipv4("10.10.10.10") == a0a:a0a
      *
      * @param string $ip IPv4 address.
      * @param boolean $mapped If true a Full IPv6 address is returned within the
