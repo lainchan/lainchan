@@ -21,8 +21,6 @@ require_once 'inc/api.php';
 require_once 'inc/bans.php';
 require_once 'inc/lib/gettext/gettext.inc';
 
-use Lifo\IP\IP;
-
 // the user is not currently logged in as a moderator
 $mod = false;
 
@@ -244,23 +242,6 @@ function loadConfig() {
 
 	if (is_array($config['anonymous']))
 		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
-		
-	if ($config['country_flags'] || $config['country_anonymous']) {
-		require_once 'inc/lib/geoip/geoip.inc';
-		$gi=geoip_open('inc/lib/geoip/GeoIPv6.dat', GEOIP_STANDARD);
-		$ipaddy = $_SERVER['REMOTE_ADDR'];
-		if (IP::isIPv4($ipaddy))
-			$ipaddy = IP::to_ipv6($ipaddy, true);
-		global $country_code, $country_name;
-		$country_code = strtolower(geoip_country_code_by_addr_v6($gi, $ipaddy));
-		$country_name = geoip_country_name_by_addr_v6($gi, $ipaddy);
-		if (isset($config['country_anonymous'][$country_code])) {
-			if (is_array($config['country_anonymous'][$country_code]))
-				$config['anonymous'] = $config['country_anonymous'][$country_code][array_rand($config['country_anonymous'][$country_code])];
-			else
-				$config['anonymous'] = $config['country_anonymous'][$country_code];
-		}
-	}
 
 	event('load-config');
 	
