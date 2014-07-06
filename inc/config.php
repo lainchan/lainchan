@@ -1567,6 +1567,10 @@
 	// 	'type' => 'scp'
 	// );
 
+	// Create gzipped static files along with ungzipped.
+	// This is useful with nginx with gzip_static on.
+	$config['gzip_static'] = false;
+
 	// Regex for board URIs. Don't add "`" character or any Unicode that MySQL can't handle. 58 characters
 	// is the absolute maximum, because MySQL cannot handle table names greater than 64 characters.
 	$config['board_regex'] = '[0-9a-zA-Z$_\x{0080}-\x{FFFF}]{1,58}';
