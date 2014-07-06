@@ -246,23 +246,15 @@ function loadConfig() {
 		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
 		
 	if ($config['country_flags'] || $config['country_anonymous']) {
-		require_once 'inc/lib/geoip/geoipcity.inc';
-		require_once 'inc/lib/geoip/geoipregionvars.php';
-		$gi=geoip_open('inc/lib/geoip/GeoLiteCityv6.dat', GEOIP_STANDARD);
+		require_once 'inc/lib/geoip/geoip.inc';
+		$gi=geoip_open('inc/lib/geoip/GeoIPv6.dat', GEOIP_STANDARD);
 		$ipaddy = $_SERVER['REMOTE_ADDR'];
 		if (IP::isIPv4($ipaddy))
 			$ipaddy = IP::to_ipv6($ipaddy, true);
-		$record = geoip_record_by_addr_v6($gi, $ipaddy);
-		global $country_code, $country_name, $city;
-		$country_code = strtolower($record->country_code);
-		$country_name = $record->country_name;
-		$city = $record->city;
-		if (isset($config['country_anonymous'][$country_code][$city]))
-			if (is_array($config['country_anonymous'][$country_code][$city]))
-				$config['anonymous'] = $config['country_anonymous'][$country_code][$city][array_rand($config['country_anonymous'][$country_code][$city])];
-			else
-				$config['anonymous'] = $config['country_anonymous'][$country_code][$city];
-		else if (isset($config['country_anonymous'][$country_code])) {
+		global $country_code, $country_name;
+		$country_code = strtolower(geoip_country_code_by_addr_v6($gi, $ipaddy));
+		$country_name = geoip_country_name_by_addr_v6($gi, $ipaddy);
+		if (isset($config['country_anonymous'][$country_code])) {
 			if (is_array($config['country_anonymous'][$country_code]))
 				$config['anonymous'] = $config['country_anonymous'][$country_code][array_rand($config['country_anonymous'][$country_code])];
 			else
