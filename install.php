@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.9.90');
+define('VERSION', '4.9.91');
 
 require 'inc/functions.php';
 
@@ -524,6 +524,7 @@ if (file_exists($config['has_installed'])) {
 		case '4.4.98':
 		case '4.5.0':
 		case '4.5.1':
+		case '4.5.2':
 			if (!isset($_GET['confirm3'])) {
 				$page['title'] = 'Breaking change';
 				$page['body'] = '<p style="text-align:center">You are upgrading to the 5.0 branch of vichan. Please back up your database, because the process is irreversible. At the current time, if you want a very stable vichan experience, please use the 4.5 branch. This warning will be lifted as soon as we all agree that 5.0 branch is stable enough</p>
@@ -531,7 +532,7 @@ if (file_exists($config['has_installed'])) {
 						<a href="?confirm3=1">I have read and understood the warning. Proceed to upgrading.</a>
 					</p>';
 				
-				file_write($config['has_installed'], '4.5.1');
+				file_write($config['has_installed'], '4.5.2');
 				
 				break;
 			}
@@ -544,6 +545,7 @@ if (file_exists($config['has_installed'])) {
 				query(sprintf('ALTER TABLE ``posts_%s`` DROP COLUMN `thumb`, DROP COLUMN `thumbwidth`, DROP COLUMN `thumbheight`, DROP COLUMN `file`, DROP COLUMN `fileheight`, DROP COLUMN `filesize`, DROP COLUMN `filewidth`, DROP COLUMN `filename`', $board['uri'])) or error(db_error());
 				query(sprintf('REPAIR TABLE ``posts_%s``', $board['uri']));
 			}
+		case '4.9.90':
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
