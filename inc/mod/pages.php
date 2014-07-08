@@ -739,31 +739,28 @@ function mod_view_thread50($boardName, $thread) {
 
 function mod_ip_remove_note($ip, $id) {
 	global $config, $mod;
-	$ip = rawurldecode($ip);
 	
 	if (!hasPermission($config['mod']['remove_notes']))
 			error($config['error']['noaccess']);
 	
-	//if (filter_var($ip, FILTER_VALIDATE_IP) === false)
-	//	error("Invalid IP address.");
+	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
+		error("Invalid IP address.");
 	
 	$query = prepare('DELETE FROM ``ip_notes`` WHERE `ip` = :ip AND `id` = :id');
 	$query->bindValue(':ip', $ip);
 	$query->bindValue(':id', $id);
 	$query->execute() or error(db_error($query));
 	
-	modLog("Removed a note for <a href=\"?/IP/".rawurlencode($ip)."\">".htmlspecialchars($ip)."</a>");
+	modLog("Removed a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 	
-	header('Location: ?/IP/' . rawurlencode($ip) . '#notes', true, $config['redirect_http']);
+	header('Location: ?/IP/' . $ip . '#notes', true, $config['redirect_http']);
 }
 
 function mod_page_ip($ip) {
 	global $config, $mod;
 	
-	$ip = rawurldecode($ip);
-
-	//if (filter_var($ip, FILTER_VALIDATE_IP) === false)
-	//	error("Invalid IP address.");
+	if (filter_var($ip, FILTER_VALIDATE_IP) === false)
+		error("Invalid IP address.");
 	
 	if (isset($_POST['ban_id'], $_POST['unban'])) {
 		if (!hasPermission($config['mod']['unban']))
@@ -771,7 +768,7 @@ function mod_page_ip($ip) {
 		
 		Bans::delete($_POST['ban_id'], true);
 		
-		header('Location: ?/IP/' . rawurlencode($ip) . '#bans', true, $config['redirect_http']);
+		header('Location: ?/IP/' . $ip . '#bans', true, $config['redirect_http']);
 		return;
 	}
 	
@@ -788,9 +785,9 @@ function mod_page_ip($ip) {
 		$query->bindValue(':body', $_POST['note']);
 		$query->execute() or error(db_error($query));
 		
-		modLog("Added a note for <a href=\"?/IP/".rawurlencode($ip)."\">".htmlspecialchars($ip)."</a>");
+		modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 		
-		header('Location: ?/IP/' . rawurlencode($ip) . '#notes', true, $config['redirect_http']);
+		header('Location: ?/IP/' . $ip . '#notes', true, $config['redirect_http']);
 		return;
 	}
 	
@@ -806,7 +803,7 @@ function mod_page_ip($ip) {
 		openBoard($board['uri']);
 		if (!hasPermission($config['mod']['show_ip'], $board['uri']))
 			continue;
-		$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `ip` = :ip OR `password` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
+		$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `ip` = :ip ORDER BY `sticky` DESC, `id` DESC LIMIT :limit', $board['uri']));
 		$query->bindValue(':ip', $ip);
 		$query->bindValue(':limit', $config['mod']['ip_recentposts'], PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
@@ -849,7 +846,7 @@ function mod_page_ip($ip) {
 	
 	$args['security_token'] = make_secure_link_token('IP/' . $ip);
 	
-	mod_page(sprintf('%s: %s', _('IP'), htmlspecialchars($ip)), 'mod/view_ip.html', $args, $args['hostname']);
+	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
 function mod_ban() {
