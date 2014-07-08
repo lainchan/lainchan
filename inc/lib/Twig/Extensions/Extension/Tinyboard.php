@@ -92,7 +92,7 @@ function twig_sprintf_filter( $value, $var) {
 	return sprintf($value, $var);
 }
 
-function twig_truncate_filter($value, $length = 30, $preserve = false, $separator = '&hellip;') {
+function twig_truncate_filter($value, $length = 30, $preserve = false, $separator = '…') {
 	if (mb_strlen($value) > $length) {
 		if ($preserve) {
 			if (false !== ($breakpoint = mb_strpos($value, ' ', $length))) {
@@ -104,7 +104,7 @@ function twig_truncate_filter($value, $length = 30, $preserve = false, $separato
 	return $value;
 }
 
-function twig_filename_truncate_filter($value, $length = 30, $separator = '&hellip;') {
+function twig_filename_truncate_filter($value, $length = 30, $separator = '…') {
 	if (mb_strlen($value) > $length) {
 		$value = strrev($value);
 		$array = array_reverse(explode(".", $value, 2));
