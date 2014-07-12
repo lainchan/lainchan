@@ -721,7 +721,7 @@ if ($step == 0) {
 		array(
 			'category' => 'File permissions',
 			'name' => getcwd() . '/templates/cache',
-			'result' => is_writable('templates') && (!is_dir('templates/cache') || is_writable('templates/cache')),
+			'result' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')),
 			'required' => true,
 			'message' => 'You must give vichan permission to create (and write to) the <code>templates/cache</code> directory or performance will be drastically reduced.'
 		),
