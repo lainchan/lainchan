@@ -6,7 +6,12 @@
 	<p>View <a href="?/recent/25"> 25 </a>|<a href="?/recent/50"> 50 </a>|<a href="?/recent/100"> 100 </a></p>
 	<a href="javascript:void(0)" id="erase-local-data" style="float:right; clear:both">Erase local data</a></div>
 	{% for post in posts %}
-		<div class="post-wrapper" data-board="{{ post.board }}"><hr/><a class="eita-link" id="eita-{{ post.board }}-{{ post.id or post.thread }}" href="?/{{ post.board }}/res/{{ post.id or post.thread }}.html#{{ post.id or post.thread }}">/{{ post.board }}/{{ post.id }}</a><br>
+		{% if not post.thread %}
+			{% set thread = post.id %}
+		{% else %}
+			{% set thread = post.thread %}
+		{% endif %}
+		<div class="post-wrapper" data-board="{{ post.board }}"><hr/><a class="eita-link" id="eita-{{ post.board }}-{{ thread }}" href="?/{{ post.board }}/res/{{ thread }}.html#{{ post.id }}">/{{ post.board }}/{{ post.id }}</a><br>
 			{{ post.built }}
 		</div>
 	{% endfor %}
