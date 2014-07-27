@@ -743,6 +743,8 @@
 	$config['show_ratio'] = false;
 	// Display the file's original filename.
 	$config['show_filename'] = true;
+	// Download the file with its original filename upon clicking on it. Only works when $config['show_filename'] is true.
+	$config['download_filename'] = false;
 
 	// Display image identification links using ImgOps, regex.info/exif and Google Images.
 	$config['image_identification'] = false;
