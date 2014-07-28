@@ -372,7 +372,8 @@
 	// 	'message' => 'Go away, spammer.'
 	// );
 
-	// Example: Same as above, but issuing a 3-hour ban instead of just reject the post.
+	// Example: Same as above, but issuing a 3-hour ban instead of just reject the post and
+	// add an IP note with the message body
 	// $config['filters'][] = array(
 	// 	'condition' => array(
 	// 		'name' => '/^surgeon$/',
@@ -380,6 +381,7 @@
 	// 		'OP' => false
 	// 	),
 	// 	'action' => 'ban',
+	//	'add_note' => true,
 	// 	'expires' => 60 * 60 * 3, // 3 hours
 	// 	'reason' => 'Go away, spammer.'
 	// );
