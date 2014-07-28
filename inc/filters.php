@@ -16,10 +16,10 @@ class Filter {
 			$this->$key = $value;		
 	}
 	
-	public function match(array $post, $condition, $match) {
+	public function match($condition, $match) {
 		$condition = strtolower($condition);
 
-		$this->post = $post;
+		$post = &$this->post;
 		
 		switch($condition) {
 			case 'custom':
@@ -127,8 +127,7 @@ class Filter {
 	                $query->bindValue(':body', "Autoban message: ".$this->post['body']);
 	                $query->execute() or error(db_error($query));
 		}				
-		
-		switch($this->action) {
+		if (isset ($this->action)) switch($this->action) {
 			case 'reject':
 				error(isset($this->message) ? $this->message : 'Posting throttled by filter.');
 			case 'ban':
@@ -156,13 +155,14 @@ class Filter {
 	}
 	
 	public function check(array $post) {
+		$this->post = $post;
 		foreach ($this->condition as $condition => $value) {
 			if ($condition[0] == '!') {
 				$NOT = true;
 				$condition = substr($condition, 1);
 			} else $NOT = false;
 			
-			if ($this->match($post, $condition, $value) == $NOT)
+			if ($this->match($condition, $value) == $NOT)
 				return false;
 		}
 		return true;
