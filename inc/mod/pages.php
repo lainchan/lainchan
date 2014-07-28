@@ -2236,6 +2236,7 @@ function mod_recent_posts($lim) {
 		error($config['error']['noaccess']);
 
 	$limit = (is_numeric($lim))? $lim : 25;
+	$last_time = (isset($_GET['last']) && is_numeric($_GET['last'])) ? $_GET['last'] : 0;
 
 	$mod_boards = array();
 	$boards = listBoards();
@@ -2256,37 +2257,29 @@ function mod_recent_posts($lim) {
 		$query .= sprintf('SELECT *, %s AS `board` FROM ``posts_%s`` UNION ALL ', $pdo->quote($board['uri']), $board['uri']);
 	}
 	// Remove the last "UNION ALL" seperator and complete the query
-	$query = preg_replace('/UNION ALL $/', ') AS `all_posts` ORDER BY `time` DESC LIMIT ' . $limit, $query);
-	$query = query($query) or error(db_error());
+	$query = preg_replace('/UNION ALL $/', ') AS `all_posts` WHERE (`time` < :last_time OR NOT :last_time) ORDER BY `time` DESC LIMIT ' . $limit, $query);
+	$query = prepare($query);
+	$query->bindValue(':last_time', $last_time);
+	$query->execute() or error(db_error($query));
 	$posts = $query->fetchAll(PDO::FETCH_ASSOC);
 
-	$body = '<h4>Viewing last '.$limit.' posts</h4>
-	<p>View <a href="?/recent/25"> 25 </a>|<a href="?/recent/50"> 50 </a>|<a href="?/recent/100"> 100 </a></p>
-	<a href="javascript:void(0)" id="erase-local-data" style="float:right; clear:both">Erase local data</a></div>';
-	foreach ($posts as $post) {
+	foreach ($posts as &$post) {
 		openBoard($post['board']);
 		if (!$post['thread']) {
 			// Still need to fix this:
 			$po = new Thread($post, '?/', $mod, false);
-			$string = $po->build(true);
-			$string = '<div class="post-wrapper" data-board="'.$post['board'].'"><hr/><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['id'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br>' . $string;
+			$post['built'] = $po->build(true);
 		} else {
 			$po = new Post($post, '?/', $mod);
-			$string = $po->build(true);
-			$string = '<div class="post-wrapper" data-board="'.$post['board'].'"><hr/><a class="eita-link" id="eita-'.$post['board'].'-'.$post['id'].'" href="?/'.$post['board'].'/res/'.$post['thread'].'.html#'.$post['id'].'">/'.$post['board'].'/'.$post['id'].'</a><br>' . $string; 
+			$post['built'] = $po->build(true);
 		}
-		$body .= $string . '</div>';
+		$last_time = $post['time'];
 	}
 
-	echo Element('page.html', array(
-		'config' => $config,
-		'mod' => $mod,
-		'hide_dashboard_link' => true,
-		'title' => _('Recent posts'),
-		'subtitle' => '',
-		'nojavascript' => false,
-		'is_recent_posts' => true,
-		'body' => $body
+	echo mod_page(_('Recent posts'), 'mod/recent_posts.html',  array(
+			'posts' => $posts,
+			'limit' => $limit,
+			'last_time' => $last_time
 		)
 	);
 
