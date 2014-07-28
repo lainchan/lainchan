@@ -117,6 +117,16 @@ class Filter {
 	
 	public function action() {
 		global $board;
+
+		$this->add_note = isset($this->add_note) ? $this->add_note : false;
+		if ($this->add_note) {
+			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+	                $query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+        	        $query->bindValue(':mod', -1);
+	                $query->bindValue(':time', time());
+	                $query->bindValue(':body', "Autoban message: ".$this->post['body']);
+	                $query->execute() or error(db_error($query));
+		}				
 		
 		switch($this->action) {
 			case 'reject':
@@ -128,19 +138,9 @@ class Filter {
 				$this->expires = isset($this->expires) ? $this->expires : false;
 				$this->reject = isset($this->reject) ? $this->reject : true;
 				$this->all_boards = isset($this->all_boards) ? $this->all_boards : false;
-				$this->add_note = isset($this->add_note) ? $this->add_note : false;
 				
 				Bans::new_ban($_SERVER['REMOTE_ADDR'], $this->reason, $this->expires, $this->all_boards ? false : $board['uri'], -1);
 
-				if ($this->add_note) {
-					$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
-			                $query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
-        			        $query->bindValue(':mod', -1);
-			                $query->bindValue(':time', time());
-			                $query->bindValue(':body', "Autoban message: ".$this->post['body']);
-			                $query->execute() or error(db_error($query));
-				}
-				
 				if ($this->reject) {
 					if (isset($this->message))
 						error($message);
