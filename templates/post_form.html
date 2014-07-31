@@ -29,7 +29,7 @@
 				<select name="email" id="email_selectbox" autocomplete="off">
 					<option value=""></option>
 					<option value="sage">sage</option>
-					<option value="noko">noko</option>
+					{% if not config.always_noko %}<option value="noko">noko</option>{% endif %}
 				</select>
 				{% else %}
 				<input type="text" name="email" size="25" maxlength="40" autocomplete="off">
