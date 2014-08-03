@@ -119,9 +119,6 @@ form table tr td div label {
 .file:not(.multifile) {
     float: none;
 }
-.multifile {
-	padding-right: 20px;
-}
 p.fileinfo {
 	display: block;
 	margin: 0 0 0 20px;
