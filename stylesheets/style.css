@@ -113,18 +113,21 @@ form table tr td div label {
     float: left;
     margin-right: 2px;
 }
-.multifile {
-    border: 2px dashed #B7C5D9;
-}
 .file:not(.multifile) .post-image {
     float: left;
 }
 .file:not(.multifile) {
     float: none;
 }
+.multifile {
+	padding-right: 20px;
+}
 p.fileinfo {
 	display: block;
-	margin: 0;
+	margin: 0 0 0 20px;
+}
+div.post p.fileinfo {
+	padding-left: 5px;
 }
 div.banner {
 	background-color: #E04000;
@@ -148,12 +151,12 @@ img.banner, img.board_image {
 .post-image {
 	display: block;
 	float: left;
-	margin: 10px 20px;
+	margin: 5px 20px 10px 20px;
 	border: none;
 }
 div.post .post-image {
 	padding: 5px;
-	margin: 5px 20px 0 0;
+	margin: 0 20px 0 0;
 }
 div.post img.icon {
 	display: inline;
@@ -289,7 +292,7 @@ span.heading {
 span.spoiler {
 	background: black;
 	color: black;
-	padding: 0px 1px;
+	padding: 0 1px;
 }
 div.post.reply div.body span.spoiler a {
 	color: black;
@@ -436,11 +439,11 @@ table.mod.config-editor input[type="text"] {
 }
 .desktop-style div.boardlist:nth-child(1) {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  /*text-shadow: white 1px 0px 6px, white 1px 0px 6px, black 1px 0px 3px;*/
-  margin-top: 0px;
+  top: 0;
+  left: 0;
+  right: 0;
+  /*text-shadow: white 1px 0 6px, white 1px 0 6px, black 1px 0 3px;*/
+  margin-top: 0;
   z-index: 30;
 }
 .desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
@@ -462,7 +465,7 @@ table.mod.config-editor input[type="text"] {
 }
 .desktop-style .sub .sub:hover, .desktop-style .sub .sub.hover {
   display: inline;
-  text-indent: 0px;
+  text-indent: 0;
   background: inherit;
 }
 
@@ -489,8 +492,8 @@ table.mod.config-editor input[type="text"] {
   background-color: rgba(100%, 100%, 100%, 0.2);
 }
 p.intro.thread-hidden {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 form.ban-appeal {
@@ -569,7 +572,7 @@ form.ban-appeal textarea {
 
 .compact-boardlist {
         padding: 3px;
-        padding-bottom: 0px;
+        padding-bottom: 0;
 }
 .compact-boardlist .cb-item {
         display: inline-block;
@@ -624,6 +627,6 @@ form.ban-appeal textarea {
 
 /* Containerchan */
     div.post video.post-image {
-        padding: 0px;
-        margin: 10px 25px 5px 5px;
+        padding: 0;
+        margin: 5px 25px 5px 5px;
     }

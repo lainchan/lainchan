@@ -746,12 +746,14 @@
 	// Download the file with its original filename upon clicking on it. Only works when $config['show_filename'] is true.
 	$config['download_filename'] = false;
 
-	// Display image identification links using ImgOps, regex.info/exif and Google Images.
+	// Display image identification links for ImgOps, regex.info/exif, Google Images and iqdb.
 	$config['image_identification'] = false;
 	// Which of the identification links to display. Only works if $config['image_identification'] is true.
 	$config['image_identification_imgops'] = true;
 	$config['image_identification_exif'] = true;
 	$config['image_identification_google'] = true;
+	// Anime/manga search engine.
+	$config['image_identification_iqdb'] = false;
 	
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
