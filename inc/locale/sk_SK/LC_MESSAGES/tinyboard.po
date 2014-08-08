@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:57+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-06-21 19:54+0000\n"
+"Last-Translator: dubcheck <admin@alokal.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3006,12 +3006,12 @@ msgstr "Nieje možné zostaviť tému RecentPosts pretože neexistujú žiadne d
 
 #: ../../../../inc/config.php:997
 msgid "You have attempted to upload too many images!"
-msgstr ""
+msgstr "Pokúsil si sa odoslať priveľa súborov!"
 
 #. line 7
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:36
 msgid "Spoiler file"
-msgstr ""
+msgstr "Skrytý súbor"
 
 #. line 26
 #. line 35
@@ -3020,7 +3020,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:80
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:107
 msgid "Bump order"
-msgstr ""
+msgstr "Čerstvosti"
 
 #. line 27
 #. line 36
@@ -3029,7 +3029,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:84
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:111
 msgid "Last reply"
-msgstr ""
+msgstr "Poslednej odpovede"
 
 #. line 28
 #. line 37
@@ -3038,7 +3038,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:115
 msgid "Creation date"
-msgstr ""
+msgstr "Dátumu vytvorenia"
 
 #. line 29
 #. line 38
@@ -3047,7 +3047,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:92
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:119
 msgid "Reply count"
-msgstr ""
+msgstr "Počtu odpovedí"
 
 #. line 30
 #. line 39
@@ -3056,58 +3056,58 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:96
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:123
 msgid "Random"
-msgstr ""
+msgstr "Náhody"
 
 #. line 33
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:102
 msgid "Sort by"
-msgstr ""
+msgstr "Zoradiť podľa"
 
 #. line 42
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:129
 msgid "Image size"
-msgstr ""
+msgstr "Veľkosť obrázkov"
 
 #. line 44
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:134
 msgid "Small"
-msgstr ""
+msgstr "Malá"
 
 #. line 45
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:138
 msgid "Large"
-msgstr ""
+msgstr "Veľká"
 
 #. line 6
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:36
 msgid "Post ID"
-msgstr ""
+msgstr "ID príspevku"
 
 #. line 29
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:96
 msgid "Target thread"
-msgstr ""
+msgstr "Cieľové vlákno"
 
 #: ../../../../post.php:48
 msgid "Post deletion is not allowed!"
-msgstr ""
+msgstr "Mazanie príspevku nie je povolené!"
 
 #: ../../../../post.php:385
 msgid "Unrecognized file size determination method."
-msgstr ""
+msgstr "Neznámy spôsob získania veľkosti súboru."
 
 #: ../../../../post.php:519
 msgid "Invalid flag selection!"
-msgstr ""
+msgstr "Vybral si neplatnú vlajku!"
 
 #: ../../../../post.php:631
 msgid "exiftool failed!"
-msgstr ""
+msgstr "exiftool zlyhal!"
 
 #: ../../../../post.php:641
 msgid "Could not auto-orient image!"
-msgstr ""
+msgstr "Nebolo možné automaticky otočiť obrázok!"
 
 #: ../../../../post.php:695
 msgid "Could not strip EXIF metadata!"
-msgstr ""
+msgstr "Nebolo možné odstrániť EXIF metadáta!"
