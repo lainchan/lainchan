@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# copypaste <admin@8chan.co>, 2014
 # Nenia Ulo <katnoj1@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:56+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-07-19 14:58+0000\n"
+"Last-Translator: copypaste <admin@8chan.co>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -325,7 +326,7 @@ msgstr "Laborado..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr "Afiŝando... (#%)"
+msgstr "Afiŝanta... (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
@@ -333,11 +334,11 @@ msgstr "Afiŝita..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr "Nekonata eraro okazis dum afiŝando!"
+msgstr "Nekonata eraro okazis dum la afiŝado!"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
-msgstr "Afiŝando..."
+msgstr "Afiŝanta..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
@@ -580,12 +581,12 @@ msgstr "Arba vido"
 
 #: ../../../../js/expand-all-images.js:32
 msgid "Shrink all images"
-msgstr ""
+msgstr "Malgrandigi ĉiujn bildojn"
 
 #: ../../../../js/no-animated-gif.js:33
 msgid "Animate GIFs"
-msgstr ""
+msgstr "Movigu GIF-miniaturojn"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 msgid "Unanimate GIFs"
-msgstr ""
+msgstr "Haltigu GIF-miniaturojn"
