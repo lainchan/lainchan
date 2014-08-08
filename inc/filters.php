@@ -97,19 +97,35 @@ class Filter {
 			case 'filehash':
 				return $match === $post['filehash'];
 			case 'filename':
-				if (!$post['has_file'])
+				if (!$post['files'])
 					return false;
-				return preg_match($match, $post['filename']);
+
+				foreach ($post['files'] as $file) {
+					if (preg_match($match, $file['filename'])) {
+						return true;
+					}
+				}
+				return false;
 			case 'extension':
-				if (!$post['has_file'])
+				if (!$post['files'])
 					return false;
-				return preg_match($match, $post['body']);
+
+				foreach ($post['files'] as $file) {
+					if (preg_match($match, $file['extension'])) {
+						return true;
+					}
+				}
+				return false;
 			case 'ip':
 				return preg_match($match, $_SERVER['REMOTE_ADDR']);
 			case 'op':
 				return $post['op'] == $match;
 			case 'has_file':
 				return $post['has_file'] == $match;
+			case 'board':
+				return $post['board'] == $match;
+			case 'password':
+				return $post['password'] == $match;
 			default:
 				error('Unknown filter condition: ' . $condition);
 		}
