@@ -4,14 +4,15 @@
 # 
 # Translators:
 # copypaste <admin@8chan.co>, 2014
+# Adverso <fugido@gmail.com>, 2014
 # mgaj <mgaj@cock.li>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:57+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-07-13 23:32+0000\n"
+"Last-Translator: Adverso <fugido@gmail.com>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,7 +170,7 @@ msgstr "Ban"
 #: ../../../../inc/display.php:396 ../../../../inc/display.php:506
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:74
 msgid "Ban & Delete"
-msgstr "Ban & Eleminar"
+msgstr "Ban & eliminar"
 
 #. line 4
 #: ../../../../inc/display.php:376 ../../../../inc/display.php:481
@@ -186,7 +187,7 @@ msgstr "Eliminar archivo"
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:29
 msgid "Are you sure you want to delete this file?"
-msgstr "Estás seguro de eliminar este archivo?"
+msgstr "¿Estás seguro de eliminar este archivo?"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
@@ -201,13 +202,13 @@ msgstr "Spoiler"
 #: ../../../../inc/display.php:404 ../../../../inc/display.php:514
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:36
 msgid "Are you sure you want to spoiler this file?"
-msgstr "Estás seguro de marcar como spoiler este archivo?"
+msgstr "¿Estás seguro de marcar como spoiler este archivo?"
 
 #: ../../../../inc/display.php:384 ../../../../inc/display.php:401
 #: ../../../../inc/display.php:404 ../../../../inc/display.php:408
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:193
 msgid "Move reply to another board"
-msgstr "Mover respuesta a otro tablón"
+msgstr "Mover respuesta a otro foro"
 
 #: ../../../../inc/display.php:388 ../../../../inc/display.php:512
 #: ../../../../inc/mod/pages.php:1425 ../../../../inc/mod/pages.php:1494
@@ -235,7 +236,7 @@ msgstr "Eliminar"
 #: ../../../../inc/display.php:486 ../../../../inc/display.php:490
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:36
 msgid "Are you sure you want to delete this?"
-msgstr "Estás seguro de eliminar esto?"
+msgstr "¿Estás seguro de eliminar esto?"
 
 #: ../../../../inc/display.php:465 ../../../../inc/display.php:487
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:494
@@ -247,7 +248,7 @@ msgstr "Eliminar todos los posts por IP"
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:494
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:44
 msgid "Are you sure you want to delete all posts by this IP address?"
-msgstr "Estás seguro de querer eliminar todos los posts por esta dirección IP?"
+msgstr "¿Estás seguro de querer eliminar todos los posts de esta dirección IP?"
 
 #: ../../../../inc/display.php:469 ../../../../inc/display.php:491
 #: ../../../../inc/display.php:494 ../../../../inc/display.php:498
@@ -261,7 +262,7 @@ msgstr "Eliminar todos los posts por IP en todos los tablones"
 msgid ""
 "Are you sure you want to delete all posts by this IP address, across all "
 "boards?"
-msgstr "Estás seguro de eliminar todos los posts de esta dirección IP, en todos los tablones?"
+msgstr "¿Estás seguro que quieres eliminar todos los posts de esta dirección IP, en todos los foros?"
 
 #: ../../../../inc/display.php:490 ../../../../inc/display.php:512
 #: ../../../../inc/display.php:515 ../../../../inc/display.php:519
@@ -364,14 +365,14 @@ msgstr "Lurkea algo más antes de postear."
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:991
 msgid "You look like a bot."
-msgstr "Pareces un bot."
+msgstr "Pareces un bot, chico rudo de internet."
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:992
 msgid "Your browser sent an invalid or no HTTP referer."
-msgstr "Tu navegador envió o no una referencia no HTTP."
+msgstr "Tu navegador no envió una referencia, o ésta fue inválida."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
@@ -477,7 +478,7 @@ msgstr "Tu respuesta parece automática; Post descartado."
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1008
 msgid "Unoriginal content!"
-msgstr "Contenido poco original!"
+msgstr "Contenido no original!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
@@ -2996,12 +2997,12 @@ msgstr "No se puede generar el tema de RecentPosts; no hay ningún tablón para 
 
 #: ../../../../inc/config.php:997
 msgid "You have attempted to upload too many images!"
-msgstr ""
+msgstr "¡Has intentado subir demasiadas imágenes!"
 
 #. line 7
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:36
 msgid "Spoiler file"
-msgstr ""
+msgstr "Archivo spoiler"
 
 #. line 26
 #. line 35
@@ -3010,7 +3011,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:80
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:107
 msgid "Bump order"
-msgstr ""
+msgstr "Orden de reposicionamiento en primer lugar de publicaciones."
 
 #. line 27
 #. line 36
@@ -3019,7 +3020,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:84
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:111
 msgid "Last reply"
-msgstr ""
+msgstr "Última respuesta"
 
 #. line 28
 #. line 37
@@ -3028,7 +3029,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:115
 msgid "Creation date"
-msgstr ""
+msgstr "Fecha de creación"
 
 #. line 29
 #. line 38
@@ -3037,7 +3038,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:92
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:119
 msgid "Reply count"
-msgstr ""
+msgstr "Número de respuestas"
 
 #. line 30
 #. line 39
@@ -3046,58 +3047,58 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:96
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:123
 msgid "Random"
-msgstr ""
+msgstr "Azar"
 
 #. line 33
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:102
 msgid "Sort by"
-msgstr ""
+msgstr "Ordenar por"
 
 #. line 42
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:129
 msgid "Image size"
-msgstr ""
+msgstr "Tamaño de imagen"
 
 #. line 44
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:134
 msgid "Small"
-msgstr ""
+msgstr "Pequeño"
 
 #. line 45
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:138
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #. line 6
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:36
 msgid "Post ID"
-msgstr ""
+msgstr "Publicar ID"
 
 #. line 29
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:96
 msgid "Target thread"
-msgstr ""
+msgstr "Hilo de destino"
 
 #: ../../../../post.php:48
 msgid "Post deletion is not allowed!"
-msgstr ""
+msgstr "No tiene permitido borrar posts!"
 
 #: ../../../../post.php:385
 msgid "Unrecognized file size determination method."
-msgstr ""
+msgstr "Metodo de reconocimiento de archivo no determinado"
 
 #: ../../../../post.php:519
 msgid "Invalid flag selection!"
-msgstr ""
+msgstr "¡Marca de selección inválida!"
 
 #: ../../../../post.php:631
 msgid "exiftool failed!"
-msgstr ""
+msgstr "¡La herramienta EXIF ha fallado!"
 
 #: ../../../../post.php:641
 msgid "Could not auto-orient image!"
-msgstr ""
+msgstr "No se pudo orientar automaticamente la imagen."
 
 #: ../../../../post.php:695
 msgid "Could not strip EXIF metadata!"
-msgstr ""
+msgstr "No se pudieron eliminar los metadatos EXIF"

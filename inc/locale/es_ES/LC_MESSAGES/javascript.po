@@ -4,13 +4,14 @@
 # 
 # Translators:
 # copypaste <admin@8chan.co>, 2014
+# Adverso <fugido@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:56+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-07-13 23:11+0000\n"
+"Last-Translator: Adverso <fugido@gmail.com>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -556,7 +557,7 @@ msgstr "[reproducir una vez]"
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 #: ../../../../js/expand-video.js:194
 msgid "[loop]"
-msgstr ""
+msgstr "[bucle]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
@@ -564,28 +565,28 @@ msgstr "Configuración de WebM"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr ""
+msgstr "Expandir videos insertos"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr ""
+msgstr "Reproducir videos en modo flotante"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr ""
+msgstr "Volumen predeterminado"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr ""
+msgstr "Vista tipo árbol"
 
 #: ../../../../js/expand-all-images.js:32
 msgid "Shrink all images"
-msgstr ""
+msgstr "Encoger todas las imágenes"
 
 #: ../../../../js/no-animated-gif.js:33
 msgid "Animate GIFs"
-msgstr ""
+msgstr "Animar GIFs"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 msgid "Unanimate GIFs"
-msgstr ""
+msgstr "No animar GIFs"
