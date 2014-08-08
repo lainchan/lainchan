@@ -4,7 +4,6 @@
 # 
 # Translators:
 # kaf <admin@cable6.net>, 2014
-# CHAFIK <admin@cable6.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
