@@ -39,7 +39,7 @@ var settingsMenu = document.createElement("div");
 settingsMenu.style.textAlign = "right";
 settingsMenu.style.background = "inherit";
 
-settingsMenu.innerHTML = '<a class="unimportant" href="javascript:void(0)"><span>'+_('WebM Settings')+'</span></a>'
+settingsMenu.innerHTML = '<a class="unimportant" href="javascript:void(0)">'+_('WebM Settings')+'</a>'
     + '<div style="display: none; text-align: left; position: absolute; right: 1em; margin-left: -999em; margin-top: -1px; padding-top: 1px; background: inherit;">'
     + '<label><input type="checkbox" name="videoexpand">'+_('Expand videos inline')+'</label><br>'
     + '<label><input type="checkbox" name="videohover">'+_('Play videos on hover')+'</label><br>'
@@ -77,11 +77,11 @@ for (var i = 0; i < settingsItems.length; i++) {
 if (settingsMenu.addEventListener) {
     settingsMenu.addEventListener("mouseover", function(e) {
         refreshSettings();
-        settingsMenu.getElementsByTagName("span")[0].style.fontWeight = "bold";
+        settingsMenu.getElementsByTagName("a")[0].style.fontWeight = "bold";
         settingsMenu.getElementsByTagName("div")[0].style.display = "block";
     }, false);
     settingsMenu.addEventListener("mouseout", function(e) {
-        settingsMenu.getElementsByTagName("span")[0].style.fontWeight = "normal";
+        settingsMenu.getElementsByTagName("a")[0].style.fontWeight = "normal";
         settingsMenu.getElementsByTagName("div")[0].style.display = "none";
     }, false);
 }
