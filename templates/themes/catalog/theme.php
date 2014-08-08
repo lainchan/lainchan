@@ -36,9 +36,8 @@
 			$stats = array();
 			
                         $query = query(sprintf("SELECT *, `id` AS `thread_id`,
-				(SELECT COUNT(*) FROM ``posts_%s`` WHERE `thread` = `thread_id`) AS `reply_count`,
+				(SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `thread` = `thread_id`) AS `reply_count`,
 				(SELECT SUM(`num_files`) FROM ``posts_%s`` WHERE `thread` = `thread_id` AND `num_files` IS NOT NULL) AS `image_count`,
-				(SELECT `time` FROM ``posts_%s`` WHERE `thread` = `thread_id` ORDER BY `time` DESC LIMIT 1) AS `last_reply`,
 				'%s' AS `board` FROM ``posts_%s`` WHERE `thread`  IS NULL ORDER BY `bump` DESC",
 			$board_name, $board_name, $board_name, $board_name, $board_name)) or error(db_error());
 			
@@ -50,22 +49,16 @@
 					$post['youtube'] = $matches[2];
 				}				
 
-				if (isset($post['files']))
+				if (isset($post['files'])) {
 					$files = json_decode($post['files']);
 					if ($files[0]->file == 'deleted') continue;
 					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
-
-                                if (isset($settings['use_tooltipster']) && $settings['use_tooltipster']) {
-                                        $post['muhdifference'] = ago(time() - $post['time']);
-                       
-                                        if ($post['last_reply'])
-                                                $post['last_reply_difference'] = ago(time() - $post['last_reply']);
-                                }
+				}
 
 				$recent_posts[] = $post;
 			}
 			
-			$required_scripts = array('js/jquery.min.js', 'js/jquery.mixitup.min.js', 'js/jquery.tooltipster.min.js', 'js/catalog.js');
+			$required_scripts = array('js/jquery.min.js', 'js/jquery.mixitup.min.js', 'js/catalog.js');
 
 			foreach($required_scripts as $i => $s) {
 				if (!in_array($s, $config['additional_javascript']))

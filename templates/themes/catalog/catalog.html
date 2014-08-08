@@ -5,12 +5,6 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<script type='text/javascript'>
 		active_page = "catalog";
-
-		{% if settings.use_tooltipster %}
-	                var use_tooltipster = true;
-		{% else %}
-	                var use_tooltipster = false;
-		{% endif %}
 	</script>
 	{% include 'header.html' %}
 	<title>{{ settings.title }}</title>
@@ -24,30 +18,32 @@
 
         <ul style="display: none">
                 <li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
-                <li id="sort-last-reply" class="sort" data-sort="data-lastreply" data-order="asc">{% trans 'Last reply' %}</li>
                 <li id="sort-creation-date" class="sort" data-sort="data-time" data-order="asc">{% trans 'Creation date' %}</li>
                 <li id="sort-reply-count" class="sort" data-sort="data-reply" data-order="asc">{% trans 'Reply count' %}</li>
                 <li id="sort-random" class="sort" data-sort="random">{% trans 'Random' %}</li>
         </ul>
  
         <span>{% trans 'Sort by' %}: </span>
-        <select id="selectorzilla" style="display: inline-block">
+        <select id="sort_by" style="display: inline-block">
                 <option selected value="bump-order">{% trans 'Bump order' %}</option>
-                <option value="last-reply">{% trans 'Last reply' %}</option>
                 <option value="creation-date">{% trans 'Creation date' %}</option>
                 <option value="reply-count">{% trans 'Reply count' %}</option>
                 <option value="random">{% trans 'Random' %}</option>
         </select>
  
         <span>{% trans 'Image size' %}: </span>
-        <select id="imgurzilla" style="display: inline-block">
+        <select id="image_size" style="display: inline-block">
                 <option selected value="small">{% trans 'Small' %}</option>
                 <option value="large">{% trans 'Large' %}</option>
         </select>
         <div class="threads">
                 <ul id="Grid">
                 {% for post in recent_posts %}
-                        <li class="mix" data-reply="{{ post.reply_count }}" data-bump="{{ post.bump }}" data-lastreply="{{ post.last_reply }}" data-time="{{ post.time }}">
+                        <li class="mix"
+				data-reply="{{ post.reply_count }}"
+				data-bump="{{ post.bump }}"
+				data-time="{{ post.time }}"
+			>
                                 <div class="thread grid-li grid-size-small">  
                                         <a href="{{post.link}}">  
 						{% if post.youtube %}
