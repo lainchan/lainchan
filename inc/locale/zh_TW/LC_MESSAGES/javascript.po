@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:56+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-06-30 10:52+0000\n"
+"Last-Translator: jdh8 <jdh8@ms63.hinet.net>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +19,23 @@ msgstr ""
 
 #: ../../../../js/style-select.js:40 ../../../../js/style-select.js:41
 msgid "Style: "
-msgstr ""
+msgstr "構式："
 
 #: ../../../../js/hide-images.js:50 ../../../../js/upload-selection.js:51
 #: ../../../../js/quick-post-controls.js:30 ../../../../js/hide-images.js:51
 #: ../../../../js/quick-post-controls.js:32
 #: ../../../../js/upload-selection.js:61 ../../../../js/upload-selection.js:69
 msgid "File"
-msgstr ""
+msgstr "檔案"
 
 #: ../../../../js/hide-images.js:50 ../../../../js/hide-images.js:51
 msgid "hide"
-msgstr ""
+msgstr "隱藏"
 
 #: ../../../../js/hide-images.js:56 ../../../../js/hide-images.js:57
 #: ../../../../js/hide-images.js:63
 msgid "show"
-msgstr ""
+msgstr "顯示"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -44,7 +44,7 @@ msgstr ""
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Show locked threads"
-msgstr ""
+msgstr "顯示鎖定的討論串"
 
 #: ../../../../js/toggle-locked-threads.js:39
 #: ../../../../js/toggle-locked-threads.js:54
@@ -53,131 +53,131 @@ msgstr ""
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
 msgid "Hide locked threads"
-msgstr ""
+msgstr "隱藏鎖定的討論串"
 
 #: ../../../../js/upload-selection.js:32 ../../../../js/upload-selection.js:45
 #: ../../../../js/upload-selection.js:53
 msgid "URL"
-msgstr ""
+msgstr "網址"
 
 #: ../../../../js/upload-selection.js:50 ../../../../js/upload-selection.js:60
 #: ../../../../js/upload-selection.js:68
 msgid "Select"
-msgstr ""
+msgstr "選擇"
 
 #: ../../../../js/upload-selection.js:53 ../../../../js/upload-selection.js:63
 #: ../../../../js/upload-selection.js:71
 msgid "Remote"
-msgstr ""
+msgstr "遠端"
 
 #: ../../../../js/upload-selection.js:56 ../../../../js/upload-selection.js:66
 #: ../../../../js/upload-selection.js:74
 msgid "Embed"
-msgstr ""
+msgstr "嵌入"
 
 #: ../../../../js/upload-selection.js:59 ../../../../js/upload-selection.js:69
 #: ../../../../js/upload-selection.js:77
 msgid "Oekaki"
-msgstr ""
+msgstr "Oekaki"
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
 msgid "hidden"
-msgstr ""
+msgstr "隱藏"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Show images"
-msgstr ""
+msgstr "顯示圖片"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
 msgid "Hide images"
-msgstr ""
+msgstr "隱藏圖片"
 
 #: ../../../../js/quick-post-controls.js:27
 #: ../../../../js/quick-post-controls.js:29
 msgid "Password"
-msgstr ""
+msgstr "密碼"
 
 #: ../../../../js/quick-post-controls.js:29
 #: ../../../../js/quick-post-controls.js:31
 msgid "Delete file only"
-msgstr ""
+msgstr "只刪除檔案"
 
 #: ../../../../js/quick-post-controls.js:31
 #: ../../../../js/quick-post-controls.js:33
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: ../../../../js/quick-post-controls.js:35
 #: ../../../../js/quick-post-controls.js:37
 msgid "Reason"
-msgstr ""
+msgstr "理由"
 
 #: ../../../../js/quick-post-controls.js:37
 #: ../../../../js/quick-post-controls.js:39
 msgid "Report"
-msgstr ""
+msgstr "報告"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr ""
+msgstr "點擊回覆以顯示"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click to expand"
-msgstr ""
+msgstr "點擊以展開"
 
 #: ../../../../js/expand.js:44 ../../../../js/expand.js:46
 msgid "Hide expanded replies"
-msgstr ""
+msgstr "隱藏展開的回覆"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr ""
+msgstr "筆刷大小"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
-msgstr ""
+msgstr "選擇文字"
 
 #: ../../../../js/oekaki.js:10
 msgid "Clear"
-msgstr ""
+msgstr "清除"
 
 #: ../../../../js/oekaki.js:10
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: ../../../../js/oekaki.js:10
 msgid "Load"
-msgstr ""
+msgstr "載入"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr ""
+msgstr "切換橡皮擦"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
-msgstr ""
+msgstr "取得顏色"
 
 #: ../../../../js/oekaki.js:11
 msgid "Fill"
-msgstr ""
+msgstr "填滿"
 
 #: ../../../../js/oekaki.js:12
 msgid "Use oekaki instead of file?"
-msgstr ""
+msgstr "使用 oekaki 而不是檔案？"
 
 #: ../../../../js/oekaki.js:21
 msgid "Edit in oekaki"
-msgstr ""
+msgstr "在 oekaki 中編輯"
 
 #: ../../../../js/oekaki.js:152
 msgid "Enter some text"
-msgstr ""
+msgstr "輸入文字"
 
 #: ../../../../js/oekaki.js:153
 msgid "Enter font or leave empty"
-msgstr ""
+msgstr "輸入字型或留白"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
@@ -185,191 +185,191 @@ msgstr ""
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 #: ../../../../js/forced-anon.js:71
 msgid "Forced anonymity"
-msgstr ""
+msgstr "強制匿名"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
 msgid "enabled"
-msgstr ""
+msgstr "啟用"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
 msgid "disabled"
-msgstr ""
+msgstr "停用"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sun"
-msgstr ""
+msgstr "日"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Mon"
-msgstr ""
+msgstr "一"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Tue"
-msgstr ""
+msgstr "二"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Wed"
-msgstr ""
+msgstr "三"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Thu"
-msgstr ""
+msgstr "四"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Fri"
-msgstr ""
+msgstr "五"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
 #: ../../../../js/local-time.js:30
 msgid "Sat"
-msgstr ""
+msgstr "六"
 
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
 msgid "Catalog"
-msgstr ""
+msgstr "型錄"
 
 #: ../../../../js/quick-reply.js:21 ../../../../js/quick-reply-old.js:21
 #: ../../../../js/quick-reply-old.js:23
 msgid "Submit"
-msgstr ""
+msgstr "送出"
 
 #: ../../../../js/quick-reply.js:31 ../../../../js/quick-reply-old.js:31
 #: ../../../../js/quick-reply-old.js:33
 msgid "Quick reply"
-msgstr ""
+msgstr "快速回覆"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 #, python-brace-format
 msgid "Posting mode: Replying to <small>&gt;&gt;{0}</small>"
-msgstr ""
+msgstr "貼文模式：回覆給 <small>&gt;&gt;{0}</small>"
 
 #: ../../../../js/quick-reply.js:33 ../../../../js/quick-reply-old.js:33
 #: ../../../../js/quick-reply-old.js:35
 msgid "Return"
-msgstr ""
+msgstr "返回"
 
 #: ../../../../js/expand-all-images.js:20
 #: ../../../../js/expand-all-images.js:21
 #: ../../../../js/expand-all-images.js:22
 #: ../../../../js/expand-all-images.js:23
 msgid "Expand all images"
-msgstr ""
+msgstr "展開所有圖片"
 
 #: ../../../../templates/main.js:6
 msgid "Hello!"
-msgstr ""
+msgstr "哈囉！"
 
 #: ../../../../templates/main.js:18
 #, python-brace-format
 msgid "{0} users"
-msgstr ""
+msgstr "{0} 位用戶"
 
 #: ../../../../templates/themes/ukko/ukko.js:28
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
 msgid "(hide threads from this board)"
-msgstr ""
+msgstr "（在此版隱藏討論串）"
 
 #: ../../../../templates/themes/ukko/ukko.js:32
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
 msgid "(show threads from this board)"
-msgstr ""
+msgstr "（在此版顯示討論串）"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
 msgid "No more threads to display"
-msgstr ""
+msgstr "沒有可顯示的討論串"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 msgid "Loading..."
-msgstr ""
+msgstr "載入中……"
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
 msgid "Save as original filename"
-msgstr ""
+msgstr "以原始檔名儲存"
 
 #: ../../../../js/ajax-post-controls.js:43
 msgid "Reported post(s)."
-msgstr ""
+msgstr "被回報的貼文。"
 
 #: ../../../../js/ajax-post-controls.js:53
 msgid "An unknown error occured!"
-msgstr ""
+msgstr "未知的錯誤發生！"
 
 #: ../../../../js/ajax-post-controls.js:60
 msgid "Something went wrong... An unknown error occured!"
-msgstr ""
+msgstr "出錯了……。未知的錯誤發生！"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
-msgstr ""
+msgstr "工作中……"
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr ""
+msgstr "貼文中…… (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
-msgstr ""
+msgstr "已貼文……"
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
-msgstr ""
+msgstr "貼文時發生未知的錯誤！"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
-msgstr ""
+msgstr "貼文中……"
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
 msgid "Upload URL"
-msgstr ""
+msgstr "上傳網址"
 
 #: ../../../../js/quick-reply.js:266 ../../../../js/quick-reply.js:267
 #: ../../../../js/quick-reply.js:268
 msgid "Spoiler Image"
-msgstr ""
+msgstr "Spoiler 圖片"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
 #: ../../../../js/quick-reply.js:279
 msgid "Comment"
-msgstr ""
+msgstr "回覆"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
 #: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
 msgid "Quick Reply"
-msgstr ""
+msgstr "快速回覆"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Stop watching this thread"
-msgstr ""
+msgstr "停止監視本討論串"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
 msgid "Watch this thread"
-msgstr ""
+msgstr "監視本討論串"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -377,7 +377,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Unpin this board"
-msgstr ""
+msgstr "解除釘選本版"
 
 #: ../../../../js/watch.js:260 ../../../../js/watch.js:261
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
@@ -385,7 +385,7 @@ msgstr ""
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
 #: ../../../../js/watch.js:350
 msgid "Pin this board"
-msgstr ""
+msgstr "釘選本版"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -393,7 +393,7 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Stop watching this board"
-msgstr ""
+msgstr "停止監視本版"
 
 #: ../../../../js/watch.js:262 ../../../../js/watch.js:267
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
@@ -401,190 +401,190 @@ msgstr ""
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
 #: ../../../../js/watch.js:349
 msgid "Watch this board"
-msgstr ""
+msgstr "監視本版"
 
 #: ../../../../js/wpaint.js:113
 msgid "Click on any image on this site to load it into oekaki applet"
-msgstr ""
+msgstr "點選本站的圖片，把它載入於 oekaki applet"
 
 #: ../../../../js/local-time.js:29
 msgid "Sunday"
-msgstr ""
+msgstr "週日"
 
 #: ../../../../js/local-time.js:29
 msgid "Monday"
-msgstr ""
+msgstr "週一"
 
 #: ../../../../js/local-time.js:29
 msgid "Tuesday"
-msgstr ""
+msgstr "週二"
 
 #: ../../../../js/local-time.js:29
 msgid "Wednesday"
-msgstr ""
+msgstr "週三"
 
 #: ../../../../js/local-time.js:29
 msgid "Thursday"
-msgstr ""
+msgstr "週四"
 
 #: ../../../../js/local-time.js:29
 msgid "Friday"
-msgstr ""
+msgstr "週五"
 
 #: ../../../../js/local-time.js:29
 msgid "Saturday"
-msgstr ""
+msgstr "週六"
 
 #: ../../../../js/local-time.js:31
 msgid "January"
-msgstr ""
+msgstr "一月"
 
 #: ../../../../js/local-time.js:31
 msgid "February"
-msgstr ""
+msgstr "二月"
 
 #: ../../../../js/local-time.js:31
 msgid "March"
-msgstr ""
+msgstr "三月"
 
 #: ../../../../js/local-time.js:31
 msgid "April"
-msgstr ""
+msgstr "四月"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
 msgid "May"
-msgstr ""
+msgstr "五月"
 
 #: ../../../../js/local-time.js:31
 msgid "June"
-msgstr ""
+msgstr "六月"
 
 #: ../../../../js/local-time.js:31
 msgid "July"
-msgstr ""
+msgstr "七月"
 
 #: ../../../../js/local-time.js:31
 msgid "August"
-msgstr ""
+msgstr "八月"
 
 #: ../../../../js/local-time.js:31
 msgid "September"
-msgstr ""
+msgstr "九月"
 
 #: ../../../../js/local-time.js:31
 msgid "October"
-msgstr ""
+msgstr "十月"
 
 #: ../../../../js/local-time.js:31
 msgid "November"
-msgstr ""
+msgstr "十一月"
 
 #: ../../../../js/local-time.js:31
 msgid "December"
-msgstr ""
+msgstr "十二月"
 
 #: ../../../../js/local-time.js:32
 msgid "Jan"
-msgstr ""
+msgstr "一月"
 
 #: ../../../../js/local-time.js:32
 msgid "Feb"
-msgstr ""
+msgstr "二月"
 
 #: ../../../../js/local-time.js:32
 msgid "Mar"
-msgstr ""
+msgstr "三月"
 
 #: ../../../../js/local-time.js:32
 msgid "Apr"
-msgstr ""
+msgstr "四月"
 
 #: ../../../../js/local-time.js:32
 msgid "Jun"
-msgstr ""
+msgstr "六月"
 
 #: ../../../../js/local-time.js:32
 msgid "Jul"
-msgstr ""
+msgstr "七月"
 
 #: ../../../../js/local-time.js:32
 msgid "Aug"
-msgstr ""
+msgstr "八月"
 
 #: ../../../../js/local-time.js:32
 msgid "Sep"
-msgstr ""
+msgstr "九月"
 
 #: ../../../../js/local-time.js:32
 msgid "Oct"
-msgstr ""
+msgstr "十月"
 
 #: ../../../../js/local-time.js:32
 msgid "Nov"
-msgstr ""
+msgstr "十一月"
 
 #: ../../../../js/local-time.js:32
 msgid "Dec"
-msgstr ""
+msgstr "十二月"
 
 #: ../../../../js/local-time.js:33
 msgid "AM"
-msgstr ""
+msgstr "上午"
 
 #: ../../../../js/local-time.js:34
 msgid "PM"
-msgstr ""
+msgstr "下午"
 
 #: ../../../../js/local-time.js:35
 msgid "am"
-msgstr ""
+msgstr "上午"
 
 #: ../../../../js/local-time.js:36
 msgid "pm"
-msgstr ""
+msgstr "下午"
 
 #: ../../../../js/expand-video.js:45 ../../../../js/expand-video.js:48
 msgid "Your browser does not support HTML5 video."
-msgstr ""
+msgstr "您的瀏覽器不支援 HTML5 影片。"
 
 #: ../../../../js/expand-video.js:189 ../../../../js/expand-video.js:192
 #: ../../../../js/expand-video.js:193
 msgid "[play once]"
-msgstr ""
+msgstr "[播放一次]"
 
 #: ../../../../js/expand-video.js:190 ../../../../js/expand-video.js:193
 #: ../../../../js/expand-video.js:194
 msgid "[loop]"
-msgstr ""
+msgstr "[循環播放]"
 
 #: ../../../../js/webm-settings.js:42
 msgid "WebM Settings"
-msgstr ""
+msgstr "WebM 設定"
 
 #: ../../../../js/webm-settings.js:44
 msgid "Expand videos inline"
-msgstr ""
+msgstr "行內展開影片"
 
 #: ../../../../js/webm-settings.js:45
 msgid "Play videos on hover"
-msgstr ""
+msgstr "滑鼠滑過時播放影片"
 
 #: ../../../../js/webm-settings.js:46
 msgid "Default volume"
-msgstr ""
+msgstr "預設音量"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr ""
+msgstr "樹狀檢視"
 
 #: ../../../../js/expand-all-images.js:32
 msgid "Shrink all images"
-msgstr ""
+msgstr "縮小所有圖片"
 
 #: ../../../../js/no-animated-gif.js:33
 msgid "Animate GIFs"
-msgstr ""
+msgstr "播放 GIF 動畫"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 msgid "Unanimate GIFs"
-msgstr ""
+msgstr "停止 GIF 動畫"
