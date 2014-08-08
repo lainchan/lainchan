@@ -80,9 +80,6 @@ div.boardlist {
 div.boardlist a {
 	color: #800;
 }
-unimportant, .unimportant * {
-	font-size: 13px;
-}
 table.modlog tr th {
 	background: #EA8;
 }
