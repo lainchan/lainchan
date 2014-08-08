@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Alrahambra <juho.mikkonen@europe.com>, 2014
+# Alrahambra <inactive+Alrahambra@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:56+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-07-20 19:15+0000\n"
+"Last-Translator: Alrahambra <inactive+Alrahambra@transifex.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -580,12 +580,12 @@ msgstr "Puunäkymä"
 
 #: ../../../../js/expand-all-images.js:32
 msgid "Shrink all images"
-msgstr ""
+msgstr "Pienennä kaikki kuvat"
 
 #: ../../../../js/no-animated-gif.js:33
 msgid "Animate GIFs"
-msgstr ""
+msgstr "Animoi GIFit"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 msgid "Unanimate GIFs"
-msgstr ""
+msgstr "Poista GIFien animointi"

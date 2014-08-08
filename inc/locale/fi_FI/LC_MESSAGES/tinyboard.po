@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Alrahambra <juho.mikkonen@europe.com>, 2014
+# Alrahambra <inactive+Alrahambra@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:57+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-07-20 22:05+0000\n"
+"Last-Translator: Alrahambra <inactive+Alrahambra@transifex.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,8 +28,8 @@ msgstr ""
 #: ../../../../inc/functions.php:655 ../../../../inc/functions.php:672
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sekunti"
+msgstr[1] "sekuntia"
 
 #: ../../../../inc/functions.php:585 ../../../../inc/functions.php:602
 #: ../../../../inc/functions.php:593 ../../../../inc/functions.php:610
@@ -41,8 +41,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:657 ../../../../inc/functions.php:674
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "minuutti"
+msgstr[1] "minuuttia"
 
 #: ../../../../inc/functions.php:587 ../../../../inc/functions.php:604
 #: ../../../../inc/functions.php:595 ../../../../inc/functions.php:612
@@ -54,8 +54,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:659 ../../../../inc/functions.php:676
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tunti"
+msgstr[1] "tuntia"
 
 #: ../../../../inc/functions.php:589 ../../../../inc/functions.php:606
 #: ../../../../inc/functions.php:597 ../../../../inc/functions.php:614
@@ -67,8 +67,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:661 ../../../../inc/functions.php:678
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "päivä"
+msgstr[1] "päivää"
 
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
 #: ../../../../inc/functions.php:599 ../../../../inc/functions.php:616
@@ -80,8 +80,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:663 ../../../../inc/functions.php:680
 msgid "week"
 msgid_plural "weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "viikko"
+msgstr[1] "viikkoa"
 
 #: ../../../../inc/functions.php:594 ../../../../inc/functions.php:611
 #: ../../../../inc/functions.php:602 ../../../../inc/functions.php:619
@@ -93,15 +93,15 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:666 ../../../../inc/functions.php:683
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "vuosi"
+msgstr[1] "vuotta"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
 #: ../../../../inc/functions.php:708 ../../../../inc/functions.php:722
 #: ../../../../inc/functions.php:732 ../../../../inc/functions.php:727
 msgid "Banned!"
-msgstr "Bannittu!"
+msgstr "Bannattu!"
 
 #. There is no previous page.
 #: ../../../../inc/functions.php:1125 ../../../../inc/functions.php:1139
@@ -633,21 +633,21 @@ msgstr "Et kirjoittanut oikein varmistusta."
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
 "users."
-msgstr ""
+msgstr "Voit poistaa bannit enintään %s käyttäjältä kerralla. Yritit poistaa bannit %u käyttäjältä."
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1032
 msgid "Invalid username and/or password."
-msgstr ""
+msgstr "Väärä käyttäjänimi ja/tai salasana."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1033
 msgid "You are not a mod…"
-msgstr ""
+msgstr "Et ole modi..."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
@@ -656,21 +656,21 @@ msgstr ""
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
-msgstr ""
+msgstr "Väärä käyttäjänimi ja/tai salasana. Käyttäjä on saatettu poistaa tai vaihtaa."
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1026
 #: ../../../../inc/config.php:1035
 msgid "Invalid/malformed cookies."
-msgstr ""
+msgstr "Väärät/väärennetyt keksit."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 #: ../../../../inc/config.php:1036
 msgid "Your browser didn't submit an input when it should have."
-msgstr ""
+msgstr "Selaimesi ei antanut syötettä kun piti."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
@@ -678,7 +678,7 @@ msgstr ""
 #: ../../../../inc/config.php:1037
 #, php-format
 msgid "The %s field is required."
-msgstr ""
+msgstr "Kenttä %s vaaditaan."
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
@@ -686,7 +686,7 @@ msgstr ""
 #: ../../../../inc/config.php:1038
 #, php-format
 msgid "The %s field was invalid."
-msgstr ""
+msgstr "Kenttä %s oli epäkelpo."
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
@@ -694,28 +694,28 @@ msgstr ""
 #: ../../../../inc/config.php:1039
 #, php-format
 msgid "There is already a %s board."
-msgstr ""
+msgstr "On olemassa jo lauta %s."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1031
 #: ../../../../inc/config.php:1040
 msgid "You don't have permission to do that."
-msgstr ""
+msgstr "Sinulla ei ole lupa tehdä tuota."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1032
 #: ../../../../inc/config.php:1041
 msgid "That post doesn't exist…"
-msgstr ""
+msgstr "Tuota postausta ei ole olemassa..."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1017 ../../../../inc/config.php:1033
 #: ../../../../inc/config.php:1042
 msgid "Page not found."
-msgstr ""
+msgstr "Sivua ei löytynyt."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
@@ -723,21 +723,21 @@ msgstr ""
 #: ../../../../inc/config.php:1043
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr ""
+msgstr "Tuo mode <a href=\"?/users/%d\">on jo olemassa</a>!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1035
 #: ../../../../inc/config.php:1044
 msgid "That theme doesn't exist!"
-msgstr ""
+msgstr "Teemaa ei ole olemassa."
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1020 ../../../../inc/config.php:1036
 #: ../../../../inc/config.php:1045
 msgid "Invalid security token! Please go back and try again."
-msgstr ""
+msgstr "Väärä nimismies! Mene takaisin ja yritä uusiksi."
 
 #. Default public ban message. In public ban messages, %length% is replaced
 #. with "for x days" or
@@ -750,15 +750,15 @@ msgstr ""
 #: ../../../../inc/config.php:1187 ../../../../inc/config.php:1203
 #: ../../../../inc/config.php:1212
 msgid "USER WAS BANNED FOR THIS POST"
-msgstr ""
+msgstr "KÄYTTÄJÄ SAI BANNIA!"
 
 #: ../../../../inc/mod/pages.php:66 ../../../../inc/mod/pages.php:64
 msgid "Confirm action"
-msgstr ""
+msgstr "Vahvista teko."
 
 #: ../../../../inc/mod/pages.php:110 ../../../../inc/mod/pages.php:108
 msgid "Could not find current version! (Check .installed)"
-msgstr ""
+msgstr "Ei voitu löytää versiota. (tarkista .installed)"
 
 #: ../../../../inc/mod/pages.php:162
 msgid "Dashboard"
@@ -766,24 +766,24 @@ msgstr "Hallinta"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
-msgstr ""
+msgstr "Ei ole lautoja haettavaksi!"
 
 #. $results now contains the search results
 #: ../../../../inc/mod/pages.php:335 ../../../../inc/mod/pages.php:334
 msgid "Search results"
-msgstr ""
+msgstr "Hakutulokset"
 
 #: ../../../../inc/mod/pages.php:436 ../../../../inc/mod/pages.php:438
 msgid "Edit board"
-msgstr ""
+msgstr "Muokkaa lautaa"
 
 #: ../../../../inc/mod/pages.php:486 ../../../../inc/mod/pages.php:491
 msgid "Couldn't open board after creation."
-msgstr ""
+msgstr "Lautaa ei voitu avata luomisen jälkeen."
 
 #: ../../../../inc/mod/pages.php:506 ../../../../inc/mod/pages.php:511
 msgid "New board"
-msgstr ""
+msgstr "Uusi lauta"
 
 #. line 37
 #: ../../../../inc/mod/pages.php:553 ../../../../inc/mod/pages.php:562
@@ -840,7 +840,7 @@ msgstr "Moderaatio logi"
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:64
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #. line 171
 #: ../../../../inc/mod/pages.php:848 ../../../../inc/mod/pages.php:1367
@@ -848,7 +848,7 @@ msgstr ""
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:440
 #: ../../../../inc/mod/pages.php:1446
 msgid "New ban"
-msgstr ""
+msgstr "Uusi banni"
 
 #: ../../../../inc/mod/pages.php:931 ../../../../inc/mod/pages.php:914
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:256
@@ -860,29 +860,29 @@ msgstr "Bannit"
 #: ../../../../inc/mod/pages.php:1172
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:108
 msgid "Move reply"
-msgstr ""
+msgstr "Siirrä vastaus"
 
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
 #: ../../../../inc/mod/pages.php:1198
 msgid "Target and source board are the same."
-msgstr ""
+msgstr "Kohde ja lähdelauta ovat samat."
 
 #: ../../../../inc/mod/pages.php:1296 ../../../../inc/mod/pages.php:1357
 #: ../../../../inc/mod/pages.php:1371
 msgid "Impossible to move thread; there is only one board."
-msgstr ""
+msgstr "Ei voida siirtää lankaa; on vain yksi lauta."
 
 #. line 39
 #: ../../../../inc/mod/pages.php:1300 ../../../../inc/mod/pages.php:1361
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:114
 #: ../../../../inc/mod/pages.php:1375
 msgid "Move thread"
-msgstr ""
+msgstr "Siirrä aihe."
 
 #: ../../../../inc/mod/pages.php:1698 ../../../../inc/mod/pages.php:1751
 #: ../../../../inc/mod/pages.php:1775 ../../../../inc/mod/pages.php:1791
 msgid "Edit user"
-msgstr ""
+msgstr "Muokkaa käyttäjää."
 
 #: ../../../../inc/mod/pages.php:1764 ../../../../inc/mod/pages.php:1855
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:274
@@ -895,19 +895,19 @@ msgstr "Hallitse käyttäjiä"
 #: ../../../../inc/mod/pages.php:1945 ../../../../inc/mod/pages.php:2021
 #: ../../../../inc/mod/pages.php:1961 ../../../../inc/mod/pages.php:2037
 msgid "New PM for"
-msgstr ""
+msgstr "Uusi yksityisviesti käyttäjälle"
 
 #: ../../../../inc/mod/pages.php:1830 ../../../../inc/mod/pages.php:1952
 #: ../../../../inc/mod/pages.php:1968
 msgid "Private message"
-msgstr ""
+msgstr "Yksityisviestit"
 
 #. line 68
 #: ../../../../inc/mod/pages.php:1851 ../../../../inc/mod/pages.php:1973
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:200
 #: ../../../../inc/mod/pages.php:1989
 msgid "PM inbox"
-msgstr ""
+msgstr "Yksityisviestien postilaatikko"
 
 #: ../../../../inc/mod/pages.php:1963 ../../../../inc/mod/pages.php:1967
 #: ../../../../inc/mod/pages.php:2090 ../../../../inc/mod/pages.php:2094
@@ -928,17 +928,17 @@ msgstr "Ilmiannot"
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
 #: ../../../../inc/mod/pages.php:2334 ../../../../inc/mod/pages.php:2428
 msgid "Config editor"
-msgstr ""
+msgstr "Asetuseditori"
 
 #: ../../../../inc/mod/pages.php:2226 ../../../../inc/mod/pages.php:2367
 #: ../../../../inc/mod/pages.php:2445
 msgid "Themes directory doesn't exist!"
-msgstr ""
+msgstr "Teemakansiota ei ole olemassa!"
 
 #: ../../../../inc/mod/pages.php:2228 ../../../../inc/mod/pages.php:2369
 #: ../../../../inc/mod/pages.php:2447
 msgid "Cannot open themes directory; check permissions."
-msgstr ""
+msgstr "Ei voitu avata teemakansiota, tarkista luvat."
 
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
@@ -950,59 +950,59 @@ msgstr "Hallitse teemoja"
 #: ../../../../inc/mod/pages.php:2531
 #, php-format
 msgid "Installed theme: %s"
-msgstr ""
+msgstr "Asennettiin teema: %s"
 
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
 #: ../../../../inc/mod/pages.php:2542
 #, php-format
 msgid "Configuring theme: %s"
-msgstr ""
+msgstr "Konfiguroidaan teemaa: %s"
 
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
 #: ../../../../inc/mod/pages.php:2571
 #, php-format
 msgid "Rebuilt theme: %s"
-msgstr ""
+msgstr "Rakennetaan uudelleen teema: %s"
 
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
 #: ../../../../inc/mod/pages.php:2610
 msgid "Debug: Anti-spam"
-msgstr ""
+msgstr "Debug: Anti-spam"
 
 #: ../../../../inc/mod/pages.php:2409 ../../../../inc/mod/pages.php:2566
 #: ../../../../inc/mod/pages.php:2644
 msgid "Debug: Recent posts"
-msgstr ""
+msgstr "Debug: Viimeisimmät postaukset"
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
 #: ../../../../inc/mod/pages.php:2668
 msgid "Debug: SQL"
-msgstr ""
+msgstr "Debug: SQL"
 
 #. Print error
 #: ../../../../inc/database.php:72 ../../../../inc/database.php:94
 msgid "Database error: "
-msgstr ""
+msgstr "Tietokannan virhe:"
 
 #: ../../../../banned.php:4
 msgid "Banned?"
-msgstr ""
+msgstr "Bannattu?"
 
 #: ../../../../banned.php:5
 msgid "You are not banned."
-msgstr ""
+msgstr "Et ole bannattu."
 
 #. line 6
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:41
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:44
 msgid "Go back"
-msgstr ""
+msgstr "Mene takaisin."
 
 #. line 13
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:56
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:59
 msgid "Error information"
-msgstr ""
+msgstr "Virheen tiedot"
 
 #. line 2
 #. line 3
@@ -1203,7 +1203,7 @@ msgstr "Takaisin"
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:61
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:64
 msgid "(No news to show.)"
-msgstr ""
+msgstr "(Ei uutisia.)"
 
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:85
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:146
@@ -1223,7 +1223,7 @@ msgstr "ei aihetta"
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:153
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:94
 msgid "by"
-msgstr ""
+msgstr "kanssa"
 
 #. line 50
 #: ../../../../templates/cache/f3/ad/68dee281a64ebad9a5c774b53279.php:95
@@ -1231,7 +1231,7 @@ msgstr ""
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:157
 #: ../../../../templates/cache/d2/14/70c07e4c5f648cfa0d0663a1f18973ff6f6946363b45332b2627a0fcf273.php:98
 msgid "at"
-msgstr ""
+msgstr "ssa"
 
 #. line 28
 #. line 26
@@ -1240,13 +1240,13 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 msgid "1 reply"
 msgid_plural "%count% replies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 vastaus"
+msgstr[1] "%count% vastausta"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:102
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:105
 msgid "File:"
-msgstr ""
+msgstr "Tiedosto:"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:115
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:127
@@ -1279,7 +1279,7 @@ msgstr "Vastaa"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:230
 msgid "View All"
-msgstr ""
+msgstr "Näytä kaikki"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:561
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:526
@@ -1290,8 +1290,8 @@ msgstr ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:247
 msgid "Last 1 Post"
 msgid_plural "Last %count% Posts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Viimeisin postaus"
+msgstr[1] "Viimeisimmät %count% postausta"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:598
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:563
@@ -1302,8 +1302,8 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:284
 msgid "1 post"
 msgid_plural "%count% posts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Yksi postaus"
+msgstr[1] "%count% postausta"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:604
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:569
@@ -1314,7 +1314,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:378
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:290
 msgid "and"
-msgstr ""
+msgstr "ja"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:616
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:581
@@ -1325,8 +1325,8 @@ msgstr ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:302
 msgid "1 image reply"
 msgid_plural "%count% image replies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Yksi kuvavastaus"
+msgstr[1] "%count% kuvavastaus"
 
 #: ../../../../templates/cache/d8/f2/7780eb1adcdbda7e332659e3fb4f.php:621
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:586
@@ -1336,7 +1336,7 @@ msgstr[1] ""
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:395
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:307
 msgid "omitted. Click reply to view."
-msgstr ""
+msgstr "jätetty näyttämättä. Paina vastaa näyttääksesi."
 
 #. line 7
 #. line 14
@@ -1432,7 +1432,7 @@ msgstr "Aihe"
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:68
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:71
 msgid "Update"
-msgstr ""
+msgstr "Päivitys"
 
 #. line 32
 #. line 57
@@ -1456,17 +1456,17 @@ msgstr "Viesti"
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:97
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:100
 msgid "Currently editing raw HTML."
-msgstr ""
+msgstr "Muokataan raakaa HTML:ää"
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:105
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:108
 msgid "Edit markup instead?"
-msgstr ""
+msgstr "Käytä merkkausta sensijaan?"
 
 #: ../../../../templates/cache/39/42/cbc36382096edfa72a8bc26e4514.php:115
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:118
 msgid "Edit raw HTML instead?"
-msgstr ""
+msgstr "Muokkaa raakaa HTML:ää sensijaan?"
 
 #. line 73
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:226
@@ -1480,7 +1480,7 @@ msgstr "Varmennus"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:302
 msgid "Or URL"
-msgstr ""
+msgstr "tai URL"
 
 #. line 100
 #. line 113
@@ -1634,27 +1634,27 @@ msgstr "(Tiedoston poistoon.)"
 
 #: ../../../../search.php:5
 msgid "Post search is disabled"
-msgstr ""
+msgstr "Haku ei ole käytössä"
 
 #: ../../../../search.php:25 ../../../../search.php:31
 #: ../../../../search.php:29 ../../../../search.php:35
 msgid "Wait a while before searching again, please."
-msgstr ""
+msgstr "Odota ennen hakemista uudelleen."
 
 #: ../../../../search.php:131 ../../../../search.php:135
 msgid "Query too broad."
-msgstr ""
+msgstr "Pyyntö oli liian leveä."
 
 #: ../../../../search.php:152 ../../../../search.php:156
 #, php-format
 msgid "%d result in"
 msgid_plural "%d results in"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d hakutulos"
+msgstr[1] "%d hakutulosta"
 
 #: ../../../../search.php:163 ../../../../search.php:167
 msgid "No results."
-msgstr ""
+msgstr "Ei tuloksia"
 
 #. line 115
 #. line 16
@@ -1717,25 +1717,25 @@ msgstr "Etsi"
 
 #: ../../../../inc/mod/pages.php:939
 msgid "Ban appeal not found!"
-msgstr ""
+msgstr "Bannivalitusta ei löydetty!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
 #: ../../../../inc/mod/pages.php:994
 msgid "Ban appeals"
-msgstr ""
+msgstr "Bannivalitukset"
 
 #: ../../../../inc/mod/pages.php:1833 ../../../../inc/mod/pages.php:1849
 msgid "New user"
-msgstr ""
+msgstr "Uusi käyttäjä"
 
 #: ../../../../inc/mod/pages.php:1888 ../../../../inc/mod/pages.php:1904
 msgid "Impossible to promote/demote user."
-msgstr ""
+msgstr "Mahdotonta ylentää/alentaa käyttäjää."
 
 #: ../../../../inc/mod/pages.php:2612 ../../../../inc/mod/pages.php:2690
 msgid "Debug: APC"
-msgstr ""
+msgstr "Debug: APC"
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
@@ -1743,7 +1743,7 @@ msgstr ""
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
-msgstr ""
+msgstr "Koodisi sisältää PHP syntaksivirheita. Mene takaisin ja korjaa. PHP sanoo:"
 
 #. line 2
 #. line 6
@@ -1767,7 +1767,7 @@ msgstr "Laudat"
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:79
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:215
 msgid "edit"
-msgstr ""
+msgstr "muokkaa"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:97
 msgid "Create new board"
@@ -1776,11 +1776,11 @@ msgstr "Luo uusi lauta"
 #. line 32
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:108
 msgid "Messages"
-msgstr ""
+msgstr "Viestit"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:188
 msgid "View all noticeboard entries"
-msgstr ""
+msgstr "Näytä kaikki ilmoituslaudan ilmoitukset"
 
 #. line 76
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:222
@@ -1789,7 +1789,7 @@ msgstr "Hallinta"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:282
 msgid "Change password"
-msgstr ""
+msgstr "Vaihda salasana"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:318
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:327
@@ -1801,21 +1801,21 @@ msgstr "Asetukset"
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:357
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:366
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #. line 139
 #. line 142
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:391
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:400
 msgid "Debug"
-msgstr ""
+msgstr "Debuggaa"
 
 #. line 141
 #. line 144
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:396
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:405
 msgid "Anti-spam"
-msgstr ""
+msgstr "Anti-spam"
 
 #. line 142
 #. line 145
@@ -1824,19 +1824,19 @@ msgstr ""
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:309
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:409
 msgid "Recent posts"
-msgstr ""
+msgstr "Viimeisimmät postaukset"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:407
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:416
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #. line 164
 #. line 167
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:446
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:455
 msgid "User account"
-msgstr ""
+msgstr "Käyttäjätili"
 
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:454
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:463
@@ -1847,7 +1847,7 @@ msgstr "Kirjaudu ulos"
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:27
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:27
 msgid "New post"
-msgstr ""
+msgstr "Uusi postaus"
 
 #. line 16
 #. line 28
@@ -1867,7 +1867,7 @@ msgstr "Lähetä tiedotteisiin"
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:90
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:118
 msgid "delete"
-msgstr ""
+msgstr "poista"
 
 #: ../../../../templates/cache/39/f9/8228f77b382baf1d61c1215dc0f0236e4cdf8cc5e938259785cf3e67d1ca.php:138
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:123
@@ -1882,12 +1882,12 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:345
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:415
 msgid "deleted?"
-msgstr ""
+msgstr "poistettu?"
 
 #. line 33
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:91
 msgid "Post news entry"
-msgstr ""
+msgstr "Postaa uutinen"
 
 #. line 24
 #. line 63
@@ -2010,7 +2010,7 @@ msgstr "Moderaattori"
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:197
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:63
 msgid "Note"
-msgstr ""
+msgstr "Muistutus"
 
 #. line 26
 #. line 22
@@ -2029,7 +2029,7 @@ msgstr ""
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:79
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:67
 msgid "Date"
-msgstr ""
+msgstr "Päivä"
 
 #. line 25
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:96
@@ -2040,12 +2040,12 @@ msgstr "Toiminto"
 #. line 49
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:154
 msgid "remove"
-msgstr ""
+msgstr "poista"
 
 #. line 76
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:208
 msgid "New note"
-msgstr ""
+msgstr "Uusi muistio"
 
 #. line 94
 #. line 7
@@ -2070,22 +2070,22 @@ msgstr ""
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:251
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:36
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:259
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:44
 msgid "Expired"
-msgstr ""
+msgstr "Vanhentunut"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:265
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:50
 msgid "Active"
-msgstr ""
+msgstr "Aktiivinen"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:299
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:91
 msgid "no reason"
-msgstr ""
+msgstr "ei syytä"
 
 #. line 118
 #. line 184
@@ -2267,7 +2267,7 @@ msgstr "Vanhenee"
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:155
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:267
 msgid "never"
-msgstr ""
+msgstr "ei koskaan"
 
 #. line 142
 #. line 14
@@ -2305,26 +2305,26 @@ msgstr ""
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:159
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:161
 msgid "Seen"
-msgstr ""
+msgstr "Nähty"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:375
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:201
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:167
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:295
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:381
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:207
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:173
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:301
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #. line 163
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:419
 msgid "Remove ban"
-msgstr ""
+msgstr "Poista banni"
 
 #. line 183
 #. line 5
@@ -2349,7 +2349,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:379
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:259
 msgid "Time"
-msgstr ""
+msgstr "Aika"
 
 #. line 185
 #. line 89
@@ -2393,11 +2393,11 @@ msgstr "Tapahtuma"
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:73
 msgid "(or subnet)"
-msgstr ""
+msgstr "(tai subnet)"
 
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:88
 msgid "hidden"
-msgstr ""
+msgstr "piiloitettu"
 
 #. line 41
 #. line 27
@@ -2409,22 +2409,22 @@ msgstr ""
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:117
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:92
 msgid "Message"
-msgstr ""
+msgstr "Viesti"
 
 #. line 46
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:133
 msgid "public; attached to post"
-msgstr ""
+msgstr "julkinen; kiinnitetty postaukseen"
 
 #. line 58
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:150
 msgid "Length"
-msgstr ""
+msgstr "Pituus"
 
 #. line 88
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:212
 msgid "New Ban"
-msgstr ""
+msgstr "Uusi banni"
 
 #. line 2
 #. line 5
@@ -2451,26 +2451,26 @@ msgstr "Lause tai sana:"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:38
 msgid "Posts"
-msgstr ""
+msgstr "Postaukset"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:49
 msgid "IP address notes"
-msgstr ""
+msgstr "IP osoitteen muistiinpanot"
 
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:62
 msgid "Bans"
-msgstr ""
+msgstr "Bannit"
 
 #. line 18
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:88
 msgid ""
 "(Search is case-insensitive and based on keywords. To match exact phrases, "
 "use \"quotes\". Use an asterisk (*) for wildcard.)"
-msgstr ""
+msgstr "(Haku on riippuvainen kirjainkoosta ja hakusanoista. Hakeaksesi täsmällisiä sanoja, käytä \"lainausmerkkejä.\" Käytä asteriskiä (*) laajentaaksesi hakua."
 
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:25
 msgid "There are no active bans."
-msgstr ""
+msgstr "Ei banneja aktiivisena."
 
 #. line 8
 #. line 47
@@ -2483,7 +2483,7 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:39
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:137
 msgid "IP address/mask"
-msgstr ""
+msgstr "IP osoite/peite."
 
 #. line 12
 #. line 51
@@ -2496,12 +2496,12 @@ msgstr ""
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:55
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:153
 msgid "Duration"
-msgstr ""
+msgstr "Kesto"
 
 #. line 92
 #: ../../../../templates/cache/ba/55/2553cc018aecf7d29a62331aec4bedc71b646817c7e4c4e7d1a885263676.php:269
 msgid "Unban selected"
-msgstr ""
+msgstr "Poista valittujen bannit"
 
 #. line 6
 #. line 4
@@ -2531,118 +2531,118 @@ msgstr "Jatka"
 #. line 80
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:210
 msgid "Appeal time"
-msgstr ""
+msgstr "Valitusaika"
 
 #. line 84
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:220
 msgid "Appeal reason"
-msgstr ""
+msgstr "Valituksen syy"
 
 #: ../../../../templates/cache/7d/63/b6fd83bf4ed7f6031a2b3373b997d2d40617bf98899fe672a0aae48520c5.php:31
 msgid "There are no reports."
-msgstr ""
+msgstr "Ei raportteja"
 
 #: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
 #: ../../../../post.php:894
 msgid "That ban doesn't exist or is not for you."
-msgstr ""
+msgstr "Bannia ei ole olemassa tai se ei ole sinua varten."
 
 #: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
 #: ../../../../post.php:898
 msgid "You cannot appeal a ban of this length."
-msgstr ""
+msgstr "Et voi valittaa tämän bannin kestosta."
 
 #: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
 #: ../../../../post.php:905
 msgid "You cannot appeal this ban again."
-msgstr ""
+msgstr "Et voi valittaa uusiksi tästä bannista."
 
 #: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
 #: ../../../../post.php:910
 msgid "There is already a pending appeal for this ban."
-msgstr ""
+msgstr "Bannista on jo ulistu."
 
 #: ../../../../inc/image.php:24 ../../../../inc/image.php:62
 msgid "Unsupported file format: "
-msgstr ""
+msgstr "Tukematon tiedostomuoto."
 
 #: ../../../../inc/image.php:282 ../../../../inc/image.php:288
 msgid "Failed to redraw image!"
-msgstr ""
+msgstr "Kuvaa ei voitu uudelleenpiirtää."
 
 #: ../../../../inc/image.php:324 ../../../../inc/image.php:343
 #: ../../../../inc/image.php:368 ../../../../inc/image.php:342
 #: ../../../../inc/image.php:366
 msgid "Failed to resize image!"
-msgstr ""
+msgstr "Kuvan kokoa ei voitu muokata."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:35
 msgid "You were banned! ;_;"
-msgstr ""
+msgstr "Sait bannia. Nyyh."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:41
 msgid "You are banned! ;_;"
-msgstr ""
+msgstr "Sinut on bannittu. Voi ei."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:52
 msgid "You were banned from"
-msgstr ""
+msgstr "Sinut bannattiin tämän takia"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:58
 msgid "You have been banned from"
-msgstr ""
+msgstr "Sinut on bannittu"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:82
 msgid "for the following reason:"
-msgstr ""
+msgstr "seuraavasta syystä:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:88
 msgid "for an unspecified reason."
-msgstr ""
+msgstr "Syyttömästä syystä."
 
 #. line 32
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:110
 msgid "Your ban was filed on"
-msgstr ""
+msgstr "Bannisi luotiin"
 
 #. line 51
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:123
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:156
 msgid "has since expired. Refresh the page to continue."
-msgstr ""
+msgstr "on nyt vanhentunut. Päivitä sivu jatkaaksesi."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:129
 msgid "expires"
-msgstr ""
+msgstr "vanhentuu"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:133
 msgid "from now, which is on"
-msgstr ""
+msgstr "tästä lähtien, mikä on"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:183
 msgid "will not expire"
-msgstr ""
+msgstr "ei vanhene"
 
 #. line 78
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:192
 msgid "Your IP address is"
-msgstr ""
+msgstr "IP osoitteesi on"
 
 #. line 86
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:215
 msgid "You were banned for the following post on"
-msgstr ""
+msgstr "Sinut bannattiin seuraavan postauksen vuoksi"
 
 #. line 95
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:239
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:240
 msgid "You submitted an appeal for this ban on"
-msgstr ""
+msgstr "Tänä päivänä pistit valituksen bannistasi:"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:245
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:246
 msgid "It is still pending"
-msgstr ""
+msgstr "Se on yhä käsittelyssä"
 
 #. line 101
 #. line 112
@@ -2667,20 +2667,20 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:258
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:290
 msgid "You appealed this ban on"
-msgstr ""
+msgstr "Valitit tästä bannista"
 
 #. line 103
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:265
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:266
 msgid "and it was denied. You may not appeal this ban again."
-msgstr ""
+msgstr "ja se hylättiin. Et voi valittaa uudelleen."
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:272
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:273
 msgid ""
 "You have submitted the maximum number of ban appeals allowed. You may not "
 "appeal this ban again."
-msgstr ""
+msgstr "Olet lähettänyt maksimimäärän bannivalituksia ja et voi valittaa enempää."
 
 #. line 114
 #. line 121
@@ -2705,7 +2705,7 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:298
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:319
 msgid "and it was denied."
-msgstr ""
+msgstr "ja se hylättiin"
 
 #. line 116
 #. line 123
@@ -2730,18 +2730,18 @@ msgstr ""
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:303
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:324
 msgid "You may appeal this ban again. Please enter your reasoning below."
-msgstr ""
+msgstr "Et voi valittaa tästä bannista uudelleen ehkä. Anna valituksesti tähän."
 
 #. line 119
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:310
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:311
 msgid "You last appealed this ban on"
-msgstr ""
+msgstr "Viimeksi valittamasi banni oli"
 
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:332
 #: ../../../../templates/cache/b7/ae/f9663c9ca58d1e218de29e04d0fa229f6263f4e68b613ce608bc023897a2.php:333
 msgid "You may appeal this ban. Please enter your reasoning below."
-msgstr ""
+msgstr "Saat valittaa bannista. Anna syyt alla."
 
 #. line 4
 #. line 16
@@ -2768,7 +2768,7 @@ msgstr "IP osoite"
 #. line 3
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:26
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. line 5
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:34
@@ -2781,46 +2781,46 @@ msgstr "Viimeinen tapahtuma"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:80
 msgid "Unknown"
-msgstr ""
+msgstr "Tuntematon"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:94
 msgid "none"
-msgstr ""
+msgstr "tyhmä"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:174
 msgid "Promote"
-msgstr ""
+msgstr "Ylennä"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:187
 msgid "Demote"
-msgstr ""
+msgstr "Alenna"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:191
 msgid "Are you sure you want to demote yourself?"
-msgstr ""
+msgstr "Haluatko varmasti alentaa itsesi?"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:204
 msgid "log"
-msgstr ""
+msgstr "loggaa"
 
 #: ../../../../templates/cache/fc/8d/2b5f6c25d93a9966c429a79ee7ebdd921957079dab214aebbc665d67b9f4.php:226
 msgid "PM"
-msgstr ""
+msgstr "Pikaviesti"
 
 #. line 6
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:36
 msgid "Thread ID"
-msgstr ""
+msgstr "Langan ID"
 
 #. line 14
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:51
 msgid "Leave shadow thread"
-msgstr ""
+msgstr "Jätä varjolanka"
 
 #. line 18
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:58
 msgid "locks thread; replies to it with a link."
-msgstr ""
+msgstr "lukittu lanka; vastaa siihen linkillä"
 
 #. line 22
 #. line 13
@@ -2829,12 +2829,12 @@ msgstr ""
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:65
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:50
 msgid "Target board"
-msgstr ""
+msgstr "Kohdelauta"
 
 #. line 8
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:40
 msgid "Select board"
-msgstr ""
+msgstr "Valitse lauta"
 
 #. line 17
 #: ../../../../templates/cache/cb/8b/63013711213735996df92becb7bd43d753c51314cfe5433c562706333eb0.php:73
@@ -2846,64 +2846,64 @@ msgid ""
 "<strong>name</strong>. To apply a filter, simply add to your query, for "
 "example, <em>name:Anonymous</em> or <em>subject:\"Some Thread\"</em>. "
 "Wildcards cannot be used in filters."
-msgstr ""
+msgstr "Haku perustuu hakusanoihin. Täsmällisiin hakuihin käytä \"lainausmerkkejä. Käytä asteriskiä (*) laajentaaksesi hakua.</p><p style=\"font-size:8pt;margin:5px\">Saat käyttää seuraavia  suotimia haussa: <strong>id</strong>, <strong>lanka</strong>, <strong>aihe</strong>, ja <strong>nimi</strong>. käyttääksesi filtteriä, laita sellainen hakuusi mukaan, esim <em>name:Anonymous</em> or <em>Aihe:\"Lanka\"</em>. Asteriskiä ei voi käyttää filttereiden kanssa."
 
 #. line 2
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:25
 msgid "Are you sure you want to do that?"
-msgstr ""
+msgstr "Haluatko varmasti tehdä tuon?"
 
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:31
 msgid "Click to proceed to"
-msgstr ""
+msgstr "Paina jatkaaksesi"
 
 #. line 5
 #: ../../../../templates/cache/57/a7/c0a734e494c78acfc595f033a070bdc87fdc3e6a28ad5aaa8666c7a1a966.php:39
 msgid ""
 "You are probably seeing this message because Javascript being disabled. This"
 " is a necessary security measure to prevent CSRF attacks."
-msgstr ""
+msgstr "Näet tämän viestin todennäköisesti, koska Javascript on otettu pois käytöstä. Tämä on tehty CSRF-hyökkäysten estämiseksi."
 
 #. line 7
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:44
 msgid "Report date"
-msgstr ""
+msgstr "Raportin päivä"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:54
 msgid "Reported by"
-msgstr ""
+msgstr "Raportin teki"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:73
 msgid "Discard abuse report"
-msgstr ""
+msgstr "Hylkää raportti"
 
 #: ../../../../templates/cache/3a/62/f804928dbcf285e3d5d8d7ae31b1e3a7c78264f270efa9650d31f69c7897.php:93
 msgid "Discard all abuse reports by this IP address"
-msgstr ""
+msgstr "Hylkää kaikki raportit tästä IP osoitteesta"
 
 #. line 4
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:27
 msgid "From"
-msgstr ""
+msgstr "Tältä:"
 
 #. line 34
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:105
 msgid "Delete forever"
-msgstr ""
+msgstr "Poista ikuisesti"
 
 #. line 39
 #: ../../../../templates/cache/f9/e9/d592e3c89e2f76520cf989aa8359d3d143d8fa4996ff1d97b3be51f87a05.php:119
 msgid "Reply with quote"
-msgstr ""
+msgstr "Vastaa lainaten"
 
 #. line 18
 #: ../../../../templates/cache/1f/f5/c63468797b4f93a8005563716a720117a6d51a804f2124a4c5158ca78525.php:62
 msgid "Send message"
-msgstr ""
+msgstr "Lähetä viesti"
 
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:25
 msgid "There are no themes available."
-msgstr ""
+msgstr "Teemoja ei ole saatavilla."
 
 #. line 11
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:50
@@ -2918,7 +2918,7 @@ msgstr "Kuvaus"
 #. line 19
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:70
 msgid "Thumbnail"
-msgstr ""
+msgstr "Minikuva"
 
 #. line 27
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:93
@@ -2939,43 +2939,43 @@ msgstr "Poista"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:72
 msgid "new; optional"
-msgstr ""
+msgstr "uusi, valinnainen"
 
 #. line 32
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:98
 msgid "Group"
-msgstr ""
+msgstr "Ryhmä"
 
 #. line 56
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:161
 msgid "All boards"
-msgstr ""
+msgstr "Kaikki laudat"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:223
 msgid "Create user"
-msgstr ""
+msgstr "Luo käyttäjä"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:229
 msgid "Save changes"
-msgstr ""
+msgstr "Tallenna muutokset"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:236
 msgid "Delete user"
-msgstr ""
+msgstr "Poista käyttäjä"
 
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:331
 msgid "View more logs for this user."
-msgstr ""
+msgstr "Näytä tälle käyttäjälle lisää logeja"
 
 #. line 84
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
 msgid "Flag"
-msgstr ""
+msgstr "Lippu"
 
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #. When moving a thread to another board and choosing to keep a "shadow
 #. thread", an automated post (with
@@ -2985,22 +2985,22 @@ msgstr ""
 #: ../../../../inc/config.php:1211 ../../../../inc/config.php:1220
 #, php-format
 msgid "Moved to %s."
-msgstr ""
+msgstr "Siirrettiin tänne %s"
 
 #: ../../../../templates/themes/recent/theme.php:50
 msgid ""
 "Can't build the RecentPosts theme, because there are no boards to be "
 "fetched."
-msgstr ""
+msgstr "Ei voida luoda RecentPosts-teemaa, koska lautoja ei voitu hakea."
 
 #: ../../../../inc/config.php:997
 msgid "You have attempted to upload too many images!"
-msgstr ""
+msgstr "Olet yrittänyt postata liian monta kuvaa!"
 
 #. line 7
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:36
 msgid "Spoiler file"
-msgstr ""
+msgstr "Spoilerikuva"
 
 #. line 26
 #. line 35
@@ -3009,7 +3009,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:80
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:107
 msgid "Bump order"
-msgstr ""
+msgstr "Bumppijärjestys"
 
 #. line 27
 #. line 36
@@ -3018,7 +3018,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:84
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:111
 msgid "Last reply"
-msgstr ""
+msgstr "Viimeisin vastaus"
 
 #. line 28
 #. line 37
@@ -3027,7 +3027,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:115
 msgid "Creation date"
-msgstr ""
+msgstr "Luontipäivä"
 
 #. line 29
 #. line 38
@@ -3036,7 +3036,7 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:92
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:119
 msgid "Reply count"
-msgstr ""
+msgstr "Vastausmäärä"
 
 #. line 30
 #. line 39
@@ -3045,58 +3045,58 @@ msgstr ""
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:96
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:123
 msgid "Random"
-msgstr ""
+msgstr "Satunnainen"
 
 #. line 33
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:102
 msgid "Sort by"
-msgstr ""
+msgstr "Järjestä"
 
 #. line 42
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:129
 msgid "Image size"
-msgstr ""
+msgstr "Kuvan koko"
 
 #. line 44
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:134
 msgid "Small"
-msgstr ""
+msgstr "Pieni"
 
 #. line 45
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:138
 msgid "Large"
-msgstr ""
+msgstr "Suuri"
 
 #. line 6
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:36
 msgid "Post ID"
-msgstr ""
+msgstr "Postauksen ID"
 
 #. line 29
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:96
 msgid "Target thread"
-msgstr ""
+msgstr "Kohdelanka"
 
 #: ../../../../post.php:48
 msgid "Post deletion is not allowed!"
-msgstr ""
+msgstr "Postauksen poisto ei ole sallittua."
 
 #: ../../../../post.php:385
 msgid "Unrecognized file size determination method."
-msgstr ""
+msgstr "Tunnistamaton tiedostokoon määritys."
 
 #: ../../../../post.php:519
 msgid "Invalid flag selection!"
-msgstr ""
+msgstr "Väärä lipunvalinta."
 
 #: ../../../../post.php:631
 msgid "exiftool failed!"
-msgstr ""
+msgstr "exiftyökalu epäonnistui!"
 
 #: ../../../../post.php:641
 msgid "Could not auto-orient image!"
-msgstr ""
+msgstr "Kuvaa ei voitu automaattisesti kääntää!"
 
 #: ../../../../post.php:695
 msgid "Could not strip EXIF metadata!"
-msgstr ""
+msgstr "EXIF-metadataa ei voitu poistaa!"
