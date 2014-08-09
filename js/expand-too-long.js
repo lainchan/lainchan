@@ -23,7 +23,7 @@ $(function() {
 				url: url,
 				context: document.body,
 				success: function(data) {
-					var content = $(data).find('#'+url.split('#')[1]).parent().find(".body").html();
+					var content = $(data).find('#'+url.split('#')[1]).parent().parent().find(".body").first().html();
 
 					body.html(content);
 				}
