@@ -1668,7 +1668,7 @@ function unicodify($body) {
 function extract_modifiers($body) {
 	$modifiers = array();
 	
-	if (preg_match_all('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@us', $body, $matches, PREG_SET_ORDER)) {
+	if (preg_match_all('@<tinyboard ([\w\s]+)>(.*?)</tinyboard>@us', $body, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
 			if (preg_match('/^escape /', $match[1]))
 				continue;
