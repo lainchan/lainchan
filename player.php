@@ -1,8 +1,8 @@
 <?php 
 /* This file is dedicated to the public domain; you may do as you wish with it. */
-$v = (string)$_GET['v'];
-$t = (string)$_GET['t'];
-$loop = (boolean)$_GET['loop'];
+$v = @(string)$_GET['v'];
+$t = @(string)$_GET['t'];
+$loop = @(boolean)$_GET['loop'];
 
 $params = '?v=' . urlencode($v) . '&amp;t=' . urlencode($t);
 ?><!DOCTYPE html>
