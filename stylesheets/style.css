@@ -627,3 +627,12 @@ form.ban-appeal textarea {
         padding: 0;
         margin: 5px 25px 5px 5px;
     }
+
+/* live-index.js */
+.new-posts {
+  opacity: 0.6;
+  margin-top: 1em;
+}
+.new-threads {
+  text-align: center;
+}

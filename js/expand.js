@@ -20,8 +20,8 @@ $(document).ready(function(){
 	var do_expand = function() {
 		$(this)
 			.html($(this).text().replace(_("Click reply to view."), '<a href="javascript:void(0)">'+_("Click to expand")+'</a>.'))
-			.find('a').click(function() {
-				var thread = $(this).parent().parent().parent();
+			.find('a').click(window.expand_fun = function() {
+				var thread = $(this).parents('[id^="thread_"]');
 				var id = thread.attr('id').replace(/^thread_/, '');
 				$.ajax({
 					url: thread.find('p.intro a.post_no:first').attr('href'),
@@ -43,12 +43,16 @@ $(document).ready(function(){
 								last_expanded = post_in_doc;
 							}
 						});
-						$('<span class="omitted"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
-							.insertAfter(thread.find('span.omitted').css('display', 'none'))
+						
+
+						thread.find("span.omitted").css('display', 'none');
+
+						$('<span class="omitted hide-expanded"><a href="javascript:void(0)">' + _('Hide expanded replies') + '</a>.</span>')
+							.insertAfter(thread.find('.op div.body, .op span.omitted').last())
 							.click(function() {
 								thread.find('.expanded').remove();
-								$(this).prev().css('display', '');
-								$(this).remove();
+								$(this).parent().find(".omitted:not(.hide-expanded)").css('display', '');
+								$(this).parent().find(".hide-expanded").remove();
 							});
 					}
 				});
