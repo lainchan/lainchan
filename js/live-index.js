@@ -18,7 +18,7 @@ if (active_page == 'index' && (""+document.location).match(/\/(index\.html)?(\?|
   // Make jQuery respond to reverse()
   $.fn.reverse = [].reverse;
 
-  var board_name = (""+document.location).match(/\/([^\/])\/[^/]*$/)[1];
+  var board_name = (""+document.location).match(/\/([^\/]+)\/[^/]*$/)[1];
 
   var handle_one_thread = function() {
     if ($(this).find(".new-posts").length <= 0) {
