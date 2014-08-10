@@ -152,11 +152,20 @@ $(function(){
   };
 
   var update_pinned = function() {
+    if (updating_suspended) return;
+
     if (typeof update_title != "undefined") update_title();
 
     var bl = $('.boardlist').first();
     $('#watch-pinned, .watch-menu').remove();
     var pinned = $('<div id="watch-pinned"></div>').appendTo(bl);
+
+    if (device_type == "desktop")
+    bl.off().on("mouseenter", function() {
+      updating_suspended = true;
+    }).on("mouseleave", function() {
+      updating_suspended = false;
+    });
 
     var st = storage();
     for (var i in st) {
@@ -198,7 +207,6 @@ $(function(){
 
 	  if (device_type == "desktop")
 	  link.off().mouseenter(function() {
-	    updating_suspended = true;
 	    $('.cb-menu').remove();
 
 	    var board = $(this).attr("data-board");
@@ -216,7 +224,6 @@ $(function(){
 	      wl.find("a.cb-menuitem").each(init_hover);
 
 	  }).mouseleave(function() {
-	    updating_suspended = false;
 	    $('.boardlist .cb-menu').remove();
 	  });
 	}
@@ -232,30 +239,45 @@ $(function(){
     }
   };
   var fetch_jsons = function() {
-    if (updating_suspended) return;
     if (window_active) check_scroll();
 
     var st = storage();
+
+    var sched = 0;
+    var sched_diff = 100;
+
     for (var i in st) {
       if (st[i].watched) {
-        var r = $.getJSON(configRoot+i+"/threads.json", function(j, x, r) {
-	  handle_board_json(r.board, j);
-	});
-	r.board = i;
+	(function(i) {
+          setTimeout(function() {
+            var r = $.getJSON(configRoot+i+"/threads.json", function(j, x, r) {
+              handle_board_json(r.board, j);
+            });
+            r.board = i;
+          }, sched);
+          sched += sched_diff;
+	})(i);
       }
       else if (st[i].threads) {
         for (var j in st[i].threads) {
-          var r = $.getJSON(configRoot+i+"/res/"+j+".json", function(k, x, r) {
-	    handle_thread_json(r.board, r.thread, k);
-          }).error(function(r) {
-	    if(r.status == 404) handle_thread_404(r.board, r.thread);
-	  });
-	  
-	  r.board = i;
-	  r.thread = j;
+          (function(i,j) {
+            setTimeout(function() {
+              var r = $.getJSON(configRoot+i+"/res/"+j+".json", function(k, x, r) {
+	        handle_thread_json(r.board, r.thread, k);
+              }).error(function(r) {
+	        if(r.status == 404) handle_thread_404(r.board, r.thread);
+	      });
+	    
+	      r.board = i;
+	      r.thread = j;
+            }, sched);
+          })(i,j);
+          sched += sched_diff;
 	}
       }
     }
+
+    setTimeout(fetch_jsons, sched + sched_diff);
   };
 
   var handle_board_json = function(board, json) {
@@ -293,31 +315,39 @@ $(function(){
 
     status = status || {};
     status[board] = status[board] || {};
-    status[board].last_thread = last_thread;
-    status[board].new_threads = new_threads;
-    update_pinned();
+    if (status[board].last_thread != last_thread || status[board].new_threads != new_threads) {
+      status[board].last_thread = last_thread;
+      status[board].new_threads = new_threads;
+      update_pinned();
+    }
   };
   var handle_thread_json = function(board, threadid, json) {
+    var new_posts = 0;
     for (var i in json.posts) {
       var post = json.posts[i];
 
-      var new_posts = 0;
       if (post.time > storage()[board].threads[threadid] / 1000) {
 	new_posts++;
       }
-      status = status || {};
-      status[board] = status[board] || {};
-      status[board].threads = status[board].threads || {};
+    } 
+
+    status = status || {};
+    status[board] = status[board] || {};
+    status[board].threads = status[board].threads || {};
+
+    if (status[board].threads[threadid] != new_posts) {
       status[board].threads[threadid] = new_posts;
       update_pinned();
-    } 
+    }
   };
   var handle_thread_404 = function(board, threadid) {
     status = status || {};
     status[board] = status[board] || {};
     status[board].threads = status[board].threads || {};
-    status[board].threads[threadid] = -404; //notify 404
-    update_pinned();
+    if (status[board].threads[threadid] != -404) {
+      status[board].threads[threadid] = -404; //notify 404
+      update_pinned();
+    }
   };
 
   if (active_page == "thread") {
@@ -386,7 +416,7 @@ $(function(){
   $(window).scroll(function() { 
     var refresh = check_scroll();
     if (refresh) {
-      fetch_jsons();
+      //fetch_jsons();
       refresh = false;
     }
   });
@@ -417,5 +447,4 @@ $(function(){
 
   update_pinned();
   fetch_jsons();
-  setInterval(fetch_jsons, 10000);
 });
