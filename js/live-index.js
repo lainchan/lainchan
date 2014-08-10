@@ -80,5 +80,5 @@ if (active_page == 'index' && (""+document.location).match(/\/(index\.html)?(\?|
 
       update_new_threads(new_threads);
     });
-  }, 500);
+  }, 2000);
 }();
