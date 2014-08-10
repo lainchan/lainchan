@@ -2333,6 +2333,7 @@ function shell_exec_error($command, $suppress_stdout = false) {
  * added on.  The result is displayed at the top of the post.
  */
 function diceRoller($post) {
+	global $config;
 	if(strpos(strtolower($post->email), 'dice%20') === 0) {
 		$dicestr = str_split(substr($post->email, strlen('dice%20')));
 
@@ -2380,7 +2381,7 @@ function diceRoller($post) {
 			// Prepend the result to the post body
 			$modifier = ($diceZ != 0) ? ((($diceZ < 0) ? ' - ' : ' + ') . abs($diceZ)) : '';
 			$dicesum = ($diceX > 1) ? ' = ' . $dicesum : '';
-			$post->body = 'Rolled ' . implode(', ', $dicerolls) . $modifier . $dicesum . '<br/>' . $post->body;
+			$post->body = '<table class="diceroll"><tr><td><img src="'.$config['dir']['static'].'d10.svg" alt="Dice roll" width="24"></td><td>Rolled ' . implode(', ', $dicerolls) . $modifier . $dicesum . '</td></tr></table><br/>' . $post->body;
 		}
 	}
 }
