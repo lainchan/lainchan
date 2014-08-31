@@ -579,6 +579,9 @@
 	// How many ban appeals can be made for a single ban?
 	$config['ban_appeals_max'] = 1;
 
+	// Show moderator name on ban page.
+	$config['show_modname'] = false;
+
 /*
  * ====================
  *  Markup settings
