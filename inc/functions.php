@@ -777,8 +777,8 @@ function checkBan($board = false) {
 
 	if (event('check-ban', $board))
 		return true;
-	
-	$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board);
+
+	$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board, $config['show_modname']);
 	
 	foreach ($bans as &$ban) {
 		if ($ban['expires'] && $ban['expires'] < time()) {
