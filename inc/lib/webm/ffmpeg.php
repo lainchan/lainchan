@@ -49,6 +49,10 @@ function is_valid_webm($ffprobe_out) {
 function make_webm_thumbnail($filename, $thumbnail, $width, $height) {
   global $board, $config;
 
+  $filename = escapeshellarg($filename);
+  $thumbnail = escapeshellarg($thumbnail); // Should be safe by default but you
+                                           // can never be too safe.
+
   $ffmpeg = $config['webm']['ffmpeg_path'];
   $ffmpeg_out = array();
 
