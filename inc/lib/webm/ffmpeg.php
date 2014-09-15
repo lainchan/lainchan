@@ -1,0 +1,58 @@
+<?php
+/*
+* ffmpeg.php
+* A barebones ffmpeg based webm implementation for vichan.
+*/
+
+function get_webm_info($filename) {
+  global $board, $config;
+
+  $filename = escapeshellarg($filename);
+  $ffprobe = $config['webm']['ffprobe_path'];
+  $ffprobe_out = array();
+  $webminfo = array();
+
+  exec("$ffprobe -v quiet -print_format json -show_format -show_streams $filename", $ffprobe_out);
+  $ffprobe_out = json_decode(implode("\n", $ffprobe_out), 1);
+  $webminfo['error'] = is_valid_webm($ffprobe_out);
+
+  if(empty($webminfo['error'])) {
+    $webminfo['width'] = $ffprobe_out['streams'][0]['width'];
+    $webminfo['height'] = $ffprobe_out['streams'][0]['height'];
+  }
+
+  return $webminfo;
+}
+
+function is_valid_webm($ffprobe_out) {
+  global $board, $config;
+
+  if (empty($ffprobe_out))
+    return array('code' => 1, 'msg' => $config['error']['genwebmerror']);
+
+  if ($ffprobe_out['format']['format_name'] != 'matroska,webm')
+    return array('code' => 2, 'msg' => $config['error']['invalidwebm']);
+
+  if ((count($ffprobe_out['streams']) > 1) && (!$config['webm']['allow_audio']))
+    return array('code' => 3, 'msg' => $config['error']['webmhasaudio']);
+
+  if ($ffprobe_out['streams'][0]['codec_name'] != 'vp8')
+    return array('code' => 2, 'msg' => $config['error']['invalidwebm']);
+
+  if (empty($ffprobe_out['streams'][0]['width']) || (empty($ffprobe_out['streams'][0]['height'])))
+    return array('code' => 2, 'msg' => $config['error']['invalidwebm']);
+
+  if ($ffprobe_out['format']['duration'] > $config['webm']['max_length'])
+    return array('code' => 4, 'msg' => $config['error']['webmtoolong']);
+}
+
+function make_webm_thumbnail($filename, $thumbnail, $width, $height) {
+  global $board, $config;
+
+  $ffmpeg = $config['webm']['ffmpeg_path'];
+  $ffmpeg_out = array();
+
+  exec("$ffmpeg -i $filename -v quiet -ss 00:00:00 -an -vframes 1 -f mjpeg -vf scale=$width:$height $thumbnail 2>&1");
+
+  return count($ffmpeg_out);
+}

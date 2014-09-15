@@ -20,6 +20,16 @@ Add these lines to inc/instance-config.php:
     $config['additional_javascript'][] = 'js/webm-settings.js';
     $config['additional_javascript'][] = 'js/expand-video.js';
 
+If you have an [FFmpeg](https://www.ffmpeg.org/) binary on your server and you wish to generate real thumbnails (the webm thumbnails created with the original implementation reportedly cause users' browsers to crash), add the following to inc/instance-config.php as well:
+
+    $config['webm']['use_ffmpeg'] = true;
+
+    // If your ffmpeg binary isn't in your path you need to set these options
+    // as well.
+
+    $config['webm']['ffmpeg_path'] = '/path/to/ffmeg';
+    $config['webm']['ffprobe_path'] = '/path/to/ffprobe';
+
 License
 -------
 
