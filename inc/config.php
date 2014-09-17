@@ -751,6 +751,13 @@
 	// Display the file's original filename.
 	$config['show_filename'] = true;
 
+	// WebM Settings
+	$config['webm']['use_ffmpeg'] = false;
+	$config['webm']['allow_audio'] = false;
+	$config['webm']['max_length'] = 120;
+	$config['webm']['ffmpeg_path'] = 'ffmpeg';
+	$config['webm']['ffprobe_path'] = 'ffprobe';
+
 	// Display image identification links for ImgOps, regex.info/exif, Google Images and iqdb.
 	$config['image_identification'] = false;
 	// Which of the identification links to display. Only works if $config['image_identification'] is true.
@@ -760,6 +767,9 @@
 	// Anime/manga search engine.
 	$config['image_identification_iqdb'] = false;
 	
+	// Set this to true if you're using a BSD
+	$config['bsd_md5'] = false;
+
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
 	// Number of posts a thread needs before it gets a "View Last X Posts" page.
@@ -1032,12 +1042,17 @@
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	$config['error']['maxsize']		= _('The file was too big.');
+	$config['error']['webmerror'] = _('There was a problem processing your webm.');
+	$config['error']['invalidwebm'] = _('Invalid webm uploaded.');
+	$config['error']['webmhasaudio'] = _('The uploaded webm contains an audio or another type of additional stream.');
+	$config['error']['webmtoolong'] = _('The uploaded webm is longer than ' . $config['webm']['max_length'] . ' seconds.');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
 	$config['error']['mime_exploit']	= _('MIME type detection XSS exploit (IE) detected; post discarded.');
 	$config['error']['invalid_embed']	= _('Couldn\'t make sense of the URL of the video you tried to embed.');
 	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
+
 
 	// Moderator errors
 	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');

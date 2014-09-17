@@ -566,7 +566,9 @@ if (isset($_POST['delete'])) {
 				error($config['error']['nomove']);
 		}
 		
-		if ($output = shell_exec_error("cat $filenames | md5sum")) {
+		$md5cmd = $config['bsd_md5'] ? 'md5 -r' : 'md5sum';
+
+		if ($output = shell_exec_error("cat $filenames | $md5cmd")) {
 			$explodedvar = explode(' ', $output);
 			$hash = $explodedvar[0];
 			$post['filehash'] = $hash;
@@ -925,4 +927,3 @@ if (isset($_POST['delete'])) {
 		error($config['error']['nopost']);
 	}
 }
-
