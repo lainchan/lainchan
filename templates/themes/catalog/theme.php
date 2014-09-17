@@ -65,6 +65,9 @@
 							$post['file'] = $config['image_deleted'];
 						}
 					}
+					else if($files[0]->thumb == 'spoiler') {
+						$post['file'] = '/' . $config['spoiler_image'];
+					}
 					else {
 					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 				}
