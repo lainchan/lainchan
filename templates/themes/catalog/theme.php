@@ -51,10 +51,26 @@
 
 				if (isset($post['files'])) {
 					$files = json_decode($post['files']);
-					if ($files[0]->file == 'deleted') continue;
+
+					if ($files[0]->file == 'deleted') {
+						if (count($files) > 1) {
+							foreach ($files as $file) {
+								if (($file == $files[0]) || ($file->file == 'deleted')) continue;
+								$post['file'] = $config['uri_thumb'] . $file->thumb;
+							}
+
+							if (empty($post['file'])) $post['file'] = $config['image_deleted'];
+						}
+						else {
+							$post['file'] = $config['image_deleted'];
+						}
+					}
+					else {
 					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 				}
+				}
 
+				if (empty($post['image_count'])) $post['image_count'] = 0;
 				$recent_posts[] = $post;
 			}
 			
