@@ -54,14 +54,27 @@
 			
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
+
 				if (isset($post['files']))
 					$files = json_decode($post['files']);
 
                 if ($files[0]->file == 'deleted') continue;
 				
 				// board settings won't be available in the template file, so generate links now
-				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
-				if ($files) $post['src'] = $config['uri_thumb'] . $files[0]->thumb;
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res']
+				  . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+
+				if ($files) {
+					if ($files[0]->thumb == 'spoiler') {
+						$tn_size = @getimagesize($config['spoiler_image']);
+						$post['src'] = $config['spoiler_image'];
+						$post['thumbwidth'] = $tn_size[0];
+						$post['thumbheight'] = $tn_size[1];
+					}
+					else {
+						$post['src'] = $config['uri_thumb'] . $files[0]->thumb;
+					}
+				}
 				
 				$recent_images[] = $post;
 			}
