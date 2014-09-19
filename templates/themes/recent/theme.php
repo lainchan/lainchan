@@ -93,7 +93,10 @@
 				openBoard($post['board']);
 				
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
-				$post['snippet'] = pm_snippet($post['body'], 30);
+				if ($post['body'] != "")
+					$post['snippet'] = pm_snippet($post['body'], 30);
+				else
+					$post['snippet'] = "<em>" . _("(no comment)") . "</em>";
 				$post['board_name'] = $board['name'];
 				
 				$recent_posts[] = $post;
