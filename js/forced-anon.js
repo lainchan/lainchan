@@ -8,11 +8,14 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   //$config['additional_javascript'][] = 'js/options.js';
+ *   //$config['additional_javascript'][] = 'js/style-select.js';
+ *   //$config['additional_javascript'][] = 'js/options/general.js';
  *   $config['additional_javascript'][] = 'js/forced-anon.js';
  *
  */
 
-if (active_page == 'ukko' || active_page == 'thread' || active_page == 'index')
+if (active_page == 'ukko' || active_page == 'thread' || active_page == 'index' || (window.Options && Options.get_tab('general')))
 $(document).ready(function() {
 	var force_anon = function() {
 		if($(this).children('a.capcode').length == 0) {
@@ -56,11 +59,22 @@ $(document).ready(function() {
 	
 	old_info = {};
 	forced_anon = localStorage['forcedanon'] ? true : false;
+
+	var selector, event;
+        if (window.Options && Options.get_tab('general')) {
+                selector = '#forced-anon';
+                event = 'change';
+                Options.extend_tab("general", "<label id='forced-anon'><input type='checkbox' /> "+_('Forced anonymity')+"</label>");
+        }
+        else {
+                selector = '#forced-anon';
+                event = 'click';
+		$('hr:first').before('<div id="forced-anon" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
+		$('div#forced-anon a').text(_('Forced anonymity')+' (' + (forced_anon ? _('enabled') : _('disabled')) + ')');
+        }
 	
-	$('hr:first').before('<div id="forced-anon" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
-	$('div#forced-anon a').text(_('Forced anonymity')+' (' + (forced_anon ? _('enabled') : _('disabled')) + ')');
 	
-	$('div#forced-anon a').click(function() {
+	$(selector).on(event, function() {
 		forced_anon = !forced_anon;
 		
 		if(forced_anon) {
@@ -76,8 +90,13 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	if(forced_anon)
+	if(forced_anon) {
 		enable_fa();
+
+                if (window.Options && Options.get_tab('general')) {
+                        $('#toggle-locked-threads>input').prop('checked', true);
+                }
+	}
 	
 	$(document).on('new_post', function(e, post) {
 		if(forced_anon)

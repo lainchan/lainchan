@@ -37,6 +37,13 @@ $(function(){
 
     document.location.reload();
   });
+  $("<button>"+_("Erase")+"</button>").appendTo(stor).on("click", function() {
+    if (confirm(_("Are you sure you want to erase your storage? This involves your hidden threads, watched threads, post password and many more."))) {
+      localStorage.clear();
+      document.location.reload();
+    }
+  });
+
 
   $("#style-select").detach().css({float:"none","margin-bottom":0}).appendTo(tab.content);
 });

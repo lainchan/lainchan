@@ -7,6 +7,9 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   //$config['additional_javascript'][] = 'js/options.js';
+ *   //$config['additional_javascript'][] = 'js/style-select.js';
+ *   //$config['additional_javascript'][] = 'js/options/general.js';
  *   $config['additional_javascript'][] = 'js/toggle-images.js';
  *
  */
@@ -53,10 +56,22 @@ $(document).ready(function(){
 		}
 	};
 
-	$('hr:first').before('<div id="toggle-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
-	$('div#toggle-images a')
-		.text(hide_images ? _('Show images') : _('Hide images'))
-		.click(function() {
+        var selector, event;
+        if (window.Options && Options.get_tab('general')) {  
+                selector = '#toggle-images>input';
+                event = 'change';
+                Options.extend_tab("general", "<label id='toggle-images'><input type='checkbox' /> "+_('Hide images')+"</label>");
+        }
+        else {
+                selector = '#toggle-images a';
+                event = 'click';
+		$('hr:first').before('<div id="toggle-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)">-</a></div>');
+		$('div#toggle-images a')
+			.text(hide_images ? _('Show images') : _('Hide images'));
+        }
+
+	$(selector)
+		.on(event, function() {
 			hide_images = !hide_images;
 			if (hide_images) {
 				$('img.post-image, .theme-catalog .thread>a>img').each(hideImage);
@@ -74,6 +89,10 @@ $(document).ready(function(){
 	if (hide_images) {
 		$('img.post-image, .theme-catalog .thread>a>img').each(hideImage);
 		show_hide_hide_images_buttons();
+
+                if (window.Options && Options.get_tab('general')) {
+                        $('#toggle-images>input').prop('checked', true);
+                }
 	}
 	
 	$(document).on('new_post', function(e, post) {
