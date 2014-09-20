@@ -107,6 +107,7 @@ $(function(){
     var list = $("<div class='boardlist top cb-menu watch-menu'></div>");
     list.attr("data-board", board);
 
+    if (storage()[board] && storage()[board].threads)
     for (var tid in storage()[board].threads) {
       var newposts = "(0)";
       if (status && status[board] && status[board].threads && status[board].threads[tid]) {
