@@ -274,6 +274,7 @@
 		'file_url',
 		'json_response',
 		'user_flag',
+		'no_country'
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -530,6 +531,9 @@
 
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
+
+	// Allow the user to decide whether or not he wants to display his country
+	$config['allow_no_country'] = false;
 
 	// Load all country flags from one file
 	$config['country_flags_condensed'] = true;

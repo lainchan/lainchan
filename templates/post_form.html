@@ -15,7 +15,7 @@
 				{{ antibot.html() }}
 			</th>
 			<td>
-				<input type="text" name="name" size="25" maxlength="35" autocomplete="off">
+				<input type="text" name="name" size="25" maxlength="35" autocomplete="off"> {% if config.allow_no_country and config.country_flags %}<input id="no_country" name="no_country" type="checkbox"> <label for="no_country">{% trans %}Don't show my flag{% endtrans %}</label>{% endif %}
 				{{ antibot.html() }}
 			</td>
 		</tr>{% endif %}

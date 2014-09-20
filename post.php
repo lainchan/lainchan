@@ -487,7 +487,7 @@ if (isset($_POST['delete'])) {
 		$post['body'] .= "\n<tinyboard raw html>1</tinyboard>";
 	}
 	
-	if ($config['country_flags']) {
+	if (($config['country_flags'] && !$config['allow_no_country']) || ($config['country_flags'] && $config['allow_no_country'] && !isset($_POST['no_country']))) {
 		require 'inc/lib/geoip/geoip.inc';
 		$gi=geoip\geoip_open('inc/lib/geoip/GeoIPv6.dat', GEOIP_STANDARD);
 	
