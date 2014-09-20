@@ -122,13 +122,13 @@ class Bans {
 		
 		$query = prepare('SELECT ``bans``.*' . ($get_mod_info ? ', `username`' : '') . ' FROM ``bans``
 		' . ($get_mod_info ? 'LEFT JOIN ``mods`` ON ``mods``.`id` = `creator`' : '') . '
-		WHERE
-			(' . ($board ? '(`board` IS NULL OR `board` = :board) AND' : '') . '
-			(`ipstart` = :ip OR (:ip >= `ipstart` AND :ip <= `ipend`)))
+		WHERE ' . ($id ? 'id = :id' : '
+			(' . ($board !== false ? '(`board` IS NULL OR `board` = :board) AND' : '') . '
+			(`ipstart` = :ip OR (:ip >= `ipstart` AND :ip <= `ipend`)))') . '
 		ORDER BY `expires` IS NULL, `expires` DESC');
 		
-		if ($board)
-			$query->bindValue(':board', $board);
+		if ($board !== false)
+			$query->bindValue(':board', $board, PDO::PARAM_STR);
 		
 		$query->bindValue(':ip', inet_pton($ip));
 		$query->execute() or error(db_error($query));
