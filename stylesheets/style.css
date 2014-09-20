@@ -535,6 +535,7 @@ form.ban-appeal textarea {
 
 .theme-catalog div.grid-size-vsmall img {
 	max-width: 100%;
+	max-height: 100px;
 }
 
 .theme-catalog div.grid-size-vsmall {
