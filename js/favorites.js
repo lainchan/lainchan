@@ -6,6 +6,8 @@
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/favorites.js';
+ *
+ * XX: favorites.js may conflict with watch.js and compact-boardlist.js
  */
 
 if (!localStorage.favorites) {
