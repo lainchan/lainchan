@@ -2,10 +2,6 @@
 <?php
 require dirname(__FILE__) . '/inc/cli.php';
                 
-if(!is_writable($config['file_script'])) {
-        get_httpd_privileges();
-}
-
 $variants = [["hour", 3600], ["day", 3600*24], ["3 days", 3600*24*3],
              ["week", 3600*24*7], ["month", 3600*24*7*30]];
 

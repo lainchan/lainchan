@@ -4,10 +4,6 @@
 
 require dirname(__FILE__) . '/inc/cli.php';
 
-if(!is_writable($config['file_script'])) {
-        get_httpd_privileges();
-}
-
 if (!isset ($argv[1])) {
 	die("Usage: tools/recount-bumps.php board_uri\n");
 }
