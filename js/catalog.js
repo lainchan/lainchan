@@ -7,12 +7,9 @@ if (active_page == 'catalog') $(function(){
 
 	$("#image_size").change(function(){
 		var value = this.value, old;
-		if (value == "small") {
-			old = "large";
-		} else {
-			old = "small";
-		}
-		$(".grid-li").removeClass("grid-size-"+old);
+		$(".grid-li").removeClass("grid-size-vsmall");
+		$(".grid-li").removeClass("grid-size-small");
+		$(".grid-li").removeClass("grid-size-large");
 		$(".grid-li").addClass("grid-size-"+value);
 	});
 

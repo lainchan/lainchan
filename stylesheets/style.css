@@ -533,6 +533,16 @@ form.ban-appeal textarea {
         margin-left: -20px;
 }
 
+.theme-catalog div.grid-size-vsmall img {
+	max-width: 100%;
+}
+
+.theme-catalog div.grid-size-vsmall {
+        width: 100px;
+        max-width: 100px;
+        max-height: 150px;
+}       
+
 .theme-catalog div.grid-size-small {
         width: 200px;
         max-width: 200px;
