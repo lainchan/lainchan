@@ -218,7 +218,8 @@ function setupVideosIn(element) {
 
 onready(function(){
     // Insert menu from settings.js
-    if (typeof settingsMenu != "undefined") document.body.insertBefore(settingsMenu, document.getElementsByTagName("hr")[0]);
+    if (typeof settingsMenu != "undefined" && typeof Options == "undefined")
+      document.body.insertBefore(settingsMenu, document.getElementsByTagName("hr")[0]);
 
     // Setup Javascript events for videos in document now
     setupVideosIn(document);

@@ -36,15 +36,25 @@ function changeSetting(name, value) {
 
 // Create settings menu
 var settingsMenu = document.createElement("div");
-settingsMenu.style.textAlign = "right";
-settingsMenu.style.background = "inherit";
+var prefix = "", suffix = "", style = "";
+if (window.Options) {
+  var tab = Options.add_tab("webm", "video-camera", _("WebM"));
+  $(settingsMenu).appendTo(tab.content);
+}
+else {
+  prefix = '<a class="unimportant" href="javascript:void(0)">'+_('WebM Settings')+'</a>';
+  settingsMenu.style.textAlign = "right";
+  settingsMenu.style.background = "inherit";
+  suffix = '</div>';
+  style = 'display: none; text-align: left; position: absolute; right: 1em; margin-left: -999em; margin-top: -1px; padding-top: 1px; background: inherit;';
+}
 
-settingsMenu.innerHTML = '<a class="unimportant" href="javascript:void(0)">'+_('WebM Settings')+'</a>'
-    + '<div style="display: none; text-align: left; position: absolute; right: 1em; margin-left: -999em; margin-top: -1px; padding-top: 1px; background: inherit;">'
+settingsMenu.innerHTML = prefix
+    + '<div style="'+style+'">'
     + '<label><input type="checkbox" name="videoexpand">'+_('Expand videos inline')+'</label><br>'
     + '<label><input type="checkbox" name="videohover">'+_('Play videos on hover')+'</label><br>'
     + '<label><input type="range" name="videovolume" min="0" max="1" step="0.01" style="width: 4em; height: 1ex; vertical-align: middle; margin: 0px;">'+_('Default volume')+'</label><br>'
-    + '</div>';
+    + suffix;
 
 function refreshSettings() {
     var settingsItems = settingsMenu.getElementsByTagName("input");
@@ -74,7 +84,7 @@ for (var i = 0; i < settingsItems.length; i++) {
     setupControl(settingsItems[i]);
 }
 
-if (settingsMenu.addEventListener) {
+if (settingsMenu.addEventListener && !window.Options) {
     settingsMenu.addEventListener("mouseover", function(e) {
         refreshSettings();
         settingsMenu.getElementsByTagName("a")[0].style.fontWeight = "bold";
