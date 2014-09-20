@@ -622,12 +622,6 @@ form.ban-appeal textarea {
 	vertical-align: middle;
 }
 
-/* Containerchan */
-    div.post video.post-image {
-        padding: 0;
-        margin: 5px 25px 5px 5px;
-    }
-
 /* live-index.js */
 .new-posts {
   opacity: 0.6;
