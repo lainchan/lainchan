@@ -254,3 +254,9 @@ border-top: 1px solid #835B36 !important;
 .desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
 	background: none repeat scroll 0 0 #FFFFFF;
 }
+
+/* options.js */ 
+#options_div { 
+        background: white; 
+}
+

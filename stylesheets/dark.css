@@ -178,3 +178,14 @@ table.modlog tr th {
 div.report {
 	color: #666666;
 }
+
+/* options.js */
+#options_div {
+	background: #333333;
+}
+.options_tab_icon {
+	color: #AAAAAA;
+}
+.options_tab_icon.active {
+	color: #FFFFFF;
+}

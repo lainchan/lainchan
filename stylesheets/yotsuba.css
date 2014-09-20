@@ -57,3 +57,8 @@ div.boardlist a {
 table.modlog tr th {
 	background: #EA8;
 }
+
+/* options.js */
+#options_div {
+	background: #f0e0d6;
+}

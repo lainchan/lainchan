@@ -476,3 +476,14 @@ input[type="submit"]:hover
 {
 	color: #9999CC;
 }
+
+/* options.js */
+#options_div {
+        background: #000000;
+}
+.options_tab_icon {
+        color: #AAAAAA;
+}
+.options_tab_icon.active {
+        color: #FFFFFF;
+}
