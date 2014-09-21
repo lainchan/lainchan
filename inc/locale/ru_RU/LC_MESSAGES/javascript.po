@@ -5,12 +5,13 @@
 # Translators:
 # Alex Assada <assada@mail.ua>, 2014
 # Alex Assada <assada@mail.ua>, 2014
+# Zhargal Sambuev <hello@sambuev.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-06-21 18:56+0000\n"
+"POT-Creation-Date: 2014-09-21 04:38+0200\n"
+"PO-Revision-Date: 2014-09-21 02:39+0000\n"
 "Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -45,6 +46,8 @@ msgstr "показать"
 #: ../../../../js/toggle-locked-threads.js:55
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
+#: ../../../../js/toggle-locked-threads.js:53
+#: ../../../../js/toggle-locked-threads.js:70
 msgid "Show locked threads"
 msgstr "Показать закрытые треды"
 
@@ -54,6 +57,9 @@ msgstr "Показать закрытые треды"
 #: ../../../../js/toggle-locked-threads.js:55
 #: ../../../../js/toggle-locked-threads.js:41
 #: ../../../../js/toggle-locked-threads.js:56
+#: ../../../../js/toggle-locked-threads.js:44
+#: ../../../../js/toggle-locked-threads.js:53
+#: ../../../../js/toggle-locked-threads.js:70
 msgid "Hide locked threads"
 msgstr "Скрыть закрытые треды"
 
@@ -83,16 +89,19 @@ msgid "Oekaki"
 msgstr "Oekaki"
 
 #: ../../../../js/toggle-images.js:41 ../../../../js/toggle-images.js:42
+#: ../../../../js/toggle-images.js:45
 msgid "hidden"
 msgstr "скрыто"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+#: ../../../../js/toggle-images.js:86
 msgid "Show images"
 msgstr "Показать изображения"
 
 #: ../../../../js/toggle-images.js:57 ../../../../js/toggle-images.js:70
 #: ../../../../js/toggle-images.js:58 ../../../../js/toggle-images.js:71
+#: ../../../../js/toggle-images.js:63 ../../../../js/toggle-images.js:86
 msgid "Hide images"
 msgstr "Скрыть изображения"
 
@@ -126,10 +135,12 @@ msgid "Click reply to view."
 msgstr "Нажмите ответ для просмотра."
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
+#: ../../../../js/live-index.js:72 ../../../../js/live-index.js:83
 msgid "Click to expand"
 msgstr "Нажмите чтобы раскрыть"
 
 #: ../../../../js/expand.js:44 ../../../../js/expand.js:46
+#: ../../../../js/expand.js:50
 msgid "Hide expanded replies"
 msgstr "Скрыть раскрытые ответы"
 
@@ -185,19 +196,22 @@ msgstr "Введите шрифт или оставить пустым"
 #: ../../../../js/forced-anon.js:69 ../../../../js/forced-anon.js:60
 #: ../../../../js/forced-anon.js:66 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
-#: ../../../../js/forced-anon.js:71
+#: ../../../../js/forced-anon.js:71 ../../../../js/forced-anon.js:73
+#: ../../../../js/forced-anon.js:81 ../../../../js/forced-anon.js:85
 msgid "Forced anonymity"
 msgstr "Все анонимно"
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:65
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:66
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:67
+#: ../../../../js/forced-anon.js:73 ../../../../js/forced-anon.js:81
 msgid "enabled"
 msgstr "включено "
 
 #: ../../../../js/forced-anon.js:59 ../../../../js/forced-anon.js:69
 #: ../../../../js/forced-anon.js:60 ../../../../js/forced-anon.js:70
 #: ../../../../js/forced-anon.js:61 ../../../../js/forced-anon.js:71
+#: ../../../../js/forced-anon.js:73 ../../../../js/forced-anon.js:85
 msgid "disabled"
 msgstr "отключено"
 
@@ -283,6 +297,8 @@ msgstr "{0} пользователей"
 #: ../../../../templates/themes/ukko/ukko.js:39
 #: ../../../../templates/themes/ukko/ukko.js:29
 #: ../../../../templates/themes/ukko/ukko.js:40
+#: ../../../../templates/themes/ukko/ukko.js:52
+#: ../../../../templates/themes/ukko/ukko.js:63
 msgid "(hide threads from this board)"
 msgstr "(скрыть треды этой доски)"
 
@@ -290,16 +306,20 @@ msgstr "(скрыть треды этой доски)"
 #: ../../../../templates/themes/ukko/ukko.js:44
 #: ../../../../templates/themes/ukko/ukko.js:33
 #: ../../../../templates/themes/ukko/ukko.js:45
+#: ../../../../templates/themes/ukko/ukko.js:56
+#: ../../../../templates/themes/ukko/ukko.js:68
 msgid "(show threads from this board)"
 msgstr "(показать треды этой доски)"
 
 #: ../../../../templates/themes/ukko/ukko.js:57
 #: ../../../../templates/themes/ukko/ukko.js:58
+#: ../../../../templates/themes/ukko/ukko.js:81
 msgid "No more threads to display"
 msgstr "Нет больше тредов для отображения"
 
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
+#: ../../../../templates/themes/ukko/ukko.js:103
 msgid "Loading..."
 msgstr "Загрузка..."
 
@@ -351,25 +371,28 @@ msgid "Spoiler Image"
 msgstr "Картинка-спойлер"
 
 #: ../../../../js/quick-reply.js:277 ../../../../js/quick-reply.js:278
-#: ../../../../js/quick-reply.js:279
+#: ../../../../js/quick-reply.js:279 ../../../../js/quick-reply.js:281
 msgid "Comment"
 msgstr "Комментарий"
 
 #: ../../../../js/quick-reply.js:285 ../../../../js/quick-reply.js:406
 #: ../../../../js/quick-reply.js:286 ../../../../js/quick-reply.js:407
 #: ../../../../js/quick-reply.js:287 ../../../../js/quick-reply.js:408
+#: ../../../../js/quick-reply.js:289 ../../../../js/quick-reply.js:410
 msgid "Quick Reply"
 msgstr "Быстрый ответ"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
+#: ../../../../js/watch.js:361 ../../../../js/watch.js:362
 msgid "Stop watching this thread"
 msgstr "Не следить за тредом"
 
 #: ../../../../js/watch.js:249 ../../../../js/watch.js:250
 #: ../../../../js/watch.js:288 ../../../../js/watch.js:289
 #: ../../../../js/watch.js:330 ../../../../js/watch.js:331
+#: ../../../../js/watch.js:361 ../../../../js/watch.js:362
 msgid "Watch this thread"
 msgstr "Следить за тредом"
 
@@ -377,7 +400,8 @@ msgstr "Следить за тредом"
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
 #: ../../../../js/watch.js:300 ../../../../js/watch.js:308
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
-#: ../../../../js/watch.js:350
+#: ../../../../js/watch.js:350 ../../../../js/watch.js:372
+#: ../../../../js/watch.js:373 ../../../../js/watch.js:381
 msgid "Unpin this board"
 msgstr "Открепить доску"
 
@@ -385,7 +409,8 @@ msgstr "Открепить доску"
 #: ../../../../js/watch.js:269 ../../../../js/watch.js:299
 #: ../../../../js/watch.js:300 ../../../../js/watch.js:308
 #: ../../../../js/watch.js:341 ../../../../js/watch.js:342
-#: ../../../../js/watch.js:350
+#: ../../../../js/watch.js:350 ../../../../js/watch.js:372
+#: ../../../../js/watch.js:373 ../../../../js/watch.js:381
 msgid "Pin this board"
 msgstr "Прикрепить доску"
 
@@ -393,7 +418,8 @@ msgstr "Прикрепить доску"
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
 #: ../../../../js/watch.js:306 ../../../../js/watch.js:307
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
-#: ../../../../js/watch.js:349
+#: ../../../../js/watch.js:349 ../../../../js/watch.js:374
+#: ../../../../js/watch.js:379 ../../../../js/watch.js:380
 msgid "Stop watching this board"
 msgstr "Не следить за доской"
 
@@ -401,7 +427,8 @@ msgstr "Не следить за доской"
 #: ../../../../js/watch.js:268 ../../../../js/watch.js:301
 #: ../../../../js/watch.js:306 ../../../../js/watch.js:307
 #: ../../../../js/watch.js:343 ../../../../js/watch.js:348
-#: ../../../../js/watch.js:349
+#: ../../../../js/watch.js:349 ../../../../js/watch.js:374
+#: ../../../../js/watch.js:379 ../../../../js/watch.js:380
 msgid "Watch this board"
 msgstr "Следить за доской"
 
@@ -559,19 +586,19 @@ msgstr "[Играть]"
 msgid "[loop]"
 msgstr "[Лупп]"
 
-#: ../../../../js/webm-settings.js:42
+#: ../../../../js/webm-settings.js:42 ../../../../js/webm-settings.js:45
 msgid "WebM Settings"
 msgstr "WebM настройки"
 
-#: ../../../../js/webm-settings.js:44
+#: ../../../../js/webm-settings.js:44 ../../../../js/webm-settings.js:54
 msgid "Expand videos inline"
 msgstr "Развернуть видео"
 
-#: ../../../../js/webm-settings.js:45
+#: ../../../../js/webm-settings.js:45 ../../../../js/webm-settings.js:55
 msgid "Play videos on hover"
 msgstr "Проиграть при наведении"
 
-#: ../../../../js/webm-settings.js:46
+#: ../../../../js/webm-settings.js:46 ../../../../js/webm-settings.js:56
 msgid "Default volume"
 msgstr "Громкость"
 
@@ -581,12 +608,114 @@ msgstr "Просмотр дерева"
 
 #: ../../../../js/expand-all-images.js:32
 msgid "Shrink all images"
-msgstr ""
+msgstr "Сжать все изображения"
 
-#: ../../../../js/no-animated-gif.js:33
+#: ../../../../js/no-animated-gif.js:33 ../../../../js/no-animated-gif.js:37
 msgid "Animate GIFs"
-msgstr ""
+msgstr "Анимированная gif-ка"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
+#: ../../../../js/no-animated-gif.js:47 ../../../../js/no-animated-gif.js:57
+#: ../../../../js/no-animated-gif.js:62
 msgid "Unanimate GIFs"
+msgstr "Не анимированная gif-ка"
+
+#: ../../../../js/webm-settings.js:41
+msgid "WebM"
+msgstr ""
+
+#: ../../../../js/live-index.js:25 ../../../../js/live-index.js:84
+msgid "No new posts."
+msgstr ""
+
+#: ../../../../js/live-index.js:30 ../../../../js/live-index.js:73
+msgid "No new threads."
+msgstr ""
+
+#: ../../../../js/live-index.js:72
+#, python-brace-format
+msgid "There are {0} new threads."
+msgstr ""
+
+#: ../../../../js/live-index.js:83
+#, python-brace-format
+msgid "There are {0} new posts in this thread."
+msgstr ""
+
+#: ../../../../js/options.js:106
+msgid "Options"
+msgstr ""
+
+#: ../../../../js/options/general.js:15
+msgid "General"
+msgstr ""
+
+#: ../../../../js/options/general.js:18
+msgid "Storage: "
+msgstr ""
+
+#: ../../../../js/options/general.js:21
+msgid "Export"
+msgstr ""
+
+#: ../../../../js/options/general.js:27
+msgid "Import"
+msgstr ""
+
+#: ../../../../js/options/general.js:28
+msgid "Paste your storage data"
+msgstr ""
+
+#: ../../../../js/options/general.js:40
+msgid "Erase"
+msgstr ""
+
+#: ../../../../js/options/general.js:41
+msgid ""
+"Are you sure you want to erase your storage? This involves your hidden "
+"threads, watched threads, post password and many more."
+msgstr ""
+
+#: ../../../../js/options/user-css.js:14
+msgid "User CSS"
+msgstr ""
+
+#: ../../../../js/options/user-css.js:23
+msgid "Update custom CSS"
+msgstr ""
+
+#: ../../../../js/options/user-css.js:45
+msgid "Enter here your own CSS rules..."
+msgstr ""
+
+#: ../../../../js/options/user-css.js:46
+msgid ""
+"If you want to make a redistributable style, be sure to\n"
+"   have a Yotsuba B theme selected."
+msgstr ""
+
+#: ../../../../js/options/user-css.js:47
+msgid "You can include CSS files from remote servers, for example:"
+msgstr ""
+
+#: ../../../../js/options/user-js.js:14
+msgid "User JS"
+msgstr ""
+
+#: ../../../../js/options/user-js.js:23
+msgid "Update custom Javascript"
+msgstr ""
+
+#: ../../../../js/options/user-js.js:54
+msgid "Enter here your own Javascript code..."
+msgstr ""
+
+#: ../../../../js/options/user-js.js:55
+msgid ""
+"Have a backup of your storage somewhere, as messing here\n"
+"   may render you this website unusable."
+msgstr ""
+
+#: ../../../../js/options/user-js.js:56
+msgid "You can include JS files from remote servers, for example:"
 msgstr ""

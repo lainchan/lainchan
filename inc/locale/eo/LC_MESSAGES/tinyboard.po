@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 20:55+0200\n"
-"PO-Revision-Date: 2014-07-19 15:11+0000\n"
-"Last-Translator: copypaste <admin@8chan.co>\n"
+"POT-Creation-Date: 2014-09-21 04:38+0200\n"
+"PO-Revision-Date: 2014-09-21 02:40+0000\n"
+"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +29,7 @@ msgstr ""
 #: ../../../../inc/functions.php:643 ../../../../inc/functions.php:660
 #: ../../../../inc/functions.php:653 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:655 ../../../../inc/functions.php:672
+#: ../../../../inc/functions.php:683 ../../../../inc/functions.php:700
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekundo"
@@ -42,6 +43,7 @@ msgstr[1] "sekundoj"
 #: ../../../../inc/functions.php:645 ../../../../inc/functions.php:662
 #: ../../../../inc/functions.php:655 ../../../../inc/functions.php:672
 #: ../../../../inc/functions.php:657 ../../../../inc/functions.php:674
+#: ../../../../inc/functions.php:685 ../../../../inc/functions.php:702
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuto"
@@ -55,6 +57,7 @@ msgstr[1] "minutoj"
 #: ../../../../inc/functions.php:647 ../../../../inc/functions.php:664
 #: ../../../../inc/functions.php:657 ../../../../inc/functions.php:674
 #: ../../../../inc/functions.php:659 ../../../../inc/functions.php:676
+#: ../../../../inc/functions.php:687 ../../../../inc/functions.php:704
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "horo"
@@ -68,6 +71,7 @@ msgstr[1] "horoj"
 #: ../../../../inc/functions.php:649 ../../../../inc/functions.php:666
 #: ../../../../inc/functions.php:659 ../../../../inc/functions.php:676
 #: ../../../../inc/functions.php:661 ../../../../inc/functions.php:678
+#: ../../../../inc/functions.php:689 ../../../../inc/functions.php:706
 msgid "day"
 msgid_plural "days"
 msgstr[0] "tago"
@@ -81,6 +85,7 @@ msgstr[1] "tagoj"
 #: ../../../../inc/functions.php:651 ../../../../inc/functions.php:668
 #: ../../../../inc/functions.php:661 ../../../../inc/functions.php:678
 #: ../../../../inc/functions.php:663 ../../../../inc/functions.php:680
+#: ../../../../inc/functions.php:691 ../../../../inc/functions.php:708
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "semajno"
@@ -94,6 +99,7 @@ msgstr[1] "semajnoj"
 #: ../../../../inc/functions.php:654 ../../../../inc/functions.php:671
 #: ../../../../inc/functions.php:664 ../../../../inc/functions.php:681
 #: ../../../../inc/functions.php:666 ../../../../inc/functions.php:683
+#: ../../../../inc/functions.php:694 ../../../../inc/functions.php:711
 msgid "year"
 msgid_plural "years"
 msgstr[0] "jaro"
@@ -103,6 +109,7 @@ msgstr[1] "jaroj"
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
 #: ../../../../inc/functions.php:708 ../../../../inc/functions.php:722
 #: ../../../../inc/functions.php:732 ../../../../inc/functions.php:727
+#: ../../../../inc/functions.php:755
 msgid "Banned!"
 msgstr "Malpermesita!"
 
@@ -115,6 +122,7 @@ msgstr "Malpermesita!"
 #: ../../../../inc/functions.php:1206 ../../../../inc/functions.php:1220
 #: ../../../../inc/functions.php:1234 ../../../../inc/functions.php:1230
 #: ../../../../inc/functions.php:1244 ../../../../inc/functions.php:1228
+#: ../../../../inc/functions.php:1242 ../../../../inc/functions.php:1256
 msgid "Previous"
 msgstr "Antaŭa"
 
@@ -127,7 +135,8 @@ msgstr "Antaŭa"
 #: ../../../../inc/functions.php:1234 ../../../../inc/functions.php:1239
 #: ../../../../inc/functions.php:1248 ../../../../inc/functions.php:1249
 #: ../../../../inc/functions.php:1258 ../../../../inc/functions.php:1233
-#: ../../../../inc/functions.php:1242
+#: ../../../../inc/functions.php:1242 ../../../../inc/functions.php:1261
+#: ../../../../inc/functions.php:1270
 msgid "Next"
 msgstr "Sekvanta"
 
@@ -218,6 +227,7 @@ msgstr "Transloki respondon al alia tabulo"
 #: ../../../../inc/display.php:412 ../../../../inc/display.php:541
 #: ../../../../inc/mod/pages.php:1508
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:208
+#: ../../../../inc/mod/pages.php:1509
 msgid "Edit post"
 msgstr "Redakti afiŝon"
 
@@ -313,7 +323,7 @@ msgstr "Transloki fadenon al alia tabulo"
 #. (n^x where x is the number of previous mutes)
 #: ../../../../inc/config.php:346 ../../../../inc/config.php:473
 #: ../../../../inc/config.php:474 ../../../../inc/config.php:475
-#: ../../../../inc/config.php:476
+#: ../../../../inc/config.php:476 ../../../../inc/config.php:479
 msgid "You have been muted for unoriginal content."
 msgstr "Vi mutiĝis pro maloriginala enhavo."
 
@@ -324,14 +334,14 @@ msgstr "Vi mutiĝis pro maloriginala enhavo."
 #: ../../../../inc/config.php:677 ../../../../inc/config.php:781
 #: ../../../../inc/config.php:772 ../../../../inc/config.php:774
 #: ../../../../inc/config.php:776 ../../../../inc/config.php:792
-#: ../../../../inc/config.php:803
+#: ../../../../inc/config.php:803 ../../../../inc/config.php:829
 msgid "New Topic"
 msgstr "Nova Temo"
 
 #: ../../../../inc/config.php:678 ../../../../inc/config.php:782
 #: ../../../../inc/config.php:773 ../../../../inc/config.php:775
 #: ../../../../inc/config.php:777 ../../../../inc/config.php:793
-#: ../../../../inc/config.php:804
+#: ../../../../inc/config.php:804 ../../../../inc/config.php:830
 msgid "New Reply"
 msgstr "Nova Respondo"
 
@@ -339,7 +349,7 @@ msgstr "Nova Respondo"
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
 #: ../../../../inc/config.php:784 ../../../../inc/config.php:786
 #: ../../../../inc/config.php:788 ../../../../inc/config.php:804
-#: ../../../../inc/config.php:815
+#: ../../../../inc/config.php:815 ../../../../inc/config.php:841
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
@@ -364,21 +374,21 @@ msgstr "Gvatu iom plu antaŭ afiŝi."
 #: ../../../../inc/config.php:867 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:963 ../../../../inc/config.php:965
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:983
-#: ../../../../inc/config.php:991
+#: ../../../../inc/config.php:991 ../../../../inc/config.php:1017
 msgid "You look like a bot."
 msgstr "Vi ŝajnas kiel bot. "
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:984
-#: ../../../../inc/config.php:992
+#: ../../../../inc/config.php:992 ../../../../inc/config.php:1018
 msgid "Your browser sent an invalid or no HTTP referer."
 msgstr "Via retumilo sendis malvalidan aŭ nenian HTTP referer."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:985
-#: ../../../../inc/config.php:993
+#: ../../../../inc/config.php:993 ../../../../inc/config.php:1019
 #, php-format
 msgid "The %s field was too long."
 msgstr "La %s tekstejo tro longis."
@@ -386,105 +396,105 @@ msgstr "La %s tekstejo tro longis."
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:986
-#: ../../../../inc/config.php:994
+#: ../../../../inc/config.php:994 ../../../../inc/config.php:1020
 msgid "The body was too long."
 msgstr "La mesaĝo tro longis."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:987
-#: ../../../../inc/config.php:995
+#: ../../../../inc/config.php:995 ../../../../inc/config.php:1021
 msgid "The body was too short or empty."
 msgstr "La mesaĝo tro mallongis aŭ estis malplena."
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:988
-#: ../../../../inc/config.php:996
+#: ../../../../inc/config.php:996 ../../../../inc/config.php:1022
 msgid "You must upload an image."
 msgstr "Vi devas alŝuti bildon."
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:989
-#: ../../../../inc/config.php:998
+#: ../../../../inc/config.php:998 ../../../../inc/config.php:1024
 msgid "The server failed to handle your upload."
 msgstr "La servilo malsukcesis prilabori vian alŝuton."
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:990
-#: ../../../../inc/config.php:999
+#: ../../../../inc/config.php:999 ../../../../inc/config.php:1025
 msgid "Unsupported image format."
 msgstr "Nesubtenita bildotipo."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:991
-#: ../../../../inc/config.php:1000
+#: ../../../../inc/config.php:1000 ../../../../inc/config.php:1026
 msgid "Invalid board!"
 msgstr "Malvalida tabulo!"
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:992
-#: ../../../../inc/config.php:1001
+#: ../../../../inc/config.php:1001 ../../../../inc/config.php:1027
 msgid "Thread specified does not exist."
 msgstr "Specifita fadeno ne ekzistas."
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:993
-#: ../../../../inc/config.php:1002
+#: ../../../../inc/config.php:1002 ../../../../inc/config.php:1028
 msgid "Thread locked. You may not reply at this time."
 msgstr "Fadeno fermita. Vi ne povas respondi nuntempe."
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:994
-#: ../../../../inc/config.php:1003
+#: ../../../../inc/config.php:1003 ../../../../inc/config.php:1029
 msgid "Thread has reached its maximum reply limit."
 msgstr "Fadeno atingis sian maksimuman limon de respondoj."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:995
-#: ../../../../inc/config.php:1004
+#: ../../../../inc/config.php:1004 ../../../../inc/config.php:1030
 msgid "Thread has reached its maximum image limit."
 msgstr "Fadeno atingis sian maksimuman limon de bildoj."
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:996
-#: ../../../../inc/config.php:1005
+#: ../../../../inc/config.php:1005 ../../../../inc/config.php:1031
 msgid "You didn't make a post."
 msgstr "Vi ne faris afiŝon."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:997
-#: ../../../../inc/config.php:1006
+#: ../../../../inc/config.php:1006 ../../../../inc/config.php:1032
 msgid "Flood detected; Post discarded."
 msgstr "Inundon perceptita; Afiŝon forigita."
 
 #: ../../../../inc/config.php:882 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:998
-#: ../../../../inc/config.php:1007
+#: ../../../../inc/config.php:1007 ../../../../inc/config.php:1033
 msgid "Your request looks automated; Post discarded."
 msgstr "Via peto ŝajnas aŭtomata; Afiŝon forigita."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:999
-#: ../../../../inc/config.php:1008
+#: ../../../../inc/config.php:1008 ../../../../inc/config.php:1034
 msgid "Unoriginal content!"
 msgstr "Maloriginala enhavo!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:1000
-#: ../../../../inc/config.php:1009
+#: ../../../../inc/config.php:1009 ../../../../inc/config.php:1035
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
 msgstr "Maloriginala enhavo! Vi mutiĝos dum %d sekundoj."
@@ -492,7 +502,7 @@ msgstr "Maloriginala enhavo! Vi mutiĝos dum %d sekundoj."
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:1001
-#: ../../../../inc/config.php:1010
+#: ../../../../inc/config.php:1010 ../../../../inc/config.php:1036
 #, php-format
 msgid "You are muted! Expires in %d seconds."
 msgstr "Vi mutiĝis! Finiĝos post %d sekundoj."
@@ -500,7 +510,7 @@ msgstr "Vi mutiĝis! Finiĝos post %d sekundoj."
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:1002
-#: ../../../../inc/config.php:1011
+#: ../../../../inc/config.php:1011 ../../../../inc/config.php:1037
 #, php-format
 msgid "Your IP address is listed in %s."
 msgstr "Via IP adreso listiĝas en %s."
@@ -508,84 +518,84 @@ msgstr "Via IP adreso listiĝas en %s."
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:1003
-#: ../../../../inc/config.php:1012
+#: ../../../../inc/config.php:1012 ../../../../inc/config.php:1038
 msgid "Too many links; flood detected."
 msgstr "Tro da ligiloj; inundon perceptita."
 
 #: ../../../../inc/config.php:888 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:984 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:1004
-#: ../../../../inc/config.php:1013
+#: ../../../../inc/config.php:1013 ../../../../inc/config.php:1039
 msgid "Too many cites; post discarded."
 msgstr "Tro da citaĵoj; afiŝon forigita."
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:1005
-#: ../../../../inc/config.php:1014
+#: ../../../../inc/config.php:1014 ../../../../inc/config.php:1040
 msgid "Too many cross-board links; post discarded."
 msgstr "Tro da trans-tabulaj ligoj; afiŝo forigita."
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:1006
-#: ../../../../inc/config.php:1015
+#: ../../../../inc/config.php:1015 ../../../../inc/config.php:1041
 msgid "You didn't select anything to delete."
 msgstr "Vi ne elektis ion por forviŝi."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:1007
-#: ../../../../inc/config.php:1016
+#: ../../../../inc/config.php:1016 ../../../../inc/config.php:1042
 msgid "You didn't select anything to report."
 msgstr "Vi ne elektis ion por raporti."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:1008
-#: ../../../../inc/config.php:1017
+#: ../../../../inc/config.php:1017 ../../../../inc/config.php:1043
 msgid "You can't report that many posts at once."
 msgstr "Vi ne povas raporti tiom da afiŝoj samtempe."
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:1009
-#: ../../../../inc/config.php:1018
+#: ../../../../inc/config.php:1018 ../../../../inc/config.php:1044
 msgid "Wrong password…"
 msgstr "Malĝusta pasvorto..."
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:1010
-#: ../../../../inc/config.php:1019
+#: ../../../../inc/config.php:1019 ../../../../inc/config.php:1045
 msgid "Invalid image."
 msgstr "Malvalida bildo."
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:1011
-#: ../../../../inc/config.php:1020
+#: ../../../../inc/config.php:1020 ../../../../inc/config.php:1046
 msgid "Unknown file extension."
 msgstr "Nekonata dosiertipo."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:1012
-#: ../../../../inc/config.php:1021
+#: ../../../../inc/config.php:1021 ../../../../inc/config.php:1047
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
 msgstr "Maksimuma dosiera grandeco: %maxsz% bitokoj<br>Via dosiera grandeco: %filesz% bitokoj"
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:1013
-#: ../../../../inc/config.php:1022
+#: ../../../../inc/config.php:1022 ../../../../inc/config.php:1048
 msgid "The file was too big."
 msgstr "La dosiero tro grandis."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1014
-#: ../../../../inc/config.php:1023
+#: ../../../../inc/config.php:1023 ../../../../inc/config.php:1053
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
 msgstr "Tiu dosiero <a href=\"%s\">jam ekzistas</a>!"
@@ -593,7 +603,7 @@ msgstr "Tiu dosiero <a href=\"%s\">jam ekzistas</a>!"
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1015
-#: ../../../../inc/config.php:1024
+#: ../../../../inc/config.php:1024 ../../../../inc/config.php:1054
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
 msgstr "Tiu dosiero <a href=\"%s\">jam ekzistas</a> en ĉi tiu fadeno!"
@@ -601,7 +611,7 @@ msgstr "Tiu dosiero <a href=\"%s\">jam ekzistas</a> en ĉi tiu fadeno!"
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:1000 ../../../../inc/config.php:1016
-#: ../../../../inc/config.php:1025
+#: ../../../../inc/config.php:1025 ../../../../inc/config.php:1055
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
 msgstr "Vi devos esperi %s antaŭ vi povos forviŝi tion."
@@ -609,21 +619,21 @@ msgstr "Vi devos esperi %s antaŭ vi povos forviŝi tion."
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
-#: ../../../../inc/config.php:1026
+#: ../../../../inc/config.php:1026 ../../../../inc/config.php:1056
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
 msgstr "MIME-tipo detection XSS exploit (IE) perceptita; afiŝon forigita."
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1018
-#: ../../../../inc/config.php:1027
+#: ../../../../inc/config.php:1027 ../../../../inc/config.php:1057
 msgid "Couldn't make sense of the URL of the video you tried to embed."
 msgstr "Maleblis kompreni la URL-on de la videon kiun vi provis enmeti."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1019
-#: ../../../../inc/config.php:1028
+#: ../../../../inc/config.php:1028 ../../../../inc/config.php:1058
 msgid "You seem to have mistyped the verification."
 msgstr "Vi ŝajne mistajpis la kontrolilon."
 
@@ -631,7 +641,7 @@ msgstr "Vi ŝajne mistajpis la kontrolilon."
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1022
-#: ../../../../inc/config.php:1031
+#: ../../../../inc/config.php:1031 ../../../../inc/config.php:1062
 #, php-format
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
@@ -641,21 +651,21 @@ msgstr "Vi nur eblas repermesi %s uzantojn samtempe. Vi provis repermesi %u uzan
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1023
-#: ../../../../inc/config.php:1032
+#: ../../../../inc/config.php:1032 ../../../../inc/config.php:1063
 msgid "Invalid username and/or password."
 msgstr "Malvalida salutnomo kaj/aŭ pasvorto."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1024
-#: ../../../../inc/config.php:1033
+#: ../../../../inc/config.php:1033 ../../../../inc/config.php:1064
 msgid "You are not a mod…"
 msgstr "Vi ne estas estrarano..."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1025
-#: ../../../../inc/config.php:1034
+#: ../../../../inc/config.php:1034 ../../../../inc/config.php:1065
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
@@ -664,21 +674,21 @@ msgstr "Malvalida salutnomo kaj/aŭ pasvorto. Via uzanto eble forviŝiĝis aŭ �
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1026
-#: ../../../../inc/config.php:1035
+#: ../../../../inc/config.php:1035 ../../../../inc/config.php:1066
 msgid "Invalid/malformed cookies."
 msgstr "Malvalidaj/misformitaj cookie-oj."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
-#: ../../../../inc/config.php:1036
+#: ../../../../inc/config.php:1036 ../../../../inc/config.php:1067
 msgid "Your browser didn't submit an input when it should have."
 msgstr "Via retumilo ne faris enigon kiam ĝi devis."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1028
-#: ../../../../inc/config.php:1037
+#: ../../../../inc/config.php:1037 ../../../../inc/config.php:1068
 #, php-format
 msgid "The %s field is required."
 msgstr "La %s tekstejo endas."
@@ -686,7 +696,7 @@ msgstr "La %s tekstejo endas."
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1029
-#: ../../../../inc/config.php:1038
+#: ../../../../inc/config.php:1038 ../../../../inc/config.php:1069
 #, php-format
 msgid "The %s field was invalid."
 msgstr "La %s tekstejo malvalidis."
@@ -694,7 +704,7 @@ msgstr "La %s tekstejo malvalidis."
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1030
-#: ../../../../inc/config.php:1039
+#: ../../../../inc/config.php:1039 ../../../../inc/config.php:1070
 #, php-format
 msgid "There is already a %s board."
 msgstr "Jam ekzistas tabulo %s."
@@ -702,28 +712,28 @@ msgstr "Jam ekzistas tabulo %s."
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1031
-#: ../../../../inc/config.php:1040
+#: ../../../../inc/config.php:1040 ../../../../inc/config.php:1071
 msgid "You don't have permission to do that."
 msgstr "Vi ne havas permeson por fari tion."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1032
-#: ../../../../inc/config.php:1041
+#: ../../../../inc/config.php:1041 ../../../../inc/config.php:1072
 msgid "That post doesn't exist…"
 msgstr "Tiu afiŝo ne ekzistas..."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1017 ../../../../inc/config.php:1033
-#: ../../../../inc/config.php:1042
+#: ../../../../inc/config.php:1042 ../../../../inc/config.php:1073
 msgid "Page not found."
 msgstr "Paĝon ne trovita."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1018 ../../../../inc/config.php:1034
-#: ../../../../inc/config.php:1043
+#: ../../../../inc/config.php:1043 ../../../../inc/config.php:1074
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
 msgstr "Tiu estrarano <a href=\"?/users/%d\">jam ekzistas</a>!"
@@ -731,14 +741,14 @@ msgstr "Tiu estrarano <a href=\"?/users/%d\">jam ekzistas</a>!"
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1035
-#: ../../../../inc/config.php:1044
+#: ../../../../inc/config.php:1044 ../../../../inc/config.php:1075
 msgid "That theme doesn't exist!"
 msgstr "Tiu temo ne ekzistas!"
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1020 ../../../../inc/config.php:1036
-#: ../../../../inc/config.php:1045
+#: ../../../../inc/config.php:1045 ../../../../inc/config.php:1076
 msgid "Invalid security token! Please go back and try again."
 msgstr "Nevalida sekurecsigno! Bonvolu reiri kaj reprovu."
 
@@ -751,7 +761,7 @@ msgstr "Nevalida sekurecsigno! Bonvolu reiri kaj reprovu."
 #: ../../../../inc/config.php:1086 ../../../../inc/config.php:1189
 #: ../../../../inc/config.php:1180 ../../../../inc/config.php:1185
 #: ../../../../inc/config.php:1187 ../../../../inc/config.php:1203
-#: ../../../../inc/config.php:1212
+#: ../../../../inc/config.php:1212 ../../../../inc/config.php:1243
 msgid "USER WAS BANNED FOR THIS POST"
 msgstr "UZANTO ESTIS MALPERMESITA PRO ĈI TIU AFIŜO"
 
@@ -849,7 +859,7 @@ msgstr "IP"
 #: ../../../../inc/mod/pages.php:848 ../../../../inc/mod/pages.php:1367
 #: ../../../../inc/mod/pages.php:862 ../../../../inc/mod/pages.php:1432
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:440
-#: ../../../../inc/mod/pages.php:1446
+#: ../../../../inc/mod/pages.php:1446 ../../../../inc/mod/pages.php:1447
 msgid "New ban"
 msgstr "Nova malpermeso"
 
@@ -862,34 +872,36 @@ msgstr "Malpermesullisto"
 #: ../../../../inc/mod/pages.php:1105 ../../../../inc/mod/pages.php:1165
 #: ../../../../inc/mod/pages.php:1172
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:108
+#: ../../../../inc/mod/pages.php:1173
 msgid "Move reply"
 msgstr "Transloki respondon"
 
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
-#: ../../../../inc/mod/pages.php:1198
+#: ../../../../inc/mod/pages.php:1198 ../../../../inc/mod/pages.php:1199
 msgid "Target and source board are the same."
 msgstr "Cela kaj fonta tabuloj samas."
 
 #: ../../../../inc/mod/pages.php:1296 ../../../../inc/mod/pages.php:1357
-#: ../../../../inc/mod/pages.php:1371
+#: ../../../../inc/mod/pages.php:1371 ../../../../inc/mod/pages.php:1372
 msgid "Impossible to move thread; there is only one board."
 msgstr "Maleblas transloki fadenon; ekzistas nur unu tabulo."
 
 #. line 39
 #: ../../../../inc/mod/pages.php:1300 ../../../../inc/mod/pages.php:1361
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:114
-#: ../../../../inc/mod/pages.php:1375
+#: ../../../../inc/mod/pages.php:1375 ../../../../inc/mod/pages.php:1376
 msgid "Move thread"
 msgstr "Transloki fadenon"
 
 #: ../../../../inc/mod/pages.php:1698 ../../../../inc/mod/pages.php:1751
 #: ../../../../inc/mod/pages.php:1775 ../../../../inc/mod/pages.php:1791
+#: ../../../../inc/mod/pages.php:1792
 msgid "Edit user"
 msgstr "Redakti uzanton"
 
 #: ../../../../inc/mod/pages.php:1764 ../../../../inc/mod/pages.php:1855
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:274
-#: ../../../../inc/mod/pages.php:1871
+#: ../../../../inc/mod/pages.php:1871 ../../../../inc/mod/pages.php:1872
 msgid "Manage users"
 msgstr "Administri uzantojn"
 
@@ -897,18 +909,19 @@ msgstr "Administri uzantojn"
 #: ../../../../inc/mod/pages.php:1826 ../../../../inc/mod/pages.php:1899
 #: ../../../../inc/mod/pages.php:1945 ../../../../inc/mod/pages.php:2021
 #: ../../../../inc/mod/pages.php:1961 ../../../../inc/mod/pages.php:2037
+#: ../../../../inc/mod/pages.php:1962 ../../../../inc/mod/pages.php:2038
 msgid "New PM for"
 msgstr "Nova PM por"
 
 #: ../../../../inc/mod/pages.php:1830 ../../../../inc/mod/pages.php:1952
-#: ../../../../inc/mod/pages.php:1968
+#: ../../../../inc/mod/pages.php:1968 ../../../../inc/mod/pages.php:1969
 msgid "Private message"
 msgstr "Privata mesaĝo"
 
 #. line 68
 #: ../../../../inc/mod/pages.php:1851 ../../../../inc/mod/pages.php:1973
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:200
-#: ../../../../inc/mod/pages.php:1989
+#: ../../../../inc/mod/pages.php:1989 ../../../../inc/mod/pages.php:1990
 msgid "PM inbox"
 msgstr "PM ricevujo"
 
@@ -918,67 +931,69 @@ msgstr "PM ricevujo"
 #: ../../../../templates/cache/ae/30/5b1888bb2e8ab6981af945fea88c1ecb021b0dfa8a068ee7adeb9dd3ee7d.php:115
 #: ../../../../inc/mod/pages.php:2106 ../../../../inc/mod/pages.php:2110
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:318
+#: ../../../../inc/mod/pages.php:2107 ../../../../inc/mod/pages.php:2111
 msgid "Rebuild"
 msgstr "Rekonstrui"
 
 #: ../../../../inc/mod/pages.php:2043 ../../../../inc/mod/pages.php:2179
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:238
-#: ../../../../inc/mod/pages.php:2195
+#: ../../../../inc/mod/pages.php:2195 ../../../../inc/mod/pages.php:2196
 msgid "Report queue"
 msgstr "Raporta vico"
 
 #: ../../../../inc/mod/pages.php:2111 ../../../../inc/mod/pages.php:2210
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
 #: ../../../../inc/mod/pages.php:2334 ../../../../inc/mod/pages.php:2428
+#: ../../../../inc/mod/pages.php:2328 ../../../../inc/mod/pages.php:2422
 msgid "Config editor"
 msgstr "Agordredaktilo"
 
 #: ../../../../inc/mod/pages.php:2226 ../../../../inc/mod/pages.php:2367
-#: ../../../../inc/mod/pages.php:2445
+#: ../../../../inc/mod/pages.php:2445 ../../../../inc/mod/pages.php:2439
 msgid "Themes directory doesn't exist!"
 msgstr "Dosierujo de temoj ne ekzistas!"
 
 #: ../../../../inc/mod/pages.php:2228 ../../../../inc/mod/pages.php:2369
-#: ../../../../inc/mod/pages.php:2447
+#: ../../../../inc/mod/pages.php:2447 ../../../../inc/mod/pages.php:2441
 msgid "Cannot open themes directory; check permissions."
 msgstr "Maleblas malfermi dosierujo de temoj; kontrolu permesojn."
 
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
-#: ../../../../inc/mod/pages.php:2466
+#: ../../../../inc/mod/pages.php:2466 ../../../../inc/mod/pages.php:2460
 msgid "Manage themes"
 msgstr "Administri temojn"
 
 #: ../../../../inc/mod/pages.php:2307 ../../../../inc/mod/pages.php:2453
-#: ../../../../inc/mod/pages.php:2531
+#: ../../../../inc/mod/pages.php:2531 ../../../../inc/mod/pages.php:2525
 #, php-format
 msgid "Installed theme: %s"
 msgstr "Instalita stilo: %s"
 
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
-#: ../../../../inc/mod/pages.php:2542
+#: ../../../../inc/mod/pages.php:2542 ../../../../inc/mod/pages.php:2536
 #, php-format
 msgid "Configuring theme: %s"
 msgstr "Agordado stilon: %s"
 
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
-#: ../../../../inc/mod/pages.php:2571
+#: ../../../../inc/mod/pages.php:2571 ../../../../inc/mod/pages.php:2565
 #, php-format
 msgid "Rebuilt theme: %s"
 msgstr "Rekonstruita stilon: %s"
 
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
-#: ../../../../inc/mod/pages.php:2610
+#: ../../../../inc/mod/pages.php:2610 ../../../../inc/mod/pages.php:2604
 msgid "Debug: Anti-spam"
 msgstr "Malcimigo: Kontraŭrubmesaĝo"
 
 #: ../../../../inc/mod/pages.php:2409 ../../../../inc/mod/pages.php:2566
-#: ../../../../inc/mod/pages.php:2644
+#: ../../../../inc/mod/pages.php:2644 ../../../../inc/mod/pages.php:2638
 msgid "Debug: Recent posts"
 msgstr "Malcimigo: Freŝaj afiŝoj"
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
-#: ../../../../inc/mod/pages.php:2668
+#: ../../../../inc/mod/pages.php:2668 ../../../../inc/mod/pages.php:2662
 msgid "Debug: SQL"
 msgstr "Malcimigo: SQL"
 
@@ -1044,12 +1059,15 @@ msgstr "Forviŝi Afiŝon"
 #. line 4
 #. line 97
 #. line 4
+#. line 97
+#. line 4
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:26
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:250
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:253
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:29
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:290
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:31
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:301
 msgid "File"
 msgstr "Dosiero"
 
@@ -1076,6 +1094,7 @@ msgstr "Dosiero"
 #. line 144
 #. line 21
 #. line 14
+#. line 144
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:28
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:364
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
@@ -1085,6 +1104,7 @@ msgstr "Dosiero"
 #: ../../../../templates/cache/37/ea/10898251a344348e062662ce7a7b7f6c8dae001e2c860ce58ea35cedd935.php:69
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:400
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:33
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:411
 msgid "Password"
 msgstr "Pasvorto"
 
@@ -1153,6 +1173,7 @@ msgstr "Pasvorto"
 #. line 9
 #. line 23
 #. line 48
+#. line 10
 #: ../../../../templates/cache/82/40/4c4a4b82f787181e6500ce83494d.php:39
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:42
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:285
@@ -1261,6 +1282,9 @@ msgstr "Dosiero:"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:209
 #: ../../../../templates/cache/9b/6a/0d0c5add399e8dfbd5c8c097ea68815306312248498dae4682282190e561.php:128
 #: ../../../../templates/cache/f4/a7/ad2833eb0c0460ae8ae508f0d0846fd7a06aafcf8ef126ae76721e92f42a.php:82
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:141
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:179
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:220
 msgid "Spoiler Image"
 msgstr "Cenzuri Bildon"
 
@@ -1271,6 +1295,7 @@ msgstr "Cenzuri Bildon"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:591
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:304
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:216
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:227
 msgid "Reply"
 msgstr "Respondi"
 
@@ -1281,6 +1306,7 @@ msgstr "Respondi"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:605
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:230
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:241
 msgid "View All"
 msgstr "Vidi ĉion"
 
@@ -1291,6 +1317,7 @@ msgstr "Vidi ĉion"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:622
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:335
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:247
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:258
 msgid "Last 1 Post"
 msgid_plural "Last %count% Posts"
 msgstr[0] "Lasta afiŝo"
@@ -1303,6 +1330,7 @@ msgstr[1] "Lastaj %count% afiŝoj"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:659
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:372
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:284
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:295
 msgid "1 post"
 msgid_plural "%count% posts"
 msgstr[0] "Unu afiŝo"
@@ -1316,6 +1344,7 @@ msgstr[1] "%count% afiŝoj"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:665
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:378
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:290
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:301
 msgid "and"
 msgstr "kaj"
 
@@ -1326,6 +1355,7 @@ msgstr "kaj"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:677
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:390
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:302
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:313
 msgid "1 image reply"
 msgid_plural "%count% image replies"
 msgstr[0] "1 bildhava respondo"
@@ -1338,6 +1368,7 @@ msgstr[1] "%count% bildhavaj respondoj"
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:682
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:395
 #: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:307
+#: ../../../../templates/cache/b5/eb/fd7d06d38210e123d492fb7f2a1891578af746ef421003f1b55da157122f.php:318
 msgid "omitted. Click reply to view."
 msgstr "malinkluzivas. Klaku respondi por vidi."
 
@@ -1393,6 +1424,7 @@ msgstr "Nomo"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:88
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:91
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:47
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:97
 msgid "Email"
 msgstr "Retpoŝtadreso"
 
@@ -1428,6 +1460,7 @@ msgstr "Retpoŝtadreso"
 #: ../../../../templates/cache/1a/7f/6eb467b2d978da59cfea2fe64f8898a5fb769be35fbb2ec50691da9a3d52.php:76
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:150
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:61
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:161
 msgid "Subject"
 msgstr "Temo"
 
@@ -1453,6 +1486,7 @@ msgstr "Ĝisdatigi"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:178
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:181
 #: ../../../../templates/cache/d1/2d/e4ea563232b42da227befa9cf03fef935e472b1268221e2399d8d6af1cd5.php:79
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:192
 msgid "Comment"
 msgstr "Komento"
 
@@ -1474,6 +1508,7 @@ msgstr "Ĉu redakti krudan HTML-on anstataŭ?"
 #. line 73
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:226
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:229
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:240
 msgid "Verification"
 msgstr "Kontrolado"
 
@@ -1482,6 +1517,7 @@ msgstr "Kontrolado"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:262
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:265
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:302
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:313
 msgid "Or URL"
 msgstr "Aŭ URL"
 
@@ -1490,6 +1526,7 @@ msgstr "Aŭ URL"
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:282
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:285
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:322
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:333
 msgid "Embed"
 msgstr "Enmeti"
 
@@ -1500,6 +1537,7 @@ msgstr "Enmeti"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:309
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:305
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:342
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:353
 msgid "Flags"
 msgstr "Flagoj"
 
@@ -1533,6 +1571,8 @@ msgstr "Flagoj"
 #. line 129
 #. line 128
 #. line 129
+#. line 128
+#. line 129
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:316
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:320
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:319
@@ -1540,6 +1580,8 @@ msgstr "Flagoj"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:315
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:352
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:356
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:363
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:367
 msgid "Sticky"
 msgstr "Glui"
 
@@ -1573,6 +1615,8 @@ msgstr "Glui"
 #. line 133
 #. line 132
 #. line 133
+#. line 132
+#. line 133
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:330
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:334
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:333
@@ -1580,6 +1624,8 @@ msgstr "Glui"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:329
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:366
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:370
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:377
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:381
 msgid "Lock"
 msgstr "Fermi"
 
@@ -1613,6 +1659,8 @@ msgstr "Fermi"
 #. line 137
 #. line 136
 #. line 137
+#. line 136
+#. line 137
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:344
 #: ../../../../templates/cache/0c/37/9331df01df7c2986d77a02d3beb0.php:348
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:347
@@ -1620,6 +1668,8 @@ msgstr "Fermi"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:343
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:380
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:384
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:391
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:395
 msgid "Raw HTML"
 msgstr "Kruda HTML"
 
@@ -1632,6 +1682,7 @@ msgstr "Kruda HTML"
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:373
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:378
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:415
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:426
 msgid "(For file deletion.)"
 msgstr "(Por forviŝi dosieron.)"
 
@@ -1707,6 +1758,7 @@ msgstr "Neniaj rezultoj."
 #. line 2
 #. line 13
 #. line 2
+#. line 13
 #: ../../../../search.php:168
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:334
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:83
@@ -1724,25 +1776,29 @@ msgstr "Apelacion ne trovita!"
 
 #: ../../../../inc/mod/pages.php:989
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:265
-#: ../../../../inc/mod/pages.php:994
+#: ../../../../inc/mod/pages.php:994 ../../../../inc/mod/pages.php:995
 msgid "Ban appeals"
 msgstr "Malpermesaj apelacioj"
 
 #: ../../../../inc/mod/pages.php:1833 ../../../../inc/mod/pages.php:1849
+#: ../../../../inc/mod/pages.php:1850
 msgid "New user"
 msgstr "Nova uzanto"
 
 #: ../../../../inc/mod/pages.php:1888 ../../../../inc/mod/pages.php:1904
+#: ../../../../inc/mod/pages.php:1905
 msgid "Impossible to promote/demote user."
 msgstr "Maleblas promocii/malpromocii uzanton."
 
 #: ../../../../inc/mod/pages.php:2612 ../../../../inc/mod/pages.php:2690
+#: ../../../../inc/mod/pages.php:2684
 msgid "Debug: APC"
 msgstr "Debug: APC"
 
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1037 ../../../../inc/config.php:1046
+#: ../../../../inc/config.php:1077
 msgid ""
 "Your code contained PHP syntax errors. Please go back and correct them. PHP "
 "says: "
@@ -1826,6 +1882,7 @@ msgstr "Kontraŭrubmesaĝo"
 #: ../../../../inc/mod/pages.php:2288
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:309
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:409
+#: ../../../../inc/mod/pages.php:2283
 msgid "Recent posts"
 msgstr "Freŝaj afiŝoj"
 
@@ -2546,22 +2603,22 @@ msgid "There are no reports."
 msgstr "Neniom da raportoj."
 
 #: ../../../../post.php:802 ../../../../post.php:811 ../../../../post.php:825
-#: ../../../../post.php:894
+#: ../../../../post.php:894 ../../../../post.php:896
 msgid "That ban doesn't exist or is not for you."
 msgstr "Tiu malpermeso ne ekzistas aŭ ne estas via."
 
 #: ../../../../post.php:806 ../../../../post.php:815 ../../../../post.php:829
-#: ../../../../post.php:898
+#: ../../../../post.php:898 ../../../../post.php:900
 msgid "You cannot appeal a ban of this length."
 msgstr "Vi ne povas apelacii kontraŭ malpermeso de tiu daŭro."
 
 #: ../../../../post.php:813 ../../../../post.php:822 ../../../../post.php:836
-#: ../../../../post.php:905
+#: ../../../../post.php:905 ../../../../post.php:907
 msgid "You cannot appeal this ban again."
 msgstr "Vi ne povas apelacii kontraŭ ĉi tiu malpermeso denove."
 
 #: ../../../../post.php:818 ../../../../post.php:827 ../../../../post.php:841
-#: ../../../../post.php:910
+#: ../../../../post.php:910 ../../../../post.php:912
 msgid "There is already a pending appeal for this ban."
 msgstr "Jam pritraktatas apelacio por ĉi tiu malpermeso."
 
@@ -2972,11 +3029,13 @@ msgstr "Vidi pli da logoj de ĉi tiu uzanto."
 
 #. line 84
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:255
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:266
 msgid "Flag"
 msgstr "Flago"
 
 #. line 87
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:261
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:272
 msgid "None"
 msgstr "Neniom"
 
@@ -2986,6 +3045,7 @@ msgstr "Neniom"
 #. will be replaced with a
 #. standard cross-board post citation (>>>/board/xxx)
 #: ../../../../inc/config.php:1211 ../../../../inc/config.php:1220
+#: ../../../../inc/config.php:1251
 #, php-format
 msgid "Moved to %s."
 msgstr "Translokita al %s."
@@ -2996,7 +3056,7 @@ msgid ""
 "fetched."
 msgstr "Maleblas konstrui la RecentPosts temo, ĉar ne estas tabuloj por trovi."
 
-#: ../../../../inc/config.php:997
+#: ../../../../inc/config.php:997 ../../../../inc/config.php:1023
 msgid "You have attempted to upload too many images!"
 msgstr "Vi klopodis alŝuti tro da dosieroj! "
 
@@ -3009,8 +3069,12 @@ msgstr "Cenzuri dosieron"
 #. line 35
 #. line 26
 #. line 35
+#. line 20
+#. line 28
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:80
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:107
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:67
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:90
 msgid "Bump order"
 msgstr "Altiga ordo"
 
@@ -3027,8 +3091,12 @@ msgstr "Lasta respondo"
 #. line 37
 #. line 28
 #. line 37
+#. line 21
+#. line 29
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:88
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:115
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:71
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:94
 msgid "Creation date"
 msgstr "Tago de kreo"
 
@@ -3036,8 +3104,12 @@ msgstr "Tago de kreo"
 #. line 38
 #. line 29
 #. line 38
+#. line 22
+#. line 30
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:92
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:119
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:75
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:98
 msgid "Reply count"
 msgstr "Nombro da respondoj"
 
@@ -3045,28 +3117,40 @@ msgstr "Nombro da respondoj"
 #. line 39
 #. line 30
 #. line 39
+#. line 23
+#. line 31
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:96
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:123
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:79
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:102
 msgid "Random"
 msgstr "Hazarda"
 
 #. line 33
+#. line 26
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:102
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:85
 msgid "Sort by"
 msgstr "Ordi por"
 
 #. line 42
+#. line 34
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:129
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:108
 msgid "Image size"
 msgstr "Bilda grandeco"
 
 #. line 44
+#. line 37
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:134
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:117
 msgid "Small"
 msgstr "Malgranda"
 
 #. line 45
+#. line 38
 #: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:138
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:121
 msgid "Large"
 msgstr "Granda"
 
@@ -3092,14 +3176,45 @@ msgstr "Nerekonita metodo de dosiergranda mezurado."
 msgid "Invalid flag selection!"
 msgstr "Nevalida flaga elekto!"
 
-#: ../../../../post.php:631
+#: ../../../../post.php:631 ../../../../post.php:633
 msgid "exiftool failed!"
 msgstr "exiftool malsukcesis!"
 
-#: ../../../../post.php:641
+#: ../../../../post.php:641 ../../../../post.php:643
 msgid "Could not auto-orient image!"
 msgstr "Malsukcesis aŭtomate turni la bildon!"
 
-#: ../../../../post.php:695
+#: ../../../../post.php:695 ../../../../post.php:697
 msgid "Could not strip EXIF metadata!"
 msgstr "Malsukcesis forviŝi la EXIFajn datumojn!"
+
+#: ../../../../inc/config.php:1049
+msgid "There was a problem processing your webm."
+msgstr ""
+
+#: ../../../../inc/config.php:1050
+msgid "Invalid webm uploaded."
+msgstr ""
+
+#: ../../../../inc/config.php:1051
+msgid ""
+"The uploaded webm contains an audio or another type of additional stream."
+msgstr ""
+
+#: ../../../../inc/config.php:1052
+msgid "The uploaded webm is longer than "
+msgstr ""
+
+#. line 48
+#: ../../../../templates/cache/b8/d9/05d4f2709538c393e80cdee33c24efe8d6fd13e68df2f5b3493356ef42e3.php:190
+msgid "Go to top"
+msgstr ""
+
+#: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:80
+msgid "Don't show my flag"
+msgstr ""
+
+#. line 36
+#: ../../../../templates/cache/41/57/9143de5f74d921965e5ff24e0f1ce44a18317fd4937f5d8d65f56337acf3.php:113
+msgid "Very small"
+msgstr ""
