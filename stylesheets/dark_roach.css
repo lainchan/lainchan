@@ -404,6 +404,8 @@ table.mod.config-editor {
 	font-size: 9pt;
 	width: 100%;
 }
+
+
 table.mod.config-editor td {
 	text-align: left;
 	padding: 5px;
@@ -431,15 +433,6 @@ table.mod.config-editor input[type="text"] {
 }
 
 .desktop-style .sub {
-  background: inherit;
-}
-.desktop-style .sub .sub {
-  display: inline-block;
-  text-indent: -9000px;
-  width: 7px;
-  background: url('img/arrow.png') right center no-b .sub:hover, .desktop-style .sub .sub.hover {
-  display: inline;
-  text-indent: 0px;
   background: inherit;
 }
 
@@ -479,7 +472,7 @@ input[type="submit"]:hover
 
 /* options.js */
 #options_div {
-        background: #000000;
+        background: #333333;
 }
 .options_tab_icon {
         color: #AAAAAA;
