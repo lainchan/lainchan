@@ -8,7 +8,7 @@
     if ($clone.length)
       return $clone.remove()
 
-    var OP = location.pathname.match(/(\d+).html/)[1]
+    var OP = $('input[name="thread"]').val()
     var selector = postNum === OP
       ? '.op .body'
       : '#reply_' + postNum + ' .body'
