@@ -49,28 +49,30 @@
 					$post['youtube'] = $matches[2];
 				}				
 
-				if (isset($post['files'])) {
+				if (isset($post['files']) && $post['files']) {
 					$files = json_decode($post['files']);
 
-					if ($files[0]->file == 'deleted') {
-						if (count($files) > 1) {
-							foreach ($files as $file) {
-								if (($file == $files[0]) || ($file->file == 'deleted')) continue;
-								$post['file'] = $config['uri_thumb'] . $file->thumb;
-							}
+					if ($files[0]) {
+						if ($files[0]->file == 'deleted') {
+							if (count($files) > 1) {
+								foreach ($files as $file) {
+									if (($file == $files[0]) || ($file->file == 'deleted')) continue;
+									$post['file'] = $config['uri_thumb'] . $file->thumb;
+								}
 
-							if (empty($post['file'])) $post['file'] = $config['image_deleted'];
+								if (empty($post['file'])) $post['file'] = $config['image_deleted'];
+							}
+							else {
+								$post['file'] = $config['image_deleted'];
+							}
+						}
+						else if($files[0]->thumb == 'spoiler') {
+							$post['file'] = '/' . $config['spoiler_image'];
 						}
 						else {
-							$post['file'] = $config['image_deleted'];
+							$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 						}
 					}
-					else if($files[0]->thumb == 'spoiler') {
-						$post['file'] = '/' . $config['spoiler_image'];
-					}
-					else {
-					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
-				}
 				}
 
 				if (empty($post['image_count'])) $post['image_count'] = 0;
