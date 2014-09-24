@@ -1,4 +1,6 @@
 ;(function() {
+  var cache = {}
+
   var inline = function(e) {
     e.preventDefault()
 
@@ -23,13 +25,21 @@
       // XXX WTF the post hover script adds fetched threads to the DOM
       selector = '#thread_' + OP + ' ' + selector
       var $target = $(selector)
-      add(link, $target)
+      return add(link, $target)
     }
-    else
-      $.get(this.pathname, function(data) {
-        var $target = $(data).find(selector)
-        add(link, $target)
-      })
+
+    var url = this.pathname
+    var data = cache[url]
+    if (data) {
+      var $target = $(data).find(selector)
+      return add(link, $target)
+    }
+
+    $.get(url, function(data) {
+      cache[url] = data
+      var $target = $(data).find(selector)
+      add(link, $target)
+    })
   }
 
   var add = function(link, $target) {
