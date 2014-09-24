@@ -55,9 +55,20 @@ Please remember to change the administrator account password.
 
 See also: [Configuration Basics](http://tinyboard.org/docs/?p=Config).
 
+Upgrade
+-------
+To upgrade from any version of Tinyboard or vichan:
+
+Either run ```git pull``` to update your files, if you used git, or
+backup your ```inc/instance-config.php```, replace all your files in place
+(don't remove boards etc.), then put ```inc/instance-config.php``` back and
+finally run ```install.php```.
+
+To migrate from a Kusaba X board:
+
 Support
 --------
-Tinyboard is still beta software -- there are bound to be bugs. If you find a
+vichan is still beta software -- there are bound to be bugs. If you find a
 bug, please report it.
 
 If you need assistance with installing, configuring, or using vichan, you may
@@ -117,6 +128,11 @@ To enable oekaki, add all the scripts listed in `js/oekaki.js` to your `instance
 WebM support
 ------------
 Read `inc/lib/webm/README.md` for information about enabling webm.
+
+vichan API
+----------
+vichan provides by default a 4chan-compatible JSON API. For documentation on this, see:
+https://github.com/vichan-devel/vichan-API/ .
 
 License
 --------
