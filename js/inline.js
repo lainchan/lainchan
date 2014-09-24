@@ -8,8 +8,8 @@
     if ($clone.length)
       return $clone.remove()
 
-    var OP = $('input[name="thread"]').val()
-    var selector = postNum === OP
+    var postOP = this.pathname.match(/(\d+).html/)[1]
+    var selector = postNum === postOP
       ? '.op .body'
       : '#reply_' + postNum + ' .body'
 
@@ -17,9 +17,12 @@
       postNum: postNum,
       node: this
     }
-    var $target = $(selector)
-    if ($target.length)
+
+    var OP = $('input[name="thread"]').val()
+    if (OP === postOP) {
+      var $target = $(selector)
       add(link, $target)
+    }
     else
       $.get(this.pathname, function(data) {
         var $target = $(data).find(selector)
