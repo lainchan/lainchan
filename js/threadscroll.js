@@ -7,7 +7,7 @@ $(document).mouseover(function(e){
 });
 
 $(document).keydown(function(e){
-	console.log(e);
+	//Up arrow
 	if(e.which == 38){
 		var ele = hoverElem;
 		
@@ -25,6 +25,7 @@ $(document).keydown(function(e){
 				}
 			}
 		}
+	//Down arrow
 	}else if(e.which == 40){
 		var ele = hoverElem;
 		
