@@ -20,6 +20,8 @@
 
     var OP = $('input[name="thread"]').val()
     if (OP === postOP) {
+      // XXX WTF the post hover script adds fetched threads to the DOM
+      selector = '#thread_' + OP + ' ' + selector
       var $target = $(selector)
       add(link, $target)
     }
