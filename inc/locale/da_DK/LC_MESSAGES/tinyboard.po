@@ -4,13 +4,14 @@
 # 
 # Translators:
 # sildeperker <nicholas.adam.wood@gmail.com>, 2014
+# Vladislav Višnevskij Petersen <vladikpetersen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-21 04:38+0200\n"
-"PO-Revision-Date: 2014-09-21 02:40+0000\n"
-"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
+"PO-Revision-Date: 2014-09-21 20:27+0000\n"
+"Last-Translator: Vladislav Višnevskij Petersen <vladikpetersen@gmail.com>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,8 +30,8 @@ msgstr ""
 #: ../../../../inc/functions.php:683 ../../../../inc/functions.php:700
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sekund"
+msgstr[1] "sekunder"
 
 #: ../../../../inc/functions.php:585 ../../../../inc/functions.php:602
 #: ../../../../inc/functions.php:593 ../../../../inc/functions.php:610
@@ -43,8 +44,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:685 ../../../../inc/functions.php:702
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "minut"
+msgstr[1] "minutter"
 
 #: ../../../../inc/functions.php:587 ../../../../inc/functions.php:604
 #: ../../../../inc/functions.php:595 ../../../../inc/functions.php:612
@@ -57,8 +58,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:687 ../../../../inc/functions.php:704
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "time"
+msgstr[1] "timer"
 
 #: ../../../../inc/functions.php:589 ../../../../inc/functions.php:606
 #: ../../../../inc/functions.php:597 ../../../../inc/functions.php:614
@@ -71,8 +72,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:689 ../../../../inc/functions.php:706
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "dag"
+msgstr[1] "dage"
 
 #: ../../../../inc/functions.php:591 ../../../../inc/functions.php:608
 #: ../../../../inc/functions.php:599 ../../../../inc/functions.php:616
@@ -85,8 +86,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:691 ../../../../inc/functions.php:708
 msgid "week"
 msgid_plural "weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "uge"
+msgstr[1] "uger"
 
 #: ../../../../inc/functions.php:594 ../../../../inc/functions.php:611
 #: ../../../../inc/functions.php:602 ../../../../inc/functions.php:619
@@ -99,8 +100,8 @@ msgstr[1] ""
 #: ../../../../inc/functions.php:694 ../../../../inc/functions.php:711
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "år"
+msgstr[1] "år"
 
 #: ../../../../inc/functions.php:628 ../../../../inc/functions.php:670
 #: ../../../../inc/functions.php:699 ../../../../inc/functions.php:702
@@ -201,7 +202,7 @@ msgstr "Er du sikker på at du vil slette denne fil?"
 #: ../../../../inc/display.php:400 ../../../../inc/display.php:510
 #: ../../../../inc/display.php:404 ../../../../inc/display.php:514
 msgid "Spoiler File"
-msgstr ""
+msgstr "Skjul Fil"
 
 #: ../../../../inc/display.php:380 ../../../../inc/display.php:485
 #: ../../../../inc/display.php:397 ../../../../inc/display.php:507
@@ -209,7 +210,7 @@ msgstr ""
 #: ../../../../inc/display.php:404 ../../../../inc/display.php:514
 #: ../../../../templates/cache/b9/2b/ba2b45df5e1d76f6cdfb98a47468df19a1ffc1c2af2dc1792eb75eeb0791.php:36
 msgid "Are you sure you want to spoiler this file?"
-msgstr ""
+msgstr "Er du sikker på at du vil skjule denne fil?"
 
 #: ../../../../inc/display.php:384 ../../../../inc/display.php:401
 #: ../../../../inc/display.php:404 ../../../../inc/display.php:408
@@ -288,13 +289,13 @@ msgstr "Fastgør tråd"
 #: ../../../../inc/display.php:521 ../../../../inc/display.php:525
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:122
 msgid "Allow thread to be bumped"
-msgstr ""
+msgstr "Tillad tråd at blive bumpet"
 
 #: ../../../../inc/display.php:498 ../../../../inc/display.php:520
 #: ../../../../inc/display.php:523 ../../../../inc/display.php:527
 #: ../../../../templates/cache/59/eb/57ea544c6cb07c523441e4872c03216560589e8425c0df3a895c17253c4c.php:132
 msgid "Prevent thread from being bumped"
-msgstr ""
+msgstr "Forhindr tråd fra at blive bumpet"
 
 #: ../../../../inc/display.php:503 ../../../../inc/display.php:525
 #: ../../../../inc/display.php:528 ../../../../inc/display.php:532
@@ -322,7 +323,7 @@ msgstr "Fly tråd til et andet board"
 #: ../../../../inc/config.php:474 ../../../../inc/config.php:475
 #: ../../../../inc/config.php:476 ../../../../inc/config.php:479
 msgid "You have been muted for unoriginal content."
-msgstr ""
+msgstr "Du er blevet dæmpet pga. uoriginalt indhold."
 
 #. The names on the post buttons. (On most imageboards, these are both just
 #. "Post").
@@ -340,7 +341,7 @@ msgstr "Nyt Emne"
 #: ../../../../inc/config.php:777 ../../../../inc/config.php:793
 #: ../../../../inc/config.php:804 ../../../../inc/config.php:830
 msgid "New Reply"
-msgstr ""
+msgstr "Nyt Svar"
 
 #. Additional lines added to the footer of all pages.
 #: ../../../../inc/config.php:689 ../../../../inc/config.php:793
@@ -350,7 +351,7 @@ msgstr ""
 msgid ""
 "All trademarks, copyrights, comments, and images on this page are owned by "
 "and are the responsibility of their respective parties."
-msgstr ""
+msgstr "All varemærker, ophavsrettigheder, kommentarer og billeder på denne side er ejet af deres respektive parter, hvilke også besidder ansvaret for førstnævnte."
 
 #. * ====================
 #. *  Error messages
@@ -358,7 +359,7 @@ msgstr ""
 #. Error messages
 #: ../../../../inc/config.php:866
 msgid "Lurk some more before posting."
-msgstr ""
+msgstr "Lur lidt mer indtil du laver indlæg."
 
 #. * ====================
 #. *  Error messages
@@ -373,14 +374,14 @@ msgstr ""
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:1017
 msgid "You look like a bot."
-msgstr ""
+msgstr "Du ser ud som en robot."
 
 #: ../../../../inc/config.php:868 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:964 ../../../../inc/config.php:966
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:1018
 msgid "Your browser sent an invalid or no HTTP referer."
-msgstr ""
+msgstr "Din browser sendte en ugyldig, eller ingen HTTP-henviser."
 
 #: ../../../../inc/config.php:869 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:965 ../../../../inc/config.php:967
@@ -388,84 +389,84 @@ msgstr ""
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:1019
 #, php-format
 msgid "The %s field was too long."
-msgstr ""
+msgstr "%s-feltet er alt for langt."
 
 #: ../../../../inc/config.php:870 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:966 ../../../../inc/config.php:968
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:1020
 msgid "The body was too long."
-msgstr ""
+msgstr "Brødteksten var for lang."
 
 #: ../../../../inc/config.php:871 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:967 ../../../../inc/config.php:969
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:1021
 msgid "The body was too short or empty."
-msgstr ""
+msgstr "Brødteksten var enten for kort eller tom."
 
 #: ../../../../inc/config.php:872 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:968 ../../../../inc/config.php:970
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:1022
 msgid "You must upload an image."
-msgstr ""
+msgstr "Du er nødt til at uploade et billede."
 
 #: ../../../../inc/config.php:873 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:969 ../../../../inc/config.php:971
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1024
 msgid "The server failed to handle your upload."
-msgstr ""
+msgstr "Det lykkedes ikke serveren at behandle din upload-anmodning."
 
 #: ../../../../inc/config.php:874 ../../../../inc/config.php:979
 #: ../../../../inc/config.php:970 ../../../../inc/config.php:972
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1025
 msgid "Unsupported image format."
-msgstr ""
+msgstr "Filformatet er ikke understøttet."
 
 #: ../../../../inc/config.php:875 ../../../../inc/config.php:980
 #: ../../../../inc/config.php:971 ../../../../inc/config.php:973
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:1000 ../../../../inc/config.php:1026
 msgid "Invalid board!"
-msgstr ""
+msgstr "Ugyldigt board!"
 
 #: ../../../../inc/config.php:876 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:972 ../../../../inc/config.php:974
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:1001 ../../../../inc/config.php:1027
 msgid "Thread specified does not exist."
-msgstr ""
+msgstr "Den angivne tråd findes ikke."
 
 #: ../../../../inc/config.php:877 ../../../../inc/config.php:982
 #: ../../../../inc/config.php:973 ../../../../inc/config.php:975
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1028
 msgid "Thread locked. You may not reply at this time."
-msgstr ""
+msgstr "Tråden er låst. Du kan ikke svare på nuværende tidspunkt."
 
 #: ../../../../inc/config.php:878 ../../../../inc/config.php:983
 #: ../../../../inc/config.php:974 ../../../../inc/config.php:976
 #: ../../../../inc/config.php:978 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1029
 msgid "Thread has reached its maximum reply limit."
-msgstr ""
+msgstr "Tråden har nået sin maksimale indlægsgrænse."
 
 #: ../../../../inc/config.php:879 ../../../../inc/config.php:984
 #: ../../../../inc/config.php:975 ../../../../inc/config.php:977
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1030
 msgid "Thread has reached its maximum image limit."
-msgstr ""
+msgstr "Tråden har nået sin maksimale billedgrænse."
 
 #: ../../../../inc/config.php:880 ../../../../inc/config.php:985
 #: ../../../../inc/config.php:976 ../../../../inc/config.php:978
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1031
 msgid "You didn't make a post."
-msgstr ""
+msgstr "Du lavede ikke et indlæg."
 
 #: ../../../../inc/config.php:881 ../../../../inc/config.php:986
 #: ../../../../inc/config.php:977 ../../../../inc/config.php:979
@@ -479,14 +480,14 @@ msgstr ""
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1033
 msgid "Your request looks automated; Post discarded."
-msgstr ""
+msgstr "Din efterspørgsel ser automatiseret ud; indlæget er blevet kasseret."
 
 #: ../../../../inc/config.php:883 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:979 ../../../../inc/config.php:981
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1034
 msgid "Unoriginal content!"
-msgstr ""
+msgstr "Uoriginalt indhold!"
 
 #: ../../../../inc/config.php:884 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:980 ../../../../inc/config.php:982
@@ -494,7 +495,7 @@ msgstr ""
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1035
 #, php-format
 msgid "Unoriginal content! You have been muted for %d seconds."
-msgstr ""
+msgstr "Uoriginalt indhold! Du er blevet dæmpet i %d sekunder."
 
 #: ../../../../inc/config.php:885 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:981 ../../../../inc/config.php:983
@@ -502,7 +503,7 @@ msgstr ""
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1036
 #, php-format
 msgid "You are muted! Expires in %d seconds."
-msgstr ""
+msgstr "Du er dæmpet! Udløber om %d sekunder."
 
 #: ../../../../inc/config.php:886 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:982 ../../../../inc/config.php:984
@@ -510,7 +511,7 @@ msgstr ""
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1037
 #, php-format
 msgid "Your IP address is listed in %s."
-msgstr ""
+msgstr "Din IP-adresse er listet i %s."
 
 #: ../../../../inc/config.php:887 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:983 ../../../../inc/config.php:985
@@ -524,70 +525,70 @@ msgstr ""
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1039
 msgid "Too many cites; post discarded."
-msgstr ""
+msgstr "Alt for mange citeringer; indlæget er blevet kasseret."
 
 #: ../../../../inc/config.php:889 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:985 ../../../../inc/config.php:987
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1040
 msgid "Too many cross-board links; post discarded."
-msgstr ""
+msgstr "Alt for mange tværs-board links; indlæget er blevet kasseret."
 
 #: ../../../../inc/config.php:890 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:986 ../../../../inc/config.php:988
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1041
 msgid "You didn't select anything to delete."
-msgstr ""
+msgstr "Du har ikke valgt noget at slette."
 
 #: ../../../../inc/config.php:891 ../../../../inc/config.php:996
 #: ../../../../inc/config.php:987 ../../../../inc/config.php:989
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1042
 msgid "You didn't select anything to report."
-msgstr ""
+msgstr "Du har ikke valgt noget at rapportere."
 
 #: ../../../../inc/config.php:892 ../../../../inc/config.php:997
 #: ../../../../inc/config.php:988 ../../../../inc/config.php:990
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1017 ../../../../inc/config.php:1043
 msgid "You can't report that many posts at once."
-msgstr ""
+msgstr "Du kan ikke rapportere så mange indlæg på samme tid."
 
 #: ../../../../inc/config.php:893 ../../../../inc/config.php:998
 #: ../../../../inc/config.php:989 ../../../../inc/config.php:991
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1018 ../../../../inc/config.php:1044
 msgid "Wrong password…"
-msgstr ""
+msgstr "Forkert kodeord..."
 
 #: ../../../../inc/config.php:894 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:990 ../../../../inc/config.php:992
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:1010
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1045
 msgid "Invalid image."
-msgstr ""
+msgstr "Ugyldigt billede."
 
 #: ../../../../inc/config.php:895 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:991 ../../../../inc/config.php:993
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:1011
 #: ../../../../inc/config.php:1020 ../../../../inc/config.php:1046
 msgid "Unknown file extension."
-msgstr ""
+msgstr "Ukendt filtype."
 
 #: ../../../../inc/config.php:896 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:992 ../../../../inc/config.php:994
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1021 ../../../../inc/config.php:1047
 msgid "Maximum file size: %maxsz% bytes<br>Your file's size: %filesz% bytes"
-msgstr ""
+msgstr "Maximal filstørrelse: %maxsz% bytes<br>Din fils størrelse: %filesz% bytes"
 
 #: ../../../../inc/config.php:897 ../../../../inc/config.php:1002
 #: ../../../../inc/config.php:993 ../../../../inc/config.php:995
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1022 ../../../../inc/config.php:1048
 msgid "The file was too big."
-msgstr ""
+msgstr "Filen var for stor."
 
 #: ../../../../inc/config.php:898 ../../../../inc/config.php:1003
 #: ../../../../inc/config.php:994 ../../../../inc/config.php:996
@@ -595,7 +596,7 @@ msgstr ""
 #: ../../../../inc/config.php:1023 ../../../../inc/config.php:1053
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a>!"
-msgstr ""
+msgstr "Filen <a href=\"%s\">findes allerede</a>!"
 
 #: ../../../../inc/config.php:899 ../../../../inc/config.php:1004
 #: ../../../../inc/config.php:995 ../../../../inc/config.php:997
@@ -603,7 +604,7 @@ msgstr ""
 #: ../../../../inc/config.php:1024 ../../../../inc/config.php:1054
 #, php-format
 msgid "That file <a href=\"%s\">already exists</a> in this thread!"
-msgstr ""
+msgstr "Filen <a href=\"%s\">findes allerede</a> i denne tråd!"
 
 #: ../../../../inc/config.php:900 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:996 ../../../../inc/config.php:998
@@ -611,28 +612,28 @@ msgstr ""
 #: ../../../../inc/config.php:1025 ../../../../inc/config.php:1055
 #, php-format
 msgid "You'll have to wait another %s before deleting that."
-msgstr ""
+msgstr "Du er nødt til at vente %s endnu før du sletter dette."
 
 #: ../../../../inc/config.php:901 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:997 ../../../../inc/config.php:999
 #: ../../../../inc/config.php:1001 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1026 ../../../../inc/config.php:1056
 msgid "MIME type detection XSS exploit (IE) detected; post discarded."
-msgstr ""
+msgstr "MIME-type-detektions-XSS-exploit (IE) opdaget; indlæget blev kasseret."
 
 #: ../../../../inc/config.php:902 ../../../../inc/config.php:1007
 #: ../../../../inc/config.php:998 ../../../../inc/config.php:1000
 #: ../../../../inc/config.php:1002 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1027 ../../../../inc/config.php:1057
 msgid "Couldn't make sense of the URL of the video you tried to embed."
-msgstr ""
+msgstr "Kunne ikke finde mening i URL'en af den video som du forsøgte at indlejre."
 
 #: ../../../../inc/config.php:903 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:999 ../../../../inc/config.php:1001
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1028 ../../../../inc/config.php:1058
 msgid "You seem to have mistyped the verification."
-msgstr ""
+msgstr "Det ser ud som om at du har fejlindtastet verifikationen."
 
 #. Moderator errors
 #: ../../../../inc/config.php:906 ../../../../inc/config.php:1011
@@ -643,21 +644,21 @@ msgstr ""
 msgid ""
 "You are only allowed to unban %s users at a time. You tried to unban %u "
 "users."
-msgstr ""
+msgstr "Du må kun fjerne bandlysningen af %s brugere på samme tid. Du forsøgte at fjerne bandlysningen på %u brugere."
 
 #: ../../../../inc/config.php:907 ../../../../inc/config.php:1012
 #: ../../../../inc/config.php:1003 ../../../../inc/config.php:1005
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1032 ../../../../inc/config.php:1063
 msgid "Invalid username and/or password."
-msgstr ""
+msgstr "Ugyldigt brugernavn og/eller kodeord."
 
 #: ../../../../inc/config.php:908 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1004 ../../../../inc/config.php:1006
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1033 ../../../../inc/config.php:1064
 msgid "You are not a mod…"
-msgstr ""
+msgstr "Du er ikke moderator..."
 
 #: ../../../../inc/config.php:909 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1005 ../../../../inc/config.php:1007
@@ -666,21 +667,21 @@ msgstr ""
 msgid ""
 "Invalid username and/or password. Your user may have been deleted or "
 "changed."
-msgstr ""
+msgstr "Ugyldigt brugernavn og/eller kodeord. Din bruger kan være blevet slettet eller ændret."
 
 #: ../../../../inc/config.php:910 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1006 ../../../../inc/config.php:1008
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1026
 #: ../../../../inc/config.php:1035 ../../../../inc/config.php:1066
 msgid "Invalid/malformed cookies."
-msgstr ""
+msgstr "Ugyldige/misdannede cookies."
 
 #: ../../../../inc/config.php:911 ../../../../inc/config.php:1016
 #: ../../../../inc/config.php:1007 ../../../../inc/config.php:1009
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1027
 #: ../../../../inc/config.php:1036 ../../../../inc/config.php:1067
 msgid "Your browser didn't submit an input when it should have."
-msgstr ""
+msgstr "Din browser indsendte ikke et input da den skulle have."
 
 #: ../../../../inc/config.php:912 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1008 ../../../../inc/config.php:1010
@@ -688,7 +689,7 @@ msgstr ""
 #: ../../../../inc/config.php:1037 ../../../../inc/config.php:1068
 #, php-format
 msgid "The %s field is required."
-msgstr ""
+msgstr "%s-feltet er påkrævet."
 
 #: ../../../../inc/config.php:913 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1009 ../../../../inc/config.php:1011
@@ -696,7 +697,7 @@ msgstr ""
 #: ../../../../inc/config.php:1038 ../../../../inc/config.php:1069
 #, php-format
 msgid "The %s field was invalid."
-msgstr ""
+msgstr "%s-feltet var ugyldigt."
 
 #: ../../../../inc/config.php:914 ../../../../inc/config.php:1019
 #: ../../../../inc/config.php:1010 ../../../../inc/config.php:1012
@@ -704,28 +705,28 @@ msgstr ""
 #: ../../../../inc/config.php:1039 ../../../../inc/config.php:1070
 #, php-format
 msgid "There is already a %s board."
-msgstr ""
+msgstr "Der er allerede et %s-board."
 
 #: ../../../../inc/config.php:915 ../../../../inc/config.php:1020
 #: ../../../../inc/config.php:1011 ../../../../inc/config.php:1013
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1031
 #: ../../../../inc/config.php:1040 ../../../../inc/config.php:1071
 msgid "You don't have permission to do that."
-msgstr ""
+msgstr "Du har ikke tilladelse til at gøre det dér."
 
 #: ../../../../inc/config.php:916 ../../../../inc/config.php:1021
 #: ../../../../inc/config.php:1012 ../../../../inc/config.php:1014
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1032
 #: ../../../../inc/config.php:1041 ../../../../inc/config.php:1072
 msgid "That post doesn't exist…"
-msgstr ""
+msgstr "Det indlæg findes ikke..."
 
 #: ../../../../inc/config.php:917 ../../../../inc/config.php:1022
 #: ../../../../inc/config.php:1013 ../../../../inc/config.php:1015
 #: ../../../../inc/config.php:1017 ../../../../inc/config.php:1033
 #: ../../../../inc/config.php:1042 ../../../../inc/config.php:1073
 msgid "Page not found."
-msgstr ""
+msgstr "Side ikke fundet."
 
 #: ../../../../inc/config.php:918 ../../../../inc/config.php:1023
 #: ../../../../inc/config.php:1014 ../../../../inc/config.php:1016
@@ -733,21 +734,21 @@ msgstr ""
 #: ../../../../inc/config.php:1043 ../../../../inc/config.php:1074
 #, php-format
 msgid "That mod <a href=\"?/users/%d\">already exists</a>!"
-msgstr ""
+msgstr "Den moderator <a href=\"?/users/%d\">findes allerede</a>!"
 
 #: ../../../../inc/config.php:919 ../../../../inc/config.php:1024
 #: ../../../../inc/config.php:1015 ../../../../inc/config.php:1017
 #: ../../../../inc/config.php:1019 ../../../../inc/config.php:1035
 #: ../../../../inc/config.php:1044 ../../../../inc/config.php:1075
 msgid "That theme doesn't exist!"
-msgstr ""
+msgstr "Det tema findes ikke!"
 
 #: ../../../../inc/config.php:920 ../../../../inc/config.php:1025
 #: ../../../../inc/config.php:1016 ../../../../inc/config.php:1018
 #: ../../../../inc/config.php:1020 ../../../../inc/config.php:1036
 #: ../../../../inc/config.php:1045 ../../../../inc/config.php:1076
 msgid "Invalid security token! Please go back and try again."
-msgstr ""
+msgstr "Ugyldigt sikkerhedstegn! Vær venlig at gå tilbage og prøve igen."
 
 #. Default public ban message. In public ban messages, %length% is replaced
 #. with "for x days" or
@@ -760,58 +761,58 @@ msgstr ""
 #: ../../../../inc/config.php:1187 ../../../../inc/config.php:1203
 #: ../../../../inc/config.php:1212 ../../../../inc/config.php:1243
 msgid "USER WAS BANNED FOR THIS POST"
-msgstr ""
+msgstr "BRUGER BLEV BANDLYST FOR DETTE INDLÆG"
 
 #: ../../../../inc/mod/pages.php:66 ../../../../inc/mod/pages.php:64
 msgid "Confirm action"
-msgstr ""
+msgstr "Bekræft handling"
 
 #: ../../../../inc/mod/pages.php:110 ../../../../inc/mod/pages.php:108
 msgid "Could not find current version! (Check .installed)"
-msgstr ""
+msgstr "Kunne ikke finde aktuel version! (Tjek .installed)"
 
 #: ../../../../inc/mod/pages.php:162
 msgid "Dashboard"
-msgstr ""
+msgstr "Betjeningspanel"
 
 #: ../../../../inc/mod/pages.php:267 ../../../../inc/mod/pages.php:265
 msgid "There are no boards to search!"
-msgstr ""
+msgstr "Der er ingen boards at søge på!"
 
 #. $results now contains the search results
 #: ../../../../inc/mod/pages.php:335 ../../../../inc/mod/pages.php:334
 msgid "Search results"
-msgstr ""
+msgstr "Søgeresultater"
 
 #: ../../../../inc/mod/pages.php:436 ../../../../inc/mod/pages.php:438
 msgid "Edit board"
-msgstr ""
+msgstr "Redigér board"
 
 #: ../../../../inc/mod/pages.php:486 ../../../../inc/mod/pages.php:491
 msgid "Couldn't open board after creation."
-msgstr ""
+msgstr "Kunne ikke åbne board efter oprettelse."
 
 #: ../../../../inc/mod/pages.php:506 ../../../../inc/mod/pages.php:511
 msgid "New board"
-msgstr ""
+msgstr "Nyt board"
 
 #. line 37
 #: ../../../../inc/mod/pages.php:553 ../../../../inc/mod/pages.php:562
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:121
 msgid "Noticeboard"
-msgstr ""
+msgstr "Notitsboard"
 
 #: ../../../../inc/mod/pages.php:614 ../../../../inc/mod/pages.php:631
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:194
 msgid "News"
-msgstr ""
+msgstr "Nyheder"
 
 #: ../../../../inc/mod/pages.php:654 ../../../../inc/mod/pages.php:681
 #: ../../../../inc/mod/pages.php:671 ../../../../inc/mod/pages.php:698
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:300
 #: ../../../../templates/cache/73/f8/5e3142a8a6f8d7e40422ff577e83b0dedf55a7cb9bc7082839b24f653545.php:75
 msgid "Moderation log"
-msgstr ""
+msgstr "Moderationslog"
 
 #. line 104
 #. line 20
@@ -850,7 +851,7 @@ msgstr ""
 #: ../../../../templates/cache/88/92/8e730a689121629afa3d2c0f374e1f246baa76e7cf0f3ec680f51805eccd.php:71
 #: ../../../../templates/cache/03/13/62c259daae13f7b39b689162b7cd380b2673bee7e05b90f0d34b69a01190.php:64
 msgid "IP"
-msgstr ""
+msgstr "IP-adresse"
 
 #. line 171
 #: ../../../../inc/mod/pages.php:848 ../../../../inc/mod/pages.php:1367
@@ -858,12 +859,12 @@ msgstr ""
 #: ../../../../templates/cache/b1/4c/16a427b0d49ecf353c259d9fb606841783484eca9d790e766fdf0e3e9754.php:440
 #: ../../../../inc/mod/pages.php:1446 ../../../../inc/mod/pages.php:1447
 msgid "New ban"
-msgstr ""
+msgstr "Ny bandlysning"
 
 #: ../../../../inc/mod/pages.php:931 ../../../../inc/mod/pages.php:914
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:256
 msgid "Ban list"
-msgstr ""
+msgstr "Bandlysningsliste"
 
 #. line 38
 #: ../../../../inc/mod/pages.php:1105 ../../../../inc/mod/pages.php:1165
@@ -871,36 +872,36 @@ msgstr ""
 #: ../../../../templates/cache/56/25/ac2c51fa6b3e26f9f9ed7dda5224acfbec96881d648c8ded10c5eef2c3e5.php:108
 #: ../../../../inc/mod/pages.php:1173
 msgid "Move reply"
-msgstr ""
+msgstr "Flyt svar"
 
 #: ../../../../inc/mod/pages.php:1131 ../../../../inc/mod/pages.php:1191
 #: ../../../../inc/mod/pages.php:1198 ../../../../inc/mod/pages.php:1199
 msgid "Target and source board are the same."
-msgstr ""
+msgstr "Mål- og kildeboard er de samme."
 
 #: ../../../../inc/mod/pages.php:1296 ../../../../inc/mod/pages.php:1357
 #: ../../../../inc/mod/pages.php:1371 ../../../../inc/mod/pages.php:1372
 msgid "Impossible to move thread; there is only one board."
-msgstr ""
+msgstr "Umuligt at flytte tråd; der er kun et board."
 
 #. line 39
 #: ../../../../inc/mod/pages.php:1300 ../../../../inc/mod/pages.php:1361
 #: ../../../../templates/cache/32/3a/d7e02cef5846ec4f1f423bb0ad2d3c307845d29f70da3f8a90a41f873e7d.php:114
 #: ../../../../inc/mod/pages.php:1375 ../../../../inc/mod/pages.php:1376
 msgid "Move thread"
-msgstr ""
+msgstr "Flyt tråd"
 
 #: ../../../../inc/mod/pages.php:1698 ../../../../inc/mod/pages.php:1751
 #: ../../../../inc/mod/pages.php:1775 ../../../../inc/mod/pages.php:1791
 #: ../../../../inc/mod/pages.php:1792
 msgid "Edit user"
-msgstr ""
+msgstr "Redigér bruger"
 
 #: ../../../../inc/mod/pages.php:1764 ../../../../inc/mod/pages.php:1855
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:274
 #: ../../../../inc/mod/pages.php:1871 ../../../../inc/mod/pages.php:1872
 msgid "Manage users"
-msgstr ""
+msgstr "Administrér brugere"
 
 #. deleted?
 #: ../../../../inc/mod/pages.php:1826 ../../../../inc/mod/pages.php:1899
@@ -908,19 +909,19 @@ msgstr ""
 #: ../../../../inc/mod/pages.php:1961 ../../../../inc/mod/pages.php:2037
 #: ../../../../inc/mod/pages.php:1962 ../../../../inc/mod/pages.php:2038
 msgid "New PM for"
-msgstr ""
+msgstr "Ny besked til"
 
 #: ../../../../inc/mod/pages.php:1830 ../../../../inc/mod/pages.php:1952
 #: ../../../../inc/mod/pages.php:1968 ../../../../inc/mod/pages.php:1969
 msgid "Private message"
-msgstr ""
+msgstr "Privat besked"
 
 #. line 68
 #: ../../../../inc/mod/pages.php:1851 ../../../../inc/mod/pages.php:1973
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:200
 #: ../../../../inc/mod/pages.php:1989 ../../../../inc/mod/pages.php:1990
 msgid "PM inbox"
-msgstr ""
+msgstr "Indbakke"
 
 #: ../../../../inc/mod/pages.php:1963 ../../../../inc/mod/pages.php:1967
 #: ../../../../inc/mod/pages.php:2090 ../../../../inc/mod/pages.php:2094
@@ -930,94 +931,94 @@ msgstr ""
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:318
 #: ../../../../inc/mod/pages.php:2107 ../../../../inc/mod/pages.php:2111
 msgid "Rebuild"
-msgstr ""
+msgstr "Ombyg"
 
 #: ../../../../inc/mod/pages.php:2043 ../../../../inc/mod/pages.php:2179
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:238
 #: ../../../../inc/mod/pages.php:2195 ../../../../inc/mod/pages.php:2196
 msgid "Report queue"
-msgstr ""
+msgstr "Rapportér kø"
 
 #: ../../../../inc/mod/pages.php:2111 ../../../../inc/mod/pages.php:2210
 #: ../../../../inc/mod/pages.php:2256 ../../../../inc/mod/pages.php:2350
 #: ../../../../inc/mod/pages.php:2334 ../../../../inc/mod/pages.php:2428
 #: ../../../../inc/mod/pages.php:2328 ../../../../inc/mod/pages.php:2422
 msgid "Config editor"
-msgstr ""
+msgstr "Konfigurationseditor"
 
 #: ../../../../inc/mod/pages.php:2226 ../../../../inc/mod/pages.php:2367
 #: ../../../../inc/mod/pages.php:2445 ../../../../inc/mod/pages.php:2439
 msgid "Themes directory doesn't exist!"
-msgstr ""
+msgstr "Temamappe findes ikke!"
 
 #: ../../../../inc/mod/pages.php:2228 ../../../../inc/mod/pages.php:2369
 #: ../../../../inc/mod/pages.php:2447 ../../../../inc/mod/pages.php:2441
 msgid "Cannot open themes directory; check permissions."
-msgstr ""
+msgstr "Kan ikke åbne temamappe; tjek tilladelser."
 
 #: ../../../../inc/mod/pages.php:2242 ../../../../inc/mod/pages.php:2388
 #: ../../../../templates/cache/72/7e/271125664718133518fd942f20fb724224e100f8a0d47cb0b52f895ac12f.php:291
 #: ../../../../inc/mod/pages.php:2466 ../../../../inc/mod/pages.php:2460
 msgid "Manage themes"
-msgstr ""
+msgstr "Administrér temaer"
 
 #: ../../../../inc/mod/pages.php:2307 ../../../../inc/mod/pages.php:2453
 #: ../../../../inc/mod/pages.php:2531 ../../../../inc/mod/pages.php:2525
 #, php-format
 msgid "Installed theme: %s"
-msgstr ""
+msgstr "Installeret tema: %s"
 
 #: ../../../../inc/mod/pages.php:2318 ../../../../inc/mod/pages.php:2464
 #: ../../../../inc/mod/pages.php:2542 ../../../../inc/mod/pages.php:2536
 #, php-format
 msgid "Configuring theme: %s"
-msgstr ""
+msgstr "Konfigurationstema: %s"
 
 #: ../../../../inc/mod/pages.php:2346 ../../../../inc/mod/pages.php:2493
 #: ../../../../inc/mod/pages.php:2571 ../../../../inc/mod/pages.php:2565
 #, php-format
 msgid "Rebuilt theme: %s"
-msgstr ""
+msgstr "Ombygget tema: %s"
 
 #: ../../../../inc/mod/pages.php:2385 ../../../../inc/mod/pages.php:2532
 #: ../../../../inc/mod/pages.php:2610 ../../../../inc/mod/pages.php:2604
 msgid "Debug: Anti-spam"
-msgstr ""
+msgstr "Fejlfinding: Anti-spam"
 
 #: ../../../../inc/mod/pages.php:2409 ../../../../inc/mod/pages.php:2566
 #: ../../../../inc/mod/pages.php:2644 ../../../../inc/mod/pages.php:2638
 msgid "Debug: Recent posts"
-msgstr ""
+msgstr "Fejlfinding: Nylige indlæg"
 
 #: ../../../../inc/mod/pages.php:2433 ../../../../inc/mod/pages.php:2590
 #: ../../../../inc/mod/pages.php:2668 ../../../../inc/mod/pages.php:2662
 msgid "Debug: SQL"
-msgstr ""
+msgstr "Fejlfinding: SQL"
 
 #. Print error
 #: ../../../../inc/database.php:72 ../../../../inc/database.php:94
 msgid "Database error: "
-msgstr ""
+msgstr "Databasefejl:"
 
 #: ../../../../banned.php:4
 msgid "Banned?"
-msgstr ""
+msgstr "Bandlyst?"
 
 #: ../../../../banned.php:5
 msgid "You are not banned."
-msgstr ""
+msgstr "Du er ikke bandlyst."
 
 #. line 6
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:41
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:44
 msgid "Go back"
-msgstr ""
+msgstr "Gå tilbage"
 
 #. line 13
 #: ../../../../templates/cache/3c/80/0ebbee302f4fad8d0d7f13e62db5.php:56
 #: ../../../../templates/cache/e1/4c/f58701138b0d44bc13ada3e46deec60da83d42ff4f39720ccd6955b641f7.php:59
 msgid "Error information"
-msgstr ""
+msgstr "Fejloplysninger"
 
 #. line 2
 #. line 3
@@ -1025,7 +1026,7 @@ msgstr ""
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:25
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:27
 msgid "Delete Post"
-msgstr ""
+msgstr "Slet Indlæg"
 
 #. line 3
 #. line 84
@@ -1066,7 +1067,7 @@ msgstr ""
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:31
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:301
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #. line 132
 #. line 14
@@ -1103,7 +1104,7 @@ msgstr ""
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:33
 #: ../../../../templates/cache/cf/63/151e140d85df674832f4ede3f3e7811b97d4efa91cac6086ca7e8ce65d25.php:411
 msgid "Password"
-msgstr ""
+msgstr "Kodeord"
 
 #. line 8
 #. line 108
@@ -1181,7 +1182,7 @@ msgstr ""
 #: ../../../../templates/cache/6a/a4/b13523024ba2660a4f8f05e0c909c55477f675db9a2620075762ac245c91.php:141
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:47
 msgid "Reason"
-msgstr ""
+msgstr "Grund"
 
 #. line 10
 #. line 12
@@ -1189,7 +1190,7 @@ msgstr ""
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:47
 #: ../../../../templates/cache/17/2f/ea79f6d94768f645ed33b3f5c1a54caee235af04d24b88e34cc8c2d48583.php:52
 msgid "Report"
-msgstr ""
+msgstr "Rapportér"
 
 #: ../../../../templates/cache/f5/e3/343716327c6183713f70a3fb57f1.php:149
 #: ../../../../templates/cache/aa/f6/f10fd83961bcd8c947af6ddf919d.php:134
@@ -1202,7 +1203,7 @@ msgstr ""
 #: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:138
 #: ../../../../templates/cache/26/b3/eb11457d26f281883c21fad69f55f2c85f7cde1e4986db8692a12aaf72a5.php:129
 msgid "Return to dashboard"
-msgstr ""
+msgstr "Gå tilbage til betjeningspanelet"
 
 #. line 39
 #. line 33
