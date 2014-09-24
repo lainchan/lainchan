@@ -1,5 +1,40 @@
 ;(function() {
-  $('.body a').click(inline)
+  var inline = function(e) {
+    e.preventDefault()
+
+    var postNum = this.textContent.slice(2)
+
+    var $clone = $('#inline_' + postNum)
+    if ($clone.length)
+      return $clone.remove()
+
+    var OP = location.pathname.match(/(\d+).html/)[1]
+    var selector = postNum === OP
+      ? '.op .body'
+      : '#reply_' + postNum + ' .body'
+
+    var link = {
+      postNum: postNum,
+      node: this
+    }
+    var $target = $(selector)
+    if ($target.length)
+      add(link, $target)
+    else
+      $.get(this.pathname, function(data) {
+        var $target = $(data).find(selector)
+        add(link, $target)
+      })
+  }
+
+  var add = function(link, $target) {
+    var $clone = $target.clone(true)
+    $clone.attr({
+      "class": 'inline',
+      id: 'inline_' + link.postNum
+    })
+    $clone.insertAfter(link.node)
+  }
 
   $('head').append(
     '<style>' +
@@ -9,26 +44,7 @@
       '  padding: 1em;' +
       '}' +
     '</style>')
+
+  $('.body a').click(inline)
+
 })()
-
-function inline(e) {
-  e.preventDefault()
-  var postNum = parseInt(this.textContent.slice(2))
-
-  var cloneID = 'inline_' + postNum
-  var $clone = $('#' + cloneID)
-  if ($clone.length)
-    return $clone.remove()
-
-  var OP = location.pathname.match(/(\d+).html/)[1]
-  var selector = postNum === OP
-    ? '.op .body'
-    : '#reply_' + postNum + ' .body'
-
-  $clone = $(selector).clone(true)
-  $clone.attr({
-    className: 'inline',
-    id: cloneID
-  })
-  $clone.insertAfter(this)
-}
