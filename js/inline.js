@@ -60,6 +60,8 @@
       '}' +
     '</style>')
 
-  $('.body a').click(inline)
+  $('.body a')
+    .attr('onclick', null)// disable highlightReply. so hacky
+    .click(inline)
 
 })()
