@@ -41,8 +41,8 @@ class Api {
 		);
 
 		$this->fileFields = array(
-			'thumbheight' => 'tn_w',
-			'thumbwidth' => 'tn_h',
+			'thumbheight' => 'tn_h',
+			'thumbwidth' => 'tn_w',
 			'height' => 'w',
 			'width' => 'h',
 			'size' => 'fsize',
