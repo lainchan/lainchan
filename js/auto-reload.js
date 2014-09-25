@@ -128,6 +128,8 @@ $(document).ready(function(){
 
 		poll_interval = setTimeout(poll, poll_interval_delay);
 		poll_current_time = poll_interval_delay;
+
+		return false;
 	};
 	
 	$(window).scroll(function() {
