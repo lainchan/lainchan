@@ -123,7 +123,7 @@ git submodule init
 git submodule update
 ```
 
-To enable oekaki, add all the scripts listed in `js/oekaki.js` to your `instance-config.php`.
+To enable oekaki, add all the scripts listed in `js/wpaint.js` to your `instance-config.php`.
 
 WebM support
 ------------
