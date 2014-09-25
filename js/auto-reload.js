@@ -151,7 +151,7 @@ $(document).ready(function(){
 	setInterval(timer_update, 1000);
 	setInterval(decrement_timer, 1000);
 
-	poll_interval = setInterval(poll, poll_interval_delay);
+	poll_interval = setTimeout(poll, poll_interval_delay);
 	timer_update();
 });
 
