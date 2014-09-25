@@ -4,9 +4,10 @@
   var inline = function(e) {
     e.preventDefault()
 
+    var $root = $(this).closest('.post')
     var postNum = this.textContent.slice(2)
 
-    var $clone = $('#inline_' + postNum)
+    var $clone = $root.find('#inline_' + postNum)
     if ($clone.length)
       return $clone.remove()
 
@@ -15,9 +16,13 @@
       ? '.op .body'
       : '#reply_' + postNum + ' .body'
 
+    var node = this.className
+      ? $root.find('.body').first().children().first()
+      : this.nextSibling
+
     var link = {
-      postNum: postNum,
-      node: this
+      node: node,
+      postNum: postNum
     }
 
     var OP = $('input[name="thread"]').val()
@@ -48,7 +53,7 @@
       "class": 'inline',
       id: 'inline_' + link.postNum
     })
-    $clone.insertAfter(link.node)
+    $clone.insertBefore(link.node)
   }
 
   $('head').append(
@@ -60,7 +65,7 @@
       '}' +
     '</style>')
 
-  $('.body a')
+  $('.body a, .mentioned a')
     .attr('onclick', null)// disable highlightReply. so hacky
     .click(inline)
 
