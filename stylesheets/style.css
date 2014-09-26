@@ -519,6 +519,8 @@ form.ban-appeal textarea {
 	vertical-align: top;
 	text-align:center;
 	font-weight:normal;
+  margin-top: 2px;
+  margin-bottom: 2px;
   padding: 2px;
   height:300px;
   width:205px;
