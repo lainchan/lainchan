@@ -13,7 +13,10 @@
  */
 
 function unanimate_gif(e) {
-	var c = $('<canvas class="post-image"></canvas>');
+	if (active_page === "catalog")
+		var c = $('<canvas class="thread-image"></canvas>');
+	else
+		var c = $('<canvas class="post-image"></canvas>');
 	$(e).parent().prepend(c);
 	c.attr('width', $(e).width());
 	c.attr('height',$(e).height());
@@ -32,7 +35,7 @@ function unanimate_gif(e) {
 }
 
 function no_animated_gif() {
-	var anim_gifs = $('img.post-image[src$=".gif"]');
+	var anim_gifs = $('img.post-image[src$=".gif"], img.thread-image[src$=".gif"]');
 	localStorage.no_animated_gif = true;
 	$('#no-animated-gif>a').text(_('Animate GIFs'));
 	$('#no-animated-gif>input').prop('checked', true);
@@ -48,7 +51,7 @@ function animated_gif() {
 	$('#no-animated-gif>input').prop('checked', false);	
 }
 
-if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko') {
+if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko' || active_page == 'catalog') {
 	$(function(){
 		var selector, event;
 		if (window.Options && Options.get_tab('general')) {
