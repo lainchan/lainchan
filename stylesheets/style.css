@@ -689,6 +689,7 @@ form.ban-appeal textarea {
 .options_tab_icon {
   padding: 5px;
   color: black;
+  cursor: pointer;
 }
 .options_tab_icon.active {
   color: red;

@@ -154,6 +154,7 @@ function highlightReply(id) {
 		var post = document.getElementById('reply_'+id);
 		if (post)
 			post.className += ' highlighted';
+			window.location.hash = id;
 	}
 	return true;
 }
