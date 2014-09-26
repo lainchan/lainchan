@@ -580,8 +580,6 @@ form.ban-appeal textarea {
         }
 }
 
-@include url("tooltipster/tooltipster.css");
-
 .compact-boardlist {
         padding: 3px;
         padding-bottom: 0;
