@@ -533,14 +533,14 @@ form.ban-appeal textarea {
         margin-left: -20px;
 }
 
-+div.threads:hover {
+div.thread:hover {
   background: #D6DAF0;
   border-color: #B7C5D9;
 }
 
 .theme-catalog div.grid-size-vsmall img {
 	max-width: 100%;
-	max-height: 100px;
+	max-height: 64px;
 }
 
 .theme-catalog div.grid-size-vsmall {
