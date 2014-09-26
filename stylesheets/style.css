@@ -16,11 +16,9 @@ a, a:visited {
 	text-decoration: underline;
 	color: #34345C;
 }
-
 a:hover, p.intro a.post_no:hover {
 	color: #ff0000;
 }
-
 a.post_no {
 	text-decoration: none;
 	margin: 0;
@@ -30,7 +28,6 @@ a.post_no {
 p.intro a.post_no {
 	color: inherit;
 }
-
 p.intro a.post_no,
 p.intro a.email,
 p.intro a.post_anchor {
@@ -49,6 +46,7 @@ p.intro time, p.intro a.ip-link, p.intro a.capcode {
 	direction: ltr;
 	unicode-bidi: embed;
 }
+
 h2 {
 	color: #AF0A0F;
 	font-size: 11pt;
@@ -118,14 +116,14 @@ form table tr td div label {
 	font-size: 10px;
 }
 .file {
-    float: left;
-    margin-right: 2px;
+  float: left;
+  margin-right: 2px;
 }
 .file:not(.multifile) .post-image {
-    float: left;
+  float: left;
 }
 .file:not(.multifile) {
-    float: none;
+  float: none;
 }
 p.fileinfo {
 	display: block;
@@ -527,6 +525,7 @@ form.ban-appeal textarea {
 	overflow:hidden;
 	position: relative;
 	font-size:11px;
+	max-height:300px;
   background: rgba(182, 182, 182, 0.12);
   border: 2px solid rgba(111, 111, 111, 0.34);
 }
@@ -544,80 +543,90 @@ div.thread:hover {
 }
 
 .theme-catalog div.grid-size-vsmall img {
-	max-width: 100%;
 	max-height: 64px;
+  max-width: 100px;
 }
 
 .theme-catalog div.grid-size-vsmall {
-        width: 100px;
-        max-width: 100px;
-        max-height: 150px;
+  width: 100px;
+  max-width: 100px;
+  max-height: 150px;
+}
+
+.theme-catalog div.grid-size-small img {
+  max-height: 128px;
+  max-width: 225px;
 }
 
 .theme-catalog div.grid-size-small {
-        width: 200px;
-        max-width: 200px;
-        max-height: 350px;
+  width: 200px;
+  max-width: 225px;
+  max-height: 300px;
+}
+
+.theme-catalog div.grid-size-large img {
+  max-height: 148px;
+  max-width: 300px;
 }
 
 .theme-catalog div.grid-size-large {
-        width: 300px;
-        max-width: 300px;
-        max-height: 450px;
+  width: 300px;
+  max-width: 300px;
+  max-height: 450px;
 }
 
 .theme-catalog img.thread-image {
-        height: auto;
-        max-width: 100%;
+  height: auto;
+  max-width: 100%;
 }
 
 @media (max-width: 420px) {
-        .theme-catalog ul#Grid {
-                padding-left: 18px;
-        }
-        .theme-catalog div.thread {
-                width: auto;
-                margin-left: 0;
-                margin-right: 0;
+  .theme-catalog ul#Grid {
+    padding-left: 18px;
+  }
+  .theme-catalog div.thread {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
 
-        }
-        .theme-catalog div.threads {
-                overflow: hidden;
-        }
+  }
+  .theme-catalog div.threads {
+    overflow: hidden;
+  }
 }
 
 .compact-boardlist {
-        padding: 3px;
-        padding-bottom: 0;
+  padding: 3px;
+  padding-bottom: 0;
 }
 .compact-boardlist .cb-item {
-        display: inline-block;
-        vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 .compact-boardlist .cb-icon {
-        padding-bottom: 1px;
+  padding-bottom: 1px;
 }
 .compact-boardlist .cb-fa {
-        font-size: 21px;
-        padding: 2px;
-        padding-top: 0;
+  font-size: 21px;
+  padding: 2px;
+  padding-top: 0;
 }
 .compact-boardlist .cb-cat {
-        padding: 5px 6px 8px 6px;
+  padding: 5px 6px 8px 6px;
 }
 
 /* styles also used by watch.js */
 .cb-menuitem {
-        display: table-row;
+  display: table-row;
 }
 .cb-menuitem span {
-        padding: 5px;
-        display: table-cell;
-        text-align: left;
-        border-top: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  display: table-cell;
+  text-align: left;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
 }
 .cb-menuitem span.cb-uri {
-        text-align: right;
+  text-align: right;
 }
 
 .boardlist:not(.compact-boardlist) #watch-pinned::before {
@@ -627,17 +636,17 @@ div.thread:hover {
 	content: " ] ";
 }
 .boardlist:not(.compact-boardlist) #watch-pinned {
-        display: inline;
+  display: inline;
 }
 .boardlist:not(.compact-boardlist) #watch-pinned a {
 	margin-left: 3pt;
 }
 .boardlist:not(.compact-boardlist) #watch-pinned a:first-child {
-        margin-left: 0pt;
+  margin-left: 0pt;
 }
 
 .compact-boardlist #watch-pinned {
-        display: inline-block;
+  display: inline-block;
 	vertical-align: middle;
 }
 
