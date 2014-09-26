@@ -7,25 +7,33 @@ body {
 	padding-left: 5px;
 	padding-right: 5px;
 }
+
 table * {
 	margin: 0;
 }
+
 a, a:visited {
 	text-decoration: underline;
 	color: #34345C;
 }
+
 a:hover, p.intro a.post_no:hover {
 	color: #ff0000;
 }
+
 a.post_no {
 	text-decoration: none;
 	margin: 0;
 	padding: 0;
 }
+
 p.intro a.post_no {
 	color: inherit;
 }
-p.intro a.post_no, p.intro a.email, p.intro a.post_anchor {
+
+p.intro a.post_no,
+p.intro a.email,
+p.intro a.post_anchor {
 	margin: 0;
 }
 p.intro a.email span.name {
@@ -214,7 +222,8 @@ div.post.reply div.body a {
 	color: #D00;
 }
 div.post {
-	max-width: 97%;
+	max-width: 95%;
+	padding-left:20px;
 }
 div.post div.body {
 	word-wrap: break-word;
@@ -502,7 +511,6 @@ form.ban-appeal textarea {
 .theme-catalog div.thread img {
 	float:none!important;
 	margin: auto;
-	margin-bottom: 12px;
 	max-height: 150px;
 	max-width: 200px;
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.55);
@@ -511,9 +519,6 @@ form.ban-appeal textarea {
 .theme-catalog div.thread {
 	display: inline-block;
 	vertical-align: top;
-	margin-bottom:25px;
-	margin-left: 20px;
-	margin-right: 15px;
 	text-align:center;
 	font-weight:normal;
   padding: 2px;
@@ -547,19 +552,19 @@ div.thread:hover {
         width: 100px;
         max-width: 100px;
         max-height: 150px;
-}       
+}
 
 .theme-catalog div.grid-size-small {
         width: 200px;
         max-width: 200px;
         max-height: 350px;
-}       
+}
 
 .theme-catalog div.grid-size-large {
         width: 300px;
         max-width: 300px;
         max-height: 450px;
-}       
+}
 
 .theme-catalog img.thread-image {
         height: auto;
@@ -580,8 +585,6 @@ div.thread:hover {
                 overflow: hidden;
         }
 }
-
-@include url("tooltipster/tooltipster.css");
 
 .compact-boardlist {
         padding: 3px;
@@ -667,7 +670,7 @@ div.thread:hover {
   background-color: #d6daf0;
   border: 1px solid black;
   display: inline-block;
-  position: relative; 
+  position: relative;
   margin-top: 20px;
   width: 600px;
   height: 300px;
@@ -690,6 +693,7 @@ div.thread:hover {
 .options_tab_icon {
   padding: 5px;
   color: black;
+  cursor: pointer;
 }
 .options_tab_icon.active {
   color: red;
@@ -718,4 +722,18 @@ div.thread:hover {
   width: 100%;
   height: 100%;
   margin-top: 0px;
+}
+.mentioned {
+	word-wrap: break-word;
+}
+
+
+code > pre {
+/* Better code tags */
+  background:black;
+  max-width:inherit;
+}
+
+code > pre > span.pln {
+  color:grey;
 }

@@ -41,8 +41,8 @@ class Api {
 		);
 
 		$this->fileFields = array(
-			'thumbheight' => 'tn_w',
-			'thumbwidth' => 'tn_h',
+			'thumbheight' => 'tn_h',
+			'thumbwidth' => 'tn_w',
 			'height' => 'w',
 			'width' => 'h',
 			'size' => 'fsize',
@@ -113,6 +113,7 @@ class Api {
 			$apiPost['ext'] = substr($file->file, $dotPos);
 			$dotPos = strrpos($file->file, '.');
 			$apiPost['tim'] = substr($file->file, 0, $dotPos);
+			$apiPost['md5'] = base64_encode(md5_file($file->file_path, true));
 		}
 
 		return $apiPost;

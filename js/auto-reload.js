@@ -8,6 +8,7 @@
  * Copyright (c) 2012 Michael Save <savetheinternet@tinyboard.org>
  * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
  * Copyright (c) 2013 undido <firekid109@hotmail.com>
+ * Copyright (c) 2014 Fredrick Brennan <admin@8chan.co>
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
@@ -27,6 +28,8 @@ $(document).ready(function(){
 	
 	var poll_interval;
 
+	// Add an update link
+	$('.boardlist.bottom').prev().after("<a href='#' id='update_thread' style='padding-left:10px'>["+_("Update thread")+"] (<span id='update_secs'></span>)</a>");
 
 	// Grab the settings
 	var settings = new script_settings('auto-reload');
@@ -37,6 +40,7 @@ $(document).ready(function(){
 
 	// number of ms to wait before reloading
 	var poll_interval_delay = poll_interval_mindelay_bottom;
+	var poll_current_time = poll_interval_delay;
 
 	var end_of_page = false;
 
@@ -68,6 +72,14 @@ $(document).ready(function(){
 		window_active = false;
 	});
 	
+	var timer_update = function() {
+		$('#update_secs').text(poll_current_time/1000);
+	}
+
+	var decrement_timer = function() {
+		poll_current_time = poll_current_time - 1000;
+	}
+
 	var recheck_activated = function() {
 		if (new_posts && window_active &&
 			$(window).scrollTop() + $(window).height() >=
@@ -115,6 +127,9 @@ $(document).ready(function(){
 		}
 
 		poll_interval = setTimeout(poll, poll_interval_delay);
+		poll_current_time = poll_interval_delay;
+
+		return false;
 	};
 	
 	$(window).scroll(function() {
@@ -128,9 +143,15 @@ $(document).ready(function(){
 		
 		clearTimeout(poll_interval);
 		poll_interval = setTimeout(poll, poll_interval_shortdelay);
+		poll_current_time = poll_interval_shortdelay;
 		end_of_page = true;
 	}).trigger('scroll');
 
+	$('#update_thread').on('click', poll);
+	setInterval(timer_update, 1000);
+	setInterval(decrement_timer, 1000);
+
 	poll_interval = setTimeout(poll, poll_interval_delay);
+	timer_update();
 });
 
