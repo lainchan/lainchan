@@ -658,8 +658,8 @@ div.thread.grid-li {
 }
 
 .theme-catalog div.grid-size-vsmall img {
-  max-height: 64px;
-  max-width: 96px;
+  max-height: 50%;
+  max-width: 99%;
 }
 
 .theme-catalog div.grid-size-vsmall {
@@ -668,8 +668,8 @@ div.thread.grid-li {
 }
 
 .theme-catalog div.grid-size-small img {
-  max-height: 128px;
-  max-width: 225px;
+  max-height: 50%;
+  max-width: 99%;
 }
 
 .theme-catalog div.grid-size-small {
@@ -678,8 +678,8 @@ div.thread.grid-li {
 }
 
 .theme-catalog div.grid-size-large img {
-  max-height: 175px;
-  max-width: 300px;
+  max-height: 50%;
+  max-width: 99%;
 }
 
 .theme-catalog div.grid-size-large {
@@ -883,40 +883,5 @@ code > pre > span.pln {
 
   div.post div.body {
     clear: none;
-  }
-
-  .theme-catalog div.grid-size-vsmall img {
-    max-height: 96px;
-    max-width: 160px;
-  }
-
-  .theme-catalog div.grid-size-vsmall {
-    width: 160px;
-    height: 256px;
-  }
-
-  .theme-catalog div.grid-size-small img {
-    max-height: 160px;
-    max-width: 225px;
-  }
-
-  .theme-catalog div.grid-size-small {
-    width: 225px;
-    height:320px;
-  }
-
-  .theme-catalog div.grid-size-large img {
-    max-height: 200px;
-    max-width: 300px;
-  }
-
-  .theme-catalog div.grid-size-large {
-    width: 300px;
-    height: 409px;
-  }
-
-  .theme-catalog img.thread-image {
-    height: auto;
-    max-width: 100%;
   }
 }
