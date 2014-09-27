@@ -23,7 +23,7 @@ if (active_page == 'thread' || active_page == 'index') {
 			return rgb;
 		}
 
-		$(".poster_id").each(function(){
+		function colorPostId(el) {
 			var rgb = stringToRGB($(this).text());
 			
 			$(this).css({
@@ -31,6 +31,16 @@ if (active_page == 'thread' || active_page == 'index') {
 				"padding": "3px 5px",
 				"border-radius": "8px",
 				"color": "white"
+			});
+		}
+
+		$(".poster_id").each(function(k, v){
+			colorPostId(v);
+		});
+
+		$(document).on('new_post', function(e, post) {
+			$(post).find('.poster_id').each(function(k, v) {
+				colorPostId(v);
 			});
 		});
 	});
