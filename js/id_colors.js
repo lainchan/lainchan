@@ -28,7 +28,7 @@ if (active_page == 'thread' || active_page == 'index') {
 			
 			$(el).css({
 				"background-color": "rgb("+rgb[0]+", "+rgb[1]+", "+rgb[2]+")",
-				"padding": "3px 5px",
+				"padding": "0px 5px",
 				"border-radius": "8px",
 				"color": "white"
 			});
