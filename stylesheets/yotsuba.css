@@ -62,3 +62,7 @@ table.modlog tr th {
 #options_div {
 	background: #f0e0d6;
 }
+
+.desktop-style div.boardlist:nth-child(1) {
+	background-color: #F0E0D6;
+}

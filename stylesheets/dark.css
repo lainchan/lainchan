@@ -168,6 +168,7 @@ table.modlog tr th {
 
 .desktop-style div.boardlist:nth-child(1) {
   text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
+  background-color: #666666;
 }
 
 
