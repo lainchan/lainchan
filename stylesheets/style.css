@@ -900,6 +900,16 @@ pre {
   overflow:auto;
 }
 
+.poster_id{
+	cursor: pointer;
+}
+
+code > pre {
+/* Better code tags */
+  background:black;
+  max-width:inherit;
+}
+
 code > pre > span.pln {
   color: grey;
 }
