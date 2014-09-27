@@ -1,25 +1,24 @@
 body {
-  background: #EEF2FF url(img/fade-blue.png) repeat-x 50% 0;
-  color: #000;
-  font-family: arial,helvetica,sans-serif;
-  font-size: 10pt;
-  min-width: 200px;
-  max-width: 100%;
-  margin: 4px!important;
-  padding: 4px!important;
+  background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
+  color: black;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 11pt;
+  margin: 0 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 table * {
-  margin: 0;
+  margin: 1px;
 }
 
-a,a:visited {
+a, a:visited {
   text-decoration: underline;
   color: #34345C;
 }
 
-a:hover,p.intro a.post_no:hover {
-  color: red;
+a:hover, p.intro a.post_no:hover {
+  color: #ff0000;
 }
 
 a.post_no {
@@ -28,12 +27,14 @@ a.post_no {
   padding: 0;
 }
 
-p.intro a.post_no,p.intro a.email,p.intro a.post_anchor {
-  margin: 0;
-}
-
 p.intro a.post_no {
   color: inherit;
+}
+
+p.intro a.post_no,
+p.intro a.email,
+p.intro a.post_anchor {
+  margin: 0;
 }
 
 p.intro a.email span.name {
@@ -41,29 +42,27 @@ p.intro a.email span.name {
 }
 
 p.intro a.email:hover span.name {
-  color: red;
+  color: #ff0000;
 }
 
 p.intro label {
   display: inline;
 }
 
-p.intro time,p.intro a.ip-link,p.intro a.capcode {
+p.intro time, p.intro a.ip-link, p.intro a.capcode {
   direction: ltr;
   unicode-bidi: embed;
 }
 
+h2 {
+  color: #AF0A0F;
+  font-size: 11pt;
+  margin: 0;
+  padding: 0;
+}
+
 header {
   margin: 1em 0;
-}
-
-header div.subtitle,h1 {
-  color: #AF0A0F;
-  text-align: center;
-}
-
-header div.subtitle {
-  font-size: 8pt;
 }
 
 h1 {
@@ -73,11 +72,13 @@ h1 {
   margin: 0;
 }
 
-h2 {
+header div.subtitle, h1 {
   color: #AF0A0F;
-  font-size: 11pt;
-  margin: 0;
-  padding: 0;
+  text-align: center;
+}
+
+header div.subtitle {
+  font-size: 8pt;
 }
 
 form {
@@ -90,12 +91,15 @@ form table {
 
 form table input {
   height: auto;
-  width: 100%;
 }
 
-input[type="text"],input[type="password"],textarea {
-  height: auto;
-  width: 100%;
+input[type="text"], input[type="password"], textarea {
+  border: 1px solid #a9a9a9;
+  text-indent: 0;
+  text-shadow: none;
+  text-transform: none;
+  word-spacing: normal;
+  max-width: 75%;
 }
 
 form table tr td {
@@ -111,6 +115,9 @@ form table.mod tr td {
 form table tr th {
   text-align: left;
   padding: 4px;
+}
+
+form table tr th {
   background: #98E;
 }
 
@@ -122,14 +129,14 @@ form table tr td div.center {
 
 form table tr td div input {
   display: block;
-  margin: 2px auto 0;
+  margin: 2px auto 0 auto;
 }
 
 form table tr td div label {
   font-size: 10px;
 }
 
-.unimportant,.unimportant * {
+.unimportant, .unimportant * {
   font-size: 10px;
 }
 
@@ -158,13 +165,13 @@ div.post p.fileinfo {
 div.banner {
   background-color: #E04000;
   font-size: 12pt;
-  font-weight: 700;
+  font-weight: bold;
   text-align: center;
   margin: 1em 0;
 }
 
-div.banner,div.banner a {
-  color: #fff;
+div.banner, div.banner a {
+  color: white;
 }
 
 div.banner a:hover {
@@ -172,22 +179,22 @@ div.banner a:hover {
   text-decoration: none;
 }
 
-img.banner,img.board_image {
+img.banner, img.board_image {
   display: block;
   border: 1px solid #a9a9a9;
-  margin: 12px auto 0;
+  margin: 12px auto 0 auto;
 }
 
 .post-image {
   display: block;
   float: left;
-  margin: 4px 16px 8px;
+  margin: 5px 20px 10px 20px;
   border: none;
 }
 
 div.post .post-image {
-  padding: 1px;
-  margin: 4px 20px 4px 4px;
+  padding: 5px;
+  margin: 0 20px 0 0;
 }
 
 div.post img.icon {
@@ -211,8 +218,9 @@ div.post.op hr {
 }
 
 p.intro {
-  margin: .5em 0;
-  padding: 0 0 .2em;
+  margin: 0.5em 0;
+  padding: 0;
+  padding-bottom: 0.2em;
   clear: both;
 }
 
@@ -223,15 +231,15 @@ input.delete {
 
 p.intro span.subject {
   color: #0F0C5D;
-  font-weight: 700;
+  font-weight: bold;
 }
 
 p.intro span.name {
   color: #117743;
-  font-weight: 700;
+  font-weight: bold;
 }
 
-p.intro span.capcode,p.intro a.capcode,p.intro a.nametag {
+p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
   color: #F00000;
   margin-left: 0;
 }
@@ -244,19 +252,15 @@ div.delete {
   float: right;
 }
 
-div.post.reply {
-  max-width: 85%;
-}
-
 div.post.reply p {
-  margin: .3em 0 0;
+  margin: 0.3em 0 0 0;
 }
 
 div.post.reply div.body {
-  margin-left: 1em;
-  margin-top: 1em;
-  padding-right: 2em;
-  padding-bottom: .3em;
+  margin-left: 1.8em;
+  margin-top: 0.8em;
+  padding-right: 3em;
+  padding-bottom: 0.3em;
 }
 
 div.post.reply.highlighted {
@@ -275,17 +279,17 @@ div.post {
 div.post div.body {
   word-wrap: break-word;
   white-space: pre-wrap;
-  clear: both;
 }
 
 div.post.reply {
   background: #D6DAF0;
-  margin: .2em 16px;
-  padding: .2em .3em .5em .6em;
+  margin: 0.2em 4px;
+  padding: 0.2em 0.3em 0.5em 0.6em;
   border-width: 1px;
   border-style: none solid solid none;
   border-color: #B7C5D9;
   display: inline-block;
+  max-width: 95%;
 }
 
 span.trip {
@@ -328,19 +332,19 @@ div#wrap {
 }
 
 div.ban {
-  background: #fff;
+  background: white;
   border: 1px solid #98E;
   max-width: 700px;
   margin: 30px auto;
 }
 
-div.ban p,div.ban h2 {
+div.ban p, div.ban h2 {
   padding: 3px 7px;
 }
 
 div.ban h2 {
   background: #98E;
-  color: #000;
+  color: black;
   font-size: 12pt;
 }
 
@@ -350,27 +354,27 @@ div.ban p {
 }
 
 div.ban p.reason {
-  font-weight: 700;
+  font-weight: bold;
 }
 
 span.heading {
   color: #AF0A0F;
   font-size: 11pt;
-  font-weight: 700;
+  font-weight: bold;
 }
 
 span.spoiler {
-  background: #000;
-  color: #000;
+  background: black;
+  color: black;
   padding: 0 1px;
 }
 
 div.post.reply div.body span.spoiler a {
-  color: #000;
+  color: black;
 }
 
-span.spoiler:hover,div.post.reply div.body span.spoiler:hover a {
-  color: #fff;
+span.spoiler:hover, div.post.reply div.body span.spoiler:hover a {
+  color: white;
 }
 
 div.styles {
@@ -390,7 +394,7 @@ table.test {
   width: 100%;
 }
 
-table.test td,table.test th {
+table.test td, table.test th {
   text-align: left;
   padding: 5px;
 }
@@ -423,17 +427,17 @@ div.pages.top {
   position: fixed;
   top: 0;
   right: 0;
-  opacity: .9;
+  opacity: 0.9;
 }
 
 @media screen and (max-width: 800px) {
   div.pages.top {
-    display: none!important;
+    display: none !important;
   }
 }
 
 div.pages a.selected {
-  color: #000;
+  color: black;
   font-weight: bolder;
 }
 
@@ -492,10 +496,13 @@ table.modlog tr th {
   text-align: left;
   padding: 4px 15px 5px 5px;
   white-space: nowrap;
+}
+
+table.modlog tr th {
   background: #98E;
 }
 
-td.minimal,th.minimal {
+td.minimal, th.minimal {
   width: 1%;
   white-space: nowrap;
 }
@@ -508,7 +515,7 @@ div.top_notice {
 span.public_ban {
   display: block;
   color: red;
-  font-weight: 700;
+  font-weight: bold;
   margin-top: 15px;
 }
 
@@ -519,7 +526,7 @@ span.toolong {
 
 div.blotter {
   color: red;
-  font-weight: 700;
+  font-weight: bold;
   text-align: center;
 }
 
@@ -543,12 +550,13 @@ table.mod.config-editor input[type="text"] {
   top: 0;
   left: 0;
   right: 0;
+  /*text-shadow: white 1px 0 6px, white 1px 0 6px, black 1px 0 3px;*/
   margin-top: 0;
   z-index: 30;
 }
 
-.desktop-style div.boardlist:nth-child(1):hover,.desktop-style div.boardlist:nth-child(1).cb-menu {
-  background-color: rgba(90%,90%,90%,0.6);
+.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
+  background-color: rgba(90%, 90%, 90%, 0.6);
 }
 
 .desktop-style body {
@@ -563,10 +571,10 @@ table.mod.config-editor input[type="text"] {
   display: inline-block;
   text-indent: -9000px;
   width: 7px;
-  background: url(img/arrow.png) right center no-repeat;
+  background: url('img/arrow.png') right center no-repeat;
 }
 
-.desktop-style .sub .sub:hover,.desktop-style .sub .sub.hover {
+.desktop-style .sub .sub:hover, .desktop-style .sub .sub.hover {
   display: inline;
   text-indent: 0;
   background: inherit;
@@ -595,7 +603,7 @@ table.mod.config-editor input[type="text"] {
 }
 
 #attention_bar:hover {
-  background-color: rgba(100%,100%,100%,0.2);
+  background-color: rgba(100%, 100%, 100%, 0.2);
 }
 
 p.intro.thread-hidden {
@@ -611,32 +619,31 @@ form.ban-appeal textarea {
   display: block;
 }
 
-ul#Grid {
-  padding: 2px;
-  margin: 2px 0 2px .5em;
-}
-
 .theme-catalog div.thread img {
   float: none!important;
   margin: auto;
   max-height: 150px;
   max-width: 200px;
-  box-shadow: 0 0 4px rgba(0,0,0,0.55);
-  border: 2px solid rgba(153,153,153,0);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.55);
+  border: 2px solid rgba(153, 153, 153, 0);
 }
 
 .theme-catalog div.thread {
   display: inline-block;
-  position: relative;
-  overflow: hidden;
   vertical-align: top;
   text-align: center;
-  font-weight: 400;
-  margin: 2px 0;
+  font-weight: normal;
+  margin-top: 2px;
+  margin-bottom: 2px;
   padding: 2px;
+  height: 300px;
+  width: 205px;
+  overflow: hidden;
+  position: relative;
   font-size: 11px;
-  background: rgba(182,182,182,0.12);
-  border: 2px solid rgba(111,111,111,0.34);
+  max-height: 300px;
+  background: rgba(182, 182, 182, 0.12);
+  border: 2px solid rgba(111, 111, 111, 0.34);
 }
 
 .theme-catalog div.thread strong {
@@ -653,43 +660,58 @@ div.thread:hover {
   border-color: #B7C5D9;
 }
 
-div.thread.grid-li {
-  padding: 0;
-}
-
 .theme-catalog div.grid-size-vsmall img {
-  max-height: 50%;
-  max-width: 99%;
+  max-height: 64px;
+  max-width: 100px;
 }
 
 .theme-catalog div.grid-size-vsmall {
-  width:128px;
-  height: 160px;
+  width: 100px;
+  max-width: 100px;
+  max-height: 150px;
 }
 
 .theme-catalog div.grid-size-small img {
-  max-height: 50%;
-  max-width: 99%;
+  max-height: 128px;
+  max-width: 225px;
 }
 
 .theme-catalog div.grid-size-small {
-  width: 144px;
-  height:256px;
+  width: 200px;
+  max-width: 225px;
+  max-height: 300px;
 }
 
 .theme-catalog div.grid-size-large img {
-  max-height: 50%;
-  max-width: 99%;
+  max-height: 148px;
+  max-width: 300px;
 }
 
 .theme-catalog div.grid-size-large {
-  width: 225px;
-  height: 384px;
+  width: 300px;
+  max-width: 300px;
+  max-height: 450px;
 }
 
 .theme-catalog img.thread-image {
   height: auto;
   max-width: 100%;
+}
+
+@media (max-width: 420px) {
+  .theme-catalog ul#Grid {
+    padding-left: 18px;
+  }
+
+  .theme-catalog div.thread {
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .theme-catalog div.threads {
+    overflow: hidden;
+  }
 }
 
 .compact-boardlist {
@@ -713,9 +735,10 @@ div.thread.grid-li {
 }
 
 .compact-boardlist .cb-cat {
-  padding: 5px 6px 8px;
+  padding: 5px 6px 8px 6px;
 }
 
+/* styles also used by watch.js */
 .cb-menuitem {
   display: table-row;
 }
@@ -724,7 +747,7 @@ div.thread.grid-li {
   padding: 5px;
   display: table-cell;
   text-align: left;
-  border-top: 1px solid rgba(0,0,0,0.5);
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .cb-menuitem span.cb-uri {
@@ -748,7 +771,7 @@ div.thread.grid-li {
 }
 
 .boardlist:not(.compact-boardlist) #watch-pinned a:first-child {
-  margin-left: 0;
+  margin-left: 0pt;
 }
 
 .compact-boardlist #watch-pinned {
@@ -756,8 +779,9 @@ div.thread.grid-li {
   vertical-align: middle;
 }
 
+/* live-index.js */
 .new-posts {
-  opacity: .6;
+  opacity: 0.6;
   margin-top: 1em;
 }
 
@@ -765,19 +789,13 @@ div.thread.grid-li {
   text-align: center;
 }
 
-.mobile-style #options_div {
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin-top: 0;
-}
-
+/* options.js */
 #options_handler {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -785,13 +803,13 @@ div.thread.grid-li {
 }
 
 #options_background {
-  background: #000;
-  opacity: .5;
+  background: black;
+  opacity: 0.5;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -799,7 +817,7 @@ div.thread.grid-li {
 
 #options_div {
   background-color: #d6daf0;
-  border: 1px solid #000;
+  border: 1px solid black;
   display: inline-block;
   position: relative;
   margin-top: 20px;
@@ -808,8 +826,8 @@ div.thread.grid-li {
 }
 
 #options_close {
-  top: 0;
-  right: 0;
+  top: 0px;
+  right: 0px;
   position: absolute;
   margin-right: 3px;
   font-size: 20px;
@@ -817,34 +835,18 @@ div.thread.grid-li {
 }
 
 #options_tablist {
-  border-right: 1px solid #000;
-  padding: 0 5px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  height: 100%;
+  padding: 0px 5px;
+  left: 0px;
   width: 70px;
-}
-
-.options_tab {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 81px;
-  right: 0;
-  padding: 10px;
-  text-align: left;
-  font-size: 12px;
-}
-
-.options_tab h2 {
-  text-align: center;
-  margin-bottom: 5px;
+  top: 0px;
+  bottom: 0px;
+  height: 100%;
+  border-right: 1px solid black;
 }
 
 .options_tab_icon {
   padding: 5px;
-  color: #000;
+  color: black;
   cursor: pointer;
 }
 
@@ -860,21 +862,44 @@ div.thread.grid-li {
   font-size: 11px;
 }
 
-code > pre {
-  background: #000;
-  max-width: 80%;
+.options_tab {
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 81px;
+  right: 0px;
+  text-align: left;
+  font-size: 12px;
+}
+
+.options_tab h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.mobile-style #options_div {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-top: 0px;
+}
+
+.mentioned {
+  word-wrap: break-word;
+}
+
+pre {
+  width: 99%;
   padding: 0;
   margin: 0;
-  overflow: auto;
+  overflow:auto;
 }
 
 code > pre > span.pln {
   color: grey;
 }
 
-.mentioned {
-  word-wrap: break-word;
-}
 
 @media screen and (min-width: 768px) {
   p.intro {
