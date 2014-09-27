@@ -24,9 +24,9 @@ if (active_page == 'thread' || active_page == 'index') {
 		}
 
 		function colorPostId(el) {
-			var rgb = stringToRGB($(this).text());
+			var rgb = stringToRGB($(el).text());
 			
-			$(this).css({
+			$(el).css({
 				"background-color": "rgb("+rgb[0]+", "+rgb[1]+", "+rgb[2]+")",
 				"padding": "3px 5px",
 				"border-radius": "8px",
