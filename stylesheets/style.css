@@ -102,6 +102,10 @@ input[type="text"], input[type="password"], textarea {
   max-width: 75%;
 }
 
+#quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
+  max-width: 100%;
+}
+
 form table tr td {
   text-align: left;
   margin: 0;
