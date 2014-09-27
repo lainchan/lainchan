@@ -24,31 +24,37 @@ $(document).ready(function(){
 		return; // not index
 		
 	if($(".post.op").size() != 1)
-	return; //not thread page
+		return; //not thread page
 	
-	var poll_interval;
+	var countdown_interval;
 
 	// Add an update link
-	$('.boardlist.bottom').prev().after("<a href='#' id='update_thread' style='padding-left:10px'>["+_("Update thread")+"] (<span id='update_secs'></span>)</a>");
+	$('.boardlist.bottom').prev().after("<a href='#' id='update_thread' style='padding-left:10px'>["+_("Update")+"]</a> (<input type='checkbox' id='auto_update_status' checked> Auto) <span id='update_secs'></span>");
 
 	// Grab the settings
 	var settings = new script_settings('auto-reload');
-	var poll_interval_mindelay_bottom = settings.get('min_delay_bottom', 3000);
-	var poll_interval_mindelay_top    = settings.get('min_delay_top', 10000);
+	var poll_interval_mindelay_bottom = settings.get('min_delay_bottom', 5000);
 	var poll_interval_maxdelay        = settings.get('max_delay', 600000);
-	var poll_interval_shortdelay      = settings.get('quick_delay', 100);
 
 	// number of ms to wait before reloading
-	var poll_interval_delay = poll_interval_mindelay_bottom;
+	var poll_interval_delay = poll_interval_mindelay;
 	var poll_current_time = poll_interval_delay;
 
 	var end_of_page = false;
 
         var new_posts = 0;
 	var first_new_post = null;
+	
+	var title = document.title;
 
 	if (typeof update_title == "undefined") {
-	   var update_title = function() { };
+	   var update_title = function() { 
+	   	if (new_posts) {
+	   		document.title = "("+new_posts+") "+title;
+	   	} else {
+	   		document.title = title;
+	   	}
+	   };
 	}
 
 	if (typeof add_title_collector != "undefined")
@@ -63,37 +69,67 @@ $(document).ready(function(){
 
 		// Reset the delay if needed
 		if(settings.get('reset_focus', true)) {
-			poll_interval_delay = end_of_page
-			    ? poll_interval_mindelay_bottom
-			    : poll_interval_mindelay_top;
+			poll_interval_delay = poll_interval_mindelay;
 		}
 	});
 	$(window).blur(function() {
 		window_active = false;
 	});
 	
-	var timer_update = function() {
-		$('#update_secs').text(poll_current_time/1000);
-	}
+
+	$('#auto_update_status').click(function() {
+		if($("#auto_update_status").is(':checked')) {
+			auto_update(poll_interval_mindelay);
+		} else {
+			stop_auto_update();
+			$('#update_secs').text("");
+		}
+
+	});
+	
 
 	var decrement_timer = function() {
 		poll_current_time = poll_current_time - 1000;
+		$('#update_secs').text(poll_current_time/1000);
+		
+		if (poll_current_time <= 0) {
+			poll(manualUpdate = false);
+		}
 	}
 
 	var recheck_activated = function() {
 		if (new_posts && window_active &&
 			$(window).scrollTop() + $(window).height() >=
-			$(first_new_post).position().top) {
+			$('div.boardlist.bottom').position().top) {
 
 			new_posts = 0;
 		}
 		update_title();
+		first_new_post = null;
 	};
+	
+	// automatically updates the thread after a specified delay
+	var auto_update = function(delay) {
+		clearInterval(countdown_interval);
 
-	var poll = function() {
+		poll_current_time = delay;		
+		countdown_interval = setInterval(decrement_timer, 1000);
+		$('#update_secs').text(poll_current_time/1000);		
+	}
+	
+	var stop_auto_update = function() {
+		clearInterval(countdown_interval);
+	}
+		
+	
+	var poll = function(manualUpdate) {
+		stop_auto_update();
+		$('#update_secs').text("Updating...");
+	
 		$.ajax({
 			url: document.location,
 			success: function(data) {
+				var loaded_posts = 0;	// the number of new posts loaded in this update
 				$(data).find('div.post.reply').each(function() {
 					var id = $(this).attr('id');
 					if($('#' + id).length == 0) {
@@ -102,56 +138,64 @@ $(document).ready(function(){
 						}
 						$(this).insertAfter($('div.post:last').next()).after('<br class="clear">');
 						new_posts++;
+						loaded_posts++;
 						$(document).trigger('new_post', this);
 						recheck_activated();
 					}
 				});
 				time_loaded = Date.now(); // interop with watch.js
+				
+				
+				if ($('#auto_update_status').is(':checked')) {
+					// If there are no new posts, double the delay. Otherwise set it to the min.
+					if(loaded_posts == 0) {
+						// if the update was manual, don't increase the delay
+						if (manualUpdate == false) {
+							poll_interval_delay *= 2;
+				
+							// Don't increase the delay beyond the maximum
+							if(poll_interval_delay > poll_interval_maxdelay) {
+								poll_interval_delay = poll_interval_maxdelay;
+							}
+						}
+					} else {
+						poll_interval_delay = poll_interval_mindelay;
+					}
+					
+					auto_update(poll_interval_delay);
+				} else {
+					// Decide the message to show if auto update is disabled
+					if (loaded_posts > 0)
+						$('#update_secs').text("Thread updated with "+loaded_posts+" new post(s)");
+					else
+						$('#update_secs').text("No new posts found");
+				}
 			}
 		});
 		
-		clearTimeout(poll_interval);
-
-		// If there are no new posts, double the delay. Otherwise set it to the min.
-		if(new_posts == 0) {
-			poll_interval_delay *= 2;
-
-			// Don't increase the delay beyond the maximum
-			if(poll_interval_delay > poll_interval_maxdelay) {
-				poll_interval_delay = poll_interval_maxdelay;
-			}
-		} else {
-			poll_interval_delay = end_of_page
-			    ? poll_interval_mindelay_bottom
-			    : poll_interval_mindelay_top;
-		}
-
-		poll_interval = setTimeout(poll, poll_interval_delay);
-		poll_current_time = poll_interval_delay;
-
 		return false;
 	};
 	
 	$(window).scroll(function() {
 		recheck_activated();
-
+		
+		// if the newest post is not visible
 		if($(this).scrollTop() + $(this).height() <
 			$('div.post:last').position().top + $('div.post:last').height()) {
 			end_of_page = false;
 			return;
+		} else {
+			if($("#auto_update_status").is(':checked')) {
+				poll(manualUpdate = true);
+			}
+			end_of_page = true;
 		}
-		
-		clearTimeout(poll_interval);
-		poll_interval = setTimeout(poll, poll_interval_shortdelay);
-		poll_current_time = poll_interval_shortdelay;
-		end_of_page = true;
 	}).trigger('scroll');
 
-	$('#update_thread').on('click', poll);
-	setInterval(timer_update, 1000);
-	setInterval(decrement_timer, 1000);
+	$('#update_thread').on('click', function() { poll(manualUpdate = true); return false; });
 
-	poll_interval = setTimeout(poll, poll_interval_delay);
-	timer_update();
+	if($("#auto_update_status").is(':checked')) {
+		auto_update(poll_interval_delay);
+	}
 });
 
