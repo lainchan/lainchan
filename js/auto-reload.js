@@ -33,7 +33,7 @@ $(document).ready(function(){
 
 	// Grab the settings
 	var settings = new script_settings('auto-reload');
-	var poll_interval_mindelay_bottom = settings.get('min_delay_bottom', 5000);
+	var poll_interval_mindelay        = settings.get('min_delay_bottom', 5000);
 	var poll_interval_maxdelay        = settings.get('max_delay', 600000);
 
 	// number of ms to wait before reloading
