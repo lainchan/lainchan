@@ -58,6 +58,8 @@ tb_settings['auto-reload'] = {
 	min_delay_bottom: 5000,
 	// Maximum delay before reloading the page
 	max_delay: 600000,
+	// Delay if there was an error
+	error_delay: 30000,
 	// Reset the delay to the minimum upon focussing the window.
 	reset_focus: true
 };
