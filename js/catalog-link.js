@@ -15,13 +15,8 @@
 function catalog() {
 var board = $("input[name='board']");
 
-if (board.length>0) { 
-if (window.location.pathname.indexOf("/res/")>0){ //if we are inside a thread
-var catalog_url = '../catalog.html';
-}
-else {
-var catalog_url = 'catalog.html';
-}
+var catalog_url = configRoot + board.first().val() + "/catalog.html";
+
 var pages = document.getElementsByClassName('pages')[0];
 var bottom = document.getElementsByClassName('boardlist bottom')[0]
 var subtitle = document.getElementsByClassName('subtitle')[0];
@@ -55,7 +50,6 @@ if (subtitle) {
 	var br = document.createElement('br');
 	subtitle.appendChild(br);
 	subtitle.appendChild(link2);	
-}
 }
 }
 

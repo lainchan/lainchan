@@ -27,7 +27,10 @@ onready(function(){
 					$(this).parent().click();
 			});
 
-			$('hr:first').before('<div id="shrink-all-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)"></a></div>');
+			if (!$('#shrink-all-images').length) {
+				$('hr:first').before('<div id="shrink-all-images" style="text-align:right"><a class="unimportant" href="javascript:void(0)"></a></div>');
+			}
+
 			$('div#shrink-all-images a')
 				.text(_('Shrink all images'))
 				.click(function(){

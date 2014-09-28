@@ -1,7 +1,11 @@
 body {
   background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
   color: black;
+<<<<<<< HEAD
   font-family: arial,helvetica,sans-serif;
+=======
+  font-family: arial, helvetica, sans-serif;
+>>>>>>> 197e4d4bfcb5a312a699e1f6d012da03ee36fbe2
   font-size: 10pt;
   margin: 0 4px;
   padding-left: 4px;
@@ -100,7 +104,11 @@ input[type="text"],input[type="password"],textarea {
   max-width: 75%;
 }
 
+<<<<<<< HEAD
 #quick-reply input[type="text"],input[type="password"],#quick-reply textarea {
+=======
+#quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
+>>>>>>> 197e4d4bfcb5a312a699e1f6d012da03ee36fbe2
   max-width: 100%;
 }
 
