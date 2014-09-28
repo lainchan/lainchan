@@ -10,10 +10,15 @@
 </head>
 <body>
 	{{ boardlist.top }}
-	<header>
-		<h1>{{ settings.title }}</h1>
-		<div class="subtitle">{{ settings.subtitle }}</div>
-	</header>
+
+        <header>
+                <p class="bic">
+                        <img class="board_image" src="{{ config.url_banner }}"style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};height:{{ config.banner_height }}px;" alt="" />
+                </p>
+<h1>{{ settings.title }}</h1>
+                <div class="subtitle">PRESENT DAY. PRESENT TIME. HAHAHAHAHA</div>
+                        </header>
+
 	
 	<div class="box-wrap">
 		<div class="box left">
