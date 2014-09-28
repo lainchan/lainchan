@@ -1,0 +1,153 @@
+body {
+	background: #111111;
+	font-family: sans-serif;
+	font-size: 12px;
+}
+@font-face {
+  font-family: 'vt220';
+  src:  url('./fonts/vt220.ttf') format('truetype');
+}
+h1 {
+    font-family: 'vt220', tahoma;
+    letter-spacing: -2px;
+    font-size: 18pt;
+    margin: 0;
+}
+div.title, h1 {
+	font-family: 'vt220';
+}
+div.title p {
+	font-size: 10px;
+}
+
+
+div.blotter {
+	font-weight: bold;
+	text-align: center;
+}
+header div.subtitle, h1 {
+	text-align: center;
+}
+header div.subtitle {
+	font-size: 8pt;
+}
+img.board_image {
+        -moz-mask: url(./svg/bannermaks.svg#masking);
+        mask:   url(./svg/bannermaks.svg#masking);
+        -webkit-mask: url(./img/banner_terminal_mask.png);
+        border: none!important;
+	overflow: visible!important;
+
+}
+.bic {
+    padding: 20px!important;
+    overflow: visible!important;
+}
+a:link, a:visited, p.intro a.email span.name {
+	text-decoration: underline;
+	font-family: sans-serif;
+}
+a:link:hover, a:visited:hover {
+	font-family: sans-serif;
+	text-decoration: underline overline;
+}
+a.post_no {
+	text-decoration: none;
+}
+a.post_no:hover {
+	text-decoration: underline overline;
+}
+div.post.reply {
+	background: #111111;
+	border: 1px dotted;
+}
+div.post.reply.highlighted {
+	background: transparent;
+	border: transparent 1px dotted;
+}
+p.intro span.subject {
+	font-size: 12px;
+	font-family: sans-serif;
+	font-weight: 800;
+}
+p.intro span.name {
+	font-weight: 800;
+}
+p.intro a.capcode, p.intro a.nametag {
+	margin-left: 0;
+}
+input[type="text"], textarea, select {
+	background: #111111;
+	border: 1px dotted;
+	padding-left: 5px;
+	padding-right: -5px;
+	font-family: sans-serif;
+	font-size: 10pt;
+}
+input[type="password"] {
+	background: #111111;
+	border: 1px dotted;
+}
+
+form table tr th {
+	background: #111111;
+	font-weight: 800;
+	text-align: left;
+	padding: 0;
+	border: #ffaf2b 1px dotted;
+}
+div.banner {
+	background: #AA6C00;
+	color: #FFFFFF;
+	text-align: center;
+	width: 250px;
+	padding: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
+}
+input[type="submit"] {
+	background: #111111;
+	border: 1px dotted;
+}
+input[type="submit"]:hover {
+	background: #111111;
+	border: 1px dotted;
+}
+p.fileinfo a:hover {
+	text-decoration: underline;
+}
+div.pages {
+	background: #111111;
+	border: 1px dotted;
+	font-family: sans-serif;
+	font-size: 10pt;
+}
+hr {
+	height: 1px;
+	border: 1px dotted;
+}
+div.ban {
+	border: transparent 0px dotted;
+}
+div.ban h2 {
+	background: transparent;
+	color: lime;
+	font-size: 12px;
+}
+table.modlog tr th {
+	background: #111111;
+}
+
+.desktop-style div.boardlist:nth-child(1) {
+  background-color: #111111;
+}
+.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
+  background-color: #111111;
+}
+
+.desktop-style .sub {
+  background: none;
+}

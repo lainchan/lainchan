@@ -1,0 +1,10 @@
+<svg>
+  <filter id="sepia">
+    <feColorMatrix 
+	type="matrix" 
+	values=".343 .669 .119 0 0 
+		.249 .626 .130 0 0
+		.172 .334 .111 0 0
+		.000 .000 .000 1 0 "/>
+  </filter>
+</svg>

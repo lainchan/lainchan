@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300px" height="100px">
+  <defs>
+    <pattern id="pattern2"
+         x="0" y="0" width=".0052083333333" height=".015625"
+         patternUnits="userSpaceOnUse" >
+      <rect x="0" y="0" width=".0026041666667" height=".0078125" style="stroke: none; fill: white; " />
+    </pattern>
+    <mask maskContentUnits="objectBoundingBox" maskUnits="objectBoundingBox" id="masking">
+        <rect x="0" y="0" width="1" height="1" style="fill: url(#pattern2);"/>
+     </mask>
+  </defs>
+</svg>

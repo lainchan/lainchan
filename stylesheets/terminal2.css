@@ -21,6 +21,18 @@ a:link, a:visited, p.intro a.email span.name {
 	text-decoration: underline;
 	font-family: sans-serif;
 }
+.bic {
+      -moz-filter: url(./svg/blur.svg#blur_green);
+      filter: url(./svg/blur.svg#blur_green);
+      -webkit-filter: url(svg/blur.svg#blur_green);
+}
+img.board_image {
+        -moz-mask: url(./svg/bannermaks.svg#masking);
+        mask:   url(./svg/bannermaks.svg#masking);
+	-webkit-mask: url(./img/banner_terminal_mask.png);
+        border: none!important;
+}
+
 a:link:hover, a:visited:hover {
 	color: #00FF00;
 	font-family: sans-serif;

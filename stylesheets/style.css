@@ -3,9 +3,15 @@ body {
 	color: black;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 10pt;
-	margin: 0 8px;
+	margin: 0px;
 	padding-left: 5px;
 	padding-right: 5px;
+}
+img[alt="mascot"] {
+	display: block;
+	margin: 0 auto 0 auto;
+	position: relative;
+	z-index: -1;
 }
 table * {
 	margin: 0;
@@ -14,7 +20,7 @@ a, a:visited {
 	text-decoration: underline;
 	color: #34345C;
 }
-a:hover, p.intro a.post_no:hover {
+p.intro a.post_no, p.intro a.email, p.intro a.post_anchor {
 	color: #ff0000;
 }
 a.post_no {
@@ -25,7 +31,7 @@ a.post_no {
 p.intro a.post_no {
 	color: inherit;
 }
-p.intro a.post_no, p.intro a.email, p.intro a.post_anchor {
+p.intro a.post_no, p.intro a.email {
 	margin: 0;
 }
 p.intro a.email span.name {
@@ -41,6 +47,9 @@ p.intro time, p.intro a.ip-link, p.intro a.capcode {
 	direction: ltr;
 	unicode-bidi: embed;
 }
+.badges {
+	text-align: center;
+}
 h2 {
 	color: #AF0A0F;
 	font-size: 11pt;
@@ -50,10 +59,15 @@ h2 {
 header {
 	margin: 1em 0;
 }
+@font-face {
+  font-family: 'lain';
+  src: url('./fonts/nrdyyh.woff') format('woff'),
+       url('./fonts/tojcxo.TTF') format('truetype');
+}
 h1 {
-	font-family: tahoma;
+	font-family: 'lain', tahoma;
 	letter-spacing: -2px;
-	font-size: 20pt;
+	font-size: 18pt;
 	margin: 0;
 }
 header div.subtitle, h1 {
@@ -61,6 +75,7 @@ header div.subtitle, h1 {
 	text-align: center;
 }
 header div.subtitle {
+	margin: 0px calc(50% - 192px);
 	font-size: 8pt;
 }
 form {
@@ -68,21 +83,67 @@ form {
 }
 form table {
 	margin: auto;
+	max-width: 80%;
 }
 form table input {
 	height: auto;
 }
-input[type="text"], input[type="password"], textarea {
+form table tbody td {
+	min-width: 312px!important;
+}
+input[type="text"], input[type="password"], input[type="submit"] {
+	height: 25px;
+}
+input[type="text"], input[type="password"], input[type="submit"], textarea {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-khtml-appearance: none;
+	-o-appearance: none;
+	-ms-appearance: none;
+	/*appearance: none;*/
+	font-family: monospace;
+	font-size: 13px;
+	background-color: white;
 	border: 1px solid #a9a9a9;
 	text-indent: 0;
 	text-shadow: none;
 	text-transform: none;
 	word-spacing: normal;
+	padding: 3px 4px;
+	box-sizing: border-box;
+}
+input:focus, textarea:focus {
+	border-color: #98E;
+	outline: none;
+}
+form table tbody td{
+	overflow: visible;
+}
+form table [type="text"]{
+	width: 100%;
+}
+form table [name="subject"] {
+	width: calc(100% - 90px);
+}
+form table [name="post"] {
+	width: 88px;
+}
+form textarea {
+	min-width: 100%;
+	padding-top: 5px;
+	height: 79px;
+	min-height: 25px;
+}
+form table tr {
+	white-space: nowrap;
 }
 form table tr td {
 	text-align: left;
 	margin: 0;
 	padding: 0;
+}
+form table tr:not(:nth-child(1)) td {
+	max-width: 100%;
 }
 form table.mod tr td {
 	padding: 2px;
@@ -93,6 +154,7 @@ form table tr th {
 }
 form table tr th {
 	background: #98E;
+	width: 64px;
 }
 form table tr td div.center {
 	text-align: center;
@@ -101,7 +163,9 @@ form table tr td div.center {
 }
 form table tr td div input {
 	display: block;
-	margin: 2px auto 0 auto;
+	margin: 2px 0 0 0;
+	padding: 5px;
+
 }
 form table tr td div label {
 	font-size: 10px;
@@ -109,6 +173,7 @@ form table tr td div label {
 .unimportant, .unimportant * {
 	font-size: 10px;
 }
+
 .file {
     float: left;
     margin-right: 2px;
@@ -131,7 +196,7 @@ div.banner {
 	font-size: 12pt;
 	font-weight: bold;
 	text-align: center;
-	margin: 1em 0;
+	margin: 0em 0;
 }
 div.banner, div.banner a {
 	color: white;
@@ -142,18 +207,19 @@ div.banner a:hover {
 }
 img.banner, img.board_image {
 	display: block;
-	border: 1px solid #a9a9a9;
+	border: 1px solid #666;
 	margin: 12px auto 0 auto;
+	max-width: 100%!important;
 }
-.post-image {
+img.post-image {
 	display: block;
 	float: left;
-	margin: 5px 20px 10px 20px;
+	margin: 10px 20px;
 	border: none;
 }
-div.post .post-image {
+div.post img.post-image {
 	padding: 5px;
-	margin: 0 20px 0 0;
+	margin: 5px 20px 0 0;
 }
 div.post img.icon {
 	display: inline;
@@ -197,6 +263,13 @@ p.intro a {
 }
 div.delete {
 	float: right;
+	margin-bottom: 2px;
+}
+div.delete :not([type="submit"]):not([type="checkbox"]) {
+	width: 166px;
+}
+div.delete [type="submit"] {
+	margin-left: 2px;
 }
 div.post.reply p {
 	margin: 0.3em 0 0 0;
@@ -206,6 +279,9 @@ div.post.reply div.body {
 	margin-top: 0.8em;
 	padding-right: 3em;
 	padding-bottom: 0.3em;
+}
+pre {
+	overflow: auto;
 }
 div.post.reply.highlighted {
 	background: #D6BAD0;
@@ -218,12 +294,12 @@ div.post {
 }
 div.post div.body {
 	word-wrap: break-word;
-	white-space: pre-wrap;
+	white-space: ppre-wrap;
 }
 div.post.reply {
 	background: #D6DAF0;
-	margin: 0.2em 16px;
-	padding: 0.2em 0.3em 0.5em 0.6em;
+	margin: 1.5px 16px;
+	padding: 0.2em 0.6em 0.5em 0.6em;
 	border-width: 1px;
 	border-style: none solid solid none;
 	border-color: #B7C5D9;
@@ -263,8 +339,8 @@ div#wrap {
 div.ban {
 	background: white;
 	border: 1px solid #98E;
-	max-width: 700px;
-	margin: 30px auto;
+	max-width: 766px;
+	margin: -2px auto 30px auto;
 }
 div.ban p, div.ban h2 {
 	padding: 3px 7px;
@@ -332,15 +408,6 @@ div.pages {
 	border-right: 1px solid #B7C5D9;
 	border-bottom: 1px solid #B7C5D9;
 }
-div.pages.top {
-	display: block;
-	padding: 5px 8px;
-	margin-bottom: 5px;
-	position: fixed;
-	top: 0;
-	right: 0;
-	opacity: 0.9;
-}
 @media screen and (max-width: 800px) {
 	div.pages.top {
 		display: none !important;
@@ -372,6 +439,7 @@ div.boardlist {
 	color: #89A;
 	font-size: 9pt;
 	margin-top: 3px;
+	text-align: center;
 }
 div.boardlist.bottom {
 	margin-top: 20px;
@@ -422,6 +490,9 @@ div.blotter {
 	font-weight: bold;
 	text-align: center;
 }
+div.blotter img {
+	max-width: 100%!important;
+}
 table.mod.config-editor {
 	font-size: 9pt;
 	width: 100%;
@@ -433,22 +504,6 @@ table.mod.config-editor td {
 }
 table.mod.config-editor input[type="text"] {
 	width: 98%;
-}
-.desktop-style div.boardlist:nth-child(1) {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  /*text-shadow: white 1px 0 6px, white 1px 0 6px, black 1px 0 3px;*/
-  margin-top: 0;
-  z-index: 30;
-}
-.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
-  background-color: rgba(90%, 90%, 90%, 0.6);
-}
-
-.desktop-style body {
-  padding-top: 20px;
 }
 
 .desktop-style .sub {
@@ -516,7 +571,7 @@ form.ban-appeal textarea {
 	margin-right: 15px;
 	text-align:center;
 	font-weight:normal;
-	width:205px;      
+	width:205px;
 	overflow:hidden;
 	position: relative;
 	font-size:11px;
@@ -533,28 +588,17 @@ form.ban-appeal textarea {
         margin-left: -20px;
 }
 
-.theme-catalog div.grid-size-vsmall img {
-	max-width: 100%;
-	max-height: 100px;
-}
-
-.theme-catalog div.grid-size-vsmall {
-        width: 100px;
-        max-width: 100px;
-        max-height: 150px;
-}       
-
 .theme-catalog div.grid-size-small {
         width: 200px;
         max-width: 200px;
         max-height: 350px;
-}       
+}
 
 .theme-catalog div.grid-size-large {
         width: 300px;
         max-width: 300px;
         max-height: 450px;
-}       
+}
 
 .theme-catalog img.thread-image {
         height: auto;
@@ -713,4 +757,34 @@ form.ban-appeal textarea {
   width: 100%;
   height: 100%;
   margin-top: 0px;
+}
+
+/* Containerchan */
+    video.post-image {
+        display: block;
+        float: left;
+        margin: 10px 20px;
+        border: none;
+    }
+    div.post video.post-image {
+        padding: 0px;
+        margin: 10px 25px 5px 5px;
+    }
+.pulse {
+	animation: pulse 0.53452115812918s linear 90;
+        -webkit-animation: pulse 0.53452115812918s linear 90;
+}
+@keyframes pulse {
+        0% { height: 450px; margin-bottom: -25px; margin-top: -25px;}
+        100% { height: 350px; margin-bottom: 25px; margin-top: 25px;}
+}
+@-webkit-keyframes pulse {
+	0% { height: 450px; margin-bottom: -25px; margin-top: -25px;}
+        100% { height: 350px; margin-bottom: 25px; margin-top: 25px;}
+}
+/*#threadbody .boardlist .sub:last-child, .recentbody .boardlist .sub:last-child, .donatebody .boardlist .sub:last-child {
+	float: right;
+}*/
+span.sub {
+	white-space: nowrap;
 }

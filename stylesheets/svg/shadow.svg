@@ -1,0 +1,11 @@
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+  <filter id="drop-shadow">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+    <feOffset dx="0" dy="0" result="offsetblur"/>
+    <feComposite in2="offsetblur" operator="in"/>
+    <feMerge>
+      <feMergeNode/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</svg>

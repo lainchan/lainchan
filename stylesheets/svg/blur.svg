@@ -1,0 +1,73 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <filter id="blur_green">
+    <feColorMatrix type="saturate" in="SourceGraphic" values="0" result="cox"/>
+    <feColorMatrix type="matrix" in="cox" values=" 0   0   0   0 0
+						   1   0   0   0 0
+						   0   0   0   0 0
+						   1   1   1   0 0
+						  " result="dix"/>
+    <feMorphology in="dix" operator="dilate" radius="0.5" result="wangz" />
+    <feGaussianBlur in="wangz" stdDeviation="10" result="blurred"/>
+    <feMerge>
+      <feMergeNode in="blurred"/>
+      <feMergeNode in="dix"/>
+    </feMerge>
+    </filter>
+  <filter id="blur_red">
+    <feColorMatrix type="saturate" in="SourceGraphic" values="0" result="cox"/>
+    <feColorMatrix type="matrix" in="cox" values=" .925 0 0 0 0
+						   .067 0 0 0 0
+						   .033 0 0 0 0
+						   1 1 1 0 0 
+						  " result="dix"/>
+    <feMorphology in="dix" operator="dilate" radius="1" result="wangz" />
+    <feGaussianBlur in="wangz" stdDeviation="10" result="blurred"/>
+    <feMerge>
+      <feMergeNode in="blurred"/>
+      <feMergeNode in="dix"/>
+    </feMerge>
+    </filter>
+  <filter id="blur_amber">
+    <feColorMatrix type="saturate" in="SourceGraphic" values="0" result="cox"/>
+    <feColorMatrix type="matrix" in="cox" values=" 0  1    0 0 0
+						   0  .556 0 0 0
+						   0  0    0 0 0
+						   1  1    0 0 0
+						  " result="dix"/>
+    <feMorphology in="dix" operator="dilate" radius="1" result="wangz" />
+    <feGaussianBlur in="wangz" stdDeviation="10" result="blurred"/>
+    <feMerge>
+      <feMergeNode in="blurred"/>
+      <feMergeNode in="dix"/>
+    </feMerge>
+    </filter>
+  <filter id="blur_purple">
+    <feColorMatrix type="saturate" in="SourceGraphic" values="0" result="cox"/>
+    <feColorMatrix type="matrix" in="cox" values=" 0  .1 .7 0 0
+						   0 0 0 0 0
+						   0  .1 2 0 0
+						   0 .1 1 0 0
+						  " result="dix"/>
+    <feMorphology in="dix" operator="dilate" radius="1" result="wangz" />
+    <feGaussianBlur in="wangz" stdDeviation="10" result="blurred"/>
+    <feMerge>
+      <feMergeNode in="blurred"/>
+      <feMergeNode in="dix"/>
+    </feMerge>
+    </filter>
+<filter id="blur_amber_g">
+    <feColorMatrix type="saturate" in="SourceGraphic" values="0" result="cox"/>
+    <feColorMatrix type="matrix" in="cox" values=" 0  1    0 0 0
+						   0  .556 0 0 0
+						   0  0    0 0 0
+						   1  1    0 0 0
+						  " result="dix"/>
+    <feMorphology in="dix" operator="dilate" radius="0" result="wangz" />
+    <feGaussianBlur in="wangz" stdDeviation="10" result="blurred"/>
+    <feMerge>
+      <feMergeNode in="blurred"/>
+      <feMergeNode in="dix"/>
+    </feMerge>
+    </filter>
+
+</svg>

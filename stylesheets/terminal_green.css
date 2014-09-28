@@ -1,0 +1,49 @@
+@import url(./terminal_common.css);
+
+body, div.title, h1, a:link, a:visited, p.intro a.email span.name,
+a:link:hover, a:visited:hover, a.post_no, a.post_no:hover, 
+div.post.reply div.body a:link, div.post.reply div.body a:visited, 
+div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover,
+table.modlog tr th, p.intro span.name, p.intro a.capcode, p.intro a.nametag, 
+div.pages a.selected, p.intro a.email, p.intro a.email span.name, 
+p.intro a.email:hover, p.intro a.email:hover span.name, 
+div.boardlist input[type="text"], textarea, select, input[type="password"], 
+form table tr th, input[type="submit"], input[type="submit"]:hover, div.pages
+{
+	color: #00FF00;
+}
+
+.boardlist, div.blotter, header div.subtitle, h1, span.quote 
+{
+	color: #00FF00!important;
+}
+
+p.intro span.subject, span.trip 
+{
+	color: #00FF00;
+}
+
+
+div.ban h2 {
+	color: lime;
+}
+
+
+.bic {
+      -moz-filter: url(./svg/blur.svg#blur_green);
+      filter: url(./svg/blur.svg#blur_green);
+      -webkit-filter: url(svg/blur.svg#blur_green);
+}
+
+
+input[type="text"], textarea, select, input[type="password"], form table tr th, 
+input[type="submit"], input[type="submit"]:hover, div.pages, hr, div.ban,
+div.post.reply, div.post.reply.highlighted 
+{
+	border-color: #00FF00;
+}
+
+.desktop-style div.boardlist:nth-child(1) {
+  border-bottom: #00FF00 1px dashed;
+}
+
