@@ -2,9 +2,7 @@ body {
   background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
   color: black;
   font-family: arial,helvetica,sans-serif;
-
-  font-family: arial, helvetica, sans-serif;
-  font-size: 10pt;
+  font-size: 11pt;
   margin: 0 4px;
   padding-left: 4px;
   padding-right: 4px;
@@ -649,11 +647,6 @@ pre {
   position: relative;
   font-size: 11px;
   max-height: 300px;
-  background: rgba(182,182,182,0.12);
-  border: 2px solid rgba(111,111,111,0.34);
-  max-height: 300px;
-  background: rgba(182,182,182,0.12);
-  border: 2px solid rgba(111,111,111,0.34);
   background: rgba(182,182,182,0.12);
   border: 2px solid rgba(111,111,111,0.34);
 }
