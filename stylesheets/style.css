@@ -1,11 +1,9 @@
 body {
   background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
   color: black;
-<<<<<<< HEAD
   font-family: arial,helvetica,sans-serif;
-=======
+
   font-family: arial, helvetica, sans-serif;
->>>>>>> 197e4d4bfcb5a312a699e1f6d012da03ee36fbe2
   font-size: 10pt;
   margin: 0 4px;
   padding-left: 4px;
@@ -104,11 +102,7 @@ input[type="text"],input[type="password"],textarea {
   max-width: 75%;
 }
 
-<<<<<<< HEAD
-#quick-reply input[type="text"],input[type="password"],#quick-reply textarea {
-=======
 #quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
->>>>>>> 197e4d4bfcb5a312a699e1f6d012da03ee36fbe2
   max-width: 100%;
 }
 
@@ -231,7 +225,6 @@ p.intro {
   margin: 0.5em 0;
   padding: 0;
   padding-bottom: 0.2em;
-  clear: both;
 }
 
 input.delete {
@@ -282,7 +275,6 @@ div.post.reply div.body a {
 }
 
 div.post {
-  max-width: 95%;
   padding-left: 20px;
 }
 
@@ -299,7 +291,6 @@ div.post.reply {
   border-style: none solid solid none;
   border-color: #B7C5D9;
   display: inline-block;
-  max-width: 95%;
 }
 
 span.trip {
