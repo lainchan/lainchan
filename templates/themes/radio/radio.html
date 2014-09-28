@@ -1,0 +1,52 @@
+{% filter remove_whitespace %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{{ settings.title }}</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+  </head>
+  <body>
+    {{ boardlist.top }}
+
+    <header>
+      <h1>{{ settings.title }}</h1>
+      <div class="subtitle">{{ settings.subtitle }}</div>
+    </header>
+
+    <img alt="mascot" src="static/lain_is_cute_datass_small.png"/>
+
+    <div class="ban" style="text-align: left!important;">
+      <h2>WELCOME TO CYBERIA</h2>
+
+      <p>Welcome to lainchan's very own internet radio!<br/>Statistics
+      about this stream such as current listeners, song title, et
+      cetera, can currently be found
+      at <a href="http://radio.lain.io/">radio.lain.io</a>; they will
+      soon be added to this page.
+      </p>
+
+      <p><strong>NOTE:</strong> Some experimental browsers, namely
+      very recent versions of Chromium, have been known to break with
+      OGG streams. If your connection is choppy, try a either running
+      the stream in a different browser, or opening one of the
+      playlists in a media player:</p>
+
+      <ul>
+        <li><a href="http://radio.lain.io/stream/lainchan.m3u">M3U Playlist</a></li>
+        <li><a href="http://radio.lain.io/stream/lainchan.xspf">XPSF Playlist</a></li>
+      </ul>
+
+      <audio controls=""
+             preload="none"
+             src="http://radio.lain.io/stream/lainchan"
+             type="application/ogg"
+             style="margin: 0 5%; width: 90%; box-shadow: 0px 0px 5px black;">
+        <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
+     </audio>
+    </div>
+  </body>
+</html>
+{% endfilter %}
