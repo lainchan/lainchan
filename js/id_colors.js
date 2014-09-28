@@ -24,19 +24,23 @@ if (active_page == 'thread' || active_page == 'index') {
 		}
 
 		function colorPostId(el) {
-			var rgb = stringToRGB($(el).text());
-			
+			var rgb = IDToRGB($(el).text());
+			var ft = "#fff";
+
+			if ((rgb[0]*0.299 + rgb[1]*0.587 + rgb[2]*0.114) > 125)
+				ft = "#000";
+
 			$(el).css({
 				"background-color": "rgb("+rgb[0]+", "+rgb[1]+", "+rgb[2]+")",
 				"padding": "0px 5px",
 				"border-radius": "8px",
-				"color": "white"
+				"color": ft
 			});
 
 			$(el).mouseover(function() {
-			    $(this).css('color', '#800000');
+				$(this).css('color', '#800000'); // how about a CSS :hover rule instead?
 			}).mouseout(function() {
-			    $(this).css('color', '#FFF');
+				$(this).css('color', ft);
 			});
 		}
 
