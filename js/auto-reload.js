@@ -29,7 +29,7 @@ $(document).ready(function(){
 	var countdown_interval;
 
 	// Add an update link
-	$('.boardlist.bottom').prev().after("<a href='#' id='update_thread' style='padding-left:10px'>["+_("Update")+"]</a> (<input type='checkbox' id='auto_update_status' checked> Auto) <span id='update_secs'></span>");
+	$('.boardlist.bottom').prev().after("<span id='updater'><a href='#' id='update_thread' style='padding-left:10px'>["+_("Update")+"]</a> (<input type='checkbox' id='auto_update_status' checked> Auto) <span id='update_secs'></span></span>");
 
 	// Grab the settings
 	var settings = new script_settings('auto-reload');
