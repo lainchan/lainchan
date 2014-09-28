@@ -113,7 +113,7 @@ class Api {
 			$apiPost['ext'] = substr($file->file, $dotPos);
 			$dotPos = strrpos($file->file, '.');
 			$apiPost['tim'] = substr($file->file, 0, $dotPos);
-			$apiPost['md5'] = base64_encode(md5_file($file->file_path, true));
+			$apiPost['md5'] = base64_encode(hex2bin($post->filehash));
 		}
 
 		return $apiPost;

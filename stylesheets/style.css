@@ -2,7 +2,7 @@ body {
   background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
   color: black;
   font-family: arial, helvetica, sans-serif;
-  font-size: 11pt;
+  font-size: 10pt;
   margin: 0 4px;
   padding-left: 4px;
   padding-right: 4px;
@@ -100,6 +100,10 @@ input[type="text"], input[type="password"], textarea {
   text-transform: none;
   word-spacing: normal;
   max-width: 75%;
+}
+
+#quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
+  max-width: 100%;
 }
 
 form table tr td {

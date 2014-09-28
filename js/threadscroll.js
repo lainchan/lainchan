@@ -16,7 +16,7 @@ if(active_page == "index" || active_page == "ukko"){
 			if(par.length == 1){
 				if(par.prev().attr("id") != null){
 					if(par.prev().attr("id").match("^thread")){
-						window.location.href = window.location.protocol+"//"+window.location.host+window.location.pathname+"#"+par.prev().attr("id");
+						par.prev()[0].scrollIntoView(true);
 					}
 				}
 			}
@@ -28,7 +28,7 @@ if(active_page == "index" || active_page == "ukko"){
 			if(par.length == 1){
 				if(par.next().attr("id") != null){
 					if(par.next().attr("id").match("^thread")){
-						window.location.href = window.location.protocol+"//"+window.location.host+window.location.pathname+"#"+par.next().attr("id");
+						par.next()[0].scrollIntoView(true);
 					}
 				}
 			}
