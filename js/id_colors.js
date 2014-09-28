@@ -32,6 +32,12 @@ if (active_page == 'thread' || active_page == 'index') {
 				"border-radius": "8px",
 				"color": "white"
 			});
+
+			$(el).mouseover(function() {
+			    $(this).css('color', '#800000');
+			}).mouseout(function() {
+			    $(this).css('color', '#FFF');
+			});
 		}
 
 		$(".poster_id").each(function(k, v){
