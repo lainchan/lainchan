@@ -76,6 +76,7 @@ function loadConfig() {
 		'file_icons',
 		'footer',
 		'stylesheets',
+		'code_stylesheets',
 		'additional_javascript',
 		'markup',
 		'custom_pages',
@@ -1515,9 +1516,17 @@ function buildJavascript() {
 			'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
 	}
 
+	$code_stylesheets = array();
+	foreach ($config['code_stylesheets'] as $name => $uri) {
+		$code_stylesheets[] = array(
+			'name' => addslashes($name),
+			'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
+	}
+
 	$script = Element('main.js', array(
 		'config' => $config,
-		'stylesheets' => $stylesheets
+		'stylesheets' => $stylesheets,
+		'code_stylesheets' => $code_stylesheets
 	));
 
 	// Check if we have translation for the javascripts; if yes, we add it to additional javascripts

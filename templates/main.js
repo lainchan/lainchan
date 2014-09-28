@@ -31,6 +31,11 @@ var styles = {
 	{% for stylesheet in stylesheets %}{% raw %}'{% endraw %}{{ stylesheet.name|addslashes }}{% raw %}' : '{% endraw %}{{ stylesheet.uri|addslashes }}{% raw %}',
 	{% endraw %}{% endfor %}{% raw %}
 };
+var codestyles = {
+	{% endraw %}
+	{% for stylesheet in code_stylesheets %}{% raw %}'{% endraw %}{{ stylesheet.name|addslashes }}{% raw %}' : '{% endraw %}{{ stylesheet.uri|addslashes }}{% raw %}',
+	{% endraw %}{% endfor %}{% raw %}
+};
 var board_name = false;
 
 function changeStyle(styleName, link) {
@@ -45,6 +50,7 @@ function changeStyle(styleName, link) {
 	{% endif %}
 	{% raw %}
 	
+	// Main stylesheet
 	if (!document.getElementById('stylesheet')) {
 		var s = document.createElement('link');
 		s.rel = 'stylesheet';
@@ -53,9 +59,21 @@ function changeStyle(styleName, link) {
 		var x = document.getElementsByTagName('head')[0];
 		x.appendChild(s);
 	}
-	
+
 	document.getElementById('stylesheet').href = styles[styleName];
-	selectedstyle = styleName;
+        selectedstyle = styleName;
+
+	// Code stylesheet
+	if (!document.getElementById('code_stylesheet')) {
+		var s = document.createElement('link');
+		s.rel = 'stylesheet';
+		s.type = 'text/css';
+		s.id = 'code_stylesheet';
+		var x = document.getElementsByTagName('head')[0];
+		x.appendChild(s);
+	}
+
+	document.getElementById('code_stylesheet').href = codestyles[styleName];
 	
 	if (document.getElementsByClassName('styles').length != 0) {
 		var styleLinks = document.getElementsByClassName('styles')[0].childNodes;
