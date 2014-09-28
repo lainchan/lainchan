@@ -1,0 +1,80 @@
+{% filter remove_whitespace %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{{ settings.title }}</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+  </head>
+  <body>
+    {{ boardlist.top }}
+
+    <header>
+      <h1>{{ settings.title }}</h1>
+      <div class="subtitle">{{ settings.subtitle }}</div>
+    </header>
+
+    <img alt="mascot" src="static/lain_is_cute_datass_small.png"/>
+
+    <div class="ban" id="global">
+      <h2>GLOBAL</h2>
+      <ol start="0">
+        <li>Do not upload, post, discuss, request, or link to,
+        anything that violates local or United States law. This will
+        be severely punished and strictly enforced.</li>
+
+        <li>Do not post in or view any boards if you are under 18
+        years of age.</li>
+
+        <li>Do not post unspoilered adult content on worksafe boards,
+        these being any but /c/ and /l/.</li>
+
+        <li>Do not misuse the report function.</li>
+
+        <li>Feature requests should only be made on /q/.</li>
+
+        <li>Do not spam or advertise.</li>
+
+        <li>Impersonation of lainchan administrators, moderators, or
+        janitors is not allowed.</li>
+
+        <li>Do not post from proxies, VPNs, or Tor exit nodes and do
+        not use bots of any kind to automate posting to lainchan.</li>
+
+        <li>Do not post GETs. (unless it's a really good one)</li>
+
+        <li>Don't be a dick.</li>
+
+        <li>Do not embed malicious files into uploads</li>
+      </ol>
+    </div>
+
+    <div class="ban" id="tech">
+      <h2>/tech/</h2>
+      <ol start="0">
+        <li>You will treat every anon like a gentleman. You will
+        assume every anon has a reason for how and why they spend
+        their money. Every reply will be kind and thoughtful.</li>
+
+        <li>Meta talk, including comparing /tech/ to /g/, belongs on
+        /q/, not /tech/. Violations will be deleted.</li>
+
+        <li>This board primarily discusses the technology itself
+        underlying consumer technology. OS/Browser/GNU-BSD wars will
+        be deleted.</li>
+
+        <li>"how do i become a programmer?" will be deleted. Lurk more
+        on <a href="/λ/">&gt;&gt;&gt;/λ/</a>.</li>
+
+        <li>Not using the catalog is a bannable offense.</li>
+
+        <li>These rules
+        <span style="text-decoration:line-through">might</span>
+        will change.</li>
+      </ol>
+    </div>
+  </body>
+</html>
+{% endfilter %}
