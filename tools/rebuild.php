@@ -26,6 +26,7 @@ $start = microtime(true);
 // parse command line
 $opts = getopt('qfb:', Array('board:', 'quick', 'full', 'quiet'));
 $options = Array();
+$global_locale = $config['locale'];
 
 $options['board'] = isset($opts['board']) ? $opts['board'] : (isset($opts['b']) ? $opts['b'] : false);
 $options['quiet'] = isset($opts['q']) || isset($opts['quiet']);
@@ -59,6 +60,8 @@ foreach($boards as &$board) {
 	
 	if(!$options['quiet'])
 		echo "Opening board /{$board['uri']}/...\n";
+	// Reset locale to global locale
+	$config['locale'] = $global_locale;
 	openBoard($board['uri']);
 	$config['try_smarter'] = false;
 	
