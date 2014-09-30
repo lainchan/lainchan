@@ -210,7 +210,7 @@ function citeReply(id, with_link) {
 	if (typeof $ != 'undefined') {
 		var select = document.getSelection().toString();
 		if (select) {
-			var body = $('#reply_' + id).find('div.body');  // TODO: support for OPs
+			var body = $('#reply_' + id + ', #op_' + id).find('div.body');  // TODO: support for OPs
 			var index = body.text().indexOf(select.replace('\n', ''));  // for some reason this only works like this
 			if (index > -1) {
 				textarea.value += '>' + select + '\n';

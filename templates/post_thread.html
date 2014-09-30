@@ -5,7 +5,7 @@
 {% if not index %}<a id="{{ post.id }}" class="post_anchor"></a>{% endif %}
 
 {% include 'post/fileinfo.html' %}
-<div class="post op" {%if post.num_files > 1%}style='clear:both'{%endif%}><p class="intro">
+<div class="post op" id="op_{{ post.id }}" {%if post.num_files > 1%}style='clear:both'{%endif%}><p class="intro">
 	<input type="checkbox" class="delete" name="delete_{{ post.id }}" id="delete_{{ post.id }}" />
 	<label for="delete_{{ post.id }}">
 		{% include 'post/subject.html' %}
