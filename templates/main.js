@@ -208,6 +208,15 @@ function citeReply(id, with_link) {
 		textarea.value += '>>' + id + '\n';
 	}
 	if (typeof $ != 'undefined') {
+		var select = document.getSelection().toString();
+		if (select) {
+			var body = $('#reply_' + id).find('div.body');  // TODO: support for OPs
+			var index = body.text().indexOf(select.replace('\n', ''));  // for some reason this only works like this
+			if (index > -1) {
+				textarea.value += '>' + select + '\n';
+			}
+		}
+
 		$(window).trigger('cite', [id, with_link]);
 		$(textarea).change();
 	}
