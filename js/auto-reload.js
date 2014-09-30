@@ -202,7 +202,7 @@ $(document).ready(function(){
 			}
 			end_of_page = true;
 		}
-	}).trigger('scroll');
+	});
 
 	$('#update_thread').on('click', function() { poll(manualUpdate = true); return false; });
 
