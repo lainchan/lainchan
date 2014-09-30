@@ -121,6 +121,18 @@ $(document).ready(function(){
 		clearInterval(countdown_interval);
 	}
 		
+    	var epoch = (new Date).getTime();
+    	var epochold = epoch;
+    	
+	var timeDiff = function (delay) {
+		if((epoch-epochold) > delay) {
+			epochold = epoch = (new Date).getTime();
+			return true;
+		}else{
+			epoch = (new Date).getTime();
+			return;
+		}
+	}
 	
 	var poll = function(manualUpdate) {
 		stop_auto_update();
@@ -185,7 +197,7 @@ $(document).ready(function(){
 			end_of_page = false;
 			return;
 		} else {
-			if($("#auto_update_status").is(':checked')) {
+			if($("#auto_update_status").is(':checked') && timeDiff(poll_interval_mindelay)) {
 				poll(manualUpdate = true);
 			}
 			end_of_page = true;
