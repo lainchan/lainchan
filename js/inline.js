@@ -17,7 +17,8 @@
       : '#reply_' + postNum + ' .body'
 
     var node = this.className
-      ? $root.find('.body').first().children().first()
+      // XXX post hover element is added to the quoting post
+      ? $root.find('> .body, > .inline').first()
       : this.nextSibling
 
     var link = {
@@ -27,7 +28,7 @@
 
     var OP = $('input[name="thread"]').val()
     if (OP === postOP) {
-      // XXX WTF the post hover script adds fetched threads to the DOM
+      // XXX post hover adds fetched threads to the DOM
       selector = '#thread_' + OP + ' ' + selector
       var $target = $(selector)
       return add(link, $target)
@@ -66,7 +67,6 @@
     '</style>')
 
   $('.body a, .mentioned a')
-    .attr('onclick', null)// disable highlightReply. so hacky
+    .attr('onclick', null)// XXX disable highlightReply
     .click(inline)
-
 })()
