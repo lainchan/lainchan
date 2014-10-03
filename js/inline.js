@@ -18,7 +18,7 @@
 
     var node = this.className
       // XXX post hover element is added to the quoting post
-      ? $root.find('> .body, > .inline').first()
+      ? $root.find('> .files, > .inline').first()
       : this.nextSibling
 
     var link = {
