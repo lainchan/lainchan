@@ -18,7 +18,7 @@
 
     var node = this.className
       ? $root.find('> .intro')
-      : this
+      : $(this)
 
     var link = {
       node: node,
@@ -29,6 +29,8 @@
     if (OP === postOP) {
       // XXX post hover adds fetched threads to the DOM
       selector = '#thread_' + OP + ' ' + selector
+      // XXX bypass the `(OP)` text
+      link.node = link.node.next()
       var $target = $(selector)
       return add(link, $target)
     }
