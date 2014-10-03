@@ -17,9 +17,8 @@
       : '#reply_' + postNum
 
     var node = this.className
-      // XXX post hover element is added to the quoting post
-      ? $root.find('> .files, > .inline').first()
-      : this.nextSibling
+      ? $root.find('> .intro')
+      : this
 
     var link = {
       node: node,
@@ -54,7 +53,7 @@
       "class": 'inline post',
       id: 'inline_' + link.postNum
     })
-    $clone.insertBefore(link.node)
+    $clone.insertAfter(link.node)
   }
 
   $('head').append(
