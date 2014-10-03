@@ -14,7 +14,7 @@
     var postOP = this.pathname.match(/(\d+).html/)[1]
     var selector = postNum === postOP
       ? '.op .body'
-      : '#reply_' + postNum + ' .body'
+      : '#reply_' + postNum
 
     var node = this.className
       // XXX post hover element is added to the quoting post
@@ -51,7 +51,7 @@
   var add = function(link, $target) {
     var $clone = $target.clone(true)
     $clone.attr({
-      "class": 'inline',
+      "class": 'inline post',
       id: 'inline_' + link.postNum
     })
     $clone.insertBefore(link.node)
@@ -59,11 +59,8 @@
 
   $('head').append(
     '<style>' +
-      '.inline {' +
-      '  border: 1px dashed black;' +
-      '  margin-left: 1em;' +
-      '  padding: 1em;' +
-      '}' +
+      '.inline { border: 1px dashed black; }' +
+      'div.post div.body { white-space: normal; }' +
     '</style>')
 
   $('.body a, .mentioned a')
