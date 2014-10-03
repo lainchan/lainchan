@@ -5,16 +5,16 @@
     e.preventDefault()
 
     var $root = $(this).closest('.post')
-    var postNum = this.textContent.slice(2)
+    var targetNum = this.textContent.slice(2)
 
-    var $clone = $root.find('#inline_' + postNum)
+    var $clone = $root.find('#inline_' + targetNum)
     if ($clone.length)
       return $clone.remove()
 
-    var postOP = this.pathname.match(/(\d+).html/)[1]
-    var selector = postNum === postOP
+    var targetOP = this.pathname.match(/(\d+).html/)[1]
+    var selector = targetNum === targetOP
       ? '.op .body'
-      : '#reply_' + postNum
+      : '#reply_' + targetNum
 
     var node = this.className
       ? $root.find('> .intro')
@@ -22,11 +22,11 @@
 
     var link = {
       node: node,
-      postNum: postNum
+      targetNum: targetNum
     }
 
     var srcOP = $root.closest('[id^=thread]').attr('id').match(/\d+/)[0]
-    if (srcOP === postOP) {
+    if (srcOP === targetOP) {
       // XXX post hover adds fetched threads to the DOM
       selector = '#thread_' + srcOP + ' ' + selector
       // XXX bypass the `(OP)` text
@@ -55,7 +55,7 @@
     var $clone = $target.clone(true)
     $clone.attr({
       "class": 'inline post',
-      id: 'inline_' + link.postNum,
+      id: 'inline_' + link.targetNum,
       style: null// XXX remove post hover styling
     })
     $clone.insertAfter(link.node)
