@@ -25,14 +25,16 @@
       postNum: postNum
     }
 
-    var OP = $('input[name="thread"]').val()
-    if (OP === postOP) {
+    var srcOP = $root.closest('[id^=thread]').attr('id').match(/\d+/)[0]
+    if (srcOP === postOP) {
       // XXX post hover adds fetched threads to the DOM
-      selector = '#thread_' + OP + ' ' + selector
+      selector = '#thread_' + srcOP + ' ' + selector
       // XXX bypass the `(OP)` text
       link.node = link.node.next()
+
       var $target = $(selector)
-      return add(link, $target)
+      if ($target.length)
+        return add(link, $target)
     }
 
     var url = this.pathname
@@ -53,7 +55,8 @@
     var $clone = $target.clone(true)
     $clone.attr({
       "class": 'inline post',
-      id: 'inline_' + link.postNum
+      id: 'inline_' + link.postNum,
+      style: null// XXX remove post hover styling
     })
     $clone.insertAfter(link.node)
   }
