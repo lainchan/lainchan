@@ -58,6 +58,7 @@
 
   var add = function(link, $target) {
     var $clone = $target.clone(true)
+    $clone.find('.inline').remove()
     $clone.attr({
       "class": 'inline post',
       id: 'inline_' + link.targetNum,
