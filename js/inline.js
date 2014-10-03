@@ -11,21 +11,26 @@
     if ($clone.length)
       return $clone.remove()
 
-    var targetOP = this.pathname.match(/(\d+).html/)[1]
-    var selector = targetNum === targetOP
-      ? '.op .body'
-      : '#reply_' + targetNum
+    var srcOP = $root.closest('[id^=thread]').attr('id').match(/\d+/)[0]
 
-    var node = this.className
-      ? $root.find('> .intro')
-      : $(this)
+    var node, targetOP
+    if (this.className) {// backlink
+      node = $root.find('> .intro')
+      targetOP = srcOP
+    } else {
+      node = $(this)
+      targetOP = this.pathname.match(/(\d+).html/)[1]
+    }
 
     var link = {
       node: node,
       targetNum: targetNum
     }
 
-    var srcOP = $root.closest('[id^=thread]').attr('id').match(/\d+/)[0]
+    var selector = targetNum === targetOP
+      ? '.op .body'
+      : '#reply_' + targetNum
+
     if (srcOP === targetOP) {
       // XXX post hover adds fetched threads to the DOM
       selector = '#thread_' + srcOP + ' ' + selector
