@@ -59,8 +59,7 @@
 
   $('head').append(
     '<style>' +
-      '.inline { border: 1px dashed black; }' +
-      'div.post div.body { white-space: normal; }' +
+      '.inline { border: 1px dashed black; white-space: normal }' +
     '</style>')
 
   $('.body a, .mentioned a')
