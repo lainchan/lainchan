@@ -34,8 +34,10 @@
     if (srcOP === targetOP) {
       // XXX post hover adds fetched threads to the DOM
       selector = '#thread_' + srcOP + ' ' + selector
-      // XXX bypass the `(OP)` text
-      link.node = link.node.next()
+
+      // bypass `(OP)`
+      if (targetNum === targetOP)
+        link.node = link.node.next()
 
       var $target = $(selector)
       if ($target.length)
