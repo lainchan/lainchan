@@ -69,7 +69,11 @@
 
   $('head').append(
     '<style>' +
-      '.inline { border: 1px dashed black; white-space: normal }' +
+      '.inline {' +
+        'border: 1px dashed black;' +
+        'white-space: normal;' +
+        'overflow: auto;' + // clearfix
+      '}' +
     '</style>')
 
   $('.body a, .mentioned a')
