@@ -529,6 +529,9 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
+	// When true, the sage won't be displayed
+	$config['hide_sage'] = false;
+
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
 
