@@ -2265,7 +2265,6 @@ function rDNS($ip_addr) {
 
 	if (!$config['dns_system']) {
 		$host = gethostbyaddr($ip_addr);
-		$isip = filter_var($host, FILTER_VALIDATE_IP);
 	} else {
 		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
@@ -2273,6 +2272,8 @@ function rDNS($ip_addr) {
 		else
 			$host = $ip_addr;
 	}
+
+	$isip = filter_var($host, FILTER_VALIDATE_IP);
 
 	if ($config['fcrdns'] && !$isip && gethostbyname($host) != $ip_addr) {
 		$host = $ip_addr;
