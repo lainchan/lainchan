@@ -1,5 +1,18 @@
 ;(function() {
-  var cache = {}
+  var App = {
+    cache: {},
+    get: function(url, cb) {
+      var $page = App.cache[url]
+      if ($page)
+        return cb($page)
+
+      $.get(url, function(data) {
+        var $page = $(data)
+        App.cache[url] = $page
+        cb($page)
+      })
+    }
+  }
 
   var inline = function(e) {
     e.preventDefault()
@@ -40,16 +53,8 @@
         return add(link, $target)
     }
 
-    var url = this.pathname
-    var data = cache[url]
-    if (data) {
-      var $target = $(data).find(selector)
-      return add(link, $target)
-    }
-
-    $.get(url, function(data) {
-      cache[url] = data
-      var $target = $(data).find(selector)
+    App.get(this.pathname, function($page) {
+      var $target = $page.find(selector)
       add(link, $target)
     })
   }
