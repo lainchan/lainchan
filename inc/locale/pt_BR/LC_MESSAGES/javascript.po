@@ -5,13 +5,14 @@
 # Translators:
 # anaodev <xmas@yopmail.com>, 2014
 # hitmonkey <sac@55ch.org>, 2014
+# Thassae Santos <thassae@hotmail.com>, 2014
 # anaodev <xmas@yopmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-21 04:38+0200\n"
-"PO-Revision-Date: 2014-09-21 02:39+0000\n"
+"POT-Creation-Date: 2014-10-05 18:35+0200\n"
+"PO-Revision-Date: 2014-10-05 16:36+0000\n"
 "Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -253,6 +254,8 @@ msgstr "Sab"
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
+#: ../../../../js/catalog-link.js:28 ../../../../js/catalog-link.js:39
+#: ../../../../js/catalog-link.js:47
 msgid "Catalog"
 msgstr "Catálogo"
 
@@ -604,118 +607,129 @@ msgstr "Volume padrão"
 
 #: ../../../../js/treeview.js:18
 msgid "Tree view"
-msgstr ""
+msgstr "Lista em árvore"
 
 #: ../../../../js/expand-all-images.js:32
+#: ../../../../js/expand-all-images.js:35
 msgid "Shrink all images"
-msgstr ""
+msgstr "Encolher todas as imagens"
 
 #: ../../../../js/no-animated-gif.js:33 ../../../../js/no-animated-gif.js:37
+#: ../../../../js/no-animated-gif.js:40
 msgid "Animate GIFs"
-msgstr ""
+msgstr "Animar GIFs"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 #: ../../../../js/no-animated-gif.js:47 ../../../../js/no-animated-gif.js:57
-#: ../../../../js/no-animated-gif.js:62
+#: ../../../../js/no-animated-gif.js:62 ../../../../js/no-animated-gif.js:50
+#: ../../../../js/no-animated-gif.js:60 ../../../../js/no-animated-gif.js:65
 msgid "Unanimate GIFs"
-msgstr ""
+msgstr "Desanimar GIFs"
 
 #: ../../../../js/webm-settings.js:41
 msgid "WebM"
-msgstr ""
+msgstr "WebM"
 
 #: ../../../../js/live-index.js:25 ../../../../js/live-index.js:84
 msgid "No new posts."
-msgstr ""
+msgstr "Sem novas mensagens."
 
 #: ../../../../js/live-index.js:30 ../../../../js/live-index.js:73
 msgid "No new threads."
-msgstr ""
+msgstr "Sem novos tópicos."
 
 #: ../../../../js/live-index.js:72
 #, python-brace-format
 msgid "There are {0} new threads."
-msgstr ""
+msgstr "Existem {0} novos tópicos."
 
 #: ../../../../js/live-index.js:83
 #, python-brace-format
 msgid "There are {0} new posts in this thread."
-msgstr ""
+msgstr "Existem {0} novas mensagens neste tópico."
 
 #: ../../../../js/options.js:106
 msgid "Options"
-msgstr ""
+msgstr "Opções"
 
 #: ../../../../js/options/general.js:15
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: ../../../../js/options/general.js:18
 msgid "Storage: "
-msgstr ""
+msgstr "Armazenamento:"
 
 #: ../../../../js/options/general.js:21
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: ../../../../js/options/general.js:27
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #: ../../../../js/options/general.js:28
 msgid "Paste your storage data"
-msgstr ""
+msgstr "Colar seus dados de armazenamento"
 
 #: ../../../../js/options/general.js:40
 msgid "Erase"
-msgstr ""
+msgstr "Apagar"
 
 #: ../../../../js/options/general.js:41
 msgid ""
 "Are you sure you want to erase your storage? This involves your hidden "
 "threads, watched threads, post password and many more."
-msgstr ""
+msgstr "Tem certeza que você deseja apagar seu armazenamento? Isso envolve seus tópicos escondidos, tópicos monitorados, senhas e muito mais."
 
 #: ../../../../js/options/user-css.js:14
 msgid "User CSS"
-msgstr ""
+msgstr "CSS de usuário"
 
 #: ../../../../js/options/user-css.js:23
 msgid "Update custom CSS"
-msgstr ""
+msgstr "Atualizar CSS personalizado"
 
 #: ../../../../js/options/user-css.js:45
 msgid "Enter here your own CSS rules..."
-msgstr ""
+msgstr "Coloque aqui suas próprias regras de CSS..."
 
 #: ../../../../js/options/user-css.js:46
 msgid ""
 "If you want to make a redistributable style, be sure to\n"
 "   have a Yotsuba B theme selected."
-msgstr ""
+msgstr "Se você quer fazer um estilo para distribuir, certifique-se\nde ter um tema Yotsuba B selecionado."
 
 #: ../../../../js/options/user-css.js:47
 msgid "You can include CSS files from remote servers, for example:"
-msgstr ""
+msgstr "Você pode incluir CSS de servidores remotos, por exemplo:"
 
 #: ../../../../js/options/user-js.js:14
 msgid "User JS"
-msgstr ""
+msgstr "JS de usuário"
 
 #: ../../../../js/options/user-js.js:23
 msgid "Update custom Javascript"
-msgstr ""
+msgstr "Atualizar Javascript personalizado"
 
 #: ../../../../js/options/user-js.js:54
 msgid "Enter here your own Javascript code..."
-msgstr ""
+msgstr "Insira aqui o seu próprio código Javascript..."
 
 #: ../../../../js/options/user-js.js:55
 msgid ""
 "Have a backup of your storage somewhere, as messing here\n"
 "   may render you this website unusable."
-msgstr ""
+msgstr "Tenha um \"backup\" do seu armazenamento em algum outro lugar,\njá que bagunçar aqui pode inutilizar o website."
 
 #: ../../../../js/options/user-js.js:56
 msgid "You can include JS files from remote servers, for example:"
+msgstr "Você pode incluir arquivos JS de servidores remotos, por exemplo:"
+
+#: ../../../../js/id_colors.js:6 ../../../../js/id_colors.js:12
+msgid "Color IDs"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:33
+msgid "Update"
 msgstr ""

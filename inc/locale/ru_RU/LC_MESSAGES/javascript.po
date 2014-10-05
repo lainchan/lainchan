@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-21 04:38+0200\n"
-"PO-Revision-Date: 2014-09-21 02:39+0000\n"
+"POT-Creation-Date: 2014-10-05 18:35+0200\n"
+"PO-Revision-Date: 2014-10-05 16:36+0000\n"
 "Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -253,6 +253,8 @@ msgstr "Сб"
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
+#: ../../../../js/catalog-link.js:28 ../../../../js/catalog-link.js:39
+#: ../../../../js/catalog-link.js:47
 msgid "Catalog"
 msgstr "Каталог"
 
@@ -607,16 +609,19 @@ msgid "Tree view"
 msgstr "Просмотр дерева"
 
 #: ../../../../js/expand-all-images.js:32
+#: ../../../../js/expand-all-images.js:35
 msgid "Shrink all images"
 msgstr "Сжать все изображения"
 
 #: ../../../../js/no-animated-gif.js:33 ../../../../js/no-animated-gif.js:37
+#: ../../../../js/no-animated-gif.js:40
 msgid "Animate GIFs"
 msgstr "Анимированная gif-ка"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 #: ../../../../js/no-animated-gif.js:47 ../../../../js/no-animated-gif.js:57
-#: ../../../../js/no-animated-gif.js:62
+#: ../../../../js/no-animated-gif.js:62 ../../../../js/no-animated-gif.js:50
+#: ../../../../js/no-animated-gif.js:60 ../../../../js/no-animated-gif.js:65
 msgid "Unanimate GIFs"
 msgstr "Не анимированная gif-ка"
 
@@ -718,4 +723,12 @@ msgstr ""
 
 #: ../../../../js/options/user-js.js:56
 msgid "You can include JS files from remote servers, for example:"
+msgstr ""
+
+#: ../../../../js/id_colors.js:6 ../../../../js/id_colors.js:12
+msgid "Color IDs"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:33
+msgid "Update"
 msgstr ""

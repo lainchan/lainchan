@@ -4,13 +4,14 @@
 # 
 # Translators:
 # JavaFag <lucamaker@gmail.com>, 2014
+# Lazy <jh.hueller@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-21 04:38+0200\n"
-"PO-Revision-Date: 2014-09-22 14:47+0000\n"
-"Last-Translator: JavaFag <lucamaker@gmail.com>\n"
+"POT-Creation-Date: 2014-10-05 18:35+0200\n"
+"PO-Revision-Date: 2014-10-05 16:36+0000\n"
+"Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,7 +131,7 @@ msgstr "Segnala"
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 msgid "Click reply to view."
-msgstr "Premi \"Rispondi\" per visualizzare"
+msgstr "Premi \"Rispondi\" per visualizzare."
 
 #: ../../../../js/expand.js:20 ../../../../js/expand.js:22
 #: ../../../../js/live-index.js:72 ../../../../js/live-index.js:83
@@ -140,11 +141,11 @@ msgstr "Premi per estendere"
 #: ../../../../js/expand.js:44 ../../../../js/expand.js:46
 #: ../../../../js/expand.js:50
 msgid "Hide expanded replies"
-msgstr "Nascondi risposte"
+msgstr "Nascondi le risposte estese"
 
 #: ../../../../js/oekaki.js:10
 msgid "Brush size"
-msgstr "Dimensioni Pennell"
+msgstr "Dimensioni Pennelli"
 
 #: ../../../../js/oekaki.js:10
 msgid "Set text"
@@ -164,7 +165,7 @@ msgstr "Carica"
 
 #: ../../../../js/oekaki.js:11
 msgid "Toggle eraser"
-msgstr "Abilita Gomma"
+msgstr "Abilita gomma"
 
 #: ../../../../js/oekaki.js:11
 msgid "Get color"
@@ -251,6 +252,8 @@ msgstr "Sab"
 #: ../../../../js/catalog-link.js:21 ../../../../js/catalog-link.js:32
 #: ../../../../js/catalog-link.js:40 ../../../../js/catalog-link.js:33
 #: ../../../../js/catalog-link.js:44 ../../../../js/catalog-link.js:52
+#: ../../../../js/catalog-link.js:28 ../../../../js/catalog-link.js:39
+#: ../../../../js/catalog-link.js:47
 msgid "Catalog"
 msgstr "Archivio"
 
@@ -319,7 +322,7 @@ msgstr "Nessun thread da mostrare"
 #: ../../../../templates/themes/ukko/ukko.js:80
 #: ../../../../templates/themes/ukko/ukko.js:103
 msgid "Loading..."
-msgstr "Caricamento"
+msgstr "Caricamento..."
 
 #: ../../../../js/download-original.js:32
 #: ../../../../js/download-original.js:33
@@ -340,15 +343,15 @@ msgstr "C'è stato un problema... Errore sconosciuto"
 
 #: ../../../../js/ajax-post-controls.js:68
 msgid "Working..."
-msgstr "Lavorando"
+msgstr "Lavorando..."
 
 #: ../../../../js/ajax.js:42 ../../../../js/ajax.js:45
 msgid "Posting... (#%)"
-msgstr "Postando... (#%)"
+msgstr "Pubblicando... (#%)"
 
 #: ../../../../js/ajax.js:104 ../../../../js/ajax.js:109
 msgid "Posted..."
-msgstr "Postato..."
+msgstr "Pubblicato..."
 
 #: ../../../../js/ajax.js:106 ../../../../js/ajax.js:111
 msgid "An unknown error occured when posting!"
@@ -356,7 +359,7 @@ msgstr "Errore sconosciuto nel post"
 
 #: ../../../../js/ajax.js:130 ../../../../js/ajax.js:135
 msgid "Posting..."
-msgstr "Postando..."
+msgstr "Pubblicando..."
 
 #: ../../../../js/quick-reply.js:223 ../../../../js/quick-reply.js:224
 #: ../../../../js/quick-reply.js:225
@@ -444,7 +447,7 @@ msgstr "Lunedì"
 
 #: ../../../../js/local-time.js:29
 msgid "Tuesday"
-msgstr "Marted"
+msgstr "Martedì"
 
 #: ../../../../js/local-time.js:29
 msgid "Wednesday"
@@ -605,16 +608,19 @@ msgid "Tree view"
 msgstr "Vista ad albero"
 
 #: ../../../../js/expand-all-images.js:32
+#: ../../../../js/expand-all-images.js:35
 msgid "Shrink all images"
 msgstr "Restringi tutte le immagini"
 
 #: ../../../../js/no-animated-gif.js:33 ../../../../js/no-animated-gif.js:37
+#: ../../../../js/no-animated-gif.js:40
 msgid "Animate GIFs"
 msgstr "Anima GIF"
 
 #: ../../../../js/no-animated-gif.js:42 ../../../../js/no-animated-gif.js:48
 #: ../../../../js/no-animated-gif.js:47 ../../../../js/no-animated-gif.js:57
-#: ../../../../js/no-animated-gif.js:62
+#: ../../../../js/no-animated-gif.js:62 ../../../../js/no-animated-gif.js:50
+#: ../../../../js/no-animated-gif.js:60 ../../../../js/no-animated-gif.js:65
 msgid "Unanimate GIFs"
 msgstr "Disattiva Animazioni GIF"
 
@@ -646,7 +652,7 @@ msgstr "Opzioni"
 
 #: ../../../../js/options/general.js:15
 msgid "General"
-msgstr "Generali"
+msgstr "Generale"
 
 #: ../../../../js/options/general.js:18
 msgid "Storage: "
@@ -672,7 +678,7 @@ msgstr "Cancella"
 msgid ""
 "Are you sure you want to erase your storage? This involves your hidden "
 "threads, watched threads, post password and many more."
-msgstr "Sicuro di voler eliminare il tuo archivio? Questo include i Thread nascosti, i Thread seguiti, le password dei post e molto altro"
+msgstr "Sicuro di voler eliminare il tuo archivio? Questo include i Thread nascosti, i Thread seguiti, le password dei post e molto altro."
 
 #: ../../../../js/options/user-css.js:14
 msgid "User CSS"
@@ -717,3 +723,11 @@ msgstr "Fai un backup del tuo archivio, perchè smanettare\nqui potrebbe rendert
 #: ../../../../js/options/user-js.js:56
 msgid "You can include JS files from remote servers, for example:"
 msgstr "Puoi includere file Javascript da server remoto, per esempio:"
+
+#: ../../../../js/id_colors.js:6 ../../../../js/id_colors.js:12
+msgid "Color IDs"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:33
+msgid "Update"
+msgstr ""
