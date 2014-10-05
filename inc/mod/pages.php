@@ -1567,10 +1567,12 @@ function mod_spoiler_image($board, $post, $file) {
 	$result = $query->fetch(PDO::FETCH_ASSOC);
 	$files = json_decode($result['files']);
 
+
+	$size_spoiler_image = @getimagesize($config['spoiler_image']);
 	file_unlink($board . '/' . $config['dir']['thumb'] . $files[$file]->thumb);
 	$files[$file]->thumb = 'spoiler';
-	$files[$file]->thumbheight = 128;
-	$files[$file]->thumbwidth = 128;
+	$files[$file]->thumbwidth = $size_spoiler[0];
+	$files[$file]->thumbheight = $size_spoiler_image[1];
 	
 	// Make thumbnail spoiler
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `files` = :files WHERE `id` = :id", $board));

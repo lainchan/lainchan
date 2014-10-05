@@ -529,6 +529,9 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
+	// When true, the sage won't be displayed
+	$config['hide_sage'] = false;
+
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
 
@@ -1046,10 +1049,11 @@
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	$config['error']['maxsize']		= _('The file was too big.');
-	$config['error']['webmerror'] = _('There was a problem processing your webm.');
-	$config['error']['invalidwebm'] = _('Invalid webm uploaded.');
-	$config['error']['webmhasaudio'] = _('The uploaded webm contains an audio or another type of additional stream.');
-	$config['error']['webmtoolong'] = _('The uploaded webm is longer than ' . $config['webm']['max_length'] . ' seconds.');
+	$config['error']['genwebmerror']	= _('There was a problem processing your webm.');
+	$config['error']['webmerror'] 		= _('There was a problem processing your webm.');//Is this error used anywhere ?
+	$config['error']['invalidwebm'] 	= _('Invalid webm uploaded.');
+	$config['error']['webmhasaudio'] 	= _('The uploaded webm contains an audio or another type of additional stream.');
+	$config['error']['webmtoolong'] 	= _('The uploaded webm is longer than ' . $config['webm']['max_length'] . ' seconds.');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
