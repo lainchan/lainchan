@@ -2275,7 +2275,7 @@ function rDNS($ip_addr) {
 
 	$isip = filter_var($host, FILTER_VALIDATE_IP);
 
-	if ($config['fcrdns'] && !$isip && gethostbyname($host) != $ip_addr) {
+	if ($config['fcrdns'] && !$isip && DNS($host) != $ip_addr) {
 		$host = $ip_addr;
 	}
 
