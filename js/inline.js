@@ -11,6 +11,37 @@
         App.cache[url] = $page
         cb($page)
       })
+    },
+    options: {
+      add: function(key, description, tab) {
+        tab || (tab = 'general')
+
+        var checked = App.options.get(key)
+        var $el = $(
+          '<div>' +
+            '<label>' +
+              '<input type="checkbox">' +
+              description +
+            '</label>' +
+          '</div>')
+
+        $el
+          .find('input')
+          .prop('checked', checked)
+          .on('change', App.options.check(key))
+
+        window.Options.extend_tab(tab, $el)
+      },
+      get: function(key) {
+        if (localStorage[key])
+          return JSON.parse(localStorage[key])
+      },
+      check: function(key) {
+        return function(e) {
+          var val = this.checked
+          localStorage[key] = JSON.stringify(val)
+        }
+      }
     }
   }
 
@@ -69,6 +100,11 @@
     })
     $clone.insertAfter(link.node)
   }
+
+  App.options.add('inline', 'Inline quoted posts')
+
+  if (!App.options.get('inline'))
+    return
 
   $('head').append(
     '<style>' +
