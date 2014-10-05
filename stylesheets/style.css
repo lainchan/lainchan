@@ -8,10 +8,6 @@ body {
   padding-right: 4px;
 }
 
-table * {
-  margin: 1px;
-}
-
 a,a:visited {
   text-decoration: underline;
   color: #34345C;
