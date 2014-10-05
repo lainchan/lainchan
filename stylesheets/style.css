@@ -1,7 +1,7 @@
 body {
   background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
   color: black;
-  font-family: arial, helvetica, sans-serif;
+  font-family: arial,helvetica,sans-serif;
   font-size: 10pt;
   margin: 0 4px;
   padding-left: 4px;
@@ -12,12 +12,12 @@ table * {
   margin: 1px;
 }
 
-a, a:visited {
+a,a:visited {
   text-decoration: underline;
   color: #34345C;
 }
 
-a:hover, p.intro a.post_no:hover {
+a:hover,p.intro a.post_no:hover {
   color: #ff0000;
 }
 
@@ -31,9 +31,7 @@ p.intro a.post_no {
   color: inherit;
 }
 
-p.intro a.post_no,
-p.intro a.email,
-p.intro a.post_anchor {
+p.intro a.post_no,p.intro a.email,p.intro a.post_anchor {
   margin: 0;
 }
 
@@ -49,7 +47,7 @@ p.intro label {
   display: inline;
 }
 
-p.intro time, p.intro a.ip-link, p.intro a.capcode {
+p.intro time,p.intro a.ip-link,p.intro a.capcode {
   direction: ltr;
   unicode-bidi: embed;
 }
@@ -72,7 +70,7 @@ h1 {
   margin: 0;
 }
 
-header div.subtitle, h1 {
+header div.subtitle,h1 {
   color: #AF0A0F;
   text-align: center;
 }
@@ -93,7 +91,7 @@ form table input {
   height: auto;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"],input[type="password"],textarea {
   border: 1px solid #a9a9a9;
   text-indent: 0;
   text-shadow: none;
@@ -140,7 +138,7 @@ form table tr td div label {
   font-size: 10px;
 }
 
-.unimportant, .unimportant * {
+.unimportant,.unimportant * {
   font-size: 10px;
 }
 
@@ -174,7 +172,7 @@ div.banner {
   margin: 1em 0;
 }
 
-div.banner, div.banner a {
+div.banner,div.banner a {
   color: white;
 }
 
@@ -183,7 +181,7 @@ div.banner a:hover {
   text-decoration: none;
 }
 
-img.banner, img.board_image {
+img.banner,img.board_image {
   display: block;
   border: 1px solid #a9a9a9;
   margin: 12px auto 0 auto;
@@ -225,7 +223,6 @@ p.intro {
   margin: 0.5em 0;
   padding: 0;
   padding-bottom: 0.2em;
-  clear: both;
 }
 
 input.delete {
@@ -243,7 +240,7 @@ p.intro span.name {
   font-weight: bold;
 }
 
-p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
+p.intro span.capcode,p.intro a.capcode,p.intro a.nametag {
   color: #F00000;
   margin-left: 0;
 }
@@ -276,7 +273,6 @@ div.post.reply div.body a {
 }
 
 div.post {
-  max-width: 95%;
   padding-left: 20px;
 }
 
@@ -293,7 +289,6 @@ div.post.reply {
   border-style: none solid solid none;
   border-color: #B7C5D9;
   display: inline-block;
-  max-width: 95%;
 }
 
 span.trip {
@@ -342,7 +337,7 @@ div.ban {
   margin: 30px auto;
 }
 
-div.ban p, div.ban h2 {
+div.ban p,div.ban h2 {
   padding: 3px 7px;
 }
 
@@ -377,7 +372,7 @@ div.post.reply div.body span.spoiler a {
   color: black;
 }
 
-span.spoiler:hover, div.post.reply div.body span.spoiler:hover a {
+span.spoiler:hover,div.post.reply div.body span.spoiler:hover a {
   color: white;
 }
 
@@ -398,7 +393,7 @@ table.test {
   width: 100%;
 }
 
-table.test td, table.test th {
+table.test td,table.test th {
   text-align: left;
   padding: 5px;
 }
@@ -436,7 +431,7 @@ div.pages.top {
 
 @media screen and (max-width: 800px) {
   div.pages.top {
-    display: none !important;
+    display: none!important;
   }
 }
 
@@ -506,7 +501,7 @@ table.modlog tr th {
   background: #98E;
 }
 
-td.minimal, th.minimal {
+td.minimal,th.minimal {
   width: 1%;
   white-space: nowrap;
 }
@@ -554,13 +549,11 @@ table.mod.config-editor input[type="text"] {
   top: 0;
   left: 0;
   right: 0;
-  /*text-shadow: white 1px 0 6px, white 1px 0 6px, black 1px 0 3px;*/
   margin-top: 0;
   z-index: 30;
-}
-
-.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
-  background-color: rgba(90%, 90%, 90%, 0.6);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  border-bottom: 1px solid;
+  background-color: #D6DAF0;
 }
 
 .desktop-style body {
@@ -578,7 +571,7 @@ table.mod.config-editor input[type="text"] {
   background: url('img/arrow.png') right center no-repeat;
 }
 
-.desktop-style .sub .sub:hover, .desktop-style .sub .sub.hover {
+.desktop-style .sub .sub:hover,.desktop-style .sub .sub.hover {
   display: inline;
   text-indent: 0;
   background: inherit;
@@ -607,7 +600,7 @@ table.mod.config-editor input[type="text"] {
 }
 
 #attention_bar:hover {
-  background-color: rgba(100%, 100%, 100%, 0.2);
+  background-color: rgba(100%,100%,100%,0.2);
 }
 
 p.intro.thread-hidden {
@@ -623,13 +616,21 @@ form.ban-appeal textarea {
   display: block;
 }
 
+.MathJax_Display {
+  display: inline!important;
+}
+
+pre {
+  margin: 0;
+}
+
 .theme-catalog div.thread img {
   float: none!important;
   margin: auto;
   max-height: 150px;
   max-width: 200px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.55);
-  border: 2px solid rgba(153, 153, 153, 0);
+  box-shadow: 0 0 4px rgba(0,0,0,0.55);
+  border: 2px solid rgba(153,153,153,0);
 }
 
 .theme-catalog div.thread {
@@ -646,8 +647,8 @@ form.ban-appeal textarea {
   position: relative;
   font-size: 11px;
   max-height: 300px;
-  background: rgba(182, 182, 182, 0.12);
-  border: 2px solid rgba(111, 111, 111, 0.34);
+  background: rgba(182,182,182,0.12);
+  border: 2px solid rgba(111,111,111,0.34);
 }
 
 .theme-catalog div.thread strong {
@@ -665,36 +666,33 @@ div.thread:hover {
 }
 
 .theme-catalog div.grid-size-vsmall img {
-  max-height: 64px;
-  max-width: 100px;
+  max-height: 33%;
+  max-width: 95%
 }
 
 .theme-catalog div.grid-size-vsmall {
-  width: 100px;
-  max-width: 100px;
-  max-height: 150px;
+  min-width:90px; max-width: 90px;
+  max-height: 148px;
 }
 
 .theme-catalog div.grid-size-small img {
-  max-height: 128px;
-  max-width: 225px;
+  max-height: 33%;
+  max-width: 95%
 }
 
 .theme-catalog div.grid-size-small {
-  width: 200px;
-  max-width: 225px;
-  max-height: 300px;
+  min-width:140px; max-width: 140px;
+  max-height: 192px;
 }
 
 .theme-catalog div.grid-size-large img {
-  max-height: 148px;
-  max-width: 300px;
+  max-height: 40%;
+  max-width: 95%
 }
 
 .theme-catalog div.grid-size-large {
-  width: 300px;
-  max-width: 300px;
-  max-height: 450px;
+  min-width: 256px; max-width: 256px;
+  max-height: 384px;
 }
 
 .theme-catalog img.thread-image {
@@ -742,7 +740,6 @@ div.thread:hover {
   padding: 5px 6px 8px 6px;
 }
 
-/* styles also used by watch.js */
 .cb-menuitem {
   display: table-row;
 }
@@ -751,7 +748,7 @@ div.thread:hover {
   padding: 5px;
   display: table-cell;
   text-align: left;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(0,0,0,0.5);
 }
 
 .cb-menuitem span.cb-uri {
@@ -783,7 +780,6 @@ div.thread:hover {
   vertical-align: middle;
 }
 
-/* live-index.js */
 .new-posts {
   opacity: 0.6;
   margin-top: 1em;
@@ -793,7 +789,6 @@ div.thread:hover {
   text-align: center;
 }
 
-/* options.js */
 #options_handler {
   position: fixed;
   top: 0px;
@@ -893,17 +888,18 @@ div.thread:hover {
   word-wrap: break-word;
 }
 
-pre {
-  width: 99%;
-  padding: 0;
-  margin: 0;
-  overflow:auto;
+.poster_id {
+  cursor: pointer;
 }
 
-code > pre > span.pln {
+code>pre {
+  background: black;
+  max-width: inherit;
+}
+
+code>pre>span.pln {
   color: grey;
 }
-
 
 @media screen and (min-width: 768px) {
   p.intro {
