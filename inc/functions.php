@@ -2265,12 +2265,17 @@ function rDNS($ip_addr) {
 
 	if (!$config['dns_system']) {
 		$host = gethostbyaddr($ip_addr);
+		$isip = filter_var($host, FILTER_VALIDATE_IP);
 	} else {
 		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
 			$host = $m[1];
 		else
 			$host = $ip_addr;
+	}
+
+	if ($config['fcrdns'] && !$isip && gethostbyname($host) != $ip_addr) {
+		$host = $ip_addr;
 	}
 
 	if ($config['cache']['enabled'])
