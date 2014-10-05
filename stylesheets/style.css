@@ -289,6 +289,7 @@ div.post.reply {
   border-style: none solid solid none;
   border-color: #B7C5D9;
   display: inline-block;
+  max-width: 94%!important;
 }
 
 span.trip {
@@ -892,15 +893,20 @@ div.thread:hover {
   cursor: pointer;
 }
 
-code > pre {
+pre {
 /* Better code tags */
-  background:black;
   max-width:inherit;
+  word-wrap:normal;
+  overflow:auto;
+  display: block!important;
+  font-size:9pt;
+  font-family:monospace;
 }
 
-code > pre > span.pln {
-  color: grey;
+span.pln {
+  color:grey;
 }
+
 
 @media screen and (min-width: 768px) {
   p.intro {
