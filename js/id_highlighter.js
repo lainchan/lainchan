@@ -23,7 +23,7 @@ if (active_page == 'thread' || active_page == 'index') {
 			return toRet;
 		}
 
-		$(".poster_id").click(function(){
+		var id_highlighter = function(){
 			var id = $(this).text();
 			
 			if($.inArray(id, idshighlighted) !== -1){
@@ -39,6 +39,12 @@ if (active_page == 'thread' || active_page == 'index') {
 					$(this).addClass("highlighted");
 				});
 			}
+		}
+
+		$(".poster_id").on('click', id_highlighter);
+
+		$(document).on('new_post', function(e, post) {
+			$(post).find('.poster_id').on('click', id_highlighter);
 		});
 	});
 }

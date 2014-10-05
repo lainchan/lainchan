@@ -1,25 +1,39 @@
 if (active_page == 'thread' || active_page == 'index') {
 	$(document).ready(function(){
-		$.hash = function(str) {
-			var i, j, msg = 0;
-			
-			for (i = 0, j = str.length; i < j; ++i) {
-				msg = ((msg << 5) - msg) + str.charCodeAt(i);
-			}
-			
-			return msg;
-		};
+		if (window.Options && Options.get_tab('general')) {
+			selector = '#color-ids>input';
+			event = 'change';
+			Options.extend_tab("general", "<label id='color-ids'><input type='checkbox' /> "+_('Color IDs')+"</label>");
+		}
 
-		function stringToRGB(str){
-			var rgb, hash;
-			
-			rgb = [];
-			hash = $.hash(str);
-			
-			rgb[0] = (hash >> 24) & 0xFF;
-			rgb[1] = (hash >> 16) & 0xFF;
-			rgb[2] = (hash >> 8) & 0xFF;
-			
+		else {
+			selector = '#color-ids';
+			event = 'click';
+			$('hr:first').before('<div id="color-ids" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+_('Color IDs')+'</a></div>')
+		}
+
+		$(selector).on(event, function() {
+			if (localStorage.color_ids === 'true') {
+				localStorage.color_ids = 'false';
+			} else {
+				localStorage.color_ids = 'true';
+			}
+		});
+
+		if (!localStorage.color_ids || localStorage.color_ids === 'false') {
+			return;
+		} else {
+			$('#color-ids>input').attr('checked','checked');
+		}
+
+		function IDToRGB(id_str){
+			var id = id_str.match(/.{1,2}/g);
+			var rgb = new Array();
+
+			for (i = 0; i < id.length; i++) {
+				rgb[i] = parseInt(id[i], 16);
+			}
+
 			return rgb;
 		}
 
