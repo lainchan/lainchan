@@ -68,7 +68,7 @@
 
     var link = {
       node: node,
-      targetNum: targetNum
+      id: 'inline_' + targetNum
     }
 
     var selector = targetNum === targetOP
@@ -84,7 +84,12 @@
         return add(link, $target)
     }
 
+    var $loading = $('<div class="inline post">loading...</div>')
+      .attr('id', link.id)
+      .insertAfter(link.node)
+
     App.get(this.pathname, function($page) {
+      $loading.remove()
       var $target = $page.find(selector)
       add(link, $target)
     })
@@ -95,7 +100,7 @@
     $clone.find('.inline').remove()
     $clone.attr({
       "class": 'inline post',
-      id: 'inline_' + link.targetNum,
+      id: link.id,
       style: null// XXX remove post hover styling
     })
     $clone.insertAfter(link.node)
