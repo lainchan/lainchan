@@ -28,16 +28,12 @@
     }
 
     var selector = targetNum === targetOP
-      ? '.op .body'
+      ? '#op_' + srcOP
       : '#reply_' + targetNum
 
     if (srcOP === targetOP) {
-      // XXX post hover adds fetched threads to the DOM
-      selector = '#thread_' + srcOP + ' ' + selector
-
-      // bypass `(OP)`
       if (targetNum === targetOP)
-        link.node = link.node.next()
+        link.node = link.node.next()// bypass `(OP)`
 
       var $target = $(selector)
       if ($target.length)
@@ -78,7 +74,8 @@
       '}' +
     '</style>')
 
-  $('.body a, .mentioned a')
+  // don't attach to outbound links
+  $('.body a:not([rel]), .mentioned a')
     .attr('onclick', null)// XXX disable highlightReply
     .click(inline)
 })()
