@@ -187,20 +187,6 @@ if (isset($_POST['delete'])) {
 	} else
 		$post['op'] = true;
 
-	if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
-		(!$post['op'] && $_POST['post'] == $config['button_reply'])))
-		error($config['error']['bot']);
-	
-	// Check the referrer
-	if ($config['referer_match'] !== false &&
-		(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode($_SERVER['HTTP_REFERER']))))
-		error($config['error']['referer']);
-	
-	checkDNSBL();
-		
-	// Check if banned
-	checkBan($board['uri']);
-	
 	// Check for CAPTCHA right after opening the board so the "return" link is in there
 	if ($config['recaptcha']) {
 		if (!isset($_POST['recaptcha_challenge_field']) || !isset($_POST['recaptcha_response_field']))
@@ -214,7 +200,21 @@ if (isset($_POST['delete'])) {
 			error($config['error']['captcha']);
 		}
 	}
+
+	if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
+		(!$post['op'] && $_POST['post'] == $config['button_reply'])))
+		error($config['error']['bot']);
 	
+	// Check the referrer
+	if ($config['referer_match'] !== false &&
+		(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode($_SERVER['HTTP_REFERER']))))
+		error($config['error']['referer']);
+	
+	checkDNSBL();
+		
+	// Check if banned
+	checkBan($board['uri']);
+
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
 		require 'inc/mod/auth.php';
 		if (!$mod) {
