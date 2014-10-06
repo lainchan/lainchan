@@ -9,13 +9,15 @@ header div.subtitle, h1 {
 
 a:link, a:visited, p.intro a.email span.name {
         color: #CCCCCC;
-        text-decoration: underline;
+        text-decoration: none;
         font-family: sans-serif;
+	transition: text-shadow 0.15s ease 0s color 0.15s ease 0s;
 }
 a:link:hover, a:visited:hover {
-        color: #FF0000;
+	color: #32DD72;
         font-family: sans-serif;
-        text-decoration: underline overline;
+        text-decoration: none;
+	text-shadow: 0px 0px 5px #FFF;
 }
  
 .box-wrap {

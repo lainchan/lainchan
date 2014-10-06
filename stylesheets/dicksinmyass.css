@@ -1,36 +1,22 @@
 body {
-    color: #CCCCCC;
-    background: #1E1E1E;
+	margin: 0px!important;
 }
 
-header div.subtitle, h1 {
-    color: #32DD72;
-}
-
-a:link, a:visited, p.intro a.email span.name {
-        color: #CCCCCC;
-        text-decoration: underline;
-        font-family: sans-serif;
-}
-a:link:hover, a:visited:hover {
-        color: #FF0000;
-        font-family: sans-serif;
-        text-decoration: underline overline;
-}
- 
 .box-wrap {
         max-width: 670px;
         min-width: 332px;
-        margin: 30px auto;
         overflow: auto;
+        margin: 0px auto;
         padding: 0;
 }
 .box {
-        background: white;
-        border: 1px solid #98E;
+        border: 1px dashed #98E;
         width: 330px;
         margin: 8px 0;
         padding: 0;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
 }
 .box ul {
         padding: 2px 15px;
@@ -38,36 +24,40 @@ a:link:hover, a:visited:hover {
 .box ul li {
         list-style: none;
         margin: 0;
+    	color: #32DD72;
+}
+.left li {
+	text-align: center;
+}
+.left li img {
+	display: block;
+	max-height: 300px;
+	max-width: 300px;
 }
 .box.left {
-        background: #333333;
-        color: #CCCCCC;
-        border: #555555 1px solid;
+        color: #999;
+		border: #555 1px solid;
         float: left;
 }
 .box.right {
-        background: #333333;
-        color: #CCCCCC;
-        border: #555555 1px solid;
+        color: #999;
+        border: #555 1px solid;
         float: right;
 }
  
 .box h2 {
         padding: 3px 7px;
         font-size: 12pt;
-        border: #555555 1px solid;
-}
-.box.left h2 {
+        border-bottom: #555555 1px solid;
         background: #333333;
-        color: #CCCCCC;
-        border: #555555 1px solid;
-}
-.box.right h2 {
-        background: #333333;
-        color: #CCCCCC;
-        border: #555555 1px solid;
+		color: #32DD72;
 }
 .box img {
         float: none;
         margin: 10px auto;
+}
+.box:nth-child(3){
+	margin-top: -2px;
+	position: relative;
+	right: 0px;	
 }
