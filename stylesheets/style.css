@@ -214,7 +214,7 @@ img.banner, img.board_image {
 img.post-image {
 	display: block;
 	float: left;
-	margin: 10px 20px;
+	margin: 10px;
 	border: none;
 }
 div.post img.post-image {
