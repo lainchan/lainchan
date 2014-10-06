@@ -51,14 +51,11 @@
     var $root = $(this).closest('.post')
     var targetNum = this.textContent.slice(2)
 
-    var $clone = $root.find('#inline_' + targetNum)
-    if ($clone.length)
-      return $clone.remove()
-
     var srcOP = $root.closest('[id^=thread]').attr('id').match(/\d+/)[0]
 
     var node, targetOP
-    if (this.className) {// backlink
+    var isBacklink = !!this.className
+    if (isBacklink) {
       node = $root.find('> .intro')
       targetOP = srcOP
     } else {
@@ -67,13 +64,24 @@
     }
 
     var link = {
-      node: node,
-      id: 'inline_' + targetNum
+      id: 'inline_' + targetNum,
+      isBacklink: isBacklink,
+      node: node
     }
 
     var selector = targetNum === targetOP
       ? '#op_' + srcOP
       : '#reply_' + targetNum
+
+    var $clone = $root.find('#inline_' + targetNum)
+    if ($clone.length) {
+      $clone.remove()
+      $(selector)
+        .show()
+        .next()
+        .show()
+      return
+    }
 
     if (srcOP === targetOP) {
       if (targetNum === targetOP)
@@ -97,6 +105,13 @@
 
   var add = function(link, $target) {
     var $clone = $target.clone(true)
+
+    if (link.isBacklink && App.options.get('hidePost'))
+      $target
+        .hide()
+        .next()
+        .hide()
+
     $clone.find('.inline').remove()
     $clone.attr({
       "class": 'inline post',
@@ -106,10 +121,7 @@
     $clone.insertAfter(link.node)
   }
 
-  App.options.add('inline', 'Inline quoted posts')
-
-  if (!App.options.get('inline'))
-    return
+  App.options.add('hidePost', 'Hide inlined backlinked posts')
 
   $('head').append(
     '<style>' +
