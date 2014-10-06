@@ -679,36 +679,38 @@ function listBoards($just_uri = false) {
 
 function until($timestamp) {
 	$difference = $timestamp - time();
-	if ($difference < 60) {
+	switch(TRUE){
+	case ($difference < 60):
 		return $difference . ' ' . ngettext('second', 'seconds', $difference);
-	} elseif ($difference < 60*60) {
+	case ($difference < 3600): //60*60 = 3600
 		return ($num = round($difference/(60))) . ' ' . ngettext('minute', 'minutes', $num);
-	} elseif ($difference < 60*60*24) {
-		return ($num = round($difference/(60*60))) . ' ' . ngettext('hour', 'hours', $num);
-	} elseif ($difference < 60*60*24*7) {
-		return ($num = round($difference/(60*60*24))) . ' ' . ngettext('day', 'days', $num);
-	} elseif ($difference < 60*60*24*365) {
-		return ($num = round($difference/(60*60*24*7))) . ' ' . ngettext('week', 'weeks', $num);
+	case ($difference < 86400): //60*60*24 = 86400
+		return ($num = round($difference/(3600))) . ' ' . ngettext('hour', 'hours', $num);
+	case ($difference < 604800): //60*60*24*7 = 604800
+		return ($num = round($difference/(86400))) . ' ' . ngettext('day', 'days', $num);
+	case ($difference < 31536000): //60*60*24*365 = 31536000
+		return ($num = round($difference/(604800))) . ' ' . ngettext('week', 'weeks', $num);
+	default:
+		return ($num = round($difference/(31536000))) . ' ' . ngettext('year', 'years', $num);
 	}
-
-	return ($num = round($difference/(60*60*24*365))) . ' ' . ngettext('year', 'years', $num);
 }
 
 function ago($timestamp) {
 	$difference = time() - $timestamp;
-	if ($difference < 60) {
+	switch(TRUE){
+	case ($difference < 60) :
 		return $difference . ' ' . ngettext('second', 'seconds', $difference);
-	} elseif ($difference < 60*60) {
+	case ($difference < 3600): //60*60 = 3600
 		return ($num = round($difference/(60))) . ' ' . ngettext('minute', 'minutes', $num);
-	} elseif ($difference < 60*60*24) {
-		return ($num = round($difference/(60*60))) . ' ' . ngettext('hour', 'hours', $num);
-	} elseif ($difference < 60*60*24*7) {
-		return ($num = round($difference/(60*60*24))) . ' ' . ngettext('day', 'days', $num);
-	} elseif ($difference < 60*60*24*365) {
-		return ($num = round($difference/(60*60*24*7))) . ' ' . ngettext('week', 'weeks', $num);
+	case ($difference <  86400): //60*60*24 = 86400
+		return ($num = round($difference/(3600))) . ' ' . ngettext('hour', 'hours', $num);
+	case ($difference < 604800): //60*60*24*7 = 604800
+		return ($num = round($difference/(86400))) . ' ' . ngettext('day', 'days', $num);
+	case ($difference < 31536000): //60*60*24*365 = 31536000
+		return ($num = round($difference/(604800))) . ' ' . ngettext('week', 'weeks', $num);
+	default:
+		return ($num = round($difference/(31536000))) . ' ' . ngettext('year', 'years', $num);
 	}
-
-	return ($num = round($difference/(60*60*24*365))) . ' ' . ngettext('year', 'years', $num);
 }
 
 function displayBan($ban) {
