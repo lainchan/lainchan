@@ -1,4 +1,4 @@
-;(function() {
+onready(function() {
   var App = {
     cache: {},
     get: function(url, cb) {
@@ -60,7 +60,9 @@
       targetOP = srcOP
     } else {
       node = $(this)
-      targetOP = this.pathname.match(/(\d+).html/)[1]
+
+      var to_search = inMod ? this.search : this.pathname;
+      targetOP = to_search.match(/(\d+).html/)[1]
     }
 
     var link = {
@@ -136,4 +138,4 @@
   $('.body a:not([rel]), .mentioned a')
     .attr('onclick', null)// XXX disable highlightReply
     .click(inline)
-})()
+})
