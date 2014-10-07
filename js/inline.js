@@ -1,4 +1,4 @@
-onready(function() {
+$(document).ready(function() {
   var App = {
     cache: {},
     get: function(url, cb) {
@@ -142,4 +142,4 @@ onready(function() {
       .attr('onclick', null)// XXX disable highlightReply
       .click(inline)
   }
-})
+});
