@@ -124,6 +124,7 @@ onready(function() {
   }
 
   App.options.add('hidePost', 'Hide inlined backlinked posts')
+  App.options.add('useBacklinks', 'Enable backlinks')
 
   $('head').append(
     '<style>' +
@@ -135,7 +136,10 @@ onready(function() {
     '</style>')
 
   // don't attach to outbound links
-  $('.body a:not([rel]), .mentioned a')
-    .attr('onclick', null)// XXX disable highlightReply
-    .click(inline)
+
+  if (App.options.get('useBacklinks')) {
+    $('.body a:not([rel]), .mentioned a')
+      .attr('onclick', null)// XXX disable highlightReply
+      .click(inline)
+  }
 })
