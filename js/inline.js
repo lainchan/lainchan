@@ -137,7 +137,7 @@ $(document).ready(function() {
 
   // don't attach to outbound links
 
-  if (App.options.get('useBacklinks')) {
+  if (App.options.get('useInlining')) {
     $('.body a:not([rel]), .mentioned a')
       .attr('onclick', null)// XXX disable highlightReply
       .click(inline)
