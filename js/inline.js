@@ -123,8 +123,8 @@ $(document).ready(function() {
     $clone.insertAfter(link.node)
   }
 
+  App.options.add('useInlining', 'Enable inlining')
   App.options.add('hidePost', 'Hide inlined backlinked posts')
-  App.options.add('useBacklinks', 'Enable backlinks')
 
   $('head').append(
     '<style>' +
