@@ -30,7 +30,7 @@ $(document).ready(function(){
 	var countdown_interval;
 
 	// Add an update link
-	$('.boardlist.bottom').prev().after("<span id='updater'><a href='#' id='update_thread' style='padding-left:10px'>["+_("Update")+"]</a> (<input type='checkbox' id='auto_update_status' checked> Auto) <span id='update_secs'></span></span>");
+	$('.boardlist.bottom').prev().after("<span id='updater'><a href='#' id='update_thread' style='padding-left:10px'>["+_("Update")+"]</a> (<input type='checkbox' id='auto_update_status' checked> "+_("Auto")+") <span id='update_secs'></span></span>");
 
 	// Grab the settings
 	var settings = new script_settings('auto-reload');
@@ -138,7 +138,7 @@ $(document).ready(function(){
 	
 	var poll = function(manualUpdate) {
 		stop_auto_update();
-		$('#update_secs').text("Updating...");
+		$('#update_secs').text(_("Updating..."));
 	
 		$.ajax({
 			url: document.location,
@@ -180,15 +180,15 @@ $(document).ready(function(){
 				} else {
 					// Decide the message to show if auto update is disabled
 					if (loaded_posts > 0)
-						$('#update_secs').text("Thread updated with "+loaded_posts+" new post(s)");
+						$('#update_secs').text(fmt(_("Thread updated with {0} new post(s)"), [loaded_posts]));
 					else
-						$('#update_secs').text("No new posts found");
+						$('#update_secs').text(_("No new posts found"));
 				}
 			},
 			error: function(xhr, status_text, error_text) {
 				if (status_text == "error") {
 					if (error_text == "Not Found") {
-						$('#update_secs').text("Thread deleted or pruned");
+						$('#update_secs').text(_("Thread deleted or pruned"));
 						$('#auto_update_status').prop('checked', false);
 						$('#auto_update_status').prop('disabled', true); // disable updates if thread is deleted
 						return;
@@ -196,9 +196,9 @@ $(document).ready(function(){
 						$('#update_secs').text("Error: "+error_text);
 					}
 				} else if (status_text) {
-					$('#update_secs').text("Error: "+status_text);
+					$('#update_secs').text(_("Error: ")+status_text);
 				} else {
-					$('#update_secs').text("Unknown error");
+					$('#update_secs').text(_("Unknown error"));
 				}
 				
 				// Keep trying to update
