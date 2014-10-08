@@ -24,10 +24,8 @@
 		}
 
 		public static function gen_json($settings) {
-			global $config, $mod;
-
 			ob_start();
-			Bans::stream_json(false, false, !hasPermission($config['mod']['view_banstaff']), $mod['boards']);
+			Bans::stream_json(false, true, true, array());
 			$out = ob_get_contents();
 			ob_end_clean();
 			return $out;
