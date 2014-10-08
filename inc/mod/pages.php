@@ -766,7 +766,7 @@ function mod_page_ip($ip) {
 		if (!hasPermission($config['mod']['unban']))
 			error($config['error']['noaccess']);
 		
-		Bans::delete($_POST['ban_id'], true);
+		Bans::delete($_POST['ban_id'], true, $mod['boards']);
 		
 		header('Location: ?/IP/' . $ip . '#bans', true, $config['redirect_http']);
 		return;
@@ -863,18 +863,16 @@ function mod_ban() {
 	require_once 'inc/mod/ban.php';
 	
 	Bans::new_ban($_POST['ip'], $_POST['reason'], $_POST['length'], $_POST['board'] == '*' ? false : $_POST['board']);
-	
+
 	if (isset($_POST['redirect']))
 		header('Location: ' . $_POST['redirect'], true, $config['redirect_http']);
 	else
 		header('Location: ?/', true, $config['redirect_http']);
 }
 
-function mod_bans($page_no = 1) {
+function mod_bans() {
 	global $config;
-	
-	if ($page_no < 1)
-		error($config['error']['404']);
+	global $mod;
 	
 	if (!hasPermission($config['mod']['view_banlist']))
 		error($config['error']['noaccess']);
@@ -892,27 +890,31 @@ function mod_bans($page_no = 1) {
 			error(sprintf($config['error']['toomanyunban'], $config['mod']['unban_limit'], count($unban)));
 		
 		foreach ($unban as $id) {
-			Bans::delete($id, true);
+			Bans::delete($id, true, $mod['boards'], true);
 		}
+                rebuildThemes('bans');
 		header('Location: ?/bans', true, $config['redirect_http']);
 		return;
 	}
 	
-	$bans = Bans::list_all(($page_no - 1) * $config['mod']['banlist_page'], $config['mod']['banlist_page']);
-	
-	if (empty($bans) && $page_no > 1)
-		error($config['error']['404']);
-	
-	foreach ($bans as &$ban) {
-		if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false)
-			$ban['single_addr'] = true;
-	}
-	
 	mod_page(_('Ban list'), 'mod/ban_list.html', array(
-		'bans' => $bans,
-		'count' => Bans::count(),
-		'token' => make_secure_link_token('bans')
+		'mod' => $mod,
+		'boards' => json_encode($mod['boards']),
+		'token' => make_secure_link_token('bans'),
+		'token_json' => make_secure_link_token('bans.json')
 	));
+}
+
+function mod_bans_json() {
+        global $config, $mod;
+
+        if (!hasPermission($config['mod']['ban']))
+                error($config['error']['noaccess']);
+
+	// Compress the json for faster loads
+	if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler");
+
+	Bans::stream_json(false, false, !hasPermission($config['mod']['view_banstaff']), $mod['boards']);
 }
 
 function mod_ban_appeals() {

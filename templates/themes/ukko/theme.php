@@ -4,7 +4,11 @@
 	function ukko_build($action, $settings) {
 		$ukko = new ukko();
 		$ukko->settings = $settings;
-		
+
+		if (! ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete')) {
+			return;
+		}
+
 		file_write($settings['uri'] . '/index.html', $ukko->build());
 		file_write($settings['uri'] . '/ukko.js', Element('themes/ukko/ukko.js', array()));
 	}
