@@ -65,7 +65,7 @@ var banlist_init = function(token, my_boards, inMod) {
       } },
       username: {name: _("Staff"), width: "100px", fmt: function(f) {
 	var pre='',suf='',un=f.username;
-	if (inMod && f.username && f.username != '?') {
+	if (inMod && f.username && f.username != '?' && !f.vstaff) {
 	  pre = "<a href='?/new_PM/"+f.username+"'>";
 	  suf = "</a>";
 	}
