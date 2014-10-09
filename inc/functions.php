@@ -345,10 +345,14 @@ function rebuildThemes($action, $boardname = false) {
 	$query = query("SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
 	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
+		// Restore them
+		$config = $_config;
+		$board = $_board;		
+
 		rebuildTheme($theme['theme'], $action, $boardname);
 	}
 
-	// Restore them
+	// Restore them again
 	$config = $_config;
 	$board = $_board;
 }
