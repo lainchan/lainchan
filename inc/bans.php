@@ -185,7 +185,7 @@ class Bans {
 				$ban['mask'] = preg_split("/[\.:]/", $ban['mask']);
 				$ban['mask'] = array_slice($ban['mask'], 0, 2);
 				$ban['mask'] = implode(".", $ban['mask']);
-				$ban['mask'] .= ".*";
+				$ban['mask'] .= ".x.x";
 				if (isset ($subnet)) {
 					$ban['mask'] .= "/$subnet";
 				}
