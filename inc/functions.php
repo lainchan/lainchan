@@ -335,7 +335,7 @@ function create_antibot($board, $thread = null) {
 }
 
 function rebuildThemes($action, $boardname = false) {
-	global $config, $board;
+	global $config, $board, $current_locale;
 
 	// Save the global variables
 	$_config = $config;
@@ -347,7 +347,14 @@ function rebuildThemes($action, $boardname = false) {
 	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
 		// Restore them
 		$config = $_config;
-		$board = $_board;		
+		$board = $_board;
+
+		// Reload the locale	
+	        if ($config['locale'] != $current_locale) {
+	                $current_locale = $config['locale'];
+	                init_locale($config['locale'], $error);
+	        }
+
 
 		rebuildTheme($theme['theme'], $action, $boardname);
 	}
@@ -355,6 +362,12 @@ function rebuildThemes($action, $boardname = false) {
 	// Restore them again
 	$config = $_config;
 	$board = $_board;
+
+	// Reload the locale	
+	if ($config['locale'] != $current_locale) {
+	        $current_locale = $config['locale'];
+	        init_locale($config['locale'], $error);
+	}
 }
 
 
