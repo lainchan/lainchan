@@ -141,6 +141,7 @@ $(document).ready(function() {
     var assign_inline = function() { 
         $('.body a:not([rel]), .mentioned a')
           .attr('onclick', null)// XXX disable highlightReply
+          .off('click')
           .click(inline)
     }
 
