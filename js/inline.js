@@ -138,8 +138,16 @@ $(document).ready(function() {
   // don't attach to outbound links
 
   if (App.options.get('useInlining')) {
-    $('.body a:not([rel]), .mentioned a')
-      .attr('onclick', null)// XXX disable highlightReply
-      .click(inline)
+    var assign_inline = function() { 
+        $('.body a:not([rel]), .mentioned a')
+          .attr('onclick', null)// XXX disable highlightReply
+          .click(inline)
+    }
+
+    assign_inline();
+
+    $(document).on('new_post', function(e, post) {
+      assign_inline();
+    });
   }
 });
