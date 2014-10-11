@@ -220,7 +220,7 @@ class Bans {
 		if ($boards && $boards[0] == '*') $boards = false;
 
 		if ($modlog) {
-			$query = query("SELECT `ipstart`, `ipend` FROM ``bans`` WHERE `id` = " . (int)$ban_id) or error(db_error());
+			$query = query("SELECT `ipstart`, `ipend`, `board` FROM ``bans`` WHERE `id` = " . (int)$ban_id) or error(db_error());
 			if (!$ban = $query->fetch(PDO::FETCH_ASSOC)) {
 				// Ban doesn't exist
 				return false;
