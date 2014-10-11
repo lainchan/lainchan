@@ -913,3 +913,28 @@ span.pln {
     clear: none;
   }
 }
+
+/* threadwatcher */
+
+#watchlist {
+	display: none;
+	max-height: 250px;
+	overflow: auto;
+	border: 1px solid;
+	border-style: none solid solid none;
+	width: 50%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+.watchlist-inner, .watchlist-controls {
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+#watchlist-toggle, .watchThread, .watchlist-remove, #clearList, #clearGhosts {
+	cursor: pointer;
+}
+
