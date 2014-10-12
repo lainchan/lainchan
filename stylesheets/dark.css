@@ -46,7 +46,7 @@ a:link, a:visited, p.intro a.email span.name{
 	-ms-transition: 0.15s text-shadow, 0.15s color;
 	transition: 0.15s text-shadow, 0.15s color;
 }
-input[type="text"], textarea {
+input[type="text"], textarea {;
 	-moz-transition: 0.15s border-color;
 	-webkit-transition: 0.15s border-color;
 	-khtml-transition: 0.15s border-color;
@@ -108,20 +108,19 @@ p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.ema
 	color: #32ddaf;
 }
 input[type="text"], textarea, select {
-	background: #333333;
-	color: #CCCCCC;
-	border: #666666 1px solid;
+	background: #333333!important;
+	color: #CCCCCC!important;
+	border: #666666 1px solid!important;
 }
 input[type="password"] {
-	background: #333333;
-	color: #CCCCCC;
-	border: #666666 1px solid;
+	background: #333333!important;
+	color: #CCCCCC!important;
+	border: #666666 1px solid!important;
 }
 form table tr th {
-	background: #333333;
-	color: #AAAAAA;
-	font-weight: 600;
-	text-align: left;
+	background: #333333!important;
+	color: #AAAAAA!important;
+	border: #333333 1px solid!important;;
 }
 div.banner {
 	background: #E04000;
@@ -129,7 +128,6 @@ div.banner {
 	color: #EEE;
 	text-align: center;
 	height: 17px;
-	width: calc(100% - 4px);
 	padding: 3px 1px;
 	margin-left: auto;
 	margin-right: auto;
@@ -148,7 +146,7 @@ input[type="submit"]:hover {
 	color: #32DD72;
 }
 input[type="text"]:focus, textarea:focus {
-    border:#888 1px solid;
+    border:#888 1px solid!important;
 }
 p.fileinfo a:hover {
 	text-decoration: underline;
@@ -172,11 +170,10 @@ hr {
 }
 div.boardlist {
 	color: #999;
-    background-color: rgba(12%, 12%, 12%, 0.10);
 }
 
 div.ban {
-	background-color: transparent;
+	background-color: #1e1e1e;
 	border: 1px solid #555;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;

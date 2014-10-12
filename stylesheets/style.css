@@ -1,3 +1,6 @@
+html {
+	width: 100%!important;
+}
 body {
 	background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
 	color: black;
@@ -13,8 +16,74 @@ img[alt="mascot"] {
 	position: relative;
 	z-index: -1;
 }
+
 table * {
 	margin: 0;
+}
+table {
+	margin: 0px auto;
+}
+tr:not(:nth-child(4)) {
+	height: 22px;
+}
+tr *{
+	padding: 0px;
+}
+th {
+	width: 64px;
+	text-align: left;
+	padding: 0px 5px;
+	border: 1px solid #000;
+	color: #000;
+	background-color: #98E;
+}
+textarea{
+	width: 100%;
+	min-width: 308px;
+}
+input:not([type="checkbox"]) {
+	height: 22px;
+}
+textarea, input {
+	box-sizing: border-box;
+	border: 1px solid #AAA;
+	padding: 2px 4px 3px 4px;
+	background-color: white;
+}
+input[name="post"] {
+	width: 72px;
+}
+[name="post"] [type="text"]:not([name="subject"]){
+	width: 100%;
+	min-width: 236px;
+}
+[name="post"] textarea {
+	min-height: 22px;
+}
+[name="post"] [type="text"][name="subject"] {
+	width: calc(100% - 74px);
+	min-width: 162px;
+	
+}
+input#upload_file {
+	width: 180px;
+}
+@media (max-width: 321px) {
+	[name="post"] [type="text"]:not([name="subject"]), [name="post"] textarea {
+		width: 236px;
+		min-width: 236px;
+	}
+	input#upload_file {
+		width: 160px;
+	}
+}
+
+#spoilercontainer {
+	display: inline-block;
+	float: right;
+	position: relative;
+	top: 3px;
+	right: 4px;
 }
 a, a:visited {
 	text-decoration: underline;
@@ -78,97 +147,8 @@ header div.subtitle {
 	margin: 0px calc(50% - 192px);
 	font-size: 8pt;
 }
-form {
-	margin-bottom: 4em;
-}
-form table {
-	margin: auto;
-	max-width: 80%;
-}
-form table input {
-	height: auto;
-}
-form table tbody td {
-	min-width: 312px!important;
-}
-input[type="text"], input[type="password"], input[type="submit"] {
-	height: 25px;
-}
-input[type="text"], input[type="password"], input[type="submit"], textarea {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	-khtml-appearance: none;
-	-o-appearance: none;
-	-ms-appearance: none;
-	/*appearance: none;*/
-	font-family: monospace;
-	font-size: 13px;
-	background-color: white;
-	border: 1px solid #a9a9a9;
-	text-indent: 0;
-	text-shadow: none;
-	text-transform: none;
-	word-spacing: normal;
-	padding: 3px 4px;
-	box-sizing: border-box;
-}
-input:focus, textarea:focus {
-	border-color: #98E;
-	outline: none;
-}
-form table tbody td{
-	overflow: visible;
-}
-form table [type="text"]{
-	width: 100%;
-}
-form table [name="subject"] {
-	width: calc(100% - 90px);
-}
-form table [name="post"] {
-	width: 88px;
-}
-form textarea {
-	min-width: 100%;
-	padding-top: 5px;
-	height: 79px;
-	min-height: 25px;
-}
-form table tr {
-	white-space: nowrap;
-}
-form table tr td {
-	text-align: left;
-	margin: 0;
-	padding: 0;
-}
-form table tr:not(:nth-child(1)) td {
-	max-width: 100%;
-}
-form table.mod tr td {
-	padding: 2px;
-}
-form table tr th {
-	text-align: left;
-	padding: 4px;
-}
-form table tr th {
-	background: #98E;
-	width: 64px;
-}
-form table tr td div.center {
-	text-align: center;
-	float: left;
-	padding-left: 3px;
-}
-form table tr td div input {
-	display: block;
-	margin: 2px 0 0 0;
-	padding: 5px;
-
-}
-form table tr td div label {
-	font-size: 10px;
+[name="post"] * {
+	-moz-appearance: none!important;
 }
 .unimportant, .unimportant * {
 	font-size: 10px;
@@ -193,10 +173,13 @@ div.post p.fileinfo {
 }
 div.banner {
 	background-color: #E04000;
+	border: 1px solid #E04000;
 	font-size: 12pt;
 	font-weight: bold;
 	text-align: center;
-	margin: 0em 0;
+	margin: 0 auto;
+	width: 384px;
+	height: 20px;
 }
 div.banner, div.banner a {
 	color: white;
