@@ -64,8 +64,8 @@ class Api {
 		'fsize' => 1,
 		'omitted_posts' => 1,
 		'omitted_images' => 1,
-        'replies' => 1,
-        'images' => 1,
+		'replies' => 1,
+		'images' => 1,
 		'sticky' => 1,
 		'locked' => 1,
 		'last_modified' => 1
@@ -109,7 +109,7 @@ class Api {
 		if (isset($post->files) && $post->files && !$threadsPage) {
 			$file = $post->files[0];
 			$this->translateFields($this->fileFields, $file, $apiPost);
-            $apiPost['filename'] = substr($file->name, 0, strrpos($file->name, '.'));
+			$apiPost['filename'] = substr($file->name, 0, strrpos($file->name, '.'));
 			$dotPos = strrpos($file->file, '.');
 			$apiPost['ext'] = substr($file->file, $dotPos);
 			$apiPost['tim'] = substr($file->file, 0, $dotPos);
