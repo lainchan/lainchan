@@ -43,10 +43,9 @@ class Api {
 		$this->fileFields = array(
 			'thumbheight' => 'tn_h',
 			'thumbwidth' => 'tn_w',
-			'height' => 'w',
-			'width' => 'h',
+			'height' => 'h',
+			'width' => 'w',
 			'size' => 'fsize',
-			'file' => 'filename',
 		);
 
 		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){
@@ -65,6 +64,8 @@ class Api {
 		'fsize' => 1,
 		'omitted_posts' => 1,
 		'omitted_images' => 1,
+        'replies' => 1,
+        'images' => 1,
 		'sticky' => 1,
 		'locked' => 1,
 		'last_modified' => 1
@@ -108,10 +109,9 @@ class Api {
 		if (isset($post->files) && $post->files && !$threadsPage) {
 			$file = $post->files[0];
 			$this->translateFields($this->fileFields, $file, $apiPost);
+            $apiPost['filename'] = substr($file->name, 0, strrpos($file->name, '.'));
 			$dotPos = strrpos($file->file, '.');
-			$apiPost['filename'] = substr($file->file, 0, $dotPos);
 			$apiPost['ext'] = substr($file->file, $dotPos);
-			$dotPos = strrpos($file->file, '.');
 			$apiPost['tim'] = substr($file->file, 0, $dotPos);
 			$apiPost['md5'] = base64_encode(hex2bin($post->filehash));
 		}
