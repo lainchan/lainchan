@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vichan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-05 18:35+0200\n"
-"PO-Revision-Date: 2014-10-05 16:36+0000\n"
+"POT-Creation-Date: 2014-10-18 13:47+0200\n"
+"PO-Revision-Date: 2014-10-18 11:48+0000\n"
 "Last-Translator: Marcin Łabanowski <marcin@6irc.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/tinyboard-vichan-devel/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgid "Delete"
 msgstr "Slett"
 
 #: ../../../../js/quick-post-controls.js:35
-#: ../../../../js/quick-post-controls.js:37
+#: ../../../../js/quick-post-controls.js:37 ../../../../js/mod/ban-list.js:40
 msgid "Reason"
 msgstr "Grunn"
 
@@ -214,37 +214,37 @@ msgid "disabled"
 msgstr ""
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Sun"
 msgstr "Søn"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Mon"
 msgstr "Man"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Tue"
 msgstr "Tirs"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Wed"
 msgstr "Ons"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Thu"
 msgstr "Tors"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Fri"
 msgstr "Fre"
 
 #: ../../../../js/local-time.js:40 ../../../../js/local-time.js:41
-#: ../../../../js/local-time.js:30
+#: ../../../../js/local-time.js:30 ../../../../templates/main.js:63
 msgid "Sat"
 msgstr "Lør"
 
@@ -320,6 +320,7 @@ msgstr ""
 #: ../../../../templates/themes/ukko/ukko.js:79
 #: ../../../../templates/themes/ukko/ukko.js:80
 #: ../../../../templates/themes/ukko/ukko.js:103
+#: ../../../../js/infinite-scroll.js:48
 msgid "Loading..."
 msgstr "Laster..."
 
@@ -436,139 +437,140 @@ msgstr ""
 msgid "Click on any image on this site to load it into oekaki applet"
 msgstr ""
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Sunday"
 msgstr "Søndag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Monday"
 msgstr "Mandag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Friday"
 msgstr "Fredag"
 
-#: ../../../../js/local-time.js:29
+#: ../../../../js/local-time.js:29 ../../../../templates/main.js:62
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "January"
 msgstr "Januar"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "February"
 msgstr "Februar"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "March"
 msgstr "Mars"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "April"
 msgstr "April"
 
 #: ../../../../js/local-time.js:31 ../../../../js/local-time.js:32
+#: ../../../../templates/main.js:64 ../../../../templates/main.js:65
 msgid "May"
 msgstr "Mai"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "June"
 msgstr "Juni"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "July"
 msgstr "Juli"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "August"
 msgstr "August"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "September"
 msgstr "September"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "October"
 msgstr "Oktober"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "November"
 msgstr "November"
 
-#: ../../../../js/local-time.js:31
+#: ../../../../js/local-time.js:31 ../../../../templates/main.js:64
 msgid "December"
 msgstr "Desember"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Jan"
 msgstr "Jan"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Feb"
 msgstr "Feb"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Mar"
 msgstr "Mar"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Apr"
 msgstr "Apr"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Jun"
 msgstr "Juni"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Jul"
 msgstr "Juli"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Aug"
 msgstr "Aug"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Sep"
 msgstr "Sep"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Oct"
 msgstr "Okt"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Nov"
 msgstr "Nov"
 
-#: ../../../../js/local-time.js:32
+#: ../../../../js/local-time.js:32 ../../../../templates/main.js:65
 msgid "Dec"
 msgstr "Des"
 
-#: ../../../../js/local-time.js:33
+#: ../../../../js/local-time.js:33 ../../../../templates/main.js:66
 msgid "AM"
 msgstr "AM"
 
-#: ../../../../js/local-time.js:34
+#: ../../../../js/local-time.js:34 ../../../../templates/main.js:67
 msgid "PM"
 msgstr "PM"
 
-#: ../../../../js/local-time.js:35
+#: ../../../../js/local-time.js:35 ../../../../templates/main.js:68
 msgid "am"
 msgstr "am"
 
-#: ../../../../js/local-time.js:36
+#: ../../../../js/local-time.js:36 ../../../../templates/main.js:69
 msgid "pm"
 msgstr "pm"
 
@@ -729,4 +731,117 @@ msgstr ""
 
 #: ../../../../js/auto-reload.js:33
 msgid "Update"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:29
+msgid "IP address"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:42
+msgid "Seen"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:44
+msgid "Message for which user was banned is included"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:45
+msgid "Message:"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:53
+msgid "Board"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:55
+msgid "all"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:57
+msgid "Set"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:58
+msgid " ago"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:61
+msgid "Expires"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:62
+msgid "never"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:64
+msgid "in "
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:66
+msgid "Staff"
+msgstr ""
+
+#: ../../../../js/mod/ban-list.js:73
+msgid "system"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:33
+msgid "Auto"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:141
+msgid "Updating..."
+msgstr ""
+
+#: ../../../../js/auto-reload.js:183
+#, python-brace-format
+msgid "Thread updated with {0} new post(s)"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:185
+msgid "No new posts found"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:191
+msgid "Thread deleted or pruned"
+msgstr ""
+
+#: ../../../../js/auto-reload.js:199
+msgid "Error: "
+msgstr ""
+
+#: ../../../../js/auto-reload.js:201
+msgid "Unknown error"
+msgstr ""
+
+#: ../../../../js/infinite-scroll.js:47
+msgid "Page"
+msgstr ""
+
+#: ../../../../js/infinite-scroll.js:82
+msgid "All"
+msgstr ""
+
+#: ../../../../templates/main.js:29 ../../../../templates/main.js:47
+msgid "second(s)"
+msgstr ""
+
+#: ../../../../templates/main.js:31 ../../../../templates/main.js:49
+msgid "minute(s)"
+msgstr ""
+
+#: ../../../../templates/main.js:33 ../../../../templates/main.js:51
+msgid "hour(s)"
+msgstr ""
+
+#: ../../../../templates/main.js:35 ../../../../templates/main.js:53
+msgid "day(s)"
+msgstr ""
+
+#: ../../../../templates/main.js:37 ../../../../templates/main.js:55
+msgid "week(s)"
+msgstr ""
+
+#: ../../../../templates/main.js:39 ../../../../templates/main.js:57
+msgid "year(s)"
 msgstr ""
