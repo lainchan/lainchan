@@ -31,8 +31,6 @@ var update_own = function() {
 
   var id = $(this).attr('id').split('_')[1];
 
-  console.log([board, id, posts]);
-
   if (posts[board] && posts[board].indexOf(id) !== -1) { // Own post!
     $(this).addClass('you');
     $(this).find('span.name').first().append(' '+_('(You)'));
