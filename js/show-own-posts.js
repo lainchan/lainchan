@@ -47,7 +47,7 @@ var update_own = function() {
     else
       return;
 
-    if (posts[board].indexOf(postID) !== -1) {
+    if (posts[board] && posts[board].indexOf(postID) !== -1) {
       $(this).after(' <small>'+_('(You)')+'</small>');
     }
   });
