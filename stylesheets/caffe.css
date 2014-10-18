@@ -382,7 +382,7 @@ font-size: 9pt;
 }
 
 /* options.js */
-#options_div {
+#options_div, #alert_div {
   background: #a47a6b url('img/caffe_reply.png') repeat center;
   border: solid 1px #a47a6b;
   -moz-border-radius: 5px;

@@ -471,7 +471,7 @@ input[type="submit"]:hover
 }
 
 /* options.js */
-#options_div {
+#options_div, #alert_div {
         background: #333333;
 }
 .options_tab_icon {

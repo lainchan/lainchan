@@ -786,7 +786,7 @@ div.thread:hover {
   text-align: center;
 }
 
-#options_handler {
+#options_handler, #alert_handler {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -798,7 +798,7 @@ div.thread:hover {
   z-index: 9900;
 }
 
-#options_background {
+#options_background, #alert_background {
   background: black;
   opacity: 0.5;
   position: absolute;
@@ -811,21 +811,38 @@ div.thread:hover {
   z-index: -1;
 }
 
-#options_div {
+#options_div, #alert_div {
   background-color: #d6daf0;
   border: 1px solid black;
   display: inline-block;
   position: relative;
   margin-top: 20px;
+}
+
+#options_div {
   width: 600px;
   height: 300px;
+}
+
+#alert_div {
+  width: 500px;
+}
+
+#alert_message {
+  text-align: center;
+  margin: 13px;
+  font-size: 110%;
+}
+
+.alert_button {
+  margin-bottom: 13px;
 }
 
 #options_div textarea {
   max-width: 100%;
 }
 
-#options_close {
+#options_close, #alert_close {
   top: 0px;
   right: 0px;
   position: absolute;
@@ -878,7 +895,7 @@ div.thread:hover {
   margin-bottom: 5px;
 }
 
-.mobile-style #options_div {
+.mobile-style #options_div, .mobile-style #alert_div {
   display: block;
   width: 100%;
   height: 100%;

@@ -59,7 +59,7 @@ table.modlog tr th {
 }
 
 /* options.js */
-#options_div {
+#options_div, #alert_div {
 	background: #f0e0d6;
 }
 

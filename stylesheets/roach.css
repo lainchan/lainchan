@@ -256,7 +256,7 @@ border-top: 1px solid #835B36 !important;
 }
 
 /* options.js */ 
-#options_div { 
+#options_div, #alert_div { 
         background: white; 
 }
 

@@ -86,7 +86,7 @@ table.modlog tr th {
 }
 
 /* options.js */
-#options_div {
+#options_div, #alert_div {
   background: rgb(240, 224, 214);
 }
 .options_tab_icon {

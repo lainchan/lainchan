@@ -69,6 +69,29 @@ var datelocale =
         , pm: _('pm')
         };
 
+
+function alert(a) {
+  var handler, div;
+  var close = function() {
+    handler.fadeOut(400, function() { handler.remove(); });
+    return false;
+  };
+
+  handler = $("<div id='alert_handler'></div>").hide().appendTo('body');
+
+  $("<div id='alert_background'></div>").click(close).appendTo(handler);
+
+  div = $("<div id='alert_div'></div>").appendTo(handler);
+  $("<a id='alert_close' href='javascript:void(0)'><i class='fa fa-times'></i></div>")
+  .click(close).appendTo(div);
+
+  $("<div id='alert_message'></div>").html(a).appendTo(div);
+
+  $("<button class='button alert_button'>"+_("OK")+"</button>").click(close).appendTo(div);
+
+  handler.fadeIn(400);
+}
+
 var saved = {};
 
 
