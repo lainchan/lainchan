@@ -107,6 +107,7 @@ $(window).ready(function() {
 							}, 'html');
 						}
 						$(form).find('input[type="submit"]').val(_('Posted...'));
+						$(document).trigger("ajax_after_post", post_response);
 					} else {
 						alert(_('An unknown error occured when posting!'));
 						$(form).find('input[type="submit"]').val(submit_txt);
