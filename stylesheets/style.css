@@ -821,6 +821,10 @@ div.thread:hover {
   height: 300px;
 }
 
+#options_div textarea {
+  max-width: 100%;
+}
+
 #options_close {
   top: 0px;
   right: 0px;
