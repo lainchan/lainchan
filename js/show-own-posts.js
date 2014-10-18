@@ -9,6 +9,7 @@
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/ajax.js';
  *   $config['additional_javascript'][] = 'js/show-own-posts.js';
  *
  */
