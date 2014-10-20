@@ -28,10 +28,10 @@ watchlist.render = function(reset) {
 	JSON.parse(localStorage.watchlist).forEach(function(e, i) {
 		//look at line 69, that's what (e) is here.
 		threads.push('<div class="watchlist-inner" id="watchlist-'+i+'">' +
-		'<span>Board: '+e[0]+'</span>&nbsp' +
-		'<span>Thread: '+'<a href="'+e[3]+'">'+e[1]+'</a></span>&nbsp' +
-		'<span>Replies: '+e[2]+'</span>&nbsp' +
-		'<a class="watchlist-remove">[Unwatch]</a>'+
+		'<span>/'+e[0]+'/ - ' +
+		'<a href="'+e[3]+'">'+e[1].replace("thread_", "Thread #")+'</a>' +
+		' ('+e[2]+') </span>' +
+		'<a class="watchlist-remove">X</a>'+
 	'</div>');
 	});
 	if ($('#watchlist').length) {
