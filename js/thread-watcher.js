@@ -40,6 +40,7 @@ watchlist.render = function(reset) {
 		$('#watchlist').append(threads.join(''));
 	} else {
 		//If the watchlist has not yet been rendered, create it.
+		var menuStyle = getComputedStyle($('.boardlist')[0]);
 		$('form[name="post"]').before(
 			$('<div id="watchlist">'+
 					'<div class="watchlist-controls">'+
@@ -47,10 +48,7 @@ watchlist.render = function(reset) {
 						'<span><a id="clearGhosts">[Clear Ghosts]</a></span>'+
 					'</div>'+
 					threads.join('')+
-				'</div>').css({
-			background: $('.reply').css('background'),
-			borderColor : $('.reply').css('border-color')
-		}));
+				'</div>').css("background-color", menuStyle.backgroundColor).css("border", menuStyle.borderBottomWidth+" "+menuStyle.borderBottomStyle+" "+menuStyle.borderBottomColor));
 	}
 	return this;
 };
