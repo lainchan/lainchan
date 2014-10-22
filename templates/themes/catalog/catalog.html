@@ -16,19 +16,12 @@
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
 
-        <ul style="display: none">
-                <li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
-                <li id="sort-creation-date" class="sort" data-sort="data-time" data-order="asc">{% trans 'Creation date' %}</li>
-                <li id="sort-reply-count" class="sort" data-sort="data-reply" data-order="asc">{% trans 'Reply count' %}</li>
-                <li id="sort-random" class="sort" data-sort="random">{% trans 'Random' %}</li>
-        </ul>
- 
         <span>{% trans 'Sort by' %}: </span>
         <select id="sort_by" style="display: inline-block">
-                <option selected value="bump-order">{% trans 'Bump order' %}</option>
-                <option value="creation-date">{% trans 'Creation date' %}</option>
-                <option value="reply-count">{% trans 'Reply count' %}</option>
-                <option value="random">{% trans 'Random' %}</option>
+                <option selected value="bump:desc">{% trans 'Bump order' %}</option>
+                <option value="time:desc">{% trans 'Creation date' %}</option>
+                <option value="reply:desc">{% trans 'Reply count' %}</option>
+                <option value="random:desc">{% trans 'Random' %}</option>
         </select>
  
         <span>{% trans 'Image size' %}: </span>
@@ -38,12 +31,12 @@
                 <option value="large">{% trans 'Large' %}</option>
         </select>
         <div class="threads">
-                <ul id="Grid">
+                <div id="Grid">
                 {% for post in recent_posts %}
-                        <li class="mix"
+                        <div class="mix"
 				data-reply="{{ post.reply_count }}"
-				data-bump="{{ post.bump }}"
-				data-time="{{ post.time }}"
+				 data-bump="{{ post.bump }}"
+				 data-time="{{ post.time }}"
 			>
                                 <div class="thread grid-li grid-size-small">  
                                         <a href="{{post.link}}">  
@@ -69,9 +62,9 @@
 								{{ post.body }}
                                                 </div>
                                 </div>
-                        </li>
+                        </div>
                 {% endfor %}
-                </ul>
+                </div>
         </div>
 	
 	<hr/>
