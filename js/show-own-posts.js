@@ -33,7 +33,7 @@ var update_own = function() {
 
   if (posts[board] && posts[board].indexOf(id) !== -1) { // Own post!
     $(this).addClass('you');
-    $(this).find('span.name').first().append(' '+_('(You)'));
+    $(this).find('span.name').first().append(' <span class="own_post">'+_('(You)')+'</span>');
   }
 
   // Update references
