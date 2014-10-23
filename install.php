@@ -623,6 +623,13 @@ if ($step == 0) {
 		),
 		array(
 			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.4',
+			'result' => PHP_VERSION_ID >= 50400,
+			'required' => false,
+			'message' => 'vichan works best on PHP 5.4 or better.',
+		),
+		array(
+			'category' => 'PHP',
 			'name' => 'mbstring extension installed',
 			'result' => extension_loaded('mbstring'),
 			'required' => true,
@@ -669,13 +676,6 @@ if ($step == 0) {
 			'result' => function_exists('imagecreatefromgif'),
 			'required' => true,
 			'message' => 'imagecreatefromgif() does not exist. This is a problem.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => 'Imagick extension installed',
-			'result' => extension_loaded('imagick'),
-			'required' => false,
-			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
 		),
 		array(
 			'category' => 'Image processing',
