@@ -546,6 +546,7 @@ if (isset($_POST['delete'])) {
 	
 	
 	if ($post['has_file']) {
+		$fnarray = array();
 		foreach ($post['files'] as $key => &$file) {
 			if (!in_array($file['extension'], $config['allowed_ext']) && !in_array($file['extension'], $config['allowed_ext_files']))
 				error($config['error']['unknownext']);
@@ -560,6 +561,9 @@ if (isset($_POST['delete'])) {
 			} else {
 				$filenames .= (' ' . escapeshellarg($file['tmp_name']));
 			}
+
+			$fnarray[] = $file['tmp_name'];
+
 			$upload = $file['tmp_name'];
 			
 			if (!is_readable($upload))
@@ -576,7 +580,7 @@ if (isset($_POST['delete'])) {
 			$post['filehash'] = md5_file($upload);
 		} else {
 			$str_to_hash = '';
-			foreach (explode(' ', $filenames) as $i => $f) {
+			foreach ($fnarray as $i => $f) {
 				$str_to_hash .= file_get_contents($f);
 			}
 			$post['filehash'] = md5($str_to_hash);
