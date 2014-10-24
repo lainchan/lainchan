@@ -780,6 +780,9 @@
 	// Set this to true if you're using a BSD
 	$config['bsd_md5'] = false;
 
+	// Set this to true if you're having problems with image duplicated error and bsd_md5 doesn't help.
+	$config['php_md5'] = false;
+
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
 	// Number of posts a thread needs before it gets a "View Last X Posts" page.
