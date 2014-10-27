@@ -138,8 +138,8 @@ $(document).ready(function() {
   // don't attach to outbound links
 
   if (App.options.get('useInlining')) {
-    var assign_inline = function() { 
-        $('.body a:not([rel]), .mentioned a')
+    var assign_inline = function() {
+        $('.body a[href*="'+location.pathname+'"]:not([rel]):not(.toolong a), .mentioned a')
           .attr('onclick', null)// XXX disable highlightReply
           .off('click')
           .click(inline)
