@@ -194,6 +194,10 @@ img.banner,img.board_image {
   border: none;
 }
 
+.full-image {
+  max-width: 98%;
+}
+
 div.post .post-image {
   padding: 5px;
   margin: 0 20px 0 0;

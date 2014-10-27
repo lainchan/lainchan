@@ -18,13 +18,23 @@ onready(function(){
 
 		for (var i = 0; i < link.length; i++) {
 			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
-				link[i].childNodes[0].style.maxWidth = '98%';
 				link[i].onclick = function(e) {
+					var img;
+					var loadImage = function(img, thumb) {
+						if (img.naturalWidth) {
+							thumb.style.display = 'none';
+							img.style.display = '';
+						}
+						else {
+							return thumb.parentNode.timeout = setTimeout(loadImage, 30, img, thumb);
+						}
+					};
+
 					if (this.childNodes[0].className == 'hidden')
 						return false;
-					if (e.which == 2 || e.metaKey)
+					if (e.which == 2 || e.ctrlKey) //open in new tab
 						return true;
-					if (!this.dataset.src) {
+					if (!this.dataset.expanded) {
 						this.parentNode.removeAttribute('style');
 						this.dataset.expanded = 'true';
 
@@ -33,29 +43,26 @@ onready(function(){
 							this.childNodes[0].style.display = 'block';
 						}
 
-						this.dataset.src= this.childNodes[0].src;
-						this.dataset.width = this.childNodes[0].style.width;
-						this.dataset.height = this.childNodes[0].style.height;
-						
-
-						this.childNodes[0].src = this.href;
-						this.childNodes[0].style.width = 'auto';
-						this.childNodes[0].style.height = 'auto';
 						this.childNodes[0].style.opacity = '0.4';
 						this.childNodes[0].style.filter = 'alpha(opacity=40)';
-						this.childNodes[0].onload = function() {
-							this.style.opacity = '';
-							delete this.style.filter;
-						}
+
+						img = document.createElement('img');
+						img.className = 'full-image';
+						img.setAttribute('src', this.href);
+						img.setAttribute('alt', 'Fullsized image');
+						img.style.display = 'none';
+						this.appendChild(img);
+
+						this.timeout = loadImage(img, this.childNodes[0]);
 					} else {
+						clearTimeout(this.timeout);
 						if (~this.parentNode.className.indexOf('multifile'))
 							this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
-						this.childNodes[0].src = this.dataset.src;
-						this.childNodes[0].style.width = this.dataset.width;
-						this.childNodes[0].style.height = this.dataset.height;
+
+						this.childNodes[0].style.opacity = '';
+						this.childNodes[0].style.display = '';
+						this.removeChild(this.childNodes[1]);
 						delete this.dataset.expanded;
-						delete this.dataset.src;
-						delete this.childNodes[0].style.opacity;
 						delete this.childNodes[0].style.filter;
 
 						if (localStorage.no_animated_gif === 'true' && typeof unanimate_gif === 'function') {
@@ -63,10 +70,10 @@ onready(function(){
 						}
 					}
 					return false;
-				}
+				};
 			}
 		}
-	}
+	};
 
 	if (window.jQuery) {
 		$('div[id^="thread_"]').each(inline_expand_post);

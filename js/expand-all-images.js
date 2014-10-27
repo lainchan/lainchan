@@ -34,7 +34,7 @@ onready(function(){
 			$('div#shrink-all-images a')
 				.text(_('Shrink all images'))
 				.click(function(){
-					$('a img.post-image').each(function() {
+					$('a img.full-image').each(function() {
 						if ($(this).parent()[0].dataset.expanded)
 							$(this).parent().click();
 					});
