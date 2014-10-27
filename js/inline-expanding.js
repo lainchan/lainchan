@@ -20,6 +20,7 @@ onready(function(){
 			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
 				link[i].onclick = function(e) {
 					var img;
+					var thumb = this.childNodes[0];
 					var loadImage = function(img, thumb) {
 						if (img.naturalWidth) {
 							thumb.style.display = 'none';
@@ -30,7 +31,7 @@ onready(function(){
 						}
 					};
 
-					if (this.childNodes[0].className == 'hidden')
+					if (thumb.className == 'hidden')
 						return false;
 					if (e.which == 2 || e.ctrlKey) //open in new tab
 						return true;
@@ -38,13 +39,13 @@ onready(function(){
 						this.parentNode.removeAttribute('style');
 						this.dataset.expanded = 'true';
 
-						if (this.childNodes[0].tagName === 'CANVAS') {
-							this.removeChild(this.childNodes[0]);
-							this.childNodes[0].style.display = 'block';
+						if (thumb.tagName === 'CANVAS') {
+							this.removeChild(thumb);
+							thumb.style.display = 'block';
 						}
 
-						this.childNodes[0].style.opacity = '0.4';
-						this.childNodes[0].style.filter = 'alpha(opacity=40)';
+						thumb.style.opacity = '0.4';
+						thumb.style.filter = 'alpha(opacity=40)';
 
 						img = document.createElement('img');
 						img.className = 'full-image';
@@ -53,20 +54,20 @@ onready(function(){
 						img.style.display = 'none';
 						this.appendChild(img);
 
-						this.timeout = loadImage(img, this.childNodes[0]);
+						this.timeout = loadImage(img, thumb);
 					} else {
 						clearTimeout(this.timeout);
 						if (~this.parentNode.className.indexOf('multifile'))
 							this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
 
-						this.childNodes[0].style.opacity = '';
-						this.childNodes[0].style.display = '';
-						this.removeChild(this.childNodes[1]);
+						thumb.style.opacity = '';
+						thumb.style.display = '';
+						this.removeChild(thumb.nextSibling);
 						delete this.dataset.expanded;
-						delete this.childNodes[0].style.filter;
+						delete thumb.style.filter;
 
 						if (localStorage.no_animated_gif === 'true' && typeof unanimate_gif === 'function') {
-							unanimate_gif(this.childNodes[0]);
+							unanimate_gif(thumb);
 						}
 					}
 					return false;
