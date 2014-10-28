@@ -7,7 +7,7 @@
  * Copyright (c) 2013-2014 Marcin Łabanowski <marcin@6irc.net>
  *
  * Usage:
- *   // $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/inline-expanding.js';
  *
  */
@@ -19,8 +19,11 @@ onready(function(){
 		for (var i = 0; i < link.length; i++) {
 			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
 				link[i].onclick = function(e) {
-					var img;
+					var img, post_body, still_open;
 					var thumb = this.childNodes[0];
+					var padding = 5;
+					var boardlist = $('.boardlist')[0];
+					
 					var loadImage = function(img, thumb) {
 						if (img.naturalWidth) {
 							thumb.style.display = 'none';
@@ -57,6 +60,25 @@ onready(function(){
 						this.timeout = loadImage(img, thumb);
 					} else {
 						clearTimeout(this.timeout);
+
+						//scroll to thumb if not triggered by 'shrink all image'
+						if (e.target.className == 'full-image') {
+							post_body = $(e.target).parentsUntil('form > div').last();
+							still_open = post_body.find('.post-image').filter(function(){return $(this).parent().attr('data-expanded') == 'true'}).length;
+
+							//deal with differnt boards' menu styles
+							if ($(boardlist).css('position') == 'fixed')
+								padding += boardlist.getBoundingClientRect().height;
+
+							if (still_open > 1) {
+								if (e.target.getBoundingClientRect().top - padding < 0)
+									$('body').scrollTop($(e.target).parent().parent().offset().top - padding);
+							} else {
+								if (post_body[0].getBoundingClientRect().top - padding < 0)
+									$('body').scrollTop(post_body.offset().top - padding);
+							}
+						}
+
 						if (~this.parentNode.className.indexOf('multifile'))
 							this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
 
