@@ -226,7 +226,6 @@ if (active_page == 'thread' || active_page == 'index') {
 		self.save_rules = function(){
 			var newrules = {}, rules = $('.format_rule');
 			for (var index=0;rules[index];index++) {
-				console.log(rules[index]);
 				newrules[$(rules[index]).attr('name')] = {
 					text: $(rules[index]).find('[name="text"]').val(),
 					key: $(rules[index]).find('[name="key"]').val(),
@@ -236,7 +235,6 @@ if (active_page == 'thread' || active_page == 'index') {
 					exclusiveline: $(rules[index]).find('[name="exclusiveline"]').is(':checked')
 				};
 			}
-			console.log(newrules);
 			localStorage.formatText_rules = JSON.stringify(newrules);
 			self.build_toolbars();
 		};
@@ -250,12 +248,19 @@ if (active_page == 'thread' || active_page == 'index') {
 		
 		// Add settings to Options panel general tab
 		if (window.Options && Options.get_tab('general')) {
-			var s1 = '#formatText_enable>input', s2 = '#formatText_toolbar>input', e = 'change';
-			Options.extend_tab('general', '<label id="formatText_enable"><input type="checkbox" checked="checked" id="formatText_enable">' + _('Enable post formatting') + '</label>');
-			Options.extend_tab('general', '<label id="formatText_toolbar"><input type="checkbox" checked="checked" id="formatText_toolbar">' + _('Show formatting toolbar') + '</label>');
+			var s1 = '#formatText_enable>input', s2 = '#formatText_keybinds>input', s3 = '#formatText_toolbar>input', e = 'change';
+			Options.extend_tab('general', '\
+				<fieldset>\
+					<legend>Formatting Options</legend>\
+					<label id="formatText_enable"><input type="checkbox" checked="checked" id="formatText_enable">' + _('Enable post formatting') + '</label>\
+					<label id="formatText_keybinds"><input type="checkbox" checked="checked" id="formatText_keybinds">' + _('Enable formatting keybinds') + '</label>\
+					<label id="formatText_toolbar"><input type="checkbox" checked="checked" id="formatText_toolbar">' + _('Show formatting toolbar') + '</label>\
+				</fieldset>\
+			');
 		} else {
-			var s1 = '#formatText_enable', s2 = '#formatText_toolbar', e = 'click';
+			var s1 = '#formatText_enable', s2 = '#formatText_keybinds', s3 = '#formatText_toolbar', e = 'click';
 			$('hr:first').before('<div id="formatText_enable" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable post formatting') +'</a></div>');
+			$('hr:first').before('<div id="formatText_keybinds" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable formatting keybinds') +'</a></div>');
 			$('hr:first').before('<div id="formatText_toolbar" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Show formatting toolbar') +'</a></div>');
 		}
 		
@@ -270,8 +275,19 @@ if (active_page == 'thread' || active_page == 'index') {
 			}
 		});
 		
-	  // setting for toolbar injection
+	  // setting for enableing formatting keybinds
 		$(s2).on(e, function(e) {
+			if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') {
+				localStorage.formatText_keybinds = 'true';
+				if (window.Options && Options.get_tab('general')) e.target.checked = true;
+			} else {
+				localStorage.formatText_keybinds = 'false';
+				if (window.Options && Options.get_tab('general')) e.target.checked = false;
+			}
+		});
+		
+	  // setting for toolbar injection
+		$(s3).on(e, function(e) {
 			if (!localStorage.formatText_toolbar || localStorage.formatText_toolbar == 'false') {
 				localStorage.formatText_toolbar = 'true';
 				if (window.Options && Options.get_tab('general')) e.target.checked = true;
@@ -287,8 +303,10 @@ if (active_page == 'thread' || active_page == 'index') {
 		if (window.Options && Options.get_tab('general')) {
 			if (localStorage.formatText_enable == 'true') $(s1)[0].checked = true;
 			else $(s1)[0].checked = false;
-			if (localStorage.formatText_toolbar == 'true') $(s2)[0].checked = true;
+			if (localStorage.formatText_keybinds == 'true') $(s2)[0].checked = true;
 			else $(s2)[0].checked = false;
+			if (localStorage.formatText_toolbar == 'true') $(s2)[0].checked = true;
+			else $(s3)[0].checked = false;
 		}
 		
 		// add the tab for customizing the format settings
@@ -308,6 +326,9 @@ if (active_page == 'thread' || active_page == 'index') {
 				}\
 				.format_option:last-child{\
 					margin-right:0;\
+				}\
+				fieldset{\
+					margin-top:5px;\
 				}\
 			</style>\
 			');
@@ -346,6 +367,7 @@ if (active_page == 'thread' || active_page == 'index') {
 	//attach listeners to <body> so it also works on quick-reply box
 	$('body').on('keydown', '#body, #quick-reply #body', function(e) {
 		if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
+		if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') return;
 		var key = String.fromCharCode(e.which).toLowerCase();
 		var rules = JSON.parse(localStorage.formatText_rules);
 		for (var index in rules) {
