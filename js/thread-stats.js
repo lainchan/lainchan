@@ -7,10 +7,7 @@
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/thread-stats.js';
  */
-// THREAD STATS
 if (active_page == 'thread') {
-
-	var thread_stats_timer = 30, thread_stats_timeout; //it has to be on a timer because there I haven't found a way to hook into when the actual page updates the thread...
 	//check if page uses unique ID
     var IDsupport = ($('.poster_id').length > 0);
 	var thread_id = (document.location.pathname + document.location.search).split('/');
@@ -27,7 +24,7 @@ if (active_page == 'thread') {
 	el.prepend('<span id="thread_stats_images">0</span> images |&nbsp;');
 	el.prepend('<span id="thread_stats_posts">0</span> replies |&nbsp;');
 	delete el;
-	function update_thread_stats(force){
+	function update_thread_stats(){
 		var op = $('#thread_'+ thread_id +' > div.post.op:not(.post-hover):not(.inline)').first();
 		var replies = $('#thread_'+ thread_id +' > div.post.reply:not(.post-hover):not(.inline)');
 		// post count
@@ -102,14 +99,11 @@ if (active_page == 'thread') {
 			$('#thread_stats_page').text(page);
 			if (!found) $('#thread_stats_page').css('color','red');
 		});
-		
 	},30000);
 	$(document).ready(function(){
 		$('body').append('<style>.posts_by_id{display:none;}.poster_id:hover+.posts_by_id{display:initial}</style>');
-		update_thread_stats(true);
+		update_thread_stats();
 		$('#update_thread').click(update_thread_stats);
-		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-        var observer = new MutationObserver(function(mutations, observer){update_thread_stats();});
-        observer.observe($('#thread_' + thread_id)[0], {childList: true});
+		$(document).on('new_post',update_thread_stats);
 	});
 }
