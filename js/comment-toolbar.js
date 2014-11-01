@@ -8,379 +8,253 @@
  *   $config['additional_javascript'][] = 'js/comment-toolbar.js';
  */
 if (active_page == 'thread' || active_page == 'index') {
-	var formatText = (function($){
-		"use strict";
-		var self = {};
-		self.rules = {
-			spoiler: {
-				text: 'Spoiler',
-				key: 's',
-				multiline: false, 
-				exclusiveline: false, 
-				prefix:'**',
-				suffix:'**'
+	$(document).ready(function () {
+		'use strict';
+		var formats = {
+			bold: {
+				displayText: 'B',
+				altText: 'bold',
+				styleCSS: 'font-weight: bold;',
+				options: {
+					prefix: "'''",
+					suffix: "'''"
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				},
+				shortcutKey: 'b'
 			},
 			italics: {
-				text: 'Italics',
-				key: 'i',
-				multiline: false, 
-				exclusiveline: false, 
-				prefix: "''",
-				suffix: "''"
+				displayText: 'i',
+				altText: 'italics',
+				styleCSS: 'font-style: italic;',
+				options: {
+					prefix: "''",
+					suffix: "''"
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				},
+				shortcutKey: 'i'
 			},
-			bold: {
-				text: 'Bold',
-				key: 'b',
-				multiline: false, 
-				exclusiveline: false, 
-				prefix: "'''",
-				suffix: "'''"
+			under: {
+				displayText: 'U',
+				altText: 'underline',
+				styleCSS: 'text-decoration: underline;',
+				options: {
+					prefix: '__',
+					suffix: '__'
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				},
+				shortcutKey: 'u'
 			},
-			underline: {
-				text: 'Underline',
-				key: 'u',
-				multiline: false, 
-				exclusiveline: false, 
-				prefix:'__',
-				suffix:'__'
+			spoiler: {
+				displayText: 'spoiler',
+				altText: 'mark as spoiler',
+				styleCSS: '',
+				options: {
+					prefix: '[spoiler]',
+					suffix: '[/spoiler]'
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				},
+				shortcutKey: 's'
 			},
 			code: {
-				text: 'Code',
-				key: 'f',
-				multiline: true, 
-				exclusiveline: false, 
-				prefix: '[code]',
-				suffix: '[/code]'
+				displayText: 'code',
+				altText: "code formatting",
+				styleCSS: 'font-family: "Courier New", Courier, monospace;',
+				options: {
+					prefix: '[code]',
+					suffix: '[/code]',
+					multiline: true
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				},
+				shortcutKey: 'd'
 			},
 			strike: {
-				text: 'Strike',
-				key: 'd',
-				multiline:false, 
-				exclusiveline:false, 
-				prefix:'~~',
-				suffix:'~~'
+				displayText: 'strike',
+				altText: 'strikethrough',
+				styleCSS: 'text-decoration: line-through;',
+				options: {
+					prefix: '~~',
+					suffix: '~~'
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
+				}
 			},
 			heading: {
-				text: 'Heading',
-				key: 'r',
-				multiline:false, 
-				exclusiveline:true, 
-				prefix:'==',
-				suffix:'=='
-			}
-		};
-		
-		self.toolbar_wrap = function(node) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
-			var parent = $(node).parents('form[name="post"]');
-			self.wrap(parent.find('#body')[0],'textarea[name="body"]', parent.find('.format-text > select')[0].value, false);
-		};
-	
-		self.wrap = function(ref, target, option, expandedwrap) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
-			// clean and validate arguments
-			if (ref == null) return;
-			var settings = {multiline: false, exclusiveline: false, prefix:'', suffix: null};
-			$.extend(settings,JSON.parse(localStorage.formatText_rules)[option]);
-			
-			// resolve targets into array of proper node elements
-			// yea, this is overly verbose, oh well.
-			var res = [];
-			if (target instanceof Array) {
-				for (var indexa in target) {
-					if (target.hasOwnProperty(indexa)) {
-						if (typeof target[indexa] == 'string') {
-							var nodes = $(target[indexa]);
-							for (var indexb in nodes) {
-								if (indexa.hasOwnProperty(indexb)) res.push(nodes[indexb]);
-							}
-						} else {
-							res.push(target[indexa]);
-						}
-					}
-				}
-			} else {
-				if (typeof target == 'string') {
-					var nodes = $(target);
-					for (var index in nodes) {
-						if (nodes.hasOwnProperty(index)) res.push(nodes[index]);
-					}
-				} else {
-					res.push(target);
+				displayText: 'heading',
+				altText: 'redtext',
+				styleCSS: 'color: #AF0A0F; font-weight: bold;',
+				options: {
+					prefix: '==',
+					suffix: '==',
+					exclusiveLine: true
+				},
+				edit: function (box, options) {
+					wrapSelection(box, options);
 				}
 			}
-			target = res;
+		};
+
+		var key, name, altText, ele;
+		var strBuilder = [];
+		var subStr = '';
+		var styleRules = '';
+
+		//not exactly mine
+		var wrapSelection = function (box, options) {
+			if (box == null) {
+				return;
+			}
+			var prefix = options.prefix;
+			var suffix = options.suffix;
+			var multiline = options.multiline || false;
+			var exclusiveLine = options.exclusiveLine || false;
+
 			//record scroll top to restore it later.
-			var scrollTop = ref.scrollTop;
+			var scrollTop = box.scrollTop;
+			var selectionStart = box.selectionStart;
+			var selectionEnd = box.selectionEnd;
+			var text = box.value;
+			var beforeSelection = text.substring(0, selectionStart);
+			var selectedText = text.substring(selectionStart, selectionEnd);
+			var afterSelection = text.substring(selectionEnd);
 
-			//We will restore the selection later, so record the current selection
-			var selectionStart = ref.selectionStart;
-			var selectionEnd = ref.selectionEnd;
-
-			var text = ref.value;
-			var before = text.substring(0, selectionStart);
-			var selected = text.substring(selectionStart, selectionEnd);
-			var after = text.substring(selectionEnd);
-			var whiteSpace = [" ","\t"];
 			var breakSpace = ["\r","\n"];
-			var cursor;
-			
-			// handles multiline selections on formatting that doesn't support spanning over multiple lines
-			if (!settings.multiline) selected = selected.replace(/(\r|\n|\r\n)/g,settings.suffix +"$1"+ settings.prefix);
-			
-			// handles formatting that requires it to be on it's own line OR if the user wishes to expand the wrap to the nearest linebreak
-			if (settings.exclusiveline || expandedwrap) {
+			var trailingSpace = "";
+			var cursor = selectedText.length - 1;
+
+			//remove trailing space
+			while (cursor > 0 && selectedText[cursor] === " ") {
+				trailingSpace += " ";
+				cursor--;
+			}
+			selectedText = selectedText.substring(0, cursor + 1);
+
+			if (!multiline)
+				selectedText = selectedText.replace(/(\r|\n|\r\n)/g, suffix +"$1"+ prefix);
+
+			if (exclusiveLine) {
 				// buffer the begining of the selection until a linebreak
-				cursor = before.length -1;
-				while (cursor >= 0 && breakSpace.indexOf(before.charAt(cursor)) == -1) {
+				cursor = beforeSelection.length -1;
+				while (cursor >= 0 && breakSpace.indexOf(beforeSelection.charAt(cursor)) == -1) {
 					cursor--;
 				}
-				selected = before.substring(cursor +1) + selected;
-				before = before.substring(0, cursor +1);
+				selectedText = beforeSelection.substring(cursor +1) + selectedText;
+				beforeSelection = beforeSelection.substring(0, cursor +1);
 				
 				// buffer the end of the selection until a linebreak
 				cursor = 0;
-				while (cursor < after.length && breakSpace.indexOf(after.charAt(cursor)) == -1) {
+				while (cursor < afterSelection.length && breakSpace.indexOf(afterSelection.charAt(cursor)) == -1) {
 					cursor++;
 				}
-				selected += after.substring(0, cursor);
-				after = after.substring(cursor);
+				selectedText += afterSelection.substring(0, cursor);
+				afterSelection = afterSelection.substring(cursor);
 			}
-			
-			// set values
-			var res = before + settings.prefix + selected + settings.suffix + after;
-			$(target).val(res);
-			
-			// restore the selection area and scroll of the reference
-			ref.selectionEnd = before.length + settings.prefix.length + selected.length;
-			if (selectionStart === selectionEnd) {
-				ref.selectionStart = ref.selectionEnd;
-			} else {
-				ref.selectionStart = before.length + settings.prefix.length;
-			}
-			ref.scrollTop = scrollTop;
-		};
-		
-		self.build_toolbars = function(){
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
-			if (localStorage.formatText_toolbar == 'true'){
-				// remove existing toolbars
-				if ($('.format-text').length > 0) $('.format-text').remove();
-				
-				// Place toolbar above each textarea input
-				var name, options = '', rules = JSON.parse(localStorage.formatText_rules);
-				for (var index in rules) {
-					if (!rules.hasOwnProperty(index)) continue;
-					name = rules[index].text;
 
-					//add hint if key exists
-					if (rules[index].key) {
-						name += ' (CTRL + '+ rules[index].key.toUpperCase() +')';
+			box.value = beforeSelection + prefix + selectedText + suffix + trailingSpace + afterSelection;
+
+			box.selectionEnd = beforeSelection.length + prefix.length + selectedText.length;
+			if (selectionStart === selectionEnd) {
+				box.selectionStart = box.selectionEnd;
+			} else {
+				box.selectionStart = beforeSelection.length + prefix.length;
+			}
+			box.scrollTop = scrollTop;
+		};
+
+		/*	Generate the HTML for the toolbar
+		 */
+		for (ele in formats) {
+			if (formats.hasOwnProperty(ele) && formats[ele].displayText != null) {
+				name = formats[ele].displayText;
+				altText = formats[ele].altText || '';
+				key = formats[ele].shortcutKey;
+
+				//add tooltip text
+				if (altText) {
+					if (key) {
+						altText += ' (ctrl+'+ key +')';
 					}
-					options += '<option value="'+ index +'">'+ name +'</option>';
+					altText = 'title="'+ altText +'"';
 				}
-				$('[name="body"]').before('<div class="format-text"><a href="javascript:;" onclick="formatText.toolbar_wrap(this);">Wrap</a><select>'+ options +'</select></div>');
-				$('body').append('<style>#quick-reply .format-text>a{width:15%;display:inline-block;text-align:center;}#quick-reply .format-text>select{width:85%;};</style>');
-			}
-		};
-		
-		self.add_rule = function(rule, index){
-			if (rule === undefined) rule = {
-				text: 'New Rule',
-				key: '',
-				multiline:false, 
-				exclusiveline:false, 
-				prefix:'',
-				suffix:''
-			}
-			
-			// generate an id for the rule
-			if (index === undefined) {
-				var rules = JSON.parse(localStorage.formatText_rules);
-				while (rules[index] || index === undefined) {
-					index = ''
-					index +='abcdefghijklmnopqrstuvwxyz'.substr(Math.floor(Math.random()*26),1);
-					index +='abcdefghijklmnopqrstuvwxyz'.substr(Math.floor(Math.random()*26),1);
-					index +='abcdefghijklmnopqrstuvwxyz'.substr(Math.floor(Math.random()*26),1);
-				}
-			}
-			if (window.Options && Options.get_tab('formatting')){
-				var html = $('<div class="format_rule" name="'+ index +'"></div>').html('\
-				<input type="text" name="text" class="format_option" size="10" value=\"'+ rule.text.replace(/"/g, '&quot;') +'\">\
-				<input type="checkbox" name="multiline" class="format_option" '+ (rule.multiline ? 'checked' : '') +'>\
-				<input type="checkbox" name="exclusiveline" class="format_option" '+ (rule.exclusiveline ? 'checked' : '') +'>\
-				<input type="text" name="prefix" class="format_option" size="8" value=\"'+ (rule.prefix ? rule.prefix.replace(/"/g, '&quot;') : '') +'\">\
-				<input type="text" name="suffix" class="format_option" size="8" value=\"'+ (rule.suffix ? rule.suffix.replace(/"/g, '&quot;') : '') +'\">\
-				<input type="text" name="key" class="format_option" size="2" maxlength="1" value=\"'+ rule.key +'\">\
-				<input type="button" value="X" onclick="if(confirm(\'Do you wish to remove the '+ rule.text +' formatting rule?\'))$(this).parent().remove();">\
-				');
-				
-				if ($('.format_rule').length > 0) {
-					$('.format_rule').last().after(html);
-				} else {
-					Options.extend_tab('formatting', html);
-				}
-			}
-		};
-		
-		self.save_rules = function(){
-			var newrules = {}, rules = $('.format_rule');
-			for (var index=0;rules[index];index++) {
-				newrules[$(rules[index]).attr('name')] = {
-					text: $(rules[index]).find('[name="text"]').val(),
-					key: $(rules[index]).find('[name="key"]').val(),
-					prefix: $(rules[index]).find('[name="prefix"]').val(),
-					suffix: $(rules[index]).find('[name="suffix"]').val(),
-					multiline: $(rules[index]).find('[name="multiline"]').is(':checked'),
-					exclusiveline: $(rules[index]).find('[name="exclusiveline"]').is(':checked')
-				};
-			}
-			localStorage.formatText_rules = JSON.stringify(newrules);
-			self.build_toolbars();
-		};
-		
-		self.reset_rules = function() {
-			localStorage.formatText_rules = JSON.stringify(self.rules);
-		};
-		
-		// store default rules for customizing
-		if (!localStorage.formatText_rules) self.reset_rules();
-		
-		// Add settings to Options panel general tab
-		if (window.Options && Options.get_tab('general')) {
-			var s1 = '#formatText_enable>input', s2 = '#formatText_keybinds>input', s3 = '#formatText_toolbar>input', e = 'change';
-			Options.extend_tab('general', '\
-				<fieldset>\
-					<legend>Formatting Options</legend>\
-					<label id="formatText_enable"><input type="checkbox" checked="checked" id="formatText_enable">' + _('Enable post formatting') + '</label>\
-					<label id="formatText_keybinds"><input type="checkbox" checked="checked" id="formatText_keybinds">' + _('Enable formatting keybinds') + '</label>\
-					<label id="formatText_toolbar"><input type="checkbox" checked="checked" id="formatText_toolbar">' + _('Show formatting toolbar') + '</label>\
-				</fieldset>\
-			');
-		} else {
-			var s1 = '#formatText_enable', s2 = '#formatText_keybinds', s3 = '#formatText_toolbar', e = 'click';
-			$('hr:first').before('<div id="formatText_enable" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable post formatting') +'</a></div>');
-			$('hr:first').before('<div id="formatText_keybinds" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable formatting keybinds') +'</a></div>');
-			$('hr:first').before('<div id="formatText_toolbar" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Show formatting toolbar') +'</a></div>');
-		}
-		
-		// setting for enableing text formatting
-		$(s1).on(e, function(e) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') {
-				localStorage.formatText_enable = 'true';
-				if (window.Options && Options.get_tab('general')) e.target.checked = true;
+
+				subStr = '<a href="javascript:void(0)" '+ altText +' id="tf-'+ ele +'">'+ name +'</a>';
+				strBuilder.push(subStr);
 			} else {
-				localStorage.formatText_enable = 'false';
-				if (window.Options && Options.get_tab('general')) e.target.checked = false;
-			}
-		});
-		
-	  // setting for enableing formatting keybinds
-		$(s2).on(e, function(e) {
-			if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') {
-				localStorage.formatText_keybinds = 'true';
-				if (window.Options && Options.get_tab('general')) e.target.checked = true;
-			} else {
-				localStorage.formatText_keybinds = 'false';
-				if (window.Options && Options.get_tab('general')) e.target.checked = false;
-			}
-		});
-		
-	  // setting for toolbar injection
-		$(s3).on(e, function(e) {
-			if (!localStorage.formatText_toolbar || localStorage.formatText_toolbar == 'false') {
-				localStorage.formatText_toolbar = 'true';
-				if (window.Options && Options.get_tab('general')) e.target.checked = true;
-				formatText.build_toolbars();
-			} else {
-				localStorage.formatText_toolbar = 'false';
-				if (window.Options && Options.get_tab('general')) e.target.checked = false;
-				$('.format-text').remove();
-			}
-		});
-		
-		// make sure the tab settings are switch properly at loadup
-		if (window.Options && Options.get_tab('general')) {
-			if (localStorage.formatText_enable == 'true') $(s1)[0].checked = true;
-			else $(s1)[0].checked = false;
-			if (localStorage.formatText_keybinds == 'true') $(s2)[0].checked = true;
-			else $(s2)[0].checked = false;
-			if (localStorage.formatText_toolbar == 'true') $(s2)[0].checked = true;
-			else $(s3)[0].checked = false;
-		}
-		
-		// add the tab for customizing the format settings
-		if (window.Options && !Options.get_tab('formatting')) {
-			Options.add_tab('formatting', 'angle-right', 'Customize Formatting');
-			Options.extend_tab('formatting', '\
-			<style>\
-				.format_option{\
-					margin-right:5px;\
-					overflow:initial;\
-					font-size:15px;\
-				}\
-				.format_option[type="text"]{\
-					text-align:center;\
-					padding-bottom: 2px;\
-					padding-top: 2px;\
-				}\
-				.format_option:last-child{\
-					margin-right:0;\
-				}\
-				fieldset{\
-					margin-top:5px;\
-				}\
-			</style>\
-			');
-			
-			// Data control row
-			Options.extend_tab('formatting', '\
-			<button onclick="formatText.add_rule();">Add Rule</button>\
-			<button onclick="formatText.save_rules();">Save Rules</button>\
-			<button onclick="formatText.reset_rules();">Reset Rules to Default</button>\
-			');
-			
-			// Descriptor row
-			Options.extend_tab('formatting', '\
-				<span class="format_option" style="margin-left:25px;">Name</span>\
-				<span class="format_option" style="margin-left:45px;" title="Multi-line: Allow formatted area to contain linebreaks.">ML</span>\
-				<span class="format_option" style="margin-left:0px;" title="Exclusive-line: Require formatted area to start after and end before a linebreak.">EL</span>\
-				<span class="format_option" style="margin-left:25px;" title="Text injected at the start of a format area.">Prefix</span>\
-				<span class="format_option" style="margin-left:60px;" title="Text injected at the end of a format area.">Suffix</span>\
-				<span class="format_option" style="margin-left:40px;" title="Optional keybind value to allow keyboard shortcut access.">Key</span>\
-			');
-			
-			// Rule rows
-			var rules = JSON.parse(localStorage.formatText_rules);
-			for (var index in rules){
-				if (!rules.hasOwnProperty(index)) continue;
-				self.add_rule(rules[index], index);
+				continue;
 			}
 		}
-		
-		return self;
-    })(jQuery);
+
+		$( 'textarea[name="body"]' ).before( '<div class="tf-toolbar"></div>' );
+		$( '.tf-toolbar' ).html( strBuilder.join(' | ') );
+
+		/*	Sets the CSS style
+		 */
+		styleRules = '\n/* generated by 8chan Formatting Tools */'+
+					 '\n.tf-toolbar {padding: 0px 5px 1px 5px;}'+
+					 '\n.tf-toolbar :link {text-decoration: none;}';
+			for (ele in formats) {
+				if (formats.hasOwnProperty(ele) && formats[ele].styleCSS) {
+					styleRules += ' \n#tf-' + ele + ' {' + formats[ele].styleCSS + '}';
+				}
+			}
+			//add CSS rule to user's custom CSS if it exist
+			if ($( '.user-css' ).length !== 0) {
+				$( '.user-css' ).append( styleRules );
+			} else {
+				$( 'body' ).append( '<style>'+ styleRules +'\n</style>' );
+			}
+
+		/*  Attach event listeners
+		 */
+		$( 'body' ).on( 'keydown', 'textarea[name="body"]', {formats: formats}, function (e) {
+			//shortcuts
+			if (e.ctrlKey) {
+				var ch = String.fromCharCode(e.which).toLowerCase();
+				var box = e.target;
+				var formats = e.data.formats;
+				for (var ele in formats) {
+					if (formats.hasOwnProperty(ele) && (ch === formats[ele].shortcutKey)) {
+						formats[ele].edit(box, formats[ele].options);
+						e.preventDefault();
+					}
+				}
+			}
+		});
+		$( 'body' ).on( 'keydown', '#quick-reply textarea[name="body"]', {formats: formats}, function (e) {
+			//close quick reply when esc is prssed
+			if (e.which === 27) {
+				$( '.close-btn' ).trigger( 'click' );
+			}
+		});
+		$( 'body' ).on( 'click', '.tf-toolbar a[id]', {formats: formats}, function (e) {
+			//toolbar buttons
+			var formats = e.data.formats;
+			var box = $(e.target).parent().next()[0];
+
+			for (var ele in formats) {
+				if (formats.hasOwnProperty(ele) && (e.target.id === 'tf-' + ele)) {
+					formats[ele].edit(box, formats[ele].options);
+				}
+			}
+		});
+		// $( 'body' ).on( 'keydown', function (e) {
+		// 	if (e.which === 67 &&
+		// 		e.target.nodeName !== 'INPUT' &&         //The C, the whole C, and nothing but the C
+		// 		e.target.nodeName !== 'TEXTAREA' &&
+		// 		!(e.ctrlKey || e.altKey || e.shiftKey)) {
+		// 			document.location.href = '//'+ document.location.host +'/'+ board_name +'/catalog.html';
+		// 		}
+		// });
 	
-	// run initial toolbar injection
-	formatText.build_toolbars();
-	
-	//attach listeners to <body> so it also works on quick-reply box
-	$('body').on('keydown', '#body, #quick-reply #body', function(e) {
-		if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
-		if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') return;
-		var key = String.fromCharCode(e.which).toLowerCase();
-		var rules = JSON.parse(localStorage.formatText_rules);
-		for (var index in rules) {
-			if (!rules.hasOwnProperty(index)) continue;
-			if (key === rules[index].key && e.ctrlKey) {
-				e.preventDefault();
-				if (e.shiftKey) {
-					formatText.wrap(e.target, 'textarea[name="body"]', index, true);
-				} else {
-					formatText.wrap(e.target, 'textarea[name="body"]', index, false);
-				}
-			}
-		}
 	});
-	$(document).trigger('formatText');
 }
