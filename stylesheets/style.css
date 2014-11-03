@@ -8,6 +8,10 @@ body {
   padding-right: 4px;
 }
 
+.hidden {
+  display:none;
+}
+
 a,a:visited {
   text-decoration: underline;
   color: #34345C;
@@ -903,6 +907,10 @@ pre {
 
 .poster_id {
   cursor: pointer;
+}
+
+.poster_id::before {
+  content: " ID: ";
 }
 
 pre {
