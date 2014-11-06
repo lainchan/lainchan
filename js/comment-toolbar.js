@@ -27,7 +27,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				exclusiveline: false, 
 				prefix: "''",
 				suffix: "''"
-			}, 
+			},
 			bold: {
 				text: 'Bold',
 				key: 'b',
@@ -71,13 +71,11 @@ if (active_page == 'thread' || active_page == 'index') {
 		};
 		
 		self.toolbar_wrap = function(node) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
 			var parent = $(node).parents('form[name="post"]');
 			self.wrap(parent.find('#body')[0],'textarea[name="body"]', parent.find('.format-text > select')[0].value, false);
 		};
 	
 		self.wrap = function(ref, target, option, expandedwrap) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
 			// clean and validate arguments
 			if (ref == null) return;
 			var settings = {multiline: false, exclusiveline: false, prefix:'', suffix: null};
@@ -162,7 +160,6 @@ if (active_page == 'thread' || active_page == 'index') {
 		};
 		
 		self.build_toolbars = function(){
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
 			if (localStorage.formatText_toolbar == 'true'){
 				// remove existing toolbars
 				if ($('.format-text').length > 0) $('.format-text').remove();
@@ -256,35 +253,23 @@ if (active_page == 'thread' || active_page == 'index') {
 		
 		// Add settings to Options panel general tab
 		if (window.Options && Options.get_tab('general')) {
-			var s1 = '#formatText_enable>input', s2 = '#formatText_keybinds>input', s3 = '#formatText_toolbar>input', e = 'change';
+			var s1 = '#formatText_keybinds>input', s2 = '#formatText_toolbar>input', e = 'change';
 			Options.extend_tab('general', '\
 				<fieldset>\
 					<legend>Formatting Options</legend>\
-					<label id="formatText_enable"><input type="checkbox" checked="checked" id="formatText_enable">' + _('Enable post formatting') + '</label>\
 					<label id="formatText_keybinds"><input type="checkbox" checked="checked" id="formatText_keybinds">' + _('Enable formatting keybinds') + '</label>\
 					<label id="formatText_toolbar"><input type="checkbox" checked="checked" id="formatText_toolbar">' + _('Show formatting toolbar') + '</label>\
 				</fieldset>\
 			');
 		} else {
-			var s1 = '#formatText_enable', s2 = '#formatText_keybinds', s3 = '#formatText_toolbar', e = 'click';
-			$('hr:first').before('<div id="formatText_enable" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable post formatting') +'</a></div>');
+			var s1 = '#formatText_keybinds', s2 = '#formatText_toolbar', e = 'click';
 			$('hr:first').before('<div id="formatText_keybinds" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Enable formatting keybinds') +'</a></div>');
 			$('hr:first').before('<div id="formatText_toolbar" style="text-align:right"><a class="unimportant" href="javascript:void(0)">'+ _('Show formatting toolbar') +'</a></div>');
 		}
 		
-		// setting for enableing text formatting
-		$(s1).on(e, function(e) {
-			if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') {
-				localStorage.formatText_enable = 'true';
-				if (window.Options && Options.get_tab('general')) e.target.checked = true;
-			} else {
-				localStorage.formatText_enable = 'false';
-				if (window.Options && Options.get_tab('general')) e.target.checked = false;
-			}
-		});
 		
 	  // setting for enableing formatting keybinds
-		$(s2).on(e, function(e) {
+		$(s1).on(e, function(e) {
 			if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') {
 				localStorage.formatText_keybinds = 'true';
 				if (window.Options && Options.get_tab('general')) e.target.checked = true;
@@ -295,7 +280,7 @@ if (active_page == 'thread' || active_page == 'index') {
 		});
 		
 	  // setting for toolbar injection
-		$(s3).on(e, function(e) {
+		$(s2).on(e, function(e) {
 			if (!localStorage.formatText_toolbar || localStorage.formatText_toolbar == 'false') {
 				localStorage.formatText_toolbar = 'true';
 				if (window.Options && Options.get_tab('general')) e.target.checked = true;
@@ -309,12 +294,10 @@ if (active_page == 'thread' || active_page == 'index') {
 		
 		// make sure the tab settings are switch properly at loadup
 		if (window.Options && Options.get_tab('general')) {
-			if (localStorage.formatText_enable == 'true') $(s1)[0].checked = true;
+			if (localStorage.formatText_keybinds == 'true') $(s1)[0].checked = true;
 			else $(s1)[0].checked = false;
-			if (localStorage.formatText_keybinds == 'true') $(s2)[0].checked = true;
-			else $(s2)[0].checked = false;
 			if (localStorage.formatText_toolbar == 'true') $(s2)[0].checked = true;
-			else $(s3)[0].checked = false;
+			else $(s2)[0].checked = false;
 		}
 		
 		// add the tab for customizing the format settings
@@ -375,7 +358,6 @@ if (active_page == 'thread' || active_page == 'index') {
 	
 	//attach listeners to <body> so it also works on quick-reply box
 	$('body').on('keydown', '#body, #quick-reply #body', function(e) {
-		if (!localStorage.formatText_enable || localStorage.formatText_enable == 'false') return;
 		if (!localStorage.formatText_keybinds || localStorage.formatText_keybinds == 'false') return;
 		var key = String.fromCharCode(e.which).toLowerCase();
 		var rules = JSON.parse(localStorage.formatText_rules);
