@@ -142,6 +142,10 @@ watchlist.exists = function(sel) {
 };
 
 $(document).ready(function(){
+	if (!(active_page == 'thread' || active_page == 'index')) {
+		return;
+	}
+
 	//Append the watchlist toggle button.
 	$('.boardlist').append('<span>[ <a id="watchlist-toggle">watchlist</a> ]</span>');
 	//Append a watch thread button after every OP.
