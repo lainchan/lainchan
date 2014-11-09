@@ -141,6 +141,7 @@ $(window).ready(function() {
 	};
 	setup_form($('form[name="post"]'));
 	$(window).on('quick-reply', function() {
+		$('form#quick-reply').off('submit');
 		setup_form($('form#quick-reply'));
 	});
 });
