@@ -32,7 +32,8 @@
 
 	{% include 'attention_bar.html' %}
 
-	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div>
+	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a> <a class="unimportant" href="javascript:window.scrollTo(0,document.body.scrollHeight);
+">[{% trans %}Go to bottom {% endtrans %}]</a></div>
 
 	{{ config.ad.top }}
 
