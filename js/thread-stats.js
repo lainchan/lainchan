@@ -8,8 +8,9 @@
  *   $config['additional_javascript'][] = 'js/thread-stats.js';
  */
 if (active_page == 'thread') {
+$(document).ready(function(){
 	//check if page uses unique ID
-    var IDsupport = ($('.poster_id').length > 0);
+	var IDsupport = ($('.poster_id').length > 0);
 	var thread_id = (document.location.pathname + document.location.search).split('/');
 	thread_id = thread_id[thread_id.length -1].split('+')[0].split('.')[0];
 	
@@ -100,10 +101,9 @@ if (active_page == 'thread') {
 			if (!found) $('#thread_stats_page').css('color','red');
 		});
 	},30000);
-	$(document).ready(function(){
 		$('body').append('<style>.posts_by_id{display:none;}.poster_id:hover+.posts_by_id{display:initial}</style>');
 		update_thread_stats();
 		$('#update_thread').click(update_thread_stats);
 		$(document).on('new_post',update_thread_stats);
-	});
+});
 }
