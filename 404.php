@@ -30,14 +30,14 @@
 			        border-radius: 50px;
 			        padding: 25px;
 			        position: relative;
-			        top: calc(50% - .75em);
-			        display: block;
+			        top: calc(50% - .6em);
+			        display: inline-block;
 			        width: 2em;
 			        margin: 0 auto;
 			        height: 0.9em;
 			        animation: spin 3.2s infinite linear, flash 0.4s infinite linear;
 			        -webkit-animation: spin 3.2s infinite linear, flash 0.4s infinite linear;
-		  box-shadow: 0px 0px 10px black;
+		  		box-shadow: 0px 0px 10px black;
 }
 			@keyframes spin {
 			        0%  {-moz-transform: rotate(0deg);}
@@ -51,6 +51,11 @@
 		   0% {width: 5em;}
 		  100% {width: 2em;}
 		  }
+			#head span
+			{
+				position: relative;
+				bottom: 30%;
+			}
 			
 		       .blink {
 			        animation: blink 0.4s linear infinite;
@@ -87,9 +92,9 @@
 		<script type="text/javascript">
 		        var colors = ["rgb(255, 0, 0)","rgb(255, 0, 255)","rgb(0, 0, 255)","rgb(0, 255, 255)","rgb(0, 255, 0)","rgb(255, 255, 0)"];
 			function seizure(){
-			if (document.title == "404")
-			    document.title = "PARTY HARD NIGGERS";
-			else document.title = "404";
+			if (document.title == "404 | PARTY")
+			    document.title = "404 | HARD";
+			else document.title = "404 | PARTY";
 			var i = colors[Math.floor(Math.random()*colors.length)];
 			while(i == document.getElementById("head").style.color)
 			{
