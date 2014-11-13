@@ -73,8 +73,7 @@ onready(function(){
 						.attr('data-board', board)
 						.addClass('post-hover')
 						.css('border-style', 'solid')
-						.css('box-shadow', '1px 1px 1px #999')
-						.css('display', 'block')
+						.css('display', 'inline-block')
 						.css('position', 'absolute')
 						.css('font-style', 'normal')
 						.css('z-index', '100')
@@ -159,7 +158,7 @@ onready(function(){
 			}
 			
 			
-			$hover.css('left', (e.pageX ? e.pageX : hovered_at['x'])).css('top', top);
+			$hover.css('left', (e.pageX ? e.pageX : hovered_at['x']) + 1).css('top', top);
 		});
 	};
 	
