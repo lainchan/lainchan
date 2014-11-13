@@ -124,7 +124,6 @@
 			$query = query($query) or error(db_error());
 			$stats['unique_posters'] = number_format($query->fetchColumn());
 			
-			// Active content
 			/*$query = 'SELECT SUM(`filesize`) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
