@@ -10,7 +10,9 @@
 	<title>{{ settings.title }}</title>
 </head>
 <body class="theme-catalog">
-	{{ boardlist.top }}
+	<div class="topbar">
+		{{ boardlist.top }}
+	</div>
 	<header>
 		<h1>{{ settings.title }} (<a href="{{link}}">/{{ board }}/</a>)</h1>
 		<div class="subtitle">{{ settings.subtitle }}</div>
