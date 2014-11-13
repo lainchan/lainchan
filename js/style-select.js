@@ -16,6 +16,7 @@
 
 onready(function(){
 	var stylesDiv = $('div.styles');
+	var boardList = $('div.boardlist');
 	var stylesSelect = $('<select></select>');
 	
 	var i = 1;
@@ -36,9 +37,9 @@ onready(function(){
 	
 	stylesDiv.hide();
 	
-	stylesDiv.after(
-		$('<div id="style-select" style="float:right;margin-bottom:10px"></div>')
-			.text(_('Style: '))
+	boardList.after(
+		$('<div id="style-select"></div>')
+			/*.text(_('Style: '))*/
 			.append(stylesSelect)
 	);
 });
