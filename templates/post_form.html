@@ -9,6 +9,9 @@
 {% endif %}
 {% if mod %}<input type="hidden" name="mod" value="1">{% endif %}
 	<table>
+		{% if id %}<tr>
+			<td colspan="2"><div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div></td>
+		</tr>{% endif %}
 		{% if not config.field_disable_name or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Name{% endtrans %}
@@ -52,7 +55,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		<tr>
+		{% if not config.field_disable_comment or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
 				{% trans %}Comment{% endtrans %}
 				{{ antibot.html() }}
@@ -66,7 +69,7 @@
 				{% endif %}
 				{% endif %}
 			</td>
-		</tr>
+		</tr>{% endif %}
 		{% if config.recaptcha %}
 		<tr>
 			<th>
