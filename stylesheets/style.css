@@ -9,6 +9,7 @@ body {
 	margin: 0px;
 	padding-left: 5px;
 	padding-right: 5px;
+	padding-top: 32px;
 }
 img[alt="mascot"] {
 	display: block;
@@ -44,8 +45,9 @@ textarea{
 input:not([type="checkbox"]) {
 	height: 22px;
 }
-textarea, input {
-	box-sizing: border-box;
+textarea, input:not([type="file"]) {
+	-moz-box-sizing: border-box!important;
+	box-sizing: border-box!important;
 	border: 1px solid #AAA;
 	padding: 2px 4px 3px 4px;
 	background-color: white;
@@ -92,6 +94,9 @@ a, a:visited {
 p.intro a.post_no, p.intro a.email, p.intro a.post_anchor {
 	color: #ff0000;
 }
+p.intro > a:nth-child(5) {
+	margin-left: 0.6em;
+}
 a.post_no {
 	text-decoration: none;
 	margin: 0;
@@ -118,6 +123,7 @@ p.intro time, p.intro a.ip-link, p.intro a.capcode {
 }
 .badges {
 	text-align: center;
+	clear: both;
 }
 h2 {
 	color: #AF0A0F;
@@ -166,7 +172,7 @@ header div.subtitle {
 }
 p.fileinfo {
 	display: block;
-	margin: 0 0 0 20px;
+	margin: 0 0 0px 0px;
 }
 div.post p.fileinfo {
 	padding-left: 5px;
@@ -178,8 +184,7 @@ div.banner {
 	font-weight: bold;
 	text-align: center;
 	margin: 0 auto;
-	width: 384px;
-	height: 20px;
+	height: 14px;
 }
 div.banner, div.banner a {
 	color: white;
@@ -193,16 +198,21 @@ img.banner, img.board_image {
 	border: 1px solid #666;
 	margin: 12px auto 0 auto;
 	max-width: 100%!important;
+	clear: both;
 }
 img.post-image {
 	display: block;
 	float: left;
-	margin: 10px;
+	margin: 5px 10px 5.5px 19px;
 	border: none;
 }
 div.post img.post-image {
 	padding: 5px;
-	margin: 5px 20px 0 0;
+	padding-left: 0;
+	margin: 4px 10px 0 0;
+}
+div.post.reply img.post-image {
+	margin-left: 19px;
 }
 div.post img.icon {
 	display: inline;
@@ -227,7 +237,9 @@ p.intro {
 }
 input.delete {
 	float: left;
-	margin: 1px 6px 0 0;
+	margin: 0px 6px 0 0;
+	position: relative;
+	top: 2px;
 }
 p.intro span.subject {
 	color: #0F0C5D;
@@ -241,7 +253,7 @@ p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
 	color: #F00000;
 	margin-left: 0;
 }
-p.intro a {
+p.intro .mentioned a{
 	margin-left: 8px;
 }
 div.delete {
@@ -254,14 +266,28 @@ div.delete :not([type="submit"]):not([type="checkbox"]) {
 div.delete [type="submit"] {
 	margin-left: 2px;
 }
+div.sidearrows {
+	float: left;
+	font-size: 12px;
+	margin-right: 5px;
+	margin-top: 4px;
+}
+div.postcontainer
+{
+	display: inline-block;
+	white-space: nowrap;
+}
 div.post.reply p {
-	margin: 0.3em 0 0 0;
+	margin: 3px 0 0 0;
+}
+div.post.reply p.fileinfo {
+	margin-left: -3.5px;
 }
 div.post.reply div.body {
-	margin-left: 1.8em;
-	margin-top: 0.8em;
+	margin-left:19px;
+	margin-top: 9px;
 	padding-right: 3em;
-	padding-bottom: 0.3em;
+	padding-bottom: 8px;
 }
 pre {
 	overflow: auto;
@@ -273,15 +299,16 @@ div.post.reply div.body a {
 	color: #D00;
 }
 div.post {
-	max-width: 97%;
+	max-width: calc(100% - 48px);
 }
 div.post div.body {
 	word-wrap: break-word;
-	white-space: ppre-wrap;
+	white-space: pre-wrap;
+	margin-left: 19px;
 }
 div.post.reply {
 	background: #D6DAF0;
-	margin: 1.5px 16px;
+	margin: 1.5px 10px 1.5px 0px;
 	padding: 0.2em 0.6em 0.5em 0.6em;
 	border-width: 1px;
 	border-style: none solid solid none;
@@ -297,6 +324,7 @@ span.quote {
 span.omitted {
 	display: block;
 	margin-top: 1em;
+	opacity: 0.7;
 }
 br.clear {
 	clear: left;
@@ -332,6 +360,7 @@ div.ban h2 {
 	background: #98E;
 	color: black;
 	font-size: 12pt;
+	word-wrap: break-word;
 }
 div.ban p {
 	font-size: 12px;
@@ -383,18 +412,41 @@ table.test td img {
 fieldset label {
 	display: block;
 }
-div.pages {
-	color: #89A;
-	background: #D6DAF0;
-	display: inline;
-	padding: 8px;
-	border-right: 1px solid #B7C5D9;
+.topbar {
+	width: 100%;
+	left: 0px;
+	text-align: center; 
+	position: fixed;
+	top: 0px;
+	z-index: 3;
+	display: table;
+	background-color: #D6DAF0;
 	border-bottom: 1px solid #B7C5D9;
 }
-@media screen and (max-width: 800px) {
-	div.pages.top {
-		display: none !important;
-	}
+.topbar > :not(script) {
+	display: table-cell;
+	vertical-align: middle;
+}
+div.pages, div.boardlist {
+	padding: 2px 0px 3px 5px;
+	min-height: 17px!important;
+}
+
+div.pages {
+	color: #89A;
+	background: transparent!important;
+	border-right: 1px solid #B7C5D9;
+	border-bottom: 1px solid #B7C5D9;
+	border-width: 0 0 0 0!important;
+}
+div.pages.top {
+	font-size: 10pt;
+	text-align: left;
+		
+}
+.pages:nth-child(1) {
+	white-space: nowrap;
+	width: 1%;
 }
 div.pages a.selected {
 	color: black;
@@ -412,20 +464,47 @@ div.pages form input {
 	margin: 0 5px;
 	display: inline;
 }
+
+div.boardlist {
+	color: #89A;
+	font-size: 10pt;
+	margin-top: 0px;
+	text-align: center;
+	margin: 0 auto;
+}
+/*@media screen and (max-width: 920px) {
+	.boardlist {
+		clear: both;
+		white-space: normal;
+	}
+}*/
+#style-select {
+	font-size: 10pt;
+	z-index: 2;	
+	margin-top: 5px;
+	text-align: right;
+	white-space: nowrap;
+	width: 1%;
+}
+#style-select select {
+	margin-right: -1px;
+	padding: 3px 4px 3px 4px;
+	margin-bottom: -1px;
+	margin-top: -1px;
+}
 hr {
 	border: none;
 	border-top: 1px solid #B7C5D9;
 	height: 0;
 	clear: left;
 }
-div.boardlist {
-	color: #89A;
-	font-size: 9pt;
-	margin-top: 3px;
-	text-align: center;
-}
+/*#boardfront .boardlist {
+	bottom: 28px;
+	margin-bottom: -28px;
+}*/
 div.boardlist.bottom {
-	margin-top: 20px;
+	margin-top: 0px;
+	clear: right;
 }
 div.boardlist a {
 	text-decoration: none;
@@ -511,6 +590,9 @@ table.mod.config-editor input[type="text"] {
   max-width: 100%;
   text-align: center;
   overflow: hidden;
+}
+.reply-hidden {
+	background-color: red!important;
 }
 #attention_bar_form {
   display: none;
@@ -771,3 +853,18 @@ form.ban-appeal textarea {
 span.sub {
 	white-space: nowrap;
 }
+@media (max-width: 600px) {
+	span.sub:nth-child(4){
+		white-space: normal;
+	}
+	pages.top :nth-child(1) {
+		white-space: normal;
+	}
+}
+#irc-text { mask: url("/irc.svg#mask");
+
+   -webkit-mask-image: url("/irc.svg"); }
+
+
+
+

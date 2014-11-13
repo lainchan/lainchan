@@ -1,6 +1,14 @@
+/*fauux.neocities.org mod of ferus by kalyx
+
+B332E6 = dark purp#d2738a = teal #d2738a = green
+
+rgb(193, 180, 146) = pink
+dark blue = 00080C
+*/
+
 body {
-	background: #050505;
-	color: #00FF00;
+	background: #000000;
+	color: rgb(193, 180, 146);
 	font-family: monospace;
 	font-size: 11px;
 }
@@ -17,97 +25,116 @@ h1 {
 	letter-spacing: 0px;
 }
 div.title, h1 {
-	color: #00FF00;
+	color: rgb(193, 180, 146);
 	font-family: lain, Helvetica, sans-serif;
 }
 header div.subtitle {
-color: #00ff00;
+color: #d2738a;
 text-align: center;
 }
 div.title p {
 	font-size: 13px;
 }
 a:link, a:visited, p.intro a.email span.name {
-	color: #B332E6;
+	color: #d2738a;
 	text-decoration: underline;
 	font-family: monospace;
 }
+pre.prettyprint {
+background: #00080C;
+
+font-size: 12px;
+line-height: 1.5;
+border: 1px solid #d2738a;
+padding: 10px;
+}
 a:link:hover, a:visited:hover {
-	color: #003C00;
+	color: #d2738a;
 	font-family: monospace;;
 	text-decoration: underline overline;
 }
+strong {
+
+color: #d2738a;
+}
 a.post_no {
-	color: #B332E6;
+	color: #d2738a;
 	text-decoration: none;
 }
 span.quote 
 {
-    color:#00ff00;
+    color:#d2738a;
 }
 a.post_no:hover {
 	color: maroon;
 	text-decoration: underline overline;
 }
 div.post.reply {
-	background: #0E0E0E;
-	border: #B332E6 2px solid !important;
+	background: #000000;
+	border: #d2738a 1px solid !important;
+	/*border-radius: 5px;*/
 }
 .de-pview {
 		background: rgba(14, 14, 14, 0.84) !important;
 }
 div.post.reply.highlighted {
 	background: transparent;
-	border: #B332E6 2px solid;
+	border: #d2738a 1px solid;
 }
 div.post.reply div.body a:link, div.post.reply div.body a:visited {
 	color: #646464;
 }
 div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
-	color: #00ff00;
+	color: #d2738a;
 }
 p.intro span.subject {
-	font-size: 12px;
+	font-size: 10px;
 	font-family: monospace;
-	color: #00ff00;
+	color: #d2738a;
 	font-weight: 800;
 }
 p.intro span.name {
-	color: #00ff00;
+	color: #d2738a;
 	font-weight: 900;
 }
 p.intro a.capcode, p.intro a.nametag {
-	color: #00ff00;
+	color: #d2738a;
 	margin-left: 0;
 }
 p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
-	color: #00ff00;
+	color: #d2738a;
 	font-family: monospace;
 }
 input[type="text"], textarea, select {
-	background: #333333;
+	background: #00080C;
 	color: #CCCCCC;
-	border: #B332E6 1px solid;
+	border: #d2738a 1px solid;
 	padding-left: 5px;
 	padding-right: -5px;
 	font-family: monospace;
 	font-size: 10pt;
+		/*border-radius: 5px;*/
 }
 input[type="password"] {
-	background: #333333;
-	color: #8B8B8B;
-	border: #B332E6 1px solid;
+	background: #00080C;
+	color: #CCCCCC;
+	border: #d2738a 1px solid;
+		/*border-radius: 5px;*/
 }
 form table tr th {
-	background: #333333;
-	color: #828282;
+	background: #00080C;
+	color: #d2738a;
+	border: #d2738a 1px solid;
 	font-weight: 800;
 	text-align: left;
 	padding: 0;
+		/*border-radius: 5px;*/
 }
+div.sidearrows{display:none;}
+
 div.banner {
-	background: #00AA00;
-	color: #646464;
+	background: #000000;
+	color: #d2738a;
 	text-align: center;
 	width: 250px;
 	padding: 4px;
@@ -115,17 +142,22 @@ div.banner {
 	padding-right: 12px;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 11px;
+	font-size: 12px;
+
 }
 input[type="submit"] {
-	background: #333333;
-	border: #888888 1px solid;
-	color: #A0A0A0;
+	background: #00080C;
+	color: #d2738a;
+	border: #d2738a 1px solid;
+		/*border-radius: 5px;*/
 }
 input[type="submit"]:hover {
-	background: #555555;
-	border: #888888 1px solid;
-	color: #00FF00;
+	background: #00080C;
+
+	border: #d2738a 1px solid;
+
+	color: rgb(193, 180, 146);
+		/*border-radius: 5px;*/
 }
 p.fileinfo a:hover {
 	text-decoration: underline;
@@ -135,24 +167,24 @@ span.trip {
 }
 .topbar {
 	background-color: black;
-	border-bottom: 1px solid #B332E6;
+	border-bottom: 1px solid #d2738a;
 }
 div.pages {
 	color: #AAAAAA;
 	background: #333333;
-	border: #B332E6 1px solid;
+	border: #d2738a 1px solid;
 	font-family: sans-serif;
-	font-size: 9pt;
+	font-size: 10pt;
 }
 div.pages a.selected {
 	color: #8C8C8C;
 }
 hr {
 	height: 1px;
-	border: #333333 1px solid;
+	border: #d2738a 1px solid;
 }
 div.boardlist {
-	font-size: 9pt;
+	font-size: 10pt;
 	color: #999999;
 }
 div.ban {
@@ -165,6 +197,6 @@ div.ban h2 {
 	font-size: 11px;
 }
 table.modlog tr th {
-	background: #00FF00;
+	background: rgb(193, 180, 146);
 	color: #AAAAAA;
 }

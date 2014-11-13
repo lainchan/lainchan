@@ -1,17 +1,17 @@
 /*cyberpunk mod of ferus by kalyx
 
 B332E6 = dark purp
-33cccc = teal 
-00ff00 = green
+293728 = teal 
+59B451 = green
 FF46D2 = pink
-dark blue = 00080C
+dark blue = 293728
 */
 
 body {
-	background: #0C0001;
-	color: #FF46D2;
-	font-family: monospace;
-	font-size: 11px;
+	background: #0B110A;
+	color: #62C958;
+	font-family: DejaVuSansMono;
+	font-size: 10px;
 	/*text-shadow: 0px 0px 3px #FF46D2;*/
 }
 @font-face 
@@ -19,36 +19,41 @@ body {
   font-family: 'lain';
   src: url('./fonts/nrdyyh.woff') format('woff'),
        url('./fonts/tojcxo.TTF') format('truetype');
+   }
+ @font-face 
+{
+  font-family: 'DejaVuSansMono';
+  src: url('./fonts/DejaVuSansMono.ttf') format('truetype');
 }
 h1 {
-	 font-family: monospace, Arial;
+	 font-family: DejaVuSansMono, Arial;
 	font-size: 18pt;
 	text-align: center;
 	letter-spacing: 0px;
 }
 div.title, h1 {
-	color: #FF46D2;
-	font-family: lain, Helvetica, sans-serif;
+	color: #4CADA7;
+	font-family: lain, DejaVuSansMono, sans-serif;
 }
 header div.subtitle {
-color: #00ff00;
+color: #59B451;
 text-align: center;
-	text-shadow: 0px 0px 3px #00ff00;
+	text-shadow: 0px 0px 3px #59B451;
 }
 div.title p {
 	font-size: 13px;
 }
 a:link, a:visited, p.intro a.email span.name {
-	color: #00ff00;
-text-shadow: 0px 0px 10px #00ff00;
-	font-family: monospace;
+	color: #4CADA7;
+/*text-shadow: 0px 0px 10px #59B451;*/
+	font-family: DejaVuSansMono;
 }
 pre.prettyprint {
-background: #00080C;
+background: #293728;
 
 font-size: 12px;
 line-height: 1.5;
-border: 1px solid #33cccc;
+border: 1px solid #293728;
 padding: 10px;
 }
 
@@ -82,95 +87,95 @@ input[type="submit"]
 
 
 a:link:hover, a:visited:hover {
-	color: #00ff00;
-	font-family: monospace;;
-	text-shadow: 0px 0px 10px #00ff00;
+	color: #59B451;
+	font-family: DejaVuSansMono;
+	text-shadow: 0px 0px 5px #59B451;
 }
 strong {
 
-color: #00ff00;
+color: #4CADA7;
 }
 a.post_no {
-	color: #33cccc;
+	color: #293728;
 	text-decoration: none;
 }
 span.quote 
 {
-    color:#00ff00;
+    color:#59B451;
 }
 a.post_no:hover {
 	color: maroon;
 	/*text-decoration: underline overline;*/
 }
 div.post.reply {
-	background: #0C0001;
-	border: #33cccc 2px solid !important;
-	border-radius: 5px;
+	background: #131C13;
+	border: #293728 1px solid !important;
+	border-radius: 0px;
 }
 .de-pview {
 		background: rgba(14, 14, 14, 0.84) !important;
 }
 div.post.reply.highlighted {
 	background: transparent;
-	border: #33cccc 2px solid;
+	border: #293728 1px solid;
 }
 div.post.reply div.body a:link, div.post.reply div.body a:visited {
 	color: #646464;
 }
 div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
-	color: #00ff00;
+	color: #59B451;
 }
 p.intro span.subject {
 	font-size: 12px;
-	font-family: monospace;
-	color: #00ff00;
+	font-family: DejaVuSansMono;
+	color: #59B451;
 	font-weight: 800;
-		text-shadow: 0px 0px 3px #00ff00;
+		text-shadow: 0px 0px 3px #59B451;
 }
 p.intro span.name {
-	color: #00ff00;
+	color: #59B451;
 	font-weight: 900;
-		text-shadow: 0px 0px 3px #00ff00;
+		text-shadow: 0px 0px 3px #59B451;
 }
 p.intro a.capcode, p.intro a.nametag {
-	color: #00ff00;
+	color: #59B451;
 	margin-left: 0;
 }
 p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
-	color: #00ff00;
-	font-family: monospace;
+	color: #59B451;
+	font-family: DejaVuSansMono;
 }
 input[type="text"], textarea, select {
-	background: #00080C;
+	background: #0B110A;
 	color: #CCCCCC;
-	border: #33cccc 1px solid;
+	border: #293728 1px solid;
 	padding-left: 5px;
 	padding-right: -5px;
-	font-family: monospace;
+	font-family: DejaVuSansMono;
 	font-size: 10pt;
 		border-radius: 5px;
 }
 input[type="password"] {
-	background: #00080C;
+	background: #0B110A;
 	color: #CCCCCC;
-	border: #33cccc 1px solid;
+	border: #293728 1px solid;
 		border-radius: 5px;
 }
 form table tr th {
-	background: #00080C;
-	color: #00ff00;
-	border: #33cccc 1px solid;
-	font-weight: 800;
-	text-align: left;
+	background: #0B110A;
+	color: #59B451;
+	border: #293728 1px solid;
+	font-weight: 600;
+	text-align: center;
 	padding: 0;
-		border-radius: 5px;
-			text-shadow: 0px 0px 3px #00ff00;
+		border-radius: 0px;
+			/*text-shadow: 0px 0px 3px #59B451;*/
 }
 div.sidearrows{display:none;}
 
 div.banner {
-	background: #0C0001;
-	color: #00ff00;
+	background: #0B110A;
+	color: #59B451;
 	text-align: center;
 	width: 250px;
 	padding: 4px;
@@ -179,22 +184,22 @@ div.banner {
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 12px;
-		text-shadow: 0px 0px 3px #00ff00;
+		text-shadow: 0px 0px 3px #59B451;
 
 }
 input[type="submit"] {
-	background: #00080C;
-	color: #00ff00;
-	border: #33cccc 1px solid;
-		border-radius: 5px;
+	background: #0B110A;
+	color: #59B451;
+	border: #293728 1px solid;
+		border-radius: 0px;
 }
 input[type="submit"]:hover {
-	background: #00080C;
+	background: #0B110A;
 
-	border: #33cccc 1px solid;
+	border: #293728 1px solid;
 
 	color: #FF46D2;
-		border-radius: 5px;
+		border-radius: 0px;
 }
 p.fileinfo a:hover {
 	text-decoration: underline;
@@ -203,14 +208,14 @@ span.trip {
 	color: #AAAAAA;
 }
 .topbar {
-	background-color: black;
-	border-bottom: 1px solid #33cccc;
+	background-color: #0B110A;
+	border-bottom: 1px solid #293728;
 }
 div.pages {
 	color: #AAAAAA;
-	background: #333333;
-	border: #33cccc 1px solid;
-	font-family: sans-serif;
+	background: #0B110A;
+	border: #293728 1px solid;
+	font-family: DejaVuSansMono;
 	font-size: 10pt;
 }
 div.pages a.selected {
@@ -218,7 +223,7 @@ div.pages a.selected {
 }
 hr {
 	height: 0px;
-	border: #33cccc 1px solid;
+	border: #293728 1px solid;
 }
 div.boardlist {
 	font-size: 10pt;
@@ -226,16 +231,16 @@ div.boardlist {
 }
 div.ban {
 	background-color: transparent;
-	border: #33cccc 1px solid;
+	border: #293728 1px solid;
 }
 div.ban h2 {
 	background: transparent;
-	color: #00ff00;
+	color: #59B451;
 	font-size: 11px;
-		text-shadow: 0px 0px 3px #00ff00;
+		text-shadow: 0px 0px 3px #59B451;
 }
 table.modlog tr th {
 	background: #FF46D2;
 	color: #AAAAAA;
-		/*text-shadow: 0px 0px 3px #00ff00;*/
+		/*text-shadow: 0px 0px 3px #59B451;*/
 }

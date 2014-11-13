@@ -1,0 +1,96 @@
+/**
+* volafile.css fuck you
+color change by kalyx
+*/
+@import url("/stylesheets/dark.css");
+@font-face 
+{
+  font-family: "DejaVuSansMono";
+  src: url("/stylesheets/fonts/DejaVuSansMono.ttf") format("truetype");
+}
+@font-face 
+{
+  font-family: 'lain';
+  src: url('./fonts/nrdyyh.woff') format('woff'),
+       url('./fonts/tojcxo.TTF') format('truetype');
+}
+body {
+	background: #000000;
+	color: rgb(193, 180, 146);
+	font-family: monospace;
+	font-size: 11px;
+}
+.boardlist
+{
+	text-shadow: none!important;
+}
+header h1, header div.subtitle, form table tr th, form table tr td input
+{
+	color: #F12D67!important;
+}
+header h1
+{
+	font-family: "DejaVuSansMono",sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	
+	font-size: 32px;
+	letter-spacing: 0px;
+	margin-top: calc(-16px / 3 - 6.5px);
+}
+p.intro span.subject {
+color: #32BFAB;
+}
+div.topbar, input[type="text"], select, form table tr th, form table tr td input[type="text"], form table tr td textarea, div.post.reply, [type="submit"], input[type="password"], div.pages
+{
+	background: #303030!important;
+	border-color: #5A5A5A!important;
+	color: #F12D67!important;
+}
+
+div.post.reply.highlighted{
+	background-color: #303030!important;
+}
+form table tr td input[type="text"]:focus, form table tr td textarea:focus
+{
+	border-color: #5A5A5A!important;
+}
+input[type="submit"][name="post"]
+{
+	color: #3A4040!important;
+	background-color: #303030!important;
+	border-color: #5A5A5A!important;
+}
+.blotter
+{
+	color: #303030!important;
+}
+hr {
+	border-color: #5A5A5A;
+}
+a
+{
+	color: #32BFAB!important;
+}
+
+p.intro span.name
+{
+	color: #F12D67;
+}
+span.quote {
+color: #E6E1E9;
+}
+span[style="color:orange;font-weight:bold"]
+{
+	color: #D880FC!important;
+
+}
+a:hover, p.intro a.post_no:hover
+{
+	color: #EDEDED!important;
+	text-shadow: none!important;
+}
+i.fa
+{
+	color: #303030;
+}

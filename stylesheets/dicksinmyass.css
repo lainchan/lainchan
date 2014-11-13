@@ -1,22 +1,45 @@
-body {
-	margin: 0px!important;
+@import url("/stylesheets/dark.css");
+/*body {
+    color: #CCCCCC;
+    background: #1E1E1E;
 }
 
+header div.subtitle, h1 {
+    color: #32DD72;
+}
+
+/*a:link, a:visited, p.intro a.email span.name {
+        color: #CCCCCC;
+        text-decoration: none;
+        font-family: sans-serif;
+	transition: text-shadow 0.15s ease 0s color 0.15s ease 0s;
+}*/
+/*a:link:hover, a:visited:hover {
+	color: #32DD72;
+        font-family: sans-serif;
+        text-decoration: none;
+	text-shadow: 0px 0px 5px #FFF;
+}
+*/ 
 .box-wrap {
         max-width: 670px;
         min-width: 332px;
+        margin: 30px auto;
         overflow: auto;
-        margin: 0px auto;
         padding: 0;
 }
 .box {
-        border: 1px dashed #98E;
+        background: transparent;
+        border: 1px solid #555555;
         width: 330px;
         margin: 8px 0;
         padding: 0;
-		-moz-border-radius: 2px;
-		-webkit-border-radius: 2px;
-		border-radius: 2px;
+	-webkit-border-radius: 2px;
+        -khtml-border-radius: 2px;
+        -moz-border-radius: 2px;
+	-o-border-radius: 2px;
+	-ms-border-radius: 2px;
+        border-radius: 2px;
 }
 .box ul {
         padding: 2px 15px;
@@ -24,40 +47,34 @@ body {
 .box ul li {
         list-style: none;
         margin: 0;
-    	color: #32DD72;
 }
-.left li {
-	text-align: center;
-}
-.left li img {
-	display: block;
-	max-height: 300px;
-	max-width: 300px;
-}
+
 .box.left {
-        color: #999;
-		border: #555 1px solid;
         float: left;
+	text-align: center;
+	margin-right: 6px;
 }
 .box.right {
-        color: #999;
-        border: #555 1px solid;
         float: right;
+}
+
+.box.right:nth-child(3) {
+	float: left;
+	margin: 0;
 }
  
 .box h2 {
         padding: 3px 7px;
+	text-align: left;
         font-size: 12pt;
         border-bottom: #555555 1px solid;
-        background: #333333;
-		color: #32DD72;
+	color: #32DD72;
+	background: #333333;
+}
+.box strong {
+	color: #32DD72;
 }
 .box img {
         float: none;
         margin: 10px auto;
-}
-.box:nth-child(3){
-	margin-top: -2px;
-	position: relative;
-	right: 0px;	
 }

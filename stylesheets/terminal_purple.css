@@ -7,10 +7,10 @@ div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover,
 table.modlog tr th, p.intro span.name, p.intro a.capcode, p.intro a.nametag, 
 div.pages a.selected, p.intro a.email, p.intro a.email span.name, 
 p.intro a.email:hover, p.intro a.email:hover span.name, 
-div.boardlist input[type="text"], textarea, select, input[type="password"], 
+div.boardlist input[type="text"], form table tr td input[type="text"], textarea, select, input[type="password"], 
 form table tr th, input[type="submit"], input[type="submit"]:hover, div.pages
 {
-	color: #8725EC;
+	color: #8725EC!important;
 }
 
 .boardlist, div.blotter, header div.subtitle, h1, span.quote 

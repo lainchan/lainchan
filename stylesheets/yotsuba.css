@@ -27,6 +27,11 @@ p.intro span.subject {
 }
 form table tr th {
 	background: #EA8;
+	color: #800000;
+	border: 1px solid #800000;
+}
+textarea:focus, input:not([type="file"]):not([type="checkbox"]):focus, [type="submit"]:hover {
+	border: 1px solid #EA8;
 }
 div.ban h2 {
 	background: #FCA;
@@ -37,6 +42,10 @@ div.ban {
 }
 div.ban p {
 	color: black;
+}
+.topbar {
+	background-color: #F0E0D6;
+	border-bottom: 1px solid #D9BFB7;
 }
 div.pages {
 	background: #F0E0D6;

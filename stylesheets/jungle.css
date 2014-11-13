@@ -84,6 +84,9 @@ div.ban {
 div.ban p {
 	color: black;
 }
+.topbar {
+	background-image: url('img/jungle_td.png');
+}
 div.pages {
 	padding: 7px 5px;
 	color: #054500;
