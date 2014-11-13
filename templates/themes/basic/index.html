@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+	<link rel="stylesheet" media="screen" href="/stylesheets/style.css"><link rel="stylesheet" type="text/css" id="stylesheet" href="/stylesheets/fauux.css">
 	<meta charset="utf-8">
 	<title>{{ settings.title }}</title>
 	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
@@ -12,14 +13,17 @@
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
 <body>
-	{{ boardlist.top }}
+	<div class="topbar">
+		{{ boardlist.top }}
+	</div>
 	<header>
 		<h1>{{ settings.title }}</h1>
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
-
-        <img src="static/lain_is_cute_datass_small.png" alt="mascot"/>
-	
+<center>
+       
+        <img src="static/lain_is_cute_datass_small_teal.png" alt="mascot"/>
+	</center>
 	<div class="ban">
 		{% if news|count == 0 %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
