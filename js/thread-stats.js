@@ -79,6 +79,7 @@ $(document).ready(function(){
 			}
 			$('#thread_stats_page').text(page);
 			if (!found) $('#thread_stats_page').css('color','red');
+			else $('#thread_stats_page').css('color','');
 		});
 	}
 	// load the current page the thread is on.
@@ -99,6 +100,7 @@ $(document).ready(function(){
 			}
 			$('#thread_stats_page').text(page);
 			if (!found) $('#thread_stats_page').css('color','red');
+			else $('#thread_stats_page').css('color','');
 		});
 	},30000);
 		$('body').append('<style>.posts_by_id{display:none;}.poster_id:hover+.posts_by_id{display:initial}</style>');
