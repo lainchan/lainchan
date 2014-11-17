@@ -115,17 +115,7 @@ $(window).ready(function() {
 					}
 				},
 				error: function(xhr, status, er) {
-					// An error occured
-					do_not_ajax = true;
-					$(form).find('input[type="submit"]').each(function() {
-						var $replacement = $('<input type="hidden">');
-						$replacement.attr('name', $(this).attr('name'));
-						$replacement.val(submit_txt);
-						$(this)
-							.after($replacement)
-							.replaceWith($('<input type="button">').val(submit_txt));
-					});
-					$(form).submit();
+					alert(_('The server returned an error or truncated response -- your post was probably still submitted. If it wasn\'t, 8chan.co might be experiencing issues right now -- please try your post again later.'));
 				},
 				data: formData,
 				cache: false,
