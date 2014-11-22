@@ -13,6 +13,8 @@
  */
 
 function unanimate_gif(e) {
+	if ($(e).closest('.thread').children('.thread-hidden').length > 0) return;
+
 	if (active_page === "catalog")
 		var c = $('<canvas class="thread-image"></canvas>');
 	else
