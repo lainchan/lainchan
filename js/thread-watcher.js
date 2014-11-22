@@ -147,15 +147,16 @@ $(document).ready(function(){
 	}
 
 	//Append the watchlist toggle button.
-	$('.boardlist').append('<span>[ <a id="watchlist-toggle">watchlist</a> ]</span>');
+	$('.boardlist').append('<span>[ <a class="watchlist-toggle" href="#">watchlist</a> ]</span>');
 	//Append a watch thread button after every OP.
-	$('.op>.intro').append('<a class="watchThread">[Watch Thread]</a>');
+	$('.op>.intro').append('<a class="watchThread" href="#">[Watch Thread]</a>');
 
 	//Draw the watchlist, hidden.
 	watchlist.render();
 
 	//Show or hide the watchlist.
-	$('#watchlist-toggle').on('click', function(e) {
+	$('.watchlist-toggle').on('click', function(e) {
+		e.preventDefault();
 		//if ctrl+click, reset the watchlist.
 		if (e.ctrlKey) {
 			watchlist.render(true);
@@ -169,7 +170,8 @@ $(document).ready(function(){
 
 	//Trigger the watchlist add function.
 	//The selector is passed as an argument in case the page is not a thread.
-	$('.watchThread').on('click', function() {
+	$('.watchThread').on('click', function(e) {
+		e.preventDefault();
 		watchlist.add(this).render();
 	});
 
