@@ -65,7 +65,7 @@ $(document).ready(function(){
 			$('#thread_stats_uids').text(size(ids));
 		}
 		$.getJSON('//'+ document.location.host +'/'+ board_name +'/threads.json').success(function(data){
-			var found, page = 'Pruned or Deleted';
+			var found, page = '???';
 			for (var i=0;data[i];i++){
 				var threads = data[i].threads;
 				for (var j=0; threads[j]; j++){
@@ -86,7 +86,7 @@ $(document).ready(function(){
 	// uses ajax call so it gets loaded on a delay (depending on network resources available)
 	var thread_stats_page_timer = setInterval(function(){
 		$.getJSON('//'+ document.location.host +'/'+ board_name +'/threads.json').success(function(data){
-			var found, page = 'Pruned or Deleted';
+			var found, page = '???';
 			for (var i=0;data[i];i++){
 				var threads = data[i].threads;
 				for (var j=0; threads[j]; j++){
