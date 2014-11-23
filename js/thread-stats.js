@@ -50,9 +50,12 @@ $(document).ready(function(){
 				ids[opID] = 0;
 			}
 			ids[opID]++;
+			var cur = op.find('>.intro >.poster_id');
+			cur.find('+.posts_by_id').remove();
+			cur.after('<span class="posts_by_id"> ('+ ids[cur.text()] +')</span>');
 			replies.each(function(){
-				var cur = $(this).find('> .intro > .poster_id');
-				cur.find('+ .posts_by_id').remove();
+				cur = $(this).find('>.intro >.poster_id');
+				cur.find('+.posts_by_id').remove();
 				cur.after('<span class="posts_by_id"> ('+ ids[cur.text()] +')</span>');
 			});
 			var size = function(obj) {
