@@ -825,7 +825,7 @@ div.thread:hover {
 
 #options_div {
   width: 600px;
-  height: 300px;
+  height: 320px;
 }
 
 #alert_div {
@@ -892,6 +892,7 @@ div.thread:hover {
   right: 0px;
   text-align: left;
   font-size: 12px;
+  overflow-y: auto;
 }
 
 .options_tab h2 {
