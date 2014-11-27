@@ -58,7 +58,7 @@ $(function() {
 		} else {
 			treeview_on = false;
 			$('.post.reply').sort(function(a,b) {
-				return parseInt(a.id.replace('reply_', '')) > parseInt(b.id.replace('reply_', ''));
+				return parseInt(a.id.replace('reply_', '')) - parseInt(b.id.replace('reply_', ''));
 			}).each(function () {
 				var post = $(this);
 				var br = post.next();
