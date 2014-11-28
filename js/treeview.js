@@ -31,10 +31,8 @@ $(function() {
 
 if (active_page == 'thread')
 $(function() {
-	var treeview_on = false;
-	var treeview = function() {
-		if (!treeview_on) {
-			treeview_on = true;
+	var treeview = function(enable) {
+		if (enable === true) {
 			$('.post.reply').each(function(){
 				var references = [];
 				$(this).find('.body a').each(function(){
@@ -56,23 +54,22 @@ $(function() {
 				br.detach().insertAfter(post);
 			});
 		} else {
-			treeview_on = false;
 			$('.post.reply').sort(function(a,b) {
 				return parseInt(a.id.replace('reply_', '')) - parseInt(b.id.replace('reply_', ''));
 			}).each(function () {
 				var post = $(this);
 				var br = post.next();
-				post.detach().css('margin-left', '0').appendTo('.thread');
+				post.detach().css('margin-left', '').appendTo('.thread');
 				br.detach().insertAfter(post);
 			});
 		}
 	}
+
+	$('hr:first').before('<div class="unimportant" style="text-align:right"><label for="treeview"><input type="checkbox" id="treeview"> '+_('Tree view')+'</label></div>');
+	$('input#treeview').on('change', function(e) { treeview($(this).is(':checked')); });
+
 	if (localStorage.treeview === 'true') {
-		treeview();
+		treeview(true);
+		$('input#treeview').attr('checked', true);
 	}
-	
-        $('hr:first').before('<div id="treeview" style="text-align:right"><a class="unimportant" href="javascript:void(0)"></a></div>');
-        $('div#treeview a')
-                .text(_('Tree view'))
-                .click(function(e) { treeview(); e.preventDefault(); });
 });
