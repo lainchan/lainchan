@@ -16,16 +16,16 @@ $(function() {
 	if (window.Options && Options.get_tab('general')) {
 		var selector = '#treeview-global>input';
 		Options.extend_tab("general", "<label id='treeview-global'><input type='checkbox' /> "+_('Use tree view by default')+"</label>");
-	}
-	$(selector).on('change', function () {
+		$(selector).on('change', function() {
+			if (localStorage.treeview === 'true') {
+				localStorage.treeview = 'false';
+			} else {
+				localStorage.treeview = 'true';
+			}
+		});
 		if (localStorage.treeview === 'true') {
-			localStorage.treeview = 'false';
-		} else {
-			localStorage.treeview = 'true';
+			$(selector).attr('checked', 'checked');
 		}
-	});
-	if (localStorage.treeview === 'true') {
-		$(selector).attr('checked', 'checked');
 	}
 });
 
