@@ -19,7 +19,7 @@ onready(function(){
 		for (var i = 0; i < link.length; i++) {
 			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
 				link[i].onclick = function(e) {
-					var img, post_body, still_open;
+					var img, post_body, still_open, canvas;
 					var thumb = this.childNodes[0];
 					var padding = 5;
 					var boardlist = $('.boardlist')[0];
@@ -43,8 +43,10 @@ onready(function(){
 						this.dataset.expanded = 'true';
 
 						if (thumb.tagName === 'CANVAS') {
-							this.removeChild(thumb);
-							thumb.style.display = 'block';
+							canvas = thumb;
+							thumb = thumb.nextSibling;
+							this.removeChild(canvas);
+							canvas.style.display = 'block';
 						}
 
 						thumb.style.opacity = '0.4';
