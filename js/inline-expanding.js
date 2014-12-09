@@ -74,10 +74,10 @@ onready(function(){
 
 							if (still_open > 1) {
 								if (e.target.getBoundingClientRect().top - padding < 0)
-									$('body').scrollTop($(e.target).parent().parent().offset().top - padding);
+									$(document).scrollTop($(e.target).parent().parent().offset().top - padding);
 							} else {
 								if (post_body[0].getBoundingClientRect().top - padding < 0)
-									$('body').scrollTop(post_body.offset().top - padding);
+									$(document).scrollTop(post_body.offset().top - padding);
 							}
 						}
 
