@@ -608,7 +608,7 @@ function mod_news($page_no = 1) {
 		
 		rebuildThemes('news');
 		
-		header('Location: ?/news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
+		header('Location: ?/edit_news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 	}
 	
 	$query = prepare("SELECT * FROM ``news`` ORDER BY `id` DESC LIMIT :offset, :limit");
@@ -621,14 +621,14 @@ function mod_news($page_no = 1) {
 		error($config['error']['404']);
 	
 	foreach ($news as &$entry) {
-		$entry['delete_token'] = make_secure_link_token('news/delete/' . $entry['id']);
+		$entry['delete_token'] = make_secure_link_token('edit_news/delete/' . $entry['id']);
 	}
 	
 	$query = prepare("SELECT COUNT(*) FROM ``news``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
-	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count, 'token' => make_secure_link_token('news')));
+	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count, 'token' => make_secure_link_token('edit_news')));
 }
 
 function mod_news_delete($id) {
@@ -643,7 +643,7 @@ function mod_news_delete($id) {
 	
 	modLog('Deleted a news entry');
 	
-	header('Location: ?/news', true, $config['redirect_http']);
+	header('Location: ?/edit_news', true, $config['redirect_http']);
 }
 
 function mod_log($page_no = 1) {
