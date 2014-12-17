@@ -186,10 +186,17 @@ span.trip
 {
 	color: #AAA;
 }
-.topbar
+.bar
 {
-	background: #333;
+	background: #333!important;
+}
+.bar.top
+{
 	border-bottom: 1px solid #666;
+}
+.bar.bottom
+{
+	border-top: 1px solid #666;
 }
 div.pages 
 {
