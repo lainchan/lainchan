@@ -1,9 +1,7 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 <div class="postcontainer" id="pc{{ post.id }}">
-	<div class="sidearrows" id="sa{{ post.id }}">
-		&gt;&gt;
-	</div>
+	<div class="sidearrows">&gt;&gt;</div>
 	<div class="post reply" id="reply_{{ post.id }}">
 	<p class="intro">
 		{% if not index %}<a id="{{ post.id }}" class="post_anchor"></a>{% endif %}
