@@ -16,7 +16,7 @@
 
 onready(function(){
 	var stylesDiv = $('div.styles');
-	var boardList = $('div.boardlist');
+	var pages = $('div.pages');
 	var stylesSelect = $('<select></select>');
 	
 	var i = 1;
@@ -35,9 +35,8 @@ onready(function(){
 		$('#style-select-' + $(this).val()).click();
 	});
 	
-	stylesDiv.hide();
-	
-	boardList.after(
+	stylesDiv.hide()	
+	pages.after(
 		$('<div id="style-select"></div>')
 			/*.text(_('Style: '))*/
 			.append(stylesSelect)
