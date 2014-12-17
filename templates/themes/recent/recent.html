@@ -10,7 +10,7 @@
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
 </head>
 <body>
-	<div class="topbar">
+	<div class="bar top">
 		{{ boardlist.top }}
 	</div>
         <img class="board_image" src="{{ config.url_banner }}"style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};height:{{ config.banner_height }}px;" alt="" />
