@@ -23,6 +23,14 @@ onready(function(){
 		.text(_('Expand all images'))
 		.click(function() {
 			$('a img.post-image').each(function() {
+				// Don't expand YouTube embeds
+				if ($(this).parent().parent().hasClass('video-container'))
+					return;
+
+				// or WEBM
+				if (/^\/player\.php\?/.test($(this).parent().attr('href')))
+					return;
+
 				if (!$(this).parent()[0].dataset.expanded)
 					$(this).parent().click();
 			});
