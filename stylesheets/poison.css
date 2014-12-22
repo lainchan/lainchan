@@ -81,11 +81,6 @@ p.intro span.name
 span.quote {
 color: #E6E1E9;
 }
-span[style="color:orange;font-weight:bold"]
-{
-	color: #D880FC!important;
-
-}
 a:hover, p.intro a.post_no:hover
 {
 	color: #EDEDED!important;
