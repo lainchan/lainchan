@@ -44,9 +44,6 @@
 	{{ body }}
 	{% include 'report_delete.html' %}
 	</form>
-	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-        <a href="#" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
-
 	{{ config.ad.bottom }}
 
 	<footer>
@@ -57,6 +54,13 @@
 		<br><a href="https://int.vichan.net/devel/">vichan</a> Copyright &copy; 2012-2014 vichan-devel</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
+	<div class="bar bottom">
+		<div class="threadlinks">
+			<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>
+        		<span class="threadlink"><a href="#" style="padding-left: 10px"> {% trans %}Go to top{% endtrans %}</a> /</span>
+		</div>
+		<div class=pages></div>
+	</div>
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>

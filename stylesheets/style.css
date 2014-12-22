@@ -417,7 +417,7 @@ box-shadow: 0 0 40px #000000;
 	background-color: #D6DAF0;
 	border-bottom: 1px solid #B7C5D9;
 }
-.bar.top > :not(script) {
+.bar > :not(script) {
 	display: table-cell;
 	vertical-align: middle;
 }
