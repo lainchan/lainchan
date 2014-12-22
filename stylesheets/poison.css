@@ -50,7 +50,7 @@ div.topbar, input[type="text"], select, form table tr th, form table tr td input
 }
 
 div.post.reply.highlighted{
-	background-color: #29202D!important;
+	background-color: #211A24!important;
 }
 form table tr td input[type="text"]:focus, form table tr td textarea:focus
 {
