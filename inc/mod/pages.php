@@ -1473,6 +1473,15 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		error($config['error']['404']);
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
+		// Remove any modifiers they may have put in
+		$_POST['body'] = remove_modifiers($_POST['body']);
+
+		// Add back modifiers in the original post
+		$modifiers = extract_modifiers($post['body_nomarkup']);
+		foreach ($modifiers as $key => $value) {
+			$_POST['body'] .= "<tinyboard $key>$value</tinyboard>";
+		}
+
 		if ($edit_raw_html)
 			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body, `body_nomarkup` = :body_nomarkup WHERE `id` = :id', $board));
 		else
@@ -1501,15 +1510,20 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . link_for($post) . '#' . $postID, true, $config['redirect_http']);
 	} else {
+		// Remove modifiers
+		$post['body_nomarkup'] = remove_modifiers($post['body_nomarkup']);
+				
+		$post['body_nomarkup'] = utf8tohtml($post['body_nomarkup']);
+		$post['body'] = utf8tohtml($post['body']);
 		if ($config['minify_html']) {
-			$post['body_nomarkup'] = str_replace("\n", '&#010;', utf8tohtml($post['body_nomarkup']));
-			$post['body'] = str_replace("\n", '&#010;', utf8tohtml($post['body']));
+			$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+			$post['body'] = str_replace("\n", '&#010;', $post['body']);
 			$post['body_nomarkup'] = str_replace("\r", '', $post['body_nomarkup']);
 			$post['body'] = str_replace("\r", '', $post['body']);
 			$post['body_nomarkup'] = str_replace("\t", '&#09;', $post['body_nomarkup']);
 			$post['body'] = str_replace("\t", '&#09;', $post['body']);
 		}
-				
+
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
 	}
 }
