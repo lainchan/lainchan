@@ -88,6 +88,8 @@
 							$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 						}
 					}
+				} else {
+					$post['file'] = $config['root'] . $config['image_deleted'];
 				}
 
 				if (empty($post['image_count'])) $post['image_count'] = 0;
