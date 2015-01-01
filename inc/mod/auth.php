@@ -146,39 +146,6 @@ function modLog($action, $_board=null) {
 		_syslog(LOG_INFO, '[mod/' . $mod['username'] . ']: ' . $action);
 }
 
-// Validate session
-
-if (isset($_COOKIE[$config['cookies']['mod']])) {
-	// Should be username:hash:salt
-	$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
-	if (count($cookie) != 3) {
-		// Malformed cookies
-		destroyCookies();
-		mod_login();
-		exit;
-	}
-	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM ``mods`` WHERE `username` = :username");
-	$query->bindValue(':username', $cookie[0]);
-	$query->execute() or error(db_error($query));
-	$user = $query->fetch(PDO::FETCH_ASSOC);
-	
-	// validate password hash
-	if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
-		// Malformed cookies
-		destroyCookies();
-		mod_login();
-		exit;
-	}
-	
-	$mod = array(
-		'id' => $user['id'],
-		'type' => $user['type'],
-		'username' => $cookie[0],
-		'boards' => explode(',', $user['boards'])
-	);
-}
-
 function create_pm_header() {
 	global $mod, $config;
 	
@@ -212,4 +179,50 @@ function make_secure_link_token($uri) {
 	return substr(sha1($config['cookies']['salt'] . '-' . $uri . '-' . $mod['id']), 0, 8);
 }
 
+function check_login($prompt = false) {
+	global $config, $mod;
+	// Validate session
+	if (isset($_COOKIE[$config['cookies']['mod']])) {
+		// Should be username:hash:salt
+		$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
+		if (count($cookie) != 3) {
+			// Malformed cookies
+			destroyCookies();
+			if ($prompt) mod_login();
+			exit;
+		}
+		
+		$query = prepare("SELECT `id`, `type`, `boards`, `password` FROM ``mods`` WHERE `username` = :username");
+		$query->bindValue(':username', $cookie[0]);
+		$query->execute() or error(db_error($query));
+		$user = $query->fetch(PDO::FETCH_ASSOC);
+		
+		// validate password hash
+		if ($cookie[1] !== mkhash($cookie[0], $user['password'], $cookie[2])) {
+			// Malformed cookies
+			destroyCookies();
+			if ($prompt) mod_login();
+			exit;
+		}
+		
+		$mod = array(
+			'id' => $user['id'],
+			'type' => $user['type'],
+			'username' => $cookie[0],
+			'boards' => explode(',', $user['boards'])
+		);
+	}
 
+	if ($config['debug'])
+		$parse_start_time = microtime(true);
+
+	// Fix for magic quotes
+	if (get_magic_quotes_gpc()) {
+		function strip_array($var) {
+			return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
+		}
+		
+		$_GET = strip_array($_GET);
+		$_POST = strip_array($_POST);
+	}
+}
