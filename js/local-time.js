@@ -14,6 +14,8 @@
  */
 
 onready(function(){
+	'use strict';
+
 	var iso8601 = function(s) {
 		s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
 		s = s.replace(/-/,"/").replace(/-/,"/");
@@ -36,28 +38,78 @@ onready(function(){
 		return strftime(window.post_date, t, datelocale);
 	};
 
+	function timeDifference(current, previous) {
+
+		var msPerMinute = 60 * 1000;
+		var msPerHour = msPerMinute * 60;
+		var msPerDay = msPerHour * 24;
+		var msPerMonth = msPerDay * 30;
+		var msPerYear = msPerDay * 365;
+
+		var elapsed = current - previous;
+
+		if (elapsed < msPerMinute) {
+			return 'Just now';
+		} else if (elapsed < msPerHour) {
+			return Math.round(elapsed/msPerMinute) + (Math.round(elapsed/msPerMinute)<=1 ? ' minute ago':' minutes ago');
+		} else if (elapsed < msPerDay ) {
+			return Math.round(elapsed/msPerHour ) + (Math.round(elapsed/msPerHour)<=1 ? ' hour ago':' hours ago');
+		} else if (elapsed < msPerMonth) {
+			return Math.round(elapsed/msPerDay) + (Math.round(elapsed/msPerDay)<=1 ? ' day ago':' days ago');
+		} else if (elapsed < msPerYear) {
+			return Math.round(elapsed/msPerMonth) + (Math.round(elapsed/msPerMonth)<=1 ? ' month ago':' months ago');
+		} else {
+			return Math.round(elapsed/msPerYear ) + (Math.round(elapsed/msPerYear)<=1 ? ' year ago':' years ago');
+		}
+	}
+
 	var do_localtime = function(elem) {	
 		var times = elem.getElementsByTagName('time');
-	
+		var currentTime = Date.now();
+
 		for(var i = 0; i < times.length; i++) {
-			if(typeof times[i].getAttribute('data-local') == 'undefined')
-				continue;
-		
-			var t = iso8601(times[i].getAttribute('datetime'));
-		
-		
+			var t = times[i].getAttribute('datetime');
+			var postTime = new Date(t);
+
 			times[i].setAttribute('data-local', 'true');
-			times[i].innerHTML = dateformat(t);
-		};
+
+			if (!localStorage.show_relative_time || localStorage.show_relative_time === 'false') {
+				times[i].innerHTML = dateformat(iso8601(t));
+				times[i].setAttribute('title', timeDifference(currentTime, postTime.getTime()));
+			} else {
+				times[i].innerHTML = timeDifference(currentTime, postTime.getTime());
+				times[i].setAttribute('title', dateformat(iso8601(t)));
+			}
+		
+		}
 	};
 
-	do_localtime(document);
-	
-	if (window.jQuery) {
+	if (window.Options && Options.get_tab('general') && window.jQuery) {
+		var interval_id;
+		Options.extend_tab('general', '<label id="show-relative-time"><input type="checkbox">' + _('Show relative time') + '</label>');
+
+		$('#show-relative-time>input').on('change', function() {
+			if (localStorage.show_relative_time === 'true') {
+				localStorage.show_relative_time = 'false';
+				clearInterval(interval_id);
+			} else {
+				localStorage.show_relative_time = 'true';
+				interval_id = setInterval(do_localtime, 30000, document);
+			}
+			// no need to refresh page
+			do_localtime(document);
+		});
+
+		if (localStorage.show_relative_time === 'true') {
+			$('#show-relative-time>input').attr('checked','checked');
+			interval_id = setInterval(do_localtime, 30000, document);
+		}
+
 		// allow to work with auto-reload.js, etc.
 		$(document).on('new_post', function(e, post) {
 			do_localtime(post);
 		});
 	}
-});
 
+	do_localtime(document);
+});
