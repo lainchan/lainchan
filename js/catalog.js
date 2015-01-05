@@ -7,6 +7,16 @@ if (active_page == 'catalog') $(function(){
 		localStorage.catalog = JSON.stringify(catalog);
 	}
 
+	if (localStorage.hiddenthreads) {
+		var hidden_data = JSON.parse(localStorage.hiddenthreads);
+
+		if (hidden_data[board_name]) {
+			$.each(hidden_data[board_name], function(k, v) {
+				$('a[href*="'+k+'"]').parents('.mix').remove();
+			});
+		}
+	}
+
 	$("#sort_by").change(function(){
 		var value = this.value;
 		$('#Grid').mixItUp('sort', value);
