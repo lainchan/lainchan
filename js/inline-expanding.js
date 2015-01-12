@@ -13,30 +13,104 @@
  */
 
 onready(function(){
+	'use strict';
+
+	var DEFAULT_MAX = 5;  // default maximum image loads
 	var inline_expand_post = function() {
 		var link = this.getElementsByTagName('a');
 
+		var loadingQueue = (function () {
+			var MAX_IMAGES = localStorage.inline_expand_max || DEFAULT_MAX;   // maximum number of images to load concurrently, 0 to disable
+			var loading = 0;                                                  // number of images that is currently loading
+			var waiting = [];                                                 // waiting queue
+
+			var enqueue = function (ele) {
+				waiting.push(ele);
+			};
+			var dequeue = function () {
+				return waiting.shift();
+			};
+			var update = function() {
+				var ele;
+				while (loading < MAX_IMAGES || MAX_IMAGES === 0) {
+					ele = dequeue();
+					if (ele) {
+						++loading;
+						ele.deferred.resolve();
+					} else {
+						return;
+					}
+				}
+			};
+			return {
+				remove: function (ele) {
+					var i = waiting.indexOf(ele);
+					if (i > -1) {
+						waiting.splice(i, 1);
+					}
+					if (ele.dataset.imageLoading === 'true') {
+						ele.dataset.imageLoading = 'false';
+						clearTimeout(ele.timeout);
+						--loading;
+					}
+				},
+				add: function (ele) {
+					ele.deferred = $.Deferred();
+					ele.deferred.done(function () {
+						var $loadstart = $.Deferred();
+						var thumb = ele.childNodes[0];
+						var img = ele.childNodes[1];
+
+						var onLoadStart = function (img) {
+							if (img.naturalWidth) {
+								$loadstart.resolve(img, thumb);
+							} else {
+								return (ele.timeout = setTimeout(onLoadStart, 30, img));
+							}
+						};
+
+						$(img).one('load', function () {
+							$.when($loadstart).done(function () {
+								//  once fully loaded, update the waiting queue
+								--loading;
+								ele.dataset.imageLoading = 'false';
+								update();
+							});
+						});
+						$loadstart.done(function (img, thumb) {
+							thumb.style.display = 'none';
+							img.style.display = '';
+						});
+
+						img.setAttribute('src', ele.href);
+						ele.dataset.imageLoading = 'true';
+						ele.timeout = onLoadStart(img);
+					});
+
+					if (loading < MAX_IMAGES || MAX_IMAGES === 0) {
+						++loading;
+						ele.deferred.resolve();
+					} else {
+						enqueue(ele);
+					}
+
+				}
+			};
+		})();
+
 		for (var i = 0; i < link.length; i++) {
-			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' && link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
+			if (typeof link[i] == "object" && link[i].childNodes && typeof link[i].childNodes[0] !== 'undefined' &&
+					link[i].childNodes[0].src && link[i].childNodes[0].className.match(/post-image/) && !link[i].className.match(/file/)) {
 				link[i].onclick = function(e) {
-					var img, post_body, still_open, canvas;
+					var img, post_body, still_open, canvas, scroll;
 					var thumb = this.childNodes[0];
 					var padding = 5;
 					var boardlist = $('.boardlist')[0];
 					
-					var loadImage = function(img, thumb) {
-						if (img.naturalWidth) {
-							thumb.style.display = 'none';
-							img.style.display = '';
-						}
-						else {
-							return thumb.parentNode.timeout = setTimeout(loadImage, 30, img, thumb);
-						}
-					};
 
 					if (thumb.className == 'hidden')
 						return false;
-					if (e.which == 2 || e.ctrlKey) //open in new tab
+					if (e.which == 2 || e.ctrlKey) //  open in new tab
 						return true;
 					if (!this.dataset.expanded) {
 						this.parentNode.removeAttribute('style');
@@ -54,31 +128,19 @@ onready(function(){
 
 						img = document.createElement('img');
 						img.className = 'full-image';
-						img.setAttribute('src', this.href);
-						img.setAttribute('alt', 'Fullsized image');
 						img.style.display = 'none';
+						img.setAttribute('alt', 'Fullsized image');
 						this.appendChild(img);
 
-						this.timeout = loadImage(img, thumb);
+						loadingQueue.add(this);
 					} else {
-						clearTimeout(this.timeout);
+						loadingQueue.remove(this);
 
-						//scroll to thumb if not triggered by 'shrink all image'
+						scroll = false;
+
+						//  scroll to thumb if not triggered by 'shrink all image'
 						if (e.target.className == 'full-image') {
-							post_body = $(e.target).parentsUntil('form > div').last();
-							still_open = post_body.find('.post-image').filter(function(){return $(this).parent().attr('data-expanded') == 'true'}).length;
-
-							//deal with differnt boards' menu styles
-							if ($(boardlist).css('position') == 'fixed')
-								padding += boardlist.getBoundingClientRect().height;
-
-							if (still_open > 1) {
-								if (e.target.getBoundingClientRect().top - padding < 0)
-									$(document).scrollTop($(e.target).parent().parent().offset().top - padding);
-							} else {
-								if (post_body[0].getBoundingClientRect().top - padding < 0)
-									$(document).scrollTop(post_body.offset().top - padding);
-							}
+							scroll = true;
 						}
 
 						if (~this.parentNode.className.indexOf('multifile'))
@@ -86,9 +148,31 @@ onready(function(){
 
 						thumb.style.opacity = '';
 						thumb.style.display = '';
-						this.removeChild(thumb.nextSibling);
+						if (thumb.nextSibling) this.removeChild(thumb.nextSibling);  //full image loaded or loading
 						delete this.dataset.expanded;
 						delete thumb.style.filter;
+
+						//  do the scrolling after page reflow
+						if (scroll) {
+							post_body = $(thumb).parentsUntil('form > div').last();
+
+							//  on multifile posts, determin how many other images are still expanded
+							still_open = post_body.find('.post-image').filter(function(){
+								return $(this).parent().attr('data-expanded') == 'true';
+							}).length;
+
+							//  deal with differnt boards' menu styles
+							if ($(boardlist).css('position') == 'fixed')
+								padding += boardlist.getBoundingClientRect().height;
+
+							if (still_open > 0) {
+								if (thumb.getBoundingClientRect().top - padding < 0)
+									$(document).scrollTop($(thumb).parent().parent().offset().top - padding);
+							} else {
+								if (post_body[0].getBoundingClientRect().top - padding < 0)
+									$(document).scrollTop(post_body.offset().top - padding);
+							}
+						}
 
 						if (localStorage.no_animated_gif === 'true' && typeof unanimate_gif === 'function') {
 							unanimate_gif(thumb);
@@ -99,6 +183,22 @@ onready(function(){
 			}
 		}
 	};
+
+	//  setting up user option
+	if (window.Options && Options.get_tab('general')) {
+		Options.extend_tab('general', '<span id="inline-expand-max">'+ _('Number of simultaneous image downloads (0 to disable): ') + 
+										'<input type="number" step="1" min="0" size="4"></span>');
+		$('#inline-expand-max input')
+			.css('width', '50px')
+			.val(localStorage.inline_expand_max || DEFAULT_MAX)
+			.on('change', function (e) {
+				// validation in case some fucktard tries to enter a negative floating point number
+				var n = parseInt(e.target.value);
+				var val = (n<0) ? 0 : n;
+
+				localStorage.inline_expand_max = val;
+			});
+	}
 
 	if (window.jQuery) {
 		$('div[id^="thread_"]').each(inline_expand_post);
