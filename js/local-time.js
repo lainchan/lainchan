@@ -13,7 +13,7 @@
  *
  */
 
-onready(function(){
+$(document).ready(function(){
 	'use strict';
 
 	var iso8601 = function(s) {

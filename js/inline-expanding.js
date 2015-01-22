@@ -12,7 +12,7 @@
  *
  */
 
-onready(function(){
+$(document).ready(function(){
 	'use strict';
 
 	var DEFAULT_MAX = 5;  // default maximum image loads
