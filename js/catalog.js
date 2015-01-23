@@ -10,9 +10,9 @@ if (active_page == 'catalog') $(function(){
 	if (localStorage.hiddenthreads) {
 		var hidden_data = JSON.parse(localStorage.hiddenthreads);
 
-		if (hidden_data[board_name]) {
+		if (hidden_data[board_name] && !$.isEmptyObject(hidden_data[board_name])) {
 			$.each(hidden_data[board_name], function(k, v) {
-				$('a[href*="'+k+'"]').parents('.mix').remove();
+				$('a[href$="/'+k+'.html"]').parents('.mix').remove();
 			});
 		}
 	}
