@@ -12,6 +12,14 @@ body {
 	font-family: monospace;
 	font-size: 11px;
 }
+.bar
+{
+	background-color: #000;
+	border-color: #D2738A!important;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
 @font-face 
 {
   font-family: 'lain';

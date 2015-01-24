@@ -189,6 +189,10 @@ span.trip
 .bar
 {
 	background: #333!important;
+	-moz-box-shadow: 0 0 40px #000;
+	-webkit-box-shadow: 0 0 40px #000;
+	box-shadow: 0 0 40px #000;
+	
 }
 .bar.top
 {

@@ -5,7 +5,13 @@
 body {
 	background: #D2FFEE url('img/fade-miku.png') top repeat-x;
 }
-
+.bar {
+	-moz-box-shadow: 0 0 40px #95d9e1;
+	-webkit-box-shadow: 0 0 40px #95d9e1;
+	box-shadow: 0 0 40px #95d9e1;
+	background: #B6DDDE;
+	border-color: #8FCCCD;
+}
 a:link, a:visited {
 	text-decoration: none;
 	color: #00637B;

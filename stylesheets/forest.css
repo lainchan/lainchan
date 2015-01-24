@@ -25,6 +25,13 @@ body {
   font-family: 'DejaVuSansMono';
   src: url('./fonts/DejaVuSansMono.ttf') format('truetype');
 }
+.bar {
+	-moz-box-shadow: 0 0 40px #293728;
+	-webkit-box-shadow: 0 0 40px #293728;
+	box-shadow: 0 0 40px #293728;
+	background-color: #131C13;
+	border-color: #293728!important;
+}
 h1 {
 	 font-family: DejaVuSansMono, Arial;
 	font-size: 18pt;

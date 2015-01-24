@@ -12,6 +12,14 @@ body
 	background: #395168;
 	color: #E0E0E0;
 }
+.bar
+{
+	-moz-box-shadow: 0 0 40px #435D78;	
+	-webkit-box-shadow: 0 0 40px #435D78;
+	box-shadow: 0 0 40px #435D78;
+	background-color: #435D78!important;
+	border-color: #486582!important;
+}
 .boardlist
 {
 	text-shadow: none!important;

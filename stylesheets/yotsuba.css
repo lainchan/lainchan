@@ -43,9 +43,12 @@ div.ban {
 div.ban p {
 	color: black;
 }
-.topbar {
+.bar {
 	background-color: #F0E0D6;
-	border-bottom: 1px solid #D9BFB7;
+	border-color: #D9BFB7!important;
+	-moz-box-shadow: 0 0 40px #fed6af;
+	-webkit-box-shadow: 0 0 40px #fed6af;
+	box-shadow: 0 0 40px #fed6af;
 }
 div.pages {
 	background: #F0E0D6;

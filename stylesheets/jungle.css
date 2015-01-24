@@ -10,6 +10,14 @@ background-attachment: 	 scroll, scroll;
 	font-family: serif;
 	font-size: 16px;
 }
+.bar
+{
+	border-color: #E5D959!important;
+	background-image: url('img/jungle_td.png');
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
 div.title h1 {
 	font-size: 24px;
 }

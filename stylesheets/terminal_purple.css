@@ -47,3 +47,19 @@ div.post.reply, div.post.reply.highlighted
   border-bottom: #8725EC 1px dashed;
 }
 
+.bar
+{
+	border-color: #8725EC !important;
+	background-color: black;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.bar.top 
+{
+	border-bottom-style: dotted;
+}
+.bar.bottom
+{
+	border-top-style: dotted;
+}

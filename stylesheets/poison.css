@@ -21,6 +21,11 @@ body
 	color: #D794F2;
 	font-size: 12px;
 }
+.bar
+{
+	background-color: #29202D!important;
+	border-color: #29202D!important;
+}
 .boardlist
 {
 	text-shadow: none!important;
