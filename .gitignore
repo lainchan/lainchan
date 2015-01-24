@@ -6,6 +6,7 @@
 /*/thumb
 /*/config.php
 /*.html
+/*.xml
 
 # include some files though
 !/templates/*.html
@@ -42,3 +43,5 @@ Thumbs.db
 #vichan custom
 favicon.ico
 /static/spoiler.png
+
+piwik/
