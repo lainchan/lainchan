@@ -37,6 +37,7 @@ Thumbs.db
 *.rej
 *.orig
 *~
+~*/
 
 #vichan custom
 favicon.ico
