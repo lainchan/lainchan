@@ -1,5 +1,4 @@
 if (active_page == 'catalog') $(function(){
-
 	if (localStorage.catalog !== undefined) {
 		var catalog = JSON.parse(localStorage.catalog);
 	} else {
@@ -15,7 +14,17 @@ if (active_page == 'catalog') $(function(){
 				$('a[href$="/'+k+'.html"]').parents('.mix').remove();
 			});
 		}
+	} else {
+		hidden_data = {};
 	}
+
+	$(document).on('click', '.mix', function(e) {
+		if (e.shiftKey) {
+			hidden_data[board_name][$(this).data('id')] = Math.round(Date.now() / 1000);
+			$(this).remove();
+			localStorage.hiddenthreads = JSON.stringify(hidden_data);
+		}
+	});
 
 	$("#sort_by").change(function(){
 		var value = this.value;
@@ -46,5 +55,4 @@ if (active_page == 'catalog') $(function(){
 	if (catalog.image_size !== undefined) {
 		$('#image_size').val(catalog.image_size).trigger('change');
 	}
-
 });
