@@ -720,3 +720,7 @@ form.ban-appeal textarea {
 span.sub {
 	white-space: nowrap!important;
 }
+
+footer {
+	clear: both;
+}
