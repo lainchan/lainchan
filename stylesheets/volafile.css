@@ -86,7 +86,7 @@ a:hover, p.intro a.post_no:hover
 	color: #EDEDED!important;
 	text-shadow: none!important;
 }
-i.fa
+:not(a) > i.fa
 {
 	color: #DCA1F5;
 }
