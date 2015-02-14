@@ -1,7 +1,7 @@
 <?php
 $theme = array(
-    'name'        => 'Rules',
-    'description' => 'Display the lainchan rules',
+    'name'        => 'IRC',
+    'description' => 'Display a link to the lainchan irc',
     'version'     => 'v1',
 
     'config' => array(
@@ -17,7 +17,7 @@ $theme = array(
         array('title'   => 'File',
               'name'    => 'file',
               'type'    => 'text',
-              'default' => 'rules.html')),
+              'default' => 'irc.html')),
 
-    'build_function'   => 'rules_build');
+    'build_function'   => 'irc_build');
 ?>

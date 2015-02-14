@@ -1,0 +1,58 @@
+{% filter remove_whitespace %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{{ settings.title }}</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div class="bar top">
+      {{ boardlist.top }}
+	</div>
+
+	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
+    <header>
+      <h1>{{ settings.title }}</h1>
+      <div class="subtitle">{{ settings.subtitle }}</div>
+    </header>
+
+    <img alt="mascot" src="static/lain_is_cute_datass_small.png"/>
+
+    <div class="ban" style="text-align: left!important;">
+      <h2>WELCOME TO CYBERIA</h2>
+
+      <p>Welcome to lainchan's very own internet radio!<br/><!--Statistics
+      about this stream such as current listeners, song title, et
+      cetera will soon be added to this page.!-->
+	  Unfortunately, due to our usage of HSTS, and the fact that our radio is http-only means that we can't properly place a player &lt;audio&gt; element at the current moment. In the next few days, we should have a proper reverse proxy set up, and the player will support https and therefore work on this page. Until then, please use any of the following playlists in your media player of choice.
+      </p>
+
+<!--      <p><strong>NOTE:</strong> Some experimental browsers, namely
+      very recent versions of Chromium, have been known to break with
+      OGG streams. If your connection is choppy, try a either running
+      the stream in a different browser, or opening one of the
+      playlists in a media player:</p>!-->
+
+      <ul>
+
+        <li><a href="http://lainchan.org/static/live.ogg.m3u">Vorbis M3U Playlist</a></li>
+        <li><a href="http://lainchan.org/static/live.ogg.xspf">Vorbis XSPF Playlist</a></li>
+        <li><a href="http://lainchan.org/static/live.mp3.m3u">MP3 M3U Playlist</a></li>
+        <li><a href="http://lainchan.org/static/live.mp3.xspf">MP3 XSPF Playlist</a></li>
+      </ul>
+
+      <!--<audio controls=""
+             preload="none"
+             src="http://lainchan.org/static/live.ogg"
+             type="application/ogg"
+             style="margin: 0 5%; width: 90%; box-shadow: 0px 0px 5px black;">
+        <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
+     </audio>!-->
+    </div>
+  </body>
+</html>
+{% endfilter %}

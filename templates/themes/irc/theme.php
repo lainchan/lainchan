@@ -1,28 +1,27 @@
 <?php
-
 require 'info.php';
 	
-function rules_build($action, $settings, $board) {
-  rules::build($action, $settings);
+function irc_build($action, $settings, $board) {
+  irc::build($action, $settings);
 }
-	
-class rules {
+
+class irc {
   public static function build($action, $settings) {
     global $config;
 
     if ($action == 'all') {
-      file_write($config['dir']['home'] . $settings['file'], rules::install($settings));
+      file_write($config['dir']['home'] . $settings['file'], irc::install($settings));
     }
   }
 
   public static function install($settings) {
     global $config;
-			
-    return Element('themes/rules/rules.html',
+
+    return Element('themes/irc/irc.html',
                    array('settings'  => $settings,
                          'config'    => $config,
                          'boardlist' => createBoardlist()));
   }
 }
-	
+
 ?>
