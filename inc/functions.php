@@ -1166,19 +1166,22 @@ function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 
 // rebuild post (markup)
 function rebuildPost($id) {
-	global $board;
+	global $board, $mod;
 
-	$query = prepare(sprintf("SELECT `body_nomarkup`, `thread` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
 	if ((!$post = $query->fetch(PDO::FETCH_ASSOC)) || !$post['body_nomarkup'])
 		return false;
 
-	markup($body = &$post['body_nomarkup']);
+	markup($post['body'] = &$post['body_nomarkup']);
+	$post = (object)$post;
+	event('rebuildpost', $post);
+	$post = (array)$post;
 
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `body` = :body WHERE `id` = :id", $board['uri']));
-	$query->bindValue(':body', $body);
+	$query->bindValue(':body', $post['body']);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
