@@ -10,7 +10,18 @@
 	</script>
 
 	{% include 'header.html' %}
-	<title>{{ board.url }} - {% if config.thread_subject_in_title and thread.subject %}{{ thread.subject }}{% else %}{{ thread.body_nomarkup[:256]|e }}{% endif %}</title>
+
+	{% set meta_subject %}{% if config.thread_subject_in_title and thread.subject %}{{ thread.subject|e }}{% else %}{{ thread.body_nomarkup[:256]|e }}{% endif %}{% endset %}
+
+	<meta name="description" content="8chan /{{ board.uri }}/ - {{ board.title|e }} - {{ meta_subject }}" />
+	<meta name="twitter:card" value="summary">
+	<meta property="og:title" content="{{ meta_subject }}" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://8ch.net/{{ board.uri }}/{{ config.dir.res }}{{ thread.id }}.html" />
+	{% if thread.files.0.thumb %}<meta property="og:image" content="https://8ch.net/{{ board.uri }}/{{ config.dir.thumb }}{{ thread.files.0.thumb }}" />{% endif %}
+	<meta property="og:description" content="{{ thread.body_nomarkup|e }}" />
+
+	<title>{{ board.url }} - {{ meta_subject }}</title>
 </head>
 <body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
 	{{ boardlist.top }}
