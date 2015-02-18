@@ -539,10 +539,11 @@ if (active_page === 'thread' || active_page === 'index') {
 				'.filter-menu ul {\n' +
 				'    background-color: '+ cssStyle['background-color'] +'; border: 1px solid '+ cssStyle['border-color'] +'; border-right-width: 2px;\n' +
 				'    list-style: none; padding: 0; margin: 0; white-space: nowrap;\n}\n' +
-				'.filter-menu li {cursor: pointer; position: relative; padding: 4px 4px; vertical-align: middle; border-bottom: 1px solid '+ cssStyle['border-color'] +';}\n' +
+				'.filter-menu li {cursor: pointer; position: relative; padding: 4px 4px; vertical-align: middle; border-bottom: 1px solid '+ cssStyle['border-color'] +'; white-space: normal; width: 90px;}\n' +
 				'.filter-menu li:hover {background-color: '+ cssStyle.hoverBg +';}\n' +
 				'.filter-menu ul ul {display: none; position: absolute;}\n' +
 				'.filter-menu li:hover ul {display: block; left: 100%; margin-top: -3px;}\n' +
+				'.filter-menu li ul li {white-space: nowrap; width: auto;}\n' +
 				'.filter-menu-arrow {float: right; margin-left: 10px;}\n' +
 				'.filter-menu.hidden, .filter-menu .hidden {display: none;}\n' +
 				'.filter-btn {transition: transform 0.1s; width: 15px; text-align: center; font-size: 12pt; opacity: 0.8; text-decoration: none; margin: -6px 0px; display: inline-block;}\n' +
