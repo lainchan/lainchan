@@ -127,6 +127,16 @@ if (active_page === 'thread' || active_page === 'index') {
 							break;
 						}
 					}
+
+					if ($.isEmptyObject(filter[boardId][threadId])) {
+						delete filter[boardId][threadId];
+						delete list.nextPurge[boardId][threadId];
+
+						if ($.isEmptyObject(filter[boardId])) {
+							delete filter[boardId];
+							delete list.nextPurge[boardId];
+						}
+					}
 					setList(list);
 				},
 				uid: function (boardId, threadId, uniqueId) {
@@ -141,6 +151,16 @@ if (active_page === 'thread' || active_page === 'index') {
 						if (filter[boardId][threadId][i].uid == uniqueId) {
 							filter[boardId][threadId].splice(i, 1);
 							break;
+						}
+					}
+
+					if ($.isEmptyObject(filter[boardId][threadId])) {
+						delete filter[boardId][threadId];
+						delete list.nextPurge[boardId][threadId];
+
+						if ($.isEmptyObject(filter[boardId])) {
+							delete filter[boardId];
+							delete list.nextPurge[boardId];
 						}
 					}
 					setList(list);
