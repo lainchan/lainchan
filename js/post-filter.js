@@ -23,8 +23,8 @@ if (active_page === 'thread' || active_page === 'index') {
 				list.nextPurge[boardId] = {};
 			if (typeof list.postFilter[boardId][threadId] == 'undefined') {
 				list.postFilter[boardId][threadId] = [];
-				list.nextPurge[boardId][threadId] = {timestamp: timestamp(), interval: 86400};  // 86400 seconds == 1 day
 			}
+			list.nextPurge[boardId][threadId] = {timestamp: timestamp(), interval: 86400};  // 86400 seconds == 1 day
 		}
 
 		var blacklist = {
