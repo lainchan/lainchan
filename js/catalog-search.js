@@ -34,16 +34,16 @@ if (active_page == 'catalog') {
 		}
 
 		function searchToggle() {
-			var button = $('#catalog_search_button')[0];
+			var button = $('#catalog_search_button');
 
-			if (!button.dataset.expanded) {
-				button.dataset.expanded = '1';
-				button.innerText = 'Close';
+			if (!button.data('expanded')) {
+				button.data('expanded', '1');
+				button.text('Close');
 				$('.catalog_search').append(' <input id="search_field" style="border: inset 1px;">');
 				$('#search_field').focus();
 			} else {
-				delete button.dataset.expanded;
-				button.innerText = 'Search';
+				button.removeData('expanded');
+				button.text('Search');
 				$('.catalog_search').children().last().remove();
 				$('div[id="Grid"]>.mix').each(function () { $(this).css('display', 'inline-block'); });
 			}

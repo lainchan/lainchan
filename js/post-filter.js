@@ -174,10 +174,10 @@ if (active_page === 'thread' || active_page === 'index') {
 		function hide(ele) {
 			var $ele = $(ele);
 
-			if (ele.dataset.hidden == '1')
+			if ($(ele).data('hidden') === '1')
 				return;
 
-			ele.dataset.hidden = '1';
+			$(ele).data('hidden', '1');
 			if ($ele.hasClass('op')) {
 				$ele.parent().find('.body, .files, .video-container').not($ele.children('.reply').children()).hide();
 
@@ -191,7 +191,7 @@ if (active_page === 'thread' || active_page === 'index') {
 		function show(ele) {
 			var $ele = $(ele);
 
-			ele.dataset.hidden = '0';
+			$(ele).data('hidden', '0');
 			if ($ele.hasClass('op')) {
 				$ele.parent().find('.body, .files, .video-container').show();
 				if (active_page == 'index') $ele.parent().find('.omitted, .reply:not(.hidden), post_no, .mentioned, br').show();
@@ -254,8 +254,8 @@ if (active_page === 'thread' || active_page === 'index') {
 			 */
 
 			 // unhide button
-			if (ele.dataset.hidden == '1' && ele.dataset.hiddenByUid == '0' &&
-				ele.dataset.hiddenByName == '0' && ele.dataset.hiddenByTrip == '0') {
+			if ($(ele).data('hidden') == '1' && $(ele).data('hiddenByUid') == '0' &&
+				$(ele).data('hiddenByName') == '0' && $(ele).data('hiddenByTrip') == '0') {
 				$buffer.find('#filter-menu-unhide').click(function () {
 					//  if hidden due to post id, remove it from blacklist
 					//  otherwise just show this post
@@ -267,7 +267,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			}
 
 			//  post id
-			if (ele.dataset.hiddenByPost == '0') {
+			if ($(ele).data('hiddenByPost') == '0') {
 				$buffer.find('#filter-menu-add .filter-post').click(function () {
 					blacklist.add.post(pageData.boardId, threadId, postId, false);
 				});
@@ -280,7 +280,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			}
 
 			// UID
-			if (pageData.hasUID && ele.dataset.hiddenByUid == '0') {
+			if (pageData.hasUID && $(ele).data('hiddenByUid') == '0') {
 				$buffer.find('#filter-menu-add .filter-id').click(function () {
 					blacklist.add.uid(pageData.boardId, threadId, postUid, false);
 				});
@@ -304,7 +304,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			}
 
 			//  name
-			if (!pageData.forcedAnon && ele.dataset.hiddenByName == '0') {
+			if (!pageData.forcedAnon && $(ele).data('hiddenByName') == '0') {
 				$buffer.find('#filter-menu-add .filter-name').click(function () {
 					blacklist.add.name(postName);
 				});
@@ -323,7 +323,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			}
 
 			//  tripcode
-			if (!pageData.forcedAnon && ele.dataset.hiddenByTrip == '0' && postTrip !== '') {
+			if (!pageData.forcedAnon && $(ele).data('hiddenByTrip') == '0' && postTrip !== '') {
 				$buffer.find('#filter-menu-add .filter-trip').click(function () {
 					blacklist.add.trip(postTrip);
 				});
@@ -408,11 +408,11 @@ if (active_page === 'thread' || active_page === 'index') {
 			var hasUID      = pageData.hasUID;
 			var forcedAnon  = pageData.forcedAnon;
 
-			post.dataset.hidden = '0';
-			post.dataset.hiddenByUid = '0';
-			post.dataset.hiddenByPost = '0';
-			post.dataset.hiddenByName = '0';
-			post.dataset.hiddenByTrip = '0';
+			$post.data('hidden', '0');
+			$post.data('hiddenByUid', '0');
+			$post.data('hiddenByPost', '0');
+			$post.data('hiddenByName', '0');
+			$post.data('hiddenByTrip', '0');
 
 			// add post with matched UID to localList
 			if (hasUID &&
@@ -423,7 +423,7 @@ if (active_page === 'thread' || active_page === 'index') {
 
 				for (i=0; i<array.length; i++) {
 					if (array[i].uid == uid) {
-						post.dataset.hiddenByUid = '1';
+						$post.data('hiddenByUid', '1');
 						localList.push(postId);
 						if (array[i].hideReplies) noReplyList.push(postId);
 						break;
@@ -434,7 +434,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			// match localList
 			if (localList.length) {
 				if ($.inArray(postId, localList) != -1) {
-					if (post.dataset.hiddenByUid != '1') post.dataset.hiddenByPost = '1';
+					if ($post.data('hiddenByUid') != '1') $post.data('hiddenByPost', '1');
 					hide(post);
 				}
 			}
@@ -443,13 +443,13 @@ if (active_page === 'thread' || active_page === 'index') {
 			if (!forcedAnon) {
 				name = (typeof $post.find('.name').contents()[0] == 'undefined') ? '' : $post.find('.name').contents()[0].nodeValue.trim();
 				if ($(list.nameFilter).filter(function(){if (this.name == name) return true;}).length) {
-					post.dataset.hiddenByName = '1';
+					$post.data('hiddenByName', '1');
 					hide(post);
 				}
 				if ($post.find('.trip').length) {
 					trip = $post.find('.trip').text();
 					if ($(list.nameFilter).filter(function(){if (this.trip == trip) return true;}).length) {
-						post.dataset.hiddenByTrip = '1';
+						$post.data('hiddenByTrip', '1');
 						hide(post);
 					}
 				}
@@ -469,9 +469,9 @@ if (active_page === 'thread' || active_page === 'index') {
 			});
 
 			// post didn't match any filters
-			if ((typeof post.dataset.hidden == 'undefined' || post.dataset.hidden == '0') &&
-				post.dataset.hiddenByUid == '0' &&
-				post.dataset.hiddenByUid == post.dataset.hiddenByPost == post.dataset.hiddenByName == post.dataset.hiddenByTrip) {
+			if ((typeof $post.data('hidden') == 'undefined' || $post.data('hidden') == '0') &&
+				$post.data('hiddenByUid') === '0' &&
+				$post.data('hiddenByUid') == $post.data('hiddenByPost') == $post.data('hiddenByName') == $post.data('hiddenByTrip')) {
 				show(post);
 			}
 		}
@@ -512,7 +512,7 @@ if (active_page === 'thread' || active_page === 'index') {
 				addMenuButton(op, threadId, pageData);
 
 				// iterate filter over each post
-				if (op.dataset.hidden != '1' || active_page == 'thread') {
+				if ($(op).data('hidden') != '1' || active_page == 'thread') {
 					$thread.find('.reply').not('.hidden').each(function () {
 						filter(this, threadId, pageData);
 						addMenuButton(this, threadId, pageData);

@@ -48,8 +48,8 @@ $(document).ready(function(){
 					if (i > -1) {
 						waiting.splice(i, 1);
 					}
-					if (ele.dataset.imageLoading === 'true') {
-						ele.dataset.imageLoading = 'false';
+					if ($(ele).data('imageLoading') === 'true') {
+						$(ele).data('imageLoading', 'false');
 						clearTimeout(ele.timeout);
 						--loading;
 					}
@@ -73,7 +73,7 @@ $(document).ready(function(){
 							$.when($loadstart).done(function () {
 								//  once fully loaded, update the waiting queue
 								--loading;
-								ele.dataset.imageLoading = 'false';
+								$(ele).data('imageLoading', 'false');
 								update();
 							});
 						});
@@ -83,7 +83,7 @@ $(document).ready(function(){
 						});
 
 						img.setAttribute('src', ele.href);
-						ele.dataset.imageLoading = 'true';
+						$(ele).data('imageLoading', 'true');
 						ele.timeout = onLoadStart(img);
 					});
 
@@ -112,9 +112,9 @@ $(document).ready(function(){
 						return false;
 					if (e.which == 2 || e.ctrlKey) //  open in new tab
 						return true;
-					if (!this.dataset.expanded) {
+					if (!$(this).data('expanded')) {
 						this.parentNode.removeAttribute('style');
-						this.dataset.expanded = 'true';
+						$(this).data('expanded', 'true');
 
 						if (thumb.tagName === 'CANVAS') {
 							canvas = thumb;
@@ -144,12 +144,12 @@ $(document).ready(function(){
 						}
 
 						if (~this.parentNode.className.indexOf('multifile'))
-							this.parentNode.style.width = (parseInt(this.dataset.width)+40)+'px';
+							this.parentNode.style.width = (parseInt($(this).data('width'))+40)+'px';
 
 						thumb.style.opacity = '';
 						thumb.style.display = '';
 						if (thumb.nextSibling) this.removeChild(thumb.nextSibling);  //full image loaded or loading
-						delete this.dataset.expanded;
+						$(this).removeData('expanded');
 						delete thumb.style.filter;
 
 						//  do the scrolling after page reflow

@@ -31,7 +31,7 @@ onready(function(){
 				if (/^\/player\.php\?/.test($(this).parent().attr('href')))
 					return;
 
-				if (!$(this).parent()[0].dataset.expanded)
+				if (!$(this).parent().data('expanded'))
 					$(this).parent().click();
 			});
 
@@ -43,7 +43,7 @@ onready(function(){
 				.text(_('Shrink all images'))
 				.click(function(){
 					$('a img.full-image').each(function() {
-						if ($(this).parent()[0].dataset.expanded)
+						if ($(this).parent().data('expanded'))
 							$(this).parent().click();
 					});
 					$(this).parent().remove();
