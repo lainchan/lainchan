@@ -365,6 +365,8 @@ if (active_page === 'thread' || active_page === 'index') {
 		function addMenuButton(ele, threadId, pageData) {
 			if ($(ele).find('.filter-btn').length)
 				$('.filter-btn').remove();
+			/*if ($(ele).find('.hide-thread-link').length)
+				$('.hide-thread-link').remove();*/
 
 			$(ele).find('.intro')
 				.append(
@@ -387,6 +389,23 @@ if (active_page === 'thread' || active_page === 'index') {
 							}
 						})
 				);
+
+			if ($(ele).hasClass('op') && !$(ele).find('.hide-thread-link').length) {
+				$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[' + ($(ele).data('hidden') == '1' ? '+' : '&ndash;') + ']</a>')
+					.insertBefore($(ele).find(':not(h2,h2 *):first'))
+					.click(function() {
+						var postId = $(ele).find('.post_no').not('[id]').text();
+						var hidden = ($(ele).data('hidden') == '1');
+					
+						if (hidden) {
+							blacklist.remove.post(pageData.boardId, threadId, postId, false);
+							$(this).html('[&ndash;]');
+						} else {
+							blacklist.add.post(pageData.boardId, threadId, postId, false);
+							$(this).text('[+]');
+						}
+					});
+			}
 		}
 
 		/*
@@ -758,7 +777,11 @@ if (active_page === 'thread' || active_page === 'index') {
 
 			// on new posts
 			$(document).on('new_post', function (e, post) {
-				var threadId = $(post).parent().attr('id').replace('thread_', '');
+				if ($(post).hasClass('reply')) {
+					var threadId = $(post).parent().attr('id').replace('thread_', '');
+				} else {
+					var threadId = $(post).attr('id').replace('thread_', '');
+				}
 
 				filter(post, threadId, pageData);
 				addMenuButton(post, threadId, pageData);
