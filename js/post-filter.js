@@ -243,28 +243,27 @@ if (active_page === 'thread' || active_page === 'index') {
 				 */
 
 				 // unhide button
-				if ($ele.data('hidden') == '1' && $ele.data('hiddenByUid') == '0' &&
-					$ele.data('hiddenByName') == '0' && $ele.data('hiddenByTrip') == '0') {
+				if ($ele.data('hidden') == '1') {
 					$buffer.find('#filter-menu-unhide').click(function () {
 						//  if hidden due to post id, remove it from blacklist
 						//  otherwise just show this post
 						blacklist.remove.post(pageData.boardId, threadId, postId);
 						show(ele);
 					});
+					$buffer.find('#filter-menu-hide').addClass('hidden');
 				} else {
 					$buffer.find('#filter-menu-unhide').addClass('hidden');
+					$buffer.find('#filter-menu-hide').click(function () {
+						blacklist.add.post(pageData.boardId, threadId, postId, false);
+					});
 				}
 
 				//  post id
 				if ($ele.data('hiddenByPost') == '0') {
-					$buffer.find('#filter-menu-hide').click(function () {
-						blacklist.add.post(pageData.boardId, threadId, postId, false);
-					});
 					$buffer.find('#filter-add-post-plus').click(function () {
 						blacklist.add.post(pageData.boardId, threadId, postId, true);
 					});
 				} else {
-					$buffer.find('#filter-menu-hide').addClass('hidden');
 					$buffer.find('#filter-add-post-plus').addClass('hidden');
 				}
 
