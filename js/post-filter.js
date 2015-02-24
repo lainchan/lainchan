@@ -204,191 +204,149 @@ if (active_page === 'thread' || active_page === 'index') {
 		/* 
 		 *  create filter menu when the button is clicked
 		 */
-		function addMenu(e, ele, threadId, pageData) {
+		function initPostMenu(pageData) {
 
-			var $ele = $(ele);
-			var $buffer;
+			var submenu;
+			Menu.add_item('filter-menu-hide', 'Hide post');
+			Menu.add_item('filter-menu-unhide', 'Unhide post');
 
-			var postId = $ele.find('.post_no').not('[id]').text();
-			if (pageData.hasUID) {
-				var postUid = $ele.find('.poster_id').text();
-			}
-			var postName;
-			var postTrip = '';
-			if (!pageData.forcedAnon) {
-				postName = (typeof $ele.find('.name').contents()[0] == 'undefined') ? '' : $ele.find('.name').contents()[0].nodeValue.trim();
-				postTrip = $ele.find('.trip').text();
-			}
+			submenu = Menu.add_submenu('filter-menu-add', 'Add filter');
+				submenu.add_item('filter-add-post-plus', 'Post +', 'Hide post and all replies');
+				submenu.add_item('filter-add-id', 'ID');
+				submenu.add_item('filter-add-id-plus', 'ID +', 'Hide ID and all replies');
+				submenu.add_item('filter-add-name', 'Name');
+				submenu.add_item('filter-add-trip', 'Tripcode');
 
-			//  get the button's position
-			var pos = $(e.target).offset();
+			submenu = Menu.add_submenu('filter-menu-remove', 'Remove filter');
+				submenu.add_item('filter-remove-id', 'ID');
+				submenu.add_item('filter-remove-name', 'Name');
+				submenu.add_item('filter-remove-trip', 'Tripcode');
 
-			$buffer = $('<div class="filter-menu"></div>').append(
-				$('<ul>').append(
-					$('<li>', {id: 'filter-menu-unhide'}).text('Unhide post'),
-					$('<li>', {id: 'filter-menu-add'}).append(
-						$('<ul>').append(
-							$('<li>', {class: 'filter-post'}).text('Post'),
-							$('<li>', {class: 'filter-post-plus', title: 'Hide post and all replies'}).text('Post +'),
-							$('<li>', {class: 'filter-id'}).text('ID'),
-							$('<li>', {class: 'filter-id-plus', title: 'Hide ID and all replies'}).text('ID +'),
-							$('<li>', {class: 'filter-name'}).text('Name'),
-							$('<li>', {class: 'filter-trip'}).text('Tripcode')
-						),
-						'Add filter',
-						$('<span>', {class: 'filter-menu-arrow'}).append('»')
-					),
-					$('<li>', {id: 'filter-menu-remove'}).append(
-						$('<ul>').append(
-							$('<li>', {class: 'filter-id'}).text('ID'),
-							$('<li>', {class: 'filter-name'}).text('Name'),
-							$('<li>', {class: 'filter-trip'}).text('Tripcode')
-						),
-						'Remove filter',
-						$('<span>', {class: 'filter-menu-arrow'}).append('»')
-					)
-				)
-			);
+			Menu.onclick(function (e, $buffer) {
+				var ele = e.target.parentElement.parentElement;
+				var $ele = $(ele);
 
-			/*  display logic and bind click handlers
-			 */
+				var threadId = $ele.parent().attr('id').replace('thread_', '');
+				var postId = $ele.find('.post_no').not('[id]').text();
+				if (pageData.hasUID) {
+					var postUid = $ele.find('.poster_id').text();
+				}
 
-			 // unhide button
-			if ($(ele).data('hidden') == '1' && $(ele).data('hiddenByUid') == '0' &&
-				$(ele).data('hiddenByName') == '0' && $(ele).data('hiddenByTrip') == '0') {
-				$buffer.find('#filter-menu-unhide').click(function () {
-					//  if hidden due to post id, remove it from blacklist
-					//  otherwise just show this post
-					blacklist.remove.post(pageData.boardId, threadId, postId);
-					show(ele);
-				});
-			} else {
-				$buffer.find('#filter-menu-unhide').addClass('hidden');
-			}
+				var postName;
+				var postTrip = '';
+				if (!pageData.forcedAnon) {
+					postName = (typeof $ele.find('.name').contents()[0] == 'undefined') ? '' : $ele.find('.name').contents()[0].nodeValue.trim();
+					postTrip = $ele.find('.trip').text();
+				}
 
-			//  post id
-			if ($(ele).data('hiddenByPost') == '0') {
-				$buffer.find('#filter-menu-add .filter-post').click(function () {
-					blacklist.add.post(pageData.boardId, threadId, postId, false);
-				});
-				$buffer.find('#filter-menu-add .filter-post-plus').click(function () {
-					blacklist.add.post(pageData.boardId, threadId, postId, true);
-				});
-			} else {
-				$buffer.find('#filter-menu-add .filter-post').addClass('hidden');
-				$buffer.find('#filter-menu-add .filter-post-plus').addClass('hidden');
-			}
+				/*  display logic and bind click handlers
+				 */
 
-			// UID
-			if (pageData.hasUID && $(ele).data('hiddenByUid') == '0') {
-				$buffer.find('#filter-menu-add .filter-id').click(function () {
-					blacklist.add.uid(pageData.boardId, threadId, postUid, false);
-				});
-				$buffer.find('#filter-menu-add .filter-id-plus').click(function () {
-					blacklist.add.uid(pageData.boardId, threadId, postUid, true);
-				});
+				 // unhide button
+				if ($ele.data('hidden') == '1' && $ele.data('hiddenByUid') == '0' &&
+					$ele.data('hiddenByName') == '0' && $ele.data('hiddenByTrip') == '0') {
+					$buffer.find('#filter-menu-unhide').click(function () {
+						//  if hidden due to post id, remove it from blacklist
+						//  otherwise just show this post
+						blacklist.remove.post(pageData.boardId, threadId, postId);
+						show(ele);
+					});
+				} else {
+					$buffer.find('#filter-menu-unhide').addClass('hidden');
+				}
 
-				$buffer.find('#filter-menu-remove .filter-id').addClass('hidden');
-			} else  if (pageData.hasUID) {
-				$buffer.find('#filter-menu-remove .filter-id').click(function () {
-					blacklist.remove.uid(pageData.boardId, threadId, postUid);
-				});
+				//  post id
+				if ($ele.data('hiddenByPost') == '0') {
+					$buffer.find('#filter-menu-hide').click(function () {
+						blacklist.add.post(pageData.boardId, threadId, postId, false);
+					});
+					$buffer.find('#filter-add-post-plus').click(function () {
+						blacklist.add.post(pageData.boardId, threadId, postId, true);
+					});
+				} else {
+					$buffer.find('#filter-menu-hide').addClass('hidden');
+					$buffer.find('#filter-add-post-plus').addClass('hidden');
+				}
 
-				$buffer.find('#filter-menu-add .filter-id').addClass('hidden');
-				$buffer.find('#filter-menu-add .filter-id-plus').addClass('hidden');
-			} else {
-				// board doesn't use UID
-				$buffer.find('#filter-menu-add .filter-id').addClass('hidden');
-				$buffer.find('#filter-menu-add .filter-id-plus').addClass('hidden');
-				$buffer.find('#filter-menu-remove .filter-id').addClass('hidden');
-			}
+				// UID
+				if (pageData.hasUID && $ele.data('hiddenByUid') == '0') {
+					$buffer.find('#filter-add-id').click(function () {
+						blacklist.add.uid(pageData.boardId, threadId, postUid, false);
+					});
+					$buffer.find('#filter-add-id-plus').click(function () {
+						blacklist.add.uid(pageData.boardId, threadId, postUid, true);
+					});
 
-			//  name
-			if (!pageData.forcedAnon && $(ele).data('hiddenByName') == '0') {
-				$buffer.find('#filter-menu-add .filter-name').click(function () {
-					blacklist.add.name(postName);
-				});
+					$buffer.find('#filter-remove-id').addClass('hidden');
+				} else  if (pageData.hasUID) {
+					$buffer.find('#filter-remove-id').click(function () {
+						blacklist.remove.uid(pageData.boardId, threadId, postUid);
+					});
 
-				$buffer.find('#filter-menu-remove .filter-name').addClass('hidden');
-			} else if (!pageData.forcedAnon) {
-				$buffer.find('#filter-menu-remove .filter-name').click(function () {
-					blacklist.remove.name(postName);
-				});
+					$buffer.find('#filter-add-id').addClass('hidden');
+					$buffer.find('#filter-add-id-plus').addClass('hidden');
+				} else {
+					// board doesn't use UID
+					$buffer.find('#filter-add-id').addClass('hidden');
+					$buffer.find('#filter-add-id-plus').addClass('hidden');
+					$buffer.find('#filter-remove-id').addClass('hidden');
+				}
 
-				$buffer.find('#filter-menu-add .filter-name').addClass('hidden');
-			} else {
-				// board has forced anon
-				$buffer.find('#filter-menu-remove .filter-name').addClass('hidden');
-				$buffer.find('#filter-menu-add .filter-name').addClass('hidden');
-			}
+				//  name
+				if (!pageData.forcedAnon && $ele.data('hiddenByName') == '0') {
+					$buffer.find('#filter-add-name').click(function () {
+						blacklist.add.name(postName);
+					});
 
-			//  tripcode
-			if (!pageData.forcedAnon && $(ele).data('hiddenByTrip') == '0' && postTrip !== '') {
-				$buffer.find('#filter-menu-add .filter-trip').click(function () {
-					blacklist.add.trip(postTrip);
-				});
+					$buffer.find('#filter-remove-name').addClass('hidden');
+				} else if (!pageData.forcedAnon) {
+					$buffer.find('#filter-remove-name').click(function () {
+						blacklist.remove.name(postName);
+					});
 
-				$buffer.find('#filter-menu-remove .filter-trip').addClass('hidden');
-			} else if (!pageData.forcedAnon && postTrip !== '') {
-				$buffer.find('#filter-menu-remove .filter-trip').click(function () {
-					blacklist.remove.trip(postTrip);
-				});
+					$buffer.find('#filter-add-name').addClass('hidden');
+				} else {
+					// board has forced anon
+					$buffer.find('#filter-remove-name').addClass('hidden');
+					$buffer.find('#filter-add-name').addClass('hidden');
+				}
 
-				$buffer.find('#filter-menu-add .filter-trip').addClass('hidden');
-			} else {
-				// board has forced anon
-				$buffer.find('#filter-menu-remove .filter-trip').addClass('hidden');
-				$buffer.find('#filter-menu-add .filter-trip').addClass('hidden');
-			}
+				//  tripcode
+				if (!pageData.forcedAnon && $ele.data('hiddenByTrip') == '0' && postTrip !== '') {
+					$buffer.find('#filter-add-trip').click(function () {
+						blacklist.add.trip(postTrip);
+					});
 
-			/*  hide sub menus if all items are hidden
-			 */
-			if (!$buffer.find('#filter-menu-remove > ul').children().not('.hidden').length) {
-				$buffer.find('#filter-menu-remove').addClass('hidden');
-			}
-			if (!$buffer.find('#filter-menu-add > ul').children().not('.hidden').length) {
-				$buffer.find('#filter-menu-add').addClass('hidden');
-			}
+					$buffer.find('#filter-remove-trip').addClass('hidden');
+				} else if (!pageData.forcedAnon && postTrip !== '') {
+					$buffer.find('#filter-remove-trip').click(function () {
+						blacklist.remove.trip(postTrip);
+					});
 
-			/*  set menu position
-			 */
-			 $buffer.css({top: pos.top + 20, left: pos.left});
+					$buffer.find('#filter-add-trip').addClass('hidden');
+				} else {
+					// board has forced anon
+					$buffer.find('#filter-remove-trip').addClass('hidden');
+					$buffer.find('#filter-add-trip').addClass('hidden');
+				}
 
-			/*  finally append to page
-			 */
-			$('body').append($buffer);
+				/*  hide sub menus if all items are hidden
+				 */
+				if (!$buffer.find('#filter-menu-remove > ul').children().not('.hidden').length) {
+					$buffer.find('#filter-menu-remove').addClass('hidden');
+				}
+				if (!$buffer.find('#filter-menu-add > ul').children().not('.hidden').length) {
+					$buffer.find('#filter-menu-add').addClass('hidden');
+				}
+			});
 		}
 
 		/* 
 		 *  add menu button to the thread/post
 		 */
-		function addMenuButton(ele, threadId, pageData) {
-			if ($(ele).find('.filter-btn').length)
-				$('.filter-btn').remove();
+		function quickToggle(ele, threadId, pageData) {
 			/*if ($(ele).find('.hide-thread-link').length)
 				$('.hide-thread-link').remove();*/
-
-			$(ele).find('.intro')
-				.append(
-					$('<a>', {href: '#', class: 'filter-btn', title: 'Filter menu'})
-						.text('▶')
-						.click(function (e) {
-							//  button toggle
-							e.preventDefault();
-							//  remove existing menu
-							$('.filter-menu').remove();
-
-							if ($(e.target).hasClass('filter-btn-open')) {
-								$('.filter-btn-open').removeClass('filter-btn-open');
-							} else {
-								//  close previous button
-								$('.filter-btn-open').removeClass('filter-btn-open');
-								//  mark the menu button as open
-								$(ele).find('.filter-btn').addClass('filter-btn-open');
-								addMenu(e, ele, threadId, pageData);
-							}
-						})
-				);
 
 			if ($(ele).hasClass('op') && !$(ele).find('.hide-thread-link').length) {
 				$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[' + ($(ele).data('hidden') == '1' ? '+' : '&ndash;') + ']</a>')
@@ -528,22 +486,18 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 				// run filter on OP
 				filter(op, threadId, pageData);
-				addMenuButton(op, threadId, pageData);
+				quickToggle(op, threadId, pageData);
 
 				// iterate filter over each post
 				if ($(op).data('hidden') != '1' || active_page == 'thread') {
 					$thread.find('.reply').not('.hidden').each(function () {
 						filter(this, threadId, pageData);
-						addMenuButton(this, threadId, pageData);
 					});
 				}
 
 			});
 		 }
 
-		/* 
-		 *  
-		 */
 		function initStyle() {
 			var $ele, cssStyle, cssString;
 
@@ -552,23 +506,7 @@ if (active_page === 'thread' || active_page === 'index') {
 			cssStyle.hoverBg = $('body').css('background-color');
 			$ele.remove();
 
-			cssString =
-				'\n/*** Generated by post-filter ***/\n' +
-				'.filter-menu {position: absolute; font-size: 12px; line-height: 1.3em;}\n' +
-				'.filter-menu ul {\n' +
-				'    background-color: '+ cssStyle['background-color'] +'; border: 1px solid '+ cssStyle['border-color'] +'; border-right-width: 2px;\n' +
-				'    list-style: none; padding: 0; margin: 0; white-space: nowrap;\n}\n' +
-				'.filter-menu li {cursor: pointer; position: relative; padding: 4px 4px; vertical-align: middle; border-bottom: 1px solid '+ cssStyle['border-color'] +'; white-space: normal; width: 90px;}\n' +
-				'.filter-menu li:hover {background-color: '+ cssStyle.hoverBg +';}\n' +
-				'.filter-menu ul ul {display: none; position: absolute;}\n' +
-				'.filter-menu li:hover ul {display: block; left: 100%; margin-top: -3px;}\n' +
-				'.filter-menu li ul li {white-space: nowrap; width: auto;}\n' +
-				'.filter-menu-arrow {float: right; margin-left: 10px;}\n' +
-				'.filter-menu.hidden, .filter-menu .hidden {display: none;}\n' +
-				'.filter-btn {transition: transform 0.1s; width: 15px; text-align: center; font-size: 12pt; opacity: 0.8; text-decoration: none; margin: -6px 0px; display: inline-block;}\n' +
-				'.filter-btn:hover {opacity: 1;}\n' +
-				'.filter-btn-open {transform: rotate(90deg);}\n';
-			cssString +=
+			cssString = '\n/*** Generated by post-filter ***/\n' +
 				'#filter-control #clear {float: right;}\n' +
 				'#filter-container {margin-top: 20px; border: 1px solid; height: 270px; overflow: auto;}\n' +
 				'#filter-list {width: 100%; border-collapse: collapse;}\n' +
@@ -764,27 +702,21 @@ if (active_page === 'thread' || active_page === 'index') {
 
 			initStyle();
 			initOptionsPanel();
+			initPostMenu(pageData);
 			filterPage(pageData);
-
-			// menu close click handler
-			$(document).on('click', function (e){
-				if ($(e.target).hasClass('filter-btn'))
-					return;
-
-				$('.filter-menu').remove();
-				$('.filter-btn-open').removeClass('filter-btn-open');
-			});
 
 			// on new posts
 			$(document).on('new_post', function (e, post) {
+				var threadId;
+
 				if ($(post).hasClass('reply')) {
-					var threadId = $(post).parent().attr('id').replace('thread_', '');
+					threadId = $(post).parent().attr('id').replace('thread_', '');
 				} else {
-					var threadId = $(post).attr('id').replace('thread_', '');
+					threadId = $(post).attr('id').replace('thread_', '');
 				}
 
 				filter(post, threadId, pageData);
-				addMenuButton(post, threadId, pageData);
+				quickToggle(post, threadId, pageData);
 			});
 
 			$(document).on('filter_page', function () {
