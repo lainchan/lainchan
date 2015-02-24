@@ -158,7 +158,7 @@ $(document).ready(function(){
 
 							//  on multifile posts, determin how many other images are still expanded
 							still_open = post_body.find('.post-image').filter(function(){
-								return $(this).parent().attr('data-expanded') == 'true';
+								return $(this).parent().data('expanded') == 'true';
 							}).length;
 
 							//  deal with differnt boards' menu styles
