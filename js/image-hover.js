@@ -133,19 +133,8 @@ function imageHoverStart(e) { //Pashe, anonish, WTFPL
 	if ($this.parent().attr("href").match("src")) {
 		fullUrl = $this.parent().attr("href");
 	} else if (isOnCatalog()) {
-		$this.css("cursor", "progress");
-		fullUrl = $this.attr("src");
-		$.ajax(($this.parent().attr("href").replace(/\.html$/, ".json")), {
-			success: function (result) {
-				$this.css("cursor", "unset");
-				fullUrl = result.posts[0].tim + result.posts[0].ext;
-				if (!isImage(getFileExtension(fullUrl))) {return;}
-				$("#chx_hoverImage").attr("src", "/" + thisBoard + "/" + fullUrl);
-				$("#chx_hoverImage").on("load", function() {$this.css("cursor", "none")});
-			},
-			async: true,
-			cache: true
-		});
+		fullUrl = $this.attr("data-fullimage");
+		if (!isImage(getFileExtension(fullUrl))) {fullUrl = $this.attr("src");}
 	}
 	
 	if (isVideo(getFileExtension(fullUrl))) {return;}
