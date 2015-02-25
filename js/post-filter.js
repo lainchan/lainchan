@@ -27,34 +27,42 @@ if (active_page === 'thread' || active_page === 'index') {
 			list.nextPurge[boardId][threadId] = {timestamp: timestamp(), interval: 86400};  // 86400 seconds == 1 day
 		}
 
+		function addFilter(type, value, useRegex) {
+			var list = getList();
+			var filter = list.generalFilter;
+			var obj = {
+				type: type,
+				value: value,
+				regex: useRegex
+			};
+
+			for (var i=0; i<filter.length; i++) {
+				if (filter[i].type == type && filter[i].value == value && filter[i].regex == useRegex)
+					return;
+			}
+
+			filter.push(obj);
+			setList(list);
+			drawFilterList();
+		}
+
+		function removeFilter(type, value, useRegex) {
+			var list = getList();
+			var filter = list.generalFilter;
+
+			for (var i=0; i<filter.length; i++) {
+				if (filter[i].type == type && filter[i].value == value && filter[i].regex == useRegex) {
+					filter.splice(i, 1);
+					break;
+				}
+			}
+
+			setList(list);
+			drawFilterList();
+		}
+
 		var blacklist = {
 			add: {
-				name: function (posterName) {
-					var list = getList();
-					var filter = list.nameFilter;
-
-					for (var i in filter) {
-						if (filter[i].name == posterName) return;
-					}
-					filter.push({
-						name: posterName
-					});
-					setList(list);
-					drawFilterList();
-				},
-				trip: function (posterTrip) {
-					var list = getList();
-					var filter = list.nameFilter;
-
-					for (var i in filter) {
-						if (filter[i].trip == posterTrip) return;
-					}
-					filter.push({
-						trip: posterTrip
-					});
-					setList(list);
-					drawFilterList();
-				},
 				post: function (boardId, threadId, postId, hideReplies) {
 					var list = getList();
 					var filter = list.postFilter;
@@ -87,32 +95,6 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 			},
 			remove: {
-				name: function (posterName) {
-					var list = getList();
-					var filter = list.nameFilter;
-
-					for (var i=0; i<filter.length; i++) {
-						if (filter[i].name == posterName) {
-							filter.splice(i, 1);
-							break;
-						}
-					}
-					setList(list);
-					drawFilterList();
-				},
-				trip: function (posterTrip) {
-					var list = getList();
-					var filter = list.nameFilter;
-
-					for (var i=0; i<filter.length; i++) {
-						if (filter[i].trip == posterTrip) {
-							filter.splice(i, 1);
-							break;
-						}
-					}
-					setList(list);
-					drawFilterList();
-				},
 				post: function (boardId, threadId, postId) {
 					var list = getList();
 					var filter = list.postFilter;
@@ -174,10 +156,10 @@ if (active_page === 'thread' || active_page === 'index') {
 		function hide(ele) {
 			var $ele = $(ele);
 
-			if ($(ele).data('hidden') === '1')
+			if ($(ele).data('hidden'))
 				return;
 
-			$(ele).data('hidden', '1');
+			$(ele).data('hidden', true);
 			if ($ele.hasClass('op')) {
 				$ele.parent().find('.body, .files, .video-container').not($ele.children('.reply').children()).hide();
 
@@ -191,7 +173,7 @@ if (active_page === 'thread' || active_page === 'index') {
 		function show(ele) {
 			var $ele = $(ele);
 
-			$(ele).data('hidden', '0');
+			$(ele).data('hidden', false);
 			if ($ele.hasClass('op')) {
 				$ele.parent().find('.body, .files, .video-container').show();
 				if (active_page == 'index') $ele.parent().find('.omitted, .reply:not(.hidden), post_no, .mentioned, br').show();
@@ -243,7 +225,7 @@ if (active_page === 'thread' || active_page === 'index') {
 				 */
 
 				 // unhide button
-				if ($ele.data('hidden') == '1') {
+				if ($ele.data('hidden')) {
 					$buffer.find('#filter-menu-unhide').click(function () {
 						//  if hidden due to post id, remove it from blacklist
 						//  otherwise just show this post
@@ -259,7 +241,7 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 
 				//  post id
-				if ($ele.data('hiddenByPost') == '0') {
+				if (!$ele.data('hiddenByPost')) {
 					$buffer.find('#filter-add-post-plus').click(function () {
 						blacklist.add.post(pageData.boardId, threadId, postId, true);
 					});
@@ -268,7 +250,7 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 
 				// UID
-				if (pageData.hasUID && $ele.data('hiddenByUid') == '0') {
+				if (pageData.hasUID && !$ele.data('hiddenByUid')) {
 					$buffer.find('#filter-add-id').click(function () {
 						blacklist.add.uid(pageData.boardId, threadId, postUid, false);
 					});
@@ -277,7 +259,7 @@ if (active_page === 'thread' || active_page === 'index') {
 					});
 
 					$buffer.find('#filter-remove-id').addClass('hidden');
-				} else  if (pageData.hasUID) {
+				} else if (pageData.hasUID) {
 					$buffer.find('#filter-remove-id').click(function () {
 						blacklist.remove.uid(pageData.boardId, threadId, postUid);
 					});
@@ -292,15 +274,15 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 
 				//  name
-				if (!pageData.forcedAnon && $ele.data('hiddenByName') == '0') {
+				if (!pageData.forcedAnon && !$ele.data('hiddenByName')) {
 					$buffer.find('#filter-add-name').click(function () {
-						blacklist.add.name(postName);
+						addFilter('name', postName, false);
 					});
 
 					$buffer.find('#filter-remove-name').addClass('hidden');
 				} else if (!pageData.forcedAnon) {
 					$buffer.find('#filter-remove-name').click(function () {
-						blacklist.remove.name(postName);
+						removeFilter('name', postName, false);
 					});
 
 					$buffer.find('#filter-add-name').addClass('hidden');
@@ -311,15 +293,15 @@ if (active_page === 'thread' || active_page === 'index') {
 				}
 
 				//  tripcode
-				if (!pageData.forcedAnon && $ele.data('hiddenByTrip') == '0' && postTrip !== '') {
+				if (!pageData.forcedAnon && !$ele.data('hiddenByTrip') && postTrip !== '') {
 					$buffer.find('#filter-add-trip').click(function () {
-						blacklist.add.trip(postTrip);
+						addFilter('trip', postTrip, false);
 					});
 
 					$buffer.find('#filter-remove-trip').addClass('hidden');
 				} else if (!pageData.forcedAnon && postTrip !== '') {
 					$buffer.find('#filter-remove-trip').click(function () {
-						blacklist.remove.trip(postTrip);
+						removeFilter('trip', postTrip, false);
 					});
 
 					$buffer.find('#filter-add-trip').addClass('hidden');
@@ -341,18 +323,18 @@ if (active_page === 'thread' || active_page === 'index') {
 		}
 
 		/* 
-		 *  add menu button to the thread/post
+		 *  hide/unhide thread on index view
 		 */
 		function quickToggle(ele, threadId, pageData) {
 			/*if ($(ele).find('.hide-thread-link').length)
 				$('.hide-thread-link').remove();*/
 
 			if ($(ele).hasClass('op') && !$(ele).find('.hide-thread-link').length) {
-				$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[' + ($(ele).data('hidden') == '1' ? '+' : '&ndash;') + ']</a>')
+				$('<a class="hide-thread-link" style="float:left;margin-right:5px" href="javascript:void(0)">[' + ($(ele).data('hidden') ? '+' : '&ndash;') + ']</a>')
 					.insertBefore($(ele).find(':not(h2,h2 *):first'))
 					.click(function() {
 						var postId = $(ele).find('.post_no').not('[id]').text();
-						var hidden = ($(ele).data('hidden') == '1');
+						var hidden = $(ele).data('hidden');
 					
 						if (hidden) {
 							blacklist.remove.post(pageData.boardId, threadId, postId, false);
@@ -375,8 +357,8 @@ if (active_page === 'thread' || active_page === 'index') {
 			var $post = $(post);
 			var list = getList();
 			var postId = $post.find('.post_no').not('[id]').text();
-			var name, trip, uid;
-			var i, array;  // temp variables
+			var name, trip, uid, subject, comment;
+			var i, length, array, rule, pattern;  // temp variables
 
 			var boardId     = pageData.boardId;
 			var localList   = pageData.localList;
@@ -384,11 +366,16 @@ if (active_page === 'thread' || active_page === 'index') {
 			var hasUID      = pageData.hasUID;
 			var forcedAnon  = pageData.forcedAnon;
 
-			$post.data('hidden', '0');
-			$post.data('hiddenByUid', '0');
-			$post.data('hiddenByPost', '0');
-			$post.data('hiddenByName', '0');
-			$post.data('hiddenByTrip', '0');
+			var hasTrip = ($post.find('.trip').length > 0);
+			var hasSub = ($post.find('.subject').length > 0);
+
+			$post.data('hidden', false);
+			$post.data('hiddenByUid', false);
+			$post.data('hiddenByPost', false);
+			$post.data('hiddenByName', false);
+			$post.data('hiddenByTrip', false);
+			$post.data('hiddenBySubject', false);
+			$post.data('hiddenByComment', false);
 
 			// add post with matched UID to localList
 			if (hasUID &&
@@ -399,7 +386,7 @@ if (active_page === 'thread' || active_page === 'index') {
 
 				for (i=0; i<array.length; i++) {
 					if (array[i].uid == uid) {
-						$post.data('hiddenByUid', '1');
+						$post.data('hiddenByUid', true);
 						localList.push(postId);
 						if (array[i].hideReplies) noReplyList.push(postId);
 						break;
@@ -410,23 +397,83 @@ if (active_page === 'thread' || active_page === 'index') {
 			// match localList
 			if (localList.length) {
 				if ($.inArray(postId, localList) != -1) {
-					if ($post.data('hiddenByUid') != '1') $post.data('hiddenByPost', '1');
+					if ($post.data('hiddenByUid') !== true) $post.data('hiddenByPost', true);
 					hide(post);
 				}
 			}
 
-			// match poster name and tripcode
-			if (!forcedAnon) {
+			// matches generalFilter
+			if (!forcedAnon)
 				name = (typeof $post.find('.name').contents()[0] == 'undefined') ? '' : $post.find('.name').contents()[0].nodeValue.trim();
-				if ($(list.nameFilter).filter(function(){if (this.name == name) return true;}).length) {
-					$post.data('hiddenByName', '1');
-					hide(post);
-				}
-				if ($post.find('.trip').length) {
-					trip = $post.find('.trip').text();
-					if ($(list.nameFilter).filter(function(){if (this.trip == trip) return true;}).length) {
-						$post.data('hiddenByTrip', '1');
-						hide(post);
+			if (!forcedAnon && hasTrip)
+				trip = $post.find('.trip').text();
+			if (hasSub)
+				subject = ' '+ $post.find('.subject').text() +' ';
+
+			array = $post.find('.body').contents().filter(function () {if ($(this).text() !== '') return true;}).toArray();
+			array = $.map(array, function (ele) {
+				return $(ele).text();
+			});
+			comment = ' '+ array.join(' ') +' ';
+
+
+			for (i = 0, length = list.generalFilter.length; i < length; i++) {
+				rule = list.generalFilter[i];
+
+				if (rule.regex) {
+					pattern = new RegExp(rule.value);
+					switch (rule.type) {
+						case 'name':
+							if (!forcedAnon && pattern.test(name)) {
+								$post.data('hiddenByName', true);
+								hide(post);
+							}
+							break;
+						case 'trip':
+							if (!forcedAnon && pattern.test(trip)) {
+								$post.data('hiddenByTrip', true);
+								hide(post);
+							}
+							break;
+						case 'sub':
+							if (hasSub && pattern.test(subject)) {
+								$post.data('hiddenBySubject', true);
+								hide(post);
+							}
+							break;
+						case 'com':
+							if (pattern.test(comment)) {
+								$post.data('hiddenByComment', true);
+								hide(post);
+							}
+							break;
+					}
+				} else {
+					switch (rule.type) {
+						case 'name':
+							if (!forcedAnon && rule.value == name) {
+								$post.data('hiddenByName', true);
+								hide(post);
+							}
+							break;
+						case 'trip':
+							if (!forcedAnon && hasTrip && rule.value == trip) {
+								$post.data('hiddenByTrip', true);
+								hide(post);
+							}
+							break;
+						case 'sub':
+							if (hasSub && subject.indexOf(' '+ rule.value +' ') != -1) {
+								$post.data('hiddenBySubject', true);
+								hide(post);
+							}
+							break;
+						case 'com':
+							if (comment.indexOf(' '+ rule.value +' ') != -1) {
+								$post.data('hiddenByComment', true);
+								hide(post);
+							}
+							break;
 					}
 				}
 			}
@@ -445,12 +492,11 @@ if (active_page === 'thread' || active_page === 'index') {
 			});
 
 			// post didn't match any filters
-			if ((typeof $post.data('hidden') == 'undefined' || $post.data('hidden') == '0') &&
-				$post.data('hiddenByUid') === '0' &&
-				$post.data('hiddenByUid') == $post.data('hiddenByPost') == $post.data('hiddenByName') == $post.data('hiddenByTrip')) {
+			if (!$post.data('hidden')) {
 				show(post);
 			}
 		}
+
 		/*  (re)runs the filter on the entire page
 		 */
 		 function filterPage(pageData) {
@@ -471,16 +517,14 @@ if (active_page === 'thread' || active_page === 'index') {
 				var i, array;  // temp variables
 
 				// add posts to localList and noReplyList
-				if (typeof list.postFilter[pageData.boardId] != 'undefined') {
+				if (typeof list.postFilter[pageData.boardId] != 'undefined' && typeof list.postFilter[pageData.boardId][threadId] != 'undefined') {
 					array = list.postFilter[pageData.boardId][threadId];
-					if (typeof array != 'undefined') {
-						for (i=0; i<array.length; i++) {
-							if ( typeof array[i].post == 'undefined')
-								continue;
+					for (i=0; i<array.length; i++) {
+						if ( typeof array[i].post == 'undefined')
+							continue;
 
-							pageData.localList.push(array[i].post);
-							if (array[i].hideReplies) pageData.noReplyList.push(array[i].post);
-						}
+						pageData.localList.push(array[i].post);
+						if (array[i].hideReplies) pageData.noReplyList.push(array[i].post);
 					}
 				}
 				// run filter on OP
@@ -488,7 +532,7 @@ if (active_page === 'thread' || active_page === 'index') {
 				quickToggle(op, threadId, pageData);
 
 				// iterate filter over each post
-				if ($(op).data('hidden') != '1' || active_page == 'thread') {
+				if (!$(op).data('hidden') || active_page == 'thread') {
 					$thread.find('.reply').not('.hidden').each(function () {
 						filter(this, threadId, pageData);
 					});
@@ -506,6 +550,8 @@ if (active_page === 'thread' || active_page === 'index') {
 			$ele.remove();
 
 			cssString = '\n/*** Generated by post-filter ***/\n' +
+				'#filter-control input[type=text] {width: 130px;}' +
+				'#filter-control input[type=checkbox] {vertical-align: middle;}' +
 				'#filter-control #clear {float: right;}\n' +
 				'#filter-container {margin-top: 20px; border: 1px solid; height: 270px; overflow: auto;}\n' +
 				'#filter-list {width: 100%; border-collapse: collapse;}\n' +
@@ -524,33 +570,40 @@ if (active_page === 'thread' || active_page === 'index') {
 		}
 
 		function drawFilterList() {
-			var list = getList().nameFilter;
+			var list = getList().generalFilter;
 			var $ele = $('#filter-list');
-			var $row;
-			var type, val;
-			var i, length, obj;
+			var $row, i, length, obj, val;
+
+			var typeName = {
+				name: 'name',
+				trip: 'tripcode',
+				sub: 'subject',
+				com: 'comment'
+			};
 
 			$ele.empty();
 
 			$ele.append('<tr id="header"><th>Type</th><th>Content</th><th>Remove</th></tr>');
 			for (i = 0, length = list.length; i < length; i++) {
 				obj = list[i];
-				for (type in obj) {
-					val = obj[type];
-					$row = $('<tr>');
-					$row.append(
-								'<td>'+ type +'</td>',
-								'<td>'+ val +'</td>',
-								$('<td>').append(
-									$('<a>').html('X')
-										.addClass('del-btn')
-										.attr('href', '#')
-										.attr('data-type', type)
-										.attr('data-val', val)
-								)
-							);
-					$ele.append($row);
-				}
+
+				// display formatting
+				val = (obj.regex) ? '/'+ obj.value +'/' : obj.value;
+
+				$row = $('<tr>');
+				$row.append(
+							'<td>'+ typeName[obj.type] +'</td>',
+							'<td>'+ val +'</td>',
+							$('<td>').append(
+								$('<a>').html('X')
+									.addClass('del-btn')
+									.attr('href', '#')
+									.data('type', obj.type)
+									.data('val', obj.value)
+									.data('useRegex', obj.regex)
+							)
+						);
+				$ele.append($row);
 			}
 		}
 
@@ -559,9 +612,15 @@ if (active_page === 'thread' || active_page === 'index') {
 				Options.add_tab('filter', 'list', 'Filters');
 				Options.extend_tab('filter',
 					'<div id="filter-control">' +
-						'<input id="input" type="text"></input>' +
-						'<button id="name">Add Name</button>' +
-						'<button id="trip">Add Tripcode</button>' +
+						'<select>' +
+							'<option value="name">Name</option>' +
+							'<option value="trip">Tripcode</option>' +
+							'<option value="sub">Subject</option>' +
+							'<option value="com">Comment</option>' +
+						'</select>' +
+						'<input type="text"></input>' +
+						'<input type="checkbox">regex</input>' +
+						'<button id="set-filter">Add</button>' +
 						'<button id="clear">Clear all filters</button>' +
 						'<div id="confirm" class="hidden">' +
 							'This will clear all filtering rules including hidden posts. <a id="confirm-y" href="#">yes</a> | <a id="confirm-n" href="#">no</a>' +
@@ -572,15 +631,16 @@ if (active_page === 'thread' || active_page === 'index') {
 				drawFilterList();
 
 				// control buttons
-				$('#filter-control').on('click', '#name', function () {
-					var str = $('#filter-control #input').val().trim();
-					$('#filter-control #input').val('');
-					blacklist.add.name(str);
-				});
-				$('#filter-control').on('click', '#trip', function () {
-					var str = $('#filter-control #input').val().trim();
-					$('#filter-control #input').val('');
-					blacklist.add.trip(str);
+				$('#filter-control').on('click', '#set-filter', function () {
+					var type = $('#filter-control select option:selected').val();
+					var value = $('#filter-control input[type=text]').val();
+					var useRegex = $('#filter-control input[type=checkbox]').prop('checked');
+
+					//clear the input form
+					$('#filter-control input[type=text]').val('');
+
+					addFilter(type, value, useRegex);
+					drawFilterList();
 				});
 				$('#filter-control').on('click', '#clear', function () {
 					$('#filter-control #clear').addClass('hidden');
@@ -592,7 +652,7 @@ if (active_page === 'thread' || active_page === 'index') {
 					$('#filter-control #clear').removeClass('hidden');
 					$('#filter-control #confirm').addClass('hidden');
 					setList({
-						nameFilter: [],
+						generalFilter: [],
 						postFilter: {},
 						nextPurge: {},
 						lastPurge: timestamp()
@@ -612,9 +672,11 @@ if (active_page === 'thread' || active_page === 'index') {
 					e.preventDefault();
 
 					var $ele = $(e.target);
-					var type = $ele.attr('data-type');
-					var val = $ele.attr('data-val');
-					blacklist.remove[type](val);
+					var type = $ele.data('type');
+					var val = $ele.data('val');
+					var useRegex = $ele.data('useRegex');
+
+					removeFilter(type, val, useRegex);
 				});
 			}
 		}
@@ -684,12 +746,39 @@ if (active_page === 'thread' || active_page === 'index') {
 		function init() {
 			if (typeof localStorage.postFilter === 'undefined') {
 				localStorage.postFilter = JSON.stringify({
-					nameFilter: [],
+					generalFilter: [],
 					postFilter: {},
 					nextPurge: {},
 					lastPurge: timestamp()
 				});
 			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+			 *  Migrate from previous version of post filter
+			 *  Remember to remove next time anyone touches this file
+			 */
+			(function () {
+				var list = getList();
+				if (typeof list.nameFilter != 'undefined') {
+					var filter = list.nameFilter;
+					list.generalFilter = [];
+
+					for (var i = 0; i < filter.length; i++) {
+						var obj = filter[i];
+						for (var key in obj) {
+							list.generalFilter.push({
+								type: key,
+								value: obj[key],
+								regex: false
+							});
+						}
+					}
+
+					delete list.nameFilter;
+					localStorage.postFilter = JSON.stringify(list);
+				}
+			})();
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			var pageData = {
 				boardId: board_name,  // get the id from the global variable
