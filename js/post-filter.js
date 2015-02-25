@@ -618,8 +618,9 @@ if (active_page === 'thread' || active_page === 'index') {
 							'<option value="sub">Subject</option>' +
 							'<option value="com">Comment</option>' +
 						'</select>' +
-						'<input type="text"></input>' +
-						'<input type="checkbox">regex</input>' +
+						'<input type="text">' +
+						'<input type="checkbox">' +
+						'regex ' +
 						'<button id="set-filter">Add</button>' +
 						'<button id="clear">Clear all filters</button>' +
 						'<div id="confirm" class="hidden">' +
