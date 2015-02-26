@@ -698,6 +698,42 @@ function mod_user_log($username, $page_no = 1) {
 	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'username' => $username));
 }
 
+function mod_board_log($board, $page_no = 1, $hide_names = false, $public = false) {
+	global $config;
+	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
+	if (!hasPermission($config['mod']['mod_board_log'], $board) && !$public)
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `board` = :board ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query->bindValue(':board', $board);
+	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($logs) && $page_no > 1)
+		error($config['error']['404']);
+
+	if (!hasPermission($config['mod']['show_ip'])) {
+		// Supports ipv4 only!
+		foreach ($logs as $i => &$log) {
+			$log['text'] = preg_replace_callback('/(?:<a href="\?\/IP\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}">)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?:<\/a>)?/', function($matches) {
+				return "xxxx";//less_ip($matches[1]);
+			}, $log['text']);
+		}
+	}
+	
+	$query = prepare("SELECT COUNT(*) FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `board` = :board");
+	$query->bindValue(':board', $board);
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn();
+	
+	mod_page(_('Board log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'board' => $board, 'hide_names' => $hide_names, 'public' => $public));
+}
+
 function mod_view_board($boardName, $page_no = 1) {
 	global $config, $mod;
 	

@@ -18,6 +18,7 @@ require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
+require_once 'inc/mod/auth.php';
 require_once 'inc/polyfill.php';
 
 if (!extension_loaded('gettext')) {
@@ -524,7 +525,8 @@ function setupBoard($array) {
 	$board = array(
 		'uri' => $array['uri'],
 		'title' => $array['title'],
-		'subtitle' => $array['subtitle']
+		'subtitle' => $array['subtitle'],
+		#'indexed' => $array['indexed'],
 	);
 
 	// older versions
@@ -1270,7 +1272,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	return true;
 }
 
-function clean() {
+function clean($pid = false) {
 	global $board, $config;
 	$offset = round($config['max_pages']*$config['threads_per_page']);
 
@@ -1281,6 +1283,22 @@ function clean() {
 	$query->execute() or error(db_error($query));
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		deletePost($post['id'], false, false);
+		if ($pid) modLog("Automatically deleting thread #{$post['id']} due to new thread #{$pid}");
+	}
+
+	// Bump off threads with X replies earlier, spam prevention method
+	if ($config['early_404']) {
+		$offset = round($config['early_404_page']*$config['threads_per_page']);
+		$query = prepare(sprintf("SELECT `id` AS `thread_id`, (SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `thread` = `thread_id`) AS `reply_count` FROM ``posts_%s`` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri'], $board['uri']));
+		$query->bindValue(':offset', $offset, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+			if ($post['reply_count'] < $config['early_404_replies']) {
+				deletePost($post['thread_id'], false, false);
+				if ($pid) modLog("Automatically deleting thread #{$post['thread_id']} due to new thread #{$pid} (early 404 is set, #{$post['thread_id']} had {$post['reply_count']} replies)");
+			}
+		}
 	}
 }
 

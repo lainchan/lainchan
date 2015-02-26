@@ -5,12 +5,12 @@
  */
 
 require_once 'inc/functions.php';
-require_once 'inc/bans.php';
-require_once 'inc/mod/pages.php';
-require_once 'inc/mod/auth.php';
 
 if ($config['debug'])
 	$parse_start_time = microtime(true);
+
+require_once 'inc/bans.php';
+require_once 'inc/mod/pages.php';
 
 check_login(true);
 

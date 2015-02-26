@@ -70,9 +70,11 @@ if (isset($_POST['delete'])) {
 			if (isset($_POST['file'])) {
 				// Delete just the file
 				deleteFile($id);
+				modLog("User deleted file from his own post #$id");
 			} else {
 				// Delete entire post
 				deletePost($id);
+				modLog("User deleted his own post #$id");
 			}
 			
 			_syslog(LOG_INFO, 'Deleted post: ' .
@@ -233,7 +235,6 @@ if (isset($_POST['delete'])) {
 	checkBan($board['uri']);
 
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
-		require 'inc/mod/auth.php';
 		check_login(false);
 		if (!$mod) {
 			// Liar. You're not a mod.
@@ -945,7 +946,7 @@ if (isset($_POST['delete'])) {
 		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
-		clean();
+		clean($pid);
 	
 	event('post-after', $post);
 	

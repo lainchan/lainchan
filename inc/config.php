@@ -511,6 +511,13 @@
 	// The timeout for the above, in seconds.
 	$config['upload_by_url_timeout'] = 15;
 
+	// Enable early 404? With default settings, a thread would 404 if it was to leave page 3, if it had less
+	// than 3 replies.
+	$config['early_404'] = false;
+
+	$config['early_404_page'] = 3;
+	$config['early_404_replies'] = 5;
+
 	// A wordfilter (sometimes referred to as just a "filter" or "censor") automatically scans users’ posts
 	// as they are submitted and changes or censors particular words or phrases.
 
@@ -1537,25 +1544,30 @@
 
 /*
  * ====================
- *  Public post search
+ *  Public pages
  * ====================
  */
+
+	// Public post search settings
 	$config['search'] = array();
 
 	// Enable the search form
 	$config['search']['enable'] = false;
 
 	// Maximal number of queries per IP address per minutes
-    $config['search']['queries_per_minutes'] = Array(15, 2);
+	$config['search']['queries_per_minutes'] = Array(15, 2);
 
 	// Global maximal number of queries per minutes
-    $config['search']['queries_per_minutes_all'] = Array(50, 2);
+	$config['search']['queries_per_minutes_all'] = Array(50, 2);
 
 	// Limit of search results
-    $config['search']['search_limit'] = 100;
+	$config['search']['search_limit'] = 100;
 		
 	// Boards for searching
-    //$config['search']['boards'] = array('a', 'b', 'c', 'd', 'e');
+	//$config['search']['boards'] = array('a', 'b', 'c', 'd', 'e');
+
+	// Enable public logs? 0: NO, 1: YES, 2: YES, but drop names
+	$config['public_logs'] = 0;
 
 /*
  * ====================
