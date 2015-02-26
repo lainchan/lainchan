@@ -16,6 +16,10 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
+if (!$_POST['mod'] && $config['board_locked']) {
+    error("Board is locked");
+}
+
 if (isset($_POST['delete'])) {
 	// Delete
 	
