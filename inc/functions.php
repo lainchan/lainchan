@@ -355,8 +355,15 @@ function rebuildThemes($action, $boardname = false) {
 	                init_locale($config['locale'], $error);
 	        }
 
+		if (PHP_SAPI === 'cli') {
+			echo "Rebuilding theme ".$theme['theme']."... ";
+		}
 
 		rebuildTheme($theme['theme'], $action, $boardname);
+
+		if (PHP_SAPI === 'cli') {
+			echo "done\n";
+		}
 	}
 
 	// Restore them again
@@ -583,8 +590,8 @@ function file_write($path, $data, $simple = false, $skip_purge = false) {
 		if ($bytes & ~0x3ff) {  // if ($bytes >= 1024)
 			if (file_put_contents($gzpath, gzencode($data), $simple ? 0 : LOCK_EX) === false)
 				error("Unable to write to file: $gzpath");
-			if (!touch($gzpath, filemtime($path), fileatime($path)))
-				error("Unable to touch file: $gzpath");
+			//if (!touch($gzpath, filemtime($path), fileatime($path)))
+			//	error("Unable to touch file: $gzpath");
 		}
 		else {
 			@unlink($gzpath);
