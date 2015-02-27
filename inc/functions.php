@@ -124,10 +124,6 @@ function loadConfig() {
 		init_locale($config['locale'], $error);
 	}
 
-	if (!isset($__version))
-		$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
-	$config['version'] = $__version;
-
 	date_default_timezone_set($config['timezone']);
 
 	if (!isset($config['global_message']))
@@ -135,6 +131,7 @@ function loadConfig() {
 
 	if (!isset($config['post_url']))
 		$config['post_url'] = $config['root'] . $config['file_post'];
+
 
 	if (!isset($config['referer_match']))
 		if (isset($_SERVER['HTTP_HOST'])) {
@@ -206,17 +203,10 @@ function loadConfig() {
 	if (!isset($config['user_flags']))
 		$config['user_flags'] = array();
 
+	// Effectful config processing below:
+
 	if ($config['root_file']) {
 		chdir($config['root_file']);
-	}
-
-	if ($config['verbose_errors']) {
-		set_error_handler('verbose_error_handler');
-		error_reporting(E_ALL);
-		ini_set('display_errors', true);
-		ini_set('html_errors', false);
-	} else {
-		ini_set('display_errors', false);
 	}
 
 	// Keep the original address to properly comply with other board configurations
@@ -227,11 +217,25 @@ function loadConfig() {
 	if (preg_match('/^\:\:(ffff\:)?(\d+\.\d+\.\d+\.\d+)$/', $__ip, $m))
 		$_SERVER['REMOTE_ADDR'] = $m[2];
 
+	if (!isset($__version))
+		$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
+	$config['version'] = $__version;
+
+	if ($config['verbose_errors']) {
+		set_error_handler('verbose_error_handler');
+		error_reporting(E_ALL);
+		ini_set('display_errors', true);
+		ini_set('html_errors', false);
+	} else {
+		ini_set('display_errors', false);
+	}
+
 	if ($config['syslog'])
 		openlog('tinyboard', LOG_ODELAY, LOG_SYSLOG); // open a connection to sysem logger
 
 	if ($config['recaptcha'])
 		require_once 'inc/lib/recaptcha/recaptchalib.php';
+	
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
 
