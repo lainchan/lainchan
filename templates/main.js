@@ -71,25 +71,40 @@ var datelocale =
 
 
 function alert(a) {
-  var handler, div;
-  var close = function() {
-    handler.fadeOut(400, function() { handler.remove(); });
-    return false;
-  };
+function alert(a, do_confirm, confirm_ok_action, confirm_cancel_action) {
+      var handler, div, bg, closebtn, okbtn;
+      var close = function() {
+              handler.fadeOut(400, function() { handler.remove(); });
+              return false;
+      };
 
-  handler = $("<div id='alert_handler'></div>").hide().appendTo('body');
+      handler = $("<div id='alert_handler'></div>").hide().appendTo('body');
 
-  $("<div id='alert_background'></div>").click(close).appendTo(handler);
+      bg = $("<div id='alert_background'></div>").appendTo(handler);
 
-  div = $("<div id='alert_div'></div>").appendTo(handler);
-  $("<a id='alert_close' href='javascript:void(0)'><i class='fa fa-times'></i></div>")
-  .click(close).appendTo(div);
+      div = $("<div id='alert_div'></div>").appendTo(handler);
+      closebtn = $("<a id='alert_close' href='javascript:void(0)'><i class='fa fa-times'></i></div>")
+              .appendTo(div);
 
-  $("<div id='alert_message'></div>").html(a).appendTo(div);
+      $("<div id='alert_message'></div>").html(a).appendTo(div);
 
-  $("<button class='button alert_button'>"+_("OK")+"</button>").click(close).appendTo(div);
+      okbtn = $("<button class='button alert_button'>"+_("OK")+"</button>").appendTo(div);
 
-  handler.fadeIn(400);
+      if (do_confirm) {
+              confirm_ok_action = (typeof confirm_ok_action !== "function") ? function(){} : confirm_ok_action;
+              confirm_cancel_action = (typeof confirm_cancel_action !== "function") ? function(){} : confirm_cancel_action;
+              okbtn.click(confirm_ok_action);
+              $("<button class='button alert_button'>"+_("Cancel")+"</button>").click(confirm_cancel_action).click(close).appendTo(div);
+              bg.click(confirm_cancel_action);
+              okbtn.click(confirm_cancel_action);
+              closebtn.click(confirm_cancel_action);
+      }
+
+      bg.click(close);
+      okbtn.click(close);
+      closebtn.click(close);
+
+      handler.fadeIn(400);
 }
 
 var saved = {};
