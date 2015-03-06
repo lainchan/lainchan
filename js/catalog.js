@@ -6,26 +6,6 @@ if (active_page == 'catalog') $(function(){
 		localStorage.catalog = JSON.stringify(catalog);
 	}
 
-	if (localStorage.hiddenthreads) {
-		var hidden_data = JSON.parse(localStorage.hiddenthreads);
-
-		if (hidden_data[board_name] && !$.isEmptyObject(hidden_data[board_name])) {
-			$.each(hidden_data[board_name], function(k, v) {
-				$('a[href$="/'+k+'.html"]').parents('.mix').remove();
-			});
-		}
-	} else {
-		hidden_data = {};
-	}
-
-	$(document).on('click', '.mix', function(e) {
-		if (e.shiftKey) {
-			hidden_data[board_name][$(this).data('id')] = Math.round(Date.now() / 1000);
-			$(this).remove();
-			localStorage.hiddenthreads = JSON.stringify(hidden_data);
-		}
-	});
-
 	$("#sort_by").change(function(){
 		var value = this.value;
 		$('#Grid').mixItUp('sort', (value == "random" ? value : "sticky:desc " + value));

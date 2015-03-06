@@ -1,4 +1,4 @@
-if (active_page === 'thread' || active_page === 'index') {
+if (active_page === 'thread' || active_page === 'index' || active_page === 'catalog') {
 	$(document).ready(function () {
 		'use strict';
 		// returns blacklist object from storage
@@ -408,13 +408,13 @@ if (active_page === 'thread' || active_page === 'index') {
 			if (!forcedAnon && hasTrip)
 				trip = $post.find('.trip').text();
 			if (hasSub)
-				subject = ' '+ $post.find('.subject').text() +' ';
+				subject = $post.find('.subject').text();
 
 			array = $post.find('.body').contents().filter(function () {if ($(this).text() !== '') return true;}).toArray();
 			array = $.map(array, function (ele) {
 				return $(ele).text();
 			});
-			comment = ' '+ array.join(' ') +' ';
+			comment = array.join(' ');
 
 
 			for (i = 0, length = list.generalFilter.length; i < length; i++) {
@@ -430,7 +430,7 @@ if (active_page === 'thread' || active_page === 'index') {
 							}
 							break;
 						case 'trip':
-							if (!forcedAnon && pattern.test(trip)) {
+							if (!forcedAnon && hasTrip && pattern.test(trip)) {
 								$post.data('hiddenByTrip', true);
 								hide(post);
 							}
@@ -463,13 +463,15 @@ if (active_page === 'thread' || active_page === 'index') {
 							}
 							break;
 						case 'sub':
-							if (hasSub && subject.indexOf(' '+ rule.value +' ') != -1) {
+							pattern = new RegExp('\\b'+ rule.value+ '\\b');
+							if (hasSub && pattern.test(subject)) {
 								$post.data('hiddenBySubject', true);
 								hide(post);
 							}
 							break;
 						case 'com':
-							if (comment.indexOf(' '+ rule.value +' ') != -1) {
+							pattern = new RegExp('\\b'+ rule.value+ '\\b');
+							if (pattern.test(comment)) {
 								$post.data('hiddenByComment', true);
 								hide(post);
 							}
@@ -502,43 +504,63 @@ if (active_page === 'thread' || active_page === 'index') {
 		 function filterPage(pageData) {
 			var list = getList();
 
-			// empty the local and no-reply list
-			pageData.localList = [];
-			pageData.noReplyList = [];
+			if (active_page != 'catalog') {
 
-			$('.thread').each(function () {
-				var $thread = $(this);
-				// disregard the hidden threads constructed by post-hover.js
-				if ($thread.css('display') == 'none')
+				// empty the local and no-reply list
+				pageData.localList = [];
+				pageData.noReplyList = [];
+
+				$('.thread').each(function () {
+					var $thread = $(this);
+					// disregard the hidden threads constructed by post-hover.js
+					if ($thread.css('display') == 'none')
+						return;
+
+					var threadId = $thread.attr('id').replace('thread_', '');
+					var op = $thread.children('.op')[0];
+					var i, array;  // temp variables
+
+					// add posts to localList and noReplyList
+					if (typeof list.postFilter[pageData.boardId] != 'undefined' && typeof list.postFilter[pageData.boardId][threadId] != 'undefined') {
+						array = list.postFilter[pageData.boardId][threadId];
+						for (i=0; i<array.length; i++) {
+							if ( typeof array[i].post == 'undefined')
+								continue;
+
+							pageData.localList.push(array[i].post);
+							if (array[i].hideReplies) pageData.noReplyList.push(array[i].post);
+						}
+					}
+					// run filter on OP
+					filter(op, threadId, pageData);
+					quickToggle(op, threadId, pageData);
+
+					// iterate filter over each post
+					if (!$(op).data('hidden') || active_page == 'thread') {
+						$thread.find('.reply').not('.hidden').each(function () {
+							filter(this, threadId, pageData);
+						});
+					}
+
+				});
+			} else {
+				var postFilter = list.postFilter[pageData.boardId];
+				var $collection = $('.mix');
+
+				if ($.isEmptyObject(postFilter))
 					return;
 
-				var threadId = $thread.attr('id').replace('thread_', '');
-				var op = $thread.children('.op')[0];
-				var i, array;  // temp variables
-
-				// add posts to localList and noReplyList
-				if (typeof list.postFilter[pageData.boardId] != 'undefined' && typeof list.postFilter[pageData.boardId][threadId] != 'undefined') {
-					array = list.postFilter[pageData.boardId][threadId];
-					for (i=0; i<array.length; i++) {
-						if ( typeof array[i].post == 'undefined')
-							continue;
-
-						pageData.localList.push(array[i].post);
-						if (array[i].hideReplies) pageData.noReplyList.push(array[i].post);
-					}
-				}
-				// run filter on OP
-				filter(op, threadId, pageData);
-				quickToggle(op, threadId, pageData);
-
-				// iterate filter over each post
-				if (!$(op).data('hidden') || active_page == 'thread') {
-					$thread.find('.reply').not('.hidden').each(function () {
-						filter(this, threadId, pageData);
+				// for each thread that has filtering rules
+				// check if filter contains thread OP and remove the thread from catalog
+				$.each(postFilter, function (key, thread) {
+					var threadId = key;
+					$.each(thread, function () {
+						if (this.post == threadId) {
+							$collection.filter('[data-id='+ threadId +']').remove();
+						}
 					});
-				}
-
-			});
+				});
+			}
 		 }
 
 		function initStyle() {
@@ -592,17 +614,17 @@ if (active_page === 'thread' || active_page === 'index') {
 
 				$row = $('<tr>');
 				$row.append(
-							'<td>'+ typeName[obj.type] +'</td>',
-							'<td>'+ val +'</td>',
-							$('<td>').append(
-								$('<a>').html('X')
-									.addClass('del-btn')
-									.attr('href', '#')
-									.data('type', obj.type)
-									.data('val', obj.value)
-									.data('useRegex', obj.regex)
-							)
-						);
+					'<td>'+ typeName[obj.type] +'</td>',
+					'<td>'+ val +'</td>',
+					$('<td>').append(
+						$('<a>').html('X')
+							.addClass('del-btn')
+							.attr('href', '#')
+							.data('type', obj.type)
+							.data('val', obj.value)
+							.data('useRegex', obj.regex)
+					)
+				);
 				$ele.append($row);
 			}
 		}
@@ -754,33 +776,6 @@ if (active_page === 'thread' || active_page === 'index') {
 				});
 			}
 
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-			 *  Migrate from previous version of post filter
-			 *  Remember to remove next time anyone touches this file
-			 */
-			(function () {
-				var list = getList();
-				if (typeof list.nameFilter != 'undefined') {
-					var filter = list.nameFilter;
-					list.generalFilter = [];
-
-					for (var i = 0; i < filter.length; i++) {
-						var obj = filter[i];
-						for (var key in obj) {
-							list.generalFilter.push({
-								type: key,
-								value: obj[key],
-								regex: false
-							});
-						}
-					}
-
-					delete list.nameFilter;
-					localStorage.postFilter = JSON.stringify(list);
-				}
-			})();
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 			var pageData = {
 				boardId: board_name,  // get the id from the global variable
 				localList: [],  // all the blacklisted post IDs or UIDs that apply to the current page
@@ -811,6 +806,17 @@ if (active_page === 'thread' || active_page === 'index') {
 			$(document).on('filter_page', function () {
 				filterPage(pageData);
 			});
+
+			// shift+click on catalog to hide thread
+			if (active_page == 'catalog') {
+				$(document).on('click', '.mix', function(e) {
+					if (e.shiftKey) {
+						var threadId = $(this).data('id');
+						var postId = threadId;
+						blacklist.add.post(pageData.boardId, threadId, postId, false);
+					}
+				});
+			}
 
 			// clear out the old threads
 			purge();
