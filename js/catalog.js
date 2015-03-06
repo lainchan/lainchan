@@ -28,7 +28,7 @@ if (active_page == 'catalog') $(function(){
 
 	$("#sort_by").change(function(){
 		var value = this.value;
-		$('#Grid').mixItUp('sort', value);
+		$('#Grid').mixItUp('sort', (value == "random" ? value : "sticky:desc " + value));
 		catalog.sort_by = value;
 		localStorage.catalog = JSON.stringify(catalog);
 	});
@@ -46,7 +46,7 @@ if (active_page == 'catalog') $(function(){
 	$('#Grid').mixItUp({
 		animation: {
 			enable: false
-		},
+		}
 	});
 
 	if (catalog.sort_by !== undefined) {
