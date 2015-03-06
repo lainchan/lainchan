@@ -113,6 +113,10 @@ $(document).ready(function(){
 					if (e.which == 2 || e.ctrlKey) //  open in new tab
 						return true;
 					if (!$(this).data('expanded')) {
+
+						if (~this.parentNode.className.indexOf('multifile'))
+							$(this).data('width') = this.parentNode.style.width;
+
 						this.parentNode.removeAttribute('style');
 						$(this).data('expanded', 'true');
 
@@ -144,7 +148,7 @@ $(document).ready(function(){
 						}
 
 						if (~this.parentNode.className.indexOf('multifile'))
-							this.parentNode.style.width = (parseInt($(this).data('width'))+40)+'px';
+							this.parentNode.style.width = $(this).data('width');
 
 						thumb.style.opacity = '';
 						thumb.style.display = '';
