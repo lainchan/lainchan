@@ -811,7 +811,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 			if (active_page == 'catalog') {
 				$(document).on('click', '.mix', function(e) {
 					if (e.shiftKey) {
-						var threadId = $(this).data('id');
+						var threadId = $(this).data('id').toString();
 						var postId = threadId;
 						blacklist.add.post(pageData.boardId, threadId, postId, false);
 					}
