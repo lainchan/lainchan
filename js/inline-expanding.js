@@ -115,7 +115,7 @@ $(document).ready(function(){
 					if (!$(this).data('expanded')) {
 
 						if (~this.parentNode.className.indexOf('multifile'))
-							$(this).data('width') = this.parentNode.style.width;
+							$(this).data('width', this.parentNode.style.width);
 
 						this.parentNode.removeAttribute('style');
 						$(this).data('expanded', 'true');
