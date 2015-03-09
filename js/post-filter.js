@@ -61,6 +61,19 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 			drawFilterList();
 		}
 
+		function nameSpanToString(el) {
+			var s = ''; 
+
+			$.each($(el).contents(), function(k,v) {
+				if (v.nodeName === 'IMG')
+					s=s+$(v).attr('alt')
+				
+				if (v.nodeName === '#text')
+					s=s+v.nodeValue
+			});
+			return s.trim();
+		}
+
 		var blacklist = {
 			add: {
 				post: function (boardId, threadId, postId, hideReplies) {
@@ -217,7 +230,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 				var postName;
 				var postTrip = '';
 				if (!pageData.forcedAnon) {
-					postName = (typeof $ele.find('.name').contents()[0] == 'undefined') ? '' : $ele.find('.name').contents()[0].nodeValue.trim();
+					postName = (typeof $ele.find('.name').contents()[0] == 'undefined') ? '' : nameSpanToString($ele.find('.name')[0]);
 					postTrip = $ele.find('.trip').text();
 				}
 
@@ -404,7 +417,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 
 			// matches generalFilter
 			if (!forcedAnon)
-				name = (typeof $post.find('.name').contents()[0] == 'undefined') ? '' : $post.find('.name').contents()[0].nodeValue.trim();
+				name = (typeof $post.find('.name').contents()[0] == 'undefined') ? '' : nameSpanToString($post.find('.name')[0]);
 			if (!forcedAnon && hasTrip)
 				trip = $post.find('.trip').text();
 			if (hasSub)
