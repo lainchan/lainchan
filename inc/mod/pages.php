@@ -1161,7 +1161,7 @@ function mod_move_reply($originBoard, $postID) {
 		$post = $query->fetch(PDO::FETCH_ASSOC);
 
 		// redirect
-		header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $newID) . '#' . $newID, true, $config['redirect_http']);
+		header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($post) . '#' . $newID, true, $config['redirect_http']);
 	}
 
 	else {
@@ -1322,6 +1322,8 @@ function mod_move($originBoard, $postID) {
 		// trigger themes
 		rebuildThemes('post', $targetBoard);
 		
+		$newboard = $board;
+
 		// return to original board
 		openBoard($originBoard);
 		
@@ -1332,7 +1334,7 @@ function mod_move($originBoard, $postID) {
 			$query->execute() or error(db_error($query));
 			
 			// leave a reply, linking to the new thread
-			$post = array(
+			$spost = array(
 				'mod' => true,
 				'subject' => '',
 				'email' => '',
@@ -1346,23 +1348,23 @@ function mod_move($originBoard, $postID) {
 				'op' => false
 			);
 
-			$post['body'] = $post['body_nomarkup'] =  sprintf($config['mod']['shadow_mesage'], '>>>/' . $targetBoard . '/' . $newID);
+			$spost['body'] = $spost['body_nomarkup'] =  sprintf($config['mod']['shadow_mesage'], '>>>/' . $targetBoard . '/' . $newID);
 			
-			markup($post['body']);
+			markup($spost['body']);
 			
-			$botID = post($post);
+			$botID = post($spost);
 			buildThread($postID);
 			
 			buildIndex();
 			
-			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] .sprintf($config['file_page'], $postID) .
+			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] . link_for($post, false, $newboard) .
 				'#' . $botID, true, $config['redirect_http']);
 		} else {
 			deletePost($postID);
 			buildIndex();
 			
 			openBoard($targetBoard);
-			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . sprintf($config['file_page'], $newID), true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($post, false, $newboard), true, $config['redirect_http']);
 		}
 	}
 	
@@ -1494,7 +1496,7 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 
 		rebuildThemes('post', $board);
 		
-		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $postID) . '#' . $postID, true, $config['redirect_http']);
+		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . link_for($post) . '#' . $postID, true, $config['redirect_http']);
 	} else {
 		if ($config['minify_html']) {
 			$post['body_nomarkup'] = str_replace("\n", '&#010;', utf8tohtml($post['body_nomarkup']));
