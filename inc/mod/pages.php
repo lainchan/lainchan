@@ -1360,14 +1360,14 @@ function mod_move($originBoard, $postID) {
 			
 			buildIndex();
 			
-			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] . link_for($op, false, $newboard) .
+			header('Location: ?/' . sprintf($config['board_path'], $newboard['uri']) . $config['dir']['res'] . link_for($op, false, $newboard) .
 				'#' . $botID, true, $config['redirect_http']);
 		} else {
 			deletePost($postID);
 			buildIndex();
 			
 			openBoard($targetBoard);
-			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($op, false, $newboard), true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $newboard['uri']) . $config['dir']['res'] . link_for($op, false, $newboard), true, $config['redirect_http']);
 		}
 	}
 	
