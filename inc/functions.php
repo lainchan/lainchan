@@ -1810,7 +1810,7 @@ function markup(&$body, $track_cites = false) {
 			if (isset($cited_posts[$cite])) {
 				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
 					$config['root'] . $board['dir'] . $config['dir']['res'] .
-					link_for(array('id' => $cite)) . '#' . $cite . '">' .
+					link_for(array('id' => $cite, 'thread' => $cited_posts[$cite])) . '#' . $cite . '">' .
 					'&gt;&gt;' . $cite .
 					'</a>';
 
