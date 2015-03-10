@@ -1810,7 +1810,7 @@ function markup(&$body, $track_cites = false) {
 			if (isset($cited_posts[$cite])) {
 				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
 					$config['root'] . $board['dir'] . $config['dir']['res'] .
-					($cited_posts[$cite] ? $cited_posts[$cite] : $cite) . '.html#' . $cite . '">' .
+					link_for(array('id' => $cite)) . '#' . $cite . '">' .
 					'&gt;&gt;' . $cite .
 					'</a>';
 
@@ -1876,12 +1876,12 @@ function markup(&$body, $track_cites = false) {
 			if (!empty($clauses)) {
 				$cited_posts[$_board] = array();
 				
-				$query = query(sprintf('SELECT `thread`, `id` FROM ``posts_%s`` WHERE ' .
+				$query = query(sprintf('SELECT `thread`, `id`, `slug` FROM ``posts_%s`` WHERE ' .
 					implode(' OR ', $clauses), $board['uri'])) or error(db_error());
 				
 				while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
 					$cited_posts[$_board][$cite['id']] = $config['root'] . $board['dir'] . $config['dir']['res'] .
-						($cite['thread'] ? $cite['thread'] : $cite['id']) . '.html#' . $cite['id'];
+						link_for($cite) . '#' . $cite['id'];
 				}
 			}
 			
@@ -2478,7 +2478,7 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 
 	$slug = false;
 
-	if ($config['slugify'] && isset($post['thread']) && $post['thread']) {
+	if ($config['slugify'] && ( (isset($post['thread']) && $post['thread']) || !isset ($post['slug']) ) ) {
 		$cvar = "slug_".$b['uri']."_".$id;
 		if (!$thread) {
 			$slug = Cache::get($cvar);
