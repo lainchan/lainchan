@@ -1085,7 +1085,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	global $board, $config;
 
 	// Select post and replies (if thread) in one query
-	$query = prepare(sprintf("SELECT `id`,`thread`,`files` FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT `id`,`thread`,`files`,`slug` FROM ``posts_%s`` WHERE `id` = :id OR `thread` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
