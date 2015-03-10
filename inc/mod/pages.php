@@ -1224,7 +1224,10 @@ function mod_move($originBoard, $postID) {
 		
 		// create the new thread
 		$newID = post($post);
-		
+	
+		$op = $post;
+		$op['id'] = $newID;
+	
 		if ($post['has_file']) {
 			// copy image
 			foreach ($post['files'] as $i => &$file) {
@@ -1357,14 +1360,14 @@ function mod_move($originBoard, $postID) {
 			
 			buildIndex();
 			
-			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] . link_for($post, false, $newboard) .
+			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] . link_for($op, false, $newboard) .
 				'#' . $botID, true, $config['redirect_http']);
 		} else {
 			deletePost($postID);
 			buildIndex();
 			
 			openBoard($targetBoard);
-			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($post, false, $newboard), true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($op, false, $newboard), true, $config['redirect_http']);
 		}
 	}
 	
