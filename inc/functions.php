@@ -2472,7 +2472,7 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 	$post = (array)$post;
 
 	// Where do we need to look for OP?
-	$b = $foreignlink ? $foreignlink : $board;
+	$b = $foreignlink ? $foreignlink : (isset($post['board']) ? array('uri' => $post['board']) : $board);
 
 	$id = (isset($post['thread']) && $post['thread']) ? $post['thread'] : $post['id'];
 
