@@ -2434,8 +2434,8 @@ function diceRoller($post) {
 function slugify($post) {
 	$slug = "";
 
-	if (isset($post['thread']) && $post['thread'])
-		$slug = $post['thread'];
+	if (isset($post['subject']) && $post['subject'])
+		$slug = $post['subject'];
 	elseif (isset ($post['body_nomarkup']) && $post['body_nomarkup'])
 		$slug = $post['body_nomarkup'];
 	elseif (isset ($post['body']) && $post['body'])
