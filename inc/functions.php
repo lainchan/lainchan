@@ -358,7 +358,7 @@ function rebuildThemes($action, $boardname = false) {
 		// Reload the locale	
 	        if ($config['locale'] != $current_locale) {
 	                $current_locale = $config['locale'];
-	                init_locale($config['locale'], $error);
+	                init_locale($config['locale']);
 	        }
 
 		if (PHP_SAPI === 'cli') {
