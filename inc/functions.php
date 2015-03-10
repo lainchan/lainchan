@@ -2482,7 +2482,7 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 		if (!$thread) {
 			// Oh fuck, we'd better optimize it ASAP
 
-			$query = prepare(sprintf("SELECT `slug` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
+			$query = prepare(sprintf("SELECT `slug` FROM ``posts_%s`` WHERE `id` = :id", $b['uri']));
 	                $query->bindValue(':id', $id, PDO::PARAM_INT);
         	        $query->execute() or error(db_error($query));
 
