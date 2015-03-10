@@ -800,6 +800,7 @@ if (isset($_POST['delete'])) {
 	$post['num_files'] = sizeof($post['files']);
 	
 	$post['id'] = $id = post($post);
+	$post['slug'] = slugify($post);
 	
 	insertFloodPost($post);
 	
