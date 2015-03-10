@@ -986,6 +986,9 @@ function post(array $post) {
 	if ($post['op']) {
 		$query->bindValue(':slug', slugify($post));
 	}
+	else {
+		$query->bindValue(':slug', NULL);
+	}
 
 	if (!$query->execute()) {
 		undoImage($post);
