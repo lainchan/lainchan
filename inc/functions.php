@@ -2479,16 +2479,25 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 	$slug = false;
 
 	if ($config['slugify'] && isset($post['thread']) && $post['thread']) {
+		$cvar = "slug_".$b['uri']."_".$id;
 		if (!$thread) {
-			// Oh fuck, we'd better optimize it ASAP
+			$slug = Cache::get($cvar);
 
-			$query = prepare(sprintf("SELECT `slug` FROM ``posts_%s`` WHERE `id` = :id", $b['uri']));
-	                $query->bindValue(':id', $id, PDO::PARAM_INT);
-        	        $query->execute() or error(db_error($query));
+			if ($slug === false) {
+				$query = prepare(sprintf("SELECT `slug` FROM ``posts_%s`` WHERE `id` = :id", $b['uri']));
+		                $query->bindValue(':id', $id, PDO::PARAM_INT);
+        		        $query->execute() or error(db_error($query));
 
-	                $thread = $query->fetch(PDO::FETCH_ASSOC);
+		                $thread = $query->fetch(PDO::FETCH_ASSOC);
+
+				$slug = $thread['slug'];
+
+				Cache::set($cvar, $slug);
+			}
 		}
-		$slug = $thread['slug'];
+		else {
+			$slug = $thread['slug'];
+		}
 	}
 	elseif ($config['slugify']) {
 		$slug = $post['slug'];
