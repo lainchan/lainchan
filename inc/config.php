@@ -115,7 +115,7 @@
 	 * http://tinyboard.org/docs/index.php?p=Config/Cache
 	 */
 
-	$config['cache']['enabled'] = false;
+	$config['cache']['enabled'] = 'php';
 	// $config['cache']['enabled'] = 'xcache';
 	// $config['cache']['enabled'] = 'apc';
 	// $config['cache']['enabled'] = 'memcached';
@@ -570,6 +570,9 @@
 	// Use semantic URLs for threads, like /b/res/12345/daily-programming-thread.html
 	$config['slugify'] = false;
 	
+	// Max size for slugs
+	$config['slug_max_size'] = 80;
+
 /*
 * ====================
 *  Ban settings
