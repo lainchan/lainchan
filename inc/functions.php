@@ -2432,6 +2432,8 @@ function diceRoller($post) {
 }
 
 function slugify($post) {
+	global $config;
+
 	$slug = "";
 
 	if (isset($post['subject']) && $post['subject'])
@@ -2459,8 +2461,8 @@ function slugify($post) {
 	// Strip dashes at the beginning and at the end
 	$slug = preg_replace('/^-|-$/', '', $slug);
 
-	// Slug should be 200 characters long, at max
-	$slug = substr($slug, 0, 200);
+	// Slug should be X characters long, at max (80?)
+	$slug = substr($slug, 0, $config['slug_max_size']);
 
 	// Slug is now ready
 	return $slug;
