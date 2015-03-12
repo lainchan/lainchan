@@ -166,13 +166,13 @@ table.modlog tr th {
 	color: #AAAAAA;
 }
 
-.desktop-style div.boardlist:nth-child(1) {
+.desktop-style div.boardlist:not(.bottom) {
   text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
   background-color: #666666;
 }
 
 
-.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
+.desktop-style div.boardlist:not(.bottom):hover, .desktop-style div.boardlist:not(.bottom).cb-menu {
   background-color: rgba(30%, 30%, 30%, 0.65);
 }
 
@@ -189,4 +189,8 @@ div.report {
 }
 .options_tab_icon.active {
 	color: #FFFFFF;
+}
+
+#quick-reply table {
+	background: none repeat scroll 0% 0% #333 !important;
 }

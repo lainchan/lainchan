@@ -16,7 +16,7 @@ $(document).ready(function(){
 	
 	$('form[name="postcontrols"] > .delete')
 		.first()
-		.before('<div id="thread_stats" style="float:left;"></div>');
+		.before('<div id="thread_stats"></div>');
 	var el = $('#thread_stats');
 	el.prepend('Page <span id="thread_stats_page">?</span>');
 	if (IDsupport){
