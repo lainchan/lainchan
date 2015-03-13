@@ -1687,3 +1687,6 @@
 	// If set to 0, it won't upgrade hashes using old password encryption schema, only create new.
 	// You can set it to a higher value, to further migrate to other password hashing function.
 	$config['password_crypt_version'] = 1;
+
+	// Use CAPTCHA for reports?
+	$config['report_captcha'] = false;
