@@ -6,29 +6,28 @@
  *   $config['additional_javascript'][] = 'js/file-selector.js';
  */
 
-onready(function () {
+if (active_page == 'index' || active_page == 'thread') {
+$(document).ready(function () {
 
 // add options panel item
-$(document).ready(function () {
-	if (window.Options && Options.get_tab('general')) {
-		Options.extend_tab('general', '<label id="file-drag-drop"><input type="checkbox">' + _('Drag and drop file selection') + '</label>');
+if (window.Options && Options.get_tab('general')) {
+	Options.extend_tab('general', '<label id="file-drag-drop"><input type="checkbox">' + _('Drag and drop file selection') + '</label>');
 
-		$('#file-drag-drop>input').on('click', function() {
-			if ($('#file-drag-drop>input').is(':checked')) {
-				localStorage.file_dragdrop = 'true';
-			} else {
-				localStorage.file_dragdrop = 'false';
-			}
-		});
+	$('#file-drag-drop>input').on('click', function() {
+		if ($('#file-drag-drop>input').is(':checked')) {
+			localStorage.file_dragdrop = 'true';
+		} else {
+			localStorage.file_dragdrop = 'false';
+		}
+	});
 
-		if (localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
-		if (localStorage.file_dragdrop === 'true') $('#file-drag-drop>input').prop('checked', true);
-	}
-});
+	if (localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
+	if (localStorage.file_dragdrop === 'true') $('#file-drag-drop>input').prop('checked', true);
+}
 
 // disabled by user, or incompatible browser.
 // fallback to old
-if (localStorage.file_dragdrop == 'false' || !(window.FileReader || window.File)) {
+if (localStorage.file_dragdrop == 'false' || !(window.FileReader && window.File)) {
 	$('.dropzone-wrap').remove();
 	$('#upload_file').show();
 
@@ -93,15 +92,15 @@ function addThumb(file) {
 }
 
 $(document).on('ajax_before_post', function (e, formData) {
-	var i;
-
-	for (i=0; i<max_images; i++) {
+	for (var i=0; i<max_images; i++) {
 		var key = 'file';
 		if (i > 0) key += i + 1;
 		formData.append(key, files[i]);
 	}
+});
 
-	// clear file queue and UI
+// clear file queue and UI on success
+$(document).on('ajax_after_post', function () {
 	files = [];
 	$('.file-thumbs').empty();
 });
@@ -185,3 +184,4 @@ $(document).on('paste', function (e) {
 });
 
 });
+}
