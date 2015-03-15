@@ -7,7 +7,7 @@
 	<atom:link href="https://8ch.net/{{ board.uri }}/index.rss" rel="self" type="application/rss+xml"/>
 	{% for post in recent_posts %}
 	<item>
-		<title>{% if post.subject %}{{ post.subject|e }}{% else %}{{ post.body_nomarkup[:256]|e }}{% endif %}</title>
+		<title>{% if post.subject %}{{ post.subject|e }}{% else %}{{ post.body_nomarkup[:256]|remove_modifiers|e }}{% endif %}</title>
 		<link>https://8ch.net/{{ board.uri }}/res/{{ post.id }}.html</link>
 		<guid>https://8ch.net/{{ board.uri }}/res/{{ post.id }}.html</guid>
 		<comments>https://8ch.net/{{ board.uri }}/res/{{ post.id }}.html</comments>
