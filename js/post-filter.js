@@ -425,7 +425,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 
 			array = $post.find('.body').contents().filter(function () {if ($(this).text() !== '') return true;}).toArray();
 			array = $.map(array, function (ele) {
-				return $(ele).text();
+				return $(ele).text().trim();
 			});
 			comment = array.join(' ');
 
