@@ -5,34 +5,29 @@
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/file-selector.js';
  */
+function init_file_selector() {
 
-if (active_page == 'index' || active_page == 'thread') {
 $(document).ready(function () {
+	// add options panel item
+	if (window.Options && Options.get_tab('general')) {
+		Options.extend_tab('general', '<label id="file-drag-drop"><input type="checkbox">' + _('Drag and drop file selection') + '</label>');
 
-// add options panel item
-if (window.Options && Options.get_tab('general')) {
-	Options.extend_tab('general', '<label id="file-drag-drop"><input type="checkbox">' + _('Drag and drop file selection') + '</label>');
+		$('#file-drag-drop>input').on('click', function() {
+			if ($('#file-drag-drop>input').is(':checked')) {
+				localStorage.file_dragdrop = 'true';
+			} else {
+				localStorage.file_dragdrop = 'false';
+			}
+		});
 
-	$('#file-drag-drop>input').on('click', function() {
-		if ($('#file-drag-drop>input').is(':checked')) {
-			localStorage.file_dragdrop = 'true';
-		} else {
-			localStorage.file_dragdrop = 'false';
-		}
-	});
-
-	if (localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
-	if (localStorage.file_dragdrop === 'true') $('#file-drag-drop>input').prop('checked', true);
-}
+		if (localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
+		if (localStorage.file_dragdrop === 'true') $('#file-drag-drop>input').prop('checked', true);
+	}
+});
 
 // disabled by user, or incompatible browser.
-// fallback to old
-if (localStorage.file_dragdrop == 'false' || !(window.FileReader && window.File)) {
-	$('.dropzone-wrap').remove();
-	$('#upload_file').show();
-
+if (localStorage.file_dragdrop == 'false' || !(window.FileReader && window.File))
 	return;
-}
 
 // multipost not enabled
 if (typeof max_images == 'undefined') {
@@ -40,6 +35,8 @@ if (typeof max_images == 'undefined') {
 }
 
 var files = [];
+$('#upload_file').hide();  // hide the original file selector
+$('.dropzone-wrap').css('user-select', 'none').show();  // let jquery add browser specific prefix
 
 function addFile(file) {
 	if (files.length == max_images)
@@ -140,8 +137,6 @@ var dropHandlers = {
 	}
 };
 
-$('#upload input[type=file]').hide();  // hide the original file selector
-$('.dropzone-wrap').css('user-select', 'none').show();  // let jquery add browser specific prefix
 
 // attach handlers
 $(document).on(dropHandlers, '.dropzone');
@@ -184,5 +179,4 @@ $(document).on('paste', function (e) {
 	}
 });
 
-});
 }
