@@ -140,7 +140,8 @@ var dropHandlers = {
 	}
 };
 
-$('.dropzone').css('user-select', 'none')  // let jquery add browser specific prefix
+$('#upload input[type=file]').hide();  // hide the original file selector
+$('.dropzone-wrap').css('user-select', 'none').show();  // let jquery add browser specific prefix
 
 // attach handlers
 $(document).on(dropHandlers, '.dropzone');

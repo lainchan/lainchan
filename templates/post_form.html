@@ -98,6 +98,14 @@
 			</th>
 			<td>
 				<input type="file" name="file" id="upload_file">
+
+				<div class="dropzone-wrap" style="display: none;">
+					<div class="dropzone">
+						<div class="file-hint">Select/drop/paste files here</div>
+						<div class="file-thumbs"></div>
+					</div>
+				</div>
+
 				{% if config.allow_upload_by_url %}
 					<div style="float:none;text-align:left" id="upload_url">
 						<label for="file_url">{% trans %}Or URL{% endtrans %}</label>: 
