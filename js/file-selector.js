@@ -26,7 +26,7 @@ $(document).ready(function () {
 });
 
 // disabled by user, or incompatible browser.
-if (localStorage.file_dragdrop == 'false' || !(window.FileReader && window.File))
+if (localStorage.file_dragdrop == 'false' || !(window.URL.createObjectURL && window.File))
 	return;
 
 // multipost not enabled
@@ -59,9 +59,9 @@ function addThumb(file) {
 	var fileName = (file.name.length < 24) ? file.name : file.name.substr(0, 22) + '…';
 	var fileType = file.type.split('/')[0];
 	var fileExt = file.type.split('/')[1];
-	var $fileThumb;
+	var $container = $('<div>');
 
-	$('.file-thumbs').append($('<div>')
+	$container
 		.addClass('tmb-container')
 		.data('file-ref', file)
 		.append(
@@ -69,21 +69,14 @@ function addThumb(file) {
 			$('<div>').addClass('file-tmb'),
 			$('<div>').addClass('tmb-filename').html(fileName)
 		)
-	);
+		.appendTo($('.file-thumbs'));
 
+	var $fileThumb = $container.find('.file-tmb');
 	if (fileType == 'image') {
 		// if image file, generate thumbnail
-		var reader = new FileReader();
-
-		reader.onloadend = function () {
-			var dataURL = reader.result;
-			var $fileThumb = getThumbElement(file).find('.file-tmb');
-			$fileThumb.css('background-image', 'url('+ dataURL +')');
-		};
-
-		reader.readAsDataURL(file);
+		var objURL = window.URL.createObjectURL(file);
+		$fileThumb.css('background-image', 'url('+ objURL +')');
 	} else {
-		$fileThumb = getThumbElement(file).find('.file-tmb');
 		$fileThumb.html('<span>' + fileExt.toUpperCase() + '</span>');
 	}
 }
@@ -144,8 +137,8 @@ $(document).on(dropHandlers, '.dropzone');
 $(document).on('click', '.dropzone .remove-btn', function (e) {
 	var file = $(e.target).parent().data('file-ref');
 
+	getThumbElement(file).remove();
 	removeFile(file);
-	$(e.target).parent().remove();
 });
 
 $(document).on('click', '.dropzone .file-hint', function (e) {
