@@ -144,7 +144,7 @@ function imageHoverStart(e) { //Pashe, anonish, WTFPL
 	if (getSetting("imageHoverFollowCursor")) {
 		var size = $this.parents('.file').find('.unimportant').text().match(/\b(\d+)x(\d+)\b/),
 			maxWidth = $(window).width(),
-			maxHeight = $(window).height(),
+			maxHeight = $(window).height();
 
 		var scale = Math.min(1, maxWidth / size[1], maxHeight / size[2]);
 		hoverImage.css({
