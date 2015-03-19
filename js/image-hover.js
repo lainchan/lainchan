@@ -140,13 +140,21 @@ function imageHoverStart(e) { //Pashe, anonish, WTFPL
 	if (isVideo(getFileExtension(fullUrl))) {return;}
 	
 	hoverImage = $('<img id="chx_hoverImage" src="'+fullUrl+'" />');
+
 	if (getSetting("imageHoverFollowCursor")) {
+		var size = $this.parents('.file').find('.unimportant').text().match(/\b(\d+)x(\d+)\b/),
+			maxWidth = $(window).width(),
+			maxHeight = $(window).height(),
+
+		var scale = Math.min(1, maxWidth / size[1], maxHeight / size[2]);
 		hoverImage.css({
 			"position"      : "absolute",
 			"z-index"       : 101,
 			"pointer-events": "none",
-			"max-width"     : $(window).width(),
-			"max-height"    : $(window).height(),
+			"width"         : size[1] + "px",
+			"height"        : size[2] + "px",
+			"max-width"     : (size[1] * scale) + "px",
+			"max-height"    : (size[2] * scale) + "px",
 			'left'          : e.pageX,
 			'top'           : imgTop,
 		});
