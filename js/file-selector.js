@@ -135,13 +135,21 @@ var dropHandlers = {
 $(document).on(dropHandlers, '.dropzone');
 
 $(document).on('click', '.dropzone .remove-btn', function (e) {
+	e.stopPropagation();
+
 	var file = $(e.target).parent().data('file-ref');
 
 	getThumbElement(file).remove();
 	removeFile(file);
 });
 
-$(document).on('click', '.dropzone .file-hint', function (e) {
+$(document).on('keypress click', '.dropzone, .dropzone .file-hint', function (e) {
+	e.stopPropagation();
+
+	// accept mosue click or Enter
+	if (e.which != 1 || e.which != 13)
+		return;
+
 	var $fileSelector = $('<input type="file" multiple>');
 
 	$fileSelector.on('change', function (e) {
