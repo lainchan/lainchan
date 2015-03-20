@@ -59,9 +59,7 @@ function addThumb(file) {
 	var fileName = (file.name.length < 24) ? file.name : file.name.substr(0, 22) + '…';
 	var fileType = file.type.split('/')[0];
 	var fileExt = file.type.split('/')[1];
-	var $container = $('<div>');
-
-	$container
+	var $container = $('<div>')
 		.addClass('tmb-container')
 		.data('file-ref', file)
 		.append(
@@ -69,7 +67,7 @@ function addThumb(file) {
 			$('<div>').addClass('file-tmb'),
 			$('<div>').addClass('tmb-filename').html(fileName)
 		)
-		.appendTo($('.file-thumbs'));
+		.appendTo('.file-thumbs');
 
 	var $fileThumb = $container.find('.file-tmb');
 	if (fileType == 'image') {
