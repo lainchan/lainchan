@@ -12,8 +12,8 @@ if (active_page == 'thread' || active_page == 'index') {
 $(document).ready(function(){
 
 if ($('.delete #password').length) {
-	Menu.add_item("delete_post_menu", "Delete post");
-	Menu.add_item("delete_file_menu", "Delete file");
+	Menu.add_item("delete_post_menu", _("Delete post"));
+	Menu.add_item("delete_file_menu", _("Delete file"));
 	Menu.onclick(function(e, $buf) {
 		var ele = e.target.parentElement.parentElement;
 		var $ele = $(ele);
@@ -34,8 +34,8 @@ if ($('.delete #password').length) {
 	});
 }
 
-Menu.add_item("report_menu", "Report");
-Menu.add_item("global_report_menu", "Global report");
+Menu.add_item("report_menu", _("Report"));
+Menu.add_item("global_report_menu", _("Global report"));
 Menu.onclick(function(e, $buf) {
 	var ele = e.target.parentElement.parentElement;
 	var $ele = $(ele);

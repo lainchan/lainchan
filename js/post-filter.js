@@ -202,20 +202,20 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 		function initPostMenu(pageData) {
 
 			var submenu;
-			Menu.add_item('filter-menu-hide', 'Hide post');
-			Menu.add_item('filter-menu-unhide', 'Unhide post');
+			Menu.add_item('filter-menu-hide', _('Hide post'));
+			Menu.add_item('filter-menu-unhide', _('Unhide post'));
 
-			submenu = Menu.add_submenu('filter-menu-add', 'Add filter');
-				submenu.add_item('filter-add-post-plus', 'Post +', 'Hide post and all replies');
-				submenu.add_item('filter-add-id', 'ID');
-				submenu.add_item('filter-add-id-plus', 'ID +', 'Hide ID and all replies');
-				submenu.add_item('filter-add-name', 'Name');
-				submenu.add_item('filter-add-trip', 'Tripcode');
+			submenu = Menu.add_submenu('filter-menu-add', _('Add filter'));
+				submenu.add_item('filter-add-post-plus', _('Post +'), _('Hide post and all replies'));
+				submenu.add_item('filter-add-id', _('ID'));
+				submenu.add_item('filter-add-id-plus', _('ID +'), _('Hide ID and all replies'));
+				submenu.add_item('filter-add-name', _('Name'));
+				submenu.add_item('filter-add-trip', _('Tripcode'));
 
-			submenu = Menu.add_submenu('filter-menu-remove', 'Remove filter');
-				submenu.add_item('filter-remove-id', 'ID');
-				submenu.add_item('filter-remove-name', 'Name');
-				submenu.add_item('filter-remove-trip', 'Tripcode');
+			submenu = Menu.add_submenu('filter-menu-remove', _('Remove filter'));
+				submenu.add_item('filter-remove-id', _('ID'));
+				submenu.add_item('filter-remove-name', _('Name'));
+				submenu.add_item('filter-remove-trip', _('Tripcode'));
 
 			Menu.onclick(function (e, $buffer) {
 				var ele = e.target.parentElement.parentElement;
@@ -644,22 +644,22 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 
 		function initOptionsPanel() {
 			if (window.Options && !Options.get_tab('filter')) {
-				Options.add_tab('filter', 'list', 'Filters');
+				Options.add_tab('filter', 'list', _('Filters'));
 				Options.extend_tab('filter',
 					'<div id="filter-control">' +
 						'<select>' +
-							'<option value="name">Name</option>' +
-							'<option value="trip">Tripcode</option>' +
-							'<option value="sub">Subject</option>' +
-							'<option value="com">Comment</option>' +
+							'<option value="name">'+_('Name')+'</option>' +
+							'<option value="trip">'+_('Tripcode')+'</option>' +
+							'<option value="sub">'+_('Subject')+'</option>' +
+							'<option value="com">'+_('Comment')+'</option>' +
 						'</select>' +
 						'<input type="text">' +
 						'<input type="checkbox">' +
 						'regex ' +
-						'<button id="set-filter">Add</button>' +
-						'<button id="clear">Clear all filters</button>' +
+						'<button id="set-filter">'+_('Add')+'</button>' +
+						'<button id="clear">'+_('Clear all filters')+'</button>' +
 						'<div id="confirm" class="hidden">' +
-							'This will clear all filtering rules including hidden posts. <a id="confirm-y" href="#">yes</a> | <a id="confirm-n" href="#">no</a>' +
+							_('This will clear all filtering rules including hidden posts.')+' <a id="confirm-y" href="#">'+_('yes')+'</a> | <a id="confirm-n" href="#">'+_('no')+'</a>' +
 						'</div>' +
 					'</div>' +
 					'<div id="filter-container"><table id="filter-list"></table></div>'

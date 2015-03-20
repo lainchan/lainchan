@@ -13,7 +13,7 @@ if (active_page == 'thread' || active_page == 'index') {
 		var self = {};
 		self.rules = {
 			spoiler: {
-				text: 'Spoiler',
+				text: _('Spoiler'),
 				key: 's',
 				multiline: false, 
 				exclusiveline: false, 
@@ -21,7 +21,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix:'**'
 			},
 			italics: {
-				text: 'Italics',
+				text: _('Italics'),
 				key: 'i',
 				multiline: false, 
 				exclusiveline: false, 
@@ -29,7 +29,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix: "''"
 			},
 			bold: {
-				text: 'Bold',
+				text: _('Bold'),
 				key: 'b',
 				multiline: false, 
 				exclusiveline: false, 
@@ -37,7 +37,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix: "'''"
 			},
 			underline: {
-				text: 'Underline',
+				text: _('Underline'),
 				key: 'u',
 				multiline: false, 
 				exclusiveline: false, 
@@ -45,7 +45,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix:'__'
 			},
 			code: {
-				text: 'Code',
+				text: _('Code'),
 				key: 'f',
 				multiline: true, 
 				exclusiveline: false, 
@@ -53,7 +53,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix: '[/code]'
 			},
 			strike: {
-				text: 'Strike',
+				text: _('Strike'),
 				key: 'd',
 				multiline:false, 
 				exclusiveline:false, 
@@ -61,7 +61,7 @@ if (active_page == 'thread' || active_page == 'index') {
 				suffix:'~~'
 			},
 			heading: {
-				text: 'Heading',
+				text: _('Heading'),
 				key: 'r',
 				multiline:false, 
 				exclusiveline:true, 
@@ -271,7 +271,7 @@ if (active_page == 'thread' || active_page == 'index') {
 			
 			// add the tab for customizing the format settings
 			if (window.Options && !Options.get_tab('formatting')) {
-				Options.add_tab('formatting', 'angle-right', 'Customize Formatting');
+				Options.add_tab('formatting', 'angle-right', _('Customize Formatting'));
 				Options.extend_tab('formatting', '\
 				<style>\
 					.format_option{\
@@ -295,10 +295,10 @@ if (active_page == 'thread' || active_page == 'index') {
 				
 				// Data control row
 				Options.extend_tab('formatting', '\
-				<button onclick="formatText.add_rule();">Add Rule</button>\
-				<button onclick="formatText.save_rules();">Save Rules</button>\
-				<button onclick="formatText.reset_rules(false);">Revert</button>\
-				<button onclick="formatText.reset_rules(true);">Reset to Default</button>\
+				<button onclick="formatText.add_rule();">'+_('Add Rule')+'</button>\
+				<button onclick="formatText.save_rules();">'+_('Save Rules')+'</button>\
+				<button onclick="formatText.reset_rules(false);">'+_('Revert')+'</button>\
+				<button onclick="formatText.reset_rules(true);">'+_('Reset to Default')+'</button>\
 				');
 				
 				// Descriptor row
