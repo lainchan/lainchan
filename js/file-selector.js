@@ -5,7 +5,7 @@
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/file-selector.js';
  */
-function init_file_selector() {
+function init_file_selector(max_images) {
 
 $(document).ready(function () {
 	// add options panel item
@@ -20,7 +20,7 @@ $(document).ready(function () {
 			}
 		});
 
-		if (localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
+		if (typeof localStorage.file_dragdrop === 'undefined') localStorage.file_dragdrop = 'true';
 		if (localStorage.file_dragdrop === 'true') $('#file-drag-drop>input').prop('checked', true);
 	}
 });
