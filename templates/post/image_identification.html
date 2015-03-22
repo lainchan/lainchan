@@ -8,7 +8,7 @@
 			<a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">Exif</a> 
 		{% endif %}
 		{% if config.image_identification_google %}
-			<a href="https://www.google.com/searchbyimage?image_url={{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">Google</a>
+			<a href="https://www.google.com/searchbyimage?image_url={{ config.domain|url_encode }}{{ config.uri_img|url_encode }}{{ file.file|url_encode }}" target="_blank">Google</a>
 		{% endif %}
 		{% if config.image_identification_iqdb %}
 			<a href="http://iqdb.org/?url={{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">iqdb</a>
