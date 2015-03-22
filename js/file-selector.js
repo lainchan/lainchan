@@ -141,11 +141,12 @@ $(document).on('click', '.dropzone .remove-btn', function (e) {
 	removeFile(file);
 });
 
-$(document).on('keypress click', '.dropzone, .dropzone .file-hint', function (e) {
+$(document).on('keypress click', '.dropzone', function (e) {
 	e.stopPropagation();
 
-	// accept mosue click or Enter
-	if (e.which != 1 && e.which != 13)
+	// accept mouse click or Enter
+	if ((e.which != 1 || e.target.className != 'file-hint') &&
+		 e.which != 13)
 		return;
 
 	var $fileSelector = $('<input type="file" multiple>');
