@@ -810,25 +810,35 @@ function checkBan($board = false) {
 	if (event('check-ban', $board))
 		return true;
 
-	$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board, $config['show_modname']);
+	$ips = array();
+
+	$ips[] = $_SERVER['REMOTE_ADDR'];
+
+	if ($config['proxy_check'] && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$ips = array_merge($ips, explode(", ", $_SERVER['HTTP_X_FORWARDED_FOR']));
+	}
+
+	foreach ($ips as $ip) {
+		$bans = Bans::find($_SERVER['REMOTE_ADDR'], $board, $config['show_modname']);
 	
-	foreach ($bans as &$ban) {
-		if ($ban['expires'] && $ban['expires'] < time()) {
-			Bans::delete($ban['id']);
-			if ($config['require_ban_view'] && !$ban['seen']) {
+		foreach ($bans as &$ban) {
+			if ($ban['expires'] && $ban['expires'] < time()) {
+				Bans::delete($ban['id']);
+				if ($config['require_ban_view'] && !$ban['seen']) {
+					if (!isset($_POST['json_response'])) {
+						displayBan($ban);
+					} else {
+						header('Content-Type: text/json');
+						die(json_encode(array('error' => true, 'banned' => true)));
+					}
+				}
+			} else {
 				if (!isset($_POST['json_response'])) {
 					displayBan($ban);
 				} else {
 					header('Content-Type: text/json');
 					die(json_encode(array('error' => true, 'banned' => true)));
 				}
-			}
-		} else {
-			if (!isset($_POST['json_response'])) {
-				displayBan($ban);
-			} else {
-				header('Content-Type: text/json');
-				die(json_encode(array('error' => true, 'banned' => true)));
 			}
 		}
 	}

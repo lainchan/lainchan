@@ -516,7 +516,7 @@ if (isset($_POST['delete'])) {
 				"\n<tinyboard flag alt>".geoip\geoip_country_name_by_addr_v6($gi, ipv4to6($_SERVER['REMOTE_ADDR']))."</tinyboard>";
 		}
 	}
-	
+
 	if ($config['user_flag'] && isset($_POST['user_flag']))
 	if (!empty($_POST['user_flag']) ){
 		
@@ -529,6 +529,11 @@ if (isset($_POST['delete'])) {
 
 		$post['body'] .= "\n<tinyboard flag>" . strtolower($user_flag) . "</tinyboard>" .
 		"\n<tinyboard flag alt>" . $flag_alt . "</tinyboard>";
+	}
+
+        if ($config['proxy_save'] && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$proxy = preg_replace("/[^0-9a-fA-F.,: ]/", '', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		$post['body'] .= "\n<tinyboard proxy>".$proxy."</tinyboard>";
 	}
 	
 	if (mysql_version() >= 50503) {

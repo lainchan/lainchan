@@ -290,6 +290,12 @@
 	// Ability to lock a board for normal users and still allow mods to post.  Could also be useful for making an archive board
 	$config['board_locked'] = false;
 
+	// If poster's proxy supplies X-Forwarded-For header, check if poster's real IP is banned.
+	$config['proxy_check'] = false;
+
+	// If poster's proxy supplies X-Forwarded-For header, save it for further inspection and/or filtering.
+	$config['proxy_save'] = false;
+
 	/*
 	 * Custom filters detect certain posts and reject/ban accordingly. They are made up of a condition and an
 	 * action (for when ALL conditions are met). As every single post has to be put through each filter,
