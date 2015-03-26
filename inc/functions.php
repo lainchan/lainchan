@@ -88,6 +88,8 @@ function loadConfig() {
 		$config[$key] = array();
 	}
 
+	require 'inc/config.php';
+
 	if (!file_exists('inc/instance-config.php'))
 		$error('Tinyboard is not configured! Create inc/instance-config.php.');
 
@@ -111,8 +113,6 @@ function loadConfig() {
 		$current_locale = $config['locale'];
 		init_locale($config['locale'], $error);
 	}
-
-	require 'inc/config.php';
 
 	require 'inc/instance-config.php';
 
