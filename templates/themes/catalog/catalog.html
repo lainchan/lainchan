@@ -18,27 +18,29 @@
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
 
-	<ul style="display: none">
-		<li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
-		<li id="sort-creation-date" class="sort" data-sort="data-time" data-order="asc">{% trans 'Creation date' %}</li>
-		<li id="sort-reply-count" class="sort" data-sort="data-reply" data-order="asc">{% trans 'Reply count' %}</li>
-		<li id="sort-random" class="sort" data-sort="random">{% trans 'Random' %}</li>
-	</ul>
+	<div class="controls">
+		<ul style="display: none">
+			<li id="sort-bump-order" class="sort" data-sort="data-bump" data-order="asc">{% trans 'Bump order' %}</li>
+			<li id="sort-creation-date" class="sort" data-sort="data-time" data-order="asc">{% trans 'Creation date' %}</li>
+			<li id="sort-reply-count" class="sort" data-sort="data-reply" data-order="asc">{% trans 'Reply count' %}</li>
+			<li id="sort-random" class="sort" data-sort="random">{% trans 'Random' %}</li>
+		</ul>
 
-	<span>{% trans 'Sort by' %}: </span>
-	<select id="sort_by" style="display: inline-block">
-		<option selected value="bump-order">{% trans 'Bump order' %}</option>
-		<option value="creation-date">{% trans 'Creation date' %}</option>
-		<option value="reply-count">{% trans 'Reply count' %}</option>
-		<option value="random">{% trans 'Random' %}</option>
-	</select>
+		<span>{% trans 'Sort by' %}: </span>
+		<select id="sort_by" style="display: inline-block">
+			<option selected value="bump-order">{% trans 'Bump order' %}</option>
+			<option value="creation-date">{% trans 'Creation date' %}</option>
+			<option value="reply-count">{% trans 'Reply count' %}</option>
+			<option value="random">{% trans 'Random' %}</option>
+		</select>
 
-	<span>{% trans 'Image size' %}: </span>
-	<select id="image_size" style="display: inline-block">
-		<option value="vsmall">{% trans 'Very small' %}</option>
-		<option selected value="small">{% trans 'Small' %}</option>
-		<option value="large">{% trans 'Large' %}</option>
-	</select>
+		<span>{% trans 'Image size' %}: </span>
+		<select id="image_size" style="display: inline-block">
+			<option value="vsmall">{% trans 'Very small' %}</option>
+			<option selected value="small">{% trans 'Small' %}</option>
+			<option value="large">{% trans 'Large' %}</option>
+		</select>
+	</div>
 
 	<div class="threads">
 		<ul id="Grid">
