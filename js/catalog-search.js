@@ -16,7 +16,7 @@ var catalogSearch = function() {
 	var $controls = $('.controls'),
 		$threads = $('.threads .thread'),
 		$searchLabel = $('<label for="catalog_search">Search: </label>'),
-		$searchBox = $('<input id="catalog_search" type="search" placeholder="Search" />');
+		$searchBox = $('<input id="catalog_search" type="text" placeholder="Search" />');
 
 	$controls.append($searchLabel)
 			.append($searchBox);
