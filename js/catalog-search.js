@@ -26,9 +26,14 @@ var catalogSearch = function() {
 		$threads.hide();
 		$found.show();
 	});
+
+	var m = location.hash.match(/[#&]s=([^&]+)/);
+	if(m) {
+		$searchBox.val(decodeURIComponent(m[1])).keyup();
+	}
 };
 
-// Filter threads by their content, given a regex. Can be extended later to load data
+// Filter threads by their content, given a regex. Can be extended to load data
 // remotely and filter by multiple fields
 var searchThreads = function($threads, query) {
 	var re = new RegExp(query, 'mi');
