@@ -1,6 +1,6 @@
 /*
  * catalog-search.js
- * https://github.com/mgrabovsky/lainchan/lainchan/blob/catalog-search/js/catalog-search.js
+ * https://github.com/mgrabovsky/lainchan/blob/catalog-search/js/catalog-search.js
  *
  * Released under the MIT license
  * Copyright (c) 2015 Matěj Grabovský <matej.grabovsky@gmail.com>
