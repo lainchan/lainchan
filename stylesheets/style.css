@@ -640,6 +640,10 @@ form.ban-appeal {
 form.ban-appeal textarea {
 	display: block;
 }
+
+.theme-catalog #Grid > li {
+	display:inline-block;
+}
 .theme-catalog div.thread img {
 	float:none!important;
 	margin: auto;
