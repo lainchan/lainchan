@@ -21,9 +21,8 @@ var catalogSearch = function() {
 	$controls.append($searchLabel)
 			.append($searchBox);
 
-	$searchBox.change(function() {
-		var query = new RegExp(this.value, 'm'),
-			$found = searchThreads($threads, query);
+	$searchBox.keyup(function() {
+		var $found = searchThreads($threads, this.value);
 		$threads.hide();
 		$found.show();
 	});
@@ -31,7 +30,8 @@ var catalogSearch = function() {
 
 // Filter threads by their content, given a regex. Can be extended later to load data
 // remotely and filter by multiple fields
-var searchThreads = function($threads, re) {
+var searchThreads = function($threads, query) {
+	var re = new RegExp(query, 'mi');
 	return $threads.filter(function() {
 		return re.test($('.replies', this).text());
 	});
