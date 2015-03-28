@@ -45,8 +45,7 @@
 	<div class="threads">
 		<ul id="Grid">
 		{% for post in recent_posts %}
-			<li class="mix"
-				data-reply="{{ post.reply_count }}"
+			<li data-reply="{{ post.reply_count }}"
 				data-bump="{{ post.bump }}"
 				data-time="{{ post.time }}"
 			>
