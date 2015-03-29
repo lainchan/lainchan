@@ -20,6 +20,7 @@ require_once 'inc/events.php';
 require_once 'inc/api.php';
 require_once 'inc/mod/auth.php';
 require_once 'inc/polyfill.php';
+//require_once 'inc/lib/parsedown/Parsedown.php'; // we don't need that right now, do we?
 
 if (!extension_loaded('gettext')) {
 	require_once 'inc/lib/gettext/gettext.inc';
@@ -2738,4 +2739,46 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 	else if (!$page50 && !$slug)  $tpl = $config['file_page'];
 
 	return sprintf($tpl, $id, $slug);
+}
+
+function prettify_textarea($s){
+	return str_replace("\t", '&#09;', str_replace("\n", '&#13;&#10;', htmlentities($s)));
+}
+
+class HTMLPurifier_URIFilter_NoExternalImages extends HTMLPurifier_URIFilter {
+	public $name = 'NoExternalImages';
+	public function filter(&$uri, $c, $context) {
+		global $config;
+		$ct = $context->get('CurrentToken');
+
+		if (!$ct || $ct->name !== 'img') return true;
+
+		if (!isset($uri->host) && !isset($uri->scheme)) return true;
+
+		if (!in_array($uri->scheme . '://' . $uri->host . '/', $config['allowed_offsite_urls'])) {
+			error('No off-site links in board announcement images.');
+		}
+
+		return true;
+	}
+}
+
+function purify_html($s) {
+	global $config;
+
+	$c = HTMLPurifier_Config::createDefault();
+	$c->set('HTML.Allowed', $config['allowed_html']);
+	$uri = $c->getDefinition('URI');
+	$uri->addFilter(new HTMLPurifier_URIFilter_NoExternalImages(), $c);
+	$purifier = new HTMLPurifier($c);
+	$clean_html = $purifier->purify($s);
+	return $clean_html;
+}
+
+function markdown($s) {
+	$pd = new Parsedown();
+	$pd->setMarkupEscaped(true);
+	$pd->setimagesEnabled(false);
+
+	return $pd->text($s);
 }

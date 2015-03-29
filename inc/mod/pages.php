@@ -2628,6 +2628,167 @@ function mod_theme_rebuild($theme_name) {
 	));
 }
 
+// This needs to be done for `secure` CSRF prevention compatibility, otherwise the $board will be read in as the token if editing global pages.
+function delete_page_base($page = '', $board = false) {
+	global $config, $mod;
+
+	if (empty($board))
+		$board = false;
+
+	if (!$board && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $board))
+		error($config['error']['noaccess']);
+
+	if ($board !== FALSE && !openBoard($board))
+		error($config['error']['noboard']);
+
+	if ($board) {
+		$query = prepare('DELETE FROM ``pages`` WHERE `board` = :board AND `name` = :name');
+		$query->bindValue(':board', ($board ? $board : NULL));
+	} else {
+		$query = prepare('DELETE FROM ``pages`` WHERE `board` IS NULL AND `name` = :name');
+	}
+	$query->bindValue(':name', $page);
+	$query->execute() or error(db_error($query));
+
+	header('Location: ?/edit_pages' . ($board ? ('/' . $board) : ''), true, $config['redirect_http']);
+}
+
+function mod_delete_page($page = '') {
+	delete_page_base($page);
+}
+
+function mod_delete_page_board($page = '', $board = false) {
+	delete_page_base($page, $board);
+}
+
+function mod_edit_page($id) {
+	global $config, $mod, $board;
+
+	$query = prepare('SELECT * FROM ``pages`` WHERE `id` = :id');
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	$page = $query->fetch();
+	
+	if (!$page)
+		error(_('Could not find the page you are trying to edit.'));
+
+	if (!$page['board'] && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $page['board']))
+		error($config['error']['noaccess']);
+
+	if ($page['board'] && !openBoard($page['board']))
+		error($config['error']['noboard']);
+
+	if (isset($_POST['method'], $_POST['content'])) {
+		$content = $_POST['content'];
+		$method = $_POST['method'];
+		$page['type'] = $method;
+			
+		if (!in_array($method, array('markdown', 'html', 'infinity')))
+			error(_('Unrecognized page markup method.'));
+	
+		switch ($method) {
+			case 'markdown': 
+				$write = markdown($content);
+				break;
+			case 'html':
+				if (hasPermission($config['mod']['rawhtml'])) {
+					$write = $content;
+				} else {
+					$write = purify_html($content);
+				}
+				break;
+			case 'infinity':
+				$c = $content;
+				markup($content);
+				$write = $content;
+				$content = $c;
+		}
+
+		if (!isset($write) or !$write)
+			error(_('Failed to mark up your input for some reason...'));
+
+		$query = prepare('UPDATE ``pages`` SET `type` = :method, `content` = :content WHERE `id` = :id');
+		$query->bindValue(':method', $method);
+		$query->bindValue(':content', $content);
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+
+		$fn = ($board['uri'] ? ($board['uri'] . '/') : '') . $page['name'] . '.html';
+		$body = "<div class='ban'>$write</div>";
+		$html = Element('page.html', array('config' => $config, 'body' => $body, 'title' => utf8tohtml($page['title'])));
+		file_write($fn, $html);
+	}
+
+	if (!isset($content)) {
+		$query = prepare('SELECT `content` FROM ``pages`` WHERE `id` = :id');
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+		$content = $query->fetchColumn();
+	}
+	
+	mod_page(sprintf(_('Editing static page: %s'), $page['name']), 'mod/edit_page.html', array('page' => $page, 'token' => make_secure_link_token("edit_page/$id"), 'content' => prettify_textarea($content), 'board' => $board));
+}
+
+function mod_pages($board = false) {
+	global $config, $mod, $pdo;
+
+	if (empty($board))
+		$board = false;
+
+	if (!$board && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $board))
+		error($config['error']['noaccess']);
+
+	if ($board !== FALSE && !openBoard($board))
+		error($config['error']['noboard']);
+
+	if ($board) {
+		$query = prepare('SELECT * FROM ``pages`` WHERE `board` = :board');
+		$query->bindValue(':board', $board);
+	} else {
+		$query = query('SELECT * FROM ``pages`` WHERE `board` IS NULL');
+	}
+	$query->execute() or error(db_error($query));
+	$pages = $query->fetchAll(PDO::FETCH_ASSOC);
+
+	if (isset($_POST['page'])) {
+		if ($board and sizeof($pages) > $config['pages_max'])
+			error(sprintf(_('Sorry, this site only allows %d pages per board.'), $config['pages_max']));
+
+		if (!preg_match('/^[a-z0-9]{1,255}$/', $_POST['page']))
+			error(_('Page names must be < 255 chars and may only contain lowercase letters A-Z and digits 1-9.'));
+
+		foreach ($pages as $i => $p) {
+			if ($_POST['page'] === $p['name'])
+				error(_('Refusing to create a new page with the same name as an existing one.'));
+		}
+
+		$title = ($_POST['title'] ? $_POST['title'] : NULL);
+
+		$query = prepare('INSERT INTO ``pages``(board, title, name) VALUES(:board, :title, :name)');
+		$query->bindValue(':board', ($board ? $board : NULL));
+		$query->bindValue(':title', $title);
+		$query->bindValue(':name', $_POST['page']);
+		$query->execute() or error(db_error($query));
+
+		$pages[] = array('id' => $pdo->lastInsertId(), 'name' => $_POST['page'], 'board' => $board, 'title' => $title);
+	}
+
+	foreach ($pages as $i => &$p) {
+		$p['delete_token'] = make_secure_link_token('edit_pages/delete/' . $p['name'] . ($board ? ('/' . $board) : ''));
+	}
+
+	mod_page(_('Pages'), 'mod/pages.html', array('pages' => $pages, 'token' => make_secure_link_token('edit_pages' . ($board ? ('/' . $board) : '')), 'board' => $board));
+}
+
 function mod_debug_antispam() {
 	global $pdo, $config;
 	
@@ -2744,3 +2905,4 @@ function mod_debug_apc() {
 	
 	mod_page(_('Debug: APC'), 'mod/debug/apc.html', array('cached_vars' => $cached_vars));
 }
+

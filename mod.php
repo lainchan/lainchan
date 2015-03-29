@@ -33,11 +33,19 @@ $pages = array(
 	
 	'/log'					=> 'log',			// modlog
 	'/log/(\d+)'				=> 'log',			// modlog
-	'/log:([^/]+)'				=> 'user_log',			// modlog
-	'/log:([^/]+)/(\d+)'			=> 'user_log',			// modlog
-	'/news'					=> 'secure_POST news',		// view news
-	'/news/(\d+)'				=> 'secure_POST news',		// view news
-	'/news/delete/(\d+)'			=> 'secure news_delete',	// delete from news
+	'/log:([^/:]+)'				=> 'user_log',			// modlog
+	'/log:([^/:]+)/(\d+)'			=> 'user_log',			// modlog
+	'/log:b:([^/]+)'			=> 'board_log',			// modlog
+	'/log:b:([^/]+)/(\d+)'			=> 'board_log',			// modlog
+
+	'/edit_news'				=> 'secure_POST news',		// view news
+	'/edit_news/(\d+)'			=> 'secure_POST news',		// view news
+	'/edit_news/delete/(\d+)'		=> 'secure news_delete',	// delete from news
+
+	'/edit_pages(?:/?(\%b)?)'		=> 'secure_POST pages',
+	'/edit_page/(\d+)'			=> 'secure_POST edit_page',
+	'/edit_pages/delete/([a-z0-9]+)'	=> 'secure delete_page',
+	'/edit_pages/delete/([a-z0-9]+)/(\%b)'	=> 'secure delete_page_board',
 	
 	'/noticeboard'				=> 'secure_POST noticeboard',	// view noticeboard
 	'/noticeboard/(\d+)'			=> 'secure_POST noticeboard',	// view noticeboard

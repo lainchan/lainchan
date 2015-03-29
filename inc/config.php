@@ -1498,6 +1498,9 @@
 	$config['mod']['ban_appeals'] = MOD;
 	// View the recent posts page
 	$config['mod']['recent'] = MOD;
+	// Create pages
+	$config['mod']['edit_pages'] = MOD;
+	$config['pages_max'] = 10;
 
 	// Config editor permissions
 	$config['mod']['config'] = array();
@@ -1702,3 +1705,6 @@
 
 	// Use CAPTCHA for reports?
 	$config['report_captcha'] = false;
+
+	// Allowed HTML tags in ?/edit_pages.
+	$config['allowed_html'] = 'a[href|title],p,br,li,ol,ul,strong,em,u,h2,b,i,tt,div,img[src|alt|title],hr';
