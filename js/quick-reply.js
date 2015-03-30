@@ -83,11 +83,12 @@
 		}\
 		#quick-reply textarea {\
 			width: 100%;\
+			min-width: 100%;\
 			box-sizing: border-box;\
 			-webkit-box-sizing:border-box;\
 			-moz-box-sizing: border-box;\
 			font-size: 10pt;\
-			resize: vertical;\
+			resize: vertical horizontal;\
 		}\
 		#quick-reply input, #quick-reply select, #quick-reply textarea {\
 			margin: 0 0 1px 0;\
