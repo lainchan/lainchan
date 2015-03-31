@@ -1,4 +1,4 @@
-<?php
+	<?php
 /*
  *  Copyright (c) 2010-2013 Tinyboard Development Group
  */
@@ -33,6 +33,7 @@ class Api {
 			'sticky' => 'sticky',
 			'locked' => 'locked',
 			'bump' => 'last_modified',
+			'embed' => 'embed',
 			'slug' => 'semantic_url',
 		);
 
