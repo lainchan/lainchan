@@ -93,11 +93,15 @@ input[type="text"],input[type="password"],textarea {
   text-shadow: none;
   text-transform: none;
   word-spacing: normal;
-  max-width: 75%;
+  max-width: 100%;
 }
 
 #quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
   max-width: 100%;
+}
+
+textarea {
+  width: 100%;
 }
 
 form table tr td {
