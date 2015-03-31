@@ -99,13 +99,6 @@
 			<td>
 				<input type="file" name="file" id="upload_file">
 
-				<div class="dropzone-wrap" style="display: none;">
-					<div class="dropzone" tabindex="0">
-						<div class="file-hint">Select/drop/paste files here</div>
-						<div class="file-thumbs"></div>
-					</div>
-				</div>
-
 				<script type="text/javascript">if (typeof init_file_selector !== 'undefined') init_file_selector({{ config.max_images }});</script>
 
 				{% if config.allow_upload_by_url %}

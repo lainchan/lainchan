@@ -34,8 +34,16 @@ if (typeof max_images == 'undefined') {
 	var max_images = 1;
 }
 
+$('<div class="dropzone-wrap" style="display: none;">'+
+	'<div class="dropzone" tabindex="0">'+
+		'<div class="file-hint">'+_('Select/drop/paste files here')+'</div>'+
+			'<div class="file-thumbs"></div>'+
+		'</div>'+
+	'</div>'+
+'</div>').prependTo('#upload td');
+
 var files = [];
-$('#upload_file').hide();  // hide the original file selector
+$('#upload_file').remove();  // remove the original file selector
 $('.dropzone-wrap').css('user-select', 'none').show();  // let jquery add browser specific prefix
 
 function addFile(file) {
@@ -83,6 +91,7 @@ $(document).on('ajax_before_post', function (e, formData) {
 	for (var i=0; i<max_images; i++) {
 		var key = 'file';
 		if (i > 0) key += i + 1;
+		if (typeof files[i] === 'undefined') break;
 		formData.append(key, files[i]);
 	}
 });
