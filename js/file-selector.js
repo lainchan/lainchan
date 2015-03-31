@@ -108,7 +108,7 @@ var dropHandlers = {
 		e.stopPropagation();
 		e.preventDefault();
 
-		if (dragCounter === 0) $(this).addClass('dragover');
+		if (dragCounter === 0) $('.dropzone').addClass('dragover');
 		dragCounter++;
 	},
 	dragover: function (e) {
@@ -121,13 +121,13 @@ var dropHandlers = {
 		e.preventDefault();
 
 		dragCounter--;
-		if (dragCounter === 0) $(this).removeClass('dragover');
+		if (dragCounter === 0) $('.dropzone').removeClass('dragover');
 	},
 	drop: function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 
-		$(this).removeClass('dragover');
+		$('.dropzone').removeClass('dragover');
 		dragCounter = 0;
 
 		var fileList = e.originalEvent.dataTransfer.files;
@@ -139,7 +139,7 @@ var dropHandlers = {
 
 
 // attach handlers
-$(document).on(dropHandlers, '.dropzone');
+$(document).on(dropHandlers);
 
 $(document).on('click', '.dropzone .remove-btn', function (e) {
 	e.stopPropagation();
