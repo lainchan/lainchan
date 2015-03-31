@@ -34,7 +34,6 @@ class Api {
 			'locked' => 'locked',
 			'bump' => 'last_modified',
 			'embed' => 'embed',
-			'slug' => 'semantic_url',
 		);
 
 		$this->threadsPageFields = array(
@@ -115,6 +114,10 @@ class Api {
 					$apiPost['country_name'] = $modifiers['flag alt'];
 				}
 			}
+		}
+
+		if ($config['slugify'] && !$post->thread) {
+			$apiPost['semantic_url'] = $post->slug;
 		}
 
 		// Handle files
