@@ -13,4 +13,5 @@ if (active_page == 'catalog') $(function(){
 		$(".grid-li").addClass("grid-size-"+value);
 	});
 
+	$('#Grid').mixitup({});
 });
