@@ -44,7 +44,7 @@ oekaki.init = function() {
   var oekaki_form = '<tr id="oekaki"><th>Oekaki</th><td><div id="wpaintctr"><div id="wpaintdiv"></div></div></td></tr>';
 
   // Add oekaki after the file input
-  $('form[name="post"]:not(#quick-reply) input[type="file"]').parent().parent().after(oekaki_form);
+  $('form[name="post"]:not(#quick-reply) [id="upload"]').after(oekaki_form);
 
   $('<link class="wpaintcss" rel="stylesheet" href="'+configRoot+'js/wPaint/wPaint.min.css" />').appendTo($("head"));
   $('<link class="wpaintcss" rel="stylesheet" href="'+configRoot+'js/wPaint/lib/wColorPicker.min.css" />').appendTo($("head"));
