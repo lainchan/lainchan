@@ -93,9 +93,6 @@ div.boardlist .sub {
 .desktop-style div.boardlist:nth-child(1) {
 	text-shadow: #fff 1px 1px 1px, #fff -1px -1px 1px;
 }
-.desktop-style div.boardlist:nth-child(1):hover, .desktop-style div.boardlist:nth-child(1).cb-menu {
-	background-color: rgba(90%, 90%, 90%, 0.55);
-}
 
 /* options.js */
 #options_div, #alert_div {
