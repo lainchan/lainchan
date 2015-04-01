@@ -1500,7 +1500,7 @@ function buildIndex($global_api = "yes") {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if (!$config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
+		if ((!$config['api']['enabled'] || $global_api == "skip") && $config['try_smarter'] && isset($build_pages)
 			 && !empty($build_pages) && !in_array($page, $build_pages) )
 			continue;
 		$content = index($page);
@@ -1517,7 +1517,7 @@ function buildIndex($global_api = "yes") {
 			$catalog[$page-1] = $threads;
 		}
 
-		if ($config['api']['enabled'] && $global_api == "skip" && $config['try_smarter'] && isset($build_pages)
+		if ($config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
 			&& !empty($build_pages) && !in_array($page, $build_pages) )
 			continue;
 
