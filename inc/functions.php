@@ -1494,7 +1494,7 @@ function buildIndex() {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
 		if (!$config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
-			&& !in_array($page, $build_pages) && is_file($filename))
+			&& !in_array($page, $build_pages) )
 			continue;
 		$content = index($page);
 		if (!$content)
@@ -1511,7 +1511,7 @@ function buildIndex() {
 		}
 
 		if ($config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
-			&& !in_array($page, $build_pages) && is_file($filename))
+			&& !in_array($page, $build_pages) )
 			continue;
 
 		if ($config['try_smarter']) {
