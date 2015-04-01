@@ -7,8 +7,12 @@ if (!$config['smart_build']) {
 
 $config['smart_build'] = false; // Let's disable it, so we can build the page for real
 
+function after_open_board() { global $config;
+  $config['smart_build'] = false;
+};
+
 function sb_board($b, $page = 1) { global $config, $build_pages; $page = (int)$page;
-  if ($page < 1 && $page != -1) return false;
+  if ($page < 1) return false;
   if (!openBoard($b)) return false;
   if ($page > $config['max_pages']) return false;
   $config['try_smarter'] = true;
@@ -46,7 +50,7 @@ function sb_catalog($b) {
 }
 
 function sb_recent() {
-  rebuildTheme("recent", "post-thread"); 
+  rebuildTheme("recent", "post-thread");
   return true;
 }
 
