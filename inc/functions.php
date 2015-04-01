@@ -1485,7 +1485,7 @@ function checkMute() {
 	}
 }
 
-function buildIndex() {
+function buildIndex($global_api = "yes") {
 	global $board, $config, $build_pages;
 
 	$pages = getPages();
@@ -1500,8 +1500,8 @@ function buildIndex() {
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 
-		if (!$config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
-			&& !in_array($page, $build_pages) )
+		if (!$config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
+			 && !empty($build_pages) && !in_array($page, $build_pages) )
 			continue;
 		$content = index($page);
 		if (!$content)
@@ -1517,8 +1517,8 @@ function buildIndex() {
 			$catalog[$page-1] = $threads;
 		}
 
-		if ($config['api']['enabled'] && $config['try_smarter'] && isset($build_pages) && !empty($build_pages)
-			&& !in_array($page, $build_pages) )
+		if ($config['api']['enabled'] && $global_api == "skip" && $config['try_smarter'] && isset($build_pages)
+			&& !empty($build_pages) && !in_array($page, $build_pages) )
 			continue;
 
 		if ($config['try_smarter']) {
@@ -1547,7 +1547,7 @@ function buildIndex() {
 	}
 
 	// json api catalog
-	if ($config['api']['enabled']) {
+	if ($config['api']['enabled'] && $global_api != "skip") {
 		$json = json_encode($api->translateCatalog($catalog));
 		$jsonFilename = $board['dir'] . 'catalog.json';
 		file_write($jsonFilename, $json);
