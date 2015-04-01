@@ -636,6 +636,13 @@ function file_unlink($path) {
 	}
 
 	$ret = @unlink($path);
+
+        if ($config['gzip_static']) {
+                $gzpath = "$path.gz";
+
+		@unlink($gzpath);
+	}
+
 	if (isset($config['purge']) && $path[0] != '/' && isset($_SERVER['HTTP_HOST'])) {
 		// Purge cache
 		if (basename($path) == $config['file_index']) {
