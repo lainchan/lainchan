@@ -475,6 +475,11 @@ function openBoard($uri) {
 	$board = getBoardInfo($uri);
 	if ($board) {
 		setupBoard($board);
+
+		if (function_exists('after_open_board')) {
+			after_open_board();
+		}
+
 		return true;
 	}
 	return false;
