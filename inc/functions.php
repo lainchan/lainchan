@@ -1493,62 +1493,53 @@ function checkMute() {
 function buildIndex($global_api = "yes") {
 	global $board, $config, $build_pages;
 
-	if (!$config['smart_build']) {
-		$pages = getPages();
-		if (!$config['try_smarter'])
-			$antibot = create_antibot($board['uri']);
+	$pages = getPages();
+	if (!$config['try_smarter'])
+		$antibot = create_antibot($board['uri']);
 
-		if ($config['api']['enabled']) {
-			$api = new Api();
-			$catalog = array();
-		}
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$catalog = array();
 	}
 
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
-		$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
 
-		if ((!$config['api']['enabled'] || $global_api == "skip" || $config['smart_build']) && $config['try_smarter']
-			 && isset($build_pages) && !empty($build_pages) && !in_array($page, $build_pages) )
+		if ((!$config['api']['enabled'] || $global_api == "skip") && $config['try_smarter'] && isset($build_pages)
+			 && !empty($build_pages) && !in_array($page, $build_pages) )
+			continue;
+		$content = index($page);
+		if (!$content)
+			break;
+
+		// json api
+		if ($config['api']['enabled']) {
+			$threads = $content['threads'];
+			$json = json_encode($api->translatePage($threads));
+			$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
+			file_write($jsonFilename, $json);
+
+			$catalog[$page-1] = $threads;
+		}
+
+		if ($config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
+			&& !empty($build_pages) && !in_array($page, $build_pages) )
 			continue;
 
-		if (!$config['smart_build']) {
-			$content = index($page);
-			if (!$content)
-				break;
-
-			// json api
-			if ($config['api']['enabled']) {
-				$threads = $content['threads'];
-				$json = json_encode($api->translatePage($threads));
-				file_write($jsonFilename, $json);
-
-				$catalog[$page-1] = $threads;
-			}
-
-			if ($config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
-				&& !empty($build_pages) && !in_array($page, $build_pages) )
-				continue;
-
-			if ($config['try_smarter']) {
-				$antibot = create_antibot($board['uri'], 0 - $page);
-				$content['current_page'] = $page;
-			}
-			$antibot->reset();
-			$content['pages'] = $pages;
-			$content['pages'][$page-1]['selected'] = true;
-			$content['btn'] = getPageButtons($content['pages']);
-			$content['antibot'] = $antibot;
-
-			file_write($filename, Element('index.html', $content));
+		if ($config['try_smarter']) {
+			$antibot = create_antibot($board['uri'], 0 - $page);
+			$content['current_page'] = $page;
 		}
-		else {
-			file_unlink($filename);
-			file_unlink($jsonFilename);
-		}
+		$antibot->reset();
+		$content['pages'] = $pages;
+		$content['pages'][$page-1]['selected'] = true;
+		$content['btn'] = getPageButtons($content['pages']);
+		$content['antibot'] = $antibot;
+
+		file_write($filename, Element('index.html', $content));
 	}
 
-	if (!$config['smart_build'] && $page < $config['max_pages']) {
+	if ($page < $config['max_pages']) {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
@@ -1562,21 +1553,13 @@ function buildIndex($global_api = "yes") {
 
 	// json api catalog
 	if ($config['api']['enabled'] && $global_api != "skip") {
-		if ($config['smart_build']) {
-			$jsonFilename = $board['dir'] . 'catalog.json';
-			file_unlink($jsonFilename);
-			$jsonFilename = $board['dir'] . 'threads.json';
-			file_unlink($jsonFilename);
-		}
-		else {
-			$json = json_encode($api->translateCatalog($catalog));
-			$jsonFilename = $board['dir'] . 'catalog.json';
-			file_write($jsonFilename, $json);
+		$json = json_encode($api->translateCatalog($catalog));
+		$jsonFilename = $board['dir'] . 'catalog.json';
+		file_write($jsonFilename, $json);
 
-			$json = json_encode($api->translateCatalog($catalog, true));
-			$jsonFilename = $board['dir'] . 'threads.json';
-			file_write($jsonFilename, $json);
-		}
+		$json = json_encode($api->translateCatalog($catalog, true));
+		$jsonFilename = $board['dir'] . 'threads.json';
+		file_write($jsonFilename, $json);
 	}
 
 	if ($config['try_smarter'])
