@@ -2,6 +2,8 @@
 	require 'info.php';
 	
 	function ukko_build($action, $settings) {
+		global $config;
+
 		$ukko = new ukko();
 		$ukko->settings = $settings;
 
@@ -9,7 +11,13 @@
 			return;
 		}
 
-		file_write($settings['uri'] . '/index.html', $ukko->build());
+		if ($config['smart_build']) {
+			file_unlink($settings['uri'] . '/index.html');
+		}
+		else {
+			file_write($settings['uri'] . '/index.html', $ukko->build());
+		}
+
 		file_write($settings['uri'] . '/ukko.js', Element('themes/ukko/ukko.js', array()));
 	}
 	

@@ -24,8 +24,14 @@
 			
 			$this->excluded = explode(' ', $settings['exclude']);
 			
-			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete')
-				file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
+			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
+				if ($config['smart_build']) {
+					file_unlink($config['dir']['home'] . $settings['html']);
+				}
+				else {
+					file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
+				}
+			}
 		}
 		
 		// Build news page
