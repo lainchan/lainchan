@@ -124,6 +124,7 @@ $entrypoints['/%b/catalog.html'] = 'sb_catalog';
 $reached = false;
 
 $request = $_SERVER['REQUEST_URI'];
+list($request) = explode('?', $request);
 
 foreach ($entrypoints as $id => $fun) {
   $id = '@^' . preg_quote($id, '@') . '$@u'; 
@@ -145,13 +146,14 @@ foreach ($entrypoints as $id => $fun) {
 
 function die_404() { global $config;
   if (!$config['page_404']) {
-    header("HTTP/1.1 404 Not Exists");
-    header("Status: 404 Not Exists");
-    echo "<h1>404 Not Exists</h1><p>Page doesn't exist<hr><address>vichan</address>";
+    header("HTTP/1.1 404 Not Found");
+    header("Status: 404 Not Found");
+    echo "<h1>404 Not Found</h1><p>Page doesn't exist<hr><address>vichan</address>";
   }
   else {
     header("Location: ".$config['page_404']);
   }
+
   die();
 }
 
