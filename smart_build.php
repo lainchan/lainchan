@@ -25,10 +25,51 @@ function sb_api_board($b, $page = 0) { $page = (int)$page;
   return sb_board($b, $page + 1);
 }
 
-function sb_thread($b, $thread) { global $config; $thread = (int)$thread;
+function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = (int)$thread;
+  if ($thread < 1) return false;
+
+  if (!preg_match('/^'.$config['board_regex'].'$/u', $b)) return false;
+
+  if (Cache::get("thread_exists_".$b."_".$thread) == "no") return false;
+
+  $query = prepare(sprintf("SELECT MAX(`id`) AS `max` FROM ``posts_%s``", $b));
+  if (!$query->execute()) return false;
+
+  $s = $query->fetch(PDO::FETCH_ASSOC);
+  $max = $s['max'];
+
+  if ($thread > $max) return false;
+
+  $query = prepare(sprintf("SELECT `id` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL", $b));
+  $query->bindValue(':id', $thread);
+  
+  if (!$query->execute() || !$query->fetch(PDO::FETCH_ASSOC) ) {
+    Cache::set("thread_exists_".$b."_".$thread, "no");
+    return false;
+  }
+
+  if ($slugcheck && $config['slugify']) {
+    global $request;
+
+    $link = link_for(array("id" => $thread), $slugcheck === 50, array("uri" => $b));
+    $link = "/".$b."/".$config['dir']['res'].$link;
+
+    if ($link != $request) {
+      header("Location: $link", true, 301);
+      die();
+    }
+  }
+  
   if (!openBoard($b)) return false;
   buildThread($thread);
   return true;
+}
+
+function sb_thread_slugcheck($b, $thread) {
+  return sb_thread($b, $thread, true);
+}
+function sb_thread_slugcheck50($b, $thread) {
+  return sb_thread($b, $thread, 50);
 }
 
 function sb_api($b) { global $config;
@@ -65,11 +106,11 @@ if ($config['api']['enabled']) {
   $entrypoints['/%b/catalog.json']         = 'sb_api';
 }
 
-$entrypoints['/%b/'.$config['dir']['res'].$config['file_page']]          = 'sb_thread';
-$entrypoints['/%b/'.$config['dir']['res'].$config['file_page50']]        = 'sb_thread';
+$entrypoints['/%b/'.$config['dir']['res'].$config['file_page']]          = 'sb_thread_slugcheck';
+$entrypoints['/%b/'.$config['dir']['res'].$config['file_page50']]        = 'sb_thread_slugcheck50';
 if ($config['slugify']) {
-  $entrypoints['/%b/'.$config['dir']['res'].$config['file_page_slug']]   = 'sb_thread';
-  $entrypoints['/%b/'.$config['dir']['res'].$config['file_page50_slug']] = 'sb_thread';
+  $entrypoints['/%b/'.$config['dir']['res'].$config['file_page_slug']]   = 'sb_thread_slugcheck';
+  $entrypoints['/%b/'.$config['dir']['res'].$config['file_page50_slug']] = 'sb_thread_slugcheck50';
 }
 if ($config['api']['enabled']) {
   $entrypoints['/%b/'.$config['dir']['res'].'%d.json']                   = 'sb_thread';
@@ -102,6 +143,18 @@ foreach ($entrypoints as $id => $fun) {
   }
 }
 
+function die_404() { global $config;
+  if (!$config['page_404']) {
+    header("HTTP/1.1 404 Not Exists");
+    header("Status: 404 Not Exists");
+    echo "<h1>404 Not Exists</h1><p>Page doesn't exist<hr><address>vichan</address>";
+  }
+  else {
+    header("Location: ".$config['page_404']);
+  }
+  die();
+}
+
 if ($reached) {
   if ($request[strlen($request)-1] == '/') {
     $request .= 'index.html';
@@ -109,8 +162,7 @@ if ($reached) {
   $request = '.'.$request;
 
   if (!file_exists($request)) {
-    header("Location: ".$config['page_404']);
-    die();
+    die_404();
   }
 
   header("HTTP/1.1 200 OK");
@@ -139,5 +191,5 @@ if ($reached) {
   fclose($file);
 }
 else {
-  header("Location: ".$config['page_404']);
+  die_404();
 }
