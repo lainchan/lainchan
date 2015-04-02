@@ -59,6 +59,14 @@ function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = 
       die();
     }
   }
+
+  if ($slugcheck == 50) { // Should we really generate +50 page? Maybe there are not enough posts anyway
+    global $request;
+    $r = str_replace("+50", "", $request);
+    $r = substr($r, 1); // Cut the slash
+
+    if (file_exists($r)) return false;
+  }
   
   if (!openBoard($b)) return false;
   buildThread($thread);
