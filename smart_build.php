@@ -94,6 +94,8 @@ function sb_ukko() {
 }
 
 function sb_catalog($b) {
+  if (!openBoard($b)) return false;
+
   rebuildTheme("catalog", "post-thread", $b); 
   return true;
 }
