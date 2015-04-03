@@ -1245,6 +1245,8 @@
 	$config['mod']['link_bumpunlock'] = '[-Sage]';
 	$config['mod']['link_editpost'] = '[Edit]';
 	$config['mod']['link_move'] = '[Move]';
+	$config['mod']['link_cycle'] = '[Cycle]';
+	$config['mod']['link_uncycle'] = '[-Cycle]';
 
 	// Moderator capcodes.
 	$config['capcode'] = ' <span class="capcode">## %s</span>';
@@ -1388,6 +1390,9 @@
 	$config['mod']['deletebyip_global'] = ADMIN;
 	// Sticky a thread
 	$config['mod']['sticky'] = MOD;
+	// Cycle a thread
+	$config['mod']['cycle'] = MOD;
+	$config['cycle_limit'] = &$config['reply_limit'];
 	// Lock a thread
 	$config['mod']['lock'] = MOD;
 	// Post in a locked thread

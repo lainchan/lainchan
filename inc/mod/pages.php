@@ -1089,6 +1089,28 @@ function mod_sticky($board, $unsticky, $post) {
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
 }
 
+function mod_cycle($board, $uncycle, $post) {
+	global $config;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['cycle'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('UPDATE ``posts_%s`` SET `cycle` = :cycle WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query->bindValue(':id', $post);
+	$query->bindValue(':cycle', $uncycle ? 0 : 1);
+	$query->execute() or error(db_error($query));
+	if ($query->rowCount()) {
+		modLog(($uncycle ? 'Made not cyclical' : 'Made cyclical') . " thread #{$post}");
+		buildThread($post);
+		buildIndex();
+	}
+	
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
 function mod_bumplock($board, $unbumplock, $post) {
 	global $config;
 	

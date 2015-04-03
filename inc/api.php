@@ -32,6 +32,7 @@ class Api {
 			'images' => 'images',
 			'sticky' => 'sticky',
 			'locked' => 'locked',
+			'cycle' => 'cyclical',
 			'bump' => 'last_modified',
 			'embed' => 'embed',
 		);

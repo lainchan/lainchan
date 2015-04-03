@@ -41,12 +41,18 @@
 {% endif %}
 
 {% endif %}
-
 {% if mod|hasPermission(config.mod.move, board.uri) %}
 	{% if not post.thread %}
 		<a title="{% trans %}Move thread to another board{% endtrans %}" href="?/{{ board.dir }}move/{{ post.id }}">{{ config.mod.link_move }}</a>&nbsp;
 	{% else %}
 		<a title="{% trans %}Move reply to another board{% endtrans %}" href="?/{{ board.dir }}move_reply/{{ post.id }}">{{ config.mod.link_move }}</a>&nbsp;
+	{% endif %}
+{% endif %}
+{% if mod|hasPermission(config.mod.cycle, board.uri) %}
+	{% if post.cycle %}
+	<a title="{% trans %}Make thread not cycle{% endtrans %}" href="?/{{ secure_link(board.dir ~ 'uncycle/' ~ post.id) }}">{{ config.mod.link_uncycle }}</a>&nbsp;
+	{% else %}
+	<a title="{% trans %}Make thread cycle{% endtrans %}" href="?/{{ secure_link(board.dir ~ 'cycle/' ~ post.id) }}">{{ config.mod.link_cycle }}</a>&nbsp;
 	{% endif %}
 {% endif %}
 {% if mod|hasPermission(config.mod.editpost, board.uri) %}
