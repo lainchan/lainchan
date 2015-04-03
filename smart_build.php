@@ -105,6 +105,11 @@ function sb_recent() {
   return true;
 }
 
+function sb_sitemap() {
+  rebuildTheme("sitemap", "all");
+  return true;
+}
+
 $entrypoints = array();
 
 $entrypoints['/%b/']                       = 'sb_board';
@@ -130,6 +135,7 @@ $entrypoints['/*/']              = 'sb_ukko';
 $entrypoints['/*/index.html']    = 'sb_ukko';
 $entrypoints['/recent.html']     = 'sb_recent';
 $entrypoints['/%b/catalog.html'] = 'sb_catalog';
+$entrypoints['/sitemap.xml']     = 'sb_sitemap';
 
 $reached = false;
 
@@ -184,6 +190,9 @@ if ($reached) {
   }
   elseif (preg_match('/\.js$/', $request)) {
     header("Content-Type", "text/javascript; charset=utf-8");
+  }
+  elseif (preg_match('/\.xml$/', $request)) {
+    header("Content-Type", "application/xml");
   }
   else {
     header("Content-Type", "text/html; charset=utf-8");
