@@ -19,7 +19,9 @@ require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
 require_once 'inc/bans.php';
-require_once 'inc/lib/gettext/gettext.inc';
+if (!extension_loaded('gettext')) {
+	require_once 'inc/lib/gettext/gettext.inc';
+}
 
 // the user is not currently logged in as a moderator
 $mod = false;
@@ -29,14 +31,17 @@ mb_internal_encoding('UTF-8');
 loadConfig();
 
 function init_locale($locale, $error='error') {
-	if (_setlocale(LC_ALL, $locale) === false) {
-		$error('The specified locale (' . $locale . ') does not exist on your platform!');
-	}
 	if (extension_loaded('gettext')) {
+		if (setlocale(LC_ALL, $locale) === false) {
+			$error('The specified locale (' . $locale . ') does not exist on your platform!');
+		}
 		bindtextdomain('tinyboard', './inc/locale');
 		bind_textdomain_codeset('tinyboard', 'UTF-8');
 		textdomain('tinyboard');
 	} else {
+		if (_setlocale(LC_ALL, $locale) === false) {
+			$error('The specified locale (' . $locale . ') does not exist on your platform!');
+		}
 		_bindtextdomain('tinyboard', './inc/locale');
 		_bind_textdomain_codeset('tinyboard', 'UTF-8');
 		_textdomain('tinyboard');
