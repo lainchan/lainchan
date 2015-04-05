@@ -69,6 +69,8 @@ function loadConfig() {
             $config = Cache::get('config_' . $boardsuffix ) ) {
 		$events = Cache::get('events_' . $boardsuffix );
 
+		define_groups();
+
 		if (file_exists('inc/instance-functions.php')) {
 			require_once('inc/instance-functions.php');
 		}
