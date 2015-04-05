@@ -18,7 +18,6 @@ require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
-require_once 'inc/bans.php';
 if (!extension_loaded('gettext')) {
 	require_once 'inc/lib/gettext/gettext.inc';
 }

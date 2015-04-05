@@ -3,8 +3,9 @@
  *  Copyright (c) 2010-2014 Tinyboard Development Group
  */
 
-require 'inc/functions.php';
-require 'inc/anti-bot.php';
+require_once 'inc/functions.php';
+require_once 'inc/anti-bot.php';
+require_once 'inc/bans.php';
 
 // Fix for magic quotes
 if (get_magic_quotes_gpc()) {

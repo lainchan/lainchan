@@ -4,9 +4,10 @@
  *  Copyright (c) 2010-2014 Tinyboard Development Group
  */
 
-require 'inc/functions.php';
-require 'inc/mod/pages.php';
-require 'inc/mod/auth.php';
+require_once 'inc/functions.php';
+require_once 'inc/bans.php';
+require_once 'inc/mod/pages.php';
+require_once 'inc/mod/auth.php';
 
 if ($config['debug'])
 	$parse_start_time = microtime(true);
