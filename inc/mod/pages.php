@@ -2501,10 +2501,14 @@ function mod_theme_configure($theme_name) {
 				$query->bindValue(':value', $_POST[$conf['name']]);
 			$query->execute() or error(db_error($query));
 		}
-		
+
 		$query = prepare("INSERT INTO ``theme_settings`` VALUES(:theme, NULL, NULL)");
 		$query->bindValue(':theme', $theme_name);
 		$query->execute() or error(db_error($query));
+
+		// Clean cache
+		Cache::delete("themes");
+		Cache::delete("theme_settings_".$theme);
 		
 		$result = true;
 		$message = false;
@@ -2552,10 +2556,14 @@ function mod_theme_uninstall($theme_name) {
 
 	if (!hasPermission($config['mod']['themes']))
 		error($config['error']['noaccess']);
-	
+
 	$query = prepare("DELETE FROM ``theme_settings`` WHERE `theme` = :theme");
 	$query->bindValue(':theme', $theme_name);
 	$query->execute() or error(db_error($query));
+
+	// Clean cache
+	Cache::delete("themes");
+	Cache::delete("theme_settings_".$theme);
 
 	header('Location: ?/themes', true, $config['redirect_http']);
 }
