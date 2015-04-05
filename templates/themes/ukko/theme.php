@@ -17,8 +17,6 @@
 		else {
 			file_write($settings['uri'] . '/index.html', $ukko->build());
 		}
-
-		file_write($settings['uri'] . '/ukko.js', Element('themes/ukko/ukko.js', array()));
 	}
 	
 	class ukko {
