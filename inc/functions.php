@@ -295,9 +295,9 @@ function loadConfig() {
 	if ($config['cache_config'] && !isset ($config['cache_config_loaded'])) {
 		file_put_contents('tmp/cache/cache_config.php', '<?php '.
 			'$config = array();'.
-			'$config[\'cache\'] = '.
-			var_export($config['cache'], true).';'.
+			'$config[\'cache\'] = '.var_export($config['cache'], true).';'.
 			'$config[\'cache_config\'] = true;'.
+			'$config[\'debug\'] = '.var_export($config['debug'], true).';'.
 			'require_once(\'inc/cache.php\');'
 		);
 
