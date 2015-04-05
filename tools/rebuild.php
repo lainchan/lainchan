@@ -21,6 +21,8 @@
 
 require dirname(__FILE__) . '/inc/cli.php';
 
+require_once("inc/bans.php");
+
 $start = microtime(true);
 
 // parse command line
