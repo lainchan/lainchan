@@ -96,18 +96,28 @@ function loadConfig() {
 
 	// Initialize locale as early as possible
 
-	$config['locale'] = 'en';
+	// Those calls are expensive. Unfortunately, our cache system is not initialized at this point.
+	// So, we may store the locale in a tmp/ filesystem.
 
-	$configstr = file_get_contents('inc/instance-config.php');
+	if (file_exists($fn = 'tmp/cache/locale_' . ( isset($board['uri']) ? $board['uri'] : '' ) ) ) {
+		$config['locale'] = file_get_contents($fn);
+	}
+	else {
+		$config['locale'] = 'en';
+
+		$configstr = file_get_contents('inc/instance-config.php');
 
 		if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
-				$configstr .= file_get_contents($board['dir'] . '/config.php');
+			$configstr .= file_get_contents($board['dir'] . '/config.php');
 		}
-	$matches = array();
-	preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
-	if ($matches && isset ($matches[2]) && $matches[2]) {
-		$matches = $matches[2];
-		$config['locale'] = $matches[count($matches)-1];
+		$matches = array();
+		preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
+		if ($matches && isset ($matches[2]) && $matches[2]) {
+			$matches = $matches[2];
+			$config['locale'] = $matches[count($matches)-1];
+		}
+
+		file_put_contents($fn, $config['locale']);
 	}
 
 	if ($config['locale'] != $current_locale) {
