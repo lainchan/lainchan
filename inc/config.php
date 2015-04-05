@@ -137,6 +137,11 @@
 	// Tinyboard to use.
 	$config['cache']['redis'] = array('localhost', 6379, '', 1);
 
+	// EXPERIMENTAL: Should we cache configs? Warning: this changes board behaviour, i'd say, a lot.
+	// If you have any lambdas/includes present in your config, you should move them to instance-functions.php
+	// (this file will be explicitly loaded during cache hit, but not during cache miss).
+	$config['cache_config'] = false;
+
 /*
  * ====================
  *  Cookie settings
