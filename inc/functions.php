@@ -352,9 +352,22 @@ function rebuildThemes($action, $boardname = false) {
 	$_board = $board;
 
 	// List themes
-	$query = query("SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
+	if ($themes = Cache::get("themes")) {
+		// OK, we already have themes loaded
+	}
+	else {
+		$query = query("SELECT `theme` FROM ``theme_settings`` WHERE `name` IS NULL AND `value` IS NULL") or error(db_error());
 
-	while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
+		$themes = array();
+
+		while ($theme = $query->fetch(PDO::FETCH_ASSOC)) {
+			$themes[] = $theme;
+		}
+
+		Cache::set("themes", $themes);
+	}
+
+	foreach ($themes as $theme) {
 		// Restore them
 		$config = $_config;
 		$board = $_board;
@@ -415,6 +428,10 @@ function rebuildTheme($theme, $action, $board = false) {
 
 
 function themeSettings($theme) {
+	if ($settings = Cache::get("theme_settings_".$theme)) {
+		return $settings;
+	}
+
 	$query = prepare("SELECT `name`, `value` FROM ``theme_settings`` WHERE `theme` = :theme AND `name` IS NOT NULL");
 	$query->bindValue(':theme', $theme);
 	$query->execute() or error(db_error($query));
@@ -423,6 +440,8 @@ function themeSettings($theme) {
 	while ($s = $query->fetch(PDO::FETCH_ASSOC)) {
 		$settings[$s['name']] = $s['value'];
 	}
+
+	Cache::set("theme_settings_".$theme, $settings);
 
 	return $settings;
 }
