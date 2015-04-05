@@ -32,7 +32,7 @@ loadConfig();
 function init_locale($locale, $error='error') {
 	if (extension_loaded('gettext')) {
 		if (setlocale(LC_ALL, $locale) === false) {
-			$error('The specified locale (' . $locale . ') does not exist on your platform!');
+			//$error('The specified locale (' . $locale . ') does not exist on your platform!');
 		}
 		bindtextdomain('tinyboard', './inc/locale');
 		bind_textdomain_codeset('tinyboard', 'UTF-8');
