@@ -80,177 +80,175 @@ function loadConfig() {
 	}
 	else {
 		$config = array();
-	// We will indent that later.
 
-	reset_events();	
+		reset_events();	
 
-	$arrays = array(
-		'db',
-		'api',
-		'cache',
-		'cookies',
-		'error',
-		'dir',
-		'mod',
-		'spam',
-		'filters',
-		'wordfilters',
-		'custom_capcode',
-		'custom_tripcode',
-		'dnsbl',
-		'dnsbl_exceptions',
-		'remote',
-		'allowed_ext',
-		'allowed_ext_files',
-		'file_icons',
-		'footer',
-		'stylesheets',
-		'additional_javascript',
-		'markup',
-		'custom_pages',
-		'dashboard_links'
-	);
+		$arrays = array(
+			'db',
+			'api',
+			'cache',
+			'cookies',
+			'error',
+			'dir',
+			'mod',
+			'spam',
+			'filters',
+			'wordfilters',
+			'custom_capcode',
+			'custom_tripcode',
+			'dnsbl',
+			'dnsbl_exceptions',
+			'remote',
+			'allowed_ext',
+			'allowed_ext_files',
+			'file_icons',
+			'footer',
+			'stylesheets',
+			'additional_javascript',
+			'markup',
+			'custom_pages',
+			'dashboard_links'
+		);
 
-	foreach ($arrays as $key) {
-		$config[$key] = array();
-	}
+		foreach ($arrays as $key) {
+			$config[$key] = array();
+		}
 
-	if (!file_exists('inc/instance-config.php'))
-		$error('Tinyboard is not configured! Create inc/instance-config.php.');
+		if (!file_exists('inc/instance-config.php'))
+			$error('Tinyboard is not configured! Create inc/instance-config.php.');
 
-	// Initialize locale as early as possible
+		// Initialize locale as early as possible
 
-	// Those calls are expensive. Unfortunately, our cache system is not initialized at this point.
-	// So, we may store the locale in a tmp/ filesystem.
+		// Those calls are expensive. Unfortunately, our cache system is not initialized at this point.
+		// So, we may store the locale in a tmp/ filesystem.
 
-	if (file_exists($fn = 'tmp/cache/locale_' . $boardsuffix ) ) {
-		$config['locale'] = file_get_contents($fn);
-	}
-	else {
-		$config['locale'] = 'en';
+		if (file_exists($fn = 'tmp/cache/locale_' . $boardsuffix ) ) {
+			$config['locale'] = file_get_contents($fn);
+		}
+		else {
+			$config['locale'] = 'en';
 
-		$configstr = file_get_contents('inc/instance-config.php');
+			$configstr = file_get_contents('inc/instance-config.php');
+
+			if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
+				$configstr .= file_get_contents($board['dir'] . '/config.php');
+			}
+			$matches = array();
+			preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
+			if ($matches && isset ($matches[2]) && $matches[2]) {
+				$matches = $matches[2];
+				$config['locale'] = $matches[count($matches)-1];
+			}
+
+			file_put_contents($fn, $config['locale']);
+		}
+
+		if ($config['locale'] != $current_locale) {
+			$current_locale = $config['locale'];
+			init_locale($config['locale'], $error);
+		}
+
+		require 'inc/config.php';
+
+		require 'inc/instance-config.php';
 
 		if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
-			$configstr .= file_get_contents($board['dir'] . '/config.php');
-		}
-		$matches = array();
-		preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
-		if ($matches && isset ($matches[2]) && $matches[2]) {
-			$matches = $matches[2];
-			$config['locale'] = $matches[count($matches)-1];
+			require $board['dir'] . '/config.php';
 		}
 
-		file_put_contents($fn, $config['locale']);
-	}
-
-	if ($config['locale'] != $current_locale) {
-		$current_locale = $config['locale'];
-		init_locale($config['locale'], $error);
-	}
-
-	require 'inc/config.php';
-
-	require 'inc/instance-config.php';
-
-	if (isset($board['dir']) && file_exists($board['dir'] . '/config.php')) {
-		require $board['dir'] . '/config.php';
-	}
-
-	if ($config['locale'] != $current_locale) {
-		$current_locale = $config['locale'];
-		init_locale($config['locale'], $error);
-	}
-
-	if (!isset($config['global_message']))
-		$config['global_message'] = false;
-
-	if (!isset($config['post_url']))
-		$config['post_url'] = $config['root'] . $config['file_post'];
-
-
-	if (!isset($config['referer_match']))
-		if (isset($_SERVER['HTTP_HOST'])) {
-			$config['referer_match'] = '/^' .
-				(preg_match('@^https?://@', $config['root']) ? '' :
-					'https?:\/\/' . $_SERVER['HTTP_HOST']) .
-					preg_quote($config['root'], '/') .
-				'(' .
-						str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
-						'(' .
-							preg_quote($config['file_index'], '/') . '|' .
-							str_replace('%d', '\d+', preg_quote($config['file_page'])) .
-						')?' .
-					'|' .
-						str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
-						preg_quote($config['dir']['res'], '/') .
-						'(' .
-							str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) . '|' .
-							str_replace('%d', '\d+', preg_quote($config['file_page50'], '/')) . '|' .
-                                                        str_replace(array('%d', '%s'), array('\d+', '[a-z0-9-]+'), preg_quote($config['file_page_slug'], '/')) . '|' .
-                                                        str_replace(array('%d', '%s'), array('\d+', '[a-z0-9-]+'), preg_quote($config['file_page50_slug'], '/')) .
-						')' .
-					'|' .
-						preg_quote($config['file_mod'], '/') . '\?\/.+' .
-				')([#?](.+)?)?$/ui';
-		} else {
-			// CLI mode
-			$config['referer_match'] = '//';
+		if ($config['locale'] != $current_locale) {
+			$current_locale = $config['locale'];
+			init_locale($config['locale'], $error);
 		}
-	if (!isset($config['cookies']['path']))
-		$config['cookies']['path'] = &$config['root'];
 
-	if (!isset($config['dir']['static']))
-		$config['dir']['static'] = $config['root'] . 'static/';
+		if (!isset($config['global_message']))
+			$config['global_message'] = false;
 
-	if (!isset($config['image_blank']))
-		$config['image_blank'] = $config['dir']['static'] . 'blank.gif';
+		if (!isset($config['post_url']))
+			$config['post_url'] = $config['root'] . $config['file_post'];
 
-	if (!isset($config['image_sticky']))
-		$config['image_sticky'] = $config['dir']['static'] . 'sticky.gif';
-	if (!isset($config['image_locked']))
-		$config['image_locked'] = $config['dir']['static'] . 'locked.gif';
-	if (!isset($config['image_bumplocked']))
-		$config['image_bumplocked'] = $config['dir']['static'] . 'sage.gif';
-	if (!isset($config['image_deleted']))
-		$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 
-	if (!isset($config['uri_thumb']))
-		$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
-	elseif (isset($board['dir']))
-		$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
+		if (!isset($config['referer_match']))
+			if (isset($_SERVER['HTTP_HOST'])) {
+				$config['referer_match'] = '/^' .
+					(preg_match('@^https?://@', $config['root']) ? '' :
+						'https?:\/\/' . $_SERVER['HTTP_HOST']) .
+						preg_quote($config['root'], '/') .
+					'(' .
+							str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
+							'(' .
+								preg_quote($config['file_index'], '/') . '|' .
+								str_replace('%d', '\d+', preg_quote($config['file_page'])) .
+							')?' .
+						'|' .
+							str_replace('%s', $config['board_regex'], preg_quote($config['board_path'], '/')) .
+							preg_quote($config['dir']['res'], '/') .
+							'(' .
+								str_replace('%d', '\d+', preg_quote($config['file_page'], '/')) . '|' .
+								str_replace('%d', '\d+', preg_quote($config['file_page50'], '/')) . '|' .
+	                                                        str_replace(array('%d', '%s'), array('\d+', '[a-z0-9-]+'), preg_quote($config['file_page_slug'], '/')) . '|' .
+	                                                        str_replace(array('%d', '%s'), array('\d+', '[a-z0-9-]+'), preg_quote($config['file_page50_slug'], '/')) .
+							')' .
+						'|' .
+							preg_quote($config['file_mod'], '/') . '\?\/.+' .
+					')([#?](.+)?)?$/ui';
+			} else {
+				// CLI mode
+				$config['referer_match'] = '//';
+			}
+		if (!isset($config['cookies']['path']))
+			$config['cookies']['path'] = &$config['root'];
 
-	if (!isset($config['uri_img']))
-		$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
-	elseif (isset($board['dir']))
-		$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
+		if (!isset($config['dir']['static']))
+			$config['dir']['static'] = $config['root'] . 'static/';
 
-	if (!isset($config['uri_stylesheets']))
-		$config['uri_stylesheets'] = $config['root'] . 'stylesheets/';
+		if (!isset($config['image_blank']))
+			$config['image_blank'] = $config['dir']['static'] . 'blank.gif';
 
-	if (!isset($config['url_stylesheet']))
-		$config['url_stylesheet'] = $config['uri_stylesheets'] . 'style.css';
-	if (!isset($config['url_javascript']))
-		$config['url_javascript'] = $config['root'] . $config['file_script'];
-	if (!isset($config['additional_javascript_url']))
-		$config['additional_javascript_url'] = $config['root'];
-	if (!isset($config['uri_flags']))
-		$config['uri_flags'] = $config['root'] . 'static/flags/%s.png';
-	if (!isset($config['user_flag']))
-		$config['user_flag'] = false;
-	if (!isset($config['user_flags']))
-		$config['user_flags'] = array();
+		if (!isset($config['image_sticky']))
+			$config['image_sticky'] = $config['dir']['static'] . 'sticky.gif';
+		if (!isset($config['image_locked']))
+			$config['image_locked'] = $config['dir']['static'] . 'locked.gif';
+		if (!isset($config['image_bumplocked']))
+			$config['image_bumplocked'] = $config['dir']['static'] . 'sage.gif';
+		if (!isset($config['image_deleted']))
+			$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 
-	if (!isset($__version))
-		$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
-	$config['version'] = $__version;
+		if (!isset($config['uri_thumb']))
+			$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
+		elseif (isset($board['dir']))
+			$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
 
-	if ($config['allow_roll'])
-		event_handler('post', 'diceRoller');
+		if (!isset($config['uri_img']))
+			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
+		elseif (isset($board['dir']))
+			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
 
-	if (is_array($config['anonymous']))
-		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
+		if (!isset($config['uri_stylesheets']))
+			$config['uri_stylesheets'] = $config['root'] . 'stylesheets/';
 
+		if (!isset($config['url_stylesheet']))
+			$config['url_stylesheet'] = $config['uri_stylesheets'] . 'style.css';
+		if (!isset($config['url_javascript']))
+			$config['url_javascript'] = $config['root'] . $config['file_script'];
+		if (!isset($config['additional_javascript_url']))
+			$config['additional_javascript_url'] = $config['root'];
+		if (!isset($config['uri_flags']))
+			$config['uri_flags'] = $config['root'] . 'static/flags/%s.png';
+		if (!isset($config['user_flag']))
+			$config['user_flag'] = false;
+		if (!isset($config['user_flags']))
+			$config['user_flags'] = array();
+
+		if (!isset($__version))
+			$__version = file_exists('.installed') ? trim(file_get_contents('.installed')) : false;
+		$config['version'] = $__version;
+
+		if ($config['allow_roll'])
+			event_handler('post', 'diceRoller');
+
+		if (is_array($config['anonymous']))
+			$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
 
 	}
 	// Effectful config processing below:
