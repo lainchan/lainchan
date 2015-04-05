@@ -383,8 +383,12 @@ function verbose_error_handler($errno, $errstr, $errfile, $errline) {
 function define_groups() {
 	global $config;
 
-	foreach ($config['mod']['groups'] as $group_value => $group_name)
-		defined($group_name) or define($group_name, $group_value, true);
+	foreach ($config['mod']['groups'] as $group_value => $group_name) {
+		$group_name = strtoupper($group_name);
+		if(!defined($group_name)) {
+			define($group_name, $group_value, true);
+		}
+	}
 	
 	ksort($config['mod']['groups']);
 }
