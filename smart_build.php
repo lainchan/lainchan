@@ -169,7 +169,7 @@ function die_404() { global $config;
   else {
     header("Location: ".$config['page_404']);
   }
-
+  header("X-Accel-Expires: 120");
   die();
 }
 
