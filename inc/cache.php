@@ -132,7 +132,7 @@ class Cache {
 			case 'fs':
 				$key = str_replace('/', '::', $key);
 				$key = str_replace("\0", '', $key);
-				unlink('tmp/cache/'.$key);
+				@unlink('tmp/cache/'.$key);
 				break;
 			case 'php':
 				unset(self::$cache[$key]);
