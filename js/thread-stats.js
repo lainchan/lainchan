@@ -12,7 +12,7 @@ $(document).ready(function(){
 	//check if page uses unique ID
 	var IDsupport = ($('.poster_id').length > 0);
 	var thread_id = (document.location.pathname + document.location.search).split('/');
-	thread_id = thread_id[thread_id.length -1].split(/+-/)[0].split('.')[0];
+	thread_id = thread_id[thread_id.length -1].split(/\+-/)[0].split('.')[0];
 	
 	$('.boardlist.bottom, footer')
 		.first()
