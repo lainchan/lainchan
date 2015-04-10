@@ -1045,3 +1045,7 @@ span.pln {
 .dropzone .remove-btn:hover {
   color: rgba(125, 125, 125, 1);
 }
+
+#thread_stats {
+  display: inline;
+}
