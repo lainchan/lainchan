@@ -1048,4 +1048,6 @@ span.pln {
 
 #thread_stats {
   display: inline;
+  margin-left: 10px;
+  margin-right: 10px;
 }
