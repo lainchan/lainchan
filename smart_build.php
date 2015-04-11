@@ -80,7 +80,7 @@ function sb_thread_slugcheck50($b, $thread) {
   return sb_thread($b, $thread, 50);
 }
 
-function sb_api($b) { global $config;
+function sb_api($b) { global $config, $build_pages;
   if (!openBoard($b)) return false;
   $config['try_smarter'] = true;
   $build_pages = array(-1);
