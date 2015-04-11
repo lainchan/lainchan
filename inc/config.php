@@ -624,13 +624,10 @@
 	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
 	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 
-	// Highlight PHP code wrapped in <code> tags (PHP 5.3+)
-	// $config['markup'][] = array(
-	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/ms',
-	// 	function($matches) {
-	// 		return highlight_string(html_entity_decode($matches[1]), true);
-	// 	}
-	// );
+	// Code markup. This should be set to a regular expression, using tags you want to use. Examples:
+	// "/\[code\](.*?)[\/code]/is"
+	// "/```([a-z0-9-]{0,20})\n(.*?)\n?```/s"
+	$config['markup_code'] = false;
 
 	// Repair markup with HTML Tidy. This may be slower, but it solves nesting mistakes. Tinyboad, at the
 	// time of writing this, can not prevent out-of-order markup tags (eg. "**''test**'') without help from

@@ -1857,6 +1857,15 @@ function markup(&$body, $track_cites = false) {
 	if (mysql_version() < 50503)
 		$body = mb_encode_numericentity($body, array(0x010000, 0xffffff, 0, 0xffffff), 'UTF-8');
 
+	if ($config['markup_code']) {
+		$code_markup = array();
+		$body = preg_replace_callback($config['markup_code'], function($matches) use (&$code_markup) {
+			$d = count($code_markup);
+			$code_markup[] = $matches;
+			return "<code $d>";
+		}, $body);
+	}
+
 	foreach ($config['markup'] as $markup) {
 		if (is_string($markup[1])) {
 			$body = preg_replace($markup[0], $markup[1], $body);
@@ -2054,7 +2063,19 @@ function markup(&$body, $track_cites = false) {
 		$body = preg_replace('/\s+$/', '', $body);
 
 	$body = preg_replace("/\n/", '<br/>', $body);
-	
+
+	// Fix code markup
+	if ($config['markup_code']) {
+		foreach ($code_markup as $id => $val) {
+			$code = isset($val[2]) ? $val[2] : $val[1];
+			$code_lang = isset($val[2]) ? $val[1] : "";
+
+			$code = "<pre class='code lang-$code_lang'>".str_replace(array("\n","\t"), array("&#10;","&#9;"), htmlspecialchars($code))."</pre>";
+
+			$body = str_replace("<code $id>", $code, $body);
+		}
+	}
+
 	if ($config['markup_repair_tidy']) {
 		$tidy = new tidy();
 		$body = str_replace("\t", '&#09;', $body);
@@ -2072,10 +2093,10 @@ function markup(&$body, $track_cites = false) {
 		), 'utf8');
 		$body = str_replace("\n", '', $body);
 	}
-	
+
 	// replace tabs with 8 spaces
 	$body = str_replace("\t", '		', $body);
-		
+
 	return $tracked_cites;
 }
 
