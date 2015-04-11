@@ -248,7 +248,7 @@ $(function(){
     var st = storage();
 
     var sched = 0;
-    var sched_diff = 300;
+    var sched_diff = 2000;
 
     for (var i in st) {
       if (st[i].watched) {
