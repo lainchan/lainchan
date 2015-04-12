@@ -10,7 +10,7 @@ vichan is a fork of (now defunc'd) [Tinyboard](http://github.com/savetheinternet
 a great imageboard package, actively building on it and adding a lot of features and other
 improvements.
 
-Support and announcements: https://int.vichan.net/devel/
+Support and announcements: https://engine.vichan.net/
 
 Requirements
 ------------
@@ -90,7 +90,7 @@ links may be helpful for you as well:
 Donations
 ---------
 Do you like our work? You can motivate us financially to do better ;)
-* Bitcoin: [![tip for next commit](http://tip4commit.com/projects/708.svg)](http://tip4commit.com/projects/708)
+* Bitcoin: 1GjZEdLaTQ8JWVFGZW921Yv4x59f9oiZME
 
 You can also ask us to develop some feature specially for you <3. Join our IRC
 channel and ask for a quote (there are a few of us, who work with the codebase
