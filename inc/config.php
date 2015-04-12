@@ -625,8 +625,8 @@
 	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 
 	// Code markup. This should be set to a regular expression, using tags you want to use. Examples:
-	// "/\[code\](.*?)[\/code]/is"
-	// "/```([a-z0-9-]{0,20})\n(.*?)\n?```/s"
+	// "/\[code\](.*?)\[\/code\]/is"
+	// "/```([a-z0-9-]{0,20})\n(.*?)\n?```\n?/s"
 	$config['markup_code'] = false;
 
 	// Repair markup with HTML Tidy. This may be slower, but it solves nesting mistakes. Tinyboad, at the
