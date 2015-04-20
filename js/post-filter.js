@@ -1,6 +1,7 @@
 if (active_page === 'thread' || active_page === 'index' || active_page === 'catalog') {
-	$(document).ready(function () {
+	$(document).on('menu_ready', function () {
 		'use strict';
+		
 		// returns blacklist object from storage
 		function getList() {
 			return JSON.parse(localStorage.postFilter);
@@ -200,7 +201,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 		 *  create filter menu when the button is clicked
 		 */
 		function initPostMenu(pageData) {
-
+			var Menu = window.Menu;
 			var submenu;
 			Menu.add_item('filter-menu-hide', _('Hide post'));
 			Menu.add_item('filter-menu-unhide', _('Unhide post'));
@@ -836,4 +837,8 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 		}
 		init();
 	});
+	
+	if (typeof window.Menu !== "undefined") {
+		$(document).trigger('menu_ready');
+	}
 }

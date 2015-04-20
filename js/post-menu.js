@@ -26,7 +26,7 @@
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/post-menu.js';
  */
-onready(function () {
+$(document).ready(function () {
 
 var List = function (menuId, text) {
 	this.id = menuId;
@@ -133,6 +133,8 @@ Menu.get_submenu = function (id) {
 	return mainMenu.get_submenu(id);
 };
 
+window.Menu = Menu;
+
 
 /* * * * * * * *
     Initialize
@@ -205,5 +207,5 @@ $(document).on('new_post', function (e, post) {
 	addButton(post);
 });
 
-window.Menu = Menu;
+$(document).trigger('menu_ready');
 });

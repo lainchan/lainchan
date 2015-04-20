@@ -9,9 +9,10 @@
  */
 
 if (active_page == 'thread' || active_page == 'index') {
-$(document).ready(function(){
-
+$(document).on('menu_ready', function(){
+	
 if ($('#delete-fields #password').length) {
+	var Menu = window.Menu;
 	Menu.add_item("delete_post_menu", _("Delete post"));
 	Menu.add_item("delete_file_menu", _("Delete file"));
 	Menu.onclick(function(e, $buf) {
@@ -57,4 +58,9 @@ $(document).on('new_post', function(){
 });
 $('input.delete').hide();
 $('#post-moderation-fields').hide();
-})}
+});
+
+if (typeof window.Menu !== "undefined") {
+	$(document).trigger('menu_ready');
+}
+}
