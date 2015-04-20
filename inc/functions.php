@@ -1130,6 +1130,8 @@ function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 	$files = json_decode($post['files']);
 	$file_to_delete = $file !== false ? $files[(int)$file] : (object)array('file' => false);
 
+	if (!$files[0]) error(_('That post has no files.'));
+
 	if ($files[0]->file == 'deleted' && $post['num_files'] == 1 && !$post['thread'])
 		return; // Can't delete OP's image completely.
 

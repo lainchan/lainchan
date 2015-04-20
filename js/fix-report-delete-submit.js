@@ -11,7 +11,7 @@
 if (active_page == 'thread' || active_page == 'index') {
 $(document).ready(function(){
 
-if ($('.delete #password').length) {
+if ($('#delete-fields #password').length) {
 	Menu.add_item("delete_post_menu", _("Delete post"));
 	Menu.add_item("delete_file_menu", _("Delete file"));
 	Menu.onclick(function(e, $buf) {
@@ -53,9 +53,8 @@ Menu.onclick(function(e, $buf) {
 });
 
 $(document).on('new_post', function(){
-	$('div.delete').hide();
 	$('input.delete').hide();
 });
-$('div.delete').hide();
 $('input.delete').hide();
+$('#post-moderation-fields').hide();
 })}
