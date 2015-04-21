@@ -17,7 +17,7 @@ $(function() {
 			e.preventDefault();
 
 			var url = $(this).attr('href');
-			var body = $(this).parent().parent();
+			var body = $(this).parents('.body');
 
 			$.ajax({
 				url: url,
