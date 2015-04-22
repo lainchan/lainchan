@@ -13,7 +13,7 @@ a,a:visited {
   color: #34345C;
 }
 
-a:hover,p.intro a.post_no:hover {
+a:hover,.intro a.post_no:hover {
   color: #ff0000;
 }
 
@@ -23,27 +23,27 @@ a.post_no {
   padding: 0;
 }
 
-p.intro a.post_no {
+.intro a.post_no {
   color: inherit;
 }
 
-p.intro a.post_no,p.intro a.email,p.intro a.post_anchor {
+.intro a.post_no,p.intro a.email,p.intro a.post_anchor {
   margin: 0;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
   color: #34345C;
 }
 
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
   color: #ff0000;
 }
 
-p.intro label {
+.intro label {
   display: inline;
 }
 
-p.intro time,p.intro a.ip-link,p.intro a.capcode {
+.intro time,p.intro a.ip-link,p.intro a.capcode {
   direction: ltr;
   unicode-bidi: embed;
 }
@@ -219,7 +219,7 @@ div.post.op hr {
   border-color: #D9BFB7;
 }
 
-p.intro {
+.intro {
   margin: 0.5em 0;
   padding: 0;
   padding-bottom: 0.2em;
@@ -230,22 +230,22 @@ input.delete {
   margin: 1px 6px 0 0;
 }
 
-p.intro span.subject {
+.intro span.subject {
   color: #0F0C5D;
   font-weight: bold;
 }
 
-p.intro span.name {
+.intro span.name {
   color: #117743;
   font-weight: bold;
 }
 
-p.intro span.capcode,p.intro a.capcode,p.intro a.nametag {
+.intro span.capcode,p.intro a.capcode,p.intro a.nametag {
   color: #F00000;
   margin-left: 0;
 }
 
-p.intro a {
+.intro a {
   margin-left: 8px;
 }
 
@@ -604,7 +604,7 @@ table.mod.config-editor input[type="text"] {
   background-color: rgba(100%,100%,100%,0.2);
 }
 
-p.intro.thread-hidden {
+.intro.thread-hidden {
   margin: 0;
   padding: 0;
 }
@@ -931,7 +931,7 @@ span.pln {
 
 
 @media screen and (min-width: 768px) {
-  p.intro {
+  .intro {
     clear: none;
   }
 
@@ -1050,4 +1050,13 @@ span.pln {
   display: inline;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+/* Fileboard */
+table.fileboard th, table.fileboard td {
+  padding: 2px;
+  text-align: center;
+}
+table.fileboard .intro a {
+  margin-left: 0px;
 }

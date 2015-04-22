@@ -46,7 +46,7 @@ form table tr th {
 	color: #FFF;
 }
 
-p.intro span.name {
+.intro span.name {
 	font-family: serif;
 }
 
@@ -81,7 +81,7 @@ div[id^="thread_"].highlighted {
 	background: #B5FFDD;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #345456;
 }
 

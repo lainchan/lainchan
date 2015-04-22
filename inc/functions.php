@@ -1358,6 +1358,10 @@ function index($page, $mod=false) {
 		$body .= $thread->build(true);
 	}
 
+	if ($config['file_board']) {
+		$body = Element('fileboard.html', array('body' => $body, 'mod' => $mod));
+	}
+
 	return array(
 		'board' => $board,
 		'body' => $body,

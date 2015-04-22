@@ -10,7 +10,7 @@ div.title h1 {
 div.title p {
 	font-size: 10px;
 }
-a:link, a:visited, p.intro a.email span.name {
+a:link, a:visited, .intro a.email span.name {
 	color: #0000ff;
 }
 a:link:hover {
@@ -30,7 +30,7 @@ div.post.reply.highlighted {
 div.post.reply div.body a {
 	color: navy;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #d00;
 }
 form table tr th {

@@ -92,6 +92,18 @@
 				</td>
 			</tr>
 		{% endif %}
+		{% if config.allowed_tags and not id %}
+			<tr>
+				<th>{% trans %}Tag{% endtrans %}</th>
+				<td>
+					<select name="tag">
+						{% for id, tag in config.allowed_tags %}
+							<option value="{{ id }}">{{ tag }}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+		{% endif %}
 		<tr id="upload">
 			<th>
 				{% trans %}File{% endtrans %}

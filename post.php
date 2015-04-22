@@ -312,7 +312,12 @@ if (isset($_POST['delete'])) {
 			$url_without_params = $post['file_url'];
 
 		$post['extension'] = strtolower(mb_substr($url_without_params, mb_strrpos($url_without_params, '.') + 1));
-		if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
+
+		if ($post['op'] && $config['allowed_ext_op']) {
+			if (!in_array($post['extension'], $config['allowed_ext_op']))
+				error($config['error']['unknownext']);
+		}
+		else if (!in_array($post['extension'], $config['allowed_ext']) && !in_array($post['extension'], $config['allowed_ext_files']))
 			error($config['error']['unknownext']);
 
 		$post['file_tmp'] = tempnam($config['tmp'], 'url');
@@ -536,6 +541,10 @@ if (isset($_POST['delete'])) {
 		"\n<tinyboard flag alt>" . $flag_alt . "</tinyboard>";
 	}
 
+	if ($config['allowed_tags'] && $_POST['op'] && isset($_POST['tag']) && isset($config['allowed_tags'][$_POST['tag']])) {
+		$post['body'] .= "\n<tinyboard tag>" . $_POST['tag'] . "</tinyboard>";
+	}
+
         if ($config['proxy_save'] && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		$proxy = preg_replace("/[^0-9a-fA-F.,: ]/", '', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		$post['body'] .= "\n<tinyboard proxy>".$proxy."</tinyboard>";
@@ -565,7 +574,11 @@ if (isset($_POST['delete'])) {
 	if ($post['has_file']) {
 		$fnarray = array();
 		foreach ($post['files'] as $key => &$file) {
-			if (!in_array($file['extension'], $config['allowed_ext']) && !in_array($file['extension'], $config['allowed_ext_files']))
+			if ($post['op'] && $config['allowed_ext_op']) {
+				if (!in_array($file['extension'], $config['allowed_ext_op']))
+					error($config['error']['unknownext']);
+			}
+			elseif (!in_array($file['extension'], $config['allowed_ext']) && !in_array($file['extension'], $config['allowed_ext_files']))
 				error($config['error']['unknownext']);
 			
 			$file['is_an_image'] = !in_array($file['extension'], $config['allowed_ext_files']);

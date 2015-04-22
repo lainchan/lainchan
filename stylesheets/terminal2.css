@@ -16,7 +16,7 @@ div.title, h1 {
 div.title p {
 	font-size: 10px;
 }
-a:link, a:visited, p.intro a.email span.name {
+a:link, a:visited, .intro a.email span.name {
 	color: #00FF00;
 	text-decoration: underline;
 	font-family: sans-serif;
@@ -50,21 +50,21 @@ div.post.reply div.body a:link, div.post.reply div.body a:visited {
 div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
 	color: #00FF00;
 }
-p.intro span.subject {
+.intro span.subject {
 	font-size: 12px;
 	font-family: sans-serif;
 	color: #446655;
 	font-weight: 800;
 }
-p.intro span.name {
+.intro span.name {
 	color: #00FF00;
 	font-weight: 800;
 }
-p.intro a.capcode, p.intro a.nametag {
+.intro a.capcode, p.intro a.nametag {
 	color: #00FF00;
 	margin-left: 0;
 }
-p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
+.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
 	color: #00FF00;
 }
 input[type="text"], textarea, select {

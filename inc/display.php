@@ -453,7 +453,8 @@ class Thread {
 		
 		event('show-thread', $this);
 
-		$built = Element('post_thread.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'hasnoko50' => $hasnoko50, 'isnoko50' => $isnoko50, 'mod' => $this->mod));
+		$file = ($index && $config['file_board']) ? 'post_thread_fileboard.html' : 'post_thread.html';
+		$built = Element($file, array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'hasnoko50' => $hasnoko50, 'isnoko50' => $isnoko50, 'mod' => $this->mod));
 		
 		return $built;
 	}

@@ -282,7 +282,8 @@
 		'file_url',
 		'json_response',
 		'user_flag',
-		'no_country'
+		'no_country',
+		'tag'
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -734,6 +735,11 @@
 	$config['allowed_ext'][] = 'gif';
 	$config['allowed_ext'][] = 'png';
 	// $config['allowed_ext'][] = 'svg';
+
+	// Allowed extensions for OP. Inherits from the above setting if set to false. Otherwise, it overrides both allowed_ext and
+	// allowed_ext_files (filetypes for downloadable files should be set in allowed_ext_files as well). This setting is useful
+	// for creating fileboards.
+	$config['allowed_ext_op'] = false;
 
 	// Allowed additional file extensions (not images; downloadable files).
 	// $config['allowed_ext_files'][] = 'txt';
@@ -1517,6 +1523,13 @@
 
 	// Allow OP to remove arbitrary posts in his thread
 	$config['user_moderation'] = false;
+
+	// File board. Like 4chan /f/
+	$config['file_board'] = false;
+
+	// Thread tags. Set to false to disable
+	// Example: array('A' => 'Chinese cartoons', 'M' => 'Music', 'P' => 'Pornography');
+	$config['allowed_tags'] = false;
 
 /*
  * ====================
