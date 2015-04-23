@@ -95,7 +95,7 @@ $(function(){
 
     $('#gallery_images img.active').removeClass('active');
 
-    var thumb = $('#gallery_images img[data-galid-th="'+a+'"]');
+    var thumb = $('#gallery_images [data-galid-th="'+a+'"]');
     var elem = $('a[data-galid="'+a+'"]');
 
     thumb.addClass('active');
@@ -107,16 +107,42 @@ $(function(){
 
     var img = elem.attr('href');
 
-    active.find('img').fadeOut(200, function() { $(this).remove(); });
+    active.find('img, video').fadeOut(200, function() { $(this).remove(); });
 
-    var i = $('<img>');
-    i.attr('src', img);
-    i.appendTo(active);
-    i.hide(); 
+    var i;
+    if (img.match(/player\.php/)) {
+      img = img.replace(/.*player\.php\?v=|&t=.*/g, '');
+    }
+    if (img.match(/\.webm$|\.mp4$|\.ogv$/i)) { // We are handling video nao
+      i = $('<video>');
+      i.attr('src', img);
+      i.attr('autoplay', true);
+      i.attr('controls', true);
+      i.appendTo(active);
+      i.hide();
+    }
+    else { // Just a plain image
+      i = $('<img>');
+      i.attr('src', img);
+      i.appendTo(active);
+      i.hide();
+    }
 
     // Let's actually preload the next few images
+    var nextimg = $('#gallery_images active');
+    for (var j = 0; j < 3; j++) { 
+      nextimg = nextimg.next();
+      var attr;
+      if (attr = nextimg.attr('data-gaild-th')) {
+        var href = $('a[data-galid="'+attr+'"]').attr('href');
+        if (href.match(/\.webm|\.mp4|\.ogv/i)) { j--; continue; }
+        if ($('[data-galid-preload="'+attr+'"]').length) continue;
+        var img = $('<img>').attr('src', href).attr('data-galid-preload', attr).hide().appendTo('body').on('load', function() { $(this).remove(); });
+      }
+      else break;
+    }
 
-    i.on('load', function() {
+    i.one('load canplay', function() {
       i.css('left', 'calc(50% - '+i.width()+'px / 2)');
       i.css('top', 'calc(50% - '+i.height()+'px / 2)');
       i.fadeIn(200);
