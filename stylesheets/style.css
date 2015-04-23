@@ -1110,7 +1110,7 @@ table.fileboard .intro a {
           box-shadow: 0px 0px 29px 2px rgba(255,255,255,1);
   z-index: 1;
 }
-#gallery_main img {
+#gallery_main img, #gallery_main video {
   max-width: 100%;
   max-height: 100%;
   position: absolute;
