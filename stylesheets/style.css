@@ -1060,3 +1060,58 @@ table.fileboard th, table.fileboard td {
 table.fileboard .intro a {
   margin-left: 0px;
 }
+
+/* Gallery view */
+#gallery_images {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  width: 15%;
+  background-color: rgba(0, 0, 0, 0.4);
+  overflow: auto;
+}
+#gallery_toolbar {
+  position: absolute;
+  right: 15%;
+  left: 0px;
+  bottom: 0px;
+  height: 32px;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: right;
+}
+#gallery_images img {
+  width: 100%;
+}
+#gallery_toolbar a {
+  font-size: 28px;
+  padding-right: 5px;
+}
+#gallery_main {
+  position: absolute;
+  left: 0px;
+  right: 15%;
+  bottom: 32px;
+  top: 0px;
+  padding: 10px;
+}
+
+#gallery_images img {
+  opacity: 0.6;
+  -webkit-transition: all 0.5s;
+          transition: all 0.5s;
+}
+#gallery_images img:hover, #gallery_images img.active {
+  opacity: 1;
+}
+#gallery_images img.active {
+  -webkit-box-shadow: 0px 0px 29px 2px rgba(255,255,255,1);
+     -moz-box-shadow: 0px 0px 29px 2px rgba(255,255,255,1);
+          box-shadow: 0px 0px 29px 2px rgba(255,255,255,1);
+  z-index: 1;
+}
+#gallery_main img {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+}
