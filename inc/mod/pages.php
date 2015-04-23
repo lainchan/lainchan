@@ -111,7 +111,7 @@ function mod_dashboard() {
 			$latest = unserialize($_COOKIE['update']);
 		} else {
 			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
-			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
+			if ($code = @file_get_contents('http://engine.vichan.net/version.txt', 0, $ctx)) {
 				$ver = strtok($code, "\n");
 				
 				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
@@ -120,7 +120,7 @@ function mod_dashboard() {
 						'major' => $matches[2],
 						'minor' => $matches[3]
 					);
-					if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+					if (preg_match('/(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
 						$current = array(
 							'massive' => (int) $matches[1],
 							'major' => (int) $matches[2],
