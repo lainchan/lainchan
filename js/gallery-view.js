@@ -72,6 +72,17 @@ $(function(){
     $("<a href='javascript:void(0)'><i class='fa fa-times'></i></div>")
     .click(close_gallery).appendTo(toolbar);
 
+    $('body').on('keydown.gview', function(e) {
+      if (e.which == 39 || e.which == 40) { // right or down arrow
+        gallery_setimage(+1);
+        e.preventDefault();
+      }
+      else if (e.which == 37 || e.which == 38) { // left or up arrow
+        gallery_setimage(-1);
+        e.preventDefault();
+      }
+    });
+
     handler.fadeIn(400);
   };
 
@@ -103,6 +114,8 @@ $(function(){
     i.appendTo(active);
     i.hide(); 
 
+    // Let's actually preload the next few images
+
     i.on('load', function() {
       i.css('left', 'calc(50% - '+i.width()+'px / 2)');
       i.css('top', 'calc(50% - '+i.height()+'px / 2)');
@@ -117,6 +130,8 @@ $(function(){
     $('body').css('overflow', 'auto');
 
     gallery_opened = false;
+
+    $('body').off('keydown.gview');
 
     handler.fadeOut(400, function() { handler.remove(); });
   };
