@@ -541,7 +541,7 @@ if (isset($_POST['delete'])) {
 		"\n<tinyboard flag alt>" . $flag_alt . "</tinyboard>";
 	}
 
-	if ($config['allowed_tags'] && $_POST['op'] && isset($_POST['tag']) && isset($config['allowed_tags'][$_POST['tag']])) {
+	if ($config['allowed_tags'] && $post['op'] && isset($_POST['tag']) && isset($config['allowed_tags'][$_POST['tag']])) {
 		$post['body'] .= "\n<tinyboard tag>" . $_POST['tag'] . "</tinyboard>";
 	}
 
