@@ -98,7 +98,7 @@
 				<td>
 					<select name="tag">
 						{% for id, tag in config.allowed_tags %}
-							<option value="{{ id }}">{{ tag }}</option>
+							<option value="{{ id|e }}">{{ tag|e }}</option>
 						{% endfor %}
 					</select>
 				</td>
