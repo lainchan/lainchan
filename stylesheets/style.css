@@ -1067,13 +1067,13 @@ table.fileboard .intro a {
   right: 0px;
   bottom: 0px;
   top: 0px;
-  width: 15%;
+  width: 12%;
   background-color: rgba(0, 0, 0, 0.4);
   overflow: auto;
 }
 #gallery_toolbar {
   position: absolute;
-  right: 15%;
+  right: 12%;
   left: 0px;
   bottom: 0px;
   height: 32px;
@@ -1090,7 +1090,7 @@ table.fileboard .intro a {
 #gallery_main {
   position: absolute;
   left: 0px;
-  right: 15%;
+  right: 12%;
   bottom: 32px;
   top: 0px;
   padding: 10px;
