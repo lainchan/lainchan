@@ -1431,8 +1431,14 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			// Rebuild themes
 			rebuildThemes('post-delete', $board);
 		}
-		
-		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+
+        if(isset($_POST['thread'])) {
+            // Redirect to thread
+            header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . str_replace('%d', $_POST['thread'], $config['file_page']), true, $config['redirect_http']);
+        } else {
+            // Redirect to board index.
+	        header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+        }
 	}
 	
 	$args = array(
@@ -1444,6 +1450,10 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 		'boards' => listBoards(),
 		'token' => $security_token
 	);
+
+    if($_GET['thread']) {
+        $args['thread'] = $_GET['thread'];
+    }
 	
 	mod_page(_('New ban'), 'mod/ban_form.html', $args);
 }
