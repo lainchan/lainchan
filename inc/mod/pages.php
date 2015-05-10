@@ -1529,7 +1529,11 @@ function mod_delete($board, $post) {
 	// Rebuild themes
 	rebuildThemes('post-delete', $board);
 	// Redirect
-	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+    if(isset($_GET['thread'])) {
+        header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . str_replace('%d', $_GET['thread'], $config['file_page']), true, $config['redirect_http']);
+    } else {
+        header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+    }
 }
 
 function mod_deletefile($board, $post, $file) {
