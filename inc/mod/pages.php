@@ -61,7 +61,11 @@ function mod_login($redirect = false) {
 }
 
 function mod_confirm($request) {
-	mod_page(_('Confirm action'), 'mod/confirm.html', array('request' => $request, 'token' => make_secure_link_token($request)));
+    $args = array('request' => $request, 'token' => make_secure_link_token($request));
+    if(isset($_GET['thread'])) {
+        $args['rest'] = 'thread=' . $_GET['thread'];
+    }
+	mod_page(_('Confirm action'), 'mod/confirm.html', $args);
 }
 
 function mod_logout() {

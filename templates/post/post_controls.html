@@ -2,19 +2,19 @@
 
 <span class="controls {% if not post.thread %}op{% endif %}">
 {% if mod|hasPermission(config.mod.delete, board.uri) %}
-    <a title="{% trans %}Delete{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete this?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'delete/' ~ post.id) }}';return false;" href="?/{{ board.dir }}delete/{{ post.id }}">{{ config.mod.link_delete }}</a>&nbsp;
+    <a title="{% trans %}Delete{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete this?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'delete/' ~ post.id) }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}';return false;" href="?/{{ board.dir }}delete/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_delete }}</a>&nbsp;
 {% endif %}
 {% if mod|hasPermission(config.mod.deletebyip, board.uri) %}
-    <a title="{% trans %}Delete all posts by IP{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete all posts by this IP address?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'deletebyip/' ~ post.id) }}';return false;" href="?/{{ board.dir }}deletebyip/{{ post.id }}">{{ config.mod.link_deletebyip }}</a>&nbsp;
+    <a title="{% trans %}Delete all posts by IP{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete all posts by this IP address?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'deletebyip/' ~ post.id) }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}';return false;" href="?/{{ board.dir }}deletebyip/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_deletebyip }}</a>&nbsp;
 {% endif %}
 {% if mod|hasPermission(config.mod.deletebyip_global, board.uri) %}
-    <a title="{% trans %}Delete all posts by IP across all boards{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete all posts by this IP address, across all boards?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'deletebyip/' ~ post.id ~ '/global') }}';return false;" href="?/{{ board.dir }}deletebyip/{{ post.id }}/global">{{ config.mod.link_deletebyip_global }}</a>&nbsp;
+    <a title="{% trans %}Delete all posts by IP across all boards{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete all posts by this IP address, across all boards?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'deletebyip/' ~ post.id ~ '/global') }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}';return false;" href="?/{{ board.dir }}deletebyip/{{ post.id }}/global{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_deletebyip_global }}</a>&nbsp;
 {% endif %}
 {% if mod|hasPermission(config.mod.ban, board.uri) %}
-	<a title="{% trans %}Ban{% endtrans %}" href="?/{{ board.dir }}ban/{{ post.id }}">{{ config.mod.link_ban }}</a>&nbsp;
+	<a title="{% trans %}Ban{% endtrans %}" href="?/{{ board.dir }}ban/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_ban }}</a>&nbsp;
 {% endif %}
 {% if mod|hasPermission(config.mod.bandelete, board.uri) %}
-	<a title="{% trans %}Ban & Delete{% endtrans %}" href="?/{{ board.dir }}ban&amp;delete/{{ post.id }}">{{ config.mod.link_bandelete }}</a>&nbsp;
+	<a title="{% trans %}Ban & Delete{% endtrans %}" href="?/{{ board.dir }}ban&amp;delete/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_bandelete }}</a>&nbsp;
 {% endif %}
 
 {% if not post.thread %}

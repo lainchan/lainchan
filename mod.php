@@ -23,6 +23,12 @@ if (get_magic_quotes_gpc()) {
 
 $query = isset($_SERVER['QUERY_STRING']) ? rawurldecode($_SERVER['QUERY_STRING']) : '';
 
+// If there's a thread parameter (eg, for returning to after enacting a ban)
+// drop it from the $query.
+if(isset($_GET['thread'])) {
+    $query = explode("&thread=", $query)[0];
+}
+
 $pages = array(
 	''					=> ':?/',			// redirect to dashboard
 	'/'					=> 'dashboard',			// dashboard
