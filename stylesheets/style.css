@@ -1,4 +1,7 @@
 /* backup version before modifying bar.top */
+* {
+	max-width: 100%;
+}
 html {
 	width: 100%!important;
 }
@@ -167,6 +170,28 @@ header div.subtitle {
 .file:not(.multifile) .post-image {
     float: left;
 }
+/*
+[data-board] > .files > :nth-child(1):not(.multifile) > a:before {
+	content: url('/static/partyhat.gif');
+	float: left;
+	display: block;
+	margin-right: -160px;
+	position: relative;
+	top: -120px;
+	left: -30px;
+	
+}
+[data-board] > .files > :nth-child(1).multifile > a:before {
+	content: url('/static/partyhat.gif');
+	float: left;
+	display: block;
+	margin-right: -160px;
+	position: relative;
+	top: -120px;
+	left: -50px;
+	
+}
+*/
 .file:not(.multifile) {
     float: none;
 }
@@ -236,6 +261,7 @@ div.post.op {
 	margin-right: 20px;
 	margin-bottom: 5px;
 }
+
 div.post.op hr {
 	border-color: #D9BFB7;
 }
@@ -516,7 +542,6 @@ hr {
 	clear: left;
 }
 #boardfront .boardlist {
-	bottom: 28px;
 	margin-bottom: -28px;
 }
 /*new 051214 */
