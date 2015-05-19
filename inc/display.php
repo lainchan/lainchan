@@ -81,7 +81,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 	
 	if (defined('STDIN')) {
 		// Running from CLI
-		echo('Error: ' . $message . "\n");
+		echo 'Error: ' , $message , "\n" ;
 		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		die();
 	}

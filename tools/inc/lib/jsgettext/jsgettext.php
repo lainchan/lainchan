@@ -56,7 +56,7 @@
 	}
 
 	if (!empty($errors)) {
-		echo "\nThe following errors occured:\n" . implode("\n", $errors) . "\n";
+		echo "\nThe following errors occured:\n" , implode("\n", $errors) , "\n";
 	}
 
 	$poeditParser->save();

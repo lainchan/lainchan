@@ -34,7 +34,7 @@
 	
 	if ($poeditParser->toJSON($options['-o'], $options['-n'])) {
 		$strings = count($poeditParser->getStrings());
-		echo "Successfully exported " . count($strings) . " strings.\n";
+		echo "Successfully exported " , count($strings) , " strings.\n";
 	}
 	else {
 		echo "Cannor write to file '{$options['-o']}'.\n";
