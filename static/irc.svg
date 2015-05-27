@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <mask id="mask">
+            <text x="0" y="12" 
+                  id="knockout" fill="white" 
+                  style="font-size:10pt; font-family: Arial, sans-serif; font-weight: bold;">
+                GET ON IRC GET ON IRC GET ON IRC GET ON IRC
+            </text>
+        </mask>
+    </defs>
+    <use xlink:href="#knockout"/>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist xmlns="http://xspf.org/ns/0/" version="1">
+  <title/>
+  <creator/>
+  <trackList>
+    <track>
+      <location>http://localhost:8000/live.mp3</location>
+      <title>Giorgio Moroder - E=MC2</title>
+      <annotation>Stream Title: Lainchan Radio mp3
+Stream Description: Now with even more shitty connection!
+Content Type:audio/mpeg
+Current Listeners: 0
+Peak Listeners: 0
+Stream Genre: Eletronica</annotation>
+    </track>
+  </trackList>
+</playlist>
