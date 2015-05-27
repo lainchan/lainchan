@@ -51,3 +51,8 @@ tf/
 # vim swapfiles
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
+
+# special boards
+all/
+mod/
+random/
