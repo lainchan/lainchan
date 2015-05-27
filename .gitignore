@@ -45,3 +45,9 @@ favicon.ico
 /static/spoiler.png
 
 piwik/
+jwplayer/
+tf/
+
+# vim swapfiles
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
