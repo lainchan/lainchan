@@ -96,6 +96,6 @@ $(document).ready(function(){
 	$('div.post > a > img.post-image, div > a > img.post-image').each(handle_images);
 
         $(document).on('new_post', function(e, post) {
-                $(post).find('> a > img.post-image').each(handle_images);
+                $(post).find('a > img.post-image').each(handle_images);
         });
 });

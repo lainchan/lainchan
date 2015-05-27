@@ -2,7 +2,7 @@ body {
 	background: #0E0E0E url(data:image/gif;base64,R0lGODlhGAAMAKEEAOXl5ebm5vDw8PHx8SH+EUNyZWF0ZWQgd2l0aCBHSU1QACwAAAAAGAAMAAACRpQiY6cLa146MyY1EJQKjG81lNGRUPOIkgMJHtquBgIO7xwvpbrpduUSuXq8ntEC0bBEylYitdDAdM1ViaobkgKgZwyDLAAAOw==) repeat 0 0!important;
 	color: #000;
 }
-a:link, a:visited, p.intro a.email span.name {
+a:link, a:visited, .intro a.email span.name {
 	-webkit-transition: all ease-in 0.3s;
 	-moz-transition: all ease-in 0.3s;
 	color: rgba(0, 0, 0, 0.6);
@@ -33,7 +33,7 @@ div.post.reply.highlighted {
 div.post.reply p.body a {
 	color: navy;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #000;
 }
 form table tr th {

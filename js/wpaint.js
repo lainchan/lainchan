@@ -13,12 +13,7 @@
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
  *   $config['additional_javascript'][] = 'js/jquery-ui.custom.min.js';
  *   $config['additional_javascript'][] = 'js/ajax.js';
- *   $config['additional_javascript'][] = 'js/wPaint/lib/wColorPicker.min.js';
- *   $config['additional_javascript'][] = 'js/wPaint/wPaint.min.js';
- *   $config['additional_javascript'][] = 'js/wPaint/plugins/main/wPaint.menu.main.min.js';
- *   $config['additional_javascript'][] = 'js/wPaint/plugins/text/wPaint.menu.text.min.js';
- *   $config['additional_javascript'][] = 'js/wPaint/plugins/shapes/wPaint.menu.main.shapes.min.js';
- *   $config['additional_javascript'][] = 'js/wPaint/plugins/file/wPaint.menu.main.file.min.js';
+ *   $config['additional_javascript'][] = 'js/wPaint/8ch.js';
  *   $config['additional_javascript'][] = 'js/wpaint.js';
  *   $config['additional_javascript'][] = 'js/upload-selection.js';
  *
@@ -49,7 +44,7 @@ oekaki.init = function() {
   var oekaki_form = '<tr id="oekaki"><th>Oekaki</th><td><div id="wpaintctr"><div id="wpaintdiv"></div></div></td></tr>';
 
   // Add oekaki after the file input
-  $('form[name="post"]:not(#quick-reply) input[type="file"]').parent().parent().after(oekaki_form);
+  $('form[name="post"]:not(#quick-reply) [id="upload"]').after(oekaki_form);
 
   $('<link class="wpaintcss" rel="stylesheet" href="'+configRoot+'js/wPaint/wPaint.min.css" />').appendTo($("head"));
   $('<link class="wpaintcss" rel="stylesheet" href="'+configRoot+'js/wPaint/lib/wColorPicker.min.css" />').appendTo($("head"));

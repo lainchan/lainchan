@@ -16,11 +16,22 @@
 		if ($action == 'all') {
 			foreach ($boards as $board) {
 				$b = new Catalog();
-				$b->build($settings, $board);
+				if ($config['smart_build']) {
+					file_unlink($config['dir']['home'] . $board . '/catalog.html');
+				}
+				else {
+					$b->build($settings, $board);
+				}
 			}
 		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') || ($settings['update_on_posts'] && $action == 'post-delete') && in_array($board, $boards)) {
 			$b = new Catalog();
-			$b->build($settings, $board);
+
+			if ($config['smart_build']) {
+				file_unlink($config['dir']['home'] . $board . '/catalog.html');
+			}
+			else {
+				$b->build($settings, $board);
+			}
 		}
 	}
 	
@@ -28,8 +39,12 @@
 	class Catalog {
 		public function build($settings, $board_name) {
 			global $config, $board;
-			
-			openBoard($board_name);
+
+			if ($board['uri'] != $board_name) {			
+				if (!openBoard($board_name)) {
+					error(sprintf(_("Board %s doesn't exist"), $board_name));
+				}
+			}
 			
 			$recent_images = array();
 			$recent_posts = array();
@@ -42,35 +57,37 @@
 			$board_name, $board_name, $board_name, $board_name, $board_name)) or error(db_error());
 			
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id']));
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . link_for($post);
 				$post['board_name'] = $board['name'];
 
 				if ($post['embed'] && preg_match('/^https?:\/\/(\w+\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9\-_]{10,11})(&.+)?$/i', $post['embed'], $matches)) {
 					$post['youtube'] = $matches[2];
 				}				
 
-				if (isset($post['files'])) {
+				if (isset($post['files']) && $post['files']) {
 					$files = json_decode($post['files']);
 
-					if ($files[0]->file == 'deleted') {
-						if (count($files) > 1) {
-							foreach ($files as $file) {
-								if (($file == $files[0]) || ($file->file == 'deleted')) continue;
-								$post['file'] = $config['uri_thumb'] . $file->thumb;
-							}
+					if ($files[0]) {
+						if ($files[0]->file == 'deleted') {
+							if (count($files) > 1) {
+								foreach ($files as $file) {
+									if (($file == $files[0]) || ($file->file == 'deleted')) continue;
+									$post['file'] = $config['uri_thumb'] . $file->thumb;
+								}
 
-							if (empty($post['file'])) $post['file'] = $config['image_deleted'];
+								if (empty($post['file'])) $post['file'] = $config['image_deleted'];
+							}
+							else {
+								$post['file'] = $config['image_deleted'];
+							}
+						}
+						else if($files[0]->thumb == 'spoiler') {
+							$post['file'] = '/' . $config['spoiler_image'];
 						}
 						else {
-							$post['file'] = $config['image_deleted'];
+							$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 						}
 					}
-					else if($files[0]->thumb == 'spoiler') {
-						$post['file'] = '/' . $config['spoiler_image'];
-					}
-					else {
-					$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
-				}
 				}
 
 				if (empty($post['image_count'])) $post['image_count'] = 0;

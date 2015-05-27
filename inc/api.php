@@ -33,6 +33,7 @@ class Api {
 			'sticky' => 'sticky',
 			'locked' => 'locked',
 			'bump' => 'last_modified',
+			'embed' => 'embed',
 		);
 
 		$this->threadsPageFields = array(
@@ -41,12 +42,11 @@ class Api {
 		);
 
 		$this->fileFields = array(
-			'thumbheight' => 'tn_w',
-			'thumbwidth' => 'tn_h',
-			'height' => 'w',
-			'width' => 'h',
+			'thumbheight' => 'tn_h',
+			'thumbwidth' => 'tn_w',
+			'height' => 'h',
+			'width' => 'w',
 			'size' => 'fsize',
-			'file' => 'filename',
 		);
 
 		if (isset($config['api']['extra_fields']) && gettype($config['api']['extra_fields']) == 'array'){
@@ -65,6 +65,8 @@ class Api {
 		'fsize' => 1,
 		'omitted_posts' => 1,
 		'omitted_images' => 1,
+		'replies' => 1,
+		'images' => 1,
 		'sticky' => 1,
 		'locked' => 1,
 		'last_modified' => 1
@@ -84,11 +86,22 @@ class Api {
 		}
 	}
 
+	private function translateFile($file, $post, &$apiPost) {
+		$this->translateFields($this->fileFields, $file, $apiPost);
+		$apiPost['filename'] = @substr($file->name, 0, strrpos($file->name, '.'));
+		$dotPos = strrpos($file->file, '.');
+		$apiPost['ext'] = substr($file->file, $dotPos);
+		$apiPost['tim'] = substr($file->file, 0, $dotPos);
+		$apiPost['md5'] = base64_encode(hex2bin($post->filehash));
+	}
+
 	private function translatePost($post, $threadsPage = false) {
+		global $config, $board;
 		$apiPost = array();
 		$fields = $threadsPage ? $this->threadsPageFields : $this->postFields;
 		$this->translateFields($fields, $post, $apiPost);
 
+		if (isset($config['poster_ids'])) $apiPost['id'] = poster_id($post->ip, $post->thread, $board['uri']);
 		if ($threadsPage) return $apiPost;
 
 		// Handle country field
@@ -103,16 +116,27 @@ class Api {
 			}
 		}
 
+		if ($config['slugify'] && !$post->thread) {
+			$apiPost['semantic_url'] = $post->slug;
+		}
+
 		// Handle files
 		// Note: 4chan only supports one file, so only the first file is taken into account for 4chan-compatible API.
 		if (isset($post->files) && $post->files && !$threadsPage) {
 			$file = $post->files[0];
-			$this->translateFields($this->fileFields, $file, $apiPost);
-			$dotPos = strrpos($file->file, '.');
-			$apiPost['filename'] = substr($file->file, 0, $dotPos);
-			$apiPost['ext'] = substr($file->file, $dotPos);
-			$dotPos = strrpos($file->file, '.');
-			$apiPost['tim'] = substr($file->file, 0, $dotPos);
+			$this->translateFile($file, $post, $apiPost);
+			if (sizeof($post->files) > 1) {
+				$extra_files = array();
+				foreach ($post->files as $i => $f) {
+					if ($i == 0) continue;
+				
+					$extra_file = array();
+					$this->translateFile($f, $post, $extra_file);
+
+					$extra_files[] = $extra_file;
+				}
+				$apiPost['extra_files'] = $extra_files;
+			}
 		}
 
 		return $apiPost;

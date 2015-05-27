@@ -41,7 +41,7 @@ a.email span.name {
         color: #5A8C99 !important; 
 }
 
-p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
+.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
 color: #6E0877;
 }
 
@@ -157,7 +157,7 @@ div.banner, .replymode, .catalogmode {
         font-weight:800;
 }
  
-p.intro span.subject {
+.intro span.subject {
 color: #4D2C80;
 font-weight: bold;
 }

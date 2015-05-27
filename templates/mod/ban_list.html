@@ -1,104 +1,41 @@
-{% if bans|count == 0 %}
-	<p style="text-align:center" class="unimportant">({% trans 'There are no active bans.' %})</p>
-{% else %}
-	<form action="?/bans" method="post">
-		<input type="hidden" name="token" value="{{ token }}">
-		<table class="mod" style="width:100%">
-			<tr>
-				<th>{% trans 'IP address/mask' %}</th>
-				<th>{% trans 'Reason' %}</th>
-				<th>{% trans 'Board' %}</th>
-				<th>{% trans 'Set' %}</th>
-				<th>{% trans 'Duration' %}</th>
-				<th>{% trans 'Expires' %}</th>
-				<th>{% trans 'Seen' %}</th>
-				<th>{% trans 'Staff' %}</th>
-			</tr>
-			{% for ban in bans %}
-				<tr{% if ban.expires != 0 and ban.expires < time() %} style="text-decoration:line-through"{% endif %}>
-					<td style="white-space: nowrap">
-						<input type="checkbox" name="ban_{{ ban.id }}"> 
-						{% if ban.single_addr %}
-							<a href="?/IP/{{ ban.mask }}">{{ ban.mask }}</a>
-						{% else %}
-							{{ ban.mask }}
-						{% endif %}
-					</td>
-					<td>
-						{% if ban.reason %}
-							{{ ban.reason }}
-						{% else %}
-							-
-						{% endif %}
-					</td>
-					<td  style="white-space: nowrap">
-						{% if ban.board %}
-							{{ config.board_abbreviation|sprintf(ban.board) }}
-						{% else %}
-							<em>{% trans 'all boards' %}</em>
-						{% endif %}					
-					</td>
-					<td style="white-space: nowrap">
-						<span title="{{ ban.created|date(config.post_date) }}">
-							{{ ban.created|ago }} ago
-						</span>
-					</td>
-					<td style="white-space: nowrap">
-						{% if ban.expires == 0 %}
-							-
-						{% else %}
-							{{ (ban.expires - ban.created + time()) | until }}
-						{% endif %}
-					</td>
-					<td style="white-space: nowrap">
-						{% if ban.expires == 0 %}
-							<em>{% trans 'never' %}</em>
-						{% else %}
-							{{ ban.expires|date(config.post_date) }}
-							{% if ban.expires > time() %}
-								 <small>(in {{ ban.expires|until }})</small>
-							{% endif %}
-						{% endif %}
-					</td>
-					<td>
-						{%  if ban.seen %}
-							{% trans 'Yes' %}
-						{%  else %}
-							{% trans 'No' %}
-						{%  endif %}
-					</td>
-					<td>
-						{% if ban.username %}
-							{% if mod|hasPermission(config.mod.view_banstaff) %}
-								<a href="?/new_PM/{{ ban.username|e }}">{{ ban.username|e }}</a>
-							{% else %}
-								{% if mod|hasPermission(config.mod.view_banquestionmark) %}
-									<em>?</em>
-								{% else %}
-							
-								{% endif %}
-							{% endif %}
-						{% elseif ban.creator == -1 %}
-							<em>system</em>
-						{% else %}
-							<em>{% trans 'deleted?' %}</em>
-						{% endif %}
-					</td>
-				</tr>
-			{% endfor %}
+<script src='main.js'></script>
+<script src='js/jquery.min.js'></script>
+<script src='js/mobile-style.js'></script>
+<script src='js/strftime.min.js'></script>
+<script src='js/longtable/longtable.js'></script>
+<script src='js/mod/ban-list.js'></script>
+<link rel='stylesheet' href='stylesheets/longtable/longtable.css'>
+<link rel='stylesheet' href='stylesheets/mod/ban-list.css'>
+
+	<form action="?/bans" method="post" class="banform">
+		{% if token %}
+			<input type="hidden" name="token" value="{{ token }}">
+		{% endif %}
+		<div class='banlist-opts'>
+			<div class='checkboxes'>
+				{% if mod and mod.boards[0] != '*' %}
+				<label><input type="checkbox" id="only_mine"> {% trans %}Show only bans from boards I moderate{% endtrans %}</label>
+				{% endif %}
+				<label><input type="checkbox" id="only_not_expired"> {% trans %}Show only active bans{% endtrans %}</label>
+			</div>
+			<div class='buttons'>
+				<input type="text" id="search" placeholder="{% trans %}Search{% endtrans %}">
+				{% if mod %}
+				<input type="submit" name="unban" id="unban" value="{% trans 'Unban selected' %}">
+				{% endif %}
+			</div>
+
+			<br class='clear'>
+		</div>
+
+		<table class="mod" style="width:100%" id="banlist">
 		</table>
+
+
 		
-		<p style="text-align:center">
-			<input type="submit" name="unban" value="{% trans 'Unban selected' %}">
-		</p>
 	</form>
+{% if token_json %}
+	<script>$(function(){ banlist_init("{{ token_json }}", {{ boards }}); });</script>
+{% else %}
+	<script>$(function(){ banlist_init("{{ uri_json }}", {{ boards }}, true); });</script>
 {% endif %}
-
-{% if count > bans|count %}
-	<p class="unimportant" style="text-align:center;word-wrap:break-word">
-		{% for i in range(0, (count - 1) / config.mod.modlog_page) %}
-			<a href="?/bans/{{ i + 1 }}">[{{ i + 1 }}]</a> 
-		{% endfor %}
-	</p>
-{% endif %}
-

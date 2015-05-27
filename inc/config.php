@@ -66,7 +66,10 @@
 	// Use `host` via shell_exec() to lookup hostnames, avoiding query timeouts. May not work on your system.
 	// Requires safe_mode to be disabled.
 	$config['dns_system'] = false;
-	
+
+	// Check validity of the reverse DNS of IP addresses. Highly recommended.
+	$config['fcrdns'] = true;
+
 	// When executing most command-line tools (such as `convert` for ImageMagick image processing), add this
 	// to the environment path (seperated by :).
 	$config['shell_path'] = '/usr/local/bin';
@@ -112,7 +115,7 @@
 	 * http://tinyboard.org/docs/index.php?p=Config/Cache
 	 */
 
-	$config['cache']['enabled'] = false;
+	$config['cache']['enabled'] = 'php';
 	// $config['cache']['enabled'] = 'xcache';
 	// $config['cache']['enabled'] = 'apc';
 	// $config['cache']['enabled'] = 'memcached';
@@ -133,6 +136,11 @@
 	// Note that Tinyboard may clear the database at times, so you may want to pick a database id just for
 	// Tinyboard to use.
 	$config['cache']['redis'] = array('localhost', 6379, '', 1);
+
+	// EXPERIMENTAL: Should we cache configs? Warning: this changes board behaviour, i'd say, a lot.
+	// If you have any lambdas/includes present in your config, you should move them to instance-functions.php
+	// (this file will be explicitly loaded during cache hit, but not during cache miss).
+	$config['cache_config'] = false;
 
 /*
  * ====================
@@ -274,7 +282,8 @@
 		'file_url',
 		'json_response',
 		'user_flag',
-		'no_country'
+		'no_country',
+		'tag'
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -283,6 +292,15 @@
 	// Public and private key pair from https://www.google.com/recaptcha/admin/create
 	$config['recaptcha_public'] = '6LcXTcUSAAAAAKBxyFWIt2SO8jwx4W7wcSMRoN3f';
 	$config['recaptcha_private'] = '6LcXTcUSAAAAAOGVbVdhmEM1_SyRF4xTKe8jbzf_';
+	
+	// Ability to lock a board for normal users and still allow mods to post.  Could also be useful for making an archive board
+	$config['board_locked'] = false;
+
+	// If poster's proxy supplies X-Forwarded-For header, check if poster's real IP is banned.
+	$config['proxy_check'] = false;
+
+	// If poster's proxy supplies X-Forwarded-For header, save it for further inspection and/or filtering.
+	$config['proxy_save'] = false;
 
 	/*
 	 * Custom filters detect certain posts and reject/ban accordingly. They are made up of a condition and an
@@ -529,6 +547,9 @@
 	// When true, users are instead presented a selectbox for email. Contains, blank, noko and sage.
 	$config['field_email_selectbox'] = false;
 
+	// When true, the sage won't be displayed
+	$config['hide_sage'] = false;
+
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
 
@@ -557,7 +578,13 @@
 	// Allow dice rolling: an email field of the form "dice XdY+/-Z" will result in X Y-sided dice rolled and summed,
 	// with the modifier Z added, with the result displayed at the top of the post body.
 	$config['allow_roll'] = false;
+
+	// Use semantic URLs for threads, like /b/res/12345/daily-programming-thread.html
+	$config['slugify'] = false;
 	
+	// Max size for slugs
+	$config['slug_max_size'] = 80;
+
 /*
 * ====================
 *  Ban settings
@@ -598,13 +625,10 @@
 	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
 	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 
-	// Highlight PHP code wrapped in <code> tags (PHP 5.3+)
-	// $config['markup'][] = array(
-	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/ms',
-	// 	function($matches) {
-	// 		return highlight_string(html_entity_decode($matches[1]), true);
-	// 	}
-	// );
+	// Code markup. This should be set to a regular expression, using tags you want to use. Examples:
+	// "/\[code\](.*?)\[\/code\]/is"
+	// "/```([a-z0-9-]{0,20})\n(.*?)\n?```\n?/s"
+	$config['markup_code'] = false;
 
 	// Repair markup with HTML Tidy. This may be slower, but it solves nesting mistakes. Tinyboad, at the
 	// time of writing this, can not prevent out-of-order markup tags (eg. "**''test**'') without help from
@@ -712,6 +736,11 @@
 	$config['allowed_ext'][] = 'png';
 	// $config['allowed_ext'][] = 'svg';
 
+	// Allowed extensions for OP. Inherits from the above setting if set to false. Otherwise, it overrides both allowed_ext and
+	// allowed_ext_files (filetypes for downloadable files should be set in allowed_ext_files as well). This setting is useful
+	// for creating fileboards.
+	$config['allowed_ext_op'] = false;
+
 	// Allowed additional file extensions (not images; downloadable files).
 	// $config['allowed_ext_files'][] = 'txt';
 	// $config['allowed_ext_files'][] = 'zip';
@@ -773,6 +802,9 @@
 	
 	// Set this to true if you're using a BSD
 	$config['bsd_md5'] = false;
+
+	// Set this to true if you're having problems with image duplicated error and bsd_md5 doesn't help.
+	$config['php_md5'] = false;
 
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
@@ -1046,10 +1078,11 @@
 	$config['error']['unknownext']		= _('Unknown file extension.');
 	$config['error']['filesize']		= _('Maximum file size: %maxsz% bytes<br>Your file\'s size: %filesz% bytes');
 	$config['error']['maxsize']		= _('The file was too big.');
-	$config['error']['webmerror'] = _('There was a problem processing your webm.');
-	$config['error']['invalidwebm'] = _('Invalid webm uploaded.');
-	$config['error']['webmhasaudio'] = _('The uploaded webm contains an audio or another type of additional stream.');
-	$config['error']['webmtoolong'] = _('The uploaded webm is longer than ' . $config['webm']['max_length'] . ' seconds.');
+	$config['error']['genwebmerror']	= _('There was a problem processing your webm.');
+	$config['error']['webmerror'] 		= _('There was a problem processing your webm.');//Is this error used anywhere ?
+	$config['error']['invalidwebm'] 	= _('Invalid webm uploaded.');
+	$config['error']['webmhasaudio'] 	= _('The uploaded webm contains an audio or another type of additional stream.');
+	$config['error']['webmtoolong'] 	= _('The uploaded webm is longer than ' . $config['webm']['max_length'] . ' seconds.');
 	$config['error']['fileexists']		= _('That file <a href="%s">already exists</a>!');
 	$config['error']['fileexistsinthread']	= _('That file <a href="%s">already exists</a> in this thread!');
 	$config['error']['delete_too_soon']	= _('You\'ll have to wait another %s before deleting that.');
@@ -1105,8 +1138,10 @@
 
 	// Location of files.
 	$config['file_index'] = 'index.html';
-	$config['file_page'] = '%d.html';
+	$config['file_page'] = '%d.html'; // NB: page is both an index page and a thread
 	$config['file_page50'] = '%d+50.html';
+	$config['file_page_slug'] = '%d-%s.html';
+	$config['file_page50_slug'] = '%d-%s+50.html';
 	$config['file_mod'] = 'mod.php';
 	$config['file_post'] = 'post.php';
 	$config['file_script'] = 'main.js';
@@ -1154,8 +1189,19 @@
 	// Website favicon.
 	// $config['url_favicon'] = '/favicon.gif';
 	
-	// EXPERIMENTAL: Try not to build pages when we shouldn't have to.
+	// Try not to build pages when we shouldn't have to.
 	$config['try_smarter'] = true;
+
+	// EXPERIMENTAL: Defer static HTML building to a moment, when a given file is actually accessed.
+	// Warning: This option won't run out of the box. You need to tell your webserver, that a file
+	// for serving 403 and 404 pages is /smart_build.php. Also, you need to turn off indexes.
+	$config['smart_build'] = false;
+
+	// Smart build related: when a file doesn't exist, where should we redirect?
+	$config['page_404'] = '/404.html';
+
+	// Smart build related: extra entrypoints.
+	$config['smart_build_entrypoints'] = array();
 
 /*
  * ====================
@@ -1477,6 +1523,13 @@
 
 	// Allow OP to remove arbitrary posts in his thread
 	$config['user_moderation'] = false;
+
+	// File board. Like 4chan /f/
+	$config['file_board'] = false;
+
+	// Thread tags. Set to false to disable
+	// Example: array('A' => 'Chinese cartoons', 'M' => 'Music', 'P' => 'Pornography');
+	$config['allowed_tags'] = false;
 
 /*
  * ====================

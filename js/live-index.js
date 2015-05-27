@@ -58,7 +58,7 @@ if (active_page == 'index' && (""+document.location).match(/\/(index\.html)?(\?|
 
         update_new_threads(new_threads);
       });
-    }, 1000);
+    }, 20000);
   });
 
   $(document).on("new_post", function(e, post) {

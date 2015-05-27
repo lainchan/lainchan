@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.9.92');
+define('VERSION', '4.9.93');
 
 require 'inc/functions.php';
 
@@ -547,6 +547,10 @@ if (file_exists($config['has_installed'])) {
 			}
 		case '4.9.90':
 		case '4.9.91':
+		case '4.9.92':
+                        foreach ($boards as &$board) {
+                                query(sprintf('ALTER TABLE ``posts_%s`` ADD `slug` VARCHAR(255) DEFAULT NULL AFTER `embed`;', $board['uri'])) or error(db_error());
+			}
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
@@ -623,6 +627,13 @@ if ($step == 0) {
 		),
 		array(
 			'category' => 'PHP',
+			'name' => 'PHP &ge; 5.4',
+			'result' => PHP_VERSION_ID >= 50400,
+			'required' => false,
+			'message' => 'vichan works best on PHP 5.4 or better.',
+		),
+		array(
+			'category' => 'PHP',
 			'name' => 'mbstring extension installed',
 			'result' => extension_loaded('mbstring'),
 			'required' => true,
@@ -669,13 +680,6 @@ if ($step == 0) {
 			'result' => function_exists('imagecreatefromgif'),
 			'required' => true,
 			'message' => 'imagecreatefromgif() does not exist. This is a problem.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => 'Imagick extension installed',
-			'result' => extension_loaded('imagick'),
-			'required' => false,
-			'message' => '(Optional) The PHP <a href="http://www.php.net/manual/en/imagick.installation.php">Imagick</a> (ImageMagick) extension is not installed. You may not use Imagick for better (and faster) image processing.',
 		),
 		array(
 			'category' => 'Image processing',

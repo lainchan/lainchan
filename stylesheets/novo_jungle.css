@@ -65,7 +65,7 @@ form[name="postcontrols"] {
 	margin: 20px auto;
 }
 
-p.intro span.name {
+.intro span.name {
 	color: #800000;
 	font-weight: 800;
 }
@@ -104,11 +104,11 @@ div.post.reply.highlighted {
 	background-image: url('img/jungle_td_dark.png');;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #0000EE;
 }
 
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: #00990B;
 }
 

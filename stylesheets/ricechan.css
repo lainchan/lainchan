@@ -190,7 +190,7 @@ blockquote {
 .de-refmap {
 	color: #4C505E !important;
 }
-p.intro a.email span.name {
+.intro a.email span.name {
 	text-decoration: underline;
 }
 .quote {

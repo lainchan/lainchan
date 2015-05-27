@@ -2,7 +2,7 @@ body {
 	background: #ffe url('img/fade-yotsuba.png') repeat-x 50% 0%;
 	color: #800000;
 }
-a:link, a:visited, p.intro a.email span.name {
+a:link, a:visited, .intro a.email span.name {
 	color: #0000ff;
 }
 a:link:hover {
@@ -22,7 +22,7 @@ div.post.reply.highlighted {
 div.post.reply div.body a {
 	color: navy;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #d00;
 }
 form table tr th {
@@ -71,6 +71,10 @@ table.modlog tr th {
 }
 
 /* options.js */
-#options_div {
+#options_div, #alert_div {
 	background: #f0e0d6;
+}
+
+.desktop-style div.boardlist:nth-child(1) {
+	background-color: #F0E0D6;
 }

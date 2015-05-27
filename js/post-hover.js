@@ -58,8 +58,8 @@ onready(function(){
 					// link links to itself or to op; ignore
 				}
 				else if($post.is(':visible') &&
-						$post.offset().top + $post.height() >= $(window).scrollTop() &&
-						$post.offset().top <= $(window).scrollTop() + $(window).height()) {
+						$post.offset().top >= $(window).scrollTop() &&
+						$post.offset().top + $post.height() <= $(window).scrollTop() + $(window).height()) {
 					// post is in view
 					$post.addClass('highlighted');
 				} else {
