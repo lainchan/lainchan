@@ -40,6 +40,12 @@ Thumbs.db
 *~
 ~*/
 
+# tmp filesystem
+/tmp/cache/*
+/tmp/locks/*
+!/tmp/cache/.gitkeep
+!/tmp/locks/.gitkeep
+
 #vichan custom
 favicon.ico
 /static/spoiler.png

@@ -22,7 +22,7 @@ a, a:selected {
 	text-decoration: bold;
 	color: #ffffff;
 }
-a:hover, p.intro a.post_no:hover {
+a:hover, .intro a.post_no:hover {
 	color: #ffffff;
 }
 a.post_no {
@@ -30,19 +30,19 @@ a.post_no {
 	margin: 0;
 	padding: 0;
 }
-p.intro a.post_no {
+.intro a.post_no {
 	color: inherit;
 }
-p.intro a.post_no, p.intro a.email {
+.intro a.post_no, p.intro a.email {
 	margin: 0;
 }
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #0091ff;
 }
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: #ffffff;
 }
-p.intro label {
+.intro label {
 	display: inline;
 }
 h2 {
@@ -165,7 +165,7 @@ div.post.op {
 div.post.op hr {
 	border-color: #040934;
 }
-p.intro {
+.intro {
 	margin: 0.5em 0;
 	padding: 0;
 	padding-bottom: 0.2em;
@@ -174,19 +174,19 @@ input.delete {
 	float: left;
 	margin: 1px 6px 0 0;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #CCCCEE;
 	font-weight: bold;
 }
-p.intro span.name {
+.intro span.name {
 	color: #BBBBDD;
 	font-weight: bold;
 }
-p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
+.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
 	color: #CCCCEE;
 	margin-left: 0;
 }
-p.intro a {
+.intro a {
 	margin-left: 8px;
 }
 div.delete {

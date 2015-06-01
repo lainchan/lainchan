@@ -20,7 +20,7 @@ background-repeat:  repeat;
 background-color: #200000;
 }
 
-p.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
+.intro span.capcode, p.intro a.capcode, p.intro a.nametag {
 color: #26899C;
 }
 
@@ -154,7 +154,7 @@ div.banner, .replymode, .catalogmode {
         font-weight:800;
 }
  
-p.intro span.subject {
+.intro span.subject {
 color: #771018;
 font-weight: bold;
 }

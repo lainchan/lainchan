@@ -1,7 +1,7 @@
 {% if config.poster_ids %}
 	{% if post.thread %}
-		 ID: {{ post.ip|poster_id(post.thread) }} 
+		 ID: <span class="poster_id">{{ post.ip|poster_id(post.thread) }}</span>
 	{% else %}
-		 ID: {{ post.ip|poster_id(post.id) }} 
+		 ID: <span class="poster_id">{{ post.ip|poster_id(post.id) }}</span>
 	{% endif %}
 {% endif %}

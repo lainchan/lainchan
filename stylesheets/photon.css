@@ -325,3 +325,7 @@ form table tr td div {
 .recaptchatable .recaptcha_image_cell {
     padding: 0px !important;
 }
+
+.desktop-style div.boardlist:not(.bottom) {
+    background-color: #DDDDDD;
+}

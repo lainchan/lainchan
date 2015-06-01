@@ -27,8 +27,8 @@ text-align: center;
 div.title p {
 	font-size: 13px;
 }
-a:link, a:visited, p.intro a.email span.name {
-	color: #B332E6;
+a:link, a:visited, .intro a.email span.name {
+	color: #16C816;
 	text-decoration: underline;
 	font-family: monospace;
 }
@@ -66,22 +66,22 @@ div.post.reply div.body a:link, div.post.reply div.body a:visited {
 div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
 	color: #00ff00;
 }
-p.intro span.subject {
+.intro span.subject {
 	font-size: 12px;
 	font-family: monospace;
 	color: #00ff00;
 	font-weight: 800;
 }
-p.intro span.name {
-	color: #00ff00;
+.intro span.name {
+	color: #008200;
 	font-weight: 900;
 }
-p.intro a.capcode, p.intro a.nametag {
-	color: #00ff00;
+.intro a.capcode, p.intro a.nametag {
+	color: magenta;
 	margin-left: 0;
 }
-p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
-	color: #00ff00;
+.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
+	color: #00CC64;
 	font-family: monospace;
 }
 input[type="text"], textarea, select {

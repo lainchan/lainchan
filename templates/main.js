@@ -22,6 +22,76 @@ function fmt(s,a) {
 	return s.replace(/\{([0-9]+)\}/g, function(x) { return a[x[1]]; });
 }
 
+function until($timestamp) {
+        var $difference = $timestamp - Date.now()/1000|0, $num;
+        switch(true){
+        case ($difference < 60):
+                return "" + $difference + ' ' + _('second(s)');
+        case ($difference < 3600): //60*60 = 3600
+                return "" + ($num = Math.round($difference/(60))) + ' ' + _('minute(s)');
+        case ($difference < 86400): //60*60*24 = 86400
+                return "" + ($num = Math.round($difference/(3600))) + ' ' + _('hour(s)');
+        case ($difference < 604800): //60*60*24*7 = 604800
+                return "" + ($num = Math.round($difference/(86400))) + ' ' + _('day(s)');
+        case ($difference < 31536000): //60*60*24*365 = 31536000
+                return "" + ($num = Math.round($difference/(604800))) + ' ' + _('week(s)');
+        default:
+                return "" + ($num = Math.round($difference/(31536000))) + ' ' + _('year(s)');
+        }
+}
+
+function ago($timestamp) {
+        var $difference = (Date.now()/1000|0) - $timestamp, $num;
+        switch(true){
+        case ($difference < 60) :
+                return "" + $difference + ' ' + _('second(s)');
+        case ($difference < 3600): //60*60 = 3600 
+                return "" + ($num = Math.round($difference/(60))) + ' ' + _('minute(s)');
+        case ($difference <  86400): //60*60*24 = 86400
+                return "" + ($num = Math.round($difference/(3600))) + ' ' + _('hour(s)');
+        case ($difference < 604800): //60*60*24*7 = 604800
+                return "" + ($num = Math.round($difference/(86400))) + ' ' + _('day(s)');
+        case ($difference < 31536000): //60*60*24*365 = 31536000
+                return "" + ($num = Math.round($difference/(604800))) + ' ' + _('week(s)');
+        default:
+                return "" + ($num = Math.round($difference/(31536000))) + ' ' + _('year(s)');
+        }
+}
+
+var datelocale =
+        { days: [_('Sunday'), _('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday')]
+        , shortDays: [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat")]
+        , months: [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), _('September'), _('October'), _('November'), _('December')]
+        , shortMonths: [_('Jan'), _('Feb'), _('Mar'), _('Apr'), _('May'), _('Jun'), _('Jul'), _('Aug'), _('Sep'), _('Oct'), _('Nov'), _('Dec')]
+        , AM: _('AM')
+        , PM: _('PM')
+        , am: _('am')
+        , pm: _('pm')
+        };
+
+
+function alert(a) {
+  var handler, div;
+  var close = function() {
+    handler.fadeOut(400, function() { handler.remove(); });
+    return false;
+  };
+
+  handler = $("<div id='alert_handler'></div>").hide().appendTo('body');
+
+  $("<div id='alert_background'></div>").click(close).appendTo(handler);
+
+  div = $("<div id='alert_div'></div>").appendTo(handler);
+  $("<a id='alert_close' href='javascript:void(0)'><i class='fa fa-times'></i></div>")
+  .click(close).appendTo(div);
+
+  $("<div id='alert_message'></div>").html(a).appendTo(div);
+
+  $("<button class='button alert_button'>"+_("OK")+"</button>").click(close).appendTo(div);
+
+  handler.fadeIn(400);
+}
+
 var saved = {};
 
 
@@ -94,6 +164,7 @@ function changeStyle(styleName, link) {
 {% endraw %}
 {% if config.stylesheets_board %}
 	{# This is such an unacceptable mess. There needs to be an easier way. #}
+	{# Needs fix for slugify #}
 	var matches = document.URL.match(/\/(\w+)\/($|{{ config.dir.res|replace({'/': '\\/'}) }}{{ config.file_page|replace({'%d': '\\d+', '.': '\\.'}) }}|{{ config.file_index|replace({'.': '\\.'}) }}|{{ config.file_page|replace({'%d': '\\d+', '.': '\\.'}) }})/);
 	{% raw %}
 	if (matches) {
@@ -172,6 +243,7 @@ function highlightReply(id) {
 		var post = document.getElementById('reply_'+id);
 		if (post)
 			post.className += ' highlighted';
+			window.location.hash = id;
 	}
 	return true;
 }
@@ -200,7 +272,7 @@ function dopost(form) {
 	saved[document.location] = form.elements['body'].value;
 	sessionStorage.body = JSON.stringify(saved);
 	
-	return form.elements['body'].value != "" || form.elements['file'].value != "" || (form.elements.file_url && form.elements['file_url'].value != "");
+	return form.elements['body'].value != "" || (form.elements['file'] && form.elements['file'].value != "") || (form.elements.file_url && form.elements['file_url'].value != "");
 }
 
 function citeReply(id, with_link) {
@@ -225,6 +297,15 @@ function citeReply(id, with_link) {
 		textarea.value += '>>' + id + '\n';
 	}
 	if (typeof $ != 'undefined') {
+		var select = document.getSelection().toString();
+		if (select) {
+			var body = $('#reply_' + id + ', #op_' + id).find('div.body');  // TODO: support for OPs
+			var index = body.text().indexOf(select.replace('\n', ''));  // for some reason this only works like this
+			if (index > -1) {
+				textarea.value += '>' + select + '\n';
+			}
+		}
+
 		$(window).trigger('cite', [id, with_link]);
 		$(textarea).change();
 	}

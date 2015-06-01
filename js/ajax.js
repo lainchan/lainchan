@@ -107,6 +107,7 @@ $(window).ready(function() {
 							}, 'html');
 						}
 						$(form).find('input[type="submit"]').val(_('Posted...'));
+						$(document).trigger("ajax_after_post", post_response);
 					} else {
 						alert(_('An unknown error occured when posting!'));
 						$(form).find('input[type="submit"]').val(submit_txt);
@@ -114,17 +115,10 @@ $(window).ready(function() {
 					}
 				},
 				error: function(xhr, status, er) {
-					// An error occured
-					do_not_ajax = true;
-					$(form).find('input[type="submit"]').each(function() {
-						var $replacement = $('<input type="hidden">');
-						$replacement.attr('name', $(this).attr('name'));
-						$replacement.val(submit_txt);
-						$(this)
-							.after($replacement)
-							.replaceWith($('<input type="button">').val(submit_txt));
-					});
-					$(form).submit();
+					console.log(xhr);
+					alert(_('The server took too long to submit your post. Your post was probably still submitted. If it wasn\'t, we might be experiencing issues right now -- please try your post again later. Error information: ') + "<div><textarea>" + JSON.stringify(xhr) + "</textarea></div>");
+					$(form).find('input[type="submit"]').val(submit_txt);
+					$(form).find('input[type="submit"]').removeAttr('disabled');
 				},
 				data: formData,
 				cache: false,
@@ -140,6 +134,7 @@ $(window).ready(function() {
 	};
 	setup_form($('form[name="post"]'));
 	$(window).on('quick-reply', function() {
+		$('form#quick-reply').off('submit');
 		setup_form($('form#quick-reply'));
 	});
 });

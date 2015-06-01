@@ -50,6 +50,17 @@ class Cache {
 			case 'php':
 				$data = isset(self::$cache[$key]) ? self::$cache[$key] : false;
 				break;
+			case 'fs':
+				$key = str_replace('/', '::', $key);
+				$key = str_replace("\0", '', $key);
+				if (!file_exists('tmp/cache/'.$key)) {
+					$data = false;
+				}
+				else {
+					$data = file_get_contents('tmp/cache/'.$key);
+					$data = json_decode($data, true);
+				}
+				break;
 			case 'redis':
 				if (!self::$cache)
 					self::init();
@@ -87,6 +98,11 @@ class Cache {
 			case 'xcache':
 				xcache_set($key, $value, $expires);
 				break;
+			case 'fs':
+				$key = str_replace('/', '::', $key);
+				$key = str_replace("\0", '', $key);
+				file_put_contents('tmp/cache/'.$key, json_encode($value));
+				break;
 			case 'php':
 				self::$cache[$key] = $value;
 				break;
@@ -113,6 +129,11 @@ class Cache {
 			case 'xcache':
 				xcache_unset($key);
 				break;
+			case 'fs':
+				$key = str_replace('/', '::', $key);
+				$key = str_replace("\0", '', $key);
+				@unlink('tmp/cache/'.$key);
+				break;
 			case 'php':
 				unset(self::$cache[$key]);
 				break;
@@ -133,6 +154,12 @@ class Cache {
 				return apc_clear_cache('user');
 			case 'php':
 				self::$cache = array();
+				break;
+			case 'fs':
+				$files = glob('tmp/cache/*');
+				foreach ($files as $file) {
+					unlink($file);
+				}
 				break;
 			case 'redis':
 				if (!self::$cache)

@@ -202,7 +202,7 @@ div.boardlist.bottom {
   background-color: rgba(0%, 0%, 0%, 0.45);
 }
 
-p.intro span.subject {
+.intro span.subject {
     color:#ee8100;
 }
 

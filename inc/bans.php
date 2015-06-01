@@ -148,49 +148,86 @@ class Bans {
 		
 		return $ban_list;
 	}
-	
-	static public function list_all($offset = 0, $limit = 9001) {
-		$offset = (int)$offset;
-		$limit = (int)$limit;
-		
+
+	static public function stream_json($out = false, $filter_ips = false, $filter_staff = false, $board_access = false) {
 		$query = query("SELECT ``bans``.*, `username` FROM ``bans``
 			LEFT JOIN ``mods`` ON ``mods``.`id` = `creator`
-			ORDER BY `created` DESC LIMIT $offset, $limit") or error(db_error());
-		$bans = $query->fetchAll(PDO::FETCH_ASSOC);
-		
-		foreach ($bans as &$ban) {
-			$ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
+ 			ORDER BY `created` DESC") or error(db_error());
+                $bans = $query->fetchAll(PDO::FETCH_ASSOC);
+
+		if ($board_access && $board_access[0] == '*') $board_access = false;
+
+		$out ? fputs($out, "[") : print("[");
+
+		$end = end($bans);
+
+                foreach ($bans as &$ban) {
+                        $ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
+
+			if ($ban['post']) {
+				$post = json_decode($ban['post']);
+				$ban['message'] = $post->body;
+			}
+			unset($ban['ipstart'], $ban['ipend'], $ban['post'], $ban['creator']);
+
+			if ($board_access === false || in_array ($ban['board'], $board_access)) {
+				$ban['access'] = true;
+			}
+
+			if (filter_var($ban['mask'], FILTER_VALIDATE_IP) !== false) {
+				$ban['single_addr'] = true;
+			}
+			if ($filter_staff || ($board_access !== false && !in_array($ban['board'], $board_access))) {
+				$ban['username'] = '?';				
+			}
+			if ($filter_ips || ($board_access !== false && !in_array($ban['board'], $board_access))) {
+				@list($ban['mask'], $subnet) = explode("/", $ban['mask']);
+				$ban['mask'] = preg_split("/[\.:]/", $ban['mask']);
+				$ban['mask'] = array_slice($ban['mask'], 0, 2);
+				$ban['mask'] = implode(".", $ban['mask']);
+				$ban['mask'] .= ".x.x";
+				if (isset ($subnet)) {
+					$ban['mask'] .= "/$subnet";
+				}
+				$ban['masked'] = true;
+			}
+
+			$json = json_encode($ban);
+			$out ? fputs($out, $json) : print($json);
+
+			if ($ban['id'] != $end['id']) {
+				$out ? fputs($out, ",") : print(",");
+			}
 		}
-		
-		return $bans;
-	}
-	
-	static public function count($board = false) {
-		if (!$board) {
-			$query = prepare("SELECT COUNT(*) FROM ``bans``");
-		} else {
-			$query = prepare("SELECT COUNT(*) FROM ``bans`` WHERE `board` = :board");
-		}
-		$query->bindValue(':board', $board);
-		$query->execute() or error(db_error());
-		return (int)$query->fetchColumn();
+
+                $out ? fputs($out, "]") : print("]");
+
 	}
 	
 	static public function seen($ban_id) {
 		$query = query("UPDATE ``bans`` SET `seen` = 1 WHERE `id` = " . (int)$ban_id) or error(db_error());
+                rebuildThemes('bans');
 	}
 	
 	static public function purge() {
 		$query = query("DELETE FROM ``bans`` WHERE `expires` IS NOT NULL AND `expires` < " . time() . " AND `seen` = 1") or error(db_error());
+		rebuildThemes('bans');
 	}
 	
-	static public function delete($ban_id, $modlog = false) {
+	static public function delete($ban_id, $modlog = false, $boards = false, $dont_rebuild = false) {
+		global $config;
+
+		if ($boards && $boards[0] == '*') $boards = false;
+
 		if ($modlog) {
-			$query = query("SELECT `ipstart`, `ipend` FROM ``bans`` WHERE `id` = " . (int)$ban_id) or error(db_error());
+			$query = query("SELECT `ipstart`, `ipend`, `board` FROM ``bans`` WHERE `id` = " . (int)$ban_id) or error(db_error());
 			if (!$ban = $query->fetch(PDO::FETCH_ASSOC)) {
 				// Ban doesn't exist
 				return false;
 			}
+
+			if ($boards !== false && !in_array($ban['board'], $boards))
+		                error($config['error']['noaccess']);
 			
 			$mask = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
 			
@@ -199,6 +236,8 @@ class Bans {
 		}
 		
 		query("DELETE FROM ``bans`` WHERE `id` = " . (int)$ban_id) or error(db_error());
+
+		if (!$dont_rebuild) rebuildThemes('bans');
 		
 		return true;
 	}
@@ -265,6 +304,9 @@ class Bans {
 				' (<small>#' . $pdo->lastInsertId() . '</small>)' .
 				' with ' . ($reason ? 'reason: ' . utf8tohtml($reason) . '' : 'no reason'));
 		}
+
+		rebuildThemes('bans');
+
 		return $pdo->lastInsertId();
 	}
 }

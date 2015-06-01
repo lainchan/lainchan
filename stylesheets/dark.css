@@ -40,8 +40,7 @@ div.title p
 {
 	font-size: 10px;
 }
-a:link, a:visited, p.intro a.email span.name 
-{
+a:link, a:visited, .intro a.email span.name {
 	color: #CCCCCC;
 	text-decoration: none;
 	font-family: sans-serif;
@@ -108,25 +107,21 @@ div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover
 {
 	color: #32DD72;
 }
-p.intro span.subject 
-{
+.intro span.subject {
 	font-size: 12px;
 	font-family: sans-serif;
 	color: #446655;
 	font-weight: 800;
 }
-p.intro span.name 
-{
+.intro span.name {
 	color: #32DD72;
 	font-weight: 800;
 }
-p.intro a.capcode, p.intro a.nametag 
-{
+.intro a.capcode, p.intro a.nametag {
 	color: magenta;
 	margin-left: 0;
 }
-p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name 
-{
+.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
 	color: #32ddaf;
 }
 input[type="text"], textarea, select 
@@ -241,6 +236,7 @@ div.ban h2
 	font-size: 12pt;
 	border-bottom: 1px solid #555;
 }
+
 div.ban h2:not(:nth-child(1)) 
 {
 	border-top: 1px solid #555;
@@ -249,6 +245,16 @@ table.modlog tr th
 {
 	background: #333;
 	color: #AAA;
+}
+
+.desktop-style div.boardlist:not(.bottom) {
+  text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
+  background-color: #666666;
+}
+
+
+.desktop-style div.boardlist:not(.bottom):hover, .desktop-style div.boardlist:not(.bottom).cb-menu {
+  background-color: rgba(30%, 30%, 30%, 0.65);
 }
 
 div.report 
@@ -275,9 +281,8 @@ div.report
 }
 
 /* options.js */
-#options_div 
-{
-       background: #333333;
+#options_div, #alert_div {
+	background: #333333;
 }
 .options_tab_icon 
 {
@@ -288,3 +293,6 @@ div.report
        color: #FFFFFF;
 }
 
+#quick-reply table {
+	background: none repeat scroll 0% 0% #333 !important;
+}
