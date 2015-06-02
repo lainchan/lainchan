@@ -12,47 +12,51 @@
  *   $config['additional_javascript'][] = 'js/catalog-link.js';
  */
 
-function catalog() {
-var board = $("input[name='board']");
+(function($) {
+var catalog = function() {
+	var board = $('input[name="board"]');
 
-var catalog_url = configRoot + board.first().val() + "/catalog.html";
+	if (!board.length) {
+		return;
+	}
 
-var pages = document.getElementsByClassName('pages')[0];
-var bottom = document.getElementsByClassName('boardlist bottom')[0]
-var subtitle = document.getElementsByClassName('subtitle')[0];
+	var catalog_url = configRoot + board.first().val() + '/catalog.html';
 
-var link = document.createElement('a');
-link.href = catalog_url;
+	var pages = $('.pages');
+	var bottom = $('.boardlist.bottom');
+	var subtitle = $('.subtitle');
 
-if (pages) {
-	link.textContent = _('Catalog');
-	link.style.color = '#F10000';
-	link.style.padding = '4px';
-	link.style.paddingLeft = '9px';
-	link.style.borderLeft = '1px solid'
-	link.style.borderLeftColor = '#A8A8A8';
-	link.style.textDecoration = "underline";
+	var link = $('<a class="catalog" />')
+			.attr('href', catalog_url);
 
-	pages.appendChild(link)
+	if (pages.length) {
+		link.text(_('Catalog'))
+			.css({
+				color: '#F10000',
+				padding: '4px',
+				textDecoration: 'underline',
+				display: 'table-cell'
+		});
+		link.insertAfter(pages);
+	} else if (bottom.length) {
+		link.text('['+_('Catalog')+']')
+			.css({
+				paddingLeft: '10px',
+				textDecoration: 'underline'
+		});
+		link.insertBefore(bottom);
+	}
+
+	if (subtitle.length) {
+		subtitle.append('<br />');
+		$('<a class="catalog" />')
+			.text(_('Catalog'))
+			.attr('href', catalog_url)
+			.appendTo(subtitle);
+	}
 }
-else {
-	link.textContent = '['+_('Catalog')+']';
-	link.style.paddingLeft = '10px';
-	link.style.textDecoration = "underline";
-	document.body.insertBefore(link, bottom);
-}
 
-if (subtitle) { 
-	var link2 = document.createElement('a');
-	link2.textContent = _('Catalog');
-	link2.href = catalog_url;
-
-	var br = document.createElement('br');
-	subtitle.appendChild(br);
-	subtitle.appendChild(link2);	
-}
-}
-
-if (active_page == 'thread' || active_page == 'index') {
+if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko') {
 	$(document).ready(catalog);
 }
+})(jQuery);
