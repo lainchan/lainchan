@@ -215,7 +215,7 @@ class JSMinPlus
 		}
 		catch(Exception $e)
 		{
-			echo $e->getMessage() . "\n";
+			echo $e->getMessage() , "\n";
 		}
 
 		return false;

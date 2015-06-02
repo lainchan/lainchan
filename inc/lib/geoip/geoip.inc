@@ -244,7 +244,7 @@ function geoip_load_shared_mem ($file) {
 
     $fp = fopen($file, "rb");
     if (!$fp) {
-	print "error opening $file: $php_errormsg\n";
+	echo "error opening $file: $php_errormsg\n";
 	exit;
     }
     $s_array = fstat($fp);

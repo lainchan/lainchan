@@ -25,10 +25,10 @@ while ($val = $q->fetch()) {
 	                                  WHERE `id`=:id", $board));
 		$query->bindValue(":bump", $f['aq']);
 		$query->bindValue(":id", $val['id']);
-                echo("Thread $val[id] - to be $val[bump] -> $f[aq]\n");
+                echo "Thread $val[id] - to be $val[bump] -> $f[aq]\n" ;
         }
 	else {
-		echo("Thread $val[id] ok\n");
+		echo "Thread $val[id] ok\n" ;
 	}
 }
 
