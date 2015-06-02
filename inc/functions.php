@@ -13,6 +13,7 @@ define('TINYBOARD', null);
 
 $microtime_start = microtime(true);
 
+require_once 'inc/cache.php';
 require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
@@ -1676,11 +1677,13 @@ function buildJavascript() {
 	}
 
 	$code_stylesheets = array();
-	foreach ($config['code_stylesheets'] as $name => $uri) {
-		$code_stylesheets[] = array(
-			'name' => addslashes($name),
-			'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
-	}
+	if (isset($config['code_stylesheets'])) {
+		foreach ($config['code_stylesheets'] as $name => $uri) {
+			$code_stylesheets[] = array(
+				'name' => addslashes($name),
+				'uri' => addslashes((!empty($uri) ? $config['uri_stylesheets'] : '') . $uri));
+		}
+}
 
 	$script = Element('main.js', array(
 		'config' => $config,
