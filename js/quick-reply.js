@@ -99,9 +99,6 @@
 		#quick-reply .nonsense {\
 			display: none;\
 		}\
-		#quick-reply td.submit {\
-			width: 1%;\
-		}\
 		#quick-reply td.recaptcha {\
 			text-align: center;\
 			padding: 0 0 1px 0;\
