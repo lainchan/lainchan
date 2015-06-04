@@ -107,21 +107,21 @@ div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover
 {
 	color: #32DD72;
 }
-.intro span.subject {
+p.intro span.subject {
 	font-size: 12px;
 	font-family: sans-serif;
 	color: #446655;
 	font-weight: 800;
 }
-.intro span.name {
+p.intro span.name {
 	color: #32DD72;
 	font-weight: 800;
 }
-.intro a.capcode, p.intro a.nametag {
+p.intro a.capcode, p.intro a.nametag {
 	color: magenta;
 	margin-left: 0;
 }
-.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
+p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
 	color: #32ddaf;
 }
 input[type="text"], textarea, select 
