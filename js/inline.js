@@ -139,7 +139,7 @@ $(document).ready(function() {
 
   if (App.options.get('useInlining')) {
     var assign_inline = function() {
-        $('.body a[href*="'+location.pathname+'"]:not([rel]):not(.toolong a), .mentioned a')
+        $('.body a[href*="'+location.pathname+'"]').not('[rel]').not('.toolong > a').add('.mentioned a')
           .attr('onclick', null)// XXX disable highlightReply
           .off('click')
           .click(inline)
