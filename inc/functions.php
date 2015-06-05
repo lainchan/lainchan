@@ -13,6 +13,7 @@ define('TINYBOARD', null);
 
 $microtime_start = microtime(true);
 
+require_once 'inc/cache.php';
 require_once 'inc/display.php';
 require_once 'inc/template.php';
 require_once 'inc/database.php';
@@ -105,6 +106,7 @@ function loadConfig() {
 			'file_icons',
 			'footer',
 			'stylesheets',
+			'code_stylesheets',
 			'additional_javascript',
 			'markup',
 			'custom_pages',
