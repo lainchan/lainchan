@@ -79,7 +79,7 @@ a.post_no:hover {
 }
 div.post.reply {
 	background: #000000;
-	border: #d2738a 1px solid !important;
+	border: #d2738a 1px solid;
 	/*border-radius: 5px;*/
 }
 .de-pview {
@@ -87,7 +87,7 @@ div.post.reply {
 }
 div.post.reply.highlighted {
 	background: transparent;
-	border: #d2738a 1px solid;
+	border: #EDC7D0 1px solid;
 }
 div.post.reply div.body a:link, div.post.reply div.body a:visited {
 	color: #646464;
