@@ -54,11 +54,11 @@ function resize () {
 function delayedResize () {
 	window.setTimeout(resize, 0);
 }
-observe(text, 'change',  resize);
+/*observe(text, 'change',  resize);
 observe(text, 'cut',     delayedResize);
 observe(text, 'paste',   delayedResize);
 observe(text, 'drop',    delayedResize);
-observe(text, 'keydown', delayedResize);
+observe(text, 'keydown', delayedResize);*/
 
 resize();
 </script>
