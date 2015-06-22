@@ -1,6 +1,6 @@
 {% filter remove_whitespace %}
 <!DOCTYPE html>
-<html>
+<html style="height:100vh; width:100%;">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>{{ settings.title }}</title>
@@ -9,7 +9,7 @@
     <link rel="stylesheet" media="screen" href="/stylesheets/cyberpunk.css"/>
 	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
   </head>
-  <body style="background-image: url(/bg.php)">
+  <body style="background-image: url(/bg.php); background-size:cover; background-repeat:no-repeat; height:100vh; width: inherit; margin:none; padding:none; overflow-x:hidden; overflow-y:hidden;">
     <div class="bar top">
       {{ boardlist.top }}
 	</div>
