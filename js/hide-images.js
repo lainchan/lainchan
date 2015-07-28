@@ -93,9 +93,9 @@ $(document).ready(function(){
 			$(this).parent().prev().find('.hide-image-link').click();
 	};
 
-	$('div.post > a > img.post-image, div > a > img.post-image').each(handle_images);
+	$('div.post > a > img.post-image, div.post > a > video.post-image, div > a > img.post-image, div > a > video.post-image').each(handle_images);
 
         $(document).on('new_post', function(e, post) {
-                $(post).find('a > img.post-image').each(handle_images);
+                $(post).find('a > img.post-image, a > video.post-image').each(handle_images);
         });
 });
