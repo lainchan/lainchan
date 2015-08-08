@@ -38,6 +38,9 @@
 
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
+	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
+	<a href="#bottom" style="padding-left: 10px">[{% trans %}Go to bottom{% endtrans %}]</a>
+	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
 	<input type="hidden" name="board" value="{{ board.uri }}" />
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
@@ -45,7 +48,7 @@
 	{% include 'report_delete.html' %}
 	</form>
 	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-        <a href="#" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
+        <a href="#" id="bottom" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 
