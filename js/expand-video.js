@@ -204,13 +204,13 @@ function setupVideo(thumb, url) {
 function setupVideosIn(element) {
     var thumbs = element.querySelectorAll("a.file");
     for (var i = 0; i < thumbs.length; i++) {
-        if (/\.webm$/.test(thumbs[i].pathname)) {
+        if (/\.webm|\.mp4$/.test(thumbs[i].pathname)) {
             setupVideo(thumbs[i], thumbs[i].href);
         } else {
             var m = thumbs[i].search.match(/\bv=([^&]*)/);
             if (m != null) {
                 var url = decodeURIComponent(m[1]);
-                if (/\.webm$/.test(url)) setupVideo(thumbs[i], url);
+                if (/\.webm|\.mp4$/.test(url)) setupVideo(thumbs[i], url);
             }
         }
     }
