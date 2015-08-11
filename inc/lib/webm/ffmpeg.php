@@ -45,6 +45,8 @@ function make_webm_thumbnail($filename, $thumbnail, $width, $height, $duration) 
   $filename = escapeshellarg($filename);
   $thumbnailfc = escapeshellarg($thumbnail); // Should be safe by default but you
                                            // can never be too safe.
+  $width = escapeshellarg($width);
+  $height = escapeshellarg($height); // Same as above.
   $ffmpeg = $config['webm']['ffmpeg_path'];
   $ret = 0;
   $ffmpeg_out = array();
