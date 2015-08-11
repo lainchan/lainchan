@@ -11,7 +11,7 @@
 		{% else %}
 			{% set thread = post.thread %}
 		{% endif %}
-		<div class="post-wrapper" data-board="{{ post.board }}"><hr/><a class="eita-link" id="eita-{{ post.board }}-{{ thread }}" href="?/{{ post.board }}/res/{{ thread }}.html#{{ post.id }}">/{{ post.board }}/{{ post.id }}</a><br>
+		<div class="post-wrapper" data-board="{{ post.board }}"><hr/><a class="eita-link" id="eita-{{ post.board }}-{{ thread }}" href="?/{{ post.board }}/{{ config.dir.res }}{{ thread }}.html#{{ post.id }}">/{{ post.board }}/{{ post.id }}</a><br>
 			{{ post.built }}
 		</div>
 	{% endfor %}
