@@ -2438,6 +2438,53 @@ function getPostByHashInThread($hash, $thread) {
 	return false;
 }
 
+function getPostByEmbed($embed) {
+	global $board, $config;
+	$matches = array();
+	foreach ($config['embedding'] as &$e) {
+		if (preg_match($e[0], $embed, $matches) && isset($matches[1]) && !empty($matches[1])) {
+			$embed = '%'.$matches[1].'%';
+			break;
+		}
+	}
+
+	if (!isset($embed)) return false;
+
+	$query = prepare(sprintf("SELECT `id`,`thread` FROM ``posts_%s`` WHERE `embed` LIKE :embed", $board['uri']));
+	$query->bindValue(':embed', $embed, PDO::PARAM_STR);
+	$query->execute() or error(db_error($query));
+
+	if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+		return $post;
+	}
+
+	return false;
+}
+
+function getPostByEmbedInThread($embed, $thread) {
+	global $board, $config;
+	$matches = array();
+	foreach ($config['embedding'] as &$e) {
+		if (preg_match($e[0], $embed, $matches) && isset($matches[1]) && !empty($matches[1])) {
+			$embed = '%'.$matches[1].'%';
+			break;
+		}
+	}
+
+	if (!isset($embed)) return false;
+
+	$query = prepare(sprintf("SELECT `id`,`thread` FROM ``posts_%s`` WHERE `embed` = :embed AND ( `thread` = :thread OR `id` = :thread )", $board['uri']));
+	$query->bindValue(':embed', $embed, PDO::PARAM_STR);
+	$query->bindValue(':thread', $thread, PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+
+	if ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+		return $post;
+	}
+
+	return false;
+}
+
 function undoImage(array $post) {
 	if (!$post['has_file'] || !isset($post['files']))
 		return;
