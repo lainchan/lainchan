@@ -94,7 +94,7 @@ $(window).ready(function() {
 									
 									highlightReply(post_response.id);
 									window.location.hash = post_response.id;
-									$(window).scrollTop($('div.post#reply_' + post_response.id).offset().top);
+									$(window).scrollTop($(document).height());
 									
 									$(form).find('input[type="submit"]').val(submit_txt);
 									$(form).find('input[type="submit"]').removeAttr('disabled');
