@@ -9,7 +9,7 @@
 	{% include 'header.html' %}
 	<title>{{ settings.title }} (/{{ board }}/)</title>
 </head>
-<body class="theme-catalog">
+<body class="theme-catalog board-{{ board }}">
 	<div class="topbar">
 		{{ boardlist.top }}
 	</div>
@@ -49,6 +49,7 @@
 				data-reply="{{ post.reply_count }}"
 				data-bump="{{ post.bump }}"
 				data-time="{{ post.time }}"
+				data-board="{{ post.board }}"
 			>
                                 <div class="thread grid-li grid-size-small">  
                                         <a href="{{post.link}}">  
