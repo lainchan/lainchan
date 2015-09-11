@@ -15,6 +15,7 @@ Support and announcements: https://engine.vichan.net/
 Requirements
 ------------
 1.	PHP >= 5.4 (we still try to keep compatibility with php 5.3 as much as possible)
+        PHP 7.0 is explicitly supported.
 2.	MySQL/MariaDB server
 3.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
 4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
@@ -42,7 +43,7 @@ If you need help developing a patch, please join our IRC channel.
 
 Installation
 -------------
-1.	Download and extract Tinyboard to your web directory or get the latest
+1.	Download and extract vichan to your web directory or get the latest
 	development version with:
 
         git clone git://github.com/vichan-devel/vichan.git
