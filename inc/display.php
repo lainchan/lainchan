@@ -354,7 +354,7 @@ class Post {
 		}
 
 		if (isset($this->files) && $this->files)
-			$this->files = json_decode($this->files);
+			$this->files = @json_decode($this->files);
 		
 		$this->subject = utf8tohtml($this->subject);
 		$this->name = utf8tohtml($this->name);
@@ -404,7 +404,7 @@ class Thread {
 		}
 		
 		if (isset($this->files))
-			$this->files = json_decode($this->files);
+			$this->files = @json_decode($this->files);
 		
 		$this->subject = utf8tohtml($this->subject);
 		$this->name = utf8tohtml($this->name);
