@@ -1,9 +1,21 @@
 /* backup version before modifying bar.top */
-* {
-	max-width: 100%;
+
+/*for trollin
+audio { 
+   display:none;
 }
+*/
+
+/*FIXED THE FUCKING BREAKOUT LINKS MOTHER FUCKING FINALLY -kalyx*/
+a{
+	overflow-wrap: break-word;
+}
+p.intro a.post_no, p.intro a.email, p.intro a.post_anchor, a.mentioned, time, span.name{
+	overflow-wrap: break-word;
+}
+
 html {
-	width: 100%!important;
+	width: 98%!important;
 }
 body {
 	background: #EEF2FF url('img/fade-blue.png') repeat-x 50% 0%;
@@ -170,7 +182,6 @@ header div.subtitle {
 .file:not(.multifile) .post-image {
     float: left;
 }
-/*
 [data-board] > .files > :nth-child(1):not(.multifile) > a:before {
 	content: url('/static/partyhat.gif');
 	float: left;
@@ -179,6 +190,7 @@ header div.subtitle {
 	position: relative;
 	top: -120px;
 	left: -30px;
+	pointer-events: none;
 	
 }
 [data-board] > .files > :nth-child(1).multifile > a:before {
@@ -189,9 +201,8 @@ header div.subtitle {
 	position: relative;
 	top: -120px;
 	left: -50px;
-	
+	pointer-events: none;
 }
-*/
 .file:not(.multifile) {
     float: none;
 }
@@ -719,6 +730,89 @@ form.ban-appeal textarea {
         height: auto;
         max-width: 100%;
 }
+
+
+
+/* File selector */
+.dropzone {
+  color: #000;
+  cursor: default;
+  margin: auto;
+  padding: 0px 4px;
+  text-align: center;
+  min-height: 50px;
+  max-height: 140px;
+  transition: 0.2s;
+  background-color: rgba(200, 200, 200, 0.5);
+  overflow-y: auto;
+}
+.dropzone-wrap {
+  width: 100%;
+}
+.dropzone .file-hint {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 5px;
+  padding: 10px 0px;
+  top: 5px;
+  transition: 0.2s;
+  border: 2px dashed rgba(125, 125, 125, 0.4);
+}
+.file-hint:hover, .dropzone.dragover .file-hint {
+  color: rgba(0, 0, 0, 1);
+  border-color: rgba(125, 125, 125, 0.8);
+}
+.dropzone.dragover {
+  background-color: rgba(200, 200, 200, 1);
+}
+.dropzone .file-thumbs {
+  text-align: left;
+  width: 100%;
+}
+.dropzone .tmb-container {
+  padding: 3px;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+.dropzone .file-tmb {
+  height: 40px;
+  width: 70px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  background-color: rgba(187, 187, 187, 0.5);
+  background-size: cover;
+  background-position: center;
+}
+.dropzone .file-tmb span {
+  font-weight: 600;
+  position: relative;
+  top: 13px;
+}
+.dropzone .tmb-filename {
+  display: inline-block;
+  vertical-align: bottom;
+  bottom: 12px;
+  position: relative;
+  margin-left: 5px;
+}
+.dropzone .remove-btn {
+  cursor: pointer;
+  color: rgba(125, 125, 125, 0.5);
+  display: inline-block;
+  vertical-align: bottom;
+  bottom: 10px;
+  position: relative;
+  margin-right: 5px;
+  font-size: 20px
+}
+.dropzone .remove-btn:hover {
+  color: rgba(125, 125, 125, 1);
+}
+
+
+
 
 /* Containerchan */
     video.post-image {
