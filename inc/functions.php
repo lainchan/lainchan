@@ -250,9 +250,9 @@ function loadConfig() {
 		if ($config['allow_roll'])
 			event_handler('post', 'diceRoller');
 
-		if (is_array($config['anonymous']))
-			$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
-
+		if (in_array('webm', $config['allowed_ext_files']) ||
+        	    in_array('mp4',  $config['allowed_ext_files']))
+			event_handler('post', 'postHandler');
 	}
 	// Effectful config processing below:
 
@@ -288,10 +288,9 @@ function loadConfig() {
 	if ($config['cache']['enabled'])
 		require_once 'inc/cache.php';
 
-	if (in_array('webm', $config['allowed_ext_files'])) {
+	if (in_array('webm', $config['allowed_ext_files']) ||
+            in_array('mp4',  $config['allowed_ext_files']))
 		require_once 'inc/lib/webm/posthandler.php';
-		event_handler('post', 'postHandler');
-	}
 
 	event('load-config');
 
@@ -309,6 +308,9 @@ function loadConfig() {
 		Cache::set('config_'.$boardsuffix, $config);
 		Cache::set('events_'.$boardsuffix, $events);
 	}
+
+	if (is_array($config['anonymous']))
+		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
 	
 	if ($config['debug']) {
 		if (!isset($debug)) {

@@ -754,6 +754,7 @@
 	$config['file_icons']['default'] = 'file.png';
 	$config['file_icons']['zip'] = 'zip.png';
 	$config['file_icons']['webm'] = 'video.png';
+	$config['file_icons']['mp4'] = 'video.png';
 	// Example: Custom thumbnail for certain file extension.
 	// $config['file_icons']['extension'] = 'some_file.png';
 
@@ -1022,7 +1023,7 @@
 			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.dailymotion.com/swf/video/$2"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><param name="wmode" value="transparent"><embed type="application/x-shockwave-flash" src="http://www.dailymotion.com/swf/video/$2" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></object>'
 		),
 		array(
-			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?.+)?$/i',
+			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?[^\'"<>]+)?$/i',
 			'<div style="float:left;margin:10px 20px;width:%%tb_width%%px;height:%%tb_height%%px"><embed flashVars="playerVars=showStats=no|autoPlay=no" src="http://www.metacafe.com/fplayer/$2/$3.swf" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowFullScreen="true" allowScriptAccess="always" name="Metacafe_$2" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></div>'
 		),
 		array(
@@ -1665,6 +1666,6 @@
 
 	// Youtube.js embed HTML code
 	$config['youtube_js_html'] = '<div class="video-container" data-video="$2">'.
-		'<a href="$0" target="_blank" class="file">'.
+		'<a href="https://youtu.be/$2" target="_blank" class="file">'.
 		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
 		'</a></div>';

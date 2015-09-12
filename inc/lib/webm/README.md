@@ -30,6 +30,13 @@ If you have an [FFmpeg](https://www.ffmpeg.org/) binary on your server and you w
     $config['webm']['ffmpeg_path'] = '/path/to/ffmeg';
     $config['webm']['ffprobe_path'] = '/path/to/ffprobe';
 
+MP4 support
+-----------
+
+MP4 support is available only if you use FFmpeg thumbnailing (see above).
+
+    $config['allowed_ext_files'][] = 'mp4';
+
 License
 -------
 
