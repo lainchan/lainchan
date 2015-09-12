@@ -1,0 +1,68 @@
+{% filter remove_whitespace %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{{ settings.title }}</title>
+    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+	<style type="text/css">
+		[alt="mascot"] {
+			margin: 0px auto -200px auto!important;
+		}
+		[alt="special mascot"] {
+			width: 100%;
+			margin: -3px 0px 0px 0px;
+		}
+		h2 {
+			padding: 3px 0px!important;
+		}
+		h2 span {
+			margin-left: 7px;
+		}
+		.ban {
+			min-width: 208px;
+		}
+		.ban .cont {
+
+			padding: 0px 7px;
+			margin: 7px auto 0px auto;
+			text-align: center;
+		}
+		.ban a {
+			max-width: 192px;
+			display: inline-block;
+			text-align: center;
+			border-radius: 2px;
+			border: 1px solid #555;
+			background: #333;
+			margin: 0px 2px 7px 2px;
+		}
+		a img {
+			max-width: 192px;
+			height: auto;
+		}
+	</style>
+  </head>
+  <body>
+    <div class="bar top">{{ boardlist.top }}</div>
+    <header>
+      <h1>{{ settings.title }}</h1>
+      <div class="subtitle">{{ settings.subtitle }}</div>
+    </header>
+    <img alt="mascot" src="/static/lain_is_cute_datass_small.png"/>
+    <div class="ban">
+	  <h2>
+    	<img alt="special mascot" src="/static/zine_ipad.png"/>
+	    <span>ｄｏｗｎｌｏａｄ</span>
+	  </h2>
+      <div class="cont">
+		<a href="2015-04-20.pdf"><img src="2015-04-20.jpg"/><br/><span>01</span></a>
+        <a href="2015-08-28.pdf"><img src="2015-08-28.jpg"/><br/><span>02</span></a>
+	  </div>
+    </div>
+  </body>
+</html>
+{% endfilter %}
