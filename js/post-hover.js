@@ -77,7 +77,7 @@ onready(function(){
 						.css('position', 'absolute')
 						.css('font-style', 'normal')
 						.css('z-index', '100')
-            .css('margin-left', '1em')
+						.css('margin-left', '1em')
 						.addClass('reply').addClass('post')
 						.insertAfter($link.parent())
 
