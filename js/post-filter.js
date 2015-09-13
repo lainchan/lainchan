@@ -19,9 +19,10 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 		}
 
 		function initList(list, boardId, threadId) {
-			if (typeof list.postFilter[boardId] == 'undefined')
+			if (typeof list.postFilter[boardId] == 'undefined') {
 				list.postFilter[boardId] = {};
 				list.nextPurge[boardId] = {};
+			}
 			if (typeof list.postFilter[boardId][threadId] == 'undefined') {
 				list.postFilter[boardId][threadId] = [];
 			}
