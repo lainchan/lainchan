@@ -62,3 +62,7 @@ tf/
 all/
 mod/
 random/
+
+# Banners
+banners/*
+!banners/lain-bottom.png
