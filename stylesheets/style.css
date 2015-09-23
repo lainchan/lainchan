@@ -1,7 +1,7 @@
 /* backup version before modifying bar.top */
 
 /*for trollin
-audio { 
+audio {
    display:none;
 }
 */
@@ -80,7 +80,7 @@ input[name="post"] {
 [name="post"] [type="text"][name="subject"] {
 	width: calc(100% - 74px);
 	min-width: 162px;
-	
+
 }
 input#upload_file {
 	width: 180px;
@@ -89,7 +89,7 @@ input#upload_file {
 	[name="post"] [type="text"]:not([name="subject"]), [name="post"] textarea {
 		width: 236px;
 		min-width: 236px;
-	} 
+	}
 	input#upload_file {
 		width: 160px;
 	}
@@ -191,7 +191,7 @@ header div.subtitle {
 	top: -120px;
 	left: -30px;
 	pointer-events: none;
-	
+
 }
 [data-board] > .files > :nth-child(1).multifile > a:before {
 	content: url('/static/partyhat.gif');
@@ -319,7 +319,8 @@ div.delete [type="submit"] {
 div.postcontainer
 {
 	display: inline-block;
-	white-space: nowrap;
+	white-space: nowrap; /* changed "nowrap" to  */
+	word-break: break-word; /* bugfix: letters no longer shoot around the screen */
 	max-width: 100%!important;
 }
 div.post.reply p {
@@ -347,10 +348,10 @@ div.post.reply div.body a {
 	white-space: pre-wrap;
 }
 div.post div.body {
-   	white-space: pre-wrap; /* css-3 */    
+   	white-space: pre-wrap; /* css-3 */
    	white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-   	white-space: -pre-wrap; /* Opera 4-6 */    
-   	white-space: -o-pre-wrap; /* Opera 7 */    
+   	white-space: -pre-wrap; /* Opera 4-6 */
+   	white-space: -o-pre-wrap; /* Opera 7 */
 	word-wrap: normal;
 	margin-left: 19px;
 }
@@ -459,7 +460,7 @@ fieldset label {
 	display: table;
 	position: fixed;
 	width: 100%;
-	left: 0px;	
+	left: 0px;
 	z-index: 3;
 	background-color: #D6DAF0;
 	border-color: #B7C5D9;
@@ -469,7 +470,7 @@ fieldset label {
 	vertical-align: middle;
 }
 .bar.top {
-	text-align: center; 
+	text-align: center;
 	top: 0px;
 	border-bottom: 1px solid #B7C5D9;
 }
@@ -504,7 +505,7 @@ div.pages.top {
 	z-index: 99;
 	font-size: 10pt;
 	text-align: left;
-		
+
 }
 
 div.pages a.selected {
@@ -521,7 +522,7 @@ div.pages form {
 }
 div.pages form input {
 	margin: 0 5px;
-	
+
 	margin-top: -1px;
 	display: inline;
 }
@@ -536,7 +537,7 @@ div.boardlist {
 #style-select {
 	display: table-cell;
 	font-size: 10pt;
-	z-index: 3;	
+	z-index: 3;
 	text-align: right;
 	width: auto;
 }
