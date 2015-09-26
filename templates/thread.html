@@ -47,8 +47,6 @@
 	{{ body }}
 	{% include 'report_delete.html' %}
 	</form>
-	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-        <a href="#" id="bottom" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 
@@ -67,9 +65,8 @@
 	<div class="bar bottom">
 		<div class="threadlinks">
 			<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>
-        		<span class="threadlink"><a href="#" style="padding-left: 10px"> {% trans %}Go to top{% endtrans %}</a> /</span>
+        		<span class="threadlink"><a href="#" id="bottom" style="padding-left: 10px"> {% trans %}Go to top{% endtrans %}</a> /</span>
 		</div>
-		<div class=pages></div>
 	</div>
 	<script type="text/javascript">{% raw %}
 		ready();
