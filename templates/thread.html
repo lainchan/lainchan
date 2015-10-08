@@ -47,8 +47,6 @@
 	{{ body }}
 	{% include 'report_delete.html' %}
 	</form>
-	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-        <a href="#" id="bottom" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 
@@ -74,5 +72,6 @@
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>
+	<a href="#" id="bottom"></a>
 </body>
 </html>
