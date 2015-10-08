@@ -5,22 +5,32 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
 	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/style.css"/>
-	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/dark.css"/>
-	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/dicksinmyass.css"/>
+	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/recent.css"/>
+	<link rel="stylesheet" media="screen" href="https://lainchan.org/stylesheets/font-awesome/css/font-awesome.min.css"/>
+
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
 </head>
 <body>
 	<div class="bar top">
 		{{ boardlist.top }}
 	</div>
-        <img class="board_image" src="{{ config.url_banner }}"style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};height:{{ config.banner_height }}px;" alt="" />
-        <header>
-<h1>{{ settings.title }}</h1>
-                <div class="subtitle">PRESENT DAY. PRESENT TIME. HAHAHAHAHA</div>
-                        </header>
 
-	
-	<div class="box-wrap">
+	<header>
+		<center>
+			<img alt="header" src="static/lainchan_header_console.gif"/>
+		</center>
+	</header>
+<br>
+
+    <img alt="mascot" src="static/lain_banner1.png"/>
+
+ <br>
+
+     <div class="ban" id="global">      <h2>CYBERPUNK IS DEAD</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
+
+    <br>
+
+	<div class="ban" id="global">
 		<div class="box left">
 			<h2>Recent Images</h2>
 			<ul>
@@ -55,13 +65,12 @@
 			</ul>
 		</div>
 	</div>
-	
-	<hr/>
+
 	<footer>
-		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
-			<a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
-		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
-		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
+        <center>
+        	<a href="admin@lainchan.org?Subject=Hello" target="_top">admin@lainchan.org</a>
+        </center>
+
 	</footer>
 </body>
 </html>
