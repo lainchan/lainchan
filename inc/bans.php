@@ -149,7 +149,7 @@ class Bans {
 		return $ban_list;
 	}
 
-	static public function stream_json($out = false, $filter_ips = false, $filter_staff = false, $board_access = false) {
+	static public function stream_json($out = false, $filter_ips = false, $filter_staff = false, $board_access = false, $hide_message = false) {
 		$query = query("SELECT ``bans``.*, `username` FROM ``bans``
 			LEFT JOIN ``mods`` ON ``mods``.`id` = `creator`
  			ORDER BY `created` DESC") or error(db_error());
@@ -164,7 +164,7 @@ class Bans {
                 foreach ($bans as &$ban) {
                         $ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
 
-			if ($ban['post']) {
+			if ($ban['post'] && !$hide_message) {
 				$post = json_decode($ban['post']);
 				$ban['message'] = $post->body;
 			}
