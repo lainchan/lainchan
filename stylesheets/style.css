@@ -912,6 +912,7 @@ pre {
 
 .poster_id {
   cursor: pointer;
+  white-space:nowrap;
 }
 .poster_id:hover {
   color: #800000!important;
