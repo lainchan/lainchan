@@ -6,6 +6,8 @@
 	<title>{{ board.url }} - {{ board.name }}</title>
 	{% endblock %}
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
 <body>	
 	{{ boardlist.top }}
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
