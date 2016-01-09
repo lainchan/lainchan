@@ -1,20 +1,19 @@
 /**
  * dark.css
- * Stolen from circlepuller who stole it from derpcat
+ * For AwsumChan by Circlepuller
  */
-body 
-{
+body {
 	background: #1E1E1E;
 	color: #999999;
 	font-family: sans-serif;
 	font-size: 12px;
 }
-span.quote 
-{
+.quote {
     color:#B8D962;
 }
-@font-face 
-{
+
+
+@font-face {
   font-family: 'lain';
   src: url('./fonts/nrdyyh.woff') format('woff'),
        url('./fonts/tojcxo.TTF') format('truetype');
@@ -27,17 +26,11 @@ h1
 	text-align: center;
 	color: #32DD72;
 }
-header div.subtitle 
-{
-    color: #32DD72;
-}
-div.title 
-{
+div.title, h1 {
 	color: #32DD72;
-	font-family: Arial, Helvetica, sans-serif;
+	
 }
-div.title p 
-{
+div.title p {
 	font-size: 10px;
 }
 a:link, a:visited, .intro a.email span.name {
@@ -45,244 +38,207 @@ a:link, a:visited, .intro a.email span.name {
 	text-decoration: none;
 	font-family: sans-serif;
 }
-a:link, a:visited, p.intro a.email span.name
-{
-        -moz-transition: 0.15s text-shadow, 0.15s color;
-	-webkit-transition: 0.15s text-shadow, 0.15s color;
-	-khtml-transition: 0.15s text-shadow, 0.15s color;
-	-o-transition: 0.15s text-shadow, 0.15s color;
-	-ms-transition: 0.15s text-shadow, 0.15s color;
-	transition: 0.15s text-shadow, 0.15s color;
-}
-input[type="text"], textarea 
-{
-	-moz-transition: 0.15s border-color;
-	-webkit-transition: 0.15s border-color;
-	-khtml-transition: 0.15s border-color;
-	-o-transition: 0.15s border-color;
-	-ms-transition: 0.15s border-color;
-	transition: 0.15s border-color;
-}
-input[type="submit"] 
-{
-	-moz-transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-	-webkit-transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-	-khtml-transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-	-o-transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-	-ms-transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-	transition: 0.15s border-color, 0.15s background-color, 0.15s color;
-}
-a:link:hover, a:visited:hover 
-{
-	color: #32DD72;
+a:link:hover, a:visited:hover {
+	color: #fff;
 	font-family: sans-serif;
 	text-decoration: none;
-	text-shadow: 0px 0px 5px #fff;
+
 }
-a.post_no 
-{
-	color: #AAA;
+a.post_no {
+	color: #AAAAAA;
 	text-decoration: none;
 }
-p.intro a.post_no:hover 
-{
-        color: #32DD72!important;
+a.post_no:hover {
+	color: #32DD72 !important;
+	text-decoration: underline overline;
 }
-div.post.reply 
-{
+div.post.reply {
 	background: #333333;
 	border: #555555 1px solid;
 
+
+
 }
-div.post.reply.highlighted 
-{
+div.post.reply.highlighted {
 	background: #555;
 	border: transparent 1px solid;
 }
-div.post.reply div.body a:link, div.post.reply div.body a:visited 
-{
+div.post.reply div.body a:link, div.post.reply div.body a:visited {
 	color: #CCCCCC;
 }
-div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover 
-{
+div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
 	color: #32DD72;
 }
-p.intro span.subject {
+.intro span.subject {
 	font-size: 12px;
 	font-family: sans-serif;
 	color: #446655;
 	font-weight: 800;
 }
-p.intro span.name {
+.intro span.name {
 	color: #32DD72;
 	font-weight: 800;
 }
-p.intro a.capcode, p.intro a.nametag {
+.intro a.capcode, p.intro a.nametag {
 	color: magenta;
 	margin-left: 0;
 }
-p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
+.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
 	color: #32ddaf;
 }
-input[type="text"], textarea, select 
-{
-	background: #333333!important;
-	color: #CCCCCC!important;
-	border: #666666 1px solid!important;
-}
-input[type="password"] 
-{
-	background: #333333!important;
-	color: #CCCCCC!important;
-	border: #666666 1px solid!important;
-}
-form table tr th 
-{
-	background: #333333!important;
-	color: #AAAAAA!important;
-	border: #333333 1px solid!important;;
-}
-div.banner 
-{
-	background: #E04000;
-	border: 1px solid hsl(17, 100%, 60%);
-	color: #EEE;
-	text-align: center;
-	height: 15px;
-	padding: 1px 1px 4px 1px;
-	margin-left: auto;
-	margin-right: auto;
-}
-div.banner a 
-{
-    color:#000;
-}
-input[type="submit"] 
-{
+input[type="text"], textarea, select {
 	background: #333333;
-	border: #666 1px solid;
 	color: #CCCCCC;
-}
-input[type="submit"]:hover 
-{
-	background: #555;
-	border: #888 1px solid;
-	color: #32DD72;
-}
-input[type="text"]:focus, textarea:focus 
-{
-    border:#888 1px solid!important;
-}
-p.fileinfo a:hover 
-{
-	text-decoration: underline;
-}
-span.trip 
-{
-	color: #AAA;
-}
-.bar
-{
-	background: #333!important;
-	-moz-box-shadow: 0 0 40px #000;
-	-webkit-box-shadow: 0 0 40px #000;
-	box-shadow: 0 0 40px #000;
-	
-}
-.bar.top
-{
-	border-bottom: 1px solid #666;
-}
-.bar.bottom
-{
-	border-top: 1px solid #666;
-}
-div.pages 
-{
-	color: #AAA;
-	background: #333;
-	border: #666 1px solid;
+	border: #666666 1px solid;
+	padding-left: 5px;
+	padding-right: -5px;
 	font-family: sans-serif;
 	font-size: 10pt;
 }
-div.pages a.selected 
-{
-	color: #CCC;
+input[type="password"] {
+	background: #333333;
+	color: #CCCCCC;
+	border: #666666 1px solid;
 }
-hr 
-{
-	height: 1px;
-	border: #333 1px solid;
+form table tr th {
+	background: #333333;
+	color: #AAAAAA;
+	font-weight: 800;
+	text-align: left;
+	padding: 0;
 }
-div.boardlist 
-{
-	color: #999;
+div.banner {
+	background: #32DD72;
+	color: #000;
+	text-align: center;
+	width: 250px;
+	padding: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
 }
-
-div.ban 
-{
-	background-color: #1e1e1e;
-	border: 1px solid #555;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	text-align: left!important;
+div.banner a {
+    color:#000;
 }
-div.ban h2 
-{
-	background: #333;
+input[type="submit"] {
+	background: #333333;
+	border: #888888 1px solid;
+	color: #CCCCCC;
+}
+input[type="submit"]:hover {
+	background: #555555;
+	border: #888888 1px solid;
 	color: #32DD72;
-	padding: 3px 7px;
-	font-size: 12pt;
-	border-bottom: 1px solid #555;
+}
+input[type="text"]:focus {
+    border:#aaa 1px solid;
+}
+p.fileinfo a:hover {
+	text-decoration: underline;
+}
+span.trip {
+	color: #AAAAAA;
+}
+div.pages {
+	
+	background: #333333;
+	
+	font-family: sans-serif;
+	
+}
+div.pages a.selected {
+	color: #CCCCCC;
+}
+hr {
+	height: 1px;
+	border: #333333 1px solid;
+}
+div.boardlist {
+	color: #999999;
+    background-color: rgba(12%, 12%, 12%, 0.10);
 }
 
-div.ban h2:not(:nth-child(1)) 
-{
-	border-top: 1px solid #555;
+div.ban {
+	background-color: transparent;
+	border: transparent 0px solid;
 }
-table.modlog tr th 
-{
-	background: #333;
-	color: #AAA;
+div.ban h2 {
+	background: transparent;
+	color: lime;
+	font-size: 12px;
+}
+table.modlog tr th {
+	background: #333333;
+	color: #AAAAAA;
 }
 
-div.report 
-{
-	color: #666;
+.desktop-style div.boardlist:not(.bottom) {
+  text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
+  background-color: #666666;
 }
-.pages, .board_image, input, .reply, form table th, textarea, a img, select, .banner
-{
-        -webkit-border-radius: 2px;
-        -khtml-border-radius: 2px;
-        -moz-border-radius: 2px;
-	-o-border-radius: 2px;
-	-ms-border-radius: 2px;
-        border-radius: 2px;
-}
-.blur 
-{
-    filter: blur(20px);
-    -webkit-filter: blur(23px);
-    -moz-filter: blur(23px);
-    -o-filter: blur(23px);
-    -ms-filter: blur(23px);
-    filter: url(svg/blur.svg#blur);
+
+
+
+
+div.report {
+	color: #666666;
 }
 
 /* options.js */
 #options_div, #alert_div {
 	background: #333333;
 }
-.options_tab_icon 
-{
-       color: #AAAAAA;
+.options_tab_icon {
+	color: #AAAAAA;
 }
-.options_tab_icon.active 
-{
-       color: #FFFFFF;
+.options_tab_icon.active {
+	color: #FFFFFF;
 }
 
 #quick-reply table {
 	background: none repeat scroll 0% 0% #333 !important;
+}
+
+.modlog tr:nth-child(even), .modlog th {
+	background-color: #282A2E;
+}
+
+
+
+.box {
+	background: #333333;
+	border-color: #555555;
+	color: #C5C8C6;
+	border-radius: 10px;
+}
+.box-title {
+	background: transparent;
+	color: #32DD72;
+}
+
+table thead th {
+	background: #333333;
+	border-color: #555555;
+	color: #C5C8C6;
+	border-radius: 4px;
+}
+table tbody tr:nth-of-type( even ) {
+	background-color: #333333;
+}
+
+table.board-list-table .board-uri .board-sfw {
+	color: #CCCCCC;
+}
+tbody.board-list-omitted td {
+	background: #333333;
+	border-color: #555555;
+}
+
+table.board-list-table .board-tags .board-cell:hover {
+	background: #1e1e1e;
+}
+table.board-list-table tr:nth-of-type( even ) .board-tags .board-cell {
+	background: #333333;
 }

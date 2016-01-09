@@ -21,13 +21,21 @@ body {
 	-moz-box-shadow: none;
 	box-shadow: none;
 }
+div.boardlist{
+	background-color: #0C0001!important;
+
+}
 .bar.top
 {
 	border-bottom: 2px solid #3CC!important;
+	background-color: #0C0001;
+
 }
 .bar.bottom
 {
 	border-top: 2px solid #3CC!important;
+	background-color: #0C0001;
+
 }
 @font-face 
 {

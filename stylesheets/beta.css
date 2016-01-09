@@ -1,7 +1,7 @@
 /**
- * heavy_ice.css
+ * Beta.css
  * by kalyx
- *stole some shit from monoelain thnx
+ *this might work well on phones
  */
 
 body
@@ -9,35 +9,32 @@ body
 	display:block;
 	padding-top: 26px;
 	background: #0d1010;
-	color: #d2e7e8;
+	color: #e8e8e3;
 	font-family: sans-serif;
-	font-size: 13px;
+	font-size: 18px;
 
 
-	max-width: 568px;
+	width: 100%;
 }
-div.boardlist{
-	background-color: #000!important;
 
-}
 html {
 	/* Size of largest container or bigger */
 	  background:#0d1010;
-		max-width: 568px;
+		width: 100%;
 		margin-left: auto;
   	margin-right: auto;
 
 		}
 /*banner*/
 .board_image{
-		border: double 0px #d2e7e8;
-		box-shadow: 2px 2px #d2e7e8;
+		border: double 0px #e8e8e3;
+		box-shadow: 2px 2px #e8e8e3;
 }
 
     /*gives images border/shadow*/
     div.files img.post-image {
-		border: solid 1px #d2e7e8;
-		box-shadow: 2px 2px #d2e7e8;
+		border: solid 1px #e8e8e3;
+		box-shadow: 2px 2px #e8e8e3;
         padding: 0px;
         border-radius: 0;
         margin-bottom: 5px;
@@ -64,13 +61,13 @@ h1
 	letter-spacing: -2px;
 	font-size: 42pt;
 	text-align: center;
-	color: #d2e7e8;
+	color: #e8e8e3;
 
 }
 header div.subtitle
 {
 	display: none;
-    color: #d2e7e8;
+    color: #e8e8e3;
 		font-size: 13px;
 		   margin-left: auto;
   margin-right: auto;
@@ -79,18 +76,18 @@ header div.subtitle
 div.title
 {
 	display: none;
-	color: #e8d928;
+	color: #e8e8e3;
 	font-family: Arial, Helvetica, sans-serif;
 
 }
 div.title p
 {
 	font-size: 8px;
-	color: #e8d928;
+	color: #e8e8e3;
 }
 a:link, a:visited, p.intro a.email span.name
 {
-	color: #d2e7e8;
+	color: #e8e8e3;
 	text-transform: uppercase;
 	font-size: 10px;
 	text-decoration: none;
@@ -143,10 +140,10 @@ div.post.reply
 {
 	background: #0d1010;
 	align: center;
-	max-width:96% !important;
-		min-width: 96%!important;
-border: solid  1px #d2e7e8;
-box-shadow: 2px 2px #d2e7e8;
+	max-width:100% !important;
+		min-width: 100%!important;
+border: solid  1px #e8e8e3;
+box-shadow: 2px 2px #e8e8e3;
 
 
 }
@@ -185,7 +182,7 @@ p.intro span.subject
 }
 p.intro span.name
 {
-	color: #d2e7e8;
+	color: #c3e849;
 	font-weight: 800;
 }
 p.intro a.capcode, p.intro a.nametag
@@ -202,7 +199,7 @@ input[type="text"], textarea, select
 {
 	background: #0d1010!important;
 	color: #CCCCCC!important;
-border: solid  1px #d2e7e8;
+border: solid  1px #e8e8e3;
 box-shadow: 1px 1px #0d1010;
 			   margin-left: auto;
   margin-right: auto;
@@ -218,7 +215,7 @@ input[type="password"]
 form table tr th
 {
 	background: #0d1010!important;
-	color: #d2e7e8!important;
+	color: #e8e8e3!important;
 	border: solid  1px #d2e7e8;
 box-shadow: 1px 1px #0d1010;
 	text-align: right;
@@ -276,14 +273,14 @@ span.trip
 }
 .bar.top
 {
-	border: solid  1px #d2e7e8;
+	border: solid  1px #e8e8e3;
 box-shadow: 0px 1px #d2e7e8;
 
 }
 .bar.bottom
 {
 	border-top: 0px solid #666;
-	border: solid  1px #d2e7e8;
+	border: solid  1px #e8e8e3;
 
 
 }
@@ -302,12 +299,12 @@ div.pages a.selected
 hr
 {
 	height: 0px;
-	border: #d2e7e8 2px solid;
+	border: #e8e8e3 2px solid;
 
 }
 div.boardlist
 {
-	color: #d2e7e8;
+	color: #e8e8e3;
 }
 
 div.ban
@@ -324,7 +321,7 @@ div.ban
 div.ban h2
 {
 	background: #333;
-	color: #d2e7e8;
+	color: #e8e8e3;
 	padding: 3px 7px;
 	font-size: 12pt;
 	border-bottom: 1px solid #555;
@@ -380,5 +377,5 @@ div.report
 
 .blotter
 {
-	color: #e8d928!important;
+	color: #e8e8e3!important;
 }

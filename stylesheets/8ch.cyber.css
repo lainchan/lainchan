@@ -168,9 +168,9 @@ margin-right: 35px;
 
     /*gives posting table its border/shadow*/
     form table {
-        width: 100%;
-        minimum-width: 960px;
-        min-height: 250px;
+        max-width: 500px;
+        min-width: 100%
+        
         display: inline-block;
         margin: 5px auto;
         background-color: #2b2b2b;

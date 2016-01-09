@@ -1,0 +1,364 @@
+/*monoelains ez css for VIP quality imageboards. steal this .css and edit it to your liking. */
+     
+    /* OPTION HIDING */
+     
+
+     /*lainchan bottom bar fix*/
+     .bar{
+            background-color: #CDCDCD!important;
+     }
+     
+    /*removes footer (STI pls dont sue)
+    footer {
+    display:none;
+    color: #ffffff;
+    }
+     
+    /* hides AA in catalog */
+    .theme-catalog span.aa {
+        display: none !important;
+    }
+     
+    /* hides expand all images */
+    #expand-all-images {
+        display: none;
+    }
+     
+    /* hides hints*/
+    .hint {
+    }
+     
+    /* hides horizontal bar */
+    hr {
+        display: none;
+    }
+     
+    /*banner stuff*/
+    img.banner, img.board_image {
+        border: 8px ridge #B18108;
+        background-color: #B2A50F;
+        display: ;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        margin: 30px auto 0px;
+    }
+     
+    /* hides delete options (obsolete) */
+    div.delete {
+        display: none;
+    }
+     
+    /*makes files align vertically (hw pls fix this shit)*/
+    .file {
+        display: block;
+    margin-right: 11px;
+}
+    }
+     
+    div.boardlist a {
+        color: rgb(187, 51, 0);
+    }
+     
+    /*expanded image border/shadow*/
+    .full-image {
+        border-top-right-radius: 0;
+        -webkit-box-shadow: 7px 7px 0px 0px #000;
+        -moz-box-shadow: 7px 7px 0px 0px #000;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        border: double black;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        padding: 5px;
+        margin: 0px 0px 0px;
+        /*+border-radius: 0;*/
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        -khtml-border-radius: 0;
+        border-radius: 0;
+        max-width: 80% !important;
+        float: none;
+        background-color: rgb(194, 194, 194);
+    }
+     
+    /*gives quick reply its border/shadow*/
+    #quick-reply table {
+        background: none repeat scroll 0 0 #CBCBCB;
+        border: 4px double;
+        margin: 0;
+        -webkit-box-shadow: 7px 7px 0px 0px #000;
+        -moz-box-shadow: 7px 7px 0px 0px #000;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        width: auto !important;
+    }
+     
+    /*makes posting form maroon*/
+    form table tr th {
+        background-color: rgb(187, 51, 0);
+        color: #FFFFFF;
+        font-family: Palatino Linotype, Book Antiqua, Palatino, serif;
+    }
+     
+    /*gives images border/shadow*/
+    div.files img.post-image {
+        -webkit-box-shadow: 7px 7px 0px 0px #000;
+        -moz-box-shadow: 7px 7px 0px 0px #000;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        background-color: #CBCBCB;
+        border: double black;
+        padding: 5px;
+        /*+border-radius: 0;*/
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        -khtml-border-radius: 0;
+        border-radius: 0;
+        margin-bottom: 5px;
+    }
+     
+    /* makes Youtube thumbs not obscenely big */
+    div.video-container  {
+        width: auto !important;
+        height: auto !important;
+        max-height: 20% !important;
+        max-width: 20% !important;
+    }
+     
+    /* Image thumbs size limit (make as big as you want)*/
+    .post-image {
+        border: double black;
+        height: auto !important;
+        width: auto !important;
+        max-height: 60%;
+        max-width: 60%;
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+padding: 5px;
+background-color: #cdcdcd;
+    }
+     
+    /* Keep small thumbnails in replies */
+    .post.reply a:not([data-expanded="true"]) .post-image {
+        width: auto !important;
+        height: auto !important;
+        max-height: 60%;
+        max-width: 60%;
+    }
+     
+    /* reply box size */
+    .input[type="text"], textarea {
+        min-height: 117px;
+        min-width: 240px;
+    }
+     
+    /*boardwide font stuff goes here also background image*/
+    body {
+        padding: 0;
+        font-family: arial, sans-serif;
+        font-size: 14px;
+        background: url("https://i.imgur.com/OUHu2ki.jpg") fixed repeat top #000000;
+min-width: 395px;
+margin-left: 10px;
+margin-right: 35px;
+
+margin-left: 10px;
+    }
+    /*saves one pixel of space*/
+    header {
+        margin-bottom: 0px;
+    }
+     
+    /*gives posting table its border/shadow*/
+    form table {
+        width: 100%;
+        minimum-width: 960px;
+        min-height: 250px;
+        display: inline-block;
+        margin: 5px auto;
+        background-color: #CDCDCD;
+        border: double black;
+        padding: 5px;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 5px rgba(0, 0, 0, 0.5);
+    }
+     
+    /*gives threads its border/shadow*/
+    div[id^="thread_"] {
+        -webkit-box-shadow: 11px 11px 0px 0px #000;
+        -moz-box-shadow: 11px 11px 0px 0px #000;
+        background-color: rgb(221, 221, 221);
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 3px double #000000;
+        width: 100%;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+    }
+     
+    /*adds horizontal bar below subject*/
+    p.intro {
+        background-image: url('https://i.imgur.com/UebGaj5.png');
+        background-repeat: repeat-x;
+        background-position: bottom;
+        min-height: 25px;
+    }
+     
+    /*gives replies border/shadow*/
+    div.post.reply {
+        max-width: 95% !important;
+        -webkit-box-shadow: 7px 7px 0px 0px #000;
+        -moz-box-shadow: 7px 7px 0px 0px #000;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        margin-top: 20px;
+        border: double 3px #000;
+        background-color: rgb(194, 194, 194);
+    }
+     
+    /*unfucks highlighting replies and gives border/shadow*/
+    div.post.reply.highlighted {
+        background-color: #D6BDB0;
+    }
+     
+    /*dont touch this*/
+    div.body {
+        display: block;
+        clear: both;
+        padding-top: 10px;
+    }
+     
+    /*makes page bar have border/shadow*/
+    div.pages {
+        -webkit-box-shadow: 7px 7px 0px 0px #000;
+        -moz-box-shadow: 7px 7px 0px 0px #000;
+        -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        display: block;
+        clear: both;
+        border: double black;
+        background-color: rgb(221, 221, 221);
+    }
+     
+    /*hovered links have underline*/
+    a:hover {
+        text-decoration: underline;
+    }
+     
+    /*stops textbox resizing shenanigans*/
+    .input[type="text"], textarea {
+        font-size: 14px;
+        max-width: 9000px;
+        min-height: 115px;
+        min-width: 270px;
+    }
+     
+    /*boardname nice font. replace with something classy someday*/
+    header div.subtitle, h1 {
+        font-family: Palatino Linotype, Book Antiqua, Palatino, serif;
+        color: rgb(187, 51, 0);
+    }
+     
+    /*announcement font and color*/
+    div.blotter {
+        padding: 15px;
+        color: #000000;
+        font-family: Palatino Linotype, Book Antiqua, Palatino, serif;
+    }
+     
+    /*makes links red*/
+    a {
+        color: rgb(187, 51, 0) !important;
+        text-decoration: none;
+    }
+     
+    /*top boardlist stuff. change position to "fixed" to make it behave like normal 8chan*/
+    div.boardlist:not(.bottom) {
+        background-color: rgba(221, 221, 221, 1) !important;
+        text-align: center;
+        padding: 5px 75px;
+        box-shadow: 7px 7px rgba(0, 0, 0, 0.5); !important;
+        color: rgba(0, 0, 0, 0.33);
+        font-size: 10px;
+        border: double #000 !important;
+        position:static !important;
+    }
+     
+    /*favorites in a new line*/
+    div.boardlist span.favorite-boards {
+        display: block;
+    }
+     
+    /*subject color*/
+    p.intro span.subject {
+        color: rgb(117, 8, 8);
+    }
+     
+    /*bottom boardlist centered*/
+     
+    div.boardlist.bottom {
+        text-align: center;
+        background-color: rgba(228,228,228,1);
+        border: double #000000;
+        width: 101%;
+    }
+     
+    /*colors name*/
+    p.intro span.name {
+        color: rgb(122, 77, 77);
+        font-family: ;
+    }
+     
+    /*catalog stuff*/
+    .theme-catalog div.thread {
+        background-color: rgb(221, 221, 221);
+        border: double;
+    }
+     
+    .theme-catalog div.thread:hover {
+        background-color: #D6BDB0;
+        border: double;
+    }
+     
+    span.trip {
+        color: rgb(34, 136, 84);
+    }
+     
+    #updater, #thread-links {
+    background-color: rgba(228,228,228,1);
+    border:double;
+    padding: 5px;
+    margin: 5px;
+    -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+    }
+
+div.banner {
+width: 380px;
+display:block;
+margin-left:auto;
+margin-right:auto;
+
+}
+
+#quick-reply th .close-btn{
+color:#ffffff;
+
+}
+
+div.post-hover {
+
+background-color: #D6BDB0 !important;
+border: double #000 !important;
+box-shadow: 7px 7px rgba(0, 0, 0, 0.5) !important;
+max-width: 50%;
+}
+
+span.subject:after { content: '\A'; white-space:pre;  }
+SPAN.controls.op:before { content: '\A'; white-space:pre;  }
+
+div.post-menu
+{
+color: #ffffff;}

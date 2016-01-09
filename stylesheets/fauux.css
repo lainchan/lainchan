@@ -19,6 +19,11 @@ body {
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	background-color: #000!important;
+}
+div.boardlist{
+	background-color: #000!important;
+
 }
 @font-face 
 {
