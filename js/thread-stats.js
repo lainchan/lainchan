@@ -12,18 +12,17 @@ $(document).ready(function(){
 	//check if page uses unique ID
 	var IDsupport = ($('.poster_id').length > 0);
 	var thread_id = (document.location.pathname + document.location.search).split('/');
-	thread_id = thread_id[thread_id.length -1].split('+')[0].split('-')[0].split('.')[0];
+	thread_id = thread_id[thread_id.length -1].split('+')[0].split('.')[0];
 	
-	$('.boardlist.bottom, footer')
-		.first()
-		.before('<div id="thread_stats"></div>');
+	$('#thread-links')
+		.after('<div id="thread_stats"></div>');
 	var el = $('#thread_stats');
-	el.prepend(_('Page')+' <span id="thread_stats_page">?</span>');
+	el.prepend('Page <span id="thread_stats_page">?</span>');
 	if (IDsupport){
 		el.prepend('<span id="thread_stats_uids">0</span> UIDs |&nbsp;');
 	}
-	el.prepend('<span id="thread_stats_images">0</span> '+_('images')+' |&nbsp;');
-	el.prepend('<span id="thread_stats_posts">0</span> '+_('replies')+' |&nbsp;');
+	el.prepend('<span id="thread_stats_images">0</span> images |&nbsp;');
+	el.prepend('<span id="thread_stats_posts">0</span> replies |&nbsp;');
 	delete el;
 	function update_thread_stats(){
 		var op = $('#thread_'+ thread_id +' > div.post.op:not(.post-hover):not(.inline)').first();
@@ -67,7 +66,6 @@ $(document).ready(function(){
 			};
 			$('#thread_stats_uids').text(size(ids));
 		}
-		var board_name = $('input[name="board"]').val();
 		$.getJSON('//'+ document.location.host +'/'+ board_name +'/threads.json').success(function(data){
 			var found, page = '???';
 			for (var i=0;data[i];i++){
@@ -89,7 +87,6 @@ $(document).ready(function(){
 	// load the current page the thread is on.
 	// uses ajax call so it gets loaded on a delay (depending on network resources available)
 	var thread_stats_page_timer = setInterval(function(){
-		var board_name = $('input[name="board"]').val();
 		$.getJSON('//'+ document.location.host +'/'+ board_name +'/threads.json').success(function(data){
 			var found, page = '???';
 			for (var i=0;data[i];i++){
