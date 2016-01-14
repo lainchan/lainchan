@@ -550,6 +550,9 @@
 	// When true, the sage won't be displayed
 	$config['hide_sage'] = false;
 
+	// Don't display user's email when it's not "sage"
+	$config['hide_email'] = false;
+
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
 
