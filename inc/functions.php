@@ -2085,9 +2085,7 @@ function markup(&$body, $track_cites = false) {
 			$code = isset($val[2]) ? $val[2] : $val[1];
 			$code_lang = isset($val[2]) ? $val[1] : "";
 
-			$code = rtrim(ltrim($code, "\r\n"));
-
-			$code = "<pre class='code lang-$code_lang'>".str_replace(array("\n","\t"), array("&#10;","&#9;"), htmlspecialchars($code))."</pre>";
+			$code = "<code class='code lang-$code_lang'>".htmlspecialchars($code)."</code>";
 
 			$body = str_replace("<code $id>", $code, $body);
 		}
