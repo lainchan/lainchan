@@ -111,7 +111,7 @@ function mod_dashboard() {
 			$latest = unserialize($_COOKIE['update']);
 		} else {
 			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
-			if ($code = @file_get_contents('http://tinyboard.org/version.txt', 0, $ctx)) {
+			if ($code = @file_get_contents('http://engine.vichan.net/version.txt', 0, $ctx)) {
 				$ver = strtok($code, "\n");
 				
 				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
@@ -120,7 +120,7 @@ function mod_dashboard() {
 						'major' => $matches[2],
 						'minor' => $matches[3]
 					);
-					if (preg_match('/v(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
+					if (preg_match('/(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
 						$current = array(
 							'massive' => (int) $matches[1],
 							'major' => (int) $matches[2],
@@ -1224,7 +1224,10 @@ function mod_move($originBoard, $postID) {
 		
 		// create the new thread
 		$newID = post($post);
-		
+	
+		$op = $post;
+		$op['id'] = $newID;
+	
 		if ($post['has_file']) {
 			// copy image
 			foreach ($post['files'] as $i => &$file) {
@@ -1357,14 +1360,14 @@ function mod_move($originBoard, $postID) {
 			
 			buildIndex();
 			
-			header('Location: ?/' . sprintf($config['board_path'], $originBoard) . $config['dir']['res'] . link_for($post, false, $newboard) .
+			header('Location: ?/' . sprintf($config['board_path'], $newboard['uri']) . $config['dir']['res'] . link_for($op, false, $newboard) .
 				'#' . $botID, true, $config['redirect_http']);
 		} else {
 			deletePost($postID);
 			buildIndex();
 			
 			openBoard($targetBoard);
-			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($post, false, $newboard), true, $config['redirect_http']);
+			header('Location: ?/' . sprintf($config['board_path'], $newboard['uri']) . $config['dir']['res'] . link_for($op, false, $newboard), true, $config['redirect_http']);
 		}
 	}
 	
@@ -2498,10 +2501,14 @@ function mod_theme_configure($theme_name) {
 				$query->bindValue(':value', $_POST[$conf['name']]);
 			$query->execute() or error(db_error($query));
 		}
-		
+
 		$query = prepare("INSERT INTO ``theme_settings`` VALUES(:theme, NULL, NULL)");
 		$query->bindValue(':theme', $theme_name);
 		$query->execute() or error(db_error($query));
+
+		// Clean cache
+		Cache::delete("themes");
+		Cache::delete("theme_settings_".$theme_name);
 		
 		$result = true;
 		$message = false;
@@ -2549,10 +2556,14 @@ function mod_theme_uninstall($theme_name) {
 
 	if (!hasPermission($config['mod']['themes']))
 		error($config['error']['noaccess']);
-	
+
 	$query = prepare("DELETE FROM ``theme_settings`` WHERE `theme` = :theme");
 	$query->bindValue(':theme', $theme_name);
 	$query->execute() or error(db_error($query));
+
+	// Clean cache
+	Cache::delete("themes");
+	Cache::delete("theme_settings_".$theme);
 
 	header('Location: ?/themes', true, $config['redirect_http']);
 }

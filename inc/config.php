@@ -115,7 +115,7 @@
 	 * http://tinyboard.org/docs/index.php?p=Config/Cache
 	 */
 
-	$config['cache']['enabled'] = false;
+	$config['cache']['enabled'] = 'php';
 	// $config['cache']['enabled'] = 'xcache';
 	// $config['cache']['enabled'] = 'apc';
 	// $config['cache']['enabled'] = 'memcached';
@@ -136,6 +136,11 @@
 	// Note that Tinyboard may clear the database at times, so you may want to pick a database id just for
 	// Tinyboard to use.
 	$config['cache']['redis'] = array('localhost', 6379, '', 1);
+
+	// EXPERIMENTAL: Should we cache configs? Warning: this changes board behaviour, i'd say, a lot.
+	// If you have any lambdas/includes present in your config, you should move them to instance-functions.php
+	// (this file will be explicitly loaded during cache hit, but not during cache miss).
+	$config['cache_config'] = false;
 
 /*
  * ====================
@@ -277,7 +282,8 @@
 		'file_url',
 		'json_response',
 		'user_flag',
-		'no_country'
+		'no_country',
+		'tag'
 	);
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
@@ -289,6 +295,12 @@
 	
 	// Ability to lock a board for normal users and still allow mods to post.  Could also be useful for making an archive board
 	$config['board_locked'] = false;
+
+	// If poster's proxy supplies X-Forwarded-For header, check if poster's real IP is banned.
+	$config['proxy_check'] = false;
+
+	// If poster's proxy supplies X-Forwarded-For header, save it for further inspection and/or filtering.
+	$config['proxy_save'] = false;
 
 	/*
 	 * Custom filters detect certain posts and reject/ban accordingly. They are made up of a condition and an
@@ -538,6 +550,9 @@
 	// When true, the sage won't be displayed
 	$config['hide_sage'] = false;
 
+	// Don't display user's email when it's not "sage"
+	$config['hide_email'] = false;
+
 	// Attach country flags to posts.
 	$config['country_flags'] = false;
 
@@ -570,6 +585,9 @@
 	// Use semantic URLs for threads, like /b/res/12345/daily-programming-thread.html
 	$config['slugify'] = false;
 	
+	// Max size for slugs
+	$config['slug_max_size'] = 80;
+
 /*
 * ====================
 *  Ban settings
@@ -610,13 +628,10 @@
 	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
 	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
 
-	// Highlight PHP code wrapped in <code> tags (PHP 5.3+)
-	// $config['markup'][] = array(
-	// 	'/^&lt;code&gt;(.+)&lt;\/code&gt;/ms',
-	// 	function($matches) {
-	// 		return highlight_string(html_entity_decode($matches[1]), true);
-	// 	}
-	// );
+	// Code markup. This should be set to a regular expression, using tags you want to use. Examples:
+	// "/\[code\](.*?)\[\/code\]/is"
+	// "/```([a-z0-9-]{0,20})\n(.*?)\n?```\n?/s"
+	$config['markup_code'] = false;
 
 	// Repair markup with HTML Tidy. This may be slower, but it solves nesting mistakes. Tinyboad, at the
 	// time of writing this, can not prevent out-of-order markup tags (eg. "**''test**'') without help from
@@ -724,6 +739,11 @@
 	$config['allowed_ext'][] = 'png';
 	// $config['allowed_ext'][] = 'svg';
 
+	// Allowed extensions for OP. Inherits from the above setting if set to false. Otherwise, it overrides both allowed_ext and
+	// allowed_ext_files (filetypes for downloadable files should be set in allowed_ext_files as well). This setting is useful
+	// for creating fileboards.
+	$config['allowed_ext_op'] = false;
+
 	// Allowed additional file extensions (not images; downloadable files).
 	// $config['allowed_ext_files'][] = 'txt';
 	// $config['allowed_ext_files'][] = 'zip';
@@ -737,6 +757,7 @@
 	$config['file_icons']['default'] = 'file.png';
 	$config['file_icons']['zip'] = 'zip.png';
 	$config['file_icons']['webm'] = 'video.png';
+	$config['file_icons']['mp4'] = 'video.png';
 	// Example: Custom thumbnail for certain file extension.
 	// $config['file_icons']['extension'] = 'some_file.png';
 
@@ -1005,7 +1026,7 @@
 			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.dailymotion.com/swf/video/$2"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><param name="wmode" value="transparent"><embed type="application/x-shockwave-flash" src="http://www.dailymotion.com/swf/video/$2" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></object>'
 		),
 		array(
-			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?.+)?$/i',
+			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?[^\'"<>]+)?$/i',
 			'<div style="float:left;margin:10px 20px;width:%%tb_width%%px;height:%%tb_height%%px"><embed flashVars="playerVars=showStats=no|autoPlay=no" src="http://www.metacafe.com/fplayer/$2/$3.swf" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowFullScreen="true" allowScriptAccess="always" name="Metacafe_$2" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></div>'
 		),
 		array(
@@ -1172,8 +1193,19 @@
 	// Website favicon.
 	// $config['url_favicon'] = '/favicon.gif';
 	
-	// EXPERIMENTAL: Try not to build pages when we shouldn't have to.
+	// Try not to build pages when we shouldn't have to.
 	$config['try_smarter'] = true;
+
+	// EXPERIMENTAL: Defer static HTML building to a moment, when a given file is actually accessed.
+	// Warning: This option won't run out of the box. You need to tell your webserver, that a file
+	// for serving 403 and 404 pages is /smart_build.php. Also, you need to turn off indexes.
+	$config['smart_build'] = false;
+
+	// Smart build related: when a file doesn't exist, where should we redirect?
+	$config['page_404'] = '/404.html';
+
+	// Smart build related: extra entrypoints.
+	$config['smart_build_entrypoints'] = array();
 
 /*
  * ====================
@@ -1496,6 +1528,13 @@
 	// Allow OP to remove arbitrary posts in his thread
 	$config['user_moderation'] = false;
 
+	// File board. Like 4chan /f/
+	$config['file_board'] = false;
+
+	// Thread tags. Set to false to disable
+	// Example: array('A' => 'Chinese cartoons', 'M' => 'Music', 'P' => 'Pornography');
+	$config['allowed_tags'] = false;
+
 /*
  * ====================
  *  Public post search
@@ -1630,6 +1669,6 @@
 
 	// Youtube.js embed HTML code
 	$config['youtube_js_html'] = '<div class="video-container" data-video="$2">'.
-		'<a href="$0" target="_blank" class="file">'.
+		'<a href="https://youtu.be/$2" target="_blank" class="file">'.
 		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
 		'</a></div>';

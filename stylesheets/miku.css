@@ -19,11 +19,11 @@ a.post_no {
 	color: #000033;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #0093AB;
 }
 
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: #DD0000;
 }
 
@@ -43,12 +43,12 @@ div.post.op hr {
 	border-color: #B7C9D5;
 }
 
-p.intro span.subject {
+.intro span.subject {
 	color: #117743;
 	font-weight: 800;
 }
 
-p.intro span.name {
+.intro span.name {
 	color: #117743;
 	font-weight: 800;
 }

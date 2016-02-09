@@ -15,7 +15,7 @@ div.title p {
 div.pages {
 	font-size: 13px !important;
 }
-a:link, a:visited, p.intro a.email span.name {
+a:link, a:visited, .intro a.email span.name {
 	color: #A32615;
 	font-size: inherit;
 	text-decoration: inherit;
@@ -42,7 +42,7 @@ div.post.reply.highlighted {
 div.post.reply div.body a {
 	color: rgb(190, 79, 43);
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #AA4848;
 }
 form table tr th {

@@ -24,8 +24,14 @@
 			
 			$this->excluded = explode(' ', $settings['exclude']);
 			
-			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete')
-				file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
+			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
+				if ($config['smart_build']) {
+					file_unlink($config['dir']['home'] . $settings['html']);
+				}
+				else {
+					file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
+				}
+			}
 		}
 		
 		// Build news page
@@ -125,15 +131,20 @@
 			$stats['unique_posters'] = number_format($query->fetchColumn());
 			
 			// Active content
-			/*$query = 'SELECT SUM(`filesize`) FROM (';
+			$query = 'SELECT DISTINCT(`files`) FROM (';
 			foreach ($boards as &$_board) {
 				if (in_array($_board['uri'], $this->excluded))
 					continue;
-				$query .= sprintf("SELECT `filesize` FROM ``posts_%s`` UNION ALL ", $_board['uri']);
+				$query .= sprintf("SELECT `files` FROM ``posts_%s`` UNION ALL ", $_board['uri']);
 			}
-			$query = preg_replace('/UNION ALL $/', ') AS `posts_all`', $query);
+			$query = preg_replace('/UNION ALL $/', ' WHERE `num_files` > 0) AS `posts_all`', $query);
 			$query = query($query) or error(db_error());
-			$stats['active_content'] = $query->fetchColumn();*/
+			$files = $query->fetchAll();
+			$stats['active_content'] = 0;
+			foreach ($files as &$file) {
+				preg_match_all('/"size":([0-9]*)/', $file[0], $matches);
+				$stats['active_content'] += array_sum($matches[1]);
+			}
 			
 			return Element('themes/recent/recent.html', Array(
 				'settings' => $settings,

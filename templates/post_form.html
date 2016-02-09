@@ -92,12 +92,27 @@
 				</td>
 			</tr>
 		{% endif %}
+		{% if config.allowed_tags and not id %}
+			<tr>
+				<th>{% trans %}Tag{% endtrans %}</th>
+				<td>
+					<select name="tag">
+						{% for id, tag in config.allowed_tags %}
+							<option value="{{ id|e }}">{{ tag|e }}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+		{% endif %}
 		<tr id="upload">
 			<th>
 				{% trans %}File{% endtrans %}
 			</th>
 			<td>
 				<input type="file" name="file" id="upload_file">
+
+				<script type="text/javascript">if (typeof init_file_selector !== 'undefined') init_file_selector({{ config.max_images }});</script>
+
 				{% if config.allow_upload_by_url %}
 					<div style="float:none;text-align:left" id="upload_url">
 						<label for="file_url">{% trans %}Or URL{% endtrans %}</label>: 
@@ -143,14 +158,9 @@
 			<th>
 				{% trans %}Password{% endtrans %}
 				{{ antibot.html() }}
-				<!-- Chrome, you suck so hard with your autofill mechanism -->
-				<!-- I tried N different tricks, this sucks most, but only this one -->
-				<!-- disables autofill successfully -->
-				<input type='text' style='display: none'>
-				<input type='password' style='display: none'>
 			</th>
 			<td>
-				<input type="password" name="password" value="" size="12" maxlength="18" autocomplete="off"> 
+				<input type="text" name="password" value="" size="12" maxlength="18" autocomplete="off"> 
 				<span class="unimportant">{% trans %}(For file deletion.){% endtrans %}</span>
 				{{ antibot.html() }}
 			</td>

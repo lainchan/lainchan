@@ -27,16 +27,16 @@ a.post_no {
 	margin: 0;
 	padding: 0;
 }
-p.intro a.post_no, p.intro a.email {
+.intro a.post_no, p.intro a.email {
 	margin: 0;
 }
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #34345C;
 }
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: #ff0000;
 }
-p.intro label {
+.intro label {
 	display: inline;
 }
 h2 {
@@ -155,7 +155,7 @@ div.post.op {
 div.post.op hr {
 	border-color: #D9BFB7;
 }
-p.intro {
+.intro {
 	margin: 0.5em 0;
 	padding: 0;
 	padding-bottom: 0.2em;
@@ -164,19 +164,19 @@ input.delete {
 	float: left;
 	margin: 1px 6px 0 0;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #0F0C5D;
 	font-weight: bold;
 }
-p.intro span.name {
+.intro span.name {
 	color: #117743;
 	font-weight: bold;
 }
-p.intro a.capcode, p.intro a.nametag {
+.intro a.capcode, p.intro a.nametag {
 	color: #F00000;
 	margin-left: 0;
 }
-p.intro a {
+.intro a {
 	margin-left: 8px;
 }
 div.delete {

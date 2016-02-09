@@ -52,7 +52,7 @@ input[type="text"], input[type="password"], textarea, input[type="submit"], inpu
 	border: 1px solid #202020;
 }
 
-p.intro span.name {
+.intro span.name {
 	font-size: 11pt;
 	color: #505050;
 	font-weight: bold;
@@ -88,16 +88,16 @@ div.post.reply.highlighted {
 	background: #111111;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: #FFFFFF;
 }
 
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: #A0A0A0;
 	text-decoration: underline;
 }
 
-p.intro span.subject {
+.intro span.subject {
     color: #606060;
 }
 

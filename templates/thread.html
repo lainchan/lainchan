@@ -38,6 +38,9 @@
 
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
+	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
+	<a href="#bottom" style="padding-left: 10px">[{% trans %}Go to bottom{% endtrans %}]</a>
+	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
 	<input type="hidden" name="board" value="{{ board.uri }}" />
 	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
@@ -45,7 +48,7 @@
 	{% include 'report_delete.html' %}
 	</form>
 	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-        <a href="#" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
+        <a href="#" id="bottom" style="padding-left: 10px">[{% trans %}Go to top{% endtrans %}]</a>
 
 	{{ boardlist.bottom }}
 
@@ -55,7 +58,7 @@
 		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
 			<a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
 		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
-		<br><a href="https://int.vichan.net/devel/">vichan</a> Copyright &copy; 2012-2014 vichan-devel</p>
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
 	<script type="text/javascript">{% raw %}

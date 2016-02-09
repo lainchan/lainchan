@@ -353,7 +353,7 @@ width: 100%;
 #attention_bar:hover {
 background-color: rgba(88, 53, 41, 0.3);
 }
-p.intro a.email span.name {
+.intro a.email span.name {
 color: #8e6152;
 }
 a.post_no:hover {

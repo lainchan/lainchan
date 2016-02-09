@@ -6,14 +6,16 @@ About
 vichan is a free light-weight, fast, highly configurable and user-friendly
 imageboard software package. It is written in PHP and has few dependencies.
 
-vichan is a fork of [Tinyboard](http://tinyboard.org/), a great imageboard package, actively
-building on it and adding a lot of features and other improvements.
+vichan is a fork of (now defunc'd) [Tinyboard](http://github.com/savetheinternet/Tinyboard),
+a great imageboard package, actively building on it and adding a lot of features and other
+improvements.
 
-Support and announcements: https://int.vichan.net/devel/
+Support and announcements: https://engine.vichan.net/
 
 Requirements
 ------------
 1.	PHP >= 5.4 (we still try to keep compatibility with php 5.3 as much as possible)
+        PHP 7.0 is explicitly supported.
 2.	MySQL/MariaDB server
 3.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
 4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
@@ -41,7 +43,7 @@ If you need help developing a patch, please join our IRC channel.
 
 Installation
 -------------
-1.	Download and extract Tinyboard to your web directory or get the latest
+1.	Download and extract vichan to your web directory or get the latest
 	development version with:
 
         git clone git://github.com/vichan-devel/vichan.git
@@ -64,7 +66,7 @@ backup your ```inc/instance-config.php```, replace all your files in place
 (don't remove boards etc.), then put ```inc/instance-config.php``` back and
 finally run ```install.php```.
 
-To migrate from a Kusaba X board:
+To migrate from a Kusaba X board, use http://github.com/vichan-devel/Tinyboard-Migration
 
 Support
 --------
@@ -84,15 +86,12 @@ find support from a variety of sources:
 vichan is based on a Tinyboard, so both engines have very much in common. These
 links may be helpful for you as well: 
 
-*	Tinyboard documentation can be found [here](http://tinyboard.org/docs/).
-*	You can join Tinyboard's IRC channel for support and general queries: 
-	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
-*	You may find help at [tinyboard.org](http://tinyboard.org/#help).
+*	Tinyboard documentation can be found [here](https://web.archive.org/web/20121016074303/http://tinyboard.org/docs/?p=Main_Page).
 
 Donations
 ---------
 Do you like our work? You can motivate us financially to do better ;)
-* Bitcoin: [![tip for next commit](http://tip4commit.com/projects/708.svg)](http://tip4commit.com/projects/708)
+* Bitcoin: 1GjZEdLaTQ8JWVFGZW921Yv4x59f9oiZME
 
 You can also ask us to develop some feature specially for you <3. Join our IRC
 channel and ask for a quote (there are a few of us, who work with the codebase

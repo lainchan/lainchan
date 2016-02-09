@@ -55,11 +55,11 @@ form table tr th {
 	padding: 0px 5px;
 }
 
-p.intro span.name {
+.intro span.name {
 	color: #C5C8C6;
 }
 
-p.intro span.subject {
+.intro span.subject {
     color: #CC1105;
     font-weight: bold;
 }
@@ -90,11 +90,11 @@ div.post.reply.highlighted {
 	background: #4A4C4F;
 }
 
-p.intro a.email span.name {
+.intro a.email span.name {
 	color: rgb(129, 162, 190);
 }
 
-p.intro a.email:hover span.name {
+.intro a.email:hover span.name {
 	color: rgb(95, 137, 172);
 }
 

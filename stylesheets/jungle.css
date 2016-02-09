@@ -66,7 +66,7 @@ box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.35);
 div.post.reply div.body a {
 	color: #00E;
 }
-p.intro span.subject {
+.intro span.subject {
 	color: #d00;
 }
 form table tr th {
@@ -118,7 +118,7 @@ table.modlog tr th {
 	background: #EA8;
 }
 
-p.intro span.name {
+.intro span.name {
 color: maroon;
 font-weight: 600;
 }

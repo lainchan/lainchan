@@ -36,7 +36,7 @@ div.banner {
 	font-weight: normal;
 }
 
-p.intro span.name {
+.intro span.name {
 	font-family: serif;
 	font-size: 12px;
 }
