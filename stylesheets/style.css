@@ -1813,4 +1813,24 @@ table.fileboard .intro a {
 }
 
   
+/* dropdown for boardlist. */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Alter details as needed, I'm not a designer. */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #666666;
+    min-width: 130px;
+    padding: 2px 6px;
+    color: #DCA1F5;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 
