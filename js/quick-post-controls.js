@@ -39,10 +39,20 @@ $(document).ready(function(){
 					' <input type="submit" name="report" value="'+_('Report')+'">' +
 				'</div>' +
 			'</form>');
-			post_form
+			if($('form[name="post"]:first').size()){
+				post_form
 				.attr('action', $('form[name="post"]:first').attr('action'))
-				.append($('input[name=board]:first').clone())
-				.find('input:not([type="checkbox"]):not([type="submit"]):not([type="hidden"])').keypress(function(e) {
+				.append($('input[name=board]:first').clone());
+			}else{
+				var board=$(this).parent().parent().parent().attr("data-board");
+				if(board){
+					post_form.attr('action', '/post.php'); //doesn't respect $config["root"] but...
+					post_form.append('<input type="hidden" value="'+board+'" name="board" />');
+				}else{
+					return;//better not to show a form if it isn't going to work
+				}
+			}
+			post_form.find('input:not([type="checkbox"]):not([type="submit"]):not([type="hidden"])').keypress(function(e) {
 					if(e.which == 13) {
 						e.preventDefault();
 						if($(this).attr('name') == 'password')  {
