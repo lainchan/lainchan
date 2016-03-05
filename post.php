@@ -17,7 +17,9 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
-if ((!isset($_POST['mod']) || !$_POST['mod']) && $config['board_locked']) {
+if ((!isset($_POST['mod']) || !$_POST['mod'])
+	&& ($config['board_locked']===true
+		|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])))){
     error("Board is locked");
 }
 
