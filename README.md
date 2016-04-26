@@ -1,16 +1,11 @@
-vichan - A lightweight and full featured PHP imageboard.
+Lainchan - A fork of vichan
 ========================================================
 
 About
 ------------
-vichan is a free light-weight, fast, highly configurable and user-friendly
-imageboard software package. It is written in PHP and has few dependencies.
-
-vichan is a fork of (now defunc'd) [Tinyboard](http://github.com/savetheinternet/Tinyboard),
+vichan is a fork of [vichan](http://github.com/vichan-devel/vichan),
 a great imageboard package, actively building on it and adding a lot of features and other
 improvements.
-
-Support and announcements: https://engine.vichan.net/
 
 Requirements
 ------------
@@ -21,8 +16,8 @@ Requirements
 4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
 5.	[PHP PDO](http://www.php.net/manual/en/intro.pdo.php)
 
-We try to make sure vichan is compatible with all major web servers and
-operating systems. vichan does not include an Apache ```.htaccess``` file nor does
+We try to make sure lainchan is compatible with all major web servers and
+operating systems. lainchan does not include an Apache ```.htaccess``` file nor does
 it need one.
 
 ### Recommended
@@ -34,7 +29,7 @@ it need one.
 
 Contributing
 ------------
-You can contribute to vichan by:
+You can contribute to lainchan by:
 *	Developing patches/improvements/translations and using GitHub to submit pull requests
 *	Providing feedback and suggestions
 *	Writing/editing documentation
@@ -43,14 +38,14 @@ If you need help developing a patch, please join our IRC channel.
 
 Installation
 -------------
-1.	Download and extract vichan to your web directory or get the latest
+1.	Download and extract lainchan to your web directory or get the latest
 	development version with:
 
-        git clone git://github.com/vichan-devel/vichan.git
+        git clone git://github.com/lainchan/lainchan.git
 	
 2.	Navigate to ```install.php``` in your web browser and follow the
 	prompts.
-3.	vichan should now be installed. Log in to ```mod.php``` with the
+3.	lainchan should now be installed. Log in to ```mod.php``` with the
 	default username and password combination: **admin / password**.
 
 Please remember to change the administrator account password.
@@ -70,20 +65,18 @@ To migrate from a Kusaba X board, use http://github.com/vichan-devel/Tinyboard-M
 
 Support
 --------
-vichan is still beta software -- there are bound to be bugs. If you find a
-bug, please report it.
+If you find a bug, please report it.
 
-If you need assistance with installing, configuring, or using vichan, you may
+If you need assistance with installing, configuring, or using lainchan, you may
 find support from a variety of sources:
 
 *	If you're unsure about how to enable or configure certain features, make
 	sure you have read the comments in ```inc/config.php```.
-*	Check out an [official vichan board](http://int.vichan.net/devel/).
-*	You can join vichan's IRC channel for support
-	[irc.6irc.net #vichan-devel](irc://irc.6irc.net/vichan-devel)
+*	You can join lainchan's IRC channel for support
+	[irc.freenode.net #lainchan](irc://irc.freenode.net/lainchan)
 
 ### Tinyboard support
-vichan is based on a Tinyboard, so both engines have very much in common. These
+vichan, and by extension lainchan, is based on a Tinyboard, so both engines have very much in common. These
 links may be helpful for you as well: 
 
 *	Tinyboard documentation can be found [here](https://web.archive.org/web/20121016074303/http://tinyboard.org/docs/?p=Main_Page).
@@ -91,7 +84,7 @@ links may be helpful for you as well:
 Donations
 ---------
 Do you like our work? You can motivate us financially to do better ;)
-* Bitcoin: 1GjZEdLaTQ8JWVFGZW921Yv4x59f9oiZME
+* Bitcoin: 18CshTkxW6HRFoBhXo9mLJcjkReMmjvuq9
 
 You can also ask us to develop some feature specially for you <3. Join our IRC
 channel and ask for a quote (there are a few of us, who work with the codebase
@@ -109,13 +102,13 @@ at the power users. You won't be able to run these from shared hosting accounts
 
 Localisation
 ------------
-Wanting to have vichan in your language? You can contribute your translations at this URL:
+Wanting to have lainchan in your language? You can contribute your translations to vichan at this URL:
 
 https://www.transifex.com/projects/p/tinyboard-vichan-devel/
 
 Oekaki
 ------
-vichan makes use of [wPaint](https://github.com/websanova/wPaint) for oekaki. After you pull the repository, however, you will need to download wPaint separately using git's `submodule` feature. Use the following commands:
+lainchan makes use of [wPaint](https://github.com/websanova/wPaint) for oekaki. After you pull the repository, however, you will need to download wPaint separately using git's `submodule` feature. Use the following commands:
 
 ```
 git submodule init
@@ -128,12 +121,12 @@ WebM support
 ------------
 Read `inc/lib/webm/README.md` for information about enabling webm.
 
-vichan API
+lainchan API
 ----------
-vichan provides by default a 4chan-compatible JSON API. For documentation on this, see:
+lainchan provides by default a 4chan-compatible JSON API, just like vichan. For documentation on this, see:
 https://github.com/vichan-devel/vichan-API/ .
 
 License
 --------
-See [LICENSE.md](http://github.com/vichan-devel/vichan/blob/master/LICENSE.md).
+See [LICENSE.md](http://github.com/lainchan/lainchan/blob/master/LICENSE.md).
 
