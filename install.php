@@ -805,7 +805,7 @@ if ($step == 0) {
 	
 	$additional_config = array();
 	foreach ($tests as $test) {
-		if ($test['result'] && $test['effect']) {
+		if ($test['result'] && isset($test['effect'])) {
 			$test['effect']($additional_config);
 		}
 	}
