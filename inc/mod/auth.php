@@ -76,20 +76,20 @@ function generate_salt() {
 function login($username, $password) {
 	global $mod, $config;
 	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `salt` FROM ``mods`` WHERE `username` = :username");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `version` FROM ``mods`` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	
 	if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
-		list($version, $ok) = test_password($user['password'], $user['salt'], $password);
+		list($version, $ok) = test_password($user['password'], $user['version'], $password);
 
 		if ($ok) {
 			if ($config['password_crypt_version'] > $version) {
 				// It's time to upgrade the password hashing method!
-				list ($user['salt'], $user['password']) = crypt_password($password);
-				$query = prepare("UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id");
+				list ($user['version'], $user['password']) = crypt_password($password);
+				$query = prepare("UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id");
 				$query->bindValue(':password', $user['password']);
-				$query->bindValue(':salt', $user['salt']);
+				$query->bindValue(':version', $user['version']);
 				$query->bindValue(':id', $user['id']);
 				$query->execute() or error(db_error($query));
 			}
