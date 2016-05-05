@@ -572,7 +572,12 @@ if (isset($_POST['delete'])) {
 	
 	
 	if ($post['has_file']) {
-		$fnarray = array();
+		$md5cmd = false;
+		if ($config['bsd_md5'])  $md5cmd = 'md5 -r';
+		if ($config['gnu_md5'])  $md5cmd = 'md5sum';
+
+		$allhashes = '';
+
 		foreach ($post['files'] as $key => &$file) {
 			if ($post['op'] && $config['allowed_ext_op']) {
 				if (!in_array($file['extension'], $config['allowed_ext_op']))
@@ -586,34 +591,29 @@ if (isset($_POST['delete'])) {
 			// Truncate filename if it is too long
 			$file['filename'] = mb_substr($file['filename'], 0, $config['max_filename_len']);
 			
-			if (!isset($filenames)) {
-				$filenames = escapeshellarg($file['tmp_name']);
-			} else {
-				$filenames .= (' ' . escapeshellarg($file['tmp_name']));
-			}
-
-			$fnarray[] = $file['tmp_name'];
-
 			$upload = $file['tmp_name'];
 			
 			if (!is_readable($upload))
 				error($config['error']['nomove']);
-		}
-		
-		$md5cmd = $config['bsd_md5'] ? 'md5 -r' : 'md5sum';
 
-		if (!$config['php_md5'] && $output = shell_exec_error("cat $filenames | $md5cmd")) {
-			$explodedvar = explode(' ', $output);
-			$hash = $explodedvar[0];
-			$post['filehash'] = $hash;
-		} elseif ($config['max_images'] === 1) {
-			$post['filehash'] = md5_file($upload);
-		} else {
-			$str_to_hash = '';
-			foreach ($fnarray as $i => $f) {
-				$str_to_hash .= file_get_contents($f);
+			if ($md5cmd) {
+				$output = shell_exec_error($md5cmd . " < " . escapeshellarg($upload));
+				$output = explode(' ', $output);
+				$hash = $output[0];
 			}
-			$post['filehash'] = md5($str_to_hash);
+			else {
+				$hash = md5_file($upload);
+			}
+
+			$file['hash'] = $hash;
+			$allhashes .= $hash;
+		}
+
+		if (count ($post['files']) == 1) {
+			$post['filehash'] = $hash;
+		}
+		else {
+			$post['filehash'] = md5($allhashes);
 		}
 	}
 	

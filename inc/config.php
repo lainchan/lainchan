@@ -807,8 +807,8 @@
 	// Set this to true if you're using a BSD
 	$config['bsd_md5'] = false;
 
-	// Set this to true if you're having problems with image duplicated error and bsd_md5 doesn't help.
-	$config['php_md5'] = false;
+	// Set this to true if you're using Linux and you can execute `md5sum` binary.
+	$config['gnu_md5'] = false;
 
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
