@@ -600,6 +600,8 @@ function create_config_from_array(&$instance_config, &$array, $prefix = '') {
 	}
 }
 
+session_start();
+
 if ($step == 0) {
 	// Agreeement
 	$page['body'] = '
@@ -832,7 +834,7 @@ if ($step == 0) {
 	echo Element('page.html', array(
 		'body' => Element('installer/config.html', array(
 			'config' => $config,
-			'more' => $more,
+			'more' => $_SESSION['more'],
 		)),
 		'title' => 'Configuration',
 		'config' => $config
