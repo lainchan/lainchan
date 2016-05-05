@@ -4,10 +4,12 @@
 	<meta charset="utf-8">
 
         <script type="text/javascript">
+	  var
           {% if not no_post_form %}
-            var active_page = "index";
+              active_page = "index"
+            , board_name = "{{ board.uri }}";
 	  {% else %}
-            var active_page = "ukko";
+              active_page = "ukko";
           {% endif %}
         </script>
 
