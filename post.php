@@ -625,12 +625,14 @@ if (isset($_POST['delete'])) {
 	
 	if ($post['has_file']) {	
 		foreach ($post['files'] as $key => &$file) {
-		if ($file['is_an_image'] && $config['ie_mime_type_detection'] !== false) {
-			// Check IE MIME type detection XSS exploit
-			$buffer = file_get_contents($upload, null, null, null, 255);
-			if (preg_match($config['ie_mime_type_detection'], $buffer)) {
-				undoImage($post);
-				error($config['error']['mime_exploit']);
+		if ($file['is_an_image']) {
+			if ($config['ie_mime_type_detection'] !== false) {
+				// Check IE MIME type detection XSS exploit
+				$buffer = file_get_contents($upload, null, null, null, 255);
+				if (preg_match($config['ie_mime_type_detection'], $buffer)) {
+					undoImage($post);
+					error($config['error']['mime_exploit']);
+				}
 			}
 			
 			require_once 'inc/image.php';
