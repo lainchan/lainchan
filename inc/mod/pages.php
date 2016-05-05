@@ -1734,13 +1734,12 @@ function mod_user($uid) {
 		}
 		
 		if ($_POST['password'] != '') {
-			$salt = generate_salt();
-			$password = hash('sha256', $salt . sha1($_POST['password']));
-			
-			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			list($version, $password) = crypt_password($_POST['password']);
+
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
-			$query->bindValue(':salt', $salt);
+			$query->bindValue(':version', $version);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed password for ' . utf8tohtml($_POST['username']) . ' <small>(#' . $user['id'] . ')</small>');
@@ -1761,13 +1760,12 @@ function mod_user($uid) {
 	
 	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
 		if ($_POST['password'] != '') {
-			$salt = generate_salt();
-			$password = hash('sha256', $salt . sha1($_POST['password']));
+			list($version, $password) = crypt_password($_POST['password']);
 
-			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
-			$query->bindValue(':salt', $salt);
+			$query->bindValue(':version', $version);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed own password');
@@ -1834,13 +1832,12 @@ function mod_user_new() {
 		if (!isset($config['mod']['groups'][$type]) || $type == DISABLED)
 			error(sprintf($config['error']['invalidfield'], 'type'));
 		
-		$salt = generate_salt();
-		$password = hash('sha256', $salt . sha1($_POST['password']));
+		list($version, $password) = crypt_password($_POST['password']);
 		
-		$query = prepare('INSERT INTO ``mods`` VALUES (NULL, :username, :password, :salt, :type, :boards)');
+		$query = prepare('INSERT INTO ``mods`` VALUES (NULL, :username, :password, :version, :type, :boards)');
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':password', $password);
-		$query->bindValue(':salt', $salt);
+		$query->bindValue(':version', $version);
 		$query->bindValue(':type', $type);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));

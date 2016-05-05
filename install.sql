@@ -131,8 +131,8 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
 CREATE TABLE IF NOT EXISTS `mods` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `password` char(64) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
-  `salt` char(32) CHARACTER SET ascii NOT NULL,
+  `password` varchar(256) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
+  `version` varchar(64) CHARACTER SET ascii NOT NULL,
   `type` smallint(2) NOT NULL,
   `boards` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),

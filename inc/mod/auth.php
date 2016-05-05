@@ -18,7 +18,18 @@ function mkhash($username, $password, $salt = false) {
 	}
 	
 	// generate hash (method is not important as long as it's strong)
-	$hash = substr(base64_encode(md5($username . $config['cookies']['salt'] . sha1($username . $password . $salt . ($config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''), true), true)), 0, 20);
+	$hash = substr(
+		base64_encode(
+			md5(
+				$username . $config['cookies']['salt'] . sha1(
+					$username . $password . $salt . (
+						$config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''
+					), true
+				) . sha1($config['password_crypt_version']) // Log out users being logged in with older password encryption schema
+				, true
+			)
+		), 0, 20
+	);
 	
 	if (isset($generated_salt))
 		return array($hash, $salt);
@@ -26,25 +37,63 @@ function mkhash($username, $password, $salt = false) {
 		return $hash;
 }
 
-function generate_salt() {
-	mt_srand(microtime(true) * 100000 + memory_get_usage(true));
-	return md5(uniqid(mt_rand(), true));
+function crypt_password_old($password) {
+	$salt = generate_salt();
+	$password = hash('sha256', $salt . sha1($password));
+	return array($salt, $password);
 }
 
-function login($username, $password, $makehash=true) {
-	global $mod;
-	
-	// SHA1 password
-	if ($makehash) {
-		$password = sha1($password);
+function crypt_password($password) {
+	global $config;
+	// `salt` database field is reused as a version value. We don't want it to be 0.
+	$version = $config['password_crypt_version'] ? $config['password_crypt_version'] : 1;
+	$new_salt = generate_salt();
+	$password = crypt($password, $config['password_crypt'] . $new_salt . "$");
+	return array($version, $password);
+}
+
+function test_password($password, $salt, $test) {
+	global $config;
+
+	// Version = 0 denotes an old password hashing schema. In the same column, the
+	// password hash was kept previously
+	$version = (strlen($salt) <= 8) ? (int) $salt : 0;
+
+	if ($version == 0) {
+		$comp = hash('sha256', $salt . sha1($test));
 	}
+	else {
+		$comp = crypt($test, $password);
+	}
+	return array($version, hash_equals($password, $comp));
+}
+
+function generate_salt() {
+	// 128 bits of entropy
+	return strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+}
+
+function login($username, $password) {
+	global $mod, $config;
 	
-	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `salt` FROM ``mods`` WHERE `username` = :username");
+	$query = prepare("SELECT `id`, `type`, `boards`, `password`, `version` FROM ``mods`` WHERE `username` = :username");
 	$query->bindValue(':username', $username);
 	$query->execute() or error(db_error($query));
 	
 	if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
-		if ($user['password'] === hash('sha256', $user['salt'] . $password)) {
+		list($version, $ok) = test_password($user['password'], $user['version'], $password);
+
+		if ($ok) {
+			if ($config['password_crypt_version'] > $version) {
+				// It's time to upgrade the password hashing method!
+				list ($user['version'], $user['password']) = crypt_password($password);
+				$query = prepare("UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id");
+				$query->bindValue(':password', $user['password']);
+				$query->bindValue(':version', $user['version']);
+				$query->bindValue(':id', $user['id']);
+				$query->execute() or error(db_error($query));
+			}
+
 			return $mod = array(
 				'id' => $user['id'],
 				'type' => $user['type'],

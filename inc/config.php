@@ -1672,3 +1672,18 @@
 		'<a href="https://youtu.be/$2" target="_blank" class="file">'.
 		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
 		'</a></div>';
+
+	// Password hashing function
+	//
+	// $5$ <- SHA256
+	// $6$ <- SHA512
+	//
+	// 25000 rounds make for ~0.05s on my 2015 Core i3 computer.
+	//
+	// https://secure.php.net/manual/en/function.crypt.php
+	$config['password_crypt'] = '$6$rounds=25000$';
+
+	// Password hashing method version
+	// If set to 0, it won't upgrade hashes using old password encryption schema, only create new.
+	// You can set it to a higher value, to further migrate to other password hashing function.
+	$config['password_crypt_version'] = 1;
