@@ -94,21 +94,16 @@ function error($message, $priority = true, $debug_stuff = false) {
 		$debug_stuff['backtrace'] = debug_backtrace();
 	}
 
-	// Return the bad request header, necessary for AJAX posts
-	// czaks: is it really so? the ajax errors only work when this is commented out
-	//		better yet use it when ajax is disabled
-	if (!isset ($_POST['json_response'])) {
-		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-	}
-	
-	// Is there a reason to disable this?
 	if (isset($_POST['json_response'])) {
 		header('Content-Type: text/json; charset=utf-8');
 		die(json_encode(array(
 			'error' => $message
 		)));
 	}
-	
+	else {
+		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+	}
+
 	$pw = $config['db']['password'];
 	$debug_callback = function(&$item) use (&$debug_callback, $pw) {
 		if (is_array($item)) {
