@@ -7,16 +7,6 @@ require_once 'inc/functions.php';
 require_once 'inc/anti-bot.php';
 require_once 'inc/bans.php';
 
-// Fix for magic quotes
-if (get_magic_quotes_gpc()) {
-	function strip_array($var) {
-		return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
-	}
-	
-	$_GET = strip_array($_GET);
-	$_POST = strip_array($_POST);
-}
-
 if ((!isset($_POST['mod']) || !$_POST['mod']) && $config['board_locked']) {
     error("Board is locked");
 }
@@ -447,7 +437,7 @@ if (isset($_POST['delete'])) {
 		$i = 0;
 		foreach ($_FILES as $key => $file) {
 			if ($file['size'] && $file['tmp_name']) {
-				$file['filename'] = urldecode(get_magic_quotes_gpc() ? stripslashes($file['name']) : $file['name']);
+				$file['filename'] = urldecode($file['name']);
 				$file['extension'] = strtolower(mb_substr($file['filename'], mb_strrpos($file['filename'], '.') + 1));
 				if (isset($config['filename_func']))
 					$file['file_id'] = $config['filename_func']($file);
@@ -625,18 +615,23 @@ if (isset($_POST['delete'])) {
 	
 	if ($post['has_file']) {	
 		foreach ($post['files'] as $key => &$file) {
-		if ($file['is_an_image'] && $config['ie_mime_type_detection'] !== false) {
-			// Check IE MIME type detection XSS exploit
-			$buffer = file_get_contents($upload, null, null, null, 255);
-			if (preg_match($config['ie_mime_type_detection'], $buffer)) {
-				undoImage($post);
-				error($config['error']['mime_exploit']);
+		if ($file['is_an_image']) {
+			if ($config['ie_mime_type_detection'] !== false) {
+				// Check IE MIME type detection XSS exploit
+				$buffer = file_get_contents($upload, null, null, null, 255);
+				if (preg_match($config['ie_mime_type_detection'], $buffer)) {
+					undoImage($post);
+					error($config['error']['mime_exploit']);
+				}
 			}
 			
 			require_once 'inc/image.php';
 			
 			// find dimensions of an image using GD
 			if (!$size = @getimagesize($file['tmp_name'])) {
+				error($config['error']['invalidimg']);
+			}
+			if (!in_array($size[2], array(IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_BMP))) {
 				error($config['error']['invalidimg']);
 			}
 			if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
