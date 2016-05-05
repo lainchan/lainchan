@@ -70,7 +70,6 @@ var datelocale =
         };
 
 
-function alert(a) {
 function alert(a, do_confirm, confirm_ok_action, confirm_cancel_action) {
       var handler, div, bg, closebtn, okbtn;
       var close = function() {
