@@ -880,7 +880,7 @@ function displayBan($ban) {
 		Element('page.html', array(
 			'title' => _('Banned!'),
 			'config' => $config,
-			'nojavascript' => true,
+			'boardlist' => createBoardlist($mod),
 			'body' => Element('banned.html', array(
 				'config' => $config,
 				'ban' => $ban,

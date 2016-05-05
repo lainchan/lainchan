@@ -15,7 +15,7 @@ function mod_page($title, $template, $args, $subtitle = false) {
 		'hide_dashboard_link' => $template == 'mod/dashboard.html',
 		'title' => $title,
 		'subtitle' => $subtitle,
-		'nojavascript' => true,
+		'boardlist' => createBoardlist($mod),
 		'body' => Element($template,
 				array_merge(
 					array('config' => $config, 'mod' => $mod), 
@@ -846,7 +846,7 @@ function mod_page_ip($ip) {
 	
 	$args['security_token'] = make_secure_link_token('IP/' . $ip);
 	
-	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
+	mod_page(sprintf('%s: %s', _('IP'), htmlspecialchars($ip)), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
 function mod_ban() {
