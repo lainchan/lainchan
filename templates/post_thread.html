@@ -1,7 +1,7 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
 
-<div id="thread_{{ post.id }}" data-board="{{ board.uri }}">
+<div class="thread" id="thread_{{ post.id }}" data-board="{{ board.uri }}">
 {% if not index %}<a id="{{ post.id }}" class="post_anchor"></a>{% endif %}
 
 {% include 'post/fileinfo.html' %}

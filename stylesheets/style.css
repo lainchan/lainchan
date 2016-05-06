@@ -666,7 +666,7 @@ pre {
   margin-left: -20px;
 }
 
-div.thread:hover {
+.theme-catalog div.thread:hover {
   background: #D6DAF0;
   border-color: #B7C5D9;
 }
