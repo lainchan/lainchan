@@ -2745,7 +2745,7 @@ function prettify_textarea($s){
 	return str_replace("\t", '&#09;', str_replace("\n", '&#13;&#10;', htmlentities($s)));
 }
 
-class HTMLPurifier_URIFilter_NoExternalImages extends HTMLPurifier_URIFilter {
+/*class HTMLPurifier_URIFilter_NoExternalImages extends HTMLPurifier_URIFilter {
 	public $name = 'NoExternalImages';
 	public function filter(&$uri, $c, $context) {
 		global $config;
@@ -2761,7 +2761,7 @@ class HTMLPurifier_URIFilter_NoExternalImages extends HTMLPurifier_URIFilter {
 
 		return true;
 	}
-}
+}*/
 
 function purify_html($s) {
 	global $config;
