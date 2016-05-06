@@ -819,9 +819,13 @@ pre {
 }
 
 #options_div {
-  width: 600px;
-  height: 320px;
+  width: 620px;
+  height: 400px;
+  resize: both;
+  overflow: auto;
 }
+
+
 
 #alert_div {
   width: 500px;
@@ -853,7 +857,7 @@ pre {
 #options_tablist {
   padding: 0px 5px;
   left: 0px;
-  width: 70px;
+  width: 90px;
   top: 0px;
   bottom: 0px;
   height: 100%;
@@ -882,11 +886,12 @@ pre {
   padding: 10px;
   position: absolute;
   top: 0px;
-  bottom: 0px;
-  left: 81px;
+  bottom: 10px;
+  left: 101px;
   right: 0px;
   text-align: left;
   font-size: 12px;
+  overflow-y: auto;
 }
 
 .options_tab h2 {
