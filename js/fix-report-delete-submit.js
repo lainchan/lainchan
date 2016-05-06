@@ -36,7 +36,7 @@ if ($('#delete-fields #password').length) {
 }
 
 Menu.add_item("report_menu", _("Report"));
-Menu.add_item("global_report_menu", _("Global report"));
+//Menu.add_item("global_report_menu", _("Global report"));
 Menu.onclick(function(e, $buf) {
 	var ele = e.target.parentElement.parentElement;
 	var $ele = $(ele);
