@@ -1,7 +1,7 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '5.1.0');
+define('VERSION', '5.1.1');
 
 require 'inc/functions.php';
 
@@ -559,6 +559,17 @@ if (file_exists($config['has_installed'])) {
 		case '5.0.0':
 			query('ALTER TABLE ``mods`` CHANGE `salt` `version` VARCHAR(64) NOT NULL;') or error(db_error());
 		case '5.0.1':
+		case '5.1.0':
+			query('CREATE TABLE ``pages`` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `board` varchar(255) DEFAULT NULL,
+			  `name` varchar(255) NOT NULL,
+			  `title` varchar(255) DEFAULT NULL,
+			  `type` varchar(255) DEFAULT NULL,
+			  `content` text,
+			  PRIMARY KEY (`id`),
+			  UNIQUE KEY `u_pages` (`name`,`board`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;') or error(db_error());
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
