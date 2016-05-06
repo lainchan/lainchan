@@ -1,8 +1,8 @@
 <?php
 require_once("inc/functions.php");
 
-if (!$config['smart_build']) {
-  die('You need to enable $config["smart_build"]');
+if (!$config['smart_build'] && !$config["smart_build_helper"]) {
+  die('You need to enable $config["smart_build"] or $config["smart_build_helper"]');
 }
 
 $config['smart_build'] = false; // Let's disable it, so we can build the page for real
@@ -44,7 +44,7 @@ function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = 
   $query->bindValue(':id', $thread);
   
   if (!$query->execute() || !$query->fetch(PDO::FETCH_ASSOC) ) {
-    Cache::set("thread_exists_".$b."_".$thread, "no");
+    Cache::set("thread_exists_".$b."_".$thread, "no", 3600);
     return false;
   }
 
