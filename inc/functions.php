@@ -556,14 +556,19 @@ function setupBoard($array) {
 }
 
 function openBoard($uri) {
-	global $config, $build_pages;
+	global $config, $build_pages, $board;
 
 	if ($config['try_smarter'])
 		$build_pages = array();
 
-	$board = getBoardInfo($uri);
-	if ($board) {
-		setupBoard($board);
+	// And what if we don't really need to change a board we have opened?
+	if (isset ($board) && isset ($board['uri']) && $board['uri'] == $uri) {
+		return true;
+	}
+
+	$b = getBoardInfo($uri);
+	if ($b) {
+		setupBoard($b);
 
 		if (function_exists('after_open_board')) {
 			after_open_board();
@@ -1758,6 +1763,9 @@ function checkDNSBL() {
 
 	if (!isset($_SERVER['REMOTE_ADDR']))
 		return; // Fix your web server configuration
+
+	if (preg_match("/^(::(ffff:)?)?(127\.|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|0\.|255\.)/", $_SERVER['REMOTE_ADDR']))
+		return; // It's pointless to check for local IP addresses in dnsbls, isn't it?
 
 	if (in_array($_SERVER['REMOTE_ADDR'], $config['dnsbl_exceptions']))
 		return;
