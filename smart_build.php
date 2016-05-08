@@ -3,14 +3,16 @@ require_once("inc/functions.php");
 require_once("inc/route.php");
 require_once("inc/controller.php");
 
-if (!$config['smart_build'] && !$config["smart_build_helper"]) {
-  die('You need to enable $config["smart_build"] or $config["smart_build_helper"]');
+if (!$config["smart_build_helper"]) {
+  die('You need to enable $config["smart_build_helper"]');
 }
 
 $config['smart_build'] = false; // Let's disable it, so we can build the page for real
+$config['generation_strategies'] = array('strategy_immediate');
 
 function after_open_board() { global $config;
   $config['smart_build'] = false;
+  $config['generation_strategies'] = array('strategy_immediate');
 };
 
 $request = $_SERVER['REQUEST_URI'];
@@ -58,6 +60,9 @@ if ($reached) {
   }
   elseif (preg_match('/\.xml$/', $request)) {
     header("Content-Type", "application/xml");
+  }
+  elseif (preg_match('/\.rss$/', $request)) {
+    header("Content-Type", "application/rss+xml");
   }
   else {
     header("Content-Type", "text/html; charset=utf-8");

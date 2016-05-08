@@ -7,7 +7,7 @@
 
 defined('TINYBOARD') or exit;
 
-function route($path) {
+function route($path) { global $config;
   $entrypoints = array();
 
   $entrypoints['/%b/']                       = 'sb_board';
@@ -33,7 +33,10 @@ function route($path) {
   $entrypoints['/*/index.html']    = 'sb_ukko';
   $entrypoints['/recent.html']     = 'sb_recent';
   $entrypoints['/%b/catalog.html'] = 'sb_catalog';
+  $entrypoints['/%b/index.rss']    = 'sb_catalog';
   $entrypoints['/sitemap.xml']     = 'sb_sitemap';
+
+  $entrypoints = array_merge($entrypoints, $config['controller_entrypoints']);
 
   $reached = false;
 

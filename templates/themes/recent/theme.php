@@ -25,10 +25,11 @@
 			$this->excluded = explode(' ', $settings['exclude']);
 			
 			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
-				if ($config['smart_build']) {
+				$action = generation_strategy('sb_recent', array());
+				if ($action == 'delete') {
 					file_unlink($config['dir']['home'] . $settings['html']);
 				}
-				else {
+				elseif ($action == 'rebuild') {
 					file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
 				}
 			}
