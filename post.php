@@ -955,7 +955,7 @@ if (isset($_POST['delete'])) {
 		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
-		clean($pid);
+		clean($id);
 	
 	event('post-after', $post);
 	
