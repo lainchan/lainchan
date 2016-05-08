@@ -103,7 +103,7 @@
 
 /*
  * ====================
- *  Cache settings
+ *  Cache, lock and queue settings
  * ====================
  */
 
@@ -120,6 +120,7 @@
 	// $config['cache']['enabled'] = 'apc';
 	// $config['cache']['enabled'] = 'memcached';
 	// $config['cache']['enabled'] = 'redis';
+	// $config['cache']['enabled'] = 'fs';
 
 	// Timeout for cached objects such as posts and HTML.
 	$config['cache']['timeout'] = 60 * 60 * 48; // 48 hours
@@ -141,6 +142,12 @@
 	// If you have any lambdas/includes present in your config, you should move them to instance-functions.php
 	// (this file will be explicitly loaded during cache hit, but not during cache miss).
 	$config['cache_config'] = false;
+
+	// Define a lock driver.
+	$config['lock']['enabled'] = 'fs';
+
+	// Define a queue driver.
+	$config['queue']['enabled'] = 'fs'; // xD
 
 /*
  * ====================

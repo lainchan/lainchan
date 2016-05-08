@@ -19,6 +19,8 @@ require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
 require_once 'inc/mod/auth.php';
+require_once 'inc/lock.php';
+require_once 'inc/queue.php';
 require_once 'inc/polyfill.php';
 @include_once 'inc/lib/parsedown/Parsedown.php'; // fail silently, this isn't a critical piece of code
 
@@ -93,6 +95,8 @@ function loadConfig() {
 			'db',
 			'api',
 			'cache',
+			'lock',
+			'queue',
 			'cookies',
 			'error',
 			'dir',
@@ -1749,7 +1753,6 @@ function buildJavascript() {
 function checkDNSBL() {
 	global $config;
 
-
 	if (isIPv6())
 		return; // No IPv6 support yet.
 
@@ -2806,17 +2809,17 @@ function generation_strategy($fun, $array=array()) { global $config;
 	$action = false;
 
 	foreach ($config['generation_strategies'] as $s) {
-		if ($strategy = $s($fun, $array)) {
+		if ($action = $s($fun, $array)) {
 			break;
 		}
 	}
 
-	switch ($strategy[0]) {
+	switch ($action[0]) {
 		case 'immediate':
 			return 'rebuild';
 		case 'defer':
 			// Ok, it gets interesting here :)
-			Queue::add(serialize(array('build', $fun, $array)));
+			get_queue('generate')->push(serialize(array('build', $fun, $array, $action)));
 			return 'ignore';
 		case 'build_on_load':
 			return 'delete';
@@ -2832,5 +2835,32 @@ function strategy_smart_build($fun, $array) {
 }
 
 function strategy_sane($fun, $array) { global $config;
-	return false;
+	// Well, ideally a sane strategy would involve a more stringent checking,
+	// but let's at least have something to get the ball rolling :^)
+
+	if (php_sapi_name() == 'cli') return false;
+	else if (isset($_POST['mod']) || isset($_POST['json_response'])) return false;
+	else if ($fun == 'sb_thread' || ($fun == 'sb_board' && $array[1] == 1)) return array('immediate');
+	else return false;
+}
+
+// My first, test strategy.
+function strategy_first($fun, $array) {
+	switch ($fun) {
+	case 'sb_thread':
+		return array('defer');
+	case 'sb_board':
+		if ($array[1] > 8) return array('build_on_load');
+		else return array('defer');
+	case 'sb_api':
+		return array('defer');
+	case 'sb_catalog':
+		return array('defer');
+	case 'sb_recent':
+		return array('build_on_load');
+	case 'sb_sitemap':
+		return array('build_on_load');
+	case 'sb_ukko':
+		return array('defer');
+	}
 }

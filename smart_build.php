@@ -24,7 +24,7 @@ if (!$route) {
 }
 else {
   list ($fun, $args) = $route;
-  $reached = call_user_func_array($route);
+  $reached = call_user_func_array($fun, $args);
 }
 
 function die_404() { global $config;
