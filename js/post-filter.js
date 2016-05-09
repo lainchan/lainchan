@@ -1,4 +1,4 @@
-if (active_page === 'thread' || active_page === 'index' || active_page === 'catalog') {
+if (active_page === 'thread' || active_page === 'index' || active_page === 'catalog' || active_page === 'ukko') {
 	$(document).on('menu_ready', function () {
 		'use strict';
 		

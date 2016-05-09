@@ -8,7 +8,7 @@
  *
  */
 
-if (active_page == 'thread' || active_page == 'index') {
+if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko') {
 $(document).on('menu_ready', function(){
 var Menu = window.Menu;
 	
