@@ -20,6 +20,7 @@ if ($('#delete-fields #password').length) {
 		var $ele = $(ele);
 		var threadId = $ele.parent().attr('id').replace('thread_', '');
 		var postId = $ele.find('.post_no').not('[id]').text();
+		var board_name = $ele.parent().data('board');
 
 		$buf.find('#delete_post_menu,#delete_file_menu').click(function(e) {
 			e.preventDefault();
@@ -30,6 +31,7 @@ if ($('#delete-fields #password').length) {
 			} else {
 				$('#delete_file').prop('checked', '');
 			}
+			$('input[type="hidden"][name="board"]').val(board_name);
 			$('input[name=delete][type=submit]').click();
 		});
 	});
@@ -42,6 +44,7 @@ Menu.onclick(function(e, $buf) {
 	var $ele = $(ele);
 	var threadId = $ele.parent().attr('id').replace('thread_', '');
 	var postId = $ele.find('.post_no').not('[id]').text();
+	var board_name = $ele.parent().data('board');
 
 	$buf.find('#report_menu,#global_report_menu').click(function(e) {
 		if ($(this).attr('id') === "global_report_menu") {
