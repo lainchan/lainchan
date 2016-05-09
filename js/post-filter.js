@@ -179,7 +179,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 				$ele.parent().find('.body, .files, .video-container').not($ele.children('.reply').children()).hide();
 
 				// hide thread replies on index view
-				if (active_page == 'index') $ele.parent().find('.omitted, .reply:not(.hidden), post_no, .mentioned, br').hide();
+				if (active_page == 'index' || active_page == 'ukko') $ele.parent().find('.omitted, .reply:not(.hidden), post_no, .mentioned, br').hide();
 			} else {
 				// normal posts
 				$ele.children('.body, .files, .video-container').hide();
@@ -372,6 +372,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 		 */
 		function filter(post, threadId, pageData) {
 			var $post = $(post);
+
 			var list = getList();
 			var postId = $post.find('.post_no').not('[id]').text();
 			var name, trip, uid, subject, comment;
@@ -814,9 +815,10 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 				var threadId;
 
 				if ($(post).hasClass('reply')) {
-					threadId = $(post).parent().attr('id').replace('thread_', '');
+					threadId = $(post).parents('.thread').attr('id').replace('thread_', '');
 				} else {
 					threadId = $(post).attr('id').replace('thread_', '');
+					post = $(post).children('.op')[0];
 				}
 
 				filter(post, threadId, pageData);
