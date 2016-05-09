@@ -41,7 +41,7 @@ watchlist.render = function(reset) {
 	} else {
 		//If the watchlist has not yet been rendered, create it.
 		var menuStyle = getComputedStyle($('.boardlist')[0]);
-		$('form[name="post"]').before(
+		$((active_page == 'ukko') ? 'hr:first' : (active_page == 'catalog') ? 'body>span:first' : 'form[name="post"]').before(
 			$('<div id="watchlist">'+
 					'<div class="watchlist-controls">'+
 						'<span><a id="clearList">['+_('Clear List')+']</a></span>&nbsp'+
@@ -60,6 +60,8 @@ watchlist.render = function(reset) {
 watchlist.add = function(sel) {
 	var threadName, threadInfo;
 
+	var board_name = $(sel).parents('.thread').data('board');
+
 	if (active_page === 'thread') {
 		if ($('.subject').length){
 			//If a subject is given, use the first 20 characters as the thread name.
@@ -70,7 +72,7 @@ watchlist.add = function(sel) {
 		//board name, thread name as defined above, current amount of posts, thread url
 		threadInfo = [board_name, threadName, $('.post').length, location.href];
 
-	} else if (active_page === 'index') {
+	} else if (active_page === 'index' || active_page === 'ukko') {
 
 		var postCount;
 		//Figure out the post count.
@@ -142,7 +144,7 @@ watchlist.exists = function(sel) {
 };
 
 $(document).ready(function(){
-	if (!(active_page == 'thread' || active_page == 'index')) {
+	if (!(active_page == 'thread' || active_page == 'index' || active_page == 'catalog' || active_page == 'ukko')) {
 		return;
 	}
 
