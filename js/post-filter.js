@@ -224,6 +224,7 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 				var $ele = $(ele);
 
 				var threadId = $ele.parent().attr('id').replace('thread_', '');
+				var boardId = $ele.parent().data('board');
 				var postId = $ele.find('.post_no').not('[id]').text();
 				if (pageData.hasUID) {
 					var postUid = $ele.find('.poster_id').text();
@@ -244,21 +245,21 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 					$buffer.find('#filter-menu-unhide').click(function () {
 						//  if hidden due to post id, remove it from blacklist
 						//  otherwise just show this post
-						blacklist.remove.post(pageData.boardId, threadId, postId);
+						blacklist.remove.post(boardId, threadId, postId);
 						show(ele);
 					});
 					$buffer.find('#filter-menu-hide').addClass('hidden');
 				} else {
 					$buffer.find('#filter-menu-unhide').addClass('hidden');
 					$buffer.find('#filter-menu-hide').click(function () {
-						blacklist.add.post(pageData.boardId, threadId, postId, false);
+						blacklist.add.post(boardId, threadId, postId, false);
 					});
 				}
 
 				//  post id
 				if (!$ele.data('hiddenByPost')) {
 					$buffer.find('#filter-add-post-plus').click(function () {
-						blacklist.add.post(pageData.boardId, threadId, postId, true);
+						blacklist.add.post(boardId, threadId, postId, true);
 					});
 				} else {
 					$buffer.find('#filter-add-post-plus').addClass('hidden');
@@ -267,16 +268,16 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 				// UID
 				if (pageData.hasUID && !$ele.data('hiddenByUid')) {
 					$buffer.find('#filter-add-id').click(function () {
-						blacklist.add.uid(pageData.boardId, threadId, postUid, false);
+						blacklist.add.uid(boardId, threadId, postUid, false);
 					});
 					$buffer.find('#filter-add-id-plus').click(function () {
-						blacklist.add.uid(pageData.boardId, threadId, postUid, true);
+						blacklist.add.uid(boardId, threadId, postUid, true);
 					});
 
 					$buffer.find('#filter-remove-id').addClass('hidden');
 				} else if (pageData.hasUID) {
 					$buffer.find('#filter-remove-id').click(function () {
-						blacklist.remove.uid(pageData.boardId, threadId, postUid);
+						blacklist.remove.uid(boardId, threadId, postUid);
 					});
 
 					$buffer.find('#filter-add-id').addClass('hidden');
@@ -350,12 +351,13 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 					.click(function() {
 						var postId = $(ele).find('.post_no').not('[id]').text();
 						var hidden = $(ele).data('hidden');
+						var boardId = $(ele).parents('.thread').data('board');
 					
 						if (hidden) {
-							blacklist.remove.post(pageData.boardId, threadId, postId, false);
+							blacklist.remove.post(boardId, threadId, postId, false);
 							$(this).html('[&ndash;]');
 						} else {
-							blacklist.add.post(pageData.boardId, threadId, postId, false);
+							blacklist.add.post(boardId, threadId, postId, false);
 							$(this).text('[+]');
 						}
 					});
@@ -375,7 +377,9 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 			var name, trip, uid, subject, comment;
 			var i, length, array, rule, pattern;  // temp variables
 
-			var boardId     = pageData.boardId;
+			var boardId	      = $post.data('board');
+			if (!boardId) boardId = $post.parents('.thread').data('board');
+
 			var localList   = pageData.localList;
 			var noReplyList = pageData.noReplyList;
 			var hasUID      = pageData.hasUID;
@@ -532,12 +536,13 @@ if (active_page === 'thread' || active_page === 'index' || active_page === 'cata
 						return;
 
 					var threadId = $thread.attr('id').replace('thread_', '');
+					var boardId = $thread.data('board');
 					var op = $thread.children('.op')[0];
 					var i, array;  // temp variables
 
 					// add posts to localList and noReplyList
-					if (typeof list.postFilter[pageData.boardId] != 'undefined' && typeof list.postFilter[pageData.boardId][threadId] != 'undefined') {
-						array = list.postFilter[pageData.boardId][threadId];
+					if (typeof list.postFilter[boardId] != 'undefined' && typeof list.postFilter[boardId][threadId] != 'undefined') {
+						array = list.postFilter[boardId][threadId];
 						for (i=0; i<array.length; i++) {
 							if ( typeof array[i].post == 'undefined')
 								continue;
