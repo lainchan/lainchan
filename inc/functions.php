@@ -2843,12 +2843,10 @@ function strategy_smart_build($fun, $array) {
 }
 
 function strategy_sane($fun, $array) { global $config;
-	// Well, ideally a sane strategy would involve a more stringent checking,
-	// but let's at least have something to get the ball rolling :^)
-
 	if (php_sapi_name() == 'cli') return false;
-	else if (isset($_POST['mod']) || isset($_POST['json_response'])) return false;
-	else if ($fun == 'sb_thread' || ($fun == 'sb_board' && $array[1] == 1)) return array('immediate');
+	else if (isset($_POST['mod'])) return false;
+	// Thread needs to be done instantly. Same with a board page, but only if posting a new thread.
+	else if ($fun == 'sb_thread' || ($fun == 'sb_board' && $array[1] == 1 && isset ($_POST['page']))) return array('immediate');
 	else return false;
 }
 
