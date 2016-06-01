@@ -50,12 +50,6 @@ if (active_page == 'thread' || active_page == 'index') {
 				"border-radius": "8px",
 				"color": ft
 			});
-
-			$(el).mouseover(function() {
-				$(this).css('color', '#800000'); // how about a CSS :hover rule instead?
-			}).mouseout(function() {
-				$(this).css('color', ft);
-			});
 		}
 
 		$(".poster_id").each(function(k, v){

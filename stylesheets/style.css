@@ -913,7 +913,9 @@ pre {
 .poster_id {
   cursor: pointer;
 }
-
+.poster_id:hover {
+  color: #800000!important;
+}
 .poster_id::before {
   content: " ID: ";
 }
