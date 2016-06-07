@@ -3,7 +3,7 @@
 <channel>
 	<title>/{{ board.uri }}/ - {{ board.title|e }}</title>
 	<link>{{ config.root }}{{ board.uri }}/</link>
-	<description>Live feed of new threads on the 8chan board /{{ board.uri }}/ - {{ board.title|e }}.</description>
+	<description>Live feed of new threads on the board /{{ board.uri }}/ - {{ board.title|e }}.</description>
 	<atom:link href="{{ config.root }}{{ board.uri }}/index.rss" rel="self" type="application/rss+xml"/>
 	{% for post in recent_posts %}
 	<item>
