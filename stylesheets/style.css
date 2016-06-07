@@ -912,7 +912,12 @@ pre {
 
 .poster_id {
   cursor: pointer;
-  white-space:nowrap;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 .poster_id:hover {
   color: #800000!important;
