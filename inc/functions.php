@@ -2695,7 +2695,7 @@ function slugify($post) {
 	elseif (isset ($post['body_nomarkup']) && $post['body_nomarkup'])
 		$slug = $post['body_nomarkup'];
 	elseif (isset ($post['body']) && $post['body'])
-		$slug = strip_html($post['body']);
+		$slug = strip_tags($post['body']);
 
 	// Fix UTF-8 first
 	$slug = mb_convert_encoding($slug, "UTF-8", "UTF-8");

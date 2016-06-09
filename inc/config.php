@@ -824,6 +824,15 @@
 	// Set this to true if you're using Linux and you can execute `md5sum` binary.
 	$config['gnu_md5'] = false;
 
+	// Use Tesseract OCR to retrieve text from images, so you can use it as a spamfilter.
+	$config['tesseract_ocr'] = false;
+
+	// Tesseract parameters
+	$config['tesseract_params'] = '';
+
+	// Tesseract preprocess command
+	$config['tesseract_preprocess_command'] = 'convert -monochrome %s -';
+
 	// Number of posts in a "View Last X Posts" page
 	$config['noko50_count'] = 50;
 	// Number of posts a thread needs before it gets a "View Last X Posts" page.
@@ -1014,6 +1023,10 @@
 
 	// Minify Javascript using http://code.google.com/p/minify/.
 	$config['minify_js'] = false;
+
+	// Dispatch thumbnail loading and image configuration with JavaScript. It will need a certain javascript
+	// code to work.
+	$config['javascript_image_dispatch'] = false;
 
 /*
  * ====================
