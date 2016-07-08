@@ -607,7 +607,7 @@ if (isset($_POST['delete'])) {
 				error($config['error']['nomove']);
 
 			if ($md5cmd) {
-				$output = shell_exec_error($md5cmd . " < " . escapeshellarg($upload));
+				$output = shell_exec_error($md5cmd . " " . escapeshellarg($upload));
 				$output = explode(' ', $output);
 				$hash = $output[0];
 			}
