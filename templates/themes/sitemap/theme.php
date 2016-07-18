@@ -23,10 +23,12 @@
 			}
 		}
 
-		if ($config['smart_build']) {
+		$action = generation_strategy('sb_sitemap', array());
+
+		if ($action == 'delete') {
 			file_unlink($settings['path']);
 		}
-		else {		
+		elseif ($action == 'rebuild') {
 			$boards = explode(' ', $settings['boards']);
 		
 			$threads = array();

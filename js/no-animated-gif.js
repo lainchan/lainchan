@@ -11,8 +11,9 @@
  *   //$config['additional_javascript'][] = 'js/options/general.js';
  *   $config['additional_javascript'][] = 'js/no-animated-gif.js';
  */
-
 function unanimate_gif(e) {
+	if ($(e).closest('.thread').children('.thread-hidden').length > 0) return;
+
 	if (active_page === "catalog")
 		var c = $('<canvas class="thread-image"></canvas>');
 	else
@@ -34,13 +35,19 @@ function unanimate_gif(e) {
 	$(e).addClass("unanimated").hide();
 }
 
+$(function(){
+
+var gif_finder = 'img.post-image[src$=".gif"], img.thread-image[src$=".gif"]';
+
 function no_animated_gif() {
-	var anim_gifs = $('img.post-image[src$=".gif"], img.thread-image[src$=".gif"]');
+	var anim_gifs = $(gif_finder);
 	localStorage.no_animated_gif = true;
 	$('#no-animated-gif>a').text(_('Animate GIFs'));
 	$('#no-animated-gif>input').prop('checked', true);
 
 	$.each(anim_gifs, function(i, e) {unanimate_gif(e)} );
+
+	$(document).on('new_post', new_post_handler);
 }
 
 function animated_gif() {
@@ -49,10 +56,17 @@ function animated_gif() {
 	localStorage.no_animated_gif = false;
 	$('#no-animated-gif>a').text(_('Unanimate GIFs'));
 	$('#no-animated-gif>input').prop('checked', false);	
+
+	$(document).off('new_post', new_post_handler);
+}
+
+function new_post_handler(e, post) {
+	$(post).find(gif_finder).each(function(k, v) {
+		unanimate_gif(v);
+	});
 }
 
 if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko' || active_page == 'catalog') {
-	$(function(){
 		var selector, event;
 		if (window.Options && Options.get_tab('general')) {
 			selector = '#no-animated-gif>input';
@@ -75,5 +89,6 @@ if (active_page == 'thread' || active_page == 'index' || active_page == 'ukko' |
 
 		if (localStorage.no_animated_gif === 'true')
 			no_animated_gif();
-	});
 }
+
+});

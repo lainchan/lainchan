@@ -19,6 +19,12 @@ require_once 'inc/template.php';
 require_once 'inc/database.php';
 require_once 'inc/events.php';
 require_once 'inc/api.php';
+require_once 'inc/mod/auth.php';
+require_once 'inc/lock.php';
+require_once 'inc/queue.php';
+require_once 'inc/polyfill.php';
+@include_once 'inc/lib/parsedown/Parsedown.php'; // fail silently, this isn't a critical piece of code
+
 if (!extension_loaded('gettext')) {
 	require_once 'inc/lib/gettext/gettext.inc';
 }
@@ -89,6 +95,8 @@ function loadConfig() {
 			'db',
 			'api',
 			'cache',
+			'lock',
+			'queue',
 			'cookies',
 			'error',
 			'dir',
@@ -126,7 +134,7 @@ function loadConfig() {
 		// So, we may store the locale in a tmp/ filesystem.
 
 		if (file_exists($fn = 'tmp/cache/locale_' . $boardsuffix ) ) {
-			$config['locale'] = file_get_contents($fn);
+			$config['locale'] = @file_get_contents($fn);
 		}
 		else {
 			$config['locale'] = 'en';
@@ -137,13 +145,13 @@ function loadConfig() {
 				$configstr .= file_get_contents($board['dir'] . '/config.php');
 			}
 			$matches = array();
-			preg_match_all('/[^\/*#]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
+			preg_match_all('/[^\/#*]\$config\s*\[\s*[\'"]locale[\'"]\s*\]\s*=\s*([\'"])(.*?)\1/', $configstr, $matches);
 			if ($matches && isset ($matches[2]) && $matches[2]) {
 				$matches = $matches[2];
 				$config['locale'] = $matches[count($matches)-1];
 			}
 
-			file_put_contents($fn, $config['locale']);
+			@file_put_contents($fn, $config['locale']);
 		}
 
 		if ($config['locale'] != $current_locale) {
@@ -523,7 +531,8 @@ function setupBoard($array) {
 	$board = array(
 		'uri' => $array['uri'],
 		'title' => $array['title'],
-		'subtitle' => $array['subtitle']
+		'subtitle' => $array['subtitle'],
+		#'indexed' => $array['indexed'],
 	);
 
 	// older versions
@@ -548,14 +557,19 @@ function setupBoard($array) {
 }
 
 function openBoard($uri) {
-	global $config, $build_pages;
+	global $config, $build_pages, $board;
 
 	if ($config['try_smarter'])
 		$build_pages = array();
 
-	$board = getBoardInfo($uri);
-	if ($board) {
-		setupBoard($board);
+	// And what if we don't really need to change a board we have opened?
+	if (isset ($board) && isset ($board['uri']) && $board['uri'] == $uri) {
+		return true;
+	}
+
+	$b = getBoardInfo($uri);
+	if ($b) {
+		setupBoard($b);
 
 		if (function_exists('after_open_board')) {
 			after_open_board();
@@ -879,7 +893,7 @@ function displayBan($ban) {
 		Element('page.html', array(
 			'title' => _('Banned!'),
 			'config' => $config,
-			'nojavascript' => true,
+			'boardlist' => createBoardlist($mod),
 			'body' => Element('banned.html', array(
 				'config' => $config,
 				'ban' => $ban,
@@ -1017,7 +1031,7 @@ function insertFloodPost(array $post) {
 
 function post(array $post) {
 	global $pdo, $board;
-	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :files, :num_files, :filehash, :password, :ip, :sticky, :locked, 0, :embed, :slug)", $board['uri']));
+	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :files, :num_files, :filehash, :password, :ip, :sticky, :locked, :cycle, 0, :embed, :slug)", $board['uri']));
 
 	// Basic stuff
 	if (!empty($post['subject'])) {
@@ -1055,6 +1069,12 @@ function post(array $post) {
 		$query->bindValue(':locked', true, PDO::PARAM_INT);
 	} else {
 		$query->bindValue(':locked', false, PDO::PARAM_INT);
+	}
+
+	if ($post['op'] && $post['mod'] && isset($post['cycle']) && $post['cycle']) {
+		$query->bindValue(':cycle', true, PDO::PARAM_INT);
+	} else {
+		$query->bindValue(':cycle', false, PDO::PARAM_INT);
 	}
 
 	if ($post['mod'] && isset($post['capcode']) && $post['capcode']) {
@@ -1129,6 +1149,8 @@ function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 	$files = json_decode($post['files']);
 	$file_to_delete = $file !== false ? $files[(int)$file] : (object)array('file' => false);
 
+	if (!$files[0]) error(_('That post has no files.'));
+
 	if ($files[0]->file == 'deleted' && $post['num_files'] == 1 && !$post['thread'])
 		return; // Can't delete OP's image completely.
 
@@ -1140,8 +1162,10 @@ function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 		foreach ($files as $i => $f) {
 			if (($file !== false && $i == $file) || $file === null) {
 				// Delete thumbnail
-				file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
-				unset($files[$i]->thumb);
+				if (isset ($f->thumb) && $f->thumb) {
+					file_unlink($board['dir'] . $config['dir']['thumb'] . $f->thumb);
+					unset($files[$i]->thumb);
+				}
 
 				// Delete file
 				file_unlink($board['dir'] . $config['dir']['img'] . $f->file);
@@ -1163,19 +1187,22 @@ function deleteFile($id, $remove_entirely_if_already=true, $file=null) {
 
 // rebuild post (markup)
 function rebuildPost($id) {
-	global $board;
+	global $board, $mod;
 
-	$query = prepare(sprintf("SELECT `body_nomarkup`, `thread` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
+	$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
 	if ((!$post = $query->fetch(PDO::FETCH_ASSOC)) || !$post['body_nomarkup'])
 		return false;
 
-	markup($body = &$post['body_nomarkup']);
+	markup($post['body'] = &$post['body_nomarkup']);
+	$post = (object)$post;
+	event('rebuildpost', $post);
+	$post = (array)$post;
 
 	$query = prepare(sprintf("UPDATE ``posts_%s`` SET `body` = :body WHERE `id` = :id", $board['uri']));
-	$query->bindValue(':body', $body);
+	$query->bindValue(':body', $post['body']);
 	$query->bindValue(':id', $id, PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
 
@@ -1264,7 +1291,7 @@ function deletePost($id, $error_if_doesnt_exist=true, $rebuild_after=true) {
 	return true;
 }
 
-function clean() {
+function clean($pid = false) {
 	global $board, $config;
 	$offset = round($config['max_pages']*$config['threads_per_page']);
 
@@ -1275,6 +1302,22 @@ function clean() {
 	$query->execute() or error(db_error($query));
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		deletePost($post['id'], false, false);
+		if ($pid) modLog("Automatically deleting thread #{$post['id']} due to new thread #{$pid}");
+	}
+
+	// Bump off threads with X replies earlier, spam prevention method
+	if ($config['early_404']) {
+		$offset = round($config['early_404_page']*$config['threads_per_page']);
+		$query = prepare(sprintf("SELECT `id` AS `thread_id`, (SELECT COUNT(`id`) FROM ``posts_%s`` WHERE `thread` = `thread_id`) AS `reply_count` FROM ``posts_%s`` WHERE `thread` IS NULL ORDER BY `sticky` DESC, `bump` DESC LIMIT :offset, 9001", $board['uri'], $board['uri']));
+		$query->bindValue(':offset', $offset, PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+		
+		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+			if ($post['reply_count'] < $config['early_404_replies']) {
+				deletePost($post['thread_id'], false, false);
+				if ($pid) modLog("Automatically deleting thread #{$post['thread_id']} due to new thread #{$pid} (early 404 is set, #{$post['thread_id']} had {$post['reply_count']} replies)");
+			}
+		}
 	}
 }
 
@@ -1288,7 +1331,8 @@ function thread_find_page($thread) {
 	return floor(($config['threads_per_page'] + $index) / $config['threads_per_page']);
 }
 
-function index($page, $mod=false) {
+// $brief means that we won't need to generate anything yet
+function index($page, $mod=false, $brief = false) {
 	global $board, $config, $debug;
 
 	$body = '';
@@ -1319,6 +1363,7 @@ function index($page, $mod=false) {
 				unset($cached);
 			}
 		}
+
 		if (!isset($cached)) {
 			$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
@@ -1358,7 +1403,10 @@ function index($page, $mod=false) {
 		}
 		
 		$threads[] = $thread;
-		$body .= $thread->build(true);
+
+		if (!$brief) {
+			$body .= $thread->build(true);
+		}
 	}
 
 	if ($config['file_board']) {
@@ -1579,27 +1627,28 @@ function checkMute() {
 function buildIndex($global_api = "yes") {
 	global $board, $config, $build_pages;
 
-	if (!$config['smart_build']) {
-		$pages = getPages();
-		if (!$config['try_smarter'])
-			$antibot = create_antibot($board['uri']);
+	$catalog_api_action = generation_strategy('sb_api', array($board['uri']));
 
-		if ($config['api']['enabled']) {
-			$api = new Api();
-			$catalog = array();
-		}
+	$pages = null;
+	$antibot = null;
+
+	if ($config['api']['enabled']) {
+		$api = new Api();
+		$catalog = array();
 	}
 
 	for ($page = 1; $page <= $config['max_pages']; $page++) {
 		$filename = $board['dir'] . ($page == 1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 		$jsonFilename = $board['dir'] . ($page - 1) . '.json'; // pages should start from 0
 
-		if ((!$config['api']['enabled'] || $global_api == "skip" || $config['smart_build']) && $config['try_smarter']
-			 && isset($build_pages) && !empty($build_pages) && !in_array($page, $build_pages) )
+		$wont_build_this_page = $config['try_smarter'] && isset($build_pages) && !empty($build_pages) && !in_array($page, $build_pages);
+
+		if ((!$config['api']['enabled'] || $global_api == "skip") && $wont_build_this_page)
 			continue;
 
-		if (!$config['smart_build']) {
-			$content = index($page);
+		$action = generation_strategy('sb_board', array($board['uri'], $page));
+		if ($action == 'rebuild' || $catalog_api_action == 'rebuild') {
+			$content = index($page, false, $wont_build_this_page);
 			if (!$content)
 				break;
 
@@ -1610,17 +1659,21 @@ function buildIndex($global_api = "yes") {
 				file_write($jsonFilename, $json);
 
 				$catalog[$page-1] = $threads;
-			}
 
-			if ($config['api']['enabled'] && $global_api != "skip" && $config['try_smarter'] && isset($build_pages)
-				&& !empty($build_pages) && !in_array($page, $build_pages) )
-				continue;
+				if ($wont_build_this_page) continue;
+			}
 
 			if ($config['try_smarter']) {
 				$antibot = create_antibot($board['uri'], 0 - $page);
 				$content['current_page'] = $page;
 			}
+			elseif (!$antibot) {
+				$antibot = create_antibot($board['uri']);
+			}
 			$antibot->reset();
+			if (!$pages) {
+				$pages = getPages();
+			}
 			$content['pages'] = $pages;
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
@@ -1628,13 +1681,14 @@ function buildIndex($global_api = "yes") {
 
 			file_write($filename, Element('index.html', $content));
 		}
-		else {
+		elseif ($action == 'delete' || $catalog_api_action == 'delete') {
 			file_unlink($filename);
 			file_unlink($jsonFilename);
 		}
 	}
 
-	if (!$config['smart_build'] && $page < $config['max_pages']) {
+	// $action is an action for our last page
+	if (($catalog_api_action == 'rebuild' || $action == 'rebuild' || $action == 'delete') && $page < $config['max_pages']) {
 		for (;$page<=$config['max_pages'];$page++) {
 			$filename = $board['dir'] . ($page==1 ? $config['file_index'] : sprintf($config['file_page'], $page));
 			file_unlink($filename);
@@ -1648,13 +1702,13 @@ function buildIndex($global_api = "yes") {
 
 	// json api catalog
 	if ($config['api']['enabled'] && $global_api != "skip") {
-		if ($config['smart_build']) {
+		if ($catalog_api_action == 'delete') {
 			$jsonFilename = $board['dir'] . 'catalog.json';
 			file_unlink($jsonFilename);
 			$jsonFilename = $board['dir'] . 'threads.json';
 			file_unlink($jsonFilename);
 		}
-		else {
+		elseif ($catalog_api_action == 'rebuild') {
 			$json = json_encode($api->translateCatalog($catalog));
 			$jsonFilename = $board['dir'] . 'catalog.json';
 			file_write($jsonFilename, $json);
@@ -1715,12 +1769,14 @@ function buildJavascript() {
 function checkDNSBL() {
 	global $config;
 
-
 	if (isIPv6())
 		return; // No IPv6 support yet.
 
 	if (!isset($_SERVER['REMOTE_ADDR']))
 		return; // Fix your web server configuration
+
+	if (preg_match("/^(::(ffff:)?)?(127\.|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|0\.|255\.)/", $_SERVER['REMOTE_ADDR']))
+		return; // It's pointless to check for local IP addresses in dnsbls, isn't it?
 
 	if (in_array($_SERVER['REMOTE_ADDR'], $config['dnsbl_exceptions']))
 		return;
@@ -1854,7 +1910,11 @@ function extract_modifiers($body) {
 	return $modifiers;
 }
 
-function markup(&$body, $track_cites = false) {
+function remove_modifiers($body) {
+	return preg_replace('@<tinyboard ([\w\s]+)>(.+?)</tinyboard>@usm', '', $body);
+}
+
+function markup(&$body, $track_cites = false, $op = false) {
 	global $board, $config, $markup_urls;
 	
 	$modifiers = extract_modifiers($body);
@@ -1950,7 +2010,7 @@ function markup(&$body, $track_cites = false) {
 			}
 
 			if (isset($cited_posts[$cite])) {
-				$replacement = '<a onclick="highlightReply(\''.$cite.'\');" href="' .
+				$replacement = '<a onclick="highlightReply(\''.$cite.'\', event);" href="' .
 					$config['root'] . $board['dir'] . $config['dir']['res'] .
 					link_for(array('id' => $cite, 'thread' => $cited_posts[$cite])) . '#' . $cite . '">' .
 					'&gt;&gt;' . $cite .
@@ -2049,7 +2109,7 @@ function markup(&$body, $track_cites = false) {
 					
 					$replacement = '<a ' .
 						($_board == $board['uri'] ?
-							'onclick="highlightReply(\''.$cite.'\');" '
+							'onclick="highlightReply(\''.$cite.'\', event);" '
 						: '') . 'href="' . $link . '">' .
 						'&gt;&gt;&gt;/' . $_board . '/' . $cite .
 						'</a>';
@@ -2155,16 +2215,7 @@ function strip_combining_chars($str) {
 		$o = 0;
 		$ord = ordutf8($char, $o);
 
-		if ($ord >= 768 && $ord <= 879)
-			continue;
-
-		if ($ord >= 7616 && $ord <= 7679)
-			continue;
-
-		if ($ord >= 8400 && $ord <= 8447)
-			continue;
-
-		if ($ord >= 65056 && $ord <= 65071)
+		if ( ($ord >= 768 && $ord <= 879) || ($ord >= 1536 && $ord <= 1791) || ($ord >= 3655 && $ord <= 3659) || ($ord >= 7616 && $ord <= 7679) || ($ord >= 8400 && $ord <= 8447) || ($ord >= 65056 && $ord <= 65071))
 			continue;
 
 		$str .= $char;
@@ -2188,7 +2239,9 @@ function buildThread($id, $return = false, $mod = false) {
 	if ($config['try_smarter'] && !$mod)
 		$build_pages[] = thread_find_page($id);
 
-	if (!$config['smart_build'] || $return || $mod) {
+	$action = generation_strategy('sb_thread', array($board['uri'], $id));
+
+	if ($action == 'rebuild' || $return || $mod) {
 		$query = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE (`thread` IS NULL AND `id` = :id) OR `thread` = :id ORDER BY `thread`,`id`", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
@@ -2223,26 +2276,26 @@ function buildThread($id, $return = false, $mod = false) {
 		));
 
 		// json api
-		if ($config['api']['enabled']) {
+		if ($config['api']['enabled'] && !$mod) {
 			$api = new Api();
 			$json = json_encode($api->translateThread($thread));
 			$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . '.json';
 			file_write($jsonFilename, $json);
 		}
 	}
-	else {
+	elseif($action == 'delete') {
 		$jsonFilename = $board['dir'] . $config['dir']['res'] . $id . '.json';
 		file_unlink($jsonFilename);
 	}
 
-	if ($config['smart_build'] && !$return && !$mod) {
+	if ($action == 'delete' && !$return && !$mod) {
 		$noko50fn = $board['dir'] . $config['dir']['res'] . link_for(array('id' => $id), true);
 		file_unlink($noko50fn);
 
 		file_unlink($board['dir'] . $config['dir']['res'] . link_for(array('id' => $id)));
-	} else if ($return) {
+	} elseif ($return) {
 		return $body;
-	} else {
+	} elseif ($action == 'rebuild') {
 		$noko50fn = $board['dir'] . $config['dir']['res'] . link_for($thread, true);
 		if ($hasnoko50 || file_exists($noko50fn)) {
 			buildThread50($id, $return, $mod, $thread, $antibot);
@@ -2383,7 +2436,7 @@ function generate_tripcode($name) {
 		if (isset($config['custom_tripcode']["##{$trip}"]))
 			$trip = $config['custom_tripcode']["##{$trip}"];
 		else
-			$trip = '!!' . substr(crypt($trip, '_..A.' . substr(base64_encode(sha1($trip . $config['secure_trip_salt'], true)), 0, 4)), -10);
+			$trip = '!!' . substr(crypt($trip, str_replace('+', '.', '_..A.' . substr(base64_encode(sha1($trip . $config['secure_trip_salt'], true)), 0, 4))), -10);
 	} else {
 		if (isset($config['custom_tripcode']["#{$trip}"]))
 			$trip = $config['custom_tripcode']["#{$trip}"];
@@ -2608,7 +2661,7 @@ function slugify($post) {
 	elseif (isset ($post['body_nomarkup']) && $post['body_nomarkup'])
 		$slug = $post['body_nomarkup'];
 	elseif (isset ($post['body']) && $post['body'])
-		$slug = strip_html($post['body']);
+		$slug = strip_tags($post['body']);
 
 	// Fix UTF-8 first
 	$slug = mb_convert_encoding($slug, "UTF-8", "UTF-8");
@@ -2682,4 +2735,104 @@ function link_for($post, $page50 = false, $foreignlink = false, $thread = false)
 	else if (!$page50 && !$slug)  $tpl = $config['file_page'];
 
 	return sprintf($tpl, $id, $slug);
+}
+
+function prettify_textarea($s){
+	return str_replace("\t", '&#09;', str_replace("\n", '&#13;&#10;', htmlentities($s)));
+}
+
+/*class HTMLPurifier_URIFilter_NoExternalImages extends HTMLPurifier_URIFilter {
+	public $name = 'NoExternalImages';
+	public function filter(&$uri, $c, $context) {
+		global $config;
+		$ct = $context->get('CurrentToken');
+
+		if (!$ct || $ct->name !== 'img') return true;
+
+		if (!isset($uri->host) && !isset($uri->scheme)) return true;
+
+		if (!in_array($uri->scheme . '://' . $uri->host . '/', $config['allowed_offsite_urls'])) {
+			error('No off-site links in board announcement images.');
+		}
+
+		return true;
+	}
+}*/
+
+function purify_html($s) {
+	global $config;
+
+	$c = HTMLPurifier_Config::createDefault();
+	$c->set('HTML.Allowed', $config['allowed_html']);
+	$uri = $c->getDefinition('URI');
+	$uri->addFilter(new HTMLPurifier_URIFilter_NoExternalImages(), $c);
+	$purifier = new HTMLPurifier($c);
+	$clean_html = $purifier->purify($s);
+	return $clean_html;
+}
+
+function markdown($s) {
+	$pd = new Parsedown();
+	$pd->setMarkupEscaped(true);
+	$pd->setimagesEnabled(false);
+
+	return $pd->text($s);
+}
+
+function generation_strategy($fun, $array=array()) { global $config;
+	$action = false;
+
+	foreach ($config['generation_strategies'] as $s) {
+		if ($action = $s($fun, $array)) {
+			break;
+		}
+	}
+
+	switch ($action[0]) {
+		case 'immediate':
+			return 'rebuild';
+		case 'defer':
+			// Ok, it gets interesting here :)
+			get_queue('generate')->push(serialize(array('build', $fun, $array, $action)));
+			return 'ignore';
+		case 'build_on_load':
+			return 'delete';
+	}
+}
+
+function strategy_immediate($fun, $array) {
+	return array('immediate');
+}
+
+function strategy_smart_build($fun, $array) {
+	return array('build_on_load');
+}
+
+function strategy_sane($fun, $array) { global $config;
+	if (php_sapi_name() == 'cli') return false;
+	else if (isset($_POST['mod'])) return false;
+	// Thread needs to be done instantly. Same with a board page, but only if posting a new thread.
+	else if ($fun == 'sb_thread' || ($fun == 'sb_board' && $array[1] == 1 && isset ($_POST['page']))) return array('immediate');
+	else return false;
+}
+
+// My first, test strategy.
+function strategy_first($fun, $array) {
+	switch ($fun) {
+	case 'sb_thread':
+		return array('defer');
+	case 'sb_board':
+		if ($array[1] > 8) return array('build_on_load');
+		else return array('defer');
+	case 'sb_api':
+		return array('defer');
+	case 'sb_catalog':
+		return array('defer');
+	case 'sb_recent':
+		return array('build_on_load');
+	case 'sb_sitemap':
+		return array('build_on_load');
+	case 'sb_ukko':
+		return array('defer');
+	}
 }

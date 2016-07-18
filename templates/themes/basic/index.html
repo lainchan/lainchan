@@ -2,25 +2,22 @@
 <!doctype html>
 <html>
 <head>
-	<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
 	<meta charset="utf-8">
 	<title>{{ settings.title }}</title>
 	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
-	<link rel="stylesheet" media="screen" href="/stylesheets/dark.css">
-	<!--{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}-->
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}">
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
-<body>
-	<div class="bar top">
-		{{ boardlist.top }}
-	</div>
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
+	{{ boardlist.top }}
 	<header>
 		<h1>{{ settings.title }}</h1>
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
-    <img src="static/lain_is_cute_datass_small_teal.png" alt="mascot"/>
+	
 	<div class="ban">
 		{% if news|count == 0 %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
@@ -41,10 +38,10 @@
 	
 	<hr/>
         <footer>
-                <p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
-                        <a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
-                <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
-                <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
+                <p class="unimportant" style="margin-top:20px;text-align:center;">- Tinyboard + 
+                        <a href="https://engine.vichan.net/">vichan</a> {{ config.version }} -
+                <br>Tinyboard Copyright &copy; 2010-2014 Tinyboard Development Group    
+                <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel</p>
         </footer>
 </body>
 </html>

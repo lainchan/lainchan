@@ -2,27 +2,26 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
         <script type="text/javascript">
+	  var
           {% if not no_post_form %}
-            var active_page = "index";
+              active_page = "index"
+            , board_name = "{{ board.uri }}";
 	  {% else %}
-            var active_page = "ukko";
+              active_page = "ukko";
           {% endif %}
         </script>
 
 	{% include 'header.html' %}
 	<title>{{ board.url }} - {{ board.title|e }}</title>
 </head>
-<body>
-	<div class="bar top">
-		{{ boardlist.top }}
-	</div>
-
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %} active-{% if not no_post_form %}index{% else %}ukko{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
+	{{ boardlist.top }}
+	
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
-
+	
 	<header>
 		<h1>{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
@@ -48,14 +47,14 @@
 	{% endif %}
 
 	{% if config.page_nav_top %}
-		<!--<div class="pages top">
+		<div class="pages top">
 			{% for page in pages %}
 			 [<a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>]{% if loop.last %} {% endif %}
 			{% endfor %}
 			{{ btn.next }}
-		</div>-->
+		</div>
 	{% endif %}
-
+	
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
@@ -64,37 +63,33 @@
 	{{ body }}
 	{% include 'report_delete.html' %}
 	</form>
+	
+	<div class="pages">
+		{{ btn.prev }} {% for page in pages %}
+		 [<a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>]{% if loop.last %} {% endif %}
+		{% endfor %} {{ btn.next }}
+		{% if config.catalog_link %}
+			 | <a href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">{% trans %}Catalog{% endtrans %}</a>
+		{% endif %}
+	</div>
+	
+	{{ boardlist.bottom }}
 
 	{{ config.ad.bottom }}
 
 	<footer>
-		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
-			<a href='https://int.vichan.net/devel/'>vichan</a> + 
-			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
-		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
-		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel
-		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2015 lainchan Administration</p>
+		<p class="unimportant" style="margin-top:20px;text-align:center;">- Tinyboard + 
+			<a href="https://engine.vichan.net/">vichan</a> +
+		    <a href="https://github.com/lainchan/lainchan">lainchan</a>	{{ config.version }} -
+		<br>Tinyboard Copyright &copy; 2010-2014 Tinyboard Development Group    
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2016 lainchan administration</p>
 
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
-
-	<div class="bar bottom">
-		<div class="pages">
-			{{ btn.prev }} [ {% for page in pages %}
-			 <a {% if page.selected %}class="selected"{% endif %}{% if not page.selected %}href="{{ page.link }}"{% endif %}>{{ page.num }}</a>{% if not loop.last %} /{% endif %}
-			{% endfor %} ] {{ btn.next }}
-			{% if config.catalog_link %}
-			 |  <a href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">Catalog</a>
-			{% endif %}
-		</div>
-	</div>
-
-
-	</div>
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>
 	
 </body>
 </html>
-

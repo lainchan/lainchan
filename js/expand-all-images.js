@@ -23,7 +23,15 @@ onready(function(){
 		.text(_('Expand all images'))
 		.click(function() {
 			$('a img.post-image').each(function() {
-				if (!$(this).parent()[0].dataset.expanded)
+				// Don't expand YouTube embeds
+				if ($(this).parent().parent().hasClass('video-container'))
+					return;
+
+				// or WEBM
+				if (/^\/player\.php\?/.test($(this).parent().attr('href')))
+					return;
+
+				if (!$(this).parent().data('expanded'))
 					$(this).parent().click();
 			});
 
@@ -34,8 +42,8 @@ onready(function(){
 			$('div#shrink-all-images a')
 				.text(_('Shrink all images'))
 				.click(function(){
-					$('a img.post-image').each(function() {
-						if ($(this).parent()[0].dataset.expanded)
+					$('a img.full-image').each(function() {
+						if ($(this).parent().data('expanded'))
 							$(this).parent().click();
 					});
 					$(this).parent().remove();

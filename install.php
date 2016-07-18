@@ -1,9 +1,11 @@
 <?php
 
 // Installation/upgrade file	
-define('VERSION', '4.9.93');
+define('VERSION', '5.1.2');
 
 require 'inc/functions.php';
+
+loadConfig();
 
 $step = isset($_GET['step']) ? round($_GET['step']) : 0;
 $page = array(
@@ -551,6 +553,28 @@ if (file_exists($config['has_installed'])) {
                         foreach ($boards as &$board) {
                                 query(sprintf('ALTER TABLE ``posts_%s`` ADD `slug` VARCHAR(255) DEFAULT NULL AFTER `embed`;', $board['uri'])) or error(db_error());
 			}
+                case '4.9.93':
+                        query('ALTER TABLE ``mods`` CHANGE `password` `password` VARCHAR(255) NOT NULL;') or error(db_error());
+                        query('ALTER TABLE ``mods`` CHANGE `salt` `salt` VARCHAR(64) NOT NULL;') or error(db_error());
+		case '5.0.0':
+			query('ALTER TABLE ``mods`` CHANGE `salt` `version` VARCHAR(64) NOT NULL;') or error(db_error());
+		case '5.0.1':
+		case '5.1.0':
+			query('CREATE TABLE ``pages`` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `board` varchar(255) DEFAULT NULL,
+			  `name` varchar(255) NOT NULL,
+			  `title` varchar(255) DEFAULT NULL,
+			  `type` varchar(255) DEFAULT NULL,
+			  `content` text,
+			  PRIMARY KEY (`id`),
+			  UNIQUE KEY `u_pages` (`name`,`board`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;') or error(db_error());
+		case '5.1.1':
+                        foreach ($boards as &$board) {
+                                query(sprintf("ALTER TABLE ``posts_%s`` ADD `cycle` int(1) NOT NULL AFTER `locked`", $board['uri'])) or error(db_error());
+                        }
+
 		case false:
 			// TODO: enhance Tinyboard -> vichan upgrade path.
 			query("CREATE TABLE IF NOT EXISTS ``search_queries`` (  `ip` varchar(39) NOT NULL,  `time` int(11) NOT NULL,  `query` text NOT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or error(db_error());
@@ -573,6 +597,27 @@ if (file_exists($config['has_installed'])) {
 	
 	die(Element('page.html', $page));
 }
+
+function create_config_from_array(&$instance_config, &$array, $prefix = '') {
+	foreach ($array as $name => $value) {
+		if (is_array($value)) {
+			$instance_config .= "\n";
+			create_config_from_array($instance_config, $value, $prefix . '[\'' . addslashes($name) . '\']');
+			$instance_config .= "\n";
+		} else {
+			$instance_config .= '	$config' . $prefix . '[\'' . addslashes($name) . '\'] = ';
+
+			if (is_numeric($value))
+				$instance_config .= $value;
+			else
+				$instance_config .= "'" . addslashes($value) . "'";
+
+			$instance_config .= ";\n";
+		}
+	}
+}
+
+session_start();
 
 if ($step == 0) {
 	// Agreeement
@@ -607,7 +652,7 @@ if ($step == 0) {
 			'installed' => extension_loaded('pdo'),
 			'required' => true
 		),
-		'PDO' => array(
+		'GD' => array(
 			'installed' => extension_loaded('gd'),
 			'required' => true
 		),
@@ -620,17 +665,17 @@ if ($step == 0) {
 	$tests = array(
 		array(
 			'category' => 'PHP',
-			'name' => 'PHP &ge; 5.3',
-			'result' => PHP_VERSION_ID >= 50300,
+			'name' => 'PHP &ge; 5.4',
+			'result' => PHP_VERSION_ID >= 50400,
 			'required' => true,
-			'message' => 'vichan requires PHP 5.3 or better.',
+			'message' => 'vichan requires PHP 5.4 or better.',
 		),
 		array(
 			'category' => 'PHP',
-			'name' => 'PHP &ge; 5.4',
-			'result' => PHP_VERSION_ID >= 50400,
+			'name' => 'PHP &ge; 5.6',
+			'result' => PHP_VERSION_ID >= 50600,
 			'required' => false,
-			'message' => 'vichan works best on PHP 5.4 or better.',
+			'message' => 'vichan works best on PHP 5.6 or better.',
 		),
 		array(
 			'category' => 'PHP',
@@ -687,6 +732,7 @@ if ($step == 0) {
 			'result' => $can_exec && shell_exec('which convert'),
 			'required' => false,
 			'message' => '(Optional) `convert` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
+			'effect' => function (&$config) { $config['thumb_method'] = 'convert'; },
 		),
 		array(
 			'category' => 'Image processing',
@@ -701,6 +747,7 @@ if ($step == 0) {
 			'result' => $can_exec && shell_exec('which gm'),
 			'required' => false,
 			'message' => '(Optional) `gm` was not found or executable; command-line GraphicsMagick (faster than ImageMagick) cannot be enabled.',
+			'effect' => function (&$config) { $config['thumb_method'] = 'gm'; },
 		),
 		array(
 			'category' => 'Image processing',
@@ -708,13 +755,25 @@ if ($step == 0) {
 			'result' => $can_exec && shell_exec('which gifsicle'),
 			'required' => false,
 			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
+			'effect' => function (&$config) { if ($config['thumb_method'] == 'gm')      $config['thumb_method'] = 'gm+gifsicle';
+							  if ($config['thumb_method'] == 'convert') $config['thumb_method'] = 'convert+gifsicle'; },
 		),
 		array(
 			'category' => 'Image processing',
-			'name' => '`md5sum` (quick file hashing)',
+			'name' => '`md5sum` (quick file hashing on GNU/Linux)',
+			'prereq' => '',
 			'result' => $can_exec && shell_exec('echo "vichan" | md5sum') == "141225c362da02b5c359c45b665168de  -\n",
 			'required' => false,
-			'message' => '(Optional) `md5sum` was not found or executable; file hashing for multiple images will be slower.',
+			'message' => '(Optional) `md5sum` was not found or executable; file hashing for multiple images will be slower. Ignore if not using Linux.',
+			'effect' => function (&$config) { $config['gnu_md5'] = true; },
+		),
+		array(
+			'category' => 'Image processing',
+			'name' => '`/sbin/md5` (quick file hashing on BSDs)',
+			'result' => $can_exec && shell_exec('echo "vichan" | /sbin/md5 -r') == "141225c362da02b5c359c45b665168de\n",
+			'required' => false,
+			'message' => '(Optional) `/sbin/md5` was not found or executable; file hashing for multiple images will be slower. Ignore if not using BSD.',
+			'effect' => function (&$config) { $config['bsd_md5'] = true; },
 		),
 		array(
 			'category' => 'File permissions',
@@ -729,6 +788,13 @@ if ($step == 0) {
 			'result' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')),
 			'required' => true,
 			'message' => 'You must give vichan permission to create (and write to) the <code>templates/cache</code> directory or performance will be drastically reduced.'
+		),
+		array(
+			'category' => 'File permissions',
+			'name' => getcwd() . '/tmp/cache',
+			'result' => is_dir('tmp/cache') && is_writable('tmp/cache'),
+			'required' => true,
+			'message' => 'You must give vichan permission to write to the <code>tmp/cache</code> directory.'
 		),
 		array(
 			'category' => 'File permissions',
@@ -753,17 +819,27 @@ if ($step == 0) {
 			'message' => 'vichan is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your vichan installation. Using git makes upgrading much easier.'
 		)
 	);
-	
+
 	$config['font_awesome'] = true;
 	
+	$additional_config = array();
+	foreach ($tests as $test) {
+		if ($test['result'] && isset($test['effect'])) {
+			$test['effect']($additional_config);
+		}
+	}
+	$more = '';
+	create_config_from_array($more, $additional_config);
+	$_SESSION['more'] = $more;
+
 	echo Element('page.html', array(
 		'body' => Element('installer/check-requirements.html', array(
 			'extensions' => $extensions,
 			'tests' => $tests,
-			'config' => $config
+			'config' => $config,
 		)),
 		'title' => 'Checking environment',
-		'config' => $config
+		'config' => $config,
 	));
 } elseif ($step == 2) {
 	// Basic config
@@ -774,14 +850,18 @@ if ($step == 0) {
 	
 	echo Element('page.html', array(
 		'body' => Element('installer/config.html', array(
-			'config' => $config
+			'config' => $config,
+			'more' => $_SESSION['more'],
 		)),
 		'title' => 'Configuration',
 		'config' => $config
 	));
 } elseif ($step == 3) {
+	$more = $_POST['more'];
+	unset($_POST['more']);
+
 	$instance_config = 
-'<?php
+'<'.'?php
 
 /*
 *  Instance Configuration
@@ -793,27 +873,10 @@ if ($step == 0) {
 
 ';
 	
-	function create_config_from_array(&$instance_config, &$array, $prefix = '') {
-		foreach ($array as $name => $value) {
-			if (is_array($value)) {
-				$instance_config .= "\n";
-				create_config_from_array($instance_config, $value, $prefix . '[\'' . addslashes($name) . '\']');
-				$instance_config .= "\n";
-			} else {
-				$instance_config .= '	$config' . $prefix . '[\'' . addslashes($name) . '\'] = ';
-				
-				if (is_numeric($value))
-					$instance_config .= $value;
-				else
-					$instance_config .= "'" . addslashes($value) . "'";
-					
-				$instance_config .= ";\n";
-			}
-		}
-	}
-	
 	create_config_from_array($instance_config, $_POST);
 	
+	$instance_config .= "\n";
+	$instance_config .= $more;
 	$instance_config .= "\n";
 	
 	if (@file_put_contents('inc/instance-config.php', $instance_config)) {
