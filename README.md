@@ -3,7 +3,7 @@ Lainchan - A fork of vichan
 
 About
 ------------
-vichan is a fork of [vichan](http://github.com/vichan-devel/vichan),
+Lainchan is a fork of [vichan](http://github.com/vichan-devel/vichan),
 a great imageboard package, actively building on it and adding a lot of features and other
 improvements.
 
