@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
 	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
@@ -23,7 +24,7 @@
 			</li>
 		</ul>
 	</fieldset>
-	
+
 	{% for category, boards in categories %}
 		<fieldset>
 			<legend>
@@ -36,7 +37,7 @@
 			{% endfor %}
 		</fieldset>
 	{% endfor %}
-	
+
 	{% for category, links in config.custom_categories %}
 		<fieldset>
 			<legend>

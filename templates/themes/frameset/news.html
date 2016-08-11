@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
 	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
@@ -11,7 +12,7 @@
 		<h1>{{ settings.title }}</h1>
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
-	
+
 	<div class="ban">
 		{% if news|count == 0 %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
@@ -29,11 +30,11 @@
 			{% endfor %}
 		{% endif %}
 	</div>
-	
+
         <footer>
-                <p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
+                <p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> +
                         <a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
-                <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
+                <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
                 <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
         </footer>
 </body>

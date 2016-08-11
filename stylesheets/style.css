@@ -4,13 +4,6 @@ div.sidearrows{
     display:none;
 }
 
-
-td{
-  
-}
-
-
-
 html, body {
     max-width: 100%!important;
     overflow-x: hidden!important;
@@ -30,15 +23,9 @@ div.pages{
 }
 
 div.boardlist.bottom {
- 
+
   text-align: center!important;
   display: none!important;
-}
-
-img.banner, img.board_image {
-
-   max-width: 100%!important;
-
 }
 
 .pintro{
@@ -107,7 +94,7 @@ main {
 /* Tables */
 table {
     margin: auto;
-   
+
 }
 table.board-list-table {
     width: 100%;
@@ -115,13 +102,13 @@ table.board-list-table {
 table tbody td {
     margin: 0;
     padding: 4px 15px 4px 4px;
-    
+
     text-align: left;
 }
 table thead th {
     border: 1px solid #000333;
     padding: 4px 15px 5px 5px;
-    
+
     background: #98E;
     color: #000333;
     text-align: left;
@@ -132,7 +119,7 @@ table tbody tr:nth-of-type( even ) {
 }
 
 tr{
-  
+
 }
 
 td.minimal,th.minimal {
@@ -244,7 +231,7 @@ h2 {
 }
 
 header {
-  margin: 1em 0;
+  margin: 2em 0;
 }
 
 h1 {
@@ -371,7 +358,7 @@ div.banner a:hover {
 img.banner,img.board_image {
   display: block;
   border: 1px solid #a9a9a9;
-  margin: 12px auto 0 auto;
+  margin: 3em auto 0 auto;
 }
 
 .post-image {
@@ -455,7 +442,7 @@ input.delete {
 div.post p {
     display: block;
     margin: 0;
-    
+
     line-height: 1.16em;
     font-size: 13px;
     min-height: 1.16em;
@@ -1231,10 +1218,10 @@ span.pln {
     clear: both;
     visibility: hidden;
     overflow: hidden;
-    
+
     font-size: 0px;
     line-height: 0px;
-    
+
     box-sizing: border-box;
     border: none;
     height: 0;
@@ -1249,7 +1236,7 @@ span.pln {
 /* Board List */
 div.boardlist {
     margin-top: 3px;
-    
+
     color: #89A;
     font-size: 9pt;
 }
@@ -1329,7 +1316,7 @@ div.boardlist a {
 }
 div.mix {
     display: inline-block;
-} 
+}
 
 /* Mona Font */
 .aa {
@@ -1721,12 +1708,12 @@ td.board-tags a.tag-link {
     aside.search-container .box {
         margin-right: 0;
     }
-    
+
     section.board-list {
         margin-top: 12px;
         width: 100%;
     }
-    
+
     table.board-list-table .board-meta,
     table.board-list-table .board-pph,
     table.board-list-table .board-tags {
@@ -1744,7 +1731,7 @@ td.board-tags a.tag-link {
 .announcement {
     font-size: 75%;
     padding-bottom: 1%;
-    margin-left: 5%; 
+    margin-left: 5%;
     margin-right: 5%;
 }
 
@@ -1812,5 +1799,30 @@ table.fileboard .intro a {
   margin-left: 0px;
 }
 
-  
+/* avoid ugly overflow for stuff */
+img, embed, object, video {
+    max-width: 100%;
+}
 
+/* boardlist gets all scrunched on small screens */
+@media screen and (max-width: 600px) {
+    header, img.board_image {
+        margin-top: 5em;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    img.board_image {
+        margin-top: 2em;
+    }
+
+    .bar {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .bar > * {
+        flex: 1 1 auto;
+    }
+}
