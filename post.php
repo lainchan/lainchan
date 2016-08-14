@@ -13,7 +13,12 @@ if ((!isset($_POST['mod']) || !$_POST['mod']) && $config['board_locked']) {
 
 $dropped_post = false;
 
+// Is it a post coming from NNTP? Let's extract it and pretend it's a normal post.
 if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
+	if ($_SERVER['REMOTE_ADDR'] != $config['nntpchan']['trusted_peer']) {
+		error("NNTPChan: Forbidden. $_SERVER[REMOTE_ADDR] is not a trusted peer");
+	}
+
 	$_POST = array();
 	$_POST['json_response'] = true;
 
@@ -1057,7 +1062,31 @@ if (isset($_POST['delete'])) {
 		$query->bindValue(':message_id_digest', sha1($dropped_post['msgid']));
 		$query->bindValue(':headers', $dropped_post['headers']);
 		$query->execute() or error(db_error($query));
+	}	// ^^^^^ For inbound posts  ^^^^^
+	elseif ($config['nntpchan']['enabled'] && $config['nntpchan']['group']) {
+		// vvvvv For outbound posts vvvvv
+
+		require_once('inc/nntpchan/nntpchan.php');
+		$msgid = gen_msgid($post['board'], $post['id']);
+
+		list($headers, $files) = post2nntp($post, $msgid);
+
+		$message = gen_nntp($headers, $files);
+
+	        $query = prepare("INSERT INTO ``nntp_references`` (`board`, `id`, `message_id`, `message_id_digest`, `own`, `headers`) VALUES ".
+	                                                         "(:board , :id , :message_id , :message_id_digest , true , :headers)");
+
+		$query->bindValue(':board', $post['board']);
+                $query->bindValue(':id', $post['id']);
+                $query->bindValue(':message_id', $msgid);
+                $query->bindValue(':message_id_digest', sha1($msgid));
+                $query->bindValue(':headers', json_encode($headers));
+                $query->execute() or error(db_error($query));
+
+		// Let's broadcast it!
+		nntp_publish($message, $msgid);
 	}
+
 	insertFloodPost($post);
 
 	// Handle cyclical threads
