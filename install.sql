@@ -314,6 +314,25 @@ CREATE TABLE `pages` (
   UNIQUE KEY `u_pages` (`name`,`board`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nntp_references`
+--
+
+CREATE TABLE `nntp_references` (
+  `board` varchar(60) NOT NULL,
+  `id` int(11) unsigned NOT NULL,
+  `message_id` varchar(255) CHARACTER SET ascii NOT NULL,
+  `message_id_digest` varchar(40) CHARACTER SET ascii NOT NULL,
+  `own` tinyint(1) NOT NULL,
+  `headers` text,
+  PRIMARY KEY (`message_id_digest`),
+  UNIQUE KEY `message_id` (`message_id`),
+  UNIQUE KEY `u_board_id` (`board`, `id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

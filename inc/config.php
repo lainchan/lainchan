@@ -1690,6 +1690,23 @@
 	// $config['api']['extra_fields'] = array('body_nomarkup' => 'com_nomarkup');
 
 /*
+ * ==================
+ *  NNTPChan settings
+ * ==================
+ */
+
+	$config['nntpchan'] = array();
+
+	// Enable NNTPChan integration
+	$config['nntpchan']['enabled'] = false;
+
+	// NNTP server
+	$config['nntpchan']['server'] = "localhost:1119";
+
+	// Global dispatch array. Add your boards to it to enable them.
+	$config['nntpchan']['dispatch'] = array(); // 'overchan.test' => 'test'
+
+/*
  * ====================
  *  Other/uncategorized
  * ====================
