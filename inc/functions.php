@@ -892,7 +892,7 @@ function displayBan($ban) {
 		Element('page.html', array(
 			'title' => _('Banned!'),
 			'config' => $config,
-			'boardlist' => createBoardlist($mod),
+			'boardlist' => createBoardlist(isset($mod) ? $mod : false),
 			'body' => Element('banned.html', array(
 				'config' => $config,
 				'ban' => $ban,
@@ -2514,7 +2514,7 @@ function rDNS($ip_addr) {
 	if (!$config['dns_system']) {
 		$host = gethostbyaddr($ip_addr);
 	} else {
-		$resp = shell_exec_error('host -W 1 ' . $ip_addr);
+		$resp = shell_exec_error('host -W 3 ' . $ip_addr);
 		if (preg_match('/domain name pointer ([^\s]+)$/', $resp, $m))
 			$host = $m[1];
 		else
