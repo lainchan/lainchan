@@ -567,7 +567,7 @@
 	
 	// List of user_flag the user can choose. Flags must be placed in the directory set by $config['uri_flags']
 	$config['user_flags'] = array();
-	/* example: 
+	/* example: 
 	$config['user_flags'] = array (
 		'nz' => 'Nazi',
 		'cm' => 'Communist',
