@@ -1,0 +1,50 @@
+GLOBAL RULES
+    Do not post in or view any boards if you are under 18 years of age.
+    If you break the rules we will delete your post. Do it repeatedly and you'll be derezzed.
+    Do not call for mods, or announce reports in a thread.
+    Always argue in good faith and avoid using personal attacks.
+    You should always elaborate on your opinions rather than just spilling the soykaf.
+    Don't respond with aggression to perceived flames or trolls (or at all.)
+    Do not whine and cry about 8chan, "quality", "invasions", "newfags", mods, bans, or kalyx outside of /q/.
+    Do not spam or advertise unrelated content.
+    Do not post child pornography or questionable 2D/3DCG/3DPG sexual depictions of children. This includes "child models".
+    If you must post it, spoiler any NSFW content and make sure it's relevant to the discussion.
+    Do not upload malicious archives.
+    Read the rules again. /* infinite iteration will fix later */
+
+
+PRO TIPS FOR MAXIMUM FUN:
+    The mods are not on powertrips, they are friendly and are trying to ensure the quality of lainchan, not belittle your ideas.
+    Lainchan is a place to have your voice heard but not a place for you to drown out others' voices.
+    Mods usually ask each other for opinions before doing anything. We hate having to ban someone.
+    Just relax and try to have fun. Jokes are always welcome.
+    Visit a board you've never been to. Try out /random/.
+    Max file size is 35 mb.
+    PDF, ePub, and webm are supported across the boards.
+    We ALWAYS need contributors to our board software, located on github
+    Dice rolling: posting in the email field with the form "dice XdY+/-Z" will result in X Y-sided dice rolled and summed, with the modifier Z added, the result is displayed at the top of the post body.
+    Be smart when posting about potentially illegal activities.
+
+
+Boards
+    /cyb/ is the general cyberpunk board for the discussion of the philosophy and anything else you can think of as being "cyberpunk".
+    /λ/ is the programming board.
+        Hard technical discussion of software development and project ideas is the only intended purpose of this board.
+        The Beginner's General is where all questions concerning novice programming should go, unless there is a more specific thread for your interests.
+    /tech/ is for the discussion of consumer technology.
+        Discussion concerning programs not intimately related to programming belongs on /tech/.
+    /zzz/ is the board for the discussion of dreams and dreaming techniques.
+    /drg/ is the board for discussing your waifu's experiences with drug usage, including buying and selling.
+    /lit/ is the board for reading, writing, and sharing written works of art.
+    /civ/ is for the discussion of politics, civic affairs and similar topics.
+    /diy/ is for the discussion of electronics and the construction and modification thereof.
+        The construction and modification of objects that are not electronic is also welcomed.
+        Cooking is one example of a topic that would fit on /diy/.
+    /art/ is the board for the discussion of other forms of art, including music, movies, and television.
+    /w/ is the board for the discussion of Japanese culture and anime.
+    /r/ is the board for the discussion of topics that do not have a dedicated board. It is not for purely random threads.
+    /layer/ is the ddt board. For more information see the sticky on the board or the official how-to guide.
+    /q/ is the questions board.
+        In specific, questions about the moderation, the quality of Lainchan, feature requests, and other questions about the website are valid.
+    Keep discussion rational. It's why we're here.
+    When in doubt about the topic of a board, lurk it for a while and check the catalog to get an idea of it.
