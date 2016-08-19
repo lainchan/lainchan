@@ -90,31 +90,36 @@ if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
 		$content = file_get_contents("php://input");
 	}
 	elseif ($ct == 'multipart/mixed' || $ct == 'multipart/form-data') {
-		_syslog(LOG_INFO, "MM: Files: ".print_r($GLOBALS, true));
+		_syslog(LOG_INFO, "MM: Files: ".print_r($GLOBALS, true)); // Debug
+
 		$content = '';
 
-		$tmpfiles = $_FILES['attachment'];
-		foreach ($tmpfiles as $id => $file) {
-			if ($file['type'] == 'text/plain') {
-				$content .= file_get_contents($file['tmp_name']);
-				unset($_FILES['attachment'][$id]);
+		$newfiles = array();
+		foreach ($_FILES['attachment']['error'] as $id => $error) {
+			if ($_FILES['attachment']['type'][$id] == 'text/plain') {
+				$content .= file_get_contents($_FILES['attachment']['tmp_name'][$id]);
 			}
-			elseif ($file['type'] == 'message/rfc822') { // Signed message, ignore for now
-				unset($_FILES['attachment'][$id]);
+			elseif ($_FILES['attachment']['type'][$id] == 'message/rfc822') { // Signed message, ignore for now
 			}
 			else { // A real attachment :^)
+				$file = array();
+				$file['name']     = $_FILES['attachment']['name'][$id];
+				$file['type']     = $_FILES['attachment']['type'][$id];
+				$file['size']     = $_FILES['attachment']['size'][$id];
+				$file['tmp_name'] = $_FILES['attachment']['tmp_name'][$id];
+				$file['error']    = $_FILES['attachment']['error'][$id];
+
+				$newfiles["file$id"] = $file;
 			}
 		}
 
-		$_FILES = $_FILES['attachment'];
-
-
+		$_FILES = $newfiles;
 	}
 	else {
 		error("NNTPChan: Wrong mime type: $ct");
 	}
 
-	$_POST['subject'] = isset($_GET['Subject']) ? $_GET['Subject'] : '';
+	$_POST['subject'] = isset($_GET['Subject']) ? ($_GET['Subject'] == 'None' ? '' : $_GET['Subject']) : '';
 	$_POST['board'] = $xboard;
 
 	if (isset ($_GET['From'])) {

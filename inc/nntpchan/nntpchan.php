@@ -124,7 +124,7 @@ function post2nntp($post, $msgid) {
                 $query->execute() or error(db_error($query));
 
                 if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
-			return ">>".substr($result['message_id_digest'], 0, 16);
+			return ">>".substr($result['message_id_digest'], 0, 18);
 		}
 		else {
 			return $o[0]; // Should send URL imo
