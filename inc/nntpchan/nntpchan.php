@@ -64,7 +64,9 @@ function gen_nntp($headers, $files) {
 }
 
 function nntp_publish($msg, $id) {
-	$s = fsockopen("tcp://localhost:1119");
+	global $config;
+	$server = $config["nntpchan"]["server"];
+	$s = fsockopen("tcp://$server");
 	fgets($s);
 	fputs($s, "MODE STREAM\r\n");
 	fgets($s);
@@ -72,6 +74,7 @@ function nntp_publish($msg, $id) {
 	fputs($s, $msg);
 	fputs($s, "\r\n.\r\n");
 	fgets($s);
+	fputs($s, "QUIT\r\n");
 	fclose($s);
 }
 
