@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
 	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/style.css"/>
@@ -26,7 +27,7 @@
 
  <br>
 
-     <div class="ban" id="global">      <h2>CYBERPUNK IS DEAD</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
+     <div class="ban" id="global">      <h2>CYBERPUNK IS DEAD</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div>
 
     <br>
 
@@ -48,7 +49,7 @@
 			<ul>
 				{% for post in recent_posts %}
 					<li>
-						<strong>{{ post.board_name }}</strong>: 
+						<strong>{{ post.board_name }}</strong>:
 						<a href="{{ post.link }}">
 							{{ post.snippet }}
 						</a>
