@@ -6,7 +6,7 @@ define('VERSION', '4.9.93');
 if (fopen('inc/instance-config.php' , 'a') === false) {
 	print('install.php does not have permission to write to /inc/, without permission the installer cannot continue');
 	exit();
-	}
+}
 
 require 'inc/functions.php';
 
