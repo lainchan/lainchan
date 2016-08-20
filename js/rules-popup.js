@@ -2,7 +2,7 @@
  * rules-popup.js
  * https://github.com/mkwia/lainchan/js/rules-popup.js
  *
- * Forces user to accept rules from /rules.txt on first welcome
+ * Forces user to accept rules from /templates/rules.html on first welcome
  *
  * 2016 mkwia <github.com/mkwia>
  *
