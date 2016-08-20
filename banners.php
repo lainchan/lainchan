@@ -4,14 +4,19 @@
 </head>
 <body>
 <?php
-if ($handle = opendir('banners')) {
-    while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-            echo "<a href=\"banners/$entry\"><img src=\"banners/$entry\" alt=\"$entry\" style=\"width:348px;height:128px\"></a> ";
+function listBannersInDir($dir) {
+    if ($handle = opendir($dir)) {
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                echo "<a href=\"$dir/$entry\"><img src=\"$dir/$entry\" alt=\"$entry\" style=\"width:348px;height:128px\"></a> ";
+            }
         }
+        closedir($handle);
     }
-    closedir($handle);
 }
+
+listBannersInDir("banners_priority");
+listBannersInDir("banners");
 ?>
 </body>
 </html>
