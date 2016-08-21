@@ -12,40 +12,41 @@
  *
  */
 
-$(function() {
-    if (typeof localStorage.rulesAccepted === "undefined") + function(c) {
-        var d = $("<div id='rules'>").prependTo("body").width("80%").height("80%")
-            .css("z-index", 9999).css("position", "fixed")
-            .css("top", "50%").css("bottom", 0).css("left", "50%").css("right", 0)
-            .css("margin-top", "-40vh").css("margin-left", "-40%")
-            .css("background", "black")
-            .css("text-align", "center").css("font-family", "sans-serif")
-            .css("font-size", "14px").css("color", "white")
+if (typeof localStorage.rulesAccepted === "undefined") {
 
-        d.html("" +
+    // generate a 7-character long random string
+    captcha = Math.random().toString(36).substring(2, 9)
 
-            "<div style='font-size: 40px; line-height: 60px; position: absolute; top: 0px; height: 60px; width: 100%;'>lainchan rule agreement</div>" +
+    var d = $("<div id='rules'>").prependTo("body").width("80%").height("80%")
+        .css("z-index", 9999).css("position", "fixed")
+        .css("top", "50%").css("bottom", 0).css("left", "50%").css("right", 0)
+        .css("margin-top", "-40vh").css("margin-left", "-40%")
+        .css("background", "black")
+        .css("text-align", "center").css("font-family", "sans-serif")
+        .css("font-size", "14px").css("color", "white")
 
-            "<div style='text-align: left; position: absolute; bottom: 80px; top: 60px;" +
-            "width: 100%; background-color: #ddd; overflow: auto; font-family: serif; color: #444;'>" +
-            "<div style='padding: 10px; font-size: 12px;' id='rules-actual'>" +
-            "</div>" +
-            "</div>" +
+    d.html("" +
 
-            "<div style='bottom: 0px; height: 80px; width: 100%; position: absolute;'>" +
-            "<div style='line-height: 40px;'>If you accept the rules, retype the captcha and press ACCEPT.</div>" +
-            "<div style='height: 40px;'><div style='display: inline-block; border: 1px solid white; font-family: serif; padding: 3px;'>" + c + "</div>" +
-            "<form onsubmit=\"if ($('#captcha').val() == '" + c + "') { localStorage.rulesAccepted = 1; $('#rules').remove(); } return false;\"" +
-            " style='display: inline-block;'>" +
-            "<input type='text' id='captcha' style='width: 100px;' />" +
-            "<input type='submit' value='ACCEPT' />" +
-            "</form>" +
-            "</div>" +
-            "</div>" +
+        "<div style='font-size: 40px; line-height: 60px; position: absolute; top: 0px; height: 60px; width: 100%;'>lainchan rule agreement</div>" +
 
-            "");
+        "<div style='text-align: left; position: absolute; bottom: 80px; top: 60px;" +
+        "width: 100%; background-color: #ddd; overflow: auto; font-family: serif; color: #444;'>" +
+        "<div style='padding: 10px; font-size: 12px;' id='rules-actual'>" +
+        "</div>" +
+        "</div>" +
 
-        $("#rules-actual").load("/templates/rules.html");
+        "<div style='bottom: 0px; height: 80px; width: 100%; position: absolute;'>" +
+        "<div style='line-height: 40px;'>If you accept the rules, retype the captcha and press ACCEPT.</div>" +
+        "<div style='height: 40px;'><div style='display: inline-block; border: 1px solid white; font-family: serif; padding: 3px;'>" + captcha + "</div>" +
+        "<form onsubmit=\"if ($('#captcha').val() == '" + captcha + "') { localStorage.rulesAccepted = 1; $('#rules').remove(); } return false;\"" +
+        " style='display: inline-block;'>" +
+        "<input type='text' id='captcha' style='width: 100px;' />" +
+        "<input type='submit' value='ACCEPT' />" +
+        "</form>" +
+        "</div>" +
+        "</div>" +
 
-    }("faggotry1234");
-});
+        "");
+
+    $("#rules-actual").load("rules.html");
+}
