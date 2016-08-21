@@ -12,13 +12,14 @@
  *
  */
 
-if (typeof localStorage.rulesAccepted === "undefined") {
+$(window).ready(function() {
+  if (typeof localStorage.rulesAccepted === "undefined") {
 
     // generate a 7-character long random string
     captcha = Math.random().toString(36).substring(2, 9)
 
-    $("<div id='rules-popup'>")
-        .prependTo("body");
+    $("body")
+        .prepend("<div id='rules-popup'>");
 
     $("#rules-popup")
         .append("<div class='rules-popup-top'>lainchan rule agreement</div>")
@@ -39,4 +40,5 @@ if (typeof localStorage.rulesAccepted === "undefined") {
     $(".rules-popup-form")
         .append("<input class='rules-popup-form-input' type='text' id='captcha' />")
         .append("<input type='submit' value='ACCEPT' />");
-}
+  }
+})
