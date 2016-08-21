@@ -1844,10 +1844,9 @@ table.fileboard .intro a {
     width: 100%;
     background-color: #DDDDDD;
     overflow: auto; 
-    font-family: serif;
     color: #444;
 }
-#rules-popup .rules-popup-content {
+#rules-popup #rules-popup-content {
     padding: 10px;
     font-size: 12px;
 }

@@ -28,7 +28,7 @@ if (typeof localStorage.rulesAccepted === "undefined") {
     $(".rules-popup-content-wrapper")
         .append("<div id='rules-popup-content'></div>");
     $("#rules-popup-content")
-        .load("rules.html");
+        .load("/templates/rules.html");
 
     $(".rules-popup-bottom")
         .append("<div class='rules-popup-bottom-instructions'>If you accept the rules, retype the captcha and press ACCEPT.</div>")
