@@ -1812,5 +1812,66 @@ table.fileboard .intro a {
   margin-left: 0px;
 }
 
-  
-
+/* Rules Popup  */
+#rules-popup {
+    width: 80%;
+    height: 80%;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    margin-left: -40%;
+    top: 50%;
+    margin-top: -40vh;
+    background: #000000;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+#rules-popup .rules-popup-top {
+    font-size: 40px;
+    line-height: 60px;
+    position: absolute;
+    top: 0px;
+    height: 60px;
+    width: 100%;
+}
+#rules-popup .rules-popup-content-wrapper {
+    text-align: left;
+    position: absolute;
+    bottom: 80px;
+    top: 60px; 
+    width: 100%;
+    background-color: #DDDDDD;
+    overflow: auto; 
+    font-family: serif;
+    color: #444;
+}
+#rules-popup .rules-popup-content {
+    padding: 10px;
+    font-size: 12px;
+}
+#rules-popup .rules-popup-bottom {
+    bottom: 0px;
+    height: 80px;
+    width: 100%; 
+    position: absolute;
+}
+#rules-popup .rules-popup-bottom-instructions {
+    line-height: 40px;
+}
+#rules-popup .rules-popup-captcha-wrapper {
+    height: 40px;
+}
+#rules-popup .rules-popup-captcha {
+    display: inline-block;
+    border: 1px solid white;
+    font-family: serif;
+    padding: 3px;
+}
+#rules-popup .rules-popup-form {
+    display: inline-block;
+}
+#rules-popup .rules-popup-form-input {
+    width: 100px;
+}

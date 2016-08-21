@@ -17,36 +17,26 @@ if (typeof localStorage.rulesAccepted === "undefined") {
     // generate a 7-character long random string
     captcha = Math.random().toString(36).substring(2, 9)
 
-    var d = $("<div id='rules'>").prependTo("body").width("80%").height("80%")
-        .css("z-index", 9999).css("position", "fixed")
-        .css("top", "50%").css("bottom", 0).css("left", "50%").css("right", 0)
-        .css("margin-top", "-40vh").css("margin-left", "-40%")
-        .css("background", "black")
-        .css("text-align", "center").css("font-family", "sans-serif")
-        .css("font-size", "14px").css("color", "white")
+    $("<div id='rules-popup'>")
+        .prependTo("body");
 
-    d.html("" +
+    $("#rules-popup")
+        .append("<div class='rules-popup-top'>lainchan rule agreement</div>")
+        .append("<div class='rules-popup-content-wrapper'></div>")
+        .append("<div class='rules-popup-bottom'></div>");
 
-        "<div style='font-size: 40px; line-height: 60px; position: absolute; top: 0px; height: 60px; width: 100%;'>lainchan rule agreement</div>" +
+    $(".rules-popup-content-wrapper")
+        .append("<div id='rules-popup-content'></div>");
+    $("#rules-popup-content")
+        .load("rules.html");
 
-        "<div style='text-align: left; position: absolute; bottom: 80px; top: 60px;" +
-        "width: 100%; background-color: #ddd; overflow: auto; font-family: serif; color: #444;'>" +
-        "<div style='padding: 10px; font-size: 12px;' id='rules-actual'>" +
-        "</div>" +
-        "</div>" +
-
-        "<div style='bottom: 0px; height: 80px; width: 100%; position: absolute;'>" +
-        "<div style='line-height: 40px;'>If you accept the rules, retype the captcha and press ACCEPT.</div>" +
-        "<div style='height: 40px;'><div style='display: inline-block; border: 1px solid white; font-family: serif; padding: 3px;'>" + captcha + "</div>" +
-        "<form onsubmit=\"if ($('#captcha').val() == '" + captcha + "') { localStorage.rulesAccepted = 1; $('#rules').remove(); } return false;\"" +
-        " style='display: inline-block;'>" +
-        "<input type='text' id='captcha' style='width: 100px;' />" +
-        "<input type='submit' value='ACCEPT' />" +
-        "</form>" +
-        "</div>" +
-        "</div>" +
-
-        "");
-
-    $("#rules-actual").load("rules.html");
+    $(".rules-popup-bottom")
+        .append("<div class='rules-popup-bottom-instructions'>If you accept the rules, retype the captcha and press ACCEPT.</div>")
+        .append("<div class='rules-popup-captcha-wrapper'></div>");
+    $(".rules-popup-captcha-wrapper")
+        .append("<div class='rules-popup-captcha'>" + captcha + "</div>")
+        .append("<form class='rules-popup-form' onsubmit=\"if ($('#captcha').val() == '" + captcha + "') { localStorage.rulesAccepted = 1; $('#rules-popup').remove(); } return false;\"></form>");
+    $(".rules-popup-form")
+        .append("<input class='rules-popup-form-input' type='text' id='captcha' />")
+        .append("<input type='submit' value='ACCEPT' />");
 }
