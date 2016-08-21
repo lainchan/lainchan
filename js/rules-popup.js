@@ -11,6 +11,7 @@
  *   $config['additional_javascript'][] = 'js/rules-popup.js';
  *
  */
+$(function() {
     if (typeof localStorage.rulesAccepted === "undefined") {
 
         // generate a 7-character long random string
