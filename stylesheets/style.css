@@ -1842,9 +1842,7 @@ table.fileboard .intro a {
     bottom: 80px;
     top: 60px; 
     width: 100%;
-    background-color: #DDDDDD;
-    overflow: auto; 
-    color: #444;
+    overflow: auto;
 }
 #rules-popup #rules-popup-content {
     padding: 10px;
