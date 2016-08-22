@@ -34,7 +34,9 @@ You can contribute to lainchan by:
 *	Providing feedback and suggestions
 *	Writing/editing documentation
 
-If you need help developing a patch, please join our IRC channel.
+If you need help developing a patch, please join our IRC channel. 
+
+> irc.freenode.net @ #lainchan-dev
 
 Installation
 -------------
