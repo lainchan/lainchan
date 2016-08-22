@@ -73,7 +73,7 @@ function createBoardlist($mod=false) {
 
 function error($message, $priority = true, $debug_stuff = false) {
 	global $board, $mod, $config, $db_error;
-	
+
 	if ($config['syslog'] && $priority !== false) {
 		// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
 		_syslog($priority !== true ? $priority : LOG_NOTICE, $message);
@@ -86,40 +86,35 @@ function error($message, $priority = true, $debug_stuff = false) {
 		die();
 	}
 
-	if ($config['debug'] && isset($db_error)) {
-		$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
-	}
-
 	if ($config['debug']) {
+		$debug_stuff=array();
+		if(isset($db_error)){
+			$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
+		}
 		$debug_stuff['backtrace'] = debug_backtrace();
+		$pw = $config['db']['password'];
+		$debug_callback = function(&$item) use (&$debug_callback, $pw) {
+			if (is_array($item)) {
+				return array_map($item, $debug_callback);
+			}
+			return ($item == $pw ? 'hunter2' : $item);
+		};
+		$debug_stuff = array_map($debug_stuff, $debug_callback);
 	}
 
-	// Return the bad request header, necessary for AJAX posts
-	// czaks: is it really so? the ajax errors only work when this is commented out
-	//		better yet use it when ajax is disabled
-	if (!isset ($_POST['json_response'])) {
-		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-	}
+	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
 	
 	// Is there a reason to disable this?
 	if (isset($_POST['json_response'])) {
 		header('Content-Type: text/json; charset=utf-8');
-		die(json_encode(array(
-			'error' => $message
-		)));
-	}
-	
-	$pw = $config['db']['password'];
-	$debug_callback = function(&$item) use (&$debug_callback, $pw) {
-		if (is_array($item)) {
-			$item = array_filter($item, $debug_callback);
+		$data=array('error'=>$message);
+		if($config['debug']){
+			$data['debug']=$debug_stuff;
 		}
-		return ($item !== $pw || !$pw);
-	};
+		print json_encode($data);
+		exit();
+	}
 
-
-	if ($debug_stuff) 
-		$debug_stuff = array_filter($debug_stuff, $debug_callback);
 
 	die(Element('page.html', array(
 		'config' => $config,
@@ -130,7 +125,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 			'message' => $message,
 			'mod' => $mod,
 			'board' => isset($board) ? $board : false,
-			'debug' => is_array($debug_stuff) ? str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true))) : utf8tohtml($debug_stuff)
+			'debug' => str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true)))
 		))
 	)));
 }
