@@ -1814,61 +1814,103 @@ table.fileboard .intro a {
 
 /* Rules Popup  */
 #rules-popup {
-    width: 80%;
-    height: 80%;
+    display: none;
+}
+#mobile-rules-popup {
+    display: block;
+    width: 100%;
+    height: 100%;
     position: fixed;
     z-index: 9999;
-    left: 50%;
-    margin-left: -40%;
-    top: 50%;
-    margin-top: -40vh;
+    left: 0;
+    top: 0;
     background: #000000;
     text-align: center;
     font-family: sans-serif;
     font-size: 14px;
     color: #FFFFFF;
+    overflow: scroll;
 }
-#rules-popup .rules-popup-top {
-    font-size: 40px;
-    line-height: 60px;
-    position: absolute;
-    top: 0px;
-    height: 60px;
-    width: 100%;
+#mobile-rules-popup ul, #mobile-rules-popup ol {
+    padding: 0 40px;
 }
-#rules-popup .rules-popup-content-wrapper {
-    text-align: left;
-    position: absolute;
-    bottom: 80px;
-    top: 60px; 
-    width: 100%;
-    overflow: auto;
+#mobile-rules-popup .mobile-rules-popup-form {
+    background-color: #C33A98;
+    padding: 20px;
 }
-#rules-popup #rules-popup-content {
-    padding: 10px;
-    font-size: 12px;
+#mobile-rules-popup .mobile-rules-popup-form * {
+    margin: 1em 0;
 }
-#rules-popup .rules-popup-bottom {
-    bottom: 0px;
-    height: 80px;
-    width: 100%; 
-    position: absolute;
-}
-#rules-popup .rules-popup-bottom-instructions {
-    line-height: 40px;
-}
-#rules-popup .rules-popup-captcha-wrapper {
-    height: 40px;
-}
-#rules-popup .rules-popup-captcha {
-    display: inline-block;
+#mobile-rules-popup .mobile-rules-popup-form .mobile-rules-popup-goutweed {
     border: 1px solid white;
-    font-family: serif;
-    padding: 3px;
+    font-family: monospace;
 }
-#rules-popup .rules-popup-form {
-    display: inline-block;
+#mobile-rules-popup .mobile-rules-popup-form input {
+    display: inline;
 }
-#rules-popup .rules-popup-form-input {
-    width: 100px;
+
+@media only screen and (min-width:700px) {
+    #mobile-rules-popup {
+        display: none;
+    }
+    #rules-popup {
+        display: block;
+        width: 80%;
+        height: 80%;
+        position: fixed;
+        z-index: 9999;
+        left: 50%;
+        margin-left: -40%;
+        top: 50%;
+        margin-top: -40vh;
+        background: #000000;
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 14px;
+        color: #FFFFFF;
+    }
+    #rules-popup .rules-popup-top {
+        font-size: 40px;
+        line-height: 60px;
+        position: absolute;
+        top: 0px;
+        height: 60px;
+        width: 100%;
+    }
+    #rules-popup .rules-popup-content-wrapper {
+        text-align: left;
+        position: absolute;
+        bottom: 80px;
+        top: 60px;
+        width: 100%;
+        overflow: auto;
+    }
+    #rules-popup #rules-popup-content {
+        padding: 10px;
+        font-size: 12px;
+    }
+    #rules-popup .rules-popup-bottom {
+        bottom: 0px;
+        height: 80px;
+        width: 100%;
+        position: absolute;
+    }
+    #rules-popup .rules-popup-bottom-instructions {
+        line-height: 40px;
+    }
+    #rules-popup .rules-popup-goutweed-wrapper {
+        height: 40px;
+    }
+    #rules-popup .rules-popup-goutweed {
+        display: inline-block;
+        border: 1px solid white;
+        font-family: serif;
+        padding: 3px;
+    }
+    #rules-popup .rules-popup-form {
+        display: inline-block;
+    }
+    #rules-popup .rules-popup-form-input {
+        width: 100px;
+    }
 }
