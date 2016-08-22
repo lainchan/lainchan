@@ -1327,7 +1327,7 @@ div.boardlist a {
     font-weight: normal;
     opacity: .666;
 }
-div.mix {
+li.mix {
     display: inline-block;
 } 
 
