@@ -12,7 +12,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 define('TINYBOARD', null);
 
 $microtime_start = microtime(true);
-
+require_once 'inc/error.php';
 require_once 'inc/cache.php';
 require_once 'inc/display.php';
 require_once 'inc/template.php';
@@ -26,11 +26,10 @@ if (!extension_loaded('gettext')) {
 // the user is not currently logged in as a moderator
 $mod = false;
 
-register_shutdown_function('error');
 mb_internal_encoding('UTF-8');
 loadConfig();
 
-function init_locale($locale, $error='error') {
+function init_locale($locale) {
 	if (extension_loaded('gettext')) {
 		if (setlocale(LC_ALL, $locale) === false) {
 			//$error('The specified locale (' . $locale . ') does not exist on your platform!');
@@ -40,7 +39,7 @@ function init_locale($locale, $error='error') {
 		textdomain('tinyboard');
 	} else {
 		if (_setlocale(LC_ALL, $locale) === false) {
-			$error('The specified locale (' . $locale . ') does not exist on your platform!');
+			error('The specified locale (' . $locale . ') does not exist on your platform!');
 		}
 		_bindtextdomain('tinyboard', './inc/locale');
 		_bind_textdomain_codeset('tinyboard', 'UTF-8');
@@ -52,8 +51,6 @@ $current_locale = 'en';
 
 function loadConfig() {
 	global $board, $config, $__ip, $debug, $__version, $microtime_start, $current_locale, $events;
-
-	$error = function_exists('error') ? 'error' : 'error';
 
 	$boardsuffix = isset($board['uri']) ? $board['uri'] : '';
 
@@ -77,7 +74,7 @@ function loadConfig() {
 
 		if ($config['locale'] != $current_locale) {
                 	$current_locale = $config['locale'];
-                	init_locale($config['locale'], $error);
+                	init_locale($config['locale']);
         	}
 	}
 	else {
@@ -118,7 +115,7 @@ function loadConfig() {
 		}
 
 		if (!file_exists('inc/instance-config.php'))
-			$error('Tinyboard is not configured! Create inc/instance-config.php.');
+			error('Tinyboard is not configured! Create inc/instance-config.php.');
 
 		// Initialize locale as early as possible
 
@@ -148,7 +145,7 @@ function loadConfig() {
 
 		if ($config['locale'] != $current_locale) {
 			$current_locale = $config['locale'];
-			init_locale($config['locale'], $error);
+			init_locale($config['locale']);
 		}
 
 		require 'inc/config.php';
@@ -161,7 +158,7 @@ function loadConfig() {
 
 		if ($config['locale'] != $current_locale) {
 			$current_locale = $config['locale'];
-			init_locale($config['locale'], $error);
+			init_locale($config['locale']);
 		}
 
 		if (!isset($config['global_message']))
@@ -271,7 +268,6 @@ function loadConfig() {
 		$_SERVER['REMOTE_ADDR'] = $m[2];
 
 	if ($config['verbose_errors']) {
-		set_error_handler('error');
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
 		ini_set('html_errors', false);
