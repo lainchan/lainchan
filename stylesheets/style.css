@@ -1825,11 +1825,10 @@ table.fileboard .intro a {
     left: 0;
     top: 0;
     background: #000000;
-    text-align: center;
     font-family: sans-serif;
-    font-size: 14px;
     color: #FFFFFF;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 #mobile-rules-popup ul, #mobile-rules-popup ol {
     padding: 0 40px;
@@ -1844,12 +1843,13 @@ table.fileboard .intro a {
 #mobile-rules-popup .mobile-rules-popup-form .mobile-rules-popup-goutweed {
     border: 1px solid white;
     font-family: monospace;
+    display: inline;
 }
 #mobile-rules-popup .mobile-rules-popup-form input {
     display: inline;
 }
 
-@media only screen and (min-width:700px) {
+@media only screen and (min-width:981px) {
     #mobile-rules-popup {
         display: none;
     }
