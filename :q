@@ -1,0 +1,9 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch installfix
+# Changes to be committed:
+#	modified:   install.php
+This prevents a crash due to instance-config.php not existing, it will now check if the file exists and  if not creates the file
+
+

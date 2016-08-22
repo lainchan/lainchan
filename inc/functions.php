@@ -26,7 +26,7 @@ if (!extension_loaded('gettext')) {
 // the user is not currently logged in as a moderator
 $mod = false;
 
-register_shutdown_function('fatal_error_handler');
+register_shutdown_function('error');
 mb_internal_encoding('UTF-8');
 loadConfig();
 
@@ -53,7 +53,7 @@ $current_locale = 'en';
 function loadConfig() {
 	global $board, $config, $__ip, $debug, $__version, $microtime_start, $current_locale, $events;
 
-	$error = function_exists('error') ? 'error' : 'basic_error_function_because_the_other_isnt_loaded_yet';
+	$error = function_exists('error') ? 'error' : 'error';
 
 	$boardsuffix = isset($board['uri']) ? $board['uri'] : '';
 
@@ -271,7 +271,7 @@ function loadConfig() {
 		$_SERVER['REMOTE_ADDR'] = $m[2];
 
 	if ($config['verbose_errors']) {
-		set_error_handler('verbose_error_handler');
+		set_error_handler('error');
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
 		ini_set('html_errors', false);
@@ -332,36 +332,6 @@ function loadConfig() {
 	}
 }
 
-function basic_error_function_because_the_other_isnt_loaded_yet($message, $priority = true) {
-	global $config;
-
-	if ($config['syslog'] && $priority !== false) {
-		// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
-		_syslog($priority !== true ? $priority : LOG_NOTICE, $message);
-	}
-
-	// Yes, this is horrible.
-	die('<!DOCTYPE html><html><head><title>Error</title>' .
-		'<style type="text/css">' .
-			'body{text-align:center;font-family:arial, helvetica, sans-serif;font-size:10pt;}' .
-			'p{padding:0;margin:20px 0;}' .
-			'p.c{font-size:11px;}' .
-		'</style></head>' .
-		'<body><h2>Error</h2>' . $message . '<hr/>' .
-		'<p class="c">This alternative error page is being displayed because the other couldn\'t be found or hasn\'t loaded yet.</p></body></html>');
-}
-
-function fatal_error_handler() { 
-	if ($error = error_get_last()) {
-		if ($error['type'] == E_ERROR) {
-			if (function_exists('error')) {
-				error('Caught fatal error: ' . $error['message'] . ' in <strong>' . $error['file'] . '</strong> on line ' . $error['line'], LOG_ERR);
-			} else {
-				basic_error_function_because_the_other_isnt_loaded_yet('Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'], LOG_ERR);
-			}
-		}
-	}
-}
 
 function _syslog($priority, $message) {
 	if (isset($_SERVER['REMOTE_ADDR'], $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'])) {
@@ -372,16 +342,6 @@ function _syslog($priority, $message) {
 	}
 }
 
-function verbose_error_handler($errno, $errstr, $errfile, $errline) {
-	if (error_reporting() == 0)
-		return false; // Looks like this warning was suppressed by the @ operator.
-	error(utf8tohtml($errstr), true, array(
-		'file' => $errfile . ':' . $errline,
-		'errno' => $errno,
-		'error' => $errstr,
-		'backtrace' => array_slice(debug_backtrace(), 1)
-	));
-}
 
 function define_groups() {
 	global $config;
