@@ -52,6 +52,7 @@
 			<td>
 				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off">
 				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />
+				<input id="spoiler" name="spoiler" type="checkbox"><label for="spoiler">Spoiler Image</label>
 			</td>
 		</tr>
 		{% endif %}
@@ -66,6 +67,7 @@
 				{% if not (not (config.field_disable_subject or (id and config.field_disable_reply_subject)) or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
 				{% if not (not config.field_disable_email or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri))) %}
 				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% if id %}{{ config.button_reply }}{% else %}{{ config.button_newtopic }}{% endif %}" />
+				<input id="spoiler" name="spoiler" type="checkbox"><label for="spoiler">Spoiler Image</label> <!-- General idea, but it might need those {% code %}-->
 				{% endif %}
 				{% endif %}
 			</td>
