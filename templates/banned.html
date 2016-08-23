@@ -1,6 +1,7 @@
 {% filter remove_whitespace %}
 {# Automatically removes unnecessary whitespace #}
 <div class="ban">
+	<iframe width="420" height="315" src="https://www.youtube.com/embed/FXPKJUE86d0" frameborder="0" allowfullscreen></iframe>
 	{% if ban.expires and time() >= ban.expires %}
 		<h2>{% trans %}You were banned! ;_;{% endtrans %}</h2>
 	{% else %}
