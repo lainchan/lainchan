@@ -1839,6 +1839,8 @@ table.fileboard .intro a {
 }
 #mobile-rules-popup .mobile-rules-popup-form * {
     margin: 1em 0;
+    font-size: 3em;
+    padding: 10px;
 }
 #mobile-rules-popup .mobile-rules-popup-form .mobile-rules-popup-goutweed {
     border: 1px solid white;
