@@ -19,6 +19,9 @@
 				{% if mod|hasPermission(config.mod.manageboards) %}
 					 <a href="?/edit/{{ board.uri }}"><small>[{% trans 'edit' %}]</small></a>
 				{% endif %}
+				{% if mod|hasPermission(config.mod.edit_pages) %}
+					 <a href="?/edit_pages/{{ board.uri }}"><small>[{% trans 'pages' %}]</small></a>
+				{% endif %}
 			</li>
 		{% endfor %}
 		
@@ -62,7 +65,7 @@
 			{% endif %}
 			<li><a href="?/noticeboard">{% trans 'View all noticeboard entries' %}</a></li>
 		{% endif %}
-		<li><a href="?/news">{% trans 'News' %}</a></li>
+		<li><a href="?/edit_news">{% trans 'News' %}</a></li>
 		<li>
 			<a href="?/inbox">
 				{% trans 'PM inbox' %} 
@@ -99,6 +102,9 @@
 		{% endif %}
 		{% if mod|hasPermission(config.mod.modlog) %}
 			<li><a href="?/log">{% trans 'Moderation log' %}</a></li>
+		{% endif %}
+		{% if mod|hasPermission(config.mod.edit_pages) %}
+			<li><a href="?/edit_pages">{% trans 'Global static pages' %}</a></li>
 		{% endif %}
 		{% if mod|hasPermission(config.mod.recent) %}
 			<li><a href="?/recent/25">{% trans 'Recent posts' %}</a></li>

@@ -4,33 +4,20 @@
 <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>{{ settings.title }}</title>
-	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/style.css"/>
-	<link rel="stylesheet" media="screen" href="{{ config.root}}stylesheets/recent.css"/>
-	<link rel="stylesheet" media="screen" href="https://lainchan.org/stylesheets/font-awesome/css/font-awesome.min.css"/>
-
+	<link rel="stylesheet" media="screen" href="{{ config.url_stylesheet }}"/>
+	<link rel="stylesheet" media="screen" href="{{ config.root }}{{ settings.css }}"/>
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
 <body>
-	<div class="bar top">
-		{{ boardlist.top }}
-	</div>
-
+	{{ boardlist.top }}
 	<header>
-		<center>
-			<img alt="header" class="lain_banner" src="static/lainchan_header_console.gif"/>
-		</center>
+		<h1>{{ settings.title }}</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
-<br>
-
-    <img alt="mascot" class="lain_banner"src="static/lain_banner1.png"/>
-
- <br>
-
-     <div class="ban" id="global">      <h2>CYBERPUNK IS DEAD</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
-
-    <br>
-
-	<div class="ban" id="global">
+	
+	<div class="box-wrap">
 		<div class="box left">
 			<h2>Recent Images</h2>
 			<ul>
@@ -65,12 +52,15 @@
 			</ul>
 		</div>
 	</div>
-
+	
+	<hr/>
 	<footer>
-        <center>
-        	<a href="mailto:admin@lainchan.org?Subject=Hello" target="_top">admin@lainchan.org</a>
-        </center>
-
+		<p class="unimportant" style="margin-top:20px;text-align:center;">- tinyboard + 
+			<a href="https://engine.vichan.net/">vichan</a> +
+		    <a href="https://github.com/lainchan/lainchan">lainchan</a>	{{ config.version }} -
+		<br>tinyboard copyright &copy; 2010-2014 tinyboard development group    
+		<br><a href="https://engine.vichan.net/">vichan</a> copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> copyright &copy; 2014-2016 lainchan administration</p>
 	</footer>
 </body>
 </html>

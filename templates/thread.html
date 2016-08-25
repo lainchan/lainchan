@@ -2,20 +2,30 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
 
         <script type="text/javascript">
-          var active_page = "thread";
+          var active_page = "thread"
+	    , board_name = "{{ board.uri }}"
+	    , thread_id = "{{ thread.id }}";
 	</script>
 
 	{% include 'header.html' %}
-	<title>{{ board.url }} - {% if config.thread_subject_in_title and thread.subject %}{{ thread.subject }}{% else %}{{ board.title|e }}{% endif %}</title>
+
+	{% set meta_subject %}{% if config.thread_subject_in_title and thread.subject %}{{ thread.subject|e }}{% else %}{{ thread.body_nomarkup[:256]|remove_modifiers|e }}{% endif %}{% endset %}
+
+	<meta name="description" content="{{ board.url }} - {{ board.title|e }} - {{ meta_subject }}" />
+	<meta name="twitter:card" value="summary">
+	<meta property="og:title" content="{{ meta_subject }}" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="{{ config.domain }}/{{ board.uri }}/{{ config.dir.res }}{{ thread.id }}.html" />
+	{% if thread.files.0.thumb %}<meta property="og:image" content="{{ config.domain }}/{{ board.uri }}/{{ config.dir.thumb }}{{ thread.files.0.thumb }}" />{% endif %}
+	<meta property="og:description" content="{{ thread.body_nomarkup|e }}" />
+
+	<title>{{ board.url }} - {{ meta_subject }}</title>
 </head>
-<body id="thread">
-	<div class="bar top">
-		{{ boardlist.top }}
-	</div>
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %} active-thread" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
+	{{ boardlist.top }}
+	<a name="top"></a>
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
 	<header>
@@ -34,46 +44,54 @@
 
 	{% include 'attention_bar.html' %}
 
+	<div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a> <a class="unimportant" href="#bottom">[{% trans %}Go to bottom {% endtrans %}]</a></div>
+
 	{{ config.ad.top }}
 
 	{% include 'post_form.html' %}
 
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
-	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-	<a href="#bottom" style="padding-left: 10px">[{% trans %}Go to bottom{% endtrans %}]</a>
-	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
-	<input type="hidden" name="board" value="{{ board.uri }}" />
-	{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
-	{{ body }}
-	{% include 'report_delete.html' %}
+		<input type="hidden" name="board" value="{{ board.uri }}" />
+		{% if mod %}<input type="hidden" name="mod" value="1" />{% endif %}
+		
+		{{ body }}
+		
+		<div id="thread-interactions">
+			<span id="thread-links">
+				<a id="thread-return" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
+				<a id="thread-top" href="#top">[{% trans %}Go to top{% endtrans %}]</a>
+                		{% if config.catalog_link %}
+					<a id="thread-catalog" href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">[{% trans %}Catalog{% endtrans %}]</a>
+		                {% endif %}
+			</span>
+			
+			<span id="thread-quick-reply">
+				<a id="link-quick-reply" href="#">[{% trans %}Post a Reply{% endtrans %}]</a>
+			</span>
+			
+			{% include 'report_delete.html' %}
+		</div>
+		
+		<div class="clearfix"></div>
 	</form>
-
+	
 	{{ boardlist.bottom }}
 
 	{{ config.ad.bottom }}
 
 	<footer>
-		{% include 'badges.html' %}
-		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
-			<a href='https://int.vichan.net/devel/'>vichan</a> + 
-			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
-		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
-		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel
-		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2015 lainchan Administration</p>
+		<p class="unimportant" style="margin-top:20px;text-align:center;">- Tinyboard + 
+			<a href="https://engine.vichan.net/">vichan</a> +
+		    <a href="https://github.com/lainchan/lainchan">lainchan</a>	{{ config.version }} -
+		<br>Tinyboard Copyright &copy; 2010-2014 Tinyboard Development Group    
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2016 lainchan administration</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
-	<div class="bar bottom">
-		<div class="threadlinks">
-			<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>
-        		<span class="threadlink"><a href="#" style="padding-left: 10px"> {% trans %}Go to top{% endtrans %}</a> /</span>
-		</div>
-		<div class=pages></div>
-	</div>
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>
-	<a href="#" id="bottom"></a>
 </body>
 </html>

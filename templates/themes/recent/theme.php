@@ -25,10 +25,11 @@
 			$this->excluded = explode(' ', $settings['exclude']);
 			
 			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
-				if ($config['smart_build']) {
+				$action = generation_strategy('sb_recent', array());
+				if ($action == 'delete') {
 					file_unlink($config['dir']['home'] . $settings['html']);
 				}
-				else {
+				elseif ($action == 'rebuild') {
 					file_write($config['dir']['home'] . $settings['html'], $this->homepage($settings));
 				}
 			}
@@ -64,7 +65,7 @@
 				if (isset($post['files']))
 					$files = json_decode($post['files']);
 
-                if ($files[0]->file == 'deleted') continue;
+                if ($files[0]->file == 'deleted' || $files[0]->thumb == 'file') continue;
 				
 				// board settings won't be available in the template file, so generate links now
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res']

@@ -77,7 +77,7 @@ $(document).ready(function(){
 			
 			$(this).hide().after(show_link);
 			
-			if ($(img).parent()[0].dataset.expanded == 'true') {
+			if ($(img).parent().data('expanded') == 'true') {
 				$(img).parent().click();
 			}
 		

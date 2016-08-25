@@ -7,19 +7,7 @@ require_once 'inc/functions.php';
 require_once 'inc/anti-bot.php';
 require_once 'inc/bans.php';
 
-// Fix for magic quotes
-if (get_magic_quotes_gpc()) {
-	function strip_array($var) {
-		return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
-	}
-	
-	$_GET = strip_array($_GET);
-	$_POST = strip_array($_POST);
-}
-
-if ((!isset($_POST['mod']) || !$_POST['mod'])
-	&& ($config['board_locked']===true
-		|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])))){
+if ((!isset($_POST['mod']) || !$_POST['mod']) && $config['board_locked']) {
     error("Board is locked");
 }
 
@@ -82,9 +70,11 @@ if (isset($_POST['delete'])) {
 			if (isset($_POST['file'])) {
 				// Delete just the file
 				deleteFile($id);
+				modLog("User deleted file from his own post #$id");
 			} else {
 				// Delete entire post
 				deletePost($id);
+				modLog("User deleted his own post #$id");
 			}
 			
 			_syslog(LOG_INFO, 'Deleted post: ' .
@@ -136,6 +126,23 @@ if (isset($_POST['delete'])) {
 	
 	if (count($report) > $config['report_limit'])
 		error($config['error']['toomanyreports']);
+
+	if ($config['report_captcha'] && !isset($_POST['captcha_text'], $_POST['captcha_cookie'])) {
+		error($config['error']['bot']);
+	}
+
+	if ($config['report_captcha']) {
+		$resp = file_get_contents($config['captcha']['provider_check'] . "?" . http_build_query([
+			'mode' => 'check',
+			'text' => $_POST['captcha_text'],
+			'extra' => $config['captcha']['extra'],
+			'cookie' => $_POST['captcha_cookie']
+		]));
+
+		if ($resp !== '1') {
+                        error($config['error']['captcha']);
+		}
+	}
 	
 	$reason = escape_markup_modifiers($_POST['reason']);
 	markup($reason);
@@ -165,7 +172,8 @@ if (isset($_POST['delete'])) {
 	$root = $is_mod ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
 	
 	if (!isset($_POST['json_response'])) {
-		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
+		$index = $root . $board['dir'] . $config['file_index'];
+		echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
 	} else {
 		header('Content-Type: text/json');
 		echo json_encode(array('success' => true));
@@ -227,7 +235,7 @@ if (isset($_POST['delete'])) {
 	checkBan($board['uri']);
 
 	if ($post['mod'] = isset($_POST['mod']) && $_POST['mod']) {
-		require 'inc/mod/auth.php';
+		check_login(false);
 		if (!$mod) {
 			// Liar. You're not a mod.
 			error($config['error']['notamod']);
@@ -257,7 +265,7 @@ if (isset($_POST['delete'])) {
 	
 	//Check if thread exists
 	if (!$post['op']) {
-		$query = prepare(sprintf("SELECT `sticky`,`locked`,`sage`,`slug` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
+		$query = prepare(sprintf("SELECT `sticky`,`locked`,`cycle`,`sage`,`slug` FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL LIMIT 1", $board['uri']));
 		$query->bindValue(':id', $post['thread'], PDO::PARAM_INT);
 		$query->execute() or error(db_error());
 		
@@ -449,7 +457,7 @@ if (isset($_POST['delete'])) {
 		$i = 0;
 		foreach ($_FILES as $key => $file) {
 			if ($file['size'] && $file['tmp_name']) {
-				$file['filename'] = urldecode(get_magic_quotes_gpc() ? stripslashes($file['name']) : $file['name']);
+				$file['filename'] = urldecode($file['name']);
 				$file['extension'] = strtolower(mb_substr($file['filename'], mb_strrpos($file['filename'], '.') + 1));
 				if (isset($config['filename_func']))
 					$file['file_id'] = $config['filename_func']($file);
@@ -574,7 +582,12 @@ if (isset($_POST['delete'])) {
 	
 	
 	if ($post['has_file']) {
-		$fnarray = array();
+		$md5cmd = false;
+		if ($config['bsd_md5'])  $md5cmd = '/sbin/md5 -r';
+		if ($config['gnu_md5'])  $md5cmd = 'md5sum';
+
+		$allhashes = '';
+
 		foreach ($post['files'] as $key => &$file) {
 			if ($post['op'] && $config['allowed_ext_op']) {
 				if (!in_array($file['extension'], $config['allowed_ext_op']))
@@ -588,57 +601,57 @@ if (isset($_POST['delete'])) {
 			// Truncate filename if it is too long
 			$file['filename'] = mb_substr($file['filename'], 0, $config['max_filename_len']);
 			
-			if (!isset($filenames)) {
-				$filenames = escapeshellarg($file['tmp_name']);
-			} else {
-				$filenames .= (' ' . escapeshellarg($file['tmp_name']));
-			}
-
-			$fnarray[] = $file['tmp_name'];
-
 			$upload = $file['tmp_name'];
 			
 			if (!is_readable($upload))
 				error($config['error']['nomove']);
-		}
-		
-		$md5cmd = $config['bsd_md5'] ? 'md5 -r' : 'md5sum';
 
-		if (!$config['php_md5'] && $output = shell_exec_error("cat $filenames | $md5cmd")) {
-			$explodedvar = explode(' ', $output);
-			$hash = $explodedvar[0];
-			$post['filehash'] = $hash;
-		} elseif ($config['max_images'] === 1) {
-			$post['filehash'] = md5_file($upload);
-		} else {
-			$str_to_hash = '';
-			foreach ($fnarray as $i => $f) {
-				$str_to_hash .= file_get_contents($f);
+			if ($md5cmd) {
+				$output = shell_exec_error($md5cmd . " " . escapeshellarg($upload));
+				$output = explode(' ', $output);
+				$hash = $output[0];
 			}
-			$post['filehash'] = md5($str_to_hash);
+			else {
+				$hash = md5_file($upload);
+			}
+
+			$file['hash'] = $hash;
+			$allhashes .= $hash;
+		}
+
+		if (count ($post['files']) == 1) {
+			$post['filehash'] = $hash;
+		}
+		else {
+			$post['filehash'] = md5($allhashes);
 		}
 	}
-	
+
 	if (!hasPermission($config['mod']['bypass_filters'], $board['uri'])) {
-		require_once 'inc/filters.php';	
-		
+		require_once 'inc/filters.php';
+
 		do_filters($post);
 	}
-	
-	if ($post['has_file']) {	
+
+	if ($post['has_file']) {
 		foreach ($post['files'] as $key => &$file) {
-		if ($file['is_an_image'] && $config['ie_mime_type_detection'] !== false) {
-			// Check IE MIME type detection XSS exploit
-			$buffer = file_get_contents($upload, null, null, null, 255);
-			if (preg_match($config['ie_mime_type_detection'], $buffer)) {
-				undoImage($post);
-				error($config['error']['mime_exploit']);
+		if ($file['is_an_image']) {
+			if ($config['ie_mime_type_detection'] !== false) {
+				// Check IE MIME type detection XSS exploit
+				$buffer = file_get_contents($upload, null, null, null, 255);
+				if (preg_match($config['ie_mime_type_detection'], $buffer)) {
+					undoImage($post);
+					error($config['error']['mime_exploit']);
+				}
 			}
 			
 			require_once 'inc/image.php';
 			
 			// find dimensions of an image using GD
 			if (!$size = @getimagesize($file['tmp_name'])) {
+				error($config['error']['invalidimg']);
+			}
+			if (!in_array($size[2], array(IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_BMP))) {
 				error($config['error']['invalidimg']);
 			}
 			if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
@@ -748,6 +761,34 @@ if (isset($_POST['delete'])) {
 			$file['thumbwidth'] = $size[0];
 			$file['thumbheight'] = $size[1];
 		}
+
+		if ($config['tesseract_ocr'] && $file['thumb'] != 'file') { // Let's OCR it!
+			$fname = $file['tmp_name'];
+
+			if ($file['height'] > 500 || $file['width'] > 500) {
+				$fname = $file['thumb'];
+			}
+
+			if ($fname == 'spoiler') { // We don't have that much CPU time, do we?
+			}
+			else {
+				$tmpname = "tmp/tesseract/".rand(0,10000000);
+
+				// Preprocess command is an ImageMagick b/w quantization
+				$error = shell_exec_error(sprintf($config['tesseract_preprocess_command'], escapeshellarg($fname)) . " | " .
+                                                          'tesseract stdin '.escapeshellarg($tmpname).' '.$config['tesseract_params']);
+				$tmpname .= ".txt";
+
+				$value = @file_get_contents($tmpname);
+				@unlink($tmpname);
+
+				if ($value && trim($value)) {
+					// This one has an effect, that the body is appended to a post body. So you can write a correct
+					// spamfilter.
+					$post['body_nomarkup'] .= "<tinyboard ocr image $key>".htmlspecialchars($value)."</tinyboard>";
+				}
+			}
+		}
 		
 		if (!isset($dont_copy_file) || !$dont_copy_file) {
 			if (isset($file['file_tmp'])) {
@@ -788,6 +829,11 @@ if (isset($_POST['delete'])) {
 		}
 		}
 	
+	// Do filters again if OCRing
+	if ($config['tesseract_ocr'] && !hasPermission($config['mod']['bypass_filters'], $board['uri'])) {
+		do_filters($post);
+	}
+
 	if (!hasPermission($config['mod']['postunoriginal'], $board['uri']) && $config['robot_enable'] && checkRobot($post['body_nomarkup'])) {
 		undoImage($post);
 		if ($config['robot_mute']) {
@@ -828,6 +874,15 @@ if (isset($_POST['delete'])) {
 	$post['slug'] = slugify($post);
 	
 	insertFloodPost($post);
+
+	// Handle cyclical threads
+	if (!$post['op'] && isset($thread['cycle']) && $thread['cycle']) {
+		// Query is a bit weird due to "This version of MariaDB doesn't yet support 'LIMIT & IN/ALL/ANY/SOME subquery'" (MariaDB Ver 15.1 Distrib 10.0.17-MariaDB, for Linux (x86_64))
+		$query = prepare(sprintf('DELETE FROM ``posts_%s`` WHERE `thread` = :thread AND `id` NOT IN (SELECT `id` FROM (SELECT `id` FROM ``posts_%s`` WHERE `thread` = :thread ORDER BY `id` DESC LIMIT :limit) i)', $board['uri'], $board['uri']));
+		$query->bindValue(':thread', $post['thread']);
+		$query->bindValue(':limit', $config['cycle_limit'], PDO::PARAM_INT);
+		$query->execute() or error(db_error($query));
+	}
 	
 	if (isset($post['antispam_hash'])) {
 		incrementSpamHash($post['antispam_hash']);
@@ -907,7 +962,7 @@ if (isset($_POST['delete'])) {
 		$build_pages = range(1, $config['max_pages']);
 	
 	if ($post['op'])
-		clean();
+		clean($id);
 	
 	event('post-after', $post);
 	

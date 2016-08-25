@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
   `uri` varchar(58) CHARACTER SET utf8 NOT NULL,
   `title` tinytext NOT NULL,
   `subtitle` tinytext,
+  -- `indexed` boolean default true,
   PRIMARY KEY (`uri`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
@@ -131,8 +132,8 @@ CREATE TABLE IF NOT EXISTS `modlogs` (
 CREATE TABLE IF NOT EXISTS `mods` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `password` char(64) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
-  `salt` char(32) CHARACTER SET ascii NOT NULL,
+  `password` varchar(256) CHARACTER SET ascii NOT NULL COMMENT 'SHA256',
+  `version` varchar(64) CHARACTER SET ascii NOT NULL,
   `type` smallint(2) NOT NULL,
   `boards` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
@@ -244,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `search_queries` (
   `ip` varchar(39) NOT NULL,
   `time` int(11) NOT NULL,
   `query` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -295,6 +296,23 @@ CREATE TABLE IF NOT EXISTS `ban_appeals` (
   PRIMARY KEY (`id`),
   KEY `ban_id` (`ban_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+CREATE TABLE `pages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `board` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_pages` (`name`,`board`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
