@@ -15,27 +15,37 @@ function exception_handler(Exception $e){
 
 set_exception_handler('exception_handler');
 
+function fatal_error_handler(){
+	if (($error = error_get_last()) && $error['type'] == E_ERROR) {
+		error('Caught fatal error: ' . $error['message'] . ' in ' . $error['file'] . ' at line ' . $error['line']);
+	}
+}
+
+register_shutdown_function('fatal_error_handler');
+
 $error_recursion=false;
 
 function error($message, $priority = true, $debug_stuff = false) {
 	global $board, $mod, $config, $db_error, $error_recursion;
+	
 	if($error_recursion!==false){
 		die("Error recursion detected with " . $message . "<br>Original error:".$error_recursion);
 	}
+	
 	$error_recursion=$message;
 	
+	if (defined('STDIN')) {
+		// Running from CLI
+		echo('Error: ' . $message . "\n");
+		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		die();
+	}
+		
 	if(!empty($config)){
 	
 		if ($config['syslog'] && $priority !== false) {
 			// Use LOG_NOTICE instead of LOG_ERR or LOG_WARNING because most error message are not significant.
 			_syslog($priority !== true ? $priority : LOG_NOTICE, $message);
-		}
-
-		if (defined('STDIN')) {
-			// Running from CLI
-			echo('Error: ' . $message . "\n");
-			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-			die();
 		}
 
 		if ($config['debug']) {
@@ -55,7 +65,6 @@ function error($message, $priority = true, $debug_stuff = false) {
 		}
 	}
 
-	// Is there a reason to disable this?
 	if (isset($_POST['json_response'])) {
 		header('Content-Type: text/json; charset=utf-8');
 		$data=array('error'=>$message);
