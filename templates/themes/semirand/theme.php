@@ -225,6 +225,7 @@
 			return Element('index.html', array(
 				'config'       => $config,
 				'board'        => array(
+					'dir' => $this->settings['uri'] . "/",
 					'url'      => $this->settings['uri'],
 					'title'    => $this->settings['title'],
 					'subtitle' => str_replace('%s', $this->settings['thread_limit'],

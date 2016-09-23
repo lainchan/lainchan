@@ -28,6 +28,7 @@
 			$body = '';
 			$overflow = array();
 			$board = array(
+				'dir' => $this->settings['uri'] . "/",
 				'url' => $this->settings['uri'],
 				'uri' => $this->settings['uri'],
 				'name' => $this->settings['title'],
