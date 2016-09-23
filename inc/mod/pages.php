@@ -1721,6 +1721,8 @@ function mod_deletebyip($boardName, $post, $global = false) {
 		deletePost($post['id'], false, false);
 
 		rebuildThemes('post-delete', $board['uri']);
+		
+		buildIndex();
 
 		if ($post['thread'])
 			$threads_to_rebuild[$post['board']][$post['thread']] = true;
