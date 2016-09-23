@@ -1669,3 +1669,9 @@
 		'<a href="https://youtu.be/$2" target="_blank" class="file">'.
 		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
 		'</a></div>';
+
+        // Slack Report Notification
+        $config['slack'] = true;
+        $config['slack_channel'] = "reports";
+        $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/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";
+
