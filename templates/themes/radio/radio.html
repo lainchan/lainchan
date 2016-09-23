@@ -1,29 +1,75 @@
 {% filter remove_whitespace %}
 <!DOCTYPE html>
-<html>
+<html style="height:100vh; width:100%;">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>{{ settings.title }}</title>
     <link rel="shortcut icon" href="/favicon.png">
     <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
-    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
-    <link rel="stylesheet" media="screen" href="/stylesheets/dark_irc.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/cyberpunk.css"/>
 	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
-</head>
-  <body>
-  	<div class="bar top">
-		{{ boardlist.top }}
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+        check_status();
+        setInterval(check_status, 15000);
+});
+
+function check_status(){  
+$.get("/radio_assets/status.xsl", function(data){    
+var el = $( '<div></div>' );   
+el.html(data);    
+var sd = el.find(".streamdata");  
+  
+$(".nowplaying").text("Now playing: " + sd[16].textContent);    
+
+$(".currentlisteners").text("Current listeners: " + sd[13].textContent);  });
+}
+</script>
+  </head>
+  <body style=" background: url(/bg.php) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  ">
+    <div class="bar top">
+      {{ boardlist.top }}
 	</div>
 
+	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
     <header>
       <h1>{{ settings.title }}</h1>
       <div class="subtitle">{{ settings.subtitle }}</div>
     </header>
 
+    <img alt="mascot" src="static/lain_is_cute_datass_small.png" style="display: block; margin: 0 auto;"/>
 
-    <div class="ban" style="text-align: left!important;">
-    	<h2>Web Client - Point your own clients to #lainchan on irc.freenode.net.</h2>		
-	<iframe src="https://webchat.freenode.net?channels=%23lainchan&uio=MTE9MTMz98" width="766" height="400"></iframe>
+    <div class="ban" style="margin-top: 0px!important; background-color: black; text-align: left!important;">
+      <h2>WELCOME TO CYBERIA</h2>
+
+      <p>Welcome to lainchan's radio stream. 
+      </p>
+      <noscript><p>Radio statistics will be not be updated without JavaScript, please visit https://lainchan.org/radio_assets/status.xsl to see them directly.</p></noscript>
+      
+      <p class="nowplaying"> Now playing: 
+      </p>
+      <p class="currentlisteners"> Current listeners: 
+      </p>
+
+      <ul>
+
+        <li><a href="https://lainchan.org/static/lain.ogg.m3u">Vorbis M3U Playlist</a></li>
+        <li><a href="https://lainchan.org/static/lain.mp3.m3u">MP3 M3U Playlist</a></li>
+
+		XSPF considered harmful.
+      </ul>
+
+      <audio controls preload="none" style="margin: 0 5% 20px 5%; width: 90%; box-shadow: 0px 0px 5px black;">
+	  	<source src="https://lainchan.org/radio_assets/lain.ogg" type="audio/ogg">
+		<source src="https://lainchan.org/radio_assets/lain" type="audio/mpeg">
+        <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
+     </audio>
     </div>
   </body>
 </html>
