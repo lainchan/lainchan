@@ -40,8 +40,10 @@
 
 	{% if config.global_message %}<hr /><div class="blotter">{{ config.global_message }}</div>{% endif %}
 	<hr />
-	<a href="{{ return }}">[{% trans %}Return{% endtrans %}]</a>
-	<a href="#bottom" style="padding-left: 10px">[{% trans %}Go to bottom{% endtrans %}]</a>
+	<div class="threadlinks-noup">
+		<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>
+		<span class="threadlink"><a href="#bottom" style="padding-left: 10px"> {% trans %}Go to bottom{% endtrans %}</a> ]</span>
+	</div>
 	<hr />
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
 	<input type="hidden" name="board" value="{{ board.uri }}" />
@@ -60,8 +62,8 @@
 			<a href='https://int.vichan.net/devel/'>vichan</a> + 
 			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
 		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
-		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel
-		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2015 lainchan Administration</p>
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2016 lainchan Administration</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
 	<div class="bar bottom">
