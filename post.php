@@ -185,7 +185,7 @@ if (isset($_POST['delete'])) {
 			}
 		
 		$postcontent = mb_substr($thread['body_nomarkup'], 0, 120) . '...  _*(POST TRIMMED)*_';
-		$slackmessage = ' <'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . '>  \n ' . $reason. '\n ' . $postcontent . '\n';
+		$slackmessage = '<'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . '> \n ' . $reason . '\n ' . $postcontent . '\n';
 
 		$slackresult = slack($slackmessage, $config['slack_channel']); 
 		}
