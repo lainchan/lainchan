@@ -45,7 +45,7 @@
 						</td>
 						{% if mod|hasPermission(config.mod.remove_notes) %}
 							<td class="minimal">
-								<a href="?/IP/{{ ip }}/remove_note/{{ note.id }}">
+								<a href="?/IP/{{ ip|url_encode(true) }}/remove_note/{{ note.id }}">
 									<small>[{% trans 'remove' %}]</small>
 								</a>
 							</td>

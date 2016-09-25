@@ -9,6 +9,8 @@
 	<link rel="stylesheet" media="screen" href="https://lainchan.org/stylesheets/font-awesome/css/font-awesome.min.css"/>
 
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
+	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
+	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
 <body>
 	<div class="bar top">

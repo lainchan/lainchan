@@ -11,10 +11,12 @@
 			return;
 		}
 
-		if ($config['smart_build']) {
+		$action = generation_strategy('sb_ukko', array());
+
+		if ($action == 'delete') {
 			file_unlink($settings['uri'] . '/index.html');
 		}
-		else {
+		elseif ($action == 'rebuild') {
 			file_write($settings['uri'] . '/index.html', $ukko->build());
 		}
 	}

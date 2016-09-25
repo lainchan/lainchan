@@ -1016,7 +1016,13 @@ pre {
 #options_div {
   width: 600px;
   height: 360px;
+/*  width: 620px;
+  height: 400px;
+  resize: both;
+  overflow: auto;*/
 }
+
+
 
 #alert_div {
   width: 500px;
@@ -1048,7 +1054,7 @@ pre {
 #options_tablist {
   padding: 0px 5px;
   left: 0px;
-  width: 70px;
+  width: 90px;
   top: 0px;
   bottom: 0px;
   height: 100%;
@@ -1077,8 +1083,8 @@ pre {
   padding: 10px;
   position: absolute;
   top: 0px;
-  bottom: 0px;
-  left: 81px;
+  bottom: 10px;
+  left: 101px;
   right: 0px;
   text-align: left;
   font-size: 12px;
@@ -1104,8 +1110,16 @@ pre {
 .poster_id {
   cursor: pointer;
   white-space:nowrap;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
-
+.poster_id:hover {
+  color: #800000!important;
+}
 .poster_id::before {
   content: " ID: ";
 }
@@ -1264,28 +1278,32 @@ div.boardlist a {
 /* Threads */
 /* Thread Footer */
 #thread-interactions {
-    margin: 8px 0;
-    clear: both;
+	margin: 8px 0;
+	clear: both;
 }
 #thread-links {
-    float: left;
+	float: left;
 }
 #thread-links > a {
-    padding-left: none;
-    padding-right: 10px;
+	padding-left: none;
+	padding-right: 10px;
 }
 #thread-quick-reply {
-    display: none;
-    float: right;
-    margin-right: 10px;
+	display: none;
+	position: absolute;
+	left: 50%;
+	right: 50%;
+	text-align: center;
+	width: 100px;
+	margin-left: -50px;
 }
 #thread_stats {
-    float: right;
+	float: right;
 }
 
 #post-moderation-fields {
-    float: right;
-    text-align: right;
+	float: right;
+	text-align: right;
 }
 #delete-fields {
 }
@@ -1891,4 +1909,13 @@ table.fileboard .intro a {
 
 .dropdown:hover .dropdown-content {
     display: block;
+ }
+
+.own_post {
+	font-style: italic;
+	font-weight: normal;
+	opacity: .666;
+}
+div.mix {
+	display: inline-block;
 }

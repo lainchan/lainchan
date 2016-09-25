@@ -10,7 +10,15 @@
 		<tr>
 			<td class="minimal">
 				{% if log.username %}
-					<a href="?/log:{{ log.username|e }}">{{ log.username|e }}</a>
+					{% if hide_names %}
+						<em>hidden</em>
+					{% else %}
+						{% if not mod|hasPermission(config.mod.modlog) %}
+							<a href="?/new_PM/{{ log.username|e }}">{{ log.username|e }}</a>
+						{% else %}
+							<a href="?/log:{{ log.username|e }}">{{ log.username|e }}</a>
+						{% endif %}
+					{% endif %}
 				{% elseif log.mod == -1 %}
 					<em>system</em>
 				{% else %}
@@ -44,7 +52,11 @@
 {% if count > logs|count %}
 	<p class="unimportant" style="text-align:center;word-wrap:break-word">
 		{% for i in range(0, (count - 1) / config.mod.modlog_page) %}
-			<a href="?/log{% if username %}:{{ username }}{% endif %}/{{ i + 1 }}">[{{ i + 1 }}]</a> 
+			{% if public %}
+				<a href="?page={{ i + 1 }}&amp;board={{ board|url_encode }}">[{{ i + 1 }}]</a> 
+			{% else %}
+				<a href="?/log{% if username %}:{{ username }}{% elseif board %}:b:{{ board }}{% endif %}/{{ i + 1 }}">[{{ i + 1 }}]</a> 
+			{% endif %}
 		{% endfor %}
 	</p>
 {% endif %}

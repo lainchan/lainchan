@@ -4,12 +4,12 @@
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<script type='text/javascript'>
-		active_page = "catalog";
+		var active_page = "catalog"
+		  , board_name = "{{ board }}";
 	</script>
 	{% include 'header.html' %}
-	<title>{{ settings.title }} (/{{ board }}/)</title>
 </head>
-<body class="theme-catalog board-{{ board }}">
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %} theme-catalog active-catalog" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
 	<div class="top bar topbar">
 		{{ boardlist.top }}
 	</div>
@@ -42,14 +42,16 @@
 		</select>
 	</div>
 
-	<div class="threads">
-		<ul id="Grid">
-		{% for post in recent_posts %}
-			<li class="mix"
+        <div class="threads">
+                <div id="Grid">
+                {% for post in recent_posts %}
+                        <div class="mix"
 				data-reply="{{ post.reply_count }}"
-				data-bump="{{ post.bump }}"
-				data-time="{{ post.time }}"
-				data-board="{{ post.board }}"
+				 data-bump="{{ post.bump }}"
+				 data-time="{{ post.time }}"
+				 data-id="{{ post.id }}"
+				 data-sticky="{% if post.sticky %}true{% else %}false{% endif %}"
+				 data-locked="{% if post.locked %}true{% else %}false{% endif %}"
 			>
                                 <div class="thread grid-li grid-size-small">  
                                         <a href="{{post.link}}">  
@@ -61,7 +63,7 @@
                                                  id="img-{{ post.id }}" data-subject="{% if post.subject %}{{ post.subject|e }}{% endif %}" data-name="{{ post.name|e }}" data-muhdifference="{{ post.muhdifference }}" class="{{post.board}} thread-image" title="{{post.bump|date('%b %d %H:%M')}}">
                                         </a>
                                                 <div class="replies">
-                                                        <strong>R: {{ post.reply_count }} / I: {{ post.image_count }}</strong>
+                                                        <strong>R: {{ post.reply_count }} / I: {{ post.image_count }}{% if post.sticky %} (sticky){% endif %}</strong>
                                                         {% if post.subject %}
 								<p class="intro">
 									<span class="subject">
@@ -75,9 +77,9 @@
 								{{ post.body }}
                                                 </div>
                                 </div>
-                        </li>
+                        </div>
                 {% endfor %}
-                </ul>
+                </div>
         </div>
 	
 	<hr/>

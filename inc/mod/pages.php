@@ -15,7 +15,7 @@ function mod_page($title, $template, $args, $subtitle = false) {
 		'hide_dashboard_link' => $template == 'mod/dashboard.html',
 		'title' => $title,
 		'subtitle' => $subtitle,
-		'nojavascript' => true,
+		'boardlist' => createBoardlist($mod),
 		'body' => Element($template,
 				array_merge(
 					array('config' => $config, 'mod' => $mod), 
@@ -612,7 +612,7 @@ function mod_news($page_no = 1) {
 		
 		rebuildThemes('news');
 		
-		header('Location: ?/news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
+		header('Location: ?/edit_news#' . $pdo->lastInsertId(), true, $config['redirect_http']);
 	}
 	
 	$query = prepare("SELECT * FROM ``news`` ORDER BY `id` DESC LIMIT :offset, :limit");
@@ -625,14 +625,14 @@ function mod_news($page_no = 1) {
 		error($config['error']['404']);
 	
 	foreach ($news as &$entry) {
-		$entry['delete_token'] = make_secure_link_token('news/delete/' . $entry['id']);
+		$entry['delete_token'] = make_secure_link_token('edit_news/delete/' . $entry['id']);
 	}
 	
 	$query = prepare("SELECT COUNT(*) FROM ``news``");
 	$query->execute() or error(db_error($query));
 	$count = $query->fetchColumn();
 	
-	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count, 'token' => make_secure_link_token('news')));
+	mod_page(_('News'), 'mod/news.html', array('news' => $news, 'count' => $count, 'token' => make_secure_link_token('edit_news')));
 }
 
 function mod_news_delete($id) {
@@ -647,7 +647,7 @@ function mod_news_delete($id) {
 	
 	modLog('Deleted a news entry');
 	
-	header('Location: ?/news', true, $config['redirect_http']);
+	header('Location: ?/edit_news', true, $config['redirect_http']);
 }
 
 function mod_log($page_no = 1) {
@@ -700,6 +700,42 @@ function mod_user_log($username, $page_no = 1) {
 	$count = $query->fetchColumn();
 	
 	mod_page(_('Moderation log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'username' => $username));
+}
+
+function mod_board_log($board, $page_no = 1, $hide_names = false, $public = false) {
+	global $config;
+	
+	if ($page_no < 1)
+		error($config['error']['404']);
+	
+	if (!hasPermission($config['mod']['mod_board_log'], $board) && !$public)
+		error($config['error']['noaccess']);
+	
+	$query = prepare("SELECT `username`, `mod`, `ip`, `board`, `time`, `text` FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `board` = :board ORDER BY `time` DESC LIMIT :offset, :limit");
+	$query->bindValue(':board', $board);
+	$query->bindValue(':limit', $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->bindValue(':offset', ($page_no - 1) * $config['mod']['modlog_page'], PDO::PARAM_INT);
+	$query->execute() or error(db_error($query));
+	$logs = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (empty($logs) && $page_no > 1)
+		error($config['error']['404']);
+
+	if (!hasPermission($config['mod']['show_ip'])) {
+		// Supports ipv4 only!
+		foreach ($logs as $i => &$log) {
+			$log['text'] = preg_replace_callback('/(?:<a href="\?\/IP\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}">)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?:<\/a>)?/', function($matches) {
+				return "xxxx";//less_ip($matches[1]);
+			}, $log['text']);
+		}
+	}
+	
+	$query = prepare("SELECT COUNT(*) FROM ``modlogs`` LEFT JOIN ``mods`` ON `mod` = ``mods``.`id` WHERE `board` = :board");
+	$query->bindValue(':board', $board);
+	$query->execute() or error(db_error($query));
+	$count = $query->fetchColumn();
+	
+	mod_page(_('Board log'), 'mod/log.html', array('logs' => $logs, 'count' => $count, 'board' => $board, 'hide_names' => $hide_names, 'public' => $public));
 }
 
 function mod_view_board($boardName, $page_no = 1) {
@@ -850,7 +886,7 @@ function mod_page_ip($ip) {
 	
 	$args['security_token'] = make_secure_link_token('IP/' . $ip);
 	
-	mod_page(sprintf('%s: %s', _('IP'), $ip), 'mod/view_ip.html', $args, $args['hostname']);
+	mod_page(sprintf('%s: %s', _('IP'), htmlspecialchars($ip)), 'mod/view_ip.html', $args, $args['hostname']);
 }
 
 function mod_ban() {
@@ -1050,6 +1086,28 @@ function mod_sticky($board, $unsticky, $post) {
 	$query->execute() or error(db_error($query));
 	if ($query->rowCount()) {
 		modLog(($unsticky ? 'Unstickied' : 'Stickied') . " thread #{$post}");
+		buildThread($post);
+		buildIndex();
+	}
+	
+	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
+}
+
+function mod_cycle($board, $uncycle, $post) {
+	global $config;
+	
+	if (!openBoard($board))
+		error($config['error']['noboard']);
+	
+	if (!hasPermission($config['mod']['cycle'], $board))
+		error($config['error']['noaccess']);
+	
+	$query = prepare(sprintf('UPDATE ``posts_%s`` SET `cycle` = :cycle WHERE `id` = :id AND `thread` IS NULL', $board));
+	$query->bindValue(':id', $post);
+	$query->bindValue(':cycle', $uncycle ? 0 : 1);
+	$query->execute() or error(db_error($query));
+	if ($query->rowCount()) {
+		modLog(($uncycle ? 'Made not cyclical' : 'Made cyclical') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
 	}
@@ -1488,6 +1546,15 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		error($config['error']['404']);
 	
 	if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['body'])) {
+		// Remove any modifiers they may have put in
+		$_POST['body'] = remove_modifiers($_POST['body']);
+
+		// Add back modifiers in the original post
+		$modifiers = extract_modifiers($post['body_nomarkup']);
+		foreach ($modifiers as $key => $value) {
+			$_POST['body'] .= "<tinyboard $key>$value</tinyboard>";
+		}
+
 		if ($edit_raw_html)
 			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `name` = :name, `email` = :email, `subject` = :subject, `body` = :body, `body_nomarkup` = :body_nomarkup WHERE `id` = :id', $board));
 		else
@@ -1516,15 +1583,20 @@ function mod_edit_post($board, $edit_raw_html, $postID) {
 		
 		header('Location: ?/' . sprintf($config['board_path'], $board) . $config['dir']['res'] . link_for($post) . '#' . $postID, true, $config['redirect_http']);
 	} else {
+		// Remove modifiers
+		$post['body_nomarkup'] = remove_modifiers($post['body_nomarkup']);
+				
+		$post['body_nomarkup'] = utf8tohtml($post['body_nomarkup']);
+		$post['body'] = utf8tohtml($post['body']);
 		if ($config['minify_html']) {
-			$post['body_nomarkup'] = str_replace("\n", '&#010;', utf8tohtml($post['body_nomarkup']));
-			$post['body'] = str_replace("\n", '&#010;', utf8tohtml($post['body']));
+			$post['body_nomarkup'] = str_replace("\n", '&#010;', $post['body_nomarkup']);
+			$post['body'] = str_replace("\n", '&#010;', $post['body']);
 			$post['body_nomarkup'] = str_replace("\r", '', $post['body_nomarkup']);
 			$post['body'] = str_replace("\r", '', $post['body']);
 			$post['body_nomarkup'] = str_replace("\t", '&#09;', $post['body_nomarkup']);
 			$post['body'] = str_replace("\t", '&#09;', $post['body']);
 		}
-				
+
 		mod_page(_('Edit post'), 'mod/edit_post_form.html', array('token' => $security_token, 'board' => $board, 'raw' => $edit_raw_html, 'post' => $post));
 	}
 }
@@ -1668,6 +1740,8 @@ function mod_deletebyip($boardName, $post, $global = false) {
 		deletePost($post['id'], false, false);
 
 		rebuildThemes('post-delete', $board['uri']);
+		
+		buildIndex();
 
 		if ($post['thread'])
 			$threads_to_rebuild[$post['board']][$post['thread']] = true;
@@ -1753,13 +1827,12 @@ function mod_user($uid) {
 		}
 		
 		if ($_POST['password'] != '') {
-			$salt = generate_salt();
-			$password = hash('sha256', $salt . sha1($_POST['password']));
-			
-			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			list($version, $password) = crypt_password($_POST['password']);
+
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
-			$query->bindValue(':salt', $salt);
+			$query->bindValue(':version', $version);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed password for ' . utf8tohtml($_POST['username']) . ' <small>(#' . $user['id'] . ')</small>');
@@ -1780,13 +1853,12 @@ function mod_user($uid) {
 	
 	if (hasPermission($config['mod']['change_password']) && $uid == $mod['id'] && isset($_POST['password'])) {
 		if ($_POST['password'] != '') {
-			$salt = generate_salt();
-			$password = hash('sha256', $salt . sha1($_POST['password']));
+			list($version, $password) = crypt_password($_POST['password']);
 
-			$query = prepare('UPDATE ``mods`` SET `password` = :password, `salt` = :salt WHERE `id` = :id');
+			$query = prepare('UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id');
 			$query->bindValue(':id', $uid);
 			$query->bindValue(':password', $password);
-			$query->bindValue(':salt', $salt);
+			$query->bindValue(':version', $version);
 			$query->execute() or error(db_error($query));
 			
 			modLog('Changed own password');
@@ -1853,13 +1925,12 @@ function mod_user_new() {
 		if (!isset($config['mod']['groups'][$type]) || $type == DISABLED)
 			error(sprintf($config['error']['invalidfield'], 'type'));
 		
-		$salt = generate_salt();
-		$password = hash('sha256', $salt . sha1($_POST['password']));
+		list($version, $password) = crypt_password($_POST['password']);
 		
-		$query = prepare('INSERT INTO ``mods`` VALUES (NULL, :username, :password, :salt, :type, :boards)');
+		$query = prepare('INSERT INTO ``mods`` VALUES (NULL, :username, :password, :version, :type, :boards)');
 		$query->bindValue(':username', $_POST['username']);
 		$query->bindValue(':password', $password);
-		$query->bindValue(':salt', $salt);
+		$query->bindValue(':version', $version);
 		$query->bindValue(':type', $type);
 		$query->bindValue(':boards', implode(',', $boards));
 		$query->execute() or error(db_error($query));
@@ -2600,6 +2671,167 @@ function mod_theme_rebuild($theme_name) {
 	));
 }
 
+// This needs to be done for `secure` CSRF prevention compatibility, otherwise the $board will be read in as the token if editing global pages.
+function delete_page_base($page = '', $board = false) {
+	global $config, $mod;
+
+	if (empty($board))
+		$board = false;
+
+	if (!$board && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $board))
+		error($config['error']['noaccess']);
+
+	if ($board !== FALSE && !openBoard($board))
+		error($config['error']['noboard']);
+
+	if ($board) {
+		$query = prepare('DELETE FROM ``pages`` WHERE `board` = :board AND `name` = :name');
+		$query->bindValue(':board', ($board ? $board : NULL));
+	} else {
+		$query = prepare('DELETE FROM ``pages`` WHERE `board` IS NULL AND `name` = :name');
+	}
+	$query->bindValue(':name', $page);
+	$query->execute() or error(db_error($query));
+
+	header('Location: ?/edit_pages' . ($board ? ('/' . $board) : ''), true, $config['redirect_http']);
+}
+
+function mod_delete_page($page = '') {
+	delete_page_base($page);
+}
+
+function mod_delete_page_board($page = '', $board = false) {
+	delete_page_base($page, $board);
+}
+
+function mod_edit_page($id) {
+	global $config, $mod, $board;
+
+	$query = prepare('SELECT * FROM ``pages`` WHERE `id` = :id');
+	$query->bindValue(':id', $id);
+	$query->execute() or error(db_error($query));
+	$page = $query->fetch();
+	
+	if (!$page)
+		error(_('Could not find the page you are trying to edit.'));
+
+	if (!$page['board'] && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $page['board']))
+		error($config['error']['noaccess']);
+
+	if ($page['board'] && !openBoard($page['board']))
+		error($config['error']['noboard']);
+
+	if (isset($_POST['method'], $_POST['content'])) {
+		$content = $_POST['content'];
+		$method = $_POST['method'];
+		$page['type'] = $method;
+			
+		if (!in_array($method, array('markdown', 'html', 'infinity')))
+			error(_('Unrecognized page markup method.'));
+	
+		switch ($method) {
+			case 'markdown': 
+				$write = markdown($content);
+				break;
+			case 'html':
+				if (hasPermission($config['mod']['rawhtml'])) {
+					$write = $content;
+				} else {
+					$write = purify_html($content);
+				}
+				break;
+			case 'infinity':
+				$c = $content;
+				markup($content);
+				$write = $content;
+				$content = $c;
+		}
+
+		if (!isset($write) or !$write)
+			error(_('Failed to mark up your input for some reason...'));
+
+		$query = prepare('UPDATE ``pages`` SET `type` = :method, `content` = :content WHERE `id` = :id');
+		$query->bindValue(':method', $method);
+		$query->bindValue(':content', $content);
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+
+		$fn = ($board['uri'] ? ($board['uri'] . '/') : '') . $page['name'] . '.html';
+		$body = "<div class='ban'>$write</div>";
+		$html = Element('page.html', array('config' => $config, 'body' => $body, 'title' => utf8tohtml($page['title'])));
+		file_write($fn, $html);
+	}
+
+	if (!isset($content)) {
+		$query = prepare('SELECT `content` FROM ``pages`` WHERE `id` = :id');
+		$query->bindValue(':id', $id);
+		$query->execute() or error(db_error($query));
+		$content = $query->fetchColumn();
+	}
+	
+	mod_page(sprintf(_('Editing static page: %s'), $page['name']), 'mod/edit_page.html', array('page' => $page, 'token' => make_secure_link_token("edit_page/$id"), 'content' => prettify_textarea($content), 'board' => $board));
+}
+
+function mod_pages($board = false) {
+	global $config, $mod, $pdo;
+
+	if (empty($board))
+		$board = false;
+
+	if (!$board && $mod['boards'][0] !== '*')
+		error($config['error']['noaccess']);
+
+	if (!hasPermission($config['mod']['edit_pages'], $board))
+		error($config['error']['noaccess']);
+
+	if ($board !== FALSE && !openBoard($board))
+		error($config['error']['noboard']);
+
+	if ($board) {
+		$query = prepare('SELECT * FROM ``pages`` WHERE `board` = :board');
+		$query->bindValue(':board', $board);
+	} else {
+		$query = query('SELECT * FROM ``pages`` WHERE `board` IS NULL');
+	}
+	$query->execute() or error(db_error($query));
+	$pages = $query->fetchAll(PDO::FETCH_ASSOC);
+
+	if (isset($_POST['page'])) {
+		if ($board and sizeof($pages) > $config['pages_max'])
+			error(sprintf(_('Sorry, this site only allows %d pages per board.'), $config['pages_max']));
+
+		if (!preg_match('/^[a-z0-9]{1,255}$/', $_POST['page']))
+			error(_('Page names must be < 255 chars and may only contain lowercase letters A-Z and digits 1-9.'));
+
+		foreach ($pages as $i => $p) {
+			if ($_POST['page'] === $p['name'])
+				error(_('Refusing to create a new page with the same name as an existing one.'));
+		}
+
+		$title = ($_POST['title'] ? $_POST['title'] : NULL);
+
+		$query = prepare('INSERT INTO ``pages``(board, title, name) VALUES(:board, :title, :name)');
+		$query->bindValue(':board', ($board ? $board : NULL));
+		$query->bindValue(':title', $title);
+		$query->bindValue(':name', $_POST['page']);
+		$query->execute() or error(db_error($query));
+
+		$pages[] = array('id' => $pdo->lastInsertId(), 'name' => $_POST['page'], 'board' => $board, 'title' => $title);
+	}
+
+	foreach ($pages as $i => &$p) {
+		$p['delete_token'] = make_secure_link_token('edit_pages/delete/' . $p['name'] . ($board ? ('/' . $board) : ''));
+	}
+
+	mod_page(_('Pages'), 'mod/pages.html', array('pages' => $pages, 'token' => make_secure_link_token('edit_pages' . ($board ? ('/' . $board) : '')), 'board' => $board));
+}
+
 function mod_debug_antispam() {
 	global $pdo, $config;
 	
@@ -2716,3 +2948,4 @@ function mod_debug_apc() {
 	
 	mod_page(_('Debug: APC'), 'mod/debug/apc.html', array('cached_vars' => $cached_vars));
 }
+
