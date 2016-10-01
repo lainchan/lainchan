@@ -17,7 +17,12 @@ $theme = array(
         array('title'   => 'File',
               'name'    => 'file',
               'type'    => 'text',
-              'default' => 'radio.html')),
+              'default' => 'radio.html'),
+    
+        array('title'   => 'Radio Status URL',
+              'name'    => 'radiostatus',
+              'type'    => 'text',
+              'default' => '/radio_assets/status.xsl')),
 
     'build_function'   => 'radio_build');
 ?>

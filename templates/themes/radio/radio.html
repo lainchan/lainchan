@@ -16,7 +16,7 @@ $(document).ready(function(){
 });
 
 function check_status(){  
-$.get("/radio_assets/status.xsl", function(data){    
+$.get("{{ settings.radiostatus }}", function(data){    
 var el = $( '<div></div>' );   
 el.html(data);    
 var sd = el.find(".streamdata");  

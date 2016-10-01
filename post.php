@@ -342,36 +342,38 @@ if (isset($_POST['delete'])) {
 		$query->bindValue(':post', $id, PDO::PARAM_INT);
 		$query->bindValue(':reason', $reason, PDO::PARAM_STR);
 		$query->execute() or error(db_error($query));
-                if ($config['slack'])
-                {
-                function slack($message, $room = "reports", $icon = ":no_entry_sign:") 
-			{
-			$room = ($room) ? $room : "reports";
-			$data = "payload=" . json_encode(array(
-			"channel"       =>  "#{$room}",
-			"text"          =>  urlencode($message),
-			"icon_emoji"    =>  $icon
-			));
+        
+        if ($config['slack'])
+        {
+            
+        function slack($message, $room = "reports", $icon = ":no_entry_sign:") 
+        {
+        $room = ($room) ? $room : "reports";
+        $data = "payload=" . json_encode(array(
+        "channel"       =>  "#{$room}",
+        "text"          =>  urlencode($message),
+        "icon_emoji"    =>  $icon
+        ));
 
-			// You can get your webhook endpoint from your Slack settings
-			// For some reason using the configuration key doesn't work 
-			//$ch = curl_init($config['slack_incoming_webhook_endpoint']);
-			$ch = curl_init("https://hooks.slack.com/services/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");
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$result = curl_exec($ch);
-			curl_close($ch);
+        // You can get your webhook endpoint from your Slack settings
+        // For some reason using the configuration key doesn't work 
+        $ch = curl_init($config['slack_incoming_webhook_endpoint']);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
 
-			return $result;
-			}
+        return $result;
+        }
 		
 		$postcontent = mb_substr($thread['body_nomarkup'], 0, 120) . '...  _*(POST TRIMMED)*_';
 		$slackmessage = '<'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . '> \n ' . $reason . '\n ' . $postcontent . '\n';
 
 		$slackresult = slack($slackmessage, $config['slack_channel']); 
-		}
+        
+        }
 
 
 	}

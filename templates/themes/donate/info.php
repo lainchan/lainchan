@@ -17,7 +17,38 @@ $theme = array(
         array('title'   => 'File',
               'name'    => 'file',
               'type'    => 'text',
-              'default' => 'donate.html')),
+              'default' => 'donate.html'),
+
+        array('title'   => 'Monthly Amount',
+              'name'    => 'monthlyamount',
+              'type'    => 'text',
+              'default' => '$55'),
+          
+        array('title'   => 'Current Amount',
+              'name'    => 'currentamount',
+              'type'    => 'text',
+              'default' => '$0'),
+        
+        array('title'   => 'Current Progress',
+              'name'    => 'currentprogress',
+              'type'    => 'text',
+              'default' => '$0'),
+        
+        array('title'   => 'Progress Bar CSS class',
+              'name'    => 'progressbarcssclass',
+              'type'    => 'text',
+              'default' => 'progress-bar red glow'),
+        
+        array('title'   => 'Progress Bar CSS left',
+              'name'    => 'progressbarcssleft',
+              'type'    => 'text',
+              'default' => '36'),
+        
+        array('title'   => 'Progress Bar Text CSS left',
+              'name'    => 'progressbartextcssleft',
+              'type'    => 'text',
+              'default' => '135'),
+          ),
 
     'build_function'   => 'donate_build');
 ?>

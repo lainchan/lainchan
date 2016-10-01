@@ -17,7 +17,12 @@ $theme = array(
         array('title'   => 'File',
               'name'    => 'file',
               'type'    => 'text',
-              'default' => 'irc.html')),
+              'default' => 'irc.html'),
+
+        array('title'   => 'Channel',
+              'name'    => 'channel',
+              'type'    => 'text',
+              'default' => 'lainchan')),
 
     'build_function'   => 'irc_build');
 ?>

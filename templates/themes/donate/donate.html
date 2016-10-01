@@ -7,167 +7,8 @@
     <link rel="shortcut icon" href="/favicon.png">
     <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
     <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/progressbar.css"/>
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
-<style>
-	/*---------------------------*/			
-        .container {
-	margin: auto;
-	width : 50%;
-	}    
-        .progress-bar {
-            background-color: #1a1a1a;
-            height: 25px;
-            padding: 5px;
-            width: 350px;
-	    position: relative;
-            margin: 70px 0 20px 0;			
-            -moz-border-radius: 5px;
-			-webkit-border-radius: 5px;
-			border-radius: 5px;
-            -moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
-			-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
-			box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;           
-        }
-        
-        .progress-bar span {
-            display: inline-block;
-            height: 100%;
-			background-color: #777;
-            -moz-border-radius: 3px;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;
-            -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-			-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-			box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-			-webkit-transition: width .4s ease-in-out;
-			-moz-transition: width .4s ease-in-out;
-			-ms-transition: width .4s ease-in-out;
-			-o-transition: width .4s ease-in-out;
-			transition:   width .4s ease-in-out;		
-        }
-		
-		
-        .blue span {
-            background-color: #34c2e3;   
-        }
-
-        .red span {
-			  background-color: #f42323;
-			  background-image: -webkit-gradient(linear, left top, left bottom, from(#f42323), to(#ff0000));
-			  background-image: -webkit-linear-gradient(top, #f42323, #ff0000);
-			  background-image: -moz-linear-gradient(top, #f42323, #ff0000);
-			  background-image: -ms-linear-gradient(top, #f42323, #ff0000);
-			  background-image: -o-linear-gradient(top, #f42323, #ff0000);
-			  background-image: linear-gradient(top, #f42323, #ff0000);  
-        }	
-
-        .green span {
-			  background-color: #a5df41;
-			  background-image: -webkit-gradient(linear, left top, left bottom, from(#a5df41), to(#4ca916));
-			  background-image: -webkit-linear-gradient(top, #a5df41, #4ca916);
-			  background-image: -moz-linear-gradient(top, #a5df41, #4ca916);
-			  background-image: -ms-linear-gradient(top, #a5df41, #4ca916);
-			  background-image: -o-linear-gradient(top, #a5df41, #4ca916);
-			  background-image: linear-gradient(top, #a5df41, #4ca916);  
-        }		
-		
-		/*---------------------------*/		
-		
-		.stripes span {
-            -webkit-background-size: 30px 30px;
-            -moz-background-size: 30px 30px;
-            background-size: 30px 30px;			
-			background-image: -webkit-gradient(linear, left top, right bottom,
-								color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent),
-								color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)),
-								color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent),
-								to(transparent));
-            background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
-                                transparent 75%, transparent);
-            background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
-                                transparent 75%, transparent);
-            background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
-                                transparent 75%, transparent);
-            background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
-                                transparent 75%, transparent);
-            background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
-                                transparent 75%, transparent);            
-            
-            -webkit-animation: animate-stripes 3s linear infinite;
-            -moz-animation: animate-stripes 3s linear infinite;       		
-		}
-        
-	@-webkit-keyframes animate-stripes { 
-			0% {background-position: 0 0;} 100% {background-position: 60px 0;}
-        }
-        
-        
-        @-moz-keyframes animate-stripes {
-			0% {background-position: 0 0;} 100% {background-position: 60px 0;}
-        }
-		
-		/*---------------------------*/	 
-
-		.shine span {
-			position: relative;
-		}
-		
-		.shine span::after {
-			content: '';
-			opacity: 0;
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			background: #fff;
-            -moz-border-radius: 3px;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;			
-			
-            -webkit-animation: animate-shine 2s ease-out infinite;
-            -moz-animation: animate-shine 2s ease-out infinite; 			
-		}
-
-        @-webkit-keyframes animate-shine { 
-			0% {opacity: 0; width: 0;}
-			50% {opacity: .5;}
-			100% {opacity: 0; width: 95%;}
-        }
-        
-        
-        @-moz-keyframes animate-shine {
-			0% {opacity: 0; width: 0;}
-			50% {opacity: .5;}
-			100% {opacity: 0; width: 95%;}
-        }
-		.glow span {
-            -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
-			-webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
-			box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
-			
-            -webkit-animation: animate-glow 1s ease-out infinite;
-            -moz-animation: animate-glow 1s ease-out infinite; 			
-		}
-
-		@-webkit-keyframes animate-glow {
-		 0% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;} 
-		 50% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .3) inset, 0 -5px 5px rgba(255, 255, 255, .3) inset;} 
-		 100% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;}
-		 }
-
-		@-moz-keyframes animate-glow {
-		 0% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;} 
-		 50% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .3) inset, 0 -5px 5px rgba(255, 255, 255, .3) inset;} 
-		 100% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;}
-		 }
-
- </style>
   </head>
   <body>
     <div class="bar top">{{ boardlist.top }}</div>
@@ -181,7 +22,7 @@
 </center>
    <div class="ban">
       <h2>Thanks for donating</h2>
-      <p>The server costs $55 per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Freenode.
+      <p>The server costs {{ settings.monthlyamount }} per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Freenode.
         </p>
 
   <p><a href="https://www.stickermule.com/marketplace/tags/lainchan"> Buy stickers here</a>
@@ -189,16 +30,16 @@
 
 <p>Monthly Funding Progress Bar</p>
 
-<p>Cost per month $55</p>
+<p>Cost per month {{ settings.monthlyamount }}</p>
 
-<p>Funds from stickers $37.75</p>
+<p>Funds from stickers {{ settings.currentamount }} </p>
 
 <div class="container">
-<div class="progress-bar red glow">
-    <span style="width:14%;position:relative;left:36%; 
+    <div class="{{ settings.progressbarcssclass }}">
+        <span style="width:14%;position:relative;left:{{ settings.progressbarcssleft }}%; 
   "> </span>
 </div>
-<div id="value" style="position:relative;left:135px;top:-45px">$-19.25</div>
+<div id="value" style="position:relative;left:{{ settings.progressbartextcssleft }}px;top:-45px">{{ settings.currentprogress }}</div>
 </div>
 
     </div>

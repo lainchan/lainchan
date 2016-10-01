@@ -1811,9 +1811,9 @@
 		'</a></div>';
 
     // Slack Report Notification
-    $config['slack'] = true;
-    $config['slack_channel'] = "reports";
-    $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/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";
+    $config['slack'] = false;
+    $config['slack_channel'] = "";
+    $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/";
 
 	// Password hashing function
 	//
