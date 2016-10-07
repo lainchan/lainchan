@@ -38,7 +38,6 @@
 					openBoard($_board['uri']);
 					if ($settings['show_threads_only'] == 'true'){
 						if ($action == 'all' || $action == 'post-thread' || $action == 'post-delete')
-							file_write($config['dir']['home']  . 'debug.xml', $board['dir']);
 							file_write($config['dir']['home']  . $board['dir'] . $settings['xml'], $this->board_rsspage($settings,$_board));
 					}
 					else {	
