@@ -11,7 +11,7 @@
     <link>{{ settings.base_url }}{{ config.root }}{{ settings.html }}</link>
     {% for post in recent_posts %}
     <item>
-      <title>{{ post.board_name }}</title>
+      <title><![CDATA[ {{ post.board_name }} ]]></title>
       <description>
 	<![CDATA[
 		 <a href="{{ settings.base_url }}{{ post.link }}">

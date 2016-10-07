@@ -48,6 +48,20 @@
 		'comment' => '(eg. "http://test.com")'
 	);
 	
+	$theme['config'][] = Array(
+		'title' => 'Show Threads Only',
+		'name' => 'show_threads_only',
+		'type' => 'text',
+		'default' => 'false',
+	);
+	
+	$theme['config'][] = Array(
+		'title' => 'Enable Per Board',
+		'name' => 'enable_per_board',
+		'type' => 'text',
+		'default' => 'false',
+	);
+
 	// Unique function name for building everything
 	$theme['build_function'] = 'rss_recentposts_build';
 	$theme['install_callback'] = 'rss_recentposts_install';
