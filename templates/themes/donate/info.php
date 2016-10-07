@@ -24,8 +24,13 @@ $theme = array(
               'type'    => 'text',
               'default' => '$55'),
           
-        array('title'   => 'Current Amount',
-              'name'    => 'currentamount',
+        array('title'   => 'Current Sticker Amount',
+              'name'    => 'stickeramount',
+              'type'    => 'text',
+              'default' => '$0'),
+        
+        array('title'   => 'Current Other Donations Amount',
+              'name'    => 'otheramount',
               'type'    => 'text',
               'default' => '$0'),
         
