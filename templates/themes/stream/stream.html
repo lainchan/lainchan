@@ -12,6 +12,9 @@
 	<link rel="stylesheet" media="screen" href="/stylesheets/dark.css">
 	<!--{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}-->
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+<style>
+.video-js { width:100%!important; height: auto!important; }
+</style>
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
 <script type="text/javascript">
@@ -21,7 +24,7 @@ $(document).ready(function(){
 });
 
 function check_status(){
-    $.get("{ settings.rtmpviewers }}", function(data){
+    $.get("{{ settings.rtmpviewers }}", function(data){
     $("#rtmpviewers").text(data);
   });
 
@@ -47,16 +50,17 @@ $("#ogvviewers").text( sd[22].textContent  );
 		<div class="subtitle">{{ settings.subtitle }}</div>
 	</header>
 	
-	<div class="ban">
-	<video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin" controls preload="auto"  width="640" height="264"  poster="https://lainchan.org/static/lain_is_cute_datass_small.png" data-setup="{}">
-        <source src='{{ setings.rtmpurl }}' type='rtmp/mp4'/>
+	<div>
+	<div id="box" width="100%">
+	<video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin" height="264" width="640"  controls preload="auto" poster="https://lainchan.org/static/lain_is_cute_datass_small.png" data-setup='{ "example_option": true,  "techOrder": ["html5","flash"],"fluid": true}'>
+        <source src='{{ settings.rtmpvideojsurl }}' type='rtmp/mp4'/>
         <source src="{{ settings.ogvurl }}" type='video/ogv'>
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a web browser that
       <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   	</video>
-
+	</div>
 	<br/>
 	<p>Now Streaming RTMP <span id="rtmpnowplaying">unknown</span></p>
 	<p>Now Streaming OGV <span id="ogvnowplaying">unknown</span></p>
@@ -64,8 +68,8 @@ $("#ogvviewers").text( sd[22].textContent  );
 	<p>Current OGV viewers: <span id="ogvviewers">unknown</span></p>
 	<div>
 	<p>Raw stream URLs for Mplayer, mpv, VLC, etc:</p>
-    <p> RTMP : {{ setings.rtmpurl }} </p>
-    <p> OGV :  {{ setings.ogvurl }} </p>
+    <p> RTMP : {{ settings.rtmpurl }} </p>
+    <p> OGV :  {{ settings.ogvurl }} </p>
 	</div><br/>
 	</div>
 	
