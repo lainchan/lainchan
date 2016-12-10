@@ -22,8 +22,8 @@
 
 
     <div class="ban" style="text-align: left!important;">
-        <h2>Web Client - Point your own clients to #{{ settings.channel }} on irc.freenode.net.</h2>		
-        <iframe src="https://webchat.freenode.net?channels=%23{{ settings.channel }}&uio=MTE9MTMz98" width="766" height="400"></iframe>
+        <h2>Web Client - Point your own clients to #{{ settings.channel }} on {{ settings.server }}:+{{ settings.port }} .</h2>		
+        <iframe src="https://kiwiirc.com/client/{{ settings.server }}:+{{ settings.port }}/#{{ settings.channel }}" width="800px" height="100%" scrolling="no"></iframe>
     </div>
   </body>
 </html>
