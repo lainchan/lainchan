@@ -38,10 +38,10 @@
 
 <div class="container">
     <div class="{{ settings.progressbarcssclass }}">
-        <span style="width:14%;position:relative;left:{{ settings.progressbarcssleft }}%; 
+        <span style="width:{{ settings.progressbarcsswidth }};position:relative;left:{{ settings.progressbarcssleft }}%; 
   "> </span>
 </div>
-<div id="value" style="position:relative;left:{{ settings.progressbartextcssleft }}px;top:-45px">{{ settings.currentprogress }}</div>
+<div id="value" style="position:relative;left:{{ settings.progressbartextcssleft }}px;top:-45px;color:#0000ff;">{{ settings.currentprogress }}</div>
 </div>
 
     </div>

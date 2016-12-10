@@ -22,37 +22,44 @@ $theme = array(
         array('title'   => 'Monthly Amount',
               'name'    => 'monthlyamount',
               'type'    => 'text',
-              'default' => '$55'),
+              'default' => '$0'),
           
+
         array('title'   => 'Current Sticker Amount',
               'name'    => 'stickeramount',
               'type'    => 'text',
               'default' => '$0'),
-        
+
         array('title'   => 'Current Other Donations Amount',
               'name'    => 'otheramount',
               'type'    => 'text',
               'default' => '$0'),
-        
-        array('title'   => 'Current Progress',
+
+	 array('title'   => 'Current Progress',
               'name'    => 'currentprogress',
               'type'    => 'text',
               'default' => '$0'),
-        
+
         array('title'   => 'Progress Bar CSS class',
               'name'    => 'progressbarcssclass',
               'type'    => 'text',
-              'default' => 'progress-bar red glow'),
+              'default' => 'progress-bar green glow'),
         
-        array('title'   => 'Progress Bar CSS left',
+        
+        array('title'   => 'Progress Bar CSS width',
+              'name'    => 'progressbarcsswidth',
+              'type'    => 'text',
+              'default' => '15%'),
+       
+	 array('title'   => 'Progress Bar CSS left',
               'name'    => 'progressbarcssleft',
               'type'    => 'text',
-              'default' => '36'),
+              'default' => '51'),
         
         array('title'   => 'Progress Bar Text CSS left',
               'name'    => 'progressbartextcssleft',
               'type'    => 'text',
-              'default' => '135'),
+              'default' => '195'),
           ),
 
     'build_function'   => 'donate_build');
