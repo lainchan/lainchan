@@ -6,8 +6,13 @@
 			<input id="search" name="search" type="text" size="40" value="{{ search }}">
 			<select name="board">
 				<option value="none">{% trans %}Select board{% endtrans %}&hellip;</option>
-				{% for b in boards %}
-					<option value="{{ b }}"{% if b == board %} selected{% endif %}>/{{ b }}/</option>
+	
+				{% for b2 in boards %}
+				    {% if b2 == b %}
+				    <option value="{{ b2 }}" selected>/{{ b2 }}/</option>
+				    {% else %}
+				    <option value="{{ b2 }}">/{{ b2 }}/</option>
+				    {% endif %}
 				{% endfor %}
 			</select>
 			<input type="submit" value="{% trans %}Search{% endtrans %}" />
