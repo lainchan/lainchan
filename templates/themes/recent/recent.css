@@ -44,14 +44,14 @@ body
 	color: #7fdd57;
 	border: 0px solid #060;
 	float: left;
-	width: 300px;
+	width: 50%;
 }
 .box.right {
 	background: #0b000f;
 	color: #7fdd57;
 	border: 0px solid #006;
 	float: right;
-	width: 436px;
+	width: 50%;
 }
 
 .box h2 {
@@ -169,4 +169,8 @@ div.ban h2
 div.ban h2:not(:nth-child(1))
 {
 	border-top: 0px solid #0b000f;
+}
+
+div.footer{
+clear:both;
 }

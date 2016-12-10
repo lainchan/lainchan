@@ -9,7 +9,6 @@
 	<link rel="stylesheet" media="screen" href="https://lainchan.org/stylesheets/font-awesome/css/font-awesome.min.css"/>
 
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
-	{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
 <body>
@@ -24,12 +23,14 @@
 	</header>
 <br>
 
+		<center>
     <img alt="mascot" class="lain_banner"src="static/lain_banner1.png"/>
+		</center>
 
  <br>
 
-     <div class="ban" id="global">      <h2>CYBERPUNK IS DEAD</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
-
+     <div class="ban" id="global2">      <h2>CYBERPUNK IS DUCK</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
+	<center>    <img alt="mascot" class="lain_banner" src="static/duck.png"></center>
     <br>
 
 	<div class="ban" id="global">
@@ -67,13 +68,14 @@
 			</ul>
 		</div>
 	</div>
-
+	<div class="footer">
 	<footer>
         <center>
         	<a href="mailto:admin@lainchan.org?Subject=Hello" target="_top">admin@lainchan.org</a>
         </center>
 
 	</footer>
+	</div>
 </body>
 </html>
 {% endfilter %}
