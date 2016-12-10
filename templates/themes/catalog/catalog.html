@@ -7,6 +7,7 @@
 		var active_page = "catalog"
 		  , board_name = "{{ board }}";
 	</script>
+		<title>{{ settings.title }} ( /{{ board }}/ )</title>
 	{% include 'header.html' %}
 </head>
 <body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %} theme-catalog active-catalog" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
@@ -41,7 +42,7 @@
 			<option value="large">{% trans 'Large' %}</option>
 		</select>
 	</div>
-
+	<br></br>
         <div class="threads">
                 <div id="Grid">
                 {% for post in recent_posts %}

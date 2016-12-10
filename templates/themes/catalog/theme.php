@@ -15,7 +15,7 @@
 		//	- post-thread (a thread has been made)
 		if ($action === 'all') {
 			foreach ($boards as $board) {
-				$b = new Catalog();
+				$b = new Catalog($settings);
 
 				$action = generation_strategy("sb_catalog", array($board));
 				if ($action == 'delete') {
@@ -27,7 +27,7 @@
 				}
 			}
 		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') || ($settings['update_on_posts'] && $action == 'post-delete') && in_array($board, $boards)) {
-			$b = new Catalog();
+			$b = new Catalog($settings);
 
 			$action = generation_strategy("sb_catalog", array($board));
 			if ($action == 'delete') {
@@ -148,10 +148,13 @@
 		/**
 		 * Build and save the HTML of the catalog for the given board
 		 */
-		public function build($board_name) {
-			if (!openBoard($board_name)) {
-				error(sprintf(_("Board %s doesn't exist"), $post['board']));
-			}
+		public function build($settings, $board_name) {
+			global $config, $board;
+			if ($board['uri'] != $board_name) {			
+				if (!openBoard($board_name)) {
+					error(sprintf(_("Board %s doesn't exist"), $board_name));
+				}
+			}	
 
 			if (array_key_exists($board_name, $this->threadsCache)) {
 				$threads = $this->threadsCache[$board_name];
