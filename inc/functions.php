@@ -1779,19 +1779,53 @@ function ReverseIPOctets($ip) {
 }
 
 function wordfilters(&$body) {
-	global $config;
+        global $config;
 
-	foreach ($config['wordfilters'] as $filter) {
-		if (isset($filter[2]) && $filter[2]) {
-			if (is_callable($filter[1]))
-				$body = preg_replace_callback($filter[0], $filter[1], $body);
-			else
-				$body = preg_replace($filter[0], $filter[1], $body);
-		} else {
-			$body = str_ireplace($filter[0], $filter[1], $body);
-		}
-	}
+        foreach ($config['wordfilters'] as $filter) {
+                if (isset($filter[3]) && $filter[3]) {
+                        $refilter = $filter[0]; 
+                        if (strncmp($filter[0], "/", 1) !== 0) 
+                        {
+                                $refilter = "/.*" . $filter[0] .  "/";
+                        }
+                        $body = preg_replace_callback($refilter,
+                        function($matches) use ($filter , $body) {
+                                foreach ($matches as $match) {
+                                        if (preg_match("/(http|https|ftp):\/\//i", $match)) {
+                                                return $match;
+                                        } else {
+                                                if (isset($filter[2]) && $filter[2]) {
+                                                        $refilter = $filter[0]; 
+                                                        if (strncmp($filter[0], "/", 1) !== 0) 
+                                                        {
+                                                                $refilter = "/.*" . $filter[0] .  "/";
+                                                        }
+                                                        if (is_callable($filter[1]))
+                                                                return  preg_replace_callback($refilter, $filter[1], $match);
+                                                        else
+                                                                return  preg_replace($refilter, $filter[1], $match);
+                                                } else {
+                                                        return str_ireplace($filter[0], $filter[1], $match);
+                                                }
+
+                                        }
+                                }
+                        }
+                        , $body);
+                } else { 
+                        if (isset($filter[2]) && $filter[2]) {
+                                if (is_callable($filter[1]))
+                                        $body = preg_replace_callback($filter[0], $filter[1], $body);
+                                else
+                                        $body = preg_replace($filter[0], $filter[1], $body);
+                        } else {
+                                $body = str_ireplace($filter[0], $filter[1], $body);
+                        }
+                }
+        }
+
 }
+
 
 function quote($body, $quote=true) {
 	global $config;
