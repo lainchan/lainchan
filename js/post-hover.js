@@ -54,7 +54,10 @@ onready(function(){
 			hovered_at = {'x': e.pageX, 'y': e.pageY};
 			
 			var start_hover = function($link) {
-				if ($post.is(':visible') &&
+				if($.contains($post[0], $link[0])) {
+					// link links to itself or to op; ignore
+				}
+				else if ($post.is(':visible') &&
 						$post.offset().top >= $(window).scrollTop() &&
 						$post.offset().top + $post.height() <= $(window).scrollTop() + $(window).height()) {
 					// post is in view
