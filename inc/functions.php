@@ -314,8 +314,12 @@ function loadConfig() {
 		Cache::set('events_'.$boardsuffix, $events);
 	}
 
-	if (is_array($config['anonymous']))
+	if (is_array($config['anonymous'])) {
 		$config['anonymous'] = $config['anonymous'][array_rand($config['anonymous'])];
+	}
+	else if (is_callable($config['anonymous'])){
+		$config['anonymous'] = $config['anonymous']($boardsuffix);
+	}
 	
 	if ($config['debug']) {
 		if (!isset($debug)) {
