@@ -18,6 +18,10 @@
 	                 if ($config['api']['enabled']) {
 			 	$jsonFilename = $settings['uri'] . '/0.json';
 				file_unlink($jsonFilename);
+				$jsonFilename = $settings['uri'] . '/catalog.json';
+				file_unlink($jsonFilename);
+				$jsonFilename = $settings['uri'] . '/threads.json';
+				file_unlink($jsonFilename);
 			 }
 		}
 		elseif ($action == 'rebuild') {
@@ -120,6 +124,18 @@
 				$jsonFilename = $board['dir'] . '0.json';
 				$json = json_encode($api->translatePage($apithreads));
 	                	file_write($jsonFilename, $json);
+				
+
+				$catalog = array();
+				$catalog[0] = $apithreads;
+
+				$json = json_encode($api->translateCatalog($catalog));
+				$jsonFilename = $board['dir'] . 'catalog.json';
+				file_write($jsonFilename, $json);
+
+				$json = json_encode($api->translateCatalog($catalog, true));
+				$jsonFilename = $board['dir'] . 'threads.json';
+				file_write($jsonFilename, $json);
 			 }
 			return Element('index.html', array(
 				'config' => $config,
