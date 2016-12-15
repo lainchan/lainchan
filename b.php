@@ -23,7 +23,7 @@ function serveRandomBanner($dir, $files) {
     header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1
     header('Pragma: no-cache'); // HTTP 1.0
     header('Expires: 0'); // Proxies
-    header("Content-type: image/" . ext);
+    header("Content-type: image/" . $ext);
     header("Content-Disposition: inline; filename=" . $name);
 
     // readfile displays the image, passthru seems to spits stream.

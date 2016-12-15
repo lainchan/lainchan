@@ -57,7 +57,7 @@ onready(function(){
 				if($.contains($post[0], $link[0])) {
 					// link links to itself or to op; ignore
 				}
-				else if($post.is(':visible') &&
+				else if ($post.is(':visible') &&
 						$post.offset().top >= $(window).scrollTop() &&
 						$post.offset().top + $post.height() <= $(window).scrollTop() + $(window).height()) {
 					// post is in view

@@ -17,6 +17,21 @@ var catalogSearch = function() {
 		$threads = $('.threads .thread'),
 		$searchLabel = $('<label for="catalog_search">Search: </label>'),
 		$searchBox = $('<input id="catalog_search" type="text" placeholder="Search" />');
+		function searchToggle() {
+			var button = $('#catalog_search_button');
+
+			if (!button.data('expanded')) {
+				button.data('expanded', '1');
+				button.text('Close');
+				$('.catalog_search').append(' <input id="search_field" style="border: inset 1px;">');
+				$('#search_field').focus();
+			} else {
+				button.removeData('expanded');
+				button.text('Search');
+				$('.catalog_search').children().last().remove();
+				$('div[id="Grid"]>.mix').each(function () { $(this).css('display', 'inline-block'); });
+			}
+		}
 
 	$controls.append($searchLabel)
 			.append($searchBox);

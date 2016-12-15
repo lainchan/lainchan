@@ -18,6 +18,7 @@
 			$body = '';
 			$overflow = array();
 			$board = array(
+				'dir' => $this->settings['uri'] . "/",
 				'url' => $this->settings['uri'],
 				'name' => $this->settings['title'],
 				'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])

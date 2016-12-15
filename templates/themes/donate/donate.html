@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/favicon.png">
     <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
     <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/progressbar.css"/>
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
   </head>
   <body>
@@ -16,32 +17,35 @@
       <h1>{{ settings.title }}</h1>
       <div class="subtitle">{{ settings.subtitle }}</div>
     </header>
-
+<center>
     <img alt="mascot" src="/static/lain_is_cute_datass_small.png"/>
-
-    <div class="ban">
+</center>
+   <div class="ban">
       <h2>Thanks for donating</h2>
-      <p>The server costs $55 per month. If you buy stickers we get about 45-55% of whatever you spend. I have to pay my phone bill to keep two-factor authentication working thats $45 (I pay this myself if im not homeless for the month). I just purchased a few lainchan related domains with whatever BTC we had. $50 or so of donations needs to go to darkengine soon to reimburse him for stickers. I have to pay the bill for my Macbook too sometimes. I want to spend a bunch of donation money on a bulk order of stickers and give em away as prizes or just spam shit in the city. FOOFDOOF is the top donator, hes given us like almost $1000. Sometimes I spend the donation money on food when i'm starving. I transfer all donations into, and keep them as cash.
-
+      <p>The server costs {{ settings.monthlyamount }} per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Freenode.
         </p>
-<p> The most secure and private way to donate is probably to send cash in the mail to me, but this option is only available to select people until I set up a PO box or something.</p>
 
-        <p>https://www.stickermule.com/marketplace/tags/lainchan</p>
+  <p><a href="https://www.stickermule.com/marketplace/tags/lainchan"> Buy stickers here</a>
+</p>
 
-       <p> Localbitcoins.com is a good place to buy BTC. You can donate BTC to this address: 18CshTkxW6HRFoBhXo9mLJcjkReMmjvuq9</p>
-        <img src="https://www.lainchan.org/static/btc.jpg" alt="buttcoin qr">
+<p>Monthly Funding Progress Bar</p>
 
-      <p> The absolute fastest way for me to receive and process the money is with a Credit/Debit/Prepaid card via paypal here:</p>
+<p>Cost per month {{ settings.monthlyamount }}</p>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="95LE9PHD8P5NU">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
+<p>Funds from stickers {{ settings.stickeramount }} </p>
 
+<p>Funds from other donations {{ settings.otheramount }} </p>
+
+<div class="container">
+    <div class="{{ settings.progressbarcssclass }}">
+        <span style="width:{{ settings.progressbarcsswidth }};position:relative;left:{{ settings.progressbarcssleft }}%; 
+  "> </span>
+</div>
+<div id="value" style="position:relative;left:{{ settings.progressbartextcssleft }}px;top:-45px;color:#0000ff;">{{ settings.currentprogress }}</div>
+</div>
 
     </div>
+
   </body>
 </html>
 {% endfilter %}

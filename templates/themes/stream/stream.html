@@ -1,0 +1,88 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
+	<link href="https://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<title>{{ settings.title }}</title>
+	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
+	<link rel="stylesheet" media="screen" href="/stylesheets/dark.css">
+	<!--{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}-->
+	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+<style>
+.video-js { width:100%!important; height: auto!important; }
+</style>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+        check_status();
+        setInterval(check_status, 15000);
+});
+
+function check_status(){
+    $.get("{{ settings.rtmpviewers }}", function(data){
+    $("#rtmpviewers").text(data);
+  });
+
+  $.get("{{ settings.ogvstatus }}", function(data){    
+var el = $( '<div></div>' );   
+el.html(data);    
+var sd = el.find(".streamdata");  
+  
+$("#ogvnowplaying").text( sd[25].textContent);    
+
+$("#ogvviewers").text( sd[22].textContent  );
+});
+}
+
+</script>
+</head>
+<body>
+	<div class="bar top">
+		{{ boardlist.top }}
+	</div>
+	<header>
+		<h1>{{ settings.title }}</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
+	
+	<div>
+	<div id="box" width="100%">
+	<video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin" height="264" width="640"  controls preload="auto" poster="https://lainchan.org/static/lain_is_cute_datass_small.png" data-setup='{ "example_option": true,  "techOrder": ["html5","flash"],"fluid": true}'>
+        <source src='{{ settings.rtmpvideojsurl }}' type='rtmp/mp4'/>
+        <source src="{{ settings.ogvurl }}" type='video/ogv'>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  	</video>
+	</div>
+	<br/>
+	<p>Now Streaming RTMP <span id="rtmpnowplaying">unknown</span></p>
+	<p>Now Streaming OGV <span id="ogvnowplaying">unknown</span></p>
+	<p>Current RTMP viewers: <span id="rtmpviewers">unknown</span></p>
+	<p>Current OGV viewers: <span id="ogvviewers">unknown</span></p>
+	<div>
+	<p>Raw stream URLs for Mplayer, mpv, VLC, etc:</p>
+    <p> RTMP : {{ settings.rtmpurl }} </p>
+    <p> OGV :  {{ settings.ogvurl }} </p>
+	</div><br/>
+	</div>
+	
+	</div>
+	
+	<hr/>
+        <footer>
+                <p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
+                        <a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
+                <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
+                <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
+        </footer>
+<script src="https://vjs.zencdn.net/5.11.7/video.js"></script>
+</body>
+</html>
+{% endfilter %}

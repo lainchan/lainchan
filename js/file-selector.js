@@ -1,8 +1,9 @@
 /*
- * file-selector.js - Add support for drag and drop file selection, and paste from clipbboard on supported browsers.
+ * file-selector.js - Add support for drag and drop file selection, and paste from clipboard on supported browsers.
  *
  * Usage:
  *   $config['additional_javascript'][] = 'js/jquery.min.js';
+ *   $config['additional_javascript'][] = 'js/ajax.js';
  *   $config['additional_javascript'][] = 'js/file-selector.js';
  */
 function init_file_selector(max_images) {

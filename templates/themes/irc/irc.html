@@ -1,48 +1,29 @@
 {% filter remove_whitespace %}
 <!DOCTYPE html>
-<html style="height:100vh; width:100%;">
+<html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>{{ settings.title }}</title>
     <link rel="shortcut icon" href="/favicon.png">
     <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
-    <link rel="stylesheet" media="screen" href="/stylesheets/cyberpunk.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark_irc.css"/>
 	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
-  </head>
-  <body style="background-image: url(/bg.php); background-size:cover; background-repeat:no-repeat; height:100vh; width: inherit; margin:none; padding:none; overflow-x:hidden; overflow-y:hidden;">
-    <div class="bar top">
-      {{ boardlist.top }}
+</head>
+  <body>
+  	<div class="bar top">
+		{{ boardlist.top }}
 	</div>
 
-	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
     <header>
       <h1>{{ settings.title }}</h1>
       <div class="subtitle">{{ settings.subtitle }}</div>
     </header>
 
-    <img alt="mascot" src="static/lain_is_cute_datass_small.png"/>
 
-    <div class="ban" style="background-color: black; text-align: left!important;">
-      <h2>WELCOME TO CYBERIA</h2>
-
-      <p>Welcome to lainchan's #BADA55 radio stream. <br/>Statistics
-      about this stream such as current listeners, song title, et
-      cetera will soon be added to this page.
-      </p>
-
-      <ul>
-
-        <li><a href="https://lainchan.org/static/lain.ogg.m3u">Vorbis M3U Playlist</a></li>
-        <li><a href="https://lainchan.org/static/lain.mp3.m3u">MP3 M3U Playlist</a></li>
-
-		XSPF considered harmful.
-      </ul>
-
-      <audio controls preload="none" style="margin: 0 5% 20px 5%; width: 90%; box-shadow: 0px 0px 5px black;">
-	  	<source src="https://lainchan.org/radio_assets/lain.ogg" type="audio/ogg">
-		<source src="https://lainchan.org/radio_assets/lain.mp3" type="audio/mpeg">
-        <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
-     </audio>
+    <div class="ban" style="text-align: left!important;">
+        <h2>Web Client - Point your own clients to #{{ settings.channel }} on {{ settings.server }}:+{{ settings.port }} .</h2>		
+        <iframe src="https://kiwiirc.com/client/{{ settings.server }}:+{{ settings.port }}/#{{ settings.channel }}" width="800px" height="100%" scrolling="no"></iframe>
     </div>
   </body>
 </html>

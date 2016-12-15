@@ -15,23 +15,30 @@
 		//	- post-thread (a thread has been made)
 		if ($action === 'all') {
 			foreach ($boards as $board) {
-				if ($config['smart_build']) {
+				$b = new Catalog($settings);
+
+				$action = generation_strategy("sb_catalog", array($board));
+				if ($action == 'delete') {
 					file_unlink($config['dir']['home'] . $board . '/catalog.html');
-				} else {
-					$b->build($board);
+					file_unlink($config['dir']['home'] . $board . '/index.rss');
+				}
+				elseif ($action == 'rebuild') {
+					$b->build($settings, $board);
 				}
 			}
-		} elseif (in_array($board, $boards) &&
-			$action == 'post-thread' ||
-			($settings['update_on_posts'] && $action == 'post') ||
-			($settings['update_on_posts'] && $action == 'post-delete'))
-		{
-			if ($config['smart_build']) {
+		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') || ($settings['update_on_posts'] && $action == 'post-delete') && in_array($board, $boards)) {
+			$b = new Catalog($settings);
+
+			$action = generation_strategy("sb_catalog", array($board));
+			if ($action == 'delete') {
 				file_unlink($config['dir']['home'] . $board . '/catalog.html');
-			} else {
-				$b->build($board);
+				file_unlink($config['dir']['home'] . $board . '/index.rss');
 			}
-		}
+			elseif ($action == 'rebuild') {
+				$b->build($settings, $board);
+            }
+        
+        }
 
 		// FIXME: Check that Ukko is actually enabled
 		if ($settings['enable_ukko'] && (
@@ -39,6 +46,14 @@
 			$action === 'post-thread' || $action === 'post-delete'))
 		{
 			$b->buildUkko();
+		}
+		
+		// FIXME: Check that Rand is actually enabled
+		if ($settings['enable_rand'] && (
+			$action === 'all' || $action === 'post' ||
+			$action === 'post-thread' || $action === 'post-delete'))
+		{
+			$b->buildRand();
 		}
 	}
 
@@ -90,14 +105,56 @@
 			$this->saveForBoard($ukkoSettings['uri'], $recent_posts,
 				$config['root'] . $ukkoSettings['uri']);
 		}
+		
+		/**
+		 * Build and save the HTML of the catalog for the Rand theme
+		 */
+		public function buildRand() {
+			global $config;
+
+			$randSettings = themeSettings('rand');
+ 			$queries = array();
+			$threads = array();
+
+			$exclusions = explode(' ', $randSettings['exclude']);
+			$boards = array_diff(listBoards(true), $exclusions);
+
+			foreach ($boards as $b) {
+				if (array_key_exists($b, $this->threadsCache)) {
+					$threads = array_merge($threads, $this->threadsCache[$b]);
+				} else {
+					$queries[] = $this->buildThreadsQuery($b);
+				}
+			}
+
+			// Fetch threads from boards that haven't beenp processed yet
+			if (!empty($queries)) {
+				$sql = implode(' UNION ALL ', $queries);
+				$res = query($sql) or error(db_error());
+				$threads = array_merge($threads, $res->fetchAll(PDO::FETCH_ASSOC));
+			}
+
+			// Sort in bump order
+			usort($threads, function($a, $b) {
+				return strcmp($b['bump'], $a['bump']);
+			});
+			// Generate data for the template
+			$recent_posts = $this->generateRecentPosts($threads);
+
+			$this->saveForBoard($randSettings['uri'], $recent_posts,
+				$config['root'] . $randSettings['uri']);
+		}
 
 		/**
 		 * Build and save the HTML of the catalog for the given board
 		 */
-		public function build($board_name) {
-			if (!openBoard($board_name)) {
-				error(sprintf(_("Board %s doesn't exist"), $post['board']));
-			}
+		public function build($settings, $board_name) {
+			global $config, $board;
+			if ($board['uri'] != $board_name) {			
+				if (!openBoard($board_name)) {
+					error(sprintf(_("Board %s doesn't exist"), $board_name));
+				}
+			}	
 
 			if (array_key_exists($board_name, $this->threadsCache)) {
 				$threads = $this->threadsCache[$board_name];
@@ -163,10 +220,13 @@
 							$post['file'] = $config['uri_thumb'] . $files[0]->thumb;
 						}
 					}
+				} else {
+					$post['file'] = $config['root'] . $config['image_deleted'];
 				}
 
 				if (empty($post['image_count']))
 					$post['image_count'] = 0;
+				$post['pubdate'] = date('r', $post['time']);
 
 				$posts[] = $post;
 			}
@@ -199,6 +259,12 @@
 				'stats' => array(),
 				'board' => $board_name,
 				'link' => $board_link
+			)));
+
+			file_write($config['dir']['home'] . $board_name . '/index.rss', Element('themes/catalog/index.rss', Array(
+				'config' => $config,
+				'recent_posts' => $recent_posts,
+				'board' => $board
 			)));
 		}
 	}

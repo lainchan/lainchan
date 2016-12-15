@@ -5,22 +5,14 @@
  */
 
 require_once 'inc/functions.php';
-require_once 'inc/bans.php';
-require_once 'inc/mod/pages.php';
-require_once 'inc/mod/auth.php';
 
 if ($config['debug'])
 	$parse_start_time = microtime(true);
 
-// Fix for magic quotes
-if (get_magic_quotes_gpc()) {
-	function strip_array($var) {
-		return is_array($var) ? array_map('strip_array', $var) : stripslashes($var);
-	}
-	
-	$_GET = strip_array($_GET);
-	$_POST = strip_array($_POST);
-}
+require_once 'inc/bans.php';
+require_once 'inc/mod/pages.php';
+
+check_login(true);
 
 $query = isset($_SERVER['QUERY_STRING']) ? rawurldecode($_SERVER['QUERY_STRING']) : '';
 
@@ -47,11 +39,19 @@ $pages = array(
 	
 	'/log'					=> 'log',			// modlog
 	'/log/(\d+)'				=> 'log',			// modlog
-	'/log:([^/]+)'				=> 'user_log',			// modlog
-	'/log:([^/]+)/(\d+)'			=> 'user_log',			// modlog
-	'/news'					=> 'secure_POST news',		// view news
-	'/news/(\d+)'				=> 'secure_POST news',		// view news
-	'/news/delete/(\d+)'			=> 'secure news_delete',	// delete from news
+	'/log:([^/:]+)'				=> 'user_log',			// modlog
+	'/log:([^/:]+)/(\d+)'			=> 'user_log',			// modlog
+	'/log:b:([^/]+)'			=> 'board_log',			// modlog
+	'/log:b:([^/]+)/(\d+)'			=> 'board_log',			// modlog
+
+	'/edit_news'				=> 'secure_POST news',		// view news
+	'/edit_news/(\d+)'			=> 'secure_POST news',		// view news
+	'/edit_news/delete/(\d+)'		=> 'secure news_delete',	// delete from news
+
+	'/edit_pages(?:/?(\%b)?)'		=> 'secure_POST pages',
+	'/edit_page/(\d+)'			=> 'secure_POST edit_page',
+	'/edit_pages/delete/([a-z0-9]+)'	=> 'secure delete_page',
+	'/edit_pages/delete/([a-z0-9]+)/(\%b)'	=> 'secure delete_page_board',
 	
 	'/noticeboard'				=> 'secure_POST noticeboard',	// view noticeboard
 	'/noticeboard/(\d+)'			=> 'secure_POST noticeboard',	// view noticeboard
@@ -88,6 +88,7 @@ $pages = array(
 	'/(\%b)/deletebyip/(\d+)(/global)?'	=> 'secure deletebyip',		// delete all posts by IP address
 	'/(\%b)/(un)?lock/(\d+)'		=> 'secure lock',		// lock thread
 	'/(\%b)/(un)?sticky/(\d+)'		=> 'secure sticky',		// sticky thread
+	'/(\%b)/(un)?cycle/(\d+)'                         => 'secure cycle',          // cycle thread
 	'/(\%b)/bump(un)?lock/(\d+)'		=> 'secure bumplock',		// "bumplock" thread
 	
 	'/themes'				=> 'themes_list',		// manage themes

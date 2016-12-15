@@ -62,7 +62,7 @@ h1
 	font-family: 'lain', tahoma;
 
 	letter-spacing: -2px;
-	font-size: 42pt;
+	font-size: 42px;
 	text-align: center;
 	color: #d2e7e8;
 
@@ -293,7 +293,7 @@ div.pages
 	background: #333;
 	border: #666 0px solid;
 	font-family: sans-serif;
-	font-size: 10pt;
+	font-size: 10px;
 }
 div.pages a.selected
 {
@@ -326,7 +326,7 @@ div.ban h2
 	background: #333;
 	color: #d2e7e8;
 	padding: 3px 7px;
-	font-size: 12pt;
+	font-size: 12px;
 	border-bottom: 1px solid #555;
 }
 div.ban h2:not(:nth-child(1))

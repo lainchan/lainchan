@@ -11,10 +11,16 @@
 			return;
 		}
 
-		if ($config['smart_build']) {
+		$action = generation_strategy('sb_ukko', array());
+
+		if ($action == 'delete') {
 			file_unlink($settings['uri'] . '/index.html');
+	                 if ($config['api']['enabled']) {
+			 	$jsonFilename = $settings['uri'] . '/0.json';
+				file_unlink($jsonFilename);
+			 }
 		}
-		else {
+		elseif ($action == 'rebuild') {
 			file_write($settings['uri'] . '/index.html', $ukko->build());
 		}
 	}
@@ -28,6 +34,7 @@
 			$body = '';
 			$overflow = array();
 			$board = array(
+				'dir' => $this->settings['uri'] . "/",
 				'url' => $this->settings['uri'],
 				'uri' => $this->settings['uri'],
 				'name' => $this->settings['title'],
@@ -45,6 +52,9 @@
 
 			$count = 0;
 			$threads = array();
+	                if ($config['api']['enabled']) {
+				$apithreads = array(); 
+			}	
 			while($post = $query->fetch()) {
 
 				if(!isset($threads[$post['board']])) {
@@ -86,6 +96,9 @@
 					$thread->posts = array_reverse($thread->posts);
 					$body .= '<h2><a href="' . $config['root'] . $post['board'] . '">/' . $post['board'] . '/</a></h2>';
 					$body .= $thread->build(true);
+					if ($config['api']['enabled']) {
+						array_push($apithreads,$thread);
+					}	
 				} else {
 					$page = 'index';
 					if(floor($threads[$post['board']] / $config['threads_per_page']) > 0) {
@@ -99,7 +112,15 @@
 
 			$body .= '<script> var overflow = ' . json_encode($overflow) . '</script>';
 			$body .= '<script type="text/javascript" src="/'.$this->settings['uri'].'/ukko.js"></script>';
-
+			
+			 // json api
+	                 if ($config['api']['enabled']) {
+				require_once __DIR__. '/../../../inc/api.php';
+				$api = new Api();
+				$jsonFilename = $board['dir'] . '0.json';
+				$json = json_encode($api->translatePage($apithreads));
+	                	file_write($jsonFilename, $json);
+			 }
 			return Element('index.html', array(
 				'config' => $config,
 				'board' => $board,

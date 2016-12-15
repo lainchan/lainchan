@@ -156,8 +156,9 @@ hr {
 	border: #333333 1px solid;
 }
 div.boardlist {
+	text-align: center;
 	color: #999999;
-    background-color: rgba(12%, 12%, 12%, 0.10);
+    	background-color: rgba(12%, 12%, 12%, 0.10);
 }
 
 div.ban {

@@ -12,7 +12,7 @@
 	<!--{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}-->
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 </head>
-<body>
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
 	<div class="bar top">
 		{{ boardlist.top }}
 	</div>
@@ -41,10 +41,10 @@
 	
 	<hr/>
         <footer>
-                <p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
-                        <a href='https://int.vichan.net/devel/'>vichan</a> {{ config.version }} -
-                <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
-                <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
+                <p class="unimportant" style="margin-top:20px;text-align:center;">- Tinyboard + 
+                        <a href="https://engine.vichan.net/">vichan</a> {{ config.version }} -
+                <br>Tinyboard Copyright &copy; 2010-2014 Tinyboard Development Group    
+                <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel</p>
         </footer>
 </body>
 </html>

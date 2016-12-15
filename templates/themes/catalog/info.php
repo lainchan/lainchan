@@ -47,6 +47,13 @@
 	);
 
 	$theme['config'][] = Array(
+		'title' => 'Enable Rand catalog',
+		'name' => 'enable_rand',
+		'type' => 'checkbox',
+		'default' => false,
+		'comment' => 'Enable catalog for the Rand theme. This requires the Rand theme to be enabled.'
+	);
+	$theme['config'][] = Array(
 		'title' => 'Use tooltipster',
 		'name' => 'use_tooltipster',
 		'type' => 'checkbox',

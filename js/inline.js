@@ -123,8 +123,8 @@ $(document).ready(function() {
     $clone.insertAfter(link.node)
   }
 
-  App.options.add('useInlining', 'Enable inlining')
-  App.options.add('hidePost', 'Hide inlined backlinked posts')
+  App.options.add('useInlining', _('Enable inlining'))
+  App.options.add('hidePost', _('Hide inlined backlinked posts'))
 
   $('head').append(
     '<style>' +
@@ -138,8 +138,8 @@ $(document).ready(function() {
   // don't attach to outbound links
 
   if (App.options.get('useInlining')) {
-    var assign_inline = function() { 
-        $('.body a:not([rel]), .mentioned a')
+    var assign_inline = function() {
+        $('.body a[href*="'+location.pathname+'"]').not('[rel]').not('.toolong > a').add('.mentioned a')
           .attr('onclick', null)// XXX disable highlightReply
           .off('click')
           .click(inline)

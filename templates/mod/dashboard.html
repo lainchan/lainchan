@@ -1,5 +1,5 @@
 <ul>
-  {% for board in boards %}
+  {% for board in boards  %}
   <li>
     <a href="?/{{ config.board_path|sprintf(board.uri) }}{{ config.file_index }}">{{ config.board_abbreviation|sprintf(board.uri) }}</a>
     -

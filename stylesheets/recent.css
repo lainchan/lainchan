@@ -2,20 +2,14 @@
  * dark.css
  * Stolen from circlepuller who stole it from derpcat
  */
-body 
+body
 {
 	background: #0b000f;
 	color: #7fdd57;
 	font-family: sans-serif;
 	font-size: 12px;
-	margin:auto:
-	}
-.lain_banner{
-margin-left: auto;
-	margin-right: auto;
-	display: block;
-
 }
+
 @font-face {
     font-family: 'FontAwesome';
     src: url('../fonts/fontawesome-webfont.eot?v=4.4.0');
@@ -24,10 +18,9 @@ margin-left: auto;
     font-style: normal
 }
 
-
 .box-wrap {
 	max-width: 670px;
-	
+	min-width: 400px;
 	margin: 30px auto;
 	overflow: auto;
 	padding: 0;
@@ -35,16 +28,10 @@ margin-left: auto;
 .box {
 	background: #0b000f;
 	border: 0px solid #98E;
-	width: 768px;
+	width: 330px;
 	margin: 0px 0;
 	padding: 0;
-	
 }
-
-div#global.ban{
-	max-width: 768px
-}
-
 .box ul {
 	padding: 2px 15px;
 }
@@ -70,7 +57,6 @@ div#global.ban{
 .box h2 {
 	padding: 3px 7px;
 	font-size: 12pt;
-	
 }
 .box.left h2 {
 	background: #7fdd57;
@@ -85,34 +71,34 @@ div#global.ban{
 	margin: 0px auto;
 }
 
-span.quote 
+span.quote
 {
     color:#677965;
 }
-@font-face 
+@font-face
 {
   font-family: 'lain';
   src: url('./fonts/nrdyyh.woff') format('woff'),
        url('./fonts/tojcxo.TTF') format('truetype');
 }
-h1 
+h1
 {
 	font-family: 'arial black', arial;
 	letter-spacing: -20px;
-	font-size: 116pt;	
+	font-size: 116pt;
 	text-align: center;
 	color: #7fdd57;
 }
-header div.subtitle 
+header div.subtitle
 {
     color: #677965;
 }
-div.title 
+div.title
 {
 	color: #677965;
 	font-family: Arial, Helvetica, sans-serif;
 }
-div.title p 
+div.title p
 {
 	font-size: 10px;
 }
@@ -123,7 +109,7 @@ a:link, a:visited, .intro a.email span.name {
 	font-size: 11pt;
 }
 
-div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover 
+div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover
 {
 	color: #7fdd57;
 }
@@ -147,7 +133,6 @@ p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.ema
 	-moz-box-shadow: 0 0 40px #000;
 	-webkit-box-shadow: 0 0 40px #000;
 	box-shadow: 0 0 40px #000;
-	
 }
 .bar.top
 {
@@ -158,12 +143,12 @@ p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.ema
 	border-top: 1px solid #666;
 }
 
-div.boardlist 
+div.boardlist
 {
 	color: #0b000f;
 }
 
-div.ban 
+div.ban
 {
 	background-color: rgba(11, 0, 15, 0);
 	border: 0px solid #555;
@@ -172,7 +157,7 @@ div.ban
 	border-radius: 2px;
 	text-align: left!important;
 }
-div.ban h2 
+div.ban h2
 {
 	background: #0b000f;
 	color: #7fdd57;
@@ -181,10 +166,11 @@ div.ban h2
 	border-bottom: 0px solid #555;
 }
 
-div.ban h2:not(:nth-child(1)) 
+div.ban h2:not(:nth-child(1))
 {
 	border-top: 0px solid #0b000f;
 }
 
-
-
+div.footer{
+clear:both;
+}
