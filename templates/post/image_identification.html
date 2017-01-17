@@ -5,7 +5,7 @@
 			<a href="http://imgops.com/{{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">ImgOps</a> 
 		{% endif %}
 		{% if config.image_identification_exif and file.file|extension == 'jpg' %}
-			<a href="http://regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">Exif</a> 
+			<a href="http://exif.regex.info/exif.cgi?url={{ config.domain }}{{ config.uri_img }}{{ file.file }}" target="_blank">Exif</a> 
 		{% endif %}
 		{% if config.image_identification_google %}
 			<a href="https://www.google.com/searchbyimage?image_url={{ config.domain|url_encode }}{{ config.uri_img|url_encode }}{{ file.file|url_encode }}" target="_blank">Google</a> 
