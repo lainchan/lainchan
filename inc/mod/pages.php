@@ -1490,6 +1490,44 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 			buildIndex();
 		} elseif (isset($_POST['delete']) && (int) $_POST['delete']) {
 			// Delete post
+			if ($config['autotagging']){
+				$query = prepare(sprintf("SELECT *  FROM ``posts_%s`` WHERE id = :id", $board));
+				$query->bindValue(':id', $post );
+				$query->execute() or error(db_error($query));
+				$ip = "";
+				$time = "";
+				$filename = "";
+				$filehash = "";
+				$subject = "";
+				$name = "";
+				$body = "";
+				while ($mypost = $query->fetch(PDO::FETCH_ASSOC)) {
+					$time = $mypost["time"];
+					$ip = $mypost["ip"];
+					$body = $mypost["body_nomarkup"];
+					$name = $mypost["name"];
+					$subject = $mypost["subject"];
+					$filehash = $mypost["filehash"];
+					$mypost['files'] = $mypost['files'] ? json_decode($mypost['files']) : array();
+					// For each file append file name
+					for ($file_count = 0; $file_count < $mypost["num_files"];$file_count++){
+						$filename .=  $mypost['files'][$file_count]->name . "\r\n";
+					}
+				}	
+				$dt = new DateTime("@$time");	
+				$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
+				$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
+				$autotag .= $body . "\r\n";
+				$autotag = escape_markup_modifiers($autotag);
+				markup($autotag);
+				$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+				$query->bindValue(':ip', $ip);
+				$query->bindValue(':mod', $mod['id']);
+				$query->bindValue(':time', time());
+				$query->bindValue(':body', $autotag);
+				$query->execute() or error(db_error($query));
+				modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+			}		
 			deletePost($post);
 			modLog("Deleted post #{$post}");
 			// Rebuild board
@@ -1611,6 +1649,44 @@ function mod_delete($board, $post) {
 		error($config['error']['noaccess']);
 	
 	// Delete post
+	if ($config['autotagging']){
+		$query = prepare(sprintf("SELECT *  FROM ``posts_%s`` WHERE id = :id", $board));
+		$query->bindValue(':id', $post );
+		$query->execute() or error(db_error($query));
+		$ip = "";
+		$time = "";
+		$filename = "";
+		$filehash = "";
+		$subject = "";
+		$name = "";
+		$body = "";
+		while ($mypost = $query->fetch(PDO::FETCH_ASSOC)) {
+			$time = $mypost["time"];
+			$ip = $mypost["ip"];
+			$body = $mypost["body_nomarkup"];
+			$name = $mypost["name"];
+			$subject = $mypost["subject"];
+			$filehash = $mypost["filehash"];
+			$mypost['files'] = $mypost['files'] ? json_decode($mypost['files']) : array();
+			// For each file append file name
+			for ($file_count = 0; $file_count < $mypost["num_files"];$file_count++){
+				$filename .=  $mypost['files'][$file_count]->name . "\r\n";
+			}
+		}	
+		$dt = new DateTime("@$time");	
+		$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
+		$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
+		$autotag .= $body . "\r\n";
+		$autotag = escape_markup_modifiers($autotag);
+		markup($autotag);
+		$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+		$query->bindValue(':ip', $ip);
+		$query->bindValue(':mod', $mod['id']);
+		$query->bindValue(':time', time());
+		$query->bindValue(':body', $autotag);
+		$query->execute() or error(db_error($query));
+		modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+	}		
 	deletePost($post);
 	// Record the action
 	modLog("Deleted post #{$post}");
@@ -1736,6 +1812,44 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	$threads_deleted = array();
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		openBoard($post['board']);
+		if ($config['autotagging']){
+			$query = prepare(sprintf("SELECT *  FROM ``posts_%s`` WHERE id = :id", $post['board']));
+			$query->bindValue(':id', $post['id'] );
+			$query->execute() or error(db_error($query));
+			$ip = "";
+			$time = "";
+			$filename = "";
+			$filehash = "";
+			$subject = "";
+			$name = "";
+			$body = "";
+			while ($mypost = $query->fetch(PDO::FETCH_ASSOC)) {
+				$time = $mypost["time"];
+				$ip = $mypost["ip"];
+				$body = $mypost["body_nomarkup"];
+				$name = $mypost["name"];
+				$subject = $mypost["subject"];
+				$filehash = $mypost["filehash"];
+				$mypost['files'] = $mypost['files'] ? json_decode($mypost['files']) : array();
+				// For each file append file name
+				for ($file_count = 0; $file_count < $mypost["num_files"];$file_count++){
+					$filename .=  $mypost['files'][$file_count]->name . "\r\n";
+				}
+			}	
+			$dt = new DateTime("@$time");	
+			$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post['id'] . "\r\n"; 
+			$autotag .= "/${post['board']}/" . " " . $filehash .  " " . $filename ."\r\n";
+			$autotag .= $body . "\r\n";
+			$autotag = escape_markup_modifiers($autotag);
+			markup($autotag);
+			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+			$query->bindValue(':ip', $ip);
+			$query->bindValue(':mod', $mod['id']);
+			$query->bindValue(':time', time());
+			$query->bindValue(':body', $autotag);
+			$query->execute() or error(db_error($query));
+			modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+		}		
 		
 		deletePost($post['id'], false, false);
 
