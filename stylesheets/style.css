@@ -4,12 +4,22 @@ div.sidearrows{
     display:none;
 }
 
-
-td{
-  
+img {
+   image-orientation: from-image;
 }
 
+/* boardlist gets all scrunched on small screens */
+@media screen and (max-width: 600px) {
+     header, img.board_image {
+         margin-top: 5em;
+     }
+}
 
+@media screen and (min-width: 700px) {
+    header, img.board_image {
+         margin-top: 3em;
+     }
+}
 
 html, body {
     max-width: 100%!important;
@@ -244,7 +254,7 @@ h2 {
 }
 
 header {
-  margin: 2em 0;
+  margin: 3em 0;
 }
 
 h1 {
@@ -371,7 +381,7 @@ div.banner a:hover {
 img.banner,img.board_image {
   display: block;
   border: 1px solid #a9a9a9;
-  margin: 12px auto 0 auto;
+  margin: 3em auto 0 auto;
 }
 
 .post-image {
