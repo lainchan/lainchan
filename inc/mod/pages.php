@@ -1514,19 +1514,21 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 						$filename .=  $mypost['files'][$file_count]->name . "\r\n";
 					}
 				}	
-				$dt = new DateTime("@$time");	
-				$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
-				$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
-				$autotag .= $body . "\r\n";
-				$autotag = escape_markup_modifiers($autotag);
-				markup($autotag);
-				$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
-				$query->bindValue(':ip', $ip);
-				$query->bindValue(':mod', $mod['id']);
-				$query->bindValue(':time', time());
-				$query->bindValue(':body', $autotag);
-				$query->execute() or error(db_error($query));
-				modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+				if ($time !== ''){	
+					$dt = new DateTime("@$time");	
+					$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
+					$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
+					$autotag .= $body . "\r\n";
+					$autotag = escape_markup_modifiers($autotag);
+					markup($autotag);
+					$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+					$query->bindValue(':ip', $ip);
+					$query->bindValue(':mod', $mod['id']);
+					$query->bindValue(':time', time());
+					$query->bindValue(':body', $autotag);
+					$query->execute() or error(db_error($query));
+					modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+				}
 			}		
 			deletePost($post);
 			modLog("Deleted post #{$post}");
@@ -1672,20 +1674,22 @@ function mod_delete($board, $post) {
 			for ($file_count = 0; $file_count < $mypost["num_files"];$file_count++){
 				$filename .=  $mypost['files'][$file_count]->name . "\r\n";
 			}
-		}	
-		$dt = new DateTime("@$time");	
-		$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
-		$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
-		$autotag .= $body . "\r\n";
-		$autotag = escape_markup_modifiers($autotag);
-		markup($autotag);
-		$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
-		$query->bindValue(':ip', $ip);
-		$query->bindValue(':mod', $mod['id']);
-		$query->bindValue(':time', time());
-		$query->bindValue(':body', $autotag);
-		$query->execute() or error(db_error($query));
-		modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+		}
+		if ($time !== ''){	
+			$dt = new DateTime("@$time");	
+			$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
+			$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
+			$autotag .= $body . "\r\n";
+			$autotag = escape_markup_modifiers($autotag);
+			markup($autotag);
+			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+			$query->bindValue(':ip', $ip);
+			$query->bindValue(':mod', $mod['id']);
+			$query->bindValue(':time', time());
+			$query->bindValue(':body', $autotag);
+			$query->execute() or error(db_error($query));
+			modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+		}
 	}		
 	deletePost($post);
 	// Record the action
@@ -1836,19 +1840,21 @@ function mod_deletebyip($boardName, $post, $global = false) {
 					$filename .=  $mypost['files'][$file_count]->name . "\r\n";
 				}
 			}	
-			$dt = new DateTime("@$time");	
-			$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post['id'] . "\r\n"; 
-			$autotag .= "/${post['board']}/" . " " . $filehash .  " " . $filename ."\r\n";
-			$autotag .= $body . "\r\n";
-			$autotag = escape_markup_modifiers($autotag);
-			markup($autotag);
-			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
-			$query->bindValue(':ip', $ip);
-			$query->bindValue(':mod', $mod['id']);
-			$query->bindValue(':time', time());
-			$query->bindValue(':body', $autotag);
-			$query->execute() or error(db_error($query));
-			modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+			if ($time !== ''){	
+				$dt = new DateTime("@$time");	
+				$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post['id'] . "\r\n"; 
+				$autotag .= "/${post['board']}/" . " " . $filehash .  " " . $filename ."\r\n";
+				$autotag .= $body . "\r\n";
+				$autotag = escape_markup_modifiers($autotag);
+				markup($autotag);
+				$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+				$query->bindValue(':ip', $ip);
+				$query->bindValue(':mod', $mod['id']);
+				$query->bindValue(':time', time());
+				$query->bindValue(':body', $autotag);
+				$query->execute() or error(db_error($query));
+				modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
+			}
 		}		
 		
 		deletePost($post['id'], false, false);
