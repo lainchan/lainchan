@@ -1678,7 +1678,7 @@ function mod_delete($board, $post) {
 		}
 		if ($time !== ''){	
 			$dt = new DateTime("@$time");	
-            		$autotag = "";
+			$autotag = "";
 			$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
 			$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
 			$autotag .= $body . "\r\n";
@@ -2452,7 +2452,7 @@ function mod_report_dismiss($id, $all = false) {
 	header('Location: ?/reports', true, $config['redirect_http']);
 }
 
-function mod_recent_posts($lim) {
+function mod_recent_posts($lim,$json = false) {
 	global $config, $mod, $pdo;
 
 	if (!hasPermission($config['mod']['recent']))
@@ -2485,6 +2485,10 @@ function mod_recent_posts($lim) {
 	$query->bindValue(':last_time', $last_time);
 	$query->execute() or error(db_error($query));
 	$posts = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	if ($config['api']['enabled']) {
+		$apithreads = array();
+    	}
 
 	foreach ($posts as &$post) {
 		openBoard($post['board']);
@@ -2492,20 +2496,39 @@ function mod_recent_posts($lim) {
 			// Still need to fix this:
 			$po = new Thread($post, '?/', $mod, false);
 			$post['built'] = $po->build(true);
+			if ($config['api']['enabled']) {
+				$apithreads[] = $po;
+			}
+	
 		} else {
 			$po = new Post($post, '?/', $mod);
 			$post['built'] = $po->build(true);
+			if ($config['api']['enabled']) {
+				$pot = new Thread($post, '?/', $mod, false);
+				$pot->add($po);	
+				$apithreads[] = $pot;
+			}
 		}
 		$last_time = $post['time'];
 	}
-
-	echo mod_page(_('Recent posts'), 'mod/recent_posts.html',  array(
-			'posts' => $posts,
-			'limit' => $limit,
-			'last_time' => $last_time
-		)
-	);
-
+	if ($config['api']['enabled']) {
+		require_once __DIR__. '/../../inc/api.php';
+		$api = new Api();
+		$jsonFilename = 'mod/' . 'recent.json';
+		$jsondata = json_encode($api->translatePage($apithreads));
+	}
+	
+	if ($json){
+		echo $jsondata;
+	}
+	else {	
+		echo mod_page(_('Recent posts'), 'mod/recent_posts.html',  array(
+				'posts' => $posts,
+				'limit' => $limit,
+				'last_time' => $last_time
+			)
+		);
+	}
 }
 
 function mod_config($board_config = false) {
