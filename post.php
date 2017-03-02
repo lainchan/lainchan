@@ -383,7 +383,10 @@ if (isset($_POST['delete'])) {
 	
 	if (!isset($_POST['json_response'])) {
 		$index = $root . $board['dir'] . $config['file_index'];
-		echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
+		$reported_post = $root . $board['dir']  . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') ;
+		header('Location: ' . $reported_post);
+  
+        //echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
 	} else {
 		header('Content-Type: text/json');
 		echo json_encode(array('success' => true));
@@ -1003,7 +1006,7 @@ if (isset($_POST['delete'])) {
 			if ($fname == 'spoiler') { // We don't have that much CPU time, do we?
 			}
 			else {
-				$tmpname = "tmp/tesseract/".rand(0,10000000);
+                $tmpname = "tmp/tesseract/".rand(0,10000000);
 
 				// Preprocess command is an ImageMagick b/w quantization
 				$error = shell_exec_error(sprintf($config['tesseract_preprocess_command'], escapeshellarg($fname)) . " | " .
