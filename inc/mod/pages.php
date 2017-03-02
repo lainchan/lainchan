@@ -1516,6 +1516,7 @@ function mod_ban_post($board, $delete, $post, $token = false) {
 				}	
 				if ($time !== ''){	
 					$dt = new DateTime("@$time");	
+					$autotag = "";
 					$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
 					$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
 					$autotag .= $body . "\r\n";
@@ -1677,6 +1678,7 @@ function mod_delete($board, $post) {
 		}
 		if ($time !== ''){	
 			$dt = new DateTime("@$time");	
+            		$autotag = "";
 			$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post . "\r\n"; 
 			$autotag .= "/${board}/" . " " . $filehash .  " " . $filename ."\r\n";
 			$autotag .= $body . "\r\n";
@@ -1842,6 +1844,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 			}	
 			if ($time !== ''){	
 				$dt = new DateTime("@$time");	
+				$autotag = "";
 				$autotag .= $name . " " . $subject . " " . $dt->format('Y-m-d H:i:s')  . " No.". $post['id'] . "\r\n"; 
 				$autotag .= "/${post['board']}/" . " " . $filehash .  " " . $filename ."\r\n";
 				$autotag .= $body . "\r\n";
