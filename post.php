@@ -1006,7 +1006,7 @@ if (isset($_POST['delete'])) {
 			if ($fname == 'spoiler') { // We don't have that much CPU time, do we?
 			}
 			else {
-                $tmpname = "tmp/tesseract/".rand(0,10000000);
+				$tmpname = __DIR__ . "/tmp/tesseract/".rand(0,10000000);
 
 				// Preprocess command is an ImageMagick b/w quantization
 				$error = shell_exec_error(sprintf($config['tesseract_preprocess_command'], escapeshellarg($fname)) . " | " .
