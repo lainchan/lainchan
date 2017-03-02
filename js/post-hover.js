@@ -65,7 +65,7 @@ onready(function(){
 				} else {
 					var $newPost = $post.clone();
 					$newPost.find('>.reply, >br').remove();
-					$newPost.find('span.mentioned').remove();
+					//$newPost.find('span.mentioned').remove();
 					$newPost.find('a.post_anchor').remove();
 
 					$newPost
