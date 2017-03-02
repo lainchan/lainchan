@@ -58,7 +58,8 @@ $(document).ready(function(){
 				
 				var hidden_div = thread_container.find('div.post.op > p.intro').clone();
 				hidden_div.addClass('thread-hidden');
-				hidden_div.find('a[href]:not([href$=".html"]),input').remove();
+				//hidden_div.find('a[href]:not([href$=".html"]),input').remove();
+				hidden_div.find('a[href]:not([href$=".html"])').remove();
 				hidden_div.html(hidden_div.html().replace(' [] ', ' '));
 				hidden_div.html(hidden_div.html().replace(' [] ', ' '));
 				
