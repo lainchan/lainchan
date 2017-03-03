@@ -3,8 +3,9 @@
 <html>
 <head>
 	<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
-	<link href="https://vjs.zencdn.net/5.11.7/video-js.css" rel="stylesheet">
+	<link href="https://vjs.zencdn.net/5.16.0/video-js.css" rel="stylesheet">
 	<meta charset="utf-8">
+     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<title>{{ settings.title }}</title>
 	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
@@ -32,10 +33,16 @@ function check_status(){
 var el = $( '<div></div>' );   
 el.html(data);    
 var sd = el.find(".streamdata");  
-  
-$("#ogvnowplaying").text( sd[25].textContent);    
 
-$("#ogvviewers").text( sd[22].textContent  );
+if (typeof sd !== 'undefined') {
+	if (typeof sd[25] !== 'undefined') {
+		$("#ogvnowplaying").text( sd[25].textContent);    
+	}
+
+	if (typeof sd[22] !== 'undefined') {
+		$("#ogvviewers").text( sd[22].textContent  );
+	}
+}
 });
 }
 
@@ -70,6 +77,14 @@ $("#ogvviewers").text( sd[22].textContent  );
 	<p>Raw stream URLs for Mplayer, mpv, VLC, etc:</p>
     <p> RTMP : {{ settings.rtmpurl }} </p>
     <p> OGV :  {{ settings.ogvurl }} </p>
+	
+	<p>I want to stream. How do I stream ?</p>
+	<p> Get the stream key. (Ask on IRC #lainstream on lainchan IRC). Be prepared to answer questions on, what stream you want RTMP, OGV, what you are streaming, why you are streaming it and when you are streaming it ?</p>
+	<p>For RTMP  </p>
+	<p>Use obs or ffmpeg to stream  </p>
+	<p>E.g. ffmpeg -re -i filename -c copy -f flv {{ settings.rtmpurl }}?key=KEYGOESHERE</p>
+	<p> obs url field: rtmp://lainchan.org/live/ </p>
+	<p> obs key field: stream?key=KEYGOESHERE</p>
 	</div><br/>
 	</div>
 	
@@ -82,7 +97,7 @@ $("#ogvviewers").text( sd[22].textContent  );
                 <br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group    
                 <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2015 vichan-devel</p>
         </footer>
-<script src="https://vjs.zencdn.net/5.11.7/video.js"></script>
+<script src="https://vjs.zencdn.net/5.16.0/video.js"></script>
 </body>
 </html>
 {% endfilter %}
