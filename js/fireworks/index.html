@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Fireworks.js: A DHTML fireworks effect</title>
+<meta name="author" content="Scott Schiller" />
+<meta name="language" content="en-us" />
+<meta name="keywords" content="Fireworks.js DHTML animated fireworks effect free animation script" />
+<meta name="description" content="Project page for Fireworks, a fun and downloadable javascript-driven animated fireworks experiment." />
+<link rel="stylesheet" type="text/css" href="style/fireworks.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="demo-only/demo.css" media="screen" />
+<script type="text/javascript" src="demo-only/demo.js"></script>
+<!--script type="text/javascript" src="script/debug.js"></script-->
+<script type="text/javascript" src="script/soundmanager2-nodebug-jsmin.js"></script>
+<script type="text/javascript" src="script/fireworks.js"></script>
+</head>
+
+<body>
+
+<!-- 
+
+ Fireworks elements (cloned and animated via script):
+ 
+ #fireworks-template
+ #fireContainer
+
+-->
+
+<div id="fireworks-template">
+ <div id="fw" class="firework"></div>
+ <div id="fp" class="fireworkParticle"><img src="image/particles.gif" alt="" /></div>
+</div>
+
+<div id="fireContainer"></div>
+
+<!-- demo page stuff -->
+
+<div id="site">
+
+ <div id="content">
+
+ <h1>Fireworks.js</h1>
+
+ <h2>A javascript animation experiment</h2>
+
+ <h3>What's this all about? (AKA, <em>"Holy pointless lightshow, Batman!"</em>)</h3>
+
+ <p>Fireworks.js is a bit of Javascript that creates starburst-type explosions in a web document; in short, it's a fireworks effect someone could theoretically use on their site. And come on, who doesn't want something like that? As far as appropriateness is concerned, this effect could be compared to the dripping-blood-line, skull and fireball animated .GIF images so popular on the web in 1997. Exploding firework animations are hot, the new black, the script equivalent of the <code>blink</code> tag. Mmm, blink tag.</p>
+
+ <p>Nonetheless, Fireworks has been published here for fun, experimenting a bit with simple trigonometry and math, and those who are perhaps interested in javascript animation, object-oriented code or script-driven sound. It also serves as a dirty browser performance test of sorts, as a large number of elements are dynamically created, moved and destroyed on this page as the script runs.</p>
+
+ <h3>Demo Controls</h3>
+
+ <p>Why explain through reading when you can demonstrate by example? Try playing around with the sliders below for a wide range of visual effects. Not all combinations will look good, but the idea is to experiment.</p>
+
+ <p>Drag the sliders (or click a point on the bar) to set the various parameters available such as blast radius and the number of particles per explosion, then click "fire" to see the results.</p>
+
+ <p>The code required to generate the current effect is dynamically updated as you adjust the controls; refer to the <code>createFirework()</code> API call below.</p>
+
+ <h4>Fireworks Parameters</h4>
+
+ <div id="controls">
+
+  <div class="checkbox">
+   <div>
+    <input id="disabled-0" type="checkbox" checked="checked" title="When not applied, random values will be chosen." value="Apply" /> Apply
+   </div>
+  </div>
+
+  <div class="checkbox">
+   <div>
+    <input id="disabled-1" type="checkbox" title="When not applied, random values will be chosen." value="Apply" /> Apply
+   </div>
+  </div>
+
+  <div class="clear"></div>
+
+  <dl class="col">
+
+   <dt>Blast Radius</dt>
+   <dd class="title">% of window size</dd>
+   <dd>1-100</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Size of the explosion"></div>
+   </dd>
+
+   <dt>Particles</dt>
+   <dd class="title">Explosion elements</dd>
+   <dd>1-200</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Number of elements - more means slower"></div>
+   </dd>
+
+   <dt>Circles</dt>
+   <dd class="title">..per explosion</dd>
+   <dd>1-8</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Number of concentric circles"></div>
+   </dd>
+
+   <dt>Burst Type</dt>
+   <dd class="title">(Base colour)</dd>
+   <dd>1-7</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Primary (inner circle) colour"></div>
+   </dd>
+
+  </dl>
+
+  <dl class="col disabled">
+
+   <dt>Start X</dt>
+   <dd class="title">% of window</dd>
+   <dd>1-100</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Originating X axis"></div>
+   </dd>
+
+   <dt>Start Y</dt>
+   <dd class="title">% of window</dd>
+   <dd>1-100</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Originating Y axis"></div>
+   </dd>
+
+   <dt>Explode X</dt>
+   <dd class="title">% of window</dd>
+   <dd>1-100</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Detonation X axis"></div>
+   </dd>
+
+   <dt>Explode Y</dt>
+   <dd class="title">% of window</dd>
+   <dd>1-100</dd>
+   <dd class="control">
+    <div class="bar" title="Click to move here"></div>
+    <div class="slider" title="Detonation Y axis"></div>
+   </dd>
+
+  </dl>
+
+  <div id="options">
+
+   <h4>Additional Options</h4>
+
+   <p class="compact">
+    <input type="button" onclick="fc.controller.randomize()" value="Randomize controls" title="Assign random control values" />
+   </p>
+
+   <dl>
+
+    <dt><input id="opt-random0" type="checkbox" title="Allow fireworks to have non-linear explosions" value="Randomize explosion pattern" onclick="fc.controller.updateExample()" /></dt>
+    <dd>Randomize explosion pattern</dd>
+
+    <dt><input id="opt-random1" type="checkbox" title="Control whether fireworks bounce off browser window" value="Obey window boundaries" onclick="fc.controller.updateExample()" /></dt>
+    <dd>Obey window boundaries</dd>
+
+   </dl>
+
+  </div>
+
+ </div>
+
+ <div class="clear"></div>
+
+ <div id="fireButton">
+  <div id="fireIE"></div>
+  <a href="#" onclick="fc.controller.createCustomFirework();this.blur();return false" class="content">Fire!</a>
+ </div>
+
+ <p class="compact showAlways">
+  <input id="hideStuff" type="checkbox" title="Hiding elements can improve the animation framerate under browsers such as Opera" onclick="document.getElementById('site').className=(this.checked?'hideStuff':'')" value="hide stuff" /> Hide content (may increase performance)
+ </p>
+
+ <h4 id="code">API call for current parameters</h4>
+
+ <code>
+  createFirework(<span id="function-example">nRadius,nParticles,nCircles,burstType,startX,startY,burstX,burstY)</span>);
+ </code>
+
+ <p class="compact note">Note: Random values will be substituted for null arguments and options that are not applied.</p>
+
+ <h3>Demo Presets</h3>
+
+ <p>Don't want to play with sliders? Here are a few canned effects that I thought were neat. Refer to the code for the parameters used to make the effect.</p>
+
+ <ul>
+
+  <li><a href="#" onclick="createFirework(100,100,1,null,50,100,50,50,false,true);return false" title="I swear it looks like the Apple key, really!">Apple Key-esque</a></li>
+  <li><a href="#" onclick="createFirework(11,30,3,4,null,null,null,null,false,true);return false" title="Standard-issue.">Standard Circle</a></li>
+  <li><a href="#" onclick="createFirework(25,187,5,1,null,null,null,null,false,true);return false" title="The usual, a bit more filled-out.">Concentric Circles</a></li>
+  <li><a href="#" onclick="createFirework(66,139,4,5,1,1,97,96,true,true);return false" title="Nowhere else to go but up and out.">Cornered</a></li>
+  <li><a href="#" onclick="createFirework(38,128,2,null,49,2,50,100,false,true);return false" title="Particles bounce from the bottom.">Semicircle</a></li>
+  <li><a href="#" onclick="createFirework(100,800,8,5,1,100,50,50,false,false);return false" title="Give this one time to start..">CPU-heavy</a></li>
+  <li><a href="#" onclick="var r=4+parseInt(Math.random()*16);for(var i=r; i--;){setTimeout('createFirework(8,14,2,null,null,null,null,null,Math.random()>0.5,true)',(i+1)*(1+parseInt(Math.random()*1000)));}return false" title="A number of randomly-timed explosions.">Sequence: Explosions</a></li>
+
+ </ul>
+
+ <h3>Features</h3>
+
+ <p>Fireworks does the following nifty things:</p>
+
+ <ul>
+  <li>Random explosion patterns and colours</li>
+  <li>Customizable API allows for additional firework types and effects</li>
+  <li>Optional script-driven sound effects provided by <a href="http://www.schillmania.com/projects/soundmanager/" title="Javascript-driven sound library">SoundManager</a> API</li>
+  <li>Nifty queue-based animation (easily set up your own firework sequences)</li>
+  <li>Sound panning effect based on firework location (left/right) on screen</li>
+  <li>Single-image, tile-based animation for efficiency</li>
+  <li>Standard DOM calls work under XML doctypes (ie. <a href="http://www.schillmania.com/content/entries/2004/10/24/application-xhtml+xml/" title="Article on schillmania.com re: XHTML">application/xhtml+xml</a>)</li>
+  <li>Extensible (ideally), object-oriented, memory-leak-tested code*</li>
+ </ul>
+
+ <p class="footnote">* (I tried, but no guarantees. May <a href="http://jgwebber.blogspot.com/2005/05/drip-ie-leak-detector.html" title="Joel Webber's &quot;Drip&quot; - find and fix leaks in IE">drip</a> a bit.)</p>
+
+ <h3>Known Bugs (<em>"Unintended features"</em>)</h3>
+
+ <ul>
+  <li>Initial object creation can temporariliy freeze active animations (depending on CPU load)</li>
+  <li>Risk of browser crash on IE/Mozilla under Win32 from many simultaneous sound calls due to sketchy JS-&gt;ActiveX (Flash) bridge</li>
+ </ul>
+
+
+ <h3>Use</h3>
+
+ <p>Download, extract and view. Some basic examples are given that show the minimal requirements (Javascript/CSS references etc.) for the script to work. The code base also includes <a href="http://www.schillmania.com/projects/soundmanager/" title="Javascript-driven sound library">SoundManager</a>, a Javascript API which allows ECMAscript (Javascript)-controlled sound effects reliably on IE and Mozilla across the Windows and Linux platforms.</p>
+
+ <h4>Download</h4>
+
+ <dl class="standard">
+
+  <dt><a href="fireworks0.9.1.20110703.zip">Fireworks v0.9.1.20110703</a></dt>
+  <dd>
+   <ul>
+    <li>Upgraded audio to SoundManager 2, now works in more places</li>
+    <li>Basic code clean-up, appease the JSLINT gods</li>
+    <li>Also <a href="https://github.com/scottschiller/fireworks.js">on Github</a></li>
+   </ul>
+  </dd>
+
+  <dt><a href="fireworks0.9.20050609.zip">Fireworks v0.9.20050609</a></dt>
+  <dd>
+   <ul>
+    <li>Initial build</li>
+    <li>Public release</li>
+    <li>Likely the first and last, but hey!</li>
+   </ul>
+  </dd>
+
+ </dl>
+
+ <h3>Related reading</h3>
+
+ <ul>
+  <li><a href="http://www.schillmania.com/content/projects/javascript-animation-1/">Javascript Animation Tutorial Part 1: The Basics</a></li>
+ </ul>
+ 
+ </div>
+
+<div id="footer"></div>
+
+</div>
+
+</body>
+</html>
