@@ -98,6 +98,12 @@ function pm_snippet($body, $len=null) {
 	// Replace line breaks with some whitespace
 	$body = preg_replace('@<br/?>@i', '  ', $body);
 	
+	// Strip tags but leave span tags which contain spoiler
+    	$body_with_spoiler_tags = strip_tags($body,'<span>');
+
+	// Check for spoiler tags 
+	$spoiler = preg_match("/spoiler/", $body_with_spoiler_tags);
+	
 	// Strip tags
 	$body = strip_tags($body);
 	
@@ -108,6 +114,13 @@ function pm_snippet($body, $len=null) {
 	$strlen = mb_strlen($body);
 	
 	$body = mb_substr($body, 0, $len);
+	
+	if ($spoiler){
+        	$value = "<span class=\"spoiler\">" . utf8tohtml($body) . "</span>";
+  	} 
+    	else {
+        	$value = utf8tohtml($body);
+    	}
 	
 	// Re-escape the characters.
 	return '<em>' . utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '') . '</em>';
