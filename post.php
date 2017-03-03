@@ -733,7 +733,7 @@ if (isset($_POST['delete'])) {
 			error(sprintf($config['error']['toolong'], 'subject'));
 		if (!$mod && mb_strlen($post['body']) > $config['max_body'])
 			error($config['error']['toolong_body']);
-		if (!$mod && mb_strlen($post['body']) > 0 && mb_strlen($post['body']) < $config['min_body'])
+		if (!$mod && mb_strlen($post['body']) > 0 && (mb_strlen($post['body']) < $config['min_body']))
 			error($config['error']['tooshort_body']);
 		if (mb_strlen($post['password']) > 20)
 			error(sprintf($config['error']['toolong'], 'password'));
