@@ -457,6 +457,8 @@
 
 	// Maximum post body length.
 	$config['max_body'] = 1800;
+	// Minimum post body length.
+	$config['min_body'] = 30;
 	// Maximum number of post body lines to show on the index page.
 	$config['body_truncate'] = 15;
 	// Maximum number of characters to show on the index page.
@@ -778,9 +780,9 @@
 	// Location of above images.
 	$config['file_thumb'] = 'static/%s';
 	// Location of thumbnail to use for spoiler images.
-	$config['spoiler_image'] = 'static/spoiler.png';
+	$config['spoiler_image'] = '/static/spoiler.png';
 	// Location of thumbnail to use for deleted images.
-	$config['image_deleted'] = 'static/deleted.png';
+	$config['image_deleted'] = '/static/deleted.png';
 
 	// When a thumbnailed image is going to be the same (in dimension), just copy the entire file and use
 	// that as a thumbnail instead of resizing/redrawing.
@@ -1489,7 +1491,8 @@
 	$config['mod']['postunoriginal'] = ADMIN;
 	// Bypass flood check
 	$config['mod']['bypass_filters'] = ADMIN;
-	$config['mod']['flood'] = &$config['mod']['bypass_filters'];
+	//$config['mod']['flood'] = &$config['mod']['bypass_filters'];
+	$config['mod']['flood'] = MOD;
 	// Raw HTML posting
 	$config['mod']['rawhtml'] = ADMIN;
 
@@ -1810,10 +1813,10 @@
 		'<img style="width:360px;height:270px;" src="//img.youtube.com/vi/$2/0.jpg" class="post-image"/>'.
 		'</a></div>';
 
-    // Slack Report Notification
-    $config['slack'] = false;
-    $config['slack_channel'] = "";
-    $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/";
+        // Slack Report Notification
+        $config['slack'] = false;
+        $config['slack_channel'] = "";
+        $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/";
 
 	// Password hashing function
 	//
