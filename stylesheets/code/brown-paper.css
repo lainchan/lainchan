@@ -1,6 +1,6 @@
 /*
 
-Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Brown Paper style from goldblog.com.ua (c) Zaripov Yura <yur4ik7@ukr.net>
 
 */
 
@@ -8,25 +8,24 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #444;
+  background:#b7a68e url(./brown-papersq.png);
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
-.hljs-literal,
-.hljs-section,
-.hljs-link {
-  color: white;
+.hljs-literal {
+  color:#005599;
+  font-weight:bold;
 }
 
 .hljs,
 .hljs-subst {
-  color: #ddd;
+  color: #363c69;
 }
 
 .hljs-string,
 .hljs-title,
-.hljs-name,
+.hljs-section,
 .hljs-type,
 .hljs-attribute,
 .hljs-symbol,
@@ -35,23 +34,25 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 .hljs-addition,
 .hljs-variable,
 .hljs-template-tag,
-.hljs-template-variable {
-  color: #d88;
+.hljs-template-variable,
+.hljs-link,
+.hljs-name {
+  color: #2c009f;
 }
 
 .hljs-comment,
 .hljs-quote,
-.hljs-deletion,
-.hljs-meta {
-  color: #777;
+.hljs-meta,
+.hljs-deletion {
+  color: #802022;
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-literal,
+.hljs-doctag,
 .hljs-title,
 .hljs-section,
-.hljs-doctag,
 .hljs-type,
 .hljs-name,
 .hljs-strong {
