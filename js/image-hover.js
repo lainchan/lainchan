@@ -5,7 +5,7 @@
  * Thanks Pashe for using WTFPL.
  */
 
-if (active_page === "catalog" || active_page === "thread" || active_page === "index") {
+if (active_page === "catalog" || active_page === "thread" || active_page === "index" ||  active_page === "ukko") {
 $(document).on('ready', function(){
 
 if (window.Options && Options.get_tab('general')) {
@@ -57,6 +57,10 @@ function isOnCatalog() {
 
 function isOnThread() {
 	return window.active_page === "thread";
+}
+
+function isOnUkko() {
+	return window.active_page === "ukko";
 }
 
 function getSetting(key) {
