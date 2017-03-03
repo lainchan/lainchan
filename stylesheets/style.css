@@ -1766,7 +1766,7 @@ td.board-tags a.tag-link {
 }
 
 #post-moderation-fields {
-    display: none;
+    display: block;
 }
 
 .announcement {
