@@ -158,6 +158,11 @@ onready(function(){
 				top = scrollTop + $(window).height() - $hover.height() - 15;
 			}
 			
+			var hovery = e.pageY ? e.pageY : hovered_at['y'];
+			if ( ( hovery - top) > 20){
+				top = hovery;
+			}
+			
 			
 			$hover.css('left', (e.pageX ? e.pageX : hovered_at['x']) + 1).css('top', top);
 		});
