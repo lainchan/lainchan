@@ -638,8 +638,17 @@ if (isset($_POST['delete'])) {
 		} else {
 			error(_('Unrecognized file size determination method.'));
 		}
+		$max_size = $config['max_filesize'];
 
-		if ($size > $config['max_filesize'])
+		if (array_key_exists('board_specific',$config)){
+			if (array_key_exists($board['uri'],$config['board_specific'])){
+				if (array_key_exists('max_filesize',$config['board_specific'][$board['uri']])){
+					$max_size = $config['board_specific'][$board['uri']]['max_filesize'];
+				}
+			}
+		}
+
+		if ($size > $max_size)
 			error(sprintf3($config['error']['filesize'], array(
 				'sz' => number_format($size),
 				'filesz' => number_format($size),
