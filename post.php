@@ -985,6 +985,25 @@ if (isset($_POST['delete'])) {
 			}
 			$image->destroy();
 		} else {
+			if ($file['extension'] == "pdf" && $config['pdf_file_thumbnail']){
+				$path = $file['thumb'];
+				$error = shell_exec_error( 'convert -thumbnail x300 -background white -alpha remove ' .
+				escapeshellarg($file['tmp_name']. '[0]') . ' ' .
+				escapeshellarg($file['thumb']));
+
+				if ($error){
+					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['ext
+					ension']] : $config['file_icons']['default']); 
+				}
+
+				$file['thumb'] = basename($file['thumb']);
+				$size = @getimagesize($path);
+				$file['thumbwidth'] = $size[0];
+				$file['thumbheight'] = $size[1];
+				$file['width'] = $size[0];
+				$file['height'] = $size[1];
+			}
+			else {
 			// not an image
 			//copy($config['file_thumb'], $post['thumb']);
 			$file['thumb'] = 'file';
@@ -994,6 +1013,7 @@ if (isset($_POST['delete'])) {
 					$config['file_icons'][$file['extension']] : $config['file_icons']['default']));
 			$file['thumbwidth'] = $size[0];
 			$file['thumbheight'] = $size[1];
+			}
 		}
 
 		if ($config['tesseract_ocr'] && $file['thumb'] != 'file') { // Let's OCR it!
