@@ -39,6 +39,9 @@ function init_locale($locale) {
 	if (extension_loaded('gettext')) {
 		if (setlocale(LC_ALL, $locale) === false) {
 			//$error('The specified locale (' . $locale . ') does not exist on your platform!');
+			// Fall back to C.UTF-8 instead of normal C, so we support unicode instead of just ASCII
+			setlocale(LC_ALL, "C.UTF-8");
+			setlocale(LC_CTYPE, "C.UTF-8");
 		}
 		bindtextdomain('tinyboard', './inc/locale');
 		bind_textdomain_codeset('tinyboard', 'UTF-8');
@@ -46,6 +49,9 @@ function init_locale($locale) {
 	} else {
 		if (_setlocale(LC_ALL, $locale) === false) {
 			error('The specified locale (' . $locale . ') does not exist on your platform!');
+			// Fall back to C.UTF-8 instead of normal C, so we support unicode instead of just ASCII
+			_setlocale(LC_ALL, "C.UTF-8");
+			_setlocale(LC_CTYPE, "C.UTF-8");
 		}
 		_bindtextdomain('tinyboard', './inc/locale');
 		_bind_textdomain_codeset('tinyboard', 'UTF-8');
