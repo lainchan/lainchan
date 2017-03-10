@@ -87,9 +87,16 @@
 {% if not index %}
 {% endif %}
 </div>{% endfilter %}
+{% set iparray = [post.ip] %}
 {% set hr = post.hr %}
 {% for post in post.posts %}
+	{% if post.ip not in iparray %}
+	{% set iparray = iparray|merge([post.ip]) %}
+	{% endif %}
 	{% include 'post_reply.html' %}
 {% endfor %}
+{% if mod and not index %}
+<p>Unique IPs: {{ iparray|length  }} </p>
+{% endif %}
 <br class="clear"/>{% if hr %}<hr/>{% endif %}
 </div>
