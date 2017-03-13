@@ -1819,9 +1819,9 @@ function mod_deletebyip($boardName, $post, $global = false) {
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		openBoard($post['board']);
 		if ($config['autotagging']){
-			$query = prepare(sprintf("SELECT *  FROM ``posts_%s`` WHERE id = :id", $post['board']));
-			$query->bindValue(':id', $post['id'] );
-			$query->execute() or error(db_error($query));
+			$query2 = prepare(sprintf("SELECT *  FROM ``posts_%s`` WHERE id = :id", $post['board']));
+			$query2->bindValue(':id', $post['id'] );
+			$query2->execute() or error(db_error($query2));
 			$ip = "";
 			$time = "";
 			$filename = "";
@@ -1829,7 +1829,7 @@ function mod_deletebyip($boardName, $post, $global = false) {
 			$subject = "";
 			$name = "";
 			$body = "";
-			while ($mypost = $query->fetch(PDO::FETCH_ASSOC)) {
+			while ($mypost = $query2->fetch(PDO::FETCH_ASSOC)) {
 				$time = $mypost["time"];
 				$ip = $mypost["ip"];
 				$body = $mypost["body_nomarkup"];
@@ -1850,12 +1850,12 @@ function mod_deletebyip($boardName, $post, $global = false) {
 				$autotag .= $body . "\r\n";
 				$autotag = escape_markup_modifiers($autotag);
 				markup($autotag);
-				$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
-				$query->bindValue(':ip', $ip);
-				$query->bindValue(':mod', $mod['id']);
-				$query->bindValue(':time', time());
-				$query->bindValue(':body', $autotag);
-				$query->execute() or error(db_error($query));
+				$query2 = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
+				$query2->bindValue(':ip', $ip);
+				$query2->bindValue(':mod', $mod['id']);
+				$query2->bindValue(':time', time());
+				$query2->bindValue(':body', $autotag);
+				$query2->execute() or error(db_error($query2));
 				modLog("Added a note for <a href=\"?/IP/{$ip}\">{$ip}</a>");
 			}
 		}		
