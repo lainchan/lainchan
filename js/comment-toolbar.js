@@ -17,33 +17,33 @@ if (active_page == 'thread' || active_page == 'index') {
 				key: 's',
 				multiline: false, 
 				exclusiveline: false, 
-				prefix:'**',
-				suffix:'**'
+				prefix:'[spoiler]',
+				suffix:'[/spoiler]'
 			},
 			italics: {
 				text: _('Italics'),
 				key: 'i',
 				multiline: false, 
 				exclusiveline: false, 
-				prefix: "''",
-				suffix: "''"
+				prefix: "[i]",
+				suffix: "[/i]"
 			},
 			bold: {
 				text: _('Bold'),
 				key: 'b',
 				multiline: false, 
 				exclusiveline: false, 
-				prefix: "'''",
-				suffix: "'''"
+				prefix: "[b]",
+				suffix: "[/b]"
 			},
-			underline: {
+			/*underline: {
 				text: _('Underline'),
 				key: 'u',
 				multiline: false, 
 				exclusiveline: false, 
 				prefix:'__',
 				suffix:'__'
-			},
+			},*/
 			code: {
 				text: _('Code'),
 				key: 'f',
@@ -52,14 +52,14 @@ if (active_page == 'thread' || active_page == 'index') {
 				prefix: '[code]',
 				suffix: '[/code]'
 			},
-			strike: {
+			/*strike: {
 				text: _('Strike'),
 				key: 'd',
 				multiline:false, 
 				exclusiveline:false, 
 				prefix:'~~',
 				suffix:'~~'
-			},
+			},*/
 			heading: {
 				text: _('Heading'),
 				key: 'r',
@@ -250,7 +250,9 @@ if (active_page == 'thread' || active_page == 'index') {
 		
 		// setup default rules for customizing
 		if (!localStorage.formatText_rules) localStorage.formatText_rules = JSON.stringify(self.rules);
-		
+		if (!localStorage.formatText_toolbar) localStorage.formatText_toolbar = true; 
+	        if (!localStorage.formatText_keybinds) localStorage.formatText_keybinds = true;
+	
 		// setup code to be ran when page is ready (work around for main.js compilation).
 		$(document).ready(function(){
 			// Add settings to Options panel general tab
