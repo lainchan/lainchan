@@ -121,7 +121,10 @@
 				{% if config.allow_upload_by_url %}
 					<div style="float:none;text-align:left" id="upload_url">
 						<label for="file_url">{% trans %}Or URL{% endtrans %}</label>: 
-						<input style="display:inline" type="text" id="file_url" name="file_url" size="35">
+						{% for counter in 1..config.max_images %}
+						<input style="display:inline" type="text" id="file_url{{ counter }}" name="file_url{{ counter }}" size="35">
+						</br>
+						{% endfor %}
 					</div>
 				{% endif %}
 				{{ antibot.html() }}
