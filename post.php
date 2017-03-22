@@ -589,7 +589,9 @@ if (isset($_POST['delete'])) {
 	        
 		for( $counter = 1; $counter <= $config['max_images']; $counter++ ) { 
 			$varname = "file_url". $counter;
-			upload_by_url($config,$post,$_POST[$varname]);
+			if (isset($_POST[$varname]) && !empty($_POST[$varname])){
+				upload_by_url($config,$post,$_POST[$varname]);
+			}
 		}
 			
 	}
