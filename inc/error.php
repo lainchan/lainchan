@@ -8,7 +8,7 @@ function error_handler($errno,$errstr,$errfile, $errline, $errcontext){
 	return false;
 }
 
-function exception_handler(Exception $e){
+function exception_handler($e){
 	error($e->getMessage());
 }
 
