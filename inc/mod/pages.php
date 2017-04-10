@@ -741,8 +741,26 @@ function mod_board_log($board, $page_no = 1, $hide_names = false, $public = fals
 function mod_view_board($boardName, $page_no = 1) {
 	global $config, $mod;
 	
-	if (!openBoard($boardName))
-		error($config['error']['noboard']);
+	if (!openBoard($boardName)){
+		if (in_array($boardName,array_keys($config['overboards']))){
+			$type = $config['overboards'][$boardName]['type'];
+			require_once("templates/themes/$type/theme.php");
+			global $mod;
+
+			$overboard = new $type();
+			$overboard->settings = array();
+			$overboard->settings['uri'] = $boardName;
+			$overboard->settings['title'] = $config['overboards'][$boardName]['title'];
+			$overboard->settings['subtitle'] = $config['overboards'][$boardName]['subtitle'];
+			$overboard->settings['thread_limit'] = $config['overboards'][$boardName]['thread_limit'];
+			$overboard->settings['exclude'] = $config['overboards'][$boardName]['exclude'];
+
+			echo $overboard->build($mod);
+		}
+		else {
+			error($config['error']['noboard']);
+		}
+	}
 	
 	if (!$page = index($page_no, $mod)) {
 		error($config['error']['404']);
