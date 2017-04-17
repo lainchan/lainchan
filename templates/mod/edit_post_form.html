@@ -7,7 +7,7 @@
 				{% trans %}Name{% endtrans %}
 			</th>
 			<td>
-				<input type="text" name="name" size="25" maxlength="35" autocomplete="off" value="{{ post.name }}">
+				<input type="text" name="name" size="25" maxlength="35" autocomplete="off" value="{{ post.name|e }}">
 			</td>
 		</tr>
 		<tr>
@@ -15,7 +15,7 @@
 				{% trans %}Email{% endtrans %}
 			</th>
 			<td>
-				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" value="{{ post.email }}">
+				<input type="text" name="email" size="25" maxlength="40" autocomplete="off" value="{{ post.email|e }}">
 			</td>
 		</tr>
 		<tr>
@@ -23,7 +23,7 @@
 				{% trans %}Subject{% endtrans %}
 			</th>
 			<td>
-				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" value="{{ post.subject }}">
+				<input style="float:left;" type="text" name="subject" size="25" maxlength="100" autocomplete="off" value="{{ post.subject|e }}">
 				<input accesskey="s" style="margin-left:2px;" type="submit" name="post" value="{% trans %}Update{% endtrans %}">
 			</td>
 		</tr>
@@ -32,7 +32,7 @@
 				{% trans %}Comment{% endtrans %}
 			</th>
 			<td>
-				<textarea name="body" id="body" rows="8" cols="35">{% if raw %}{{ post.body }}{% else %}{{ post.body_nomarkup }}{% endif %}</textarea>
+				<textarea name="body" id="body" rows="8" cols="35">{% if raw %}{{ post.body|e }}{% else %}{{ post.body_nomarkup|e }}{% endif %}</textarea>
 			</td>
 		</tr>
 	</table>
