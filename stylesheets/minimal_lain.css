@@ -1,0 +1,73 @@
+html, body {
+    background-color: #1E1E1E;
+    margin: 0;
+    color: #808080;
+    font-family: sans-serif;
+}
+
+.bar .top {
+    position: fixed;
+}
+
+.boardlist {
+    padding: 10px;
+}
+
+.boardlist, .boardlist a {
+    text-align: center;
+    background-color: #1B1B1B;
+    color: white;
+    text-decoration: none;
+}
+
+.boardlist .sub {
+    display: inline-block;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: grey;
+}
+
+form table {
+        margin: auto;
+}
+
+.blotter {
+    text-align: center;
+}
+
+.thread {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.op {
+    margin-bottom: 2rem;
+}
+
+.sidearrows {
+    display: none;
+}
+
+p.intro {
+    margin: 0.2rem;
+}
+
+.postcontainer {
+    border: 1px solid white;
+    padding: 0.3rem;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: grey;
+}
