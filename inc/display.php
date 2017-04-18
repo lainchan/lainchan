@@ -30,12 +30,23 @@ function doBoardListPart($list, $root, &$boards) {
 			if (gettype($key) == 'string') {
 				$body .= ' <a href="' . $board . '">' . $key . '</a> /';
 			} else {
-				$title = '';
-				if (isset ($boards[$board])) {
-					$title = ' title="'.$boards[$board].'"';
-				}
-				
-				$body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '"'.$title.'>' . $board . '</a> /';
+			       $title = '';
+	                       if (array_key_exists($board,$config['boards_alias'])){
+                                        $actual_board = $config['boards_alias'][$board];
+                                        if (isset ($boards[$actual_board])) {
+                                                $title = ' title="'.$boards[$actual_board].'"';
+                                        }
+
+                                        $body .= ' <a href="' . $root . $actual_board . '/' . $config['file_index'] . '"'.$title.'>' . $board . '</a> /';
+                                }
+                                else
+                                {
+                                        if (isset ($boards[$board])) {
+                                                $title = ' title="'.$boards[$board].'"';
+                                        }
+
+                                        $body .= ' <a href="' . $root . $board . '/' . $config['file_index'] . '"'.$title.'>' . $board . '</a> /';
+                                }
 			}
 		}
 	}
