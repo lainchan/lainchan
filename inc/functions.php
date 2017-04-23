@@ -2073,7 +2073,14 @@ function markup(&$body, $track_cites = false, $op = false) {
 			
 			if ($board['uri'] != $_board) {
 				if (!openBoard($_board))
+				{
+					if (in_array($_board,array_keys($config['boards_alias']))){
+						$_board = $config['boards_alias'][$_board];
+						openBoard($_board);
+					}
+
 					continue; // Unknown board
+				}
 			}
 			
 			if (!empty($clauses)) {

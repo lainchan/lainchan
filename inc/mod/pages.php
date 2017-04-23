@@ -756,7 +756,14 @@ function mod_view_board($boardName, $page_no = 1) {
 			$overboard->settings['exclude'] = $config['overboards'][$boardName]['exclude'];
 
 			echo $overboard->build($mod);
+			return;
 		}
+
+		elseif (in_array($boardName,array_keys($config['boards_alias']))){
+                        $boardName = $config['boards_alias'][$boardName];
+                        openBoard($boardName);
+                }
+
 		else {
 			error($config['error']['noboard']);
 		}
