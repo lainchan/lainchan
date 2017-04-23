@@ -1,6 +1,6 @@
 {% filter remove_whitespace %}
 {# tabs and new lines will be ignored #}
-<div class="postcontainer" id="pc{{ post.id }}">
+<div class="postcontainer" id="pc{{ post.id }}" data-board="{{ board.uri }}">
 	<div class="sidearrows">&gt;&gt;</div>
 	<div class="post reply" id="reply_{{ post.id }}">
 	<p class="intro">
