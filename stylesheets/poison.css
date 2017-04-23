@@ -26,6 +26,16 @@ body
 	background-color: #29202D!important;
 	border-color: #29202D!important;
 }
+
+div.boardlist:not(.bottom) 
+{
+	background-color:#29202D!important;
+}
+.desktop-style div.boardlist:not(.bottom) 
+{
+	background-color:#140f16;
+}
+
 .boardlist
 {
 	text-shadow: none!important;

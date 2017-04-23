@@ -1,4 +1,4 @@
-/**
+/*
  * dark.css
  * For AwsumChan by Circlepuller
  */
@@ -143,10 +143,15 @@ span.trip {
 }
 div.pages {
 	
-	background: #333333;
+	background: #1E1E1E; 
 	
 	font-family: sans-serif;
 	
+}
+.bar.bottom {
+    bottom: 0px;
+    border-top: 1px solid #333333;
+    background-color: #1E1E1E;
 }
 div.pages a.selected {
 	color: #CCCCCC;
@@ -158,7 +163,6 @@ hr {
 div.boardlist {
 	text-align: center;
 	color: #999999;
-    	background-color: rgba(12%, 12%, 12%, 0.10);
 }
 
 div.ban {
@@ -175,9 +179,16 @@ table.modlog tr th {
 	color: #AAAAAA;
 }
 
+div.boardlist:not(.bottom) {
+ background-color: #1E1E1E;
+
+}
+
 .desktop-style div.boardlist:not(.bottom) {
-  text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
-  background-color: #666666;
+ position:static; 
+ text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
+ color: #999999;
+ background-color: #1E1E1E;
 }
 
 

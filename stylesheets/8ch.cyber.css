@@ -23,6 +23,11 @@ form table tr td {
 	background-color: #35363b;
 	border-color: #39d958;
 }
+.bar.bottom {
+  bottom: 0px;
+  border-top: 1px solid #333333;
+  background-color: #1A1A1A !important;
+}
 
     /* OPTION HIDING */
 
@@ -156,10 +161,10 @@ background-color: #2b2b2b;
         padding: 0;
         font-family: "Lucida Console", Monaco, monospace;
         font-size: 14px;
-        background: url("https://a.pomf.se/waivbu.png") fixed repeat top #000000;
-float: left;
-margin-left: 10px;
-margin-right: 35px;
+        background: url("../static/rRLs7q4.png") fixed repeat top #000000;
+	float: left;
+	margin-left: 10px;
+	margin-right: 35px;
     }
     /*saves one pixel of space*/
     header {
@@ -193,7 +198,7 @@ margin-right: 35px;
 
     /*adds horizontal bar below subject*/
     p.intro {
-        background-image: url('https://i.imgur.com/Ua5aMb0.png');
+        background-image: "../static/Ua5aMb0.png";
         background-repeat: repeat-x;
         background-position: bottom;
         padding-bottom: 7px;
@@ -230,7 +235,6 @@ margin-right: 35px;
         display: block;
         clear: both;
         border: solid 1px #2e8b57;
-        background-color: #2b2b2b;
     }
 
     /*hovered links have underline*/

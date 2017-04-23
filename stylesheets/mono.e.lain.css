@@ -157,7 +157,7 @@ background-color: #cdcdcd;
         padding: 0;
         font-family: arial, sans-serif;
         font-size: 14px;
-        background: url("https://i.imgur.com/OUHu2ki.jpg") fixed repeat top #000000;
+        background: url("../static/OUHu2ki.jpg") fixed repeat top #000000;
 min-width: 395px;
 margin-left: 10px;
 margin-right: 35px;
@@ -198,7 +198,7 @@ margin-left: 10px;
      
     /*adds horizontal bar below subject*/
     p.intro {
-        background-image: url('https://i.imgur.com/UebGaj5.png');
+        background-image: url('https://www.lainchan.org/static/UebGaj5.png');
         background-repeat: repeat-x;
         background-position: bottom;
         min-height: 25px;

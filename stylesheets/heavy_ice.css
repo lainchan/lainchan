@@ -242,7 +242,7 @@ div.banner a
 }
 input[type="submit"]
 {
-	background: #333333;
+	background: #000!important;
 	border: #666 1px solid;
 	color: #CCCCCC;
 }
@@ -284,13 +284,14 @@ box-shadow: 0px 1px #d2e7e8;
 {
 	border-top: 0px solid #666;
 	border: solid  1px #d2e7e8;
+	background-color: #000!important;
 
 
 }
 div.pages
 {
 	color: #d2e7e8 ;
-	background: #333;
+	background-color: #000!important;
 	border: #666 0px solid;
 	font-family: sans-serif;
 	font-size: 10px;

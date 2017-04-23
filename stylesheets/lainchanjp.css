@@ -1,42 +1,174 @@
-/**
-* volafile.css fuck you
-color change by kalyx
-*/
-@import url("/stylesheets/dark.css");
-@font-face 
-{
-  font-family: "DejaVuSansMono";
-  src: url("/stylesheets/fonts/DejaVuSansMono.ttf") format("truetype");
-}
-
-@font-face 
-{
-  font-family: 'lain';
-  src: url('./fonts/nrdyyh.woff') format('woff'),
-       url('./fonts/tojcxo.TTF') format('truetype');
-}
-/**
-* volafile.css fuck you
-color change by kalyx
-*/
-@import url("/stylesheets/dark.css");
-@font-face 
-{
-  font-family: "DejaVuSansMono";
-  src: url("/stylesheets/fonts/DejaVuSansMono.ttf") format("truetype");
-}
-
-@font-face 
-{
-  font-family: 'lain';
-  src: url('./fonts/nrdyyh.woff') format('woff'),
-       url('./fonts/tojcxo.TTF') format('truetype');
-}
-
-
 @font-face {
-	font-family: "Normal";
-	src: url(./fonts/PixelOperator.ttf);
+    font-family: "LoveLetter";
+    src: url("/stylesheets/fonts/lovelt-webfont.woff2") format('woff2'),
+    url("/stylesheets/fonts/lovelt-webfont.woff") format('woff'),
+    url("/stylesheets/fonts/LoveLetter.TTF") format("truetype");
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+#overheader{
+background:#070707 !important;
+border-bottom:1px #282828 solid !important;
+color:#4b4b4b !important;
+display:block !important;
+font-size:12pt !important;
+font-weight:normal !important;
+padding:10px 0px 10px 0px !important;
+min-width:100% !important;
+text-align:center !important;
+text-decoration:none  !important;
+width:100% !important;
+position:fixed;
+top:0px;
+z-index:1;
+}
+
+#overheader a{
+color:#9b9b9b !important;
+text-decoration:none !important;
+}
+
+#overheader a:hover{
+color:#32dd72 !important;
+}
+
+#overheader a.lainchan{
+font-family:"LoveLetter", "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace !important;
+color:#32dd72 !important;
+font-size:16pt;
+}
+
+#overheader span a{
+font-size:9pt;
+text-transform:uppercase;
+font-weight:bold;
+letter-spacing:0.0625em;
+position:relative;
+top:-1px;
+}
+
+#header{
+
+}
+
+#logo{
+
+}
+
+#logo a{
+width:384px !important;
+height:128px !important;
+min-width:384px !important;
+min-height:128px !important;
+display:block !important;
+background-repeat:no-repeat !important;
+background-position:center !important;
+text-indent:-9999px !important;
+margin:79px auto 35px auto  !important;
+border:1px solid #4b4b4b !important;
+}
+
+input, textarea, select{
+background:#1f1f1f !important;
+color:#c4c4c4 !important;
+border:1px #4b4b4b solid !important;
+font-family:arial, helvetica, sans-serif !important;
+margin:0px 4px 4px 0px !important;
+font-size:10pt !important;
+}
+
+textarea{
+min-height:240px !important;
+min-width:640px !important;
+}
+
+input[type="checkbox"]{
+position:relative;
+top:2px;
+left:2px;
+}
+
+#pagewrap{
+margin:0 auto 0 auto !important;
+max-width:960px !important;
+}
+
+code.inline{
+display:inline !important;
+}
+
+code.block{
+display:block !important;
+margin:1em 0em 1em 0em;
+padding:1em !important;
+background-color:#0b0b0b !important;
+border:dotted 1px #131313 !important;
+clear:none !important;
+}
+
+code.block br:first-child{
+display:none !important;
+}
+
+span.header{
+display:block !important;
+font-size:14pt !important;
+font-weight:bold !important;
+margin:0px;
+padding:0px;
+line-height:1 !important;
+}
+
+span.bold{
+font-weight:bold !important;
+}
+
+span.italic{
+font-style:italic !important;
+}
+
+span.underline{
+text-decoration:underline !important;
+}
+
+span.strikethrough{
+text-decoration:line-through !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+  background: #0e0e0e;
+  color: #919191;
+  font-family: arial,helvetica,sans-serif;
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+  font-family:"Roboto",Arial,Helvetica Neue,Helvetica,sans-serif;
 }
 
 .hidden {
@@ -44,12 +176,12 @@ color change by kalyx
 }
 
 a,a:visited {
-  text-decoration: underline;
-  color: #34345C;
+  text-decoration: none;
+  color: #c4c4c4;
 }
 
 a:hover,.intro a.post_no:hover {
-  color: #ff0000;
+  color: #32dd72;
 }
 
 a.post_no {
@@ -67,11 +199,11 @@ a.post_no {
 }
 
 .intro a.email span.name {
-  color: #34345C;
+  color: inherit;
 }
 
 .intro a.email:hover span.name {
-  color: #ff0000;
+  color: #ffffff;
 }
 
 .intro label {
@@ -84,30 +216,31 @@ a.post_no {
 }
 
 h2 {
-  color: #AF0A0F;
+  color: #ffffff;
   font-size: 11pt;
   margin: 0;
   padding: 0;
 }
 
 header {
-  margin: 1em 0;
+  margin: 30px auto 35px auto;
 }
 
 h1 {
-  font-family: tahoma;
+  font-family: "LoveLetter", "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace !important;
+  color:#32dd72 !important;
   letter-spacing: -2px;
   font-size: 20pt;
   margin: 0;
 }
 
 header div.subtitle,h1 {
-  color: #888;
+  color: #ffffff;
   text-align: center;
 }
 
 header div.subtitle {
-  font-size: 16px;
+  font-size: 9pt;
 }
 
 form {
@@ -131,6 +264,10 @@ input[type="text"],input[type="password"],textarea {
   max-width: 100%;
 }
 
+input[name="delete"]{
+  display:none;
+}
+
 #quick-reply input[type="text"], input[type="password"], #quick-reply textarea {
   max-width: 100%;
 }
@@ -151,11 +288,12 @@ form table.mod tr td {
 
 form table tr th {
   text-align: left;
-  padding: 4px;
+  padding: 0px 8px 4px 0px;
+  vertical-align:top;
 }
 
 form table tr th {
-  background: #98E;
+  background: none;
 }
 
 form table tr td div.center {
@@ -170,11 +308,11 @@ form table tr td div input {
 }
 
 form table tr td div label {
-  font-size: 16px;
+  font-size: 10px;
 }
 
 .unimportant,.unimportant * {
-  font-size: 16px;
+  font-size: 10px;
 }
 
 .file {
@@ -200,19 +338,22 @@ div.post p.fileinfo {
 }
 
 div.banner {
-  background-color: #E04000;
-  font-size: 16pt;
+  background-color: #32dd72;
+  color: #000000 !important;
+  font-size: 10pt;
   font-weight: bold;
   text-align: center;
-  margin: 1em 0;
+  margin: 1em auto 1em auto;
+  padding: 0.3em 0 0.3em 0;
+  width:320px;
 }
 
 div.banner,div.banner a {
-  color: white;
+  color: #000000;
 }
 
 div.banner a:hover {
-  color: #EEF2FF;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -270,17 +411,17 @@ input.delete {
 }
 
 .intro span.subject {
-  color: #0F0C5D;
+  color: #c4c4c4;
   font-weight: bold;
 }
 
 .intro span.name {
-  color: #117743;
+  color: #32dd72 !important;
   font-weight: bold;
 }
 
 .intro span.capcode,p.intro a.capcode,p.intro a.nametag {
-  color: #F00000;
+  color: #32dd72  !important;
   margin-left: 0;
 }
 
@@ -304,14 +445,15 @@ div.post.reply div.body {
 }
 
 div.post.reply.highlighted {
-  background: #D6BAD0;
+  background: #393939;
 }
 
 div.post.reply div.body a {
-  color: #D00;
+  color: #c4c4c4;
 }
 
 div.post {
+  line-height:1.333 !important;
   padding-left: 20px;
 }
 
@@ -321,14 +463,15 @@ div.post div.body {
 }
 
 div.post.reply {
-  background: #D6DAF0;
+  background: #1f1f1f;
   margin: 0.2em 4px;
   padding: 0.2em 0.3em 0.5em 0.6em;
   border-width: 1px;
   border-style: none solid solid none;
-  border-color: #B7C5D9;
+  border-color: #1f1f1f;
   display: inline-block;
-  max-width: 94%!important;
+  min-width:100% !important;
+  width: 100% !important;
 }
 
 span.trip {
@@ -336,7 +479,7 @@ span.trip {
 }
 
 span.quote {
-  color: #789922;
+  color: #00a740;
 }
 
 span.omitted {
@@ -350,7 +493,8 @@ br.clear {
 }
 
 span.controls {
-  float: right;
+  float: right !important;
+  clear:none !important;
   margin: 0;
   padding: 0;
   font-size: 80%;
@@ -371,8 +515,8 @@ div#wrap {
 }
 
 div.ban {
-  background: white;
-  border: 1px solid #98E;
+  background: none;
+  border: 1px solid #1f1f1f;
   max-width: 700px;
   margin: 30px auto;
 }
@@ -382,13 +526,13 @@ div.ban p,div.ban h2 {
 }
 
 div.ban h2 {
-  background: #98E;
+  background: #1f1f1f;
   color: black;
-  font-size: 16pt;
+  font-size: 12pt;
 }
 
 div.ban p {
-  font-size: 16px;
+  font-size: 12px;
   margin-bottom: 12px;
 }
 
@@ -397,7 +541,7 @@ div.ban p.reason {
 }
 
 span.heading {
-  color: #AF0A0F;
+  color: #ffffff;
   font-size: 11pt;
   font-weight: bold;
 }
@@ -405,7 +549,7 @@ span.heading {
 span.spoiler {
   background: black;
   color: black;
-  padding: 0 1px;
+  padding: 0 0px;
 }
 
 div.post.reply div.body span.spoiler a {
@@ -435,27 +579,47 @@ table.test {
 
 table.test td,table.test th {
   text-align: left;
-  padding: 5px;
+  padding: 0px 5px 5px 0px;
 }
 
 table.test tr.h th {
-  background: #98E;
+  background: #1f1f1f;
 }
 
 table.test td img {
   margin: 0;
 }
 
+fieldset{
+border:1px solid #4b4b4b !important;
+font-size:11pt;
+margin:3em auto 0px auto;
+width:640px;
+line-height:1.333 !important;
+}
+
+fieldset small{
+font-size:9pt;
+}
+
+fieldset legend{
+font-weight:bold;
+font-size:14pt;
+}
+
 fieldset label {
   display: block;
+  border:0px
 }
 
 div.pages {
-	color: #89A;
-	background: #D6DAF0;
+	color: #ffffff;
+	background: none;
 	display: inline-block;
 	padding: 8px;
-	margin: 8px 0 4px 0;
+	margin: 8px auto 4px auto;
+	border-right: 0px solid #1f1f1f;
+	border-bottom: 0px solid #1f1f1f;
 }
 
 div.pages.top {
@@ -475,7 +639,7 @@ div.pages.top {
 }
 
 div.pages a.selected {
-  color: black;
+  color: #ffffff;
   font-weight: bolder;
 }
 
@@ -496,9 +660,10 @@ div.pages form input {
 
 hr {
   border: none;
-  border-top: 1px solid #B7C5D9;
+  border-bottom: 1px solid #1f1f1f;
   height: 0;
   clear: left;
+  padding-top: 3em;
 }
 
 div.report {
@@ -523,7 +688,7 @@ table.modlog tr th {
 }
 
 table.modlog tr th {
-  background: #98E;
+  background: #1f1f1f;
 }
 
 td.minimal,th.minimal {
@@ -562,11 +727,15 @@ table.mod.config-editor {
 table.mod.config-editor td {
   text-align: left;
   padding: 5px;
-  border-bottom: 1px solid #98e;
+  border-bottom: 1px solid #1f1f1f;
 }
 
 table.mod.config-editor input[type="text"] {
   width: 98%;
+}
+
+div.boardlist:nth-child(1) {
+  background-color: #0e0e0e;
 }
 
 .desktop-style div.boardlist:nth-child(1) {
@@ -578,7 +747,13 @@ table.mod.config-editor input[type="text"] {
   z-index: 30;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
   border-bottom: 1px solid;
-  background-color: #D6DAF0;
+  background-color: #0e0e0e;
+}
+
+.bar.bottom {
+  bottom: 0px;
+  border-top: 1px solid #333333;
+  background-color: #0e0e0e ;
 }
 
 .desktop-style body {
@@ -593,6 +768,7 @@ table.mod.config-editor input[type="text"] {
   display: inline-block;
   text-indent: -9000px;
   width: 7px;
+  background: url('img/arrow.png') right center no-repeat;
 }
 
 .desktop-style .sub .sub:hover,.desktop-style .sub .sub.hover {
@@ -644,8 +820,9 @@ form.ban-appeal textarea {
   display: inline!important;
 }
 
-pre {
+fieldset code {
   margin: 0;
+  display:inline;
 }
 
 .theme-catalog div.thread img {
@@ -685,8 +862,8 @@ pre {
 }
 
 .theme-catalog div.thread:hover {
-  background: #D6DAF0;
-  border-color: #B7C5D9;
+  background: #4e4e4e;
+  border-color: #1f1f1f;
 }
 
 .theme-catalog div.grid-size-vsmall img {
@@ -839,7 +1016,7 @@ pre {
 }
 
 #options_div, #alert_div {
-  background-color: #d6daf0;
+  background-color: #4e4e4e;
   border: 1px solid black;
   display: inline-block;
   position: relative;
@@ -918,7 +1095,7 @@ pre {
   left: 101px;
   right: 0px;
   text-align: left;
-  font-size: 16px;
+  font-size: 12px;
   overflow-y: auto;
 }
 
@@ -954,14 +1131,13 @@ pre {
   content: " ID: ";
 }
 
-pre {
+code{
 /* Better code tags */
   max-width:inherit;
   word-wrap:normal;
   overflow:auto;
-  display: block!important;
   font-size:9pt;
-  font-family:monospace;
+  font-family:"Roboto Mono",Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace !important;
 }
 
 span.pln {
@@ -984,10 +1160,10 @@ span.pln {
 	clear: both;
 	visibility: hidden;
 	overflow: hidden;
-	
+
 	font-size: 0px;
 	line-height: 0px;
-	
+
 	box-sizing: border-box;
 	border: none;
 	height: 0;
@@ -1002,12 +1178,12 @@ span.pln {
 /* Board List */
 div.boardlist {
 	margin-top: 3px;
-	
+
 	color: #89A;
-	font-size: 16px;
+	font-size: 9pt;
 }
 div.boardlist.bottom {
-	margin-top: 16px;
+	margin-top: 12px;
 	clear: both;
 }
 div.boardlist a {
@@ -1139,7 +1315,7 @@ div.boardlist a {
 .dropzone .tmb-filename {
   display: inline-block;
   vertical-align: bottom;
-  bottom: 16px;
+  bottom: 12px;
   position: relative;
   margin-left: 5px;
 }
@@ -1233,300 +1409,4 @@ table.fileboard .intro a {
 }
 div.mix {
 	display: inline-block;
-}
-
-body {
-  background: #0A0C11 !important;
-}
-
-fieldset {
-  margin: 10px 0 !important;
-}
-legend {
-  background:#222 !important;
-  border:1px solid #888 !important;
-  color:#FFF !important;
-}
-
-h1 {
-  color: #FFF !important;
-  font-family: Heading !important;
-}
-
-fieldset ul li a {
-  color: #FFF !important;
-}
-
-p.unimportant {
-  color: #888 !important;
-}
-
-.ban {
-  background-color: #111 !important;
-  color: #AAA;
-}
-
-
-.boardlinks {
-  text-align: center !important;
-}
-
-#overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1000;
-  background-repeat: all;
-  background-position: 0px 0px;
-
-  animation-name: Static;
-  animation-duration: 0.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: steps(32);
-
-  box-shadow: inset 0px 0px 10em rgba(0,0,0,0.4);
-}
-
-@keyframes Static {
-  0% { background-position: 0px 0px; }
-  100% { background-position: 0px 32px; }
-}
-
-#overlay2 {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1000;
-  background-repeat: all;
-  background-position: 0px 0px;
-
-  animation-name: Static;
-  animation-duration: 0.2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: steps(32);
-}
-
-body {
-	background: #080808;
-	color: #FFF;
-	font-family: Normal,sans-serif;
-	font-size: 16px;
-}
-span.quote {
-    color:#B8D962;
-}
-h1 {
-	font-size: 20pt;
-	text-align: center;
-	letter-spacing: 0px;
-}
-div.title, h1 {
-	color: #32DD72;
-	font-family: "Heading", Arial, Helvetica, sans-serif;
-}
-div.title p {
-	font-size: 10px;
-}
-a:link, a:visited, .intro a.email span.name {
-	color: #CCCCCC;
-	text-decoration: none;
-	font-family: Normal, sans-serif;
-}
-a:link:hover, a:visited:hover {
-	color: #fff;
-	font-family: Normal, sans-serif;
-	text-decoration: none;
-
-}
-a.post_no {
-	color: #AAAAAA;
-	text-decoration: none;
-}
-a.post_no:hover {
-	color: #32DD72 !important;
-	text-decoration: underline overline;
-}
-div.post.reply {
-	background: #111;
-	border: #555555 1px solid;
-	box-shadow: 4px 4px #555;
-}
-div.post.reply.highlighted {
-	background: #555;
-	border: transparent 1px solid;
-}
-div.post.reply div.body a:link, div.post.reply div.body a:visited {
-	color: #CCCCCC;
-}
-div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
-	color: #32DD72;
-}
-.intro span.subject {
-	font-size: 16px;
-	font-family: Heading, sans-serif;
-	color: #4974F4;
-	font-weight: 500;
-}
-.intro span.name {
-	color: #3954C4;
-	font-weight: 800;
-}
-.intro a.capcode, p.intro a.nametag {
-	color: magenta;
-	margin-left: 0;
-}
-.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
-	color: #32ddaf;
-}
-input[type="text"], textarea, select {
-	background: #333333;
-	color: #CCCCCC;
-	border: #666666 1px solid;
-	padding-left: 5px;
-	padding-right: -5px;
-	font-family: Normal, sans-serif;
-	font-size: 16px;
-}
-input[type="password"] {
-	background: #333333;
-	color: #CCCCCC;
-	border: #666666 1px solid;
-}
-form table tr th {
-	background: linear-gradient(to right, #010c0a 0%,#2a3247 95%,#4974f4 100%);
-	color: #AAAAAA;
-	font-weight: 800;
-	text-align: left;
-	padding: 0;
-}
-div.banner {
-	background: #32DD72;
-	box-shadow: 0px 0px 5px 5px rgba(50, 221, 114, 0.3);
-	color: #000;
-	text-align: center;
-	width: 250px;
-	padding: 4px;
-	padding-left: 12px;
-	padding-right: 12px;
-	margin-left: auto;
-	margin-right: auto;
-	font-size: 16px;
-}
-div.banner a {
-    color:#000;
-}
-input[type="submit"] {
-	background: #333333;
-	border: #888888 1px solid;
-	color: #CCCCCC;
-}
-input[type="submit"]:hover {
-	background: #555555;
-	border: #888888 1px solid;
-	color: #32DD72;
-}
-input[type="text"]:focus {
-    border:#aaa 1px solid;
-}
-p.fileinfo a:hover {
-	text-decoration: underline;
-}
-span.trip {
-	color: #AAAAAA;
-}
-.bar.bottom {
-    bottom: 0px;
-    border-top: 1px solid #333333;
-    background-color: #666666;
-}
-
-div.pages {
-	color: #AAAAAA;
-	background: #666666;
-	font-family: Normal, sans-serif;
-	font-size: 16px;
-}
-div.pages a.selected {
-	color: #CCCCCC;
-}
-hr {
-	height: 1px;
-	border: #333333 1px solid;
-}
-div.boardlist {
-	color: #999999;
-    background-color: rgba(12%, 12%, 12%, 0.10);
-}
-
-div.ban {
-	background-color: transparent;
-	border: transparent 0px solid;
-}
-div.ban h2 {
-	background: transparent;
-	color: lime;
-	font-size: 16px;
-}
-table.modlog tr th {
-	background: #333333;
-	color: #AAAAAA;
-}
-
-.desktop-style div.boardlist:not(.bottom) {
-  text-shadow: black 1px 1px 1px, black -1px -1px 1px, black -1px 1px 1px, black 1px -1px 1px;
-  background-color: #666666;
-}
-
-
-.desktop-style div.boardlist:not(.bottom):hover, .desktop-style div.boardlist:not(.bottom).cb-menu {
-  background-color: rgba(30%, 30%, 30%, 0.65);
-}
-
-div.report {
-	color: #666666;
-}
-
-/* options.js */
-#options_div, #alert_div {
-	background: #333333;
-}
-.options_tab_icon {
-	color: #AAAAAA;
-}
-.options_tab_icon.active {
-	color: #FFFFFF;
-}
-
-#quick-reply table {
-	background: none repeat scroll 0% 0% #333 !important;
-}
-
-
-
-
-.box {
-	background: #111 !important;
-}
-
-.box.right {
-	color: #FFF !important;
-}
-
-.boardlist {
-	text-align: center;
-}
-
-#quick-reply * {
-	font-size: 16px !important;
-	font-family: "Normal", sans-serif !important;
-}
-
-#quick-reply th {
-	background: linear-gradient(to bottom, #010c0a 0%,#2a3247 95%,#4974f4 100%);
 }
