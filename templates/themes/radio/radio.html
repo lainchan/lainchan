@@ -9,7 +9,7 @@
     <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
     <link rel="stylesheet" media="screen" href="/stylesheets/cyberpunk.css"/>
 	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="https://lainchan.org/js/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
         check_status();
@@ -19,13 +19,11 @@ $(document).ready(function(){
 function check_status(){  
 $.get("{{ settings.radiostatus }}", function(data){    
 var el = $( '<div></div>' );   
-el.html(data);    
-var sd = el.find(".streamdata");  
-  
-$(".nowplaying").text("Now playing: " + sd[16].textContent);    
-
-$(".currentlisteners").text("Current listeners: " + sd[13].textContent);  });
-}
+el.html(data.getElementsByTagName('html')[0].innerHTML);   
+ var sd = el.find(".streamstats");   
+ $(".nowplaying").text("Now playing: " + sd[5].textContent);   
+ $(".currentlisteners").text("Current listeners: " + (parseInt(sd[2].textContent) + parseInt(sd[8].textContent))); 
+});}
 </script>
   </head>
   <body style=" background: url(/bg.php) no-repeat center center fixed; 
@@ -51,7 +49,7 @@ $(".currentlisteners").text("Current listeners: " + sd[13].textContent);  });
 
       <p>Welcome to lainchan's radio stream. 
       </p>
-      <noscript><p>Radio statistics will be not be updated without JavaScript, please visit https://lainchan.org/radio_assets/status.xsl to see them directly.</p></noscript>
+      <noscript><p>Radio statistics will be not be updated without JavaScript, please visit {{ settings.radiostatus }} to see them directly.</p></noscript>
       
       <p class="nowplaying"> Now playing: 
       </p>
@@ -60,15 +58,15 @@ $(".currentlisteners").text("Current listeners: " + sd[13].textContent);  });
 
       <ul>
 
-        <li><a href="https://lainchan.org/static/lain.ogg.m3u">Vorbis M3U Playlist</a></li>
-        <li><a href="https://lainchan.org/static/lain.mp3.m3u">MP3 M3U Playlist</a></li>
+        <li><a href="{{ settings.radiooggplaylist }}">Vorbis M3U Playlist</a></li>
+        <li><a href="{{ settings.radiomp3playlist }}">MP3 M3U Playlist</a></li>
 
 		XSPF considered harmful.
       </ul>
 
       <audio controls preload="none" style="margin: 0 5% 20px 5%; width: 90%; box-shadow: 0px 0px 5px black;">
-	  	<source src="https://lainchan.org/radio_assets/lain.ogg" type="audio/ogg">
-		<source src="https://lainchan.org/radio_assets/lain" type="audio/mpeg">
+	  	<source src="{{ settings.radiooggsource }}" type="audio/ogg">
+		<source src="{{ settings.radiomp3source }}" type="audio/mpeg">
         <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
      </audio>
     </div>

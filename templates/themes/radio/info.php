@@ -22,7 +22,27 @@ $theme = array(
         array('title'   => 'Radio Status URL',
               'name'    => 'radiostatus',
               'type'    => 'text',
-              'default' => '/radio_assets/status.xsl')),
+              'default' => '/radio_assets/status.xsl'),
 
+        array('title'   => 'Radio MP3 Playlist',
+              'name'    => 'radiomp3playlist',
+              'type'    => 'text',
+              'default' => ''),
+
+        array('title'   => 'Radio OGG Playlist',
+              'name'    => 'radiooggplaylist',
+              'type'    => 'text',
+              'default' => ''),
+        
+	array('title'   => 'Radio MP3 Source',
+              'name'    => 'radiomp3source',
+              'type'    => 'text',
+              'default' => ''),
+
+        array('title'   => 'Radio OGG Source',
+              'name'    => 'radiooggsource',
+              'type'    => 'text',
+              'default' => ''),
+	),
     'build_function'   => 'radio_build');
 ?>
