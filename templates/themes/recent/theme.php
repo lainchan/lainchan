@@ -147,13 +147,17 @@
 				$stats['active_content'] += array_sum($matches[1]);
 			}
 			
+			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC" . ($settings['limit_news'] ? ' LIMIT ' . $settings['limit_news'] : '')) or error(db_error());
+			$recent_news = $query->fetchAll(PDO::FETCH_ASSOC);
+			
 			return Element('themes/recent/recent.html', Array(
 				'settings' => $settings,
 				'config' => $config,
 				'boardlist' => createBoardlist(),
 				'recent_images' => $recent_images,
 				'recent_posts' => $recent_posts,
-				'stats' => $stats
+				'stats' => $stats,
+				'recent_news' => $recent_news,
 			));
 		}
 	};

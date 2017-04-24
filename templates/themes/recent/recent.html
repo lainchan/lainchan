@@ -33,7 +33,24 @@
      <div class="ban" id="global2">      <h2>CYBERPUNK IS DUCK</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
 	<center>    <img alt="mascot" class="lain_banner" src="static/duck.png"></center>
     <br>
-
+     <div class="ban" id="global3">   
+			<h2>Latest News</h2>
+		{% if recent_news|count == 0 %}
+			<p style="text-align:center" class="unimportant">(No news to show.)</p>
+		{% else %}
+			{% for entry in recent_news %}
+				<h4 id="{{ entry.id }}">
+					{% if entry.subject %}
+						{{ entry.subject }}
+					{% else %}
+						<em>no subject</em>
+					{% endif %}
+					<span class="unimportant"> &mdash; by {{ entry.name }} at {{ entry.time|date(config.post_date, config.timezone) }}</span>
+				</h4>
+				<p>{{ entry.body }}</p>
+			{% endfor %}
+		{% endif %}
+		</div>
 	<div class="ban" id="global">
 		<div class="box left">
 			<h2>Recent Images</h2>
@@ -59,6 +76,7 @@
 					</li>
 				{% endfor %}
 			</ul>
+	</div>
 		</div>
 		<div class="box right">
 			<h2>Stats</h2>
