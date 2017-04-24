@@ -35,7 +35,12 @@ $theme = array(
               'type'    => 'text',
               'default' => '$0'),
 
-	 array('title'   => 'Current Progress',
+        array('title'   => 'Current Bitcoin Amount',
+              'name'    => 'bitcoinamount',
+              'type'    => 'text',
+              'default' => '0 BTC'),
+	 
+	array('title'   => 'Current Progress',
               'name'    => 'currentprogress',
               'type'    => 'text',
               'default' => '$0'),
@@ -60,7 +65,17 @@ $theme = array(
               'name'    => 'progressbartextcssleft',
               'type'    => 'text',
               'default' => '195'),
-          ),
-
+        
+	array('title'   => 'Bitcoin receiving address',
+              'name'    => 'bitcoinreceivingaddress',
+              'type'    => 'text',
+              'default' => 'nothing'),
+	
+	array('title'   => 'Bitcoin receiving QR code ',
+              'name'    => 'bitcoinreceivingqrcode',
+              'type'    => 'text',
+              'default' => 'nothing'),
+	),
     'build_function'   => 'donate_build');
+        
 ?>

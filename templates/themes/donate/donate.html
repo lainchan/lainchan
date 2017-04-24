@@ -25,9 +25,12 @@
       <h2>Thanks for donating</h2>
       <p>The server costs {{ settings.monthlyamount }} per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Freenode.
         </p>
-
   <p><a href="https://www.stickermule.com/marketplace/tags/lainchan"> Buy stickers here</a>
 </p>
+
+<p>Bitcoin donations can be made to {{ settings.bitcoinreceivingaddress }} </p>
+
+<img src="/static/{{ settings.bitcoinreceivingqrcode }}"> </img>
 
 <p>Monthly Funding Progress Bar</p>
 
@@ -36,6 +39,8 @@
 <p>Funds from stickers {{ settings.stickeramount }} </p>
 
 <p>Funds from other donations {{ settings.otheramount }} </p>
+
+<p>Funds from Bitcoin {{ settings.bitcoinamount }} </p>
 
 <div class="container">
     <div class="{{ settings.progressbarcssclass }}">
