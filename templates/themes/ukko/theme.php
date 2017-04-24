@@ -45,11 +45,13 @@
 				'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])
 			);
 
+			$boardsforukko = array();
 			$query = '';
 			foreach($boards as &$_board) {
 				if(in_array($_board['uri'], explode(' ', $this->settings['exclude'])))
 					continue;
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `thread` IS NULL UNION ALL ", $_board['uri'], $_board['uri']);
+				array_push($boardsforukko,$_board);
 			}
 			$query = preg_replace('/UNION ALL $/', 'ORDER BY `bump` DESC', $query);
 			$query = query($query) or error(db_error());
@@ -80,8 +82,8 @@
 					while ($po = $posts->fetch()) {
 						if ($po['files'])
 							$num_images++;
-						
-						$thread->add(new Post($po, $mod ? '?/' : $config['root'], $mod));
+					        $post2 	= new Post($po, $mod ? '?/' : $config['root'], $mod);
+						$thread->add($post2);
 					
 					}
 					if ($posts->rowCount() == ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
@@ -140,11 +142,12 @@
 			return Element('index.html', array(
 				'config' => $config,
 				'board' => $board,
-				'no_post_form' => true,
+				'no_post_form' => $config['overboard_post_form'] ? false : true,
 				'body' => $body,
 				'mod' => $mod,
 				'boardlist' => createBoardlist($mod),
-			));
+				'boards' => $boardsforukko )
+			);
 		}
 		
 	};

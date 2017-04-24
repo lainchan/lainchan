@@ -1847,3 +1847,6 @@
 
 	// Allowed HTML tags in ?/edit_pages.
 	$config['allowed_html'] = 'a[href|title],p,br,li,ol,ul,strong,em,u,h2,b,i,tt,div,img[src|alt|title],hr';
+
+	// Enable posting in overboard
+	$config['overboard_post_form'] = false;

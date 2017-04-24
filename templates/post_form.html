@@ -2,7 +2,9 @@
 {{ antibot.html() }}
 {% if id %}<input type="hidden" name="thread" value="{{ id }}">{% endif %}
 {{ antibot.html() }}
+{% if board.uri not in config.overboards|keys %}
 <input type="hidden" name="board" value="{{ board.uri }}">
+{% endif %}
 {{ antibot.html() }}
 {% if current_page %}
 	<input type="hidden" name="page" value="{{ current_page }}">
@@ -55,6 +57,14 @@
 				<input id="spoiler" name="spoiler" type="checkbox"><label for="spoiler">Spoiler Image</label>
 			</td>
 		</tr>
+		{% endif %}
+		{% if board.uri in config.overboards|keys %}
+		<tr><th>Board</th><td>
+<select style="float: left; width: 185px;" name="board">
+		{% for myboard in boards %}
+		<option value="{{ myboard['uri']  }}">{{ myboard['uri'] }}  ( {{  myboard['title'] }} )</option>
+		{% endfor %}
+		</select></td></tr>
 		{% endif %}
 		{% if not config.field_disable_comment or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
 			<th>
