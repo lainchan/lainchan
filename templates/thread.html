@@ -32,6 +32,7 @@
 	<a name="top"></a>
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr />{% endif %}
 	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
+	<div id="pagewrap">
 	<header>
 		<h1>{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
@@ -99,6 +100,7 @@
 		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
+	</div>
 	<div class="bar bottom">
 		<div class="threadlinks">
 			<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>

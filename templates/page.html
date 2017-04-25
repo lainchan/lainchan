@@ -14,7 +14,8 @@
         {{ boardlist.top }}
 
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr>{% endif %}
-	<header>
+	<div id="pagewrap">
+ 	<header>
 		<h1>{{ title }}</h1>
 		<div class="subtitle">
 			{% if subtitle %}
@@ -34,5 +35,6 @@
 		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
 
 	</footer>
+	</div>
 </body>
 </html>
