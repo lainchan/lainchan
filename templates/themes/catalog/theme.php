@@ -39,19 +39,33 @@
             }
         
         }
-
 		// FIXME: Check that Ukko is actually enabled
 		if ($settings['enable_ukko'] && (
 			$action === 'all' || $action === 'post' ||
-			$action === 'post-thread' || $action === 'post-delete'))
+			$action === 'post-thread' || $action === 'post-delete' || $action === 'rebuild'))
 		{
 			$b->buildUkko();
 		}
 		
+		// FIXME: Check that Ukko2 is actually enabled
+		if ($settings['enable_ukko2'] && (
+			$action === 'all' || $action === 'post' ||
+			$action === 'post-thread' || $action === 'post-delete' || $action === 'rebuild'))
+		{
+			$b->buildUkko2();
+		}
+		
+		// FIXME: Check that Ukko3 is actually enabled
+		if ($settings['enable_ukko3'] && (
+			$action === 'all' || $action === 'post' ||
+			$action === 'post-thread' || $action === 'post-delete' || $action === 'rebuild'))
+		{
+			$b->buildUkko3();
+		}
 		// FIXME: Check that Rand is actually enabled
 		if ($settings['enable_rand'] && (
 			$action === 'all' || $action === 'post' ||
-			$action === 'post-thread' || $action === 'post-delete'))
+			$action === 'post-thread' || $action === 'post-delete' || $action === 'rebuild'))
 		{
 			$b->buildRand();
 		}
@@ -79,6 +93,83 @@
 
 			$exclusions = explode(' ', $ukkoSettings['exclude']);
 			$boards = array_diff(listBoards(true), $exclusions);
+
+			foreach ($boards as $b) {
+				if (array_key_exists($b, $this->threadsCache)) {
+					$threads = array_merge($threads, $this->threadsCache[$b]);
+				} else {
+					$queries[] = $this->buildThreadsQuery($b);
+				}
+			}
+
+			// Fetch threads from boards that haven't beenp processed yet
+			if (!empty($queries)) {
+				$sql = implode(' UNION ALL ', $queries);
+				$res = query($sql) or error(db_error());
+				$threads = array_merge($threads, $res->fetchAll(PDO::FETCH_ASSOC));
+			}
+
+			// Sort in bump order
+			usort($threads, function($a, $b) {
+				return strcmp($b['bump'], $a['bump']);
+			});
+			// Generate data for the template
+			$recent_posts = $this->generateRecentPosts($threads);
+
+			$this->saveForBoard($ukkoSettings['uri'], $recent_posts,
+				$config['root'] . $ukkoSettings['uri']);
+		}
+		/**
+		 * Build and save the HTML of the catalog for the Ukko2 theme
+		 */
+		public function buildUkko2() {
+			global $config;
+			error_log("ZZZ UK2 ",0);
+			$ukkoSettings = themeSettings('ukko2');
+ 			$queries = array();
+			$threads = array();
+
+			$inclusions = explode(' ', $ukkoSettings['include']);
+			$boards = array_intersect(listBoards(true), $inclusions);
+
+			foreach ($boards as $b) {
+				if (array_key_exists($b, $this->threadsCache)) {
+					$threads = array_merge($threads, $this->threadsCache[$b]);
+				} else {
+					$queries[] = $this->buildThreadsQuery($b);
+				}
+			}
+
+			// Fetch threads from boards that haven't beenp processed yet
+			if (!empty($queries)) {
+				$sql = implode(' UNION ALL ', $queries);
+				$res = query($sql) or error(db_error());
+				$threads = array_merge($threads, $res->fetchAll(PDO::FETCH_ASSOC));
+			}
+
+			// Sort in bump order
+			usort($threads, function($a, $b) {
+				return strcmp($b['bump'], $a['bump']);
+			});
+			// Generate data for the template
+			$recent_posts = $this->generateRecentPosts($threads);
+
+			$this->saveForBoard($ukkoSettings['uri'], $recent_posts,
+				$config['root'] . $ukkoSettings['uri']);
+		}
+		
+		/**
+		 * Build and save the HTML of the catalog for the Ukko3 theme
+		 */
+		public function buildUkko3() {
+			global $config;
+
+			$ukkoSettings = themeSettings('ukko3');
+ 			$queries = array();
+			$threads = array();
+
+			$inclusions = explode(' ', $ukkoSettings['include']);
+			$boards = array_intersect(listBoards(true), $inclusions);
 
 			foreach ($boards as $b) {
 				if (array_key_exists($b, $this->threadsCache)) {
