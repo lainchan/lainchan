@@ -4,12 +4,12 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<script type='text/javascript'>
+		var active_page = "irc";
+	</script>
     <title>{{ settings.title }}</title>
-    <link rel="shortcut icon" href="/favicon.png">
-    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
-    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+	{% include 'header.html' %}
     <link rel="stylesheet" media="screen" href="/stylesheets/dark_irc.css"/>
-	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
 </head>
   <body>
   	<div class="bar top">
@@ -26,6 +26,10 @@
         <h2>Web Client - Point your own clients to #{{ settings.channel }} on {{ settings.server }}:+{{ settings.port }} .</h2>		
         <iframe src="https://kiwiirc.com/client/{{ settings.server }}:+{{ settings.port }}/#{{ settings.channel }}" width="800px" height="100%" scrolling="no"></iframe>
     </div>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
   </body>
 </html>
 {% endfilter %}

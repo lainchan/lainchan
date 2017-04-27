@@ -7,10 +7,11 @@
 	<title>{{ settings.title }}</title>
 	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}">{% endif %}
-	<link rel="stylesheet" media="screen" href="/stylesheets/dark.css">
-	<!--{% if config.default_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_stylesheet.1 }}">{% endif %}-->
-	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+	<script type='text/javascript'>
+		var active_page = "faq";
+	</script>
+    <title>{{ settings.title }}</title>
+	{% include 'header.html' %}
 </head>
 <body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
 	<div class="bar top">
@@ -122,6 +123,10 @@
                 <br>Tinyboard Copyright &copy; 2010-2014 Tinyboard Development Group    
                 <br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel</p>
         </footer>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
 </body>
 </html>
 {% endfilter %}

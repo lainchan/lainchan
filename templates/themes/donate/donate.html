@@ -4,12 +4,12 @@
   <head>
      <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var active_page = "donate";
+	</script>
     <title>{{ settings.title }}</title>
-    <link rel="shortcut icon" href="/favicon.png">
-    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
-    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
+	{% include 'header.html' %}
     <link rel="stylesheet" media="screen" href="/stylesheets/progressbar.css"/>
-	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
   </head>
   <body>
     <div class="bar top">{{ boardlist.top }}</div>
@@ -23,7 +23,7 @@
 </center>
    <div class="ban">
       <h2>Thanks for donating</h2>
-      <p>The server costs {{ settings.monthlyamount }} per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Freenode.
+      <p>The server costs {{ settings.monthlyamount }} per month. If you buy stickers we get about 45-55% of whatever you spend. Historical donation records to the former owner are ForeverN2Dust is the top donator, giving about $3000. FOOFDOOF is #2 with $1000 and lots of cheap Chinese shit. Please specify what you'd like your money to go towards. If you don't want to buy stickers, but want to donate something else please either ask in /q/ or contact the Lainchan administration on IRC at #lainchan on Laincan IRC at irc.lainchan.org or Freenode.
         </p>
   <p><a href="https://www.stickermule.com/marketplace/tags/lainchan"> Buy stickers here</a>
 </p>
@@ -51,6 +51,10 @@
 </div>
 
     </div>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
 
   </body>
 </html>
