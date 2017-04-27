@@ -53,7 +53,7 @@
 					array_push($boardsforukko3,$_board);
 				}
 			}
-			$query = preg_replace('/UNION ALL $/', 'ORDER BY `bump` DESC', $query);
+			$query = preg_replace('/UNION ALL $/', 'ORDER BY `sticky` DESC ,`bump` DESC', $query);
 			$query = query($query) or error(db_error());
 
 			$count = 0;
@@ -73,7 +73,7 @@
 					openBoard($post['board']);			
 					$thread = new Thread($post, $mod ? '?/' : $config['root'], $mod);
 
-					$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $post['board']));
+					$posts = prepare(sprintf("SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `sticky` DESC, `id` DESC LIMIT :limit", $post['board']));
 					$posts->bindValue(':id', $post['id']);
 					$posts->bindValue(':limit', ($post['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview']), PDO::PARAM_INT);
 					$posts->execute() or error(db_error($posts));
