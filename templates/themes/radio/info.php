@@ -19,30 +19,40 @@ $theme = array(
               'type'    => 'text',
               'default' => 'radio.html'),
     
+        array('title'   => 'HTTP Prefix',
+              'name'    => 'httpprefix',
+              'type'    => 'text',
+              'default' => ''),
+
         array('title'   => 'Radio Status URL',
               'name'    => 'radiostatus',
               'type'    => 'text',
               'default' => '/radio_assets/status.xsl'),
 
-        array('title'   => 'Radio MP3 Playlist',
-              'name'    => 'radiomp3playlist',
+        array('title'   => 'Radio Prefix',
+              'name'    => 'radioprefix',
               'type'    => 'text',
               'default' => ''),
 
-        array('title'   => 'Radio OGG Playlist',
-              'name'    => 'radiooggplaylist',
-              'type'    => 'text',
-              'default' => ''),
-        
-	array('title'   => 'Radio MP3 Source',
-              'name'    => 'radiomp3source',
+        array('title'   => 'Filelist Prefix',
+              'name'    => 'filelistprefix',
               'type'    => 'text',
               'default' => ''),
 
-        array('title'   => 'Radio OGG Source',
-              'name'    => 'radiooggsource',
+	array('title'   => 'Channels',
+              'name'    => 'channels',
               'type'    => 'text',
-              'default' => ''),
+              'default' => 'everything cyberia swing'),
+	
+	array('title'   => 'Default Channel',
+              'name'    => 'defaultchannel',
+              'type'    => 'text',
+              'default' => 'everything'),
+	
+        array('title'   => 'formats',
+              'name'    => 'formats',
+              'type'    => 'text',
+              'default' => 'mp3 ogg'),
 	),
     'build_function'   => 'radio_build');
 ?>

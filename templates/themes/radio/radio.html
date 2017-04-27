@@ -1,29 +1,63 @@
-{% filter remove_whitespace %}
 <!DOCTYPE html>
 <html style="height:100vh; width:100%;">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
      <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>{{ settings.title }}</title>
-    <link rel="shortcut icon" href="/favicon.png">
-    <link rel="stylesheet" media="screen" href="/stylesheets/style.css"/>
+<script type="text/javascript">
+var active_page = "radio";
+</script>
+	{% include 'header.html' %}
+    <link rel="stylesheet" media="screen" href="/stylesheets/dark.css"/>
     <link rel="stylesheet" media="screen" href="/stylesheets/cyberpunk.css"/>
-	<link rel="stylesheet" href="/stylesheets/font-awesome/css/font-awesome.min.css">
 <script src="https://lainchan.org/js/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-        check_status();
-        setInterval(check_status, 15000);
-});
 
 function check_status(){  
 $.get("{{ settings.radiostatus }}", function(data){    
 var el = $( '<div></div>' );   
 el.html(data.getElementsByTagName('html')[0].innerHTML);   
- var sd = el.find(".streamstats");   
- $(".nowplaying").text("Now playing: " + sd[5].textContent);   
- $(".currentlisteners").text("Current listeners: " + (parseInt(sd[2].textContent) + parseInt(sd[8].textContent))); 
+ var channel = $("#channel").val(); 
+ var nowplaying = el.find(".roundbox").has("h3:contains("+channel+")").find('td:contains("Current")').first().next().text();
+ var currentlisteners = 0;
+ el.find(".roundbox").has("h3:contains("+channel+")").find('td:contains("current")').next().each(function() {
+    currentlisteners += parseInt(this.firstChild.nodeValue, 10);
+});
+ $(".nowplaying").text("Now playing: " + nowplaying);   
+ $(".currentlisteners").text("Current listeners: " + currentlisteners ); 
 });}
+
+
+function change_channel(e) {
+    let audio  = document.getElementById("player");
+    let paused = audio.paused;
+
+    channel = e.value;
+
+    {% set formatlist = settings.formats|split(' ') %}
+    {% for format in formatlist %}
+    let {{ "source" ~ format }} = document.getElementById("{{format ~ "source"}}");
+    
+    {{ "source" ~ format }}.src ="{{ settings.httpprefix ~ settings.radioprefix }}" +   channel  + ".{{ format }}";
+    {% endfor %}
+
+    audio.load();
+    if(!paused) {
+        audio.play();
+    }
+    {% for format in formatlist %}
+    document.getElementById("{{ format }}playlist").href = "{{ settings.httpprefix ~ settings.radioprefix }}" + channel + ".{{ format ~ ".m3u" }}";
+    {% endfor %}
+    
+    document.getElementById("fileslink").href = "{{ settings.httpprefix ~ settings.filelistprefix }}" + channel +  ".html";
+
+    check_status();
+} 
+$(document).ready(function(){
+        $("#stylesheet").remove();
+	check_status();
+        setInterval(check_status, 15000);
+});
 </script>
   </head>
   <body style=" background: url(/bg.php) no-repeat center center fixed; 
@@ -45,31 +79,56 @@ el.html(data.getElementsByTagName('html')[0].innerHTML);
     <img alt="mascot" src="static/lain_is_cute_datass_small.png" style="display: block; margin: 0 auto;"/>
 
     <div class="ban" style="margin-top: 0px!important; background-color: black; text-align: left!important;">
-      <h2>WELCOME TO CYBERIA</h2>
+      <h2 style="text-align:center;">WELCOME TO CYBERIA</h2>
 
-      <p>Welcome to lainchan's radio stream. 
+      <p style="text-align:center;">Welcome to lainchan's radio stream. 
       </p>
-      <noscript><p>Radio statistics will be not be updated without JavaScript, please visit {{ settings.radiostatus }} to see them directly.</p></noscript>
+
+	<p class="inlineheading" style="text-align:center;" >Channel:
+        <select style="float:none;" id="channel" onchange="change_channel(this)">
+          {% set channellist = settings.channels|split(' ') %}
+	  {% for channel in channellist %}
+	  {% if channel == settings.defaultchannel %}
+          <option value="{{ channel }}" selected>{{ channel }}</option>
+	  {% else %} 
+          <option value="{{ channel }}">{{ channel }}</option>
+	  {% endif %} 
+          {% endfor %}
+	</select> <p>
+
+      <p style="text-align:center;"> File list is <a id="fileslink" href="{{ settings.httpprefix ~ settings.filelistprefix ~ settings.defaultchannel ~ ".html" }}"> is here</a></p>
+      <noscript><p style="text-align:center;">Radio statistics and channel switching will be not be updated without JavaScript, please visit {{ settings.radiostatus }} to see them directly.</p></noscript>
       
-      <p class="nowplaying"> Now playing: 
+      <p class="nowplaying" style="text-align:center;"> Now playing: 
       </p>
-      <p class="currentlisteners"> Current listeners: 
+      <p class="currentlisteners" style="text-align:center;"> Current listeners: 
       </p>
 
-      <ul>
+      <ul style="list-style-type: none;-webkit-padding-start: 0px;">
 
-        <li><a href="{{ settings.radiooggplaylist }}">Vorbis M3U Playlist</a></li>
-        <li><a href="{{ settings.radiomp3playlist }}">MP3 M3U Playlist</a></li>
+        {% set formatlist = settings.formats|split(' ') %}
+	{% for format in formatlist %}
+        <li style="text-align:center;"><a id="{{ format }}playlist" href="{{ settings.httpprefix ~ settings.radioprefix ~ settings.defaultchannel ~ "." ~ format ~ ".m3u" }}"> {{ format|upper }}  M3U Playlist</a></li>
+        {% endfor %}
 
-		XSPF considered harmful.
       </ul>
+		<p style="text-align:center;">XSPF considered harmful.</p>
 
-      <audio controls preload="none" style="margin: 0 5% 20px 5%; width: 90%; box-shadow: 0px 0px 5px black;">
-	  	<source src="{{ settings.radiooggsource }}" type="audio/ogg">
-		<source src="{{ settings.radiomp3source }}" type="audio/mpeg">
+      <audio id="player" controls autoplay preload="none" style="margin: 0 5% 20px 5%; width: 90%; box-shadow: 0px 0px 5px black;">
+	        {% for format in formatlist %}
+		{% if format == "mp3" %}
+		<source id="{{format}}source" src="{{ settings.httpprefix ~ settings.radioprefix ~ settings.defaultchannel ~ "." ~ format }}" type="audio/mpeg">
+		{% else %}
+		<source id="{{format}}source" src="{{ settings.httpprefix ~ settings.radioprefix ~ settings.defaultchannel ~ "." ~ format }}" type="audio/{{ format }}">
+	  	{% endif %}
+		{% endfor %}
         <em>Your browser lacks support for OGG Vorbis files. Please open the M3U file or XSPF file in a multimedia player.</em>
      </audio>
+     <p style="text-align:center;"> To upload a voice-over to radio click <a href="{{ settings.httpprefix ~ 'voice.html'}}" >here </a> </p>
     </div>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
   </body>
 </html>
-{% endfilter %}
