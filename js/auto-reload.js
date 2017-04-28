@@ -236,7 +236,12 @@ $(document).ready(function(){
 								var n = new Notification("New reply to "+$('title').text(), {body: $('<div/>').html(body).text()});
 							}
 						}
-						$(this).parent().insertAfter($('div.post:not(.post-hover):last').parent().next()).after('<br class="clear">');
+						if ($("div.post").length > 1){
+							$(this).parent().insertAfter($('div.post:not(.post-hover):last').parent().next()).after('<br class="clear">');
+						}
+						else {
+							$(this).insertAfter($('div.post:not(.post-hover):last')).after('<br class="clear">');
+						}
 						new_posts++;
 						loaded_posts++;
 						$(document).trigger('new_post', this);
