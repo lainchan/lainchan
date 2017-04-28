@@ -254,7 +254,7 @@ if (isset($_POST['delete'])) {
 			}
 			
 			_syslog(LOG_INFO, 'Deleted post: ' .
-				'/' . $board['dir'] . $config['dir']['res'] . link_for($post) . ($post['thread'] ? '#' . $id : '')
+				'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '')
 			);
 		}
 	}
