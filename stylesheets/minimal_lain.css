@@ -1,0 +1,92 @@
+html, body {
+    background: #1E1E1E;
+    margin: 0;
+    color: #808080;
+    font-family: sans-serif;
+}
+
+.bar .top {
+    position: fixed;
+}
+
+.boardlist {
+    padding: 10px;
+}
+
+/* Fix boardlist background color */
+.desktop-style div.boardlist:not(.bottom) {
+    background: #1B1B1B;
+}
+
+.boardlist, .boardlist a {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.boardlist .sub {
+    display: inline-block;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: grey;
+}
+
+form table {
+    margin: auto;
+}
+
+.blotter {
+    text-align: center;
+}
+
+.thread {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.op {
+    margin-bottom: 2rem;
+}
+
+/* Change unreadable op color*/
+.intro span.subject { 
+    color: #053056;
+}
+
+.sidearrows {
+    display: none;
+}
+
+p.intro {
+    margin: 0.2rem;
+}
+
+div.post.reply {
+    border: 1px solid white;
+    padding: 0.3rem;
+    background: #1B1B1B;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: grey;
+}
+
+/* remove red link in post */
+div.post.reply div.body a {
+    color: white;
+}
+
+div.post.reply div.body a:hover {
+    color: grey;
+}
