@@ -34,19 +34,26 @@
               'title'   => 'OGV stream URL',
               'name'    => 'ogvurl',
               'type'    => 'text',
-              'default' => 'https://lainchan.org/radio_assets/lainstream.ogg'
+              'default' => 'https://lainchan.org/icecast/lainstream.ogg'
           );
     $theme['config'][] =  Array(
               'title'   => 'RTMP stream URL',
               'name'    => 'rtmpurl',
               'type'    => 'text',
-              'default' => 'rtmp://lainchan.org/live/stream'
+              'default' => 'rtmp://lainchan.org/show/stream'
           );
     $theme['config'][] =  Array(
               'title'   => 'RTMP  Video.JS stream URL',
               'name'    => 'rtmpvideojsurl',
               'type'    => 'text',
-              'default' => 'rtmp://lainchan.org/live/&stream'
+              'default' => 'rtmp://lainchan.org/show/&stream'
+          );
+    
+    $theme['config'][] =  Array(
+              'title'   => 'RTMP HLS stream URL',
+              'name'    => 'hlsurl',
+              'type'    => 'text',
+              'default' => 'https://lainchan.org:8080/hls/stream.m3u8'
           );
 
     $theme['config'][] =  Array(
@@ -67,6 +74,18 @@
               'name'    => 'rtmpviewers',
               'type'    => 'text',
               'default' => '/live/subs?app=live&name=stream'
+          );
+    $theme['config'][] =  Array(
+              'title'   => 'Formats',
+              'name'    => 'formats',
+              'type'    => 'text',
+              'default' => 'hls ogg rtmp'
+          );
+    $theme['config'][] =  Array(
+              'title'   => 'Default Format',
+              'name'    => 'defaultformat',
+              'type'    => 'text',
+              'default' => 'hls ogg rtmp'
           );
 	
 	
