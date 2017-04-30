@@ -94,7 +94,7 @@ $(document).ready(function(){
           <option value="{{ channel }}">{{ channel }}</option>
 	  {% endif %} 
           {% endfor %}
-	</select> <p>
+	</select> </p>
 
       <p style="text-align:center;"> File list is <a id="fileslink" href="{{ settings.httpprefix ~ settings.filelistprefix ~ settings.defaultchannel ~ ".html" }}"> is here</a></p>
       <noscript><p style="text-align:center;">Radio statistics and channel switching will be not be updated without JavaScript, please visit {{ settings.radiostatus }} to see them directly.</p></noscript>
