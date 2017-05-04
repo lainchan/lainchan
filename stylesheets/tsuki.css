@@ -15,23 +15,6 @@ color change by kalyx
   src: url('./fonts/nrdyyh.woff') format('woff'),
        url('./fonts/tojcxo.TTF') format('truetype');
 }
-/**
-* volafile.css fuck you
-color change by kalyx
-*/
-@import url("/stylesheets/dark.css");
-@font-face 
-{
-  font-family: "DejaVuSansMono";
-  src: url("/stylesheets/fonts/DejaVuSansMono.ttf") format("truetype");
-}
-
-@font-face 
-{
-  font-family: 'lain';
-  src: url('./fonts/nrdyyh.woff') format('woff'),
-       url('./fonts/tojcxo.TTF') format('truetype');
-}
 
 
 @font-face {
