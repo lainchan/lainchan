@@ -124,7 +124,6 @@
 		 */
 		public function buildUkko2() {
 			global $config;
-			error_log("ZZZ UK2 ",0);
 			$ukkoSettings = themeSettings('ukko2');
  			$queries = array();
 			$threads = array();
