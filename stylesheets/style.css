@@ -326,14 +326,6 @@ form table tr td div.center {
   margin: 2px
 }
 
-/*form table tr td div input {
-  display: block;
-  margin: 2px auto 0 auto;
-}
-form table tr td div label {
-  font-size: 10px;
-}*/
-
 .unimportant,.unimportant * {
   font-size: 10px;
 }
@@ -651,13 +643,8 @@ fieldset label {
 }
 
 div.pages {
-    /*! color: #89A; */
-    /*! background: #D6DAF0; */
     display: inline-block;
     padding: 8px;
-    /*! margin: 8px 0 4px 0; */
-    /*! border-right: 1px solid #B7C5D9; */
-    /*! border-bottom: 1px solid #B7C5D9; */
 }
 
 div.pages.top {
@@ -1538,7 +1525,7 @@ li.mix {
 }
 .dropzone .remove-btn {
   cursor: pointer;
-  color: rgba(125, 125, 125, 0.5);
+  color: rgba(10, 43, 175, 0.89);
   display: inline-block;
   vertical-align: bottom;
   bottom: 10px;
@@ -1923,4 +1910,8 @@ table.fileboard .intro a {
 }
 div.mix {
 	display: inline-block;
+}
+
+footer {
+ margin-bottom: 50px;
 }
