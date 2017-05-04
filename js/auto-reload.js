@@ -43,6 +43,14 @@ var notify = false;
 auto_reload_enabled = true; // for watch.js to interop
 
 $(document).ready(function(){
+	if($('div.banner').length == 0)
+	{
+		return; // not index
+	}	
+	if($(".post.op").size() != 1)
+	{
+		return; //not thread page
+	}
 
 	// Adds Options panel item
 	if (typeof localStorage.auto_thread_update === 'undefined') {
@@ -302,6 +310,11 @@ $(document).ready(function(){
 		
 		return false;
 	};
+
+	$(post).on('submit', function(e){
+		poll(manualUpdate = true);
+		dothis(this);
+	 });
 	
 	$(window).scrollStopped(function() {
 		// if the newest post is not visible
