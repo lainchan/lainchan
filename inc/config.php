@@ -1853,3 +1853,9 @@
 
 	// Enable posting in overboard
 	$config['overboard_post_form'] = false;
+
+	// Enable auto IP note generation of deleted posts
+	$config['autotagging'] = false;
+
+	// Enable PDF file thumbnail generation
+	$config['pdf_file_thumbnail'] = false;
