@@ -14,8 +14,8 @@ $(document).ready(function(){
 	var thread_id = (document.location.pathname + document.location.search).split('/');
 	thread_id = thread_id[thread_id.length -1].split('+')[0].split('.')[0];
 	
-	$('#thread-links')
-		.after('<div id="thread_stats"></div>');
+	$('.clear')
+		.before('<div id="thread_stats"></div>');
 	var el = $('#thread_stats');
 	el.prepend('Page <span id="thread_stats_page">?</span>');
 	if (IDsupport){
@@ -25,8 +25,8 @@ $(document).ready(function(){
 	el.prepend('<span id="thread_stats_posts">0</span> replies |&nbsp;');
 	delete el;
 	function update_thread_stats(){
-		var op = $('#thread_'+ thread_id +' > div.post.op:not(.post-hover):not(.inline)').first();
-		var replies = $('#thread_'+ thread_id +' > div.post.reply:not(.post-hover):not(.inline)');
+		var op = $('#thread_'+ thread_id).find('div.post.op:not(.post-hover):not(.inline)').first();
+		var replies = $('#thread_'+ thread_id).find('div.post.reply:not(.post-hover):not(.inline)');
 		// post count
 		$('#thread_stats_posts').text(replies.length);
 		// image count
