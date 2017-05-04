@@ -20,6 +20,7 @@ var active_page = "stream";
 <script type="text/javascript">
 $(document).ready(function(){
         check_status();
+	 $('#format').trigger('change'); 
         setInterval(check_status, 15000);
 });
 
@@ -45,31 +46,52 @@ if (typeof sd !== 'undefined') {
 }
 });
 }
+
 function change_format(e) {
       $(document).ready(function(){
-    let media  = document.getElementById("my-video_html5_api");
+    let media  = document.getElementById("my-video");
     let paused = media.paused;
 
      format = e.value;
-    
+     var datasetup;
+     if(videojs.getPlayers()["my-video"]) {
+    	delete videojs.getPlayers()["my-video"];
+     } 
      if (format === "hls"){
-	    media.src ="{{ settings.hlsurl }}";
-	    media.src.type = "application/x-mpegURL";
+            datasetup = {"example_option": true,  "techOrder": ["html5","flash"],"fluid": true };
      }
      else if (format === "ogg"){
-	     media.src = "{{ settings.ogvurl }}";
-	     media.src.type = "video/ogg";
+             datasetup = {"example_option": true,  "techOrder": ["html5","flash"],"fluid": true };
      }
      else if (format === "rtmp"){
-	     media.src = "{{ settings.rtmpvideojsurl }}";
-	     media.src.type = "rtmp/mp4";
+             datasetup = {"example_option": true,  "techOrder": ["flash"],"fluid": true };
      }
 	
-    videojs('my-video');
-    media.load();
-    if(!paused) {
-        media.play();
-    }
+   var myvideo = videojs("my-video", datasetup , function(){
+          console.log("loaded");
+ 
+    });
+	   var myvideo;
+	   if (format === "hls"){
+	       myvideo = $("#my-video_html5_api");
+	       myvideo.src ="{{ settings.hlsurl }}";
+	       myvideo.src.type = "application/vnd.apple.mpegurl";
+	   }
+	   else if (format === "ogg"){
+	       myvideo = $("#my-video_html5_api");
+	       myvideo.src = "{{ settings.ogvurl }}";
+	       myvideo.src.type = "video/ogg";
+	   }
+	   else if (format === "rtmp"){
+	       myvideo = $("#my-video");
+	       myvideo.src = "{{ settings.rtmpvideojsurl }}";
+	       myvideo.src.type = "rtmp/mp4";
+	   }
+	   myvideo.load();
+	   if(!paused) {
+	      myvideo.play();
+	   }
+
 
     check_status();
     });
@@ -89,11 +111,11 @@ function change_format(e) {
 	<div>
         <!-- data-setup='{ "example_option": true,  "techOrder": ["html5","flash"],"fluid": true} -->
 	<div id="box" width="100%">
-	<video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin" height="264" width="640"  controls preload="auto" poster="https://lainchan.org/static/lain_is_cute_datass_small.png" data-setup='{ "example_option": true,  "techOrder": ["html5","flash"],"fluid": true}' >
+	<video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin" height="264" width="640"  controls preload="auto" poster="https://lainchan.org/static/lain_is_cute_datass_small.png" >
           {% set formatlist = settings.formats|split(' ') %}
 	  {% for format in formatlist %}
 	  {% if format == "hls" %}
-        <source id="hlssource" src="{{ settings.hlsurl }}" type="application/x-mpegURL"> 
+        <source id="hlssource" src="{{ settings.hlsurl }}" type="application/vnd.apple.mpegurl"> 
 	  {% elseif format == "ogg" %}
         <source id="oggsource" src="{{ settings.ogvurl }}" type="video/ogg"> 
 	 {% elseif format == "rtmp" %}
