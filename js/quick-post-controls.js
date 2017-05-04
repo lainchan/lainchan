@@ -40,9 +40,10 @@ $(document).ready(function(){
 				'</div>' +
 			'</form>');
 			if($('form[name="post"]:first').size()){
+				var board=$(this).parent().parent().parent().attr("data-board");
 				post_form
 				.attr('action', $('form[name="post"]:first').attr('action'))
-				.append($('input[name=board]:first').clone());
+				.append('<input type="hidden" value="'+board+'" name="board" />');
 			}else{
 				var board=$(this).parent().parent().parent().attr("data-board");
 				if(board){
