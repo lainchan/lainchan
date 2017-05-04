@@ -1,0 +1,442 @@
+@import url("animate.css");
+/*
+ * test.css
+ * Just a test. 
+ */
+body {
+	background: #1E1E1E;
+	color: #999999;
+	font-family: "LoveLetter" , sans-serif;
+	font-size: 12px;
+}
+.quote {
+    color:#B8D962;
+}
+
+
+@font-face {
+    font-family: "LoveLetter";
+    src: url("/stylesheets/fonts/lovelt-webfont.woff2") format('woff2'),
+    url("/stylesheets/fonts/lovelt-webfont.woff") format('woff'),
+    url("/stylesheets/fonts/LoveLetter.TTF") format("truetype");
+
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'lain';
+  src: url('./fonts/nrdyyh.woff') format('woff'),
+       url('./fonts/tojcxo.TTF') format('truetype');
+}
+h1 
+{
+	font-family: 'lain', tahoma;
+	letter-spacing: -2px;
+	font-size: 20pt;
+	text-align: center;
+	color: #32DD72;
+}
+
+img
+{
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+
+div.title, h1 {
+	color: #32DD72;
+	
+}
+div.title p {
+	font-size: 10px;
+}
+a:link, a:visited, .intro a.email span.name {
+	color: #CCCCCC;
+	text-decoration: none;
+	font-family: "LoveLetter" , sans-serif;
+}
+a:link:hover, a:visited:hover {
+	color: #fff;
+	font-family: "LoveLetter" , sans-serif;
+	text-decoration: none;
+
+}
+a.post_no {
+	color: #AAAAAA;
+	text-decoration: none;
+}
+a.post_no:hover {
+	color: #32DD72 !important;
+	text-decoration: underline overline;
+}
+div.post.op{
+	margin-top: 15px;
+	margin-left: 360px;
+}
+div.post.op div.body {
+    margin-left: 1.8em;
+}
+div.post{
+	border: 16px solid transparent;
+     border-image: url("/static/lain_border.png") 16 round;
+     -moz-border-image: url("/static/lain_border.png") 16 round;
+     -khtml-border-image: url("/static/lain_border.png") 16 round;
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+        opacity: 0.85;
+box-shadow: #072701 2px 2px 2px, #004c0d -2px -2px 2px, #1b670d -2px 2px 2px, #00ff14 2px -2px 2px;
+}
+div.post.reply {
+	background: #333333;
+	margin-left: 30px;
+	border: 16px solid transparent;
+     border-image: url("/static/lain_border.png") 16 round;
+     -moz-border-image: url("/static/lain_border.png") 16 round;
+     -khtml-border-image: url("/static/lain_border.png") 16 round;
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+
+
+
+}
+
+img.post-image:hover {
+	-webkit-animation: flip 5s linear infinite;
+  	-moz-animation:    flip 5s  linear infinite;
+  	-o-animation:      flip 5s  linear infinite;
+  	animation:         flip 5s linear infinite;	
+
+}
+
+div.post.op:hover{
+	-webkit-animation: pulse 5s linear ;
+  	-moz-animation:    pulse 5s  linear ;
+  	-o-animation:      pulse 5s  linear ;
+  	animation:         pulse 5s linear ;	
+}
+
+div.postcontainer:hover{
+	-webkit-animation: pulse 5s linear; 
+  	-moz-animation:    pulse 5s  linear; 
+  	-o-animation:      pulse 5s  linear ;
+  	animation:         pulse 5s linear ;	
+}
+
+div.post  div.body {
+line-height: 1.4;
+}
+
+div.post.reply.highlighted {
+	background: #555;
+	border: transparent 1px solid;
+}
+div.post.reply div.body a:link, div.post.reply div.body a:visited {
+	color: #CCCCCC;
+}
+div.post.reply div.body a:link:hover, div.post.reply div.body a:visited:hover {
+	color: #32DD72;
+}
+.intro span.subject {
+	font-size: 12px;
+	font-family: "LoveLetter" , sans-serif;
+	color: #446655;
+	font-weight: 800;
+}
+.intro span.name {
+	color: #32DD72;
+	font-weight: 800;
+}
+.intro a.capcode, p.intro a.nametag {
+	color: magenta;
+	margin-left: 0;
+}
+.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.email:hover span.name {
+	color: #32ddaf;
+}
+input[type="text"], textarea, select {
+	background: #333333;
+	color: #CCCCCC;
+	border: #666666 1px solid;
+	padding-left: 5px;
+	padding-right: -5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+	font-family: "LoveLetter" , sans-serif;
+	font-size: 10pt;
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+input[type="password"] {
+	background: #333333;
+	color: #CCCCCC;
+	border: #666666 1px solid;
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+form table tr th {
+	background: #333333;
+	color: #AAAAAA;
+	font-weight: 800;
+	text-align: left;
+	padding: 0;
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+div.banner {
+	background: #32DD72;
+	color: #000;
+	text-align: center;
+	width: 250px;
+	padding: 4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+div.banner a {
+    color:#000;
+}
+input[type="submit"] {
+	background: #333333;
+	border: #888888 1px solid;
+	color: #CCCCCC;
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+input[type="submit"]:hover {
+	background: #555555;
+	border: #888888 1px solid;
+	color: #32DD72;
+}
+input[type="text"]:focus {
+    border:#aaa 1px solid;
+}
+p.fileinfo a:hover {
+	text-decoration: underline;
+}
+span.trip {
+	color: #AAAAAA;
+}
+
+
+div.pages {
+	
+	background: #1E1E1E; 
+	
+	font-family: "LoveLetter" , sans-serif;
+	
+}
+.bar.bottom {
+    bottom: 0px;
+    border-top: 1px solid #333333;
+    background-color: #1E1E1E;
+ text-shadow: #525252 1px 1px 1px, #080808 -1px -1px 1px, #27ff00 -1px 1px 1px, #1e1e1e 1px -1px 1px; 
+}
+div.pages a.selected {
+	color: #CCCCCC;
+}
+hr {
+	height: 1px;
+	border: #333333 1px solid;
+	background-position: -500px 0;
+        background-image: linear-gradient(to right, rgba(10, 167, 0, 0.94), rgba(13, 255, 0, 0.75), rgb(22, 144, 7)); 
+	-webkit-animation: thread2 10s linear ;
+        -moz-animation:    thread2 10s linear  ;
+        -o-animation:      thread2 10s  linear;
+        animation:         thread2 10s linear  ;
+}
+
+img.banner, img.board_image {
+	-webkit-animation: wobble 10s linear infinite;
+  	-moz-animation:    wobble 10s  linear infinite;
+  	-o-animation:      wobble 10s  linear infinite;
+  	animation:         wobble 10s linear infinite;	
+
+}
+
+@-webkit-keyframes thread2 {
+	  0%   { width: 100%; background-position:-500px 0; opacity: 1.0; height:2px; transform: translate(-15px,15px);   }
+          50% { width: 50%; background-position:0px 0; opacity: 0.5; height:4px; transform:translate(15px,-15px); }
+          80% { width: 50%;background-position:300px 0;opacity: 0.25; height: 3px; translate(-15px,15px); }
+          100%{ width:100%; background-position:500px 0; opacity: 1.0; height:1px; translate(15px,-15px); ;}
+	}
+@-moz-keyframes thread2 {
+	  0%   { width: 100%; background-position:-500px 0; opacity: 1.0; height:2px; transform: translate(-15px,15px);   }
+          50% { width: 50%; background-position:0px 0; opacity: 0.5; height:4px; transform:translate(15px,-15px); }
+          80% { width: 50%;background-position:300px 0;opacity: 0.25; height: 3px; translate(-15px,15px); }
+          100%{ width:100%; background-position:500px 0; opacity: 1.0; height:1px; translate(15px,-15px); ;}
+}
+@-o-keyframes thread2 {
+	  0%   { width: 100%; background-position:-500px 0; opacity: 1.0; height:2px; transform: translate(-15px,15px);   }
+          50% { width: 50%; background-position:0px 0; opacity: 0.5; height:4px; transform:translate(15px,-15px); }
+          80% { width: 50%;background-position:300px 0;opacity: 0.25; height: 3px; translate(-15px,15px); }
+          100%{ width:100%; background-position:500px 0; opacity: 1.0; height:1px; translate(15px,-15px); ;}
+}
+@keyframes thread2 {
+	  0%   { width: 100%; background-position:-500px 0; opacity: 1.0; height:2px; transform: translate(-15px,15px);   }
+          50% { width: 50%; background-position:0px 0; opacity: 0.5; height:4px; transform:translate(15px,-15px); }
+          80% { width: 50%;background-position:300px 0;opacity: 0.25; height: 3px; translate(-15px,15px); }
+          100%{ width:100%; background-position:500px 0; opacity: 1.0; height:1px; translate(15px,-15px); ;}
+}
+
+div.boardlist {
+	text-align: center;
+	color: #999999;
+	/*background-color: rgba(12%, 12%, 12%, 0.10);*/
+}
+
+div.ban {
+	background-color: transparent;
+	border: transparent 0px solid;
+}
+div.ban h2 {
+	background: transparent;
+	color: lime;
+	font-size: 12px;
+}
+table.modlog tr th {
+	background: #333333;
+	color: #AAAAAA;
+}
+
+div.boardlist:not(.bottom) {
+ text-shadow: #525252 1px 1px 1px, #080808 -1px -1px 1px, #27ff00 -1px 1px 1px, #1e1e1e 1px -1px 1px; 
+ background-color: #1E1E1E;
+
+}
+
+.desktop-style div.boardlist:not(.bottom) {
+ position:static; 
+ color: #999999;
+ background-color: #1E1E1E;
+}
+
+
+
+
+div.report {
+	color: #666666;
+}
+
+/* options.js */
+#options_div, #alert_div {
+	background: #333333;
+}
+.options_tab_icon {
+	color: #AAAAAA;
+}
+.options_tab_icon.active {
+	color: #FFFFFF;
+}
+
+#quick-reply table {
+	background: none repeat scroll 0% 0% #333 !important;
+}
+
+.modlog tr:nth-child(even), .modlog th {
+	background-color: #282A2E;
+}
+
+
+
+.box {
+	background: #333333;
+	border-color: #555555;
+	color: #C5C8C6;
+	border-radius: 10px;
+}
+.box-title {
+	background: transparent;
+	color: #32DD72;
+}
+
+table thead th {
+	background: #333333;
+	border-color: #555555;
+	color: #C5C8C6;
+	border-radius: 4px;
+}
+table tbody tr:nth-of-type( even ) {
+	background-color: #333333;
+}
+
+table.board-list-table .board-uri .board-sfw {
+	color: #CCCCCC;
+}
+tbody.board-list-omitted td {
+	background: #333333;
+	border-color: #555555;
+}
+
+table.board-list-table .board-tags .board-cell:hover {
+	background: #1e1e1e;
+}
+table.board-list-table tr:nth-of-type( even ) .board-tags .board-cell {
+	background: #333333;
+}
+.dropzone  {
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+form table tr td div.center {
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+
+}
+form table{
+width: 80%;
+}
+
+
+@-webkit-keyframes typing {
+    from,to { width: 100%; }
+    25% { width: 0; }
+    50% { width: 0; }
+    75% { width: 100%; }
+}
+
+@keyframes typing {
+    from { width: 100%; }
+    to { width: 0; }
+}
+
+@-webkit-keyframes blinking {
+    from, to { border-color: transparent; }
+    50% { border-color: green; }
+}
+
+@keyframes blinking {
+    from, to { border-color: transparent; }
+    50% { border-color: green; }
+}
+
+#pagewrap
+{
+max-width: 80%;
+margin:auto;
+}
