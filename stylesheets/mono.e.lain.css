@@ -362,3 +362,10 @@ SPAN.controls.op:before { content: '\A'; white-space:pre;  }
 div.post-menu
 {
 color: #ffffff;}
+#options_div {
+	background-color: #dddddd;
+}
+
+.options_tab_icon.active {
+	color: #bb3300;
+}

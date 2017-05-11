@@ -90,3 +90,37 @@ div.post.reply div.body a {
 div.post.reply div.body a:hover {
     color: grey;
 }
+
+#options_div {
+	background-color: #1E1E1E;
+}
+
+.options_tab_icon {
+	color: #808080;
+}
+
+.options_tab_icon.active {
+	color: #ffffff;
+}
+
+.threadlinks {
+	background-color: #1E1E1E;
+}
+form table tr th{
+    background: #1E1E1E;
+}
+
+.bar.bottom {
+        background: #1E1E1E;
+}
+
+input[type="text"], textarea, select {
+    background: #333333;
+    color: #808080;
+}
+
+div.banner {
+    background-color: #1E1E1E;
+        color: #808080;
+}
+

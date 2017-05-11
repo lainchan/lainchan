@@ -257,3 +257,12 @@ table.modlog tr th {
 	color: #AAAAAA;
 		/*text-shadow: 0px 0px 3px #59B451;*/
 }
+#options_div {
+	background-color: #0B110A;
+}
+.options_tab_icon {
+	color: #59B451;
+}
+.options_tab_icon.active {
+	color: #293728;
+}

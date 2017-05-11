@@ -211,3 +211,14 @@ table.modlog tr th {
 	background: rgb(193, 180, 146);
 	color: #AAAAAA;
 }
+#options_div {
+	background-color: #000000;
+}
+
+.options_tab_icon {
+	color: #c1b492;
+}
+
+.options_tab_icon.active {
+	color: #d2738a;
+}

@@ -260,3 +260,19 @@ table.modlog tr th {
 	color: #AAAAAA;
 		/*text-shadow: 0px 0px 3px #00ff00;*/
 }
+.options_tab_icon {
+	color: #FF46D2;
+}
+.options_tab_icon.active {
+	color: #00ff00;
+	text-shadow: 0px 0px 10px #00ff00;
+}
+#options_div {
+	background-color: #0C0001;
+	border: #33cccc 2px solid;
+	border-radius: 5px;
+}
+
+#options_tablist {
+	border: #33cccc 1px solid;
+}

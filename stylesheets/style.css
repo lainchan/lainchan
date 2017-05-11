@@ -326,6 +326,14 @@ form table tr td div.center {
   margin: 2px
 }
 
+/*form table tr td div input {
+  display: block;
+  margin: 2px auto 0 auto;
+}
+form table tr td div label {
+  font-size: 10px;
+}*/
+
 .unimportant,.unimportant * {
   font-size: 10px;
 }
