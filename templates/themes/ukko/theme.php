@@ -139,6 +139,12 @@
 				$jsonFilename = $board['dir'] . 'threads.json';
 				file_write($jsonFilename, $json);
 			 }
+			$antibot = null;
+			if (!$antibot) {
+				$antibot = create_antibot($board['uri']);
+			}
+			$antibot->reset();
+
 			return Element('index.html', array(
 				'config' => $config,
 				'board' => $board,
@@ -146,7 +152,8 @@
 				'body' => $body,
 				'mod' => $mod,
 				'boardlist' => createBoardlist($mod),
-				'boards' => $boardsforukko )
+				'boards' => $boardsforukko,
+			        'antibot' => $antibot )
 			);
 		}
 		

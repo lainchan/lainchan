@@ -138,7 +138,13 @@
 				$json = json_encode($api->translateCatalog($catalog, true));
 				$jsonFilename = $board['dir'] . 'threads.json';
 				file_write($jsonFilename, $json);
-			 }
+			}
+			$antibot = null;
+			if (!$antibot) {
+				$antibot = create_antibot($board['uri']);
+			}
+			$antibot->reset();
+
 			return Element('index.html', array(
 				'config' => $config,
 				'board' => $board,
@@ -146,7 +152,8 @@
 				'body' => $body,
 				'mod' => $mod,
 				'boardlist' => createBoardlist($mod),
-				'boards' => $boardsforukko3 )
+				'boards' => $boardsforukko3,
+			        'antibot' => $antibot )
 			);
 		}
 		

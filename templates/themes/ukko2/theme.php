@@ -44,7 +44,6 @@
 				'name' => $this->settings['title'],
 				'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])
 			);
-
 			$boardsforukko2 = array();
 			$query = '';
 			foreach($boards as &$_board) {
@@ -138,15 +137,22 @@
 				$json = json_encode($api->translateCatalog($catalog, true));
 				$jsonFilename = $board['dir'] . 'threads.json';
 				file_write($jsonFilename, $json);
-			 }
+			}
+			$antibot = null;
+			if (!$antibot) {
+				$antibot = create_antibot($board['uri']);
+			}
+			$antibot->reset();
+
 			return Element('index.html', array(
 				'config' => $config,
 				'board' => $board,
-				'no_post_form' => $config['overboard_post_form']  ? false : true,
+				'no_post_form' => $config['overboard_post_form'] ? false : true,
 				'body' => $body,
 				'mod' => $mod,
 				'boardlist' => createBoardlist($mod),
-				'boards' => $boardsforukko2 )
+				'boards' => $boardsforukko2,
+			        'antibot' => $antibot )
 			);
 		}
 		
