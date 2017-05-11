@@ -753,17 +753,21 @@ function mod_view_board($boardName, $page_no = 1) {
 			$overboard->settings['title'] = $config['overboards'][$boardName]['title'];
 			$overboard->settings['subtitle'] = $config['overboards'][$boardName]['subtitle'];
 			$overboard->settings['thread_limit'] = $config['overboards'][$boardName]['thread_limit'];
-			$overboard->settings['exclude'] = $config['overboards'][$boardName]['exclude'];
+			if (array_key_exists('exclude',$config['overboards'][$boardName])) {
+				$overboard->settings['exclude'] = $config['overboards'][$boardName]['exclude'];
+			}
+			if (array_key_exists('include',$config['overboards'][$boardName])) {
+				$overboard->settings['include'] = $config['overboards'][$boardName]['include'];
+			}
+			$overboard->settings['boards'] = listBoards();
 
 			echo $overboard->build($mod);
 			return;
 		}
-
 		elseif (in_array($boardName,array_keys($config['boards_alias']))){
-                        $boardName = $config['boards_alias'][$boardName];
-                        openBoard($boardName);
-                }
-
+			$boardName = $config['boards_alias'][$boardName];
+			openBoard($boardName);
+		}
 		else {
 			error($config['error']['noboard']);
 		}
@@ -1334,7 +1338,7 @@ function mod_move($originBoard, $postID) {
 		$query->execute() or error(db_error($query));
 		
 		$replies = array();
-		
+
 		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 			$post['mod'] = true;
 			$post['thread'] = $newID;
@@ -1466,6 +1470,232 @@ function mod_move($originBoard, $postID) {
 	$security_token = make_secure_link_token($originBoard . '/move/' . $postID);
 	
 	mod_page(_('Move thread'), 'mod/move.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards, 'token' => $security_token));
+}
+
+function mod_merge($originBoard, $postID) {
+	global $board, $config, $mod, $pdo;
+
+	if (!openBoard($originBoard))
+		error($config['error']['noboard']);
+
+	if (!hasPermission($config['mod']['merge'], $originBoard))
+		error($config['error']['noaccess']);
+
+	$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id AND `thread` IS NULL', $originBoard));
+	$query->bindValue(':id', $postID);
+	$query->execute() or error(db_error($query));
+	if (!$post = $query->fetch(PDO::FETCH_ASSOC))
+		error($config['error']['404']);
+	$sourceOp = "";
+	if ($post['thread']){
+		$sourceOp = $post['thread'];
+	}
+	else{
+		$sourceOp = $post['id'];
+	}
+    $newpost = "";
+	$boards = listBoards();
+
+	if (isset($_POST['board'])) {
+		$targetBoard = $_POST['board'];
+	        $targetOp = "";
+		if ($_POST['target_thread']) {
+			$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `id` = :id', $targetBoard));
+			$query->bindValue(':id', $_POST['target_thread']);
+			$query->execute() or error(db_error($query)); // If it fails, thread probably does not exist
+			if (!$newpost = $query->fetch(PDO::FETCH_ASSOC)){
+				error($config['error']['404']);
+			}
+			else
+			{
+				if ($newpost['thread']){
+					$targetOp = $newpost['thread'];
+				}
+				else{
+					$targetOp = $newpost['id'];
+				}
+			}
+		}
+
+		if ($targetBoard === $originBoard){
+			// Just update the thread id for all posts in the original thread to new op
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `thread` = :newthread WHERE `id` = :oldthread OR `thread` = :oldthread', $originBoard));
+			$query->bindValue(':newthread', $targetOp, PDO::PARAM_INT);
+			$query->bindValue(':oldthread', $sourceOp, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			// build index
+			buildIndex();
+
+			// build new thread
+			buildThread($targetOp);
+
+			// trigger themes
+			rebuildThemes('post', $targetBoard);
+			modLog("Merged thread with  #${sourceOp} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${targetOp})", $originBoard);
+
+			// redirect
+			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($newpost) . '#' . $targetOp, true, $config['redirect_http']);
+		}
+	        else {
+			// Move thread to new board without shadow thread and then update the thread id for all posts in that thread to new op
+			// indicate that the post is a thread
+			if (count($boards) <= 1)
+				error(_('Impossible to merge thread to different board; there is only one board.'));
+			$post['op'] = true;
+
+			if ($post['files']) {
+				$post['files'] = json_decode($post['files'], TRUE);
+				$post['has_file'] = true;
+				foreach ($post['files'] as $i => &$file) {
+					if ($file['file'] === 'deleted')
+						continue;
+					$file['file_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file'];
+					$file['thumb_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb'];
+				}
+			} else {
+				$post['has_file'] = false;
+			}
+
+			// allow thread to keep its same traits (stickied, locked, etc.)
+			$post['mod'] = true;
+
+			if (!openBoard($targetBoard))
+				error($config['error']['noboard']);
+
+			// create the new thread
+			$newID = post($post);
+
+			$op = $post;
+			$op['id'] = $newID;
+
+			if ($post['has_file']) {
+				// copy image
+				foreach ($post['files'] as $i => &$file) {
+					if ($file['file'] !== 'deleted')
+						$clone($file['file_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file']);
+					if (isset($file['thumb']) && !in_array($file['thumb'], array('spoiler', 'deleted', 'file')))
+						$clone($file['thumb_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb']);
+				}
+			}
+
+			// go back to the original board to fetch replies
+			openBoard($originBoard);
+
+			$query = prepare(sprintf('SELECT * FROM ``posts_%s`` WHERE `thread` = :id ORDER BY `id`', $originBoard));
+			$query->bindValue(':id', $postID, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+
+			$replies = array();
+
+			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+				$post['mod'] = true;
+				$post['thread'] = $newID;
+
+				if ($post['files']) {
+					$post['files'] = json_decode($post['files'], TRUE);
+					$post['has_file'] = true;
+					foreach ($post['files'] as $i => &$file) {
+						$file['file_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file'];
+						$file['thumb_path'] = sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb'];
+					}
+				} else {
+					$post['has_file'] = false;
+				}
+
+				$replies[] = $post;
+			}
+
+			$newIDs = array($postID => $newID);
+
+			openBoard($targetBoard);
+
+			foreach ($replies as &$post) {
+				$query = prepare('SELECT `target` FROM ``cites`` WHERE `target_board` = :board AND `board` = :board AND `post` = :post');
+				$query->bindValue(':board', $originBoard);
+				$query->bindValue(':post', $post['id'], PDO::PARAM_INT);
+				$query->execute() or error(db_error($query));
+
+				// correct >>X links
+				while ($cite = $query->fetch(PDO::FETCH_ASSOC)) {
+					if (isset($newIDs[$cite['target']])) {
+						$post['body_nomarkup'] = preg_replace(
+								'/(>>(>\/' . preg_quote($originBoard, '/') . '\/)?)' . preg_quote($cite['target'], '/') . '/',
+								'>>' . $newIDs[$cite['target']],
+								$post['body_nomarkup']);
+
+						$post['body'] = $post['body_nomarkup'];
+					}
+				}
+
+				$post['body'] = $post['body_nomarkup'];
+
+				$post['op'] = false;
+				$post['tracked_cites'] = markup($post['body'], true);
+
+				if ($post['has_file']) {
+					// copy image
+					foreach ($post['files'] as $i => &$file) {
+						$clone($file['file_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['img'] . $file['file']);
+						$clone($file['thumb_path'], sprintf($config['board_path'], $board['uri']) . $config['dir']['thumb'] . $file['thumb']);
+					}
+				}
+				// insert reply
+				$newIDs[$post['id']] = $newPostID = post($post);
+
+				if (!empty($post['tracked_cites'])) {
+					$insert_rows = array();
+					foreach ($post['tracked_cites'] as $cite) {
+						$insert_rows[] = '(' .
+							$pdo->quote($board['uri']) . ', ' . $newPostID . ', ' .
+							$pdo->quote($cite[0]) . ', ' . (int)$cite[1] . ')';
+					}
+					query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
+				}
+			}
+
+			modLog("Moved thread #${postID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${newID})", $originBoard);
+
+			// build new thread
+			buildThread($newID);
+
+			clean();
+			buildIndex();
+
+			// trigger themes
+			rebuildThemes('post', $targetBoard);
+
+			$newboard = $board;
+
+			// return to original board
+			openBoard($originBoard);
+
+			deletePost($postID);
+			buildIndex();
+
+			openBoard($targetBoard);
+			// Just update the thread id for all posts in the original thread to new op
+			$query = prepare(sprintf('UPDATE ``posts_%s`` SET `thread` = :newthread WHERE `id` = :oldthread OR `thread` = :oldthread', $targetBoard));
+			$query->bindValue(':newthread', $targetOp, PDO::PARAM_INT);
+			$query->bindValue(':oldthread', $newID, PDO::PARAM_INT);
+			$query->execute() or error(db_error($query));
+			// build index
+			buildIndex();
+
+			// build new thread
+			buildThread($targetOp);
+
+			// trigger themes
+			rebuildThemes('post', $targetBoard);
+			modLog("Merged thread with  #${newID} to " . sprintf($config['board_abbreviation'], $targetBoard) . " (#${targetOp})", $targetBoard);
+
+			// redirect
+			header('Location: ?/' . sprintf($config['board_path'], $board['uri']) . $config['dir']['res'] . link_for($newpost) . '#' . $targetOp, true, $config['redirect_http']);
+		}
+	}
+
+	$security_token = make_secure_link_token($originBoard . '/merge/' . $postID);
+
+	mod_page(_('Merge thread'), 'mod/merge.html', array('post' => $postID, 'board' => $originBoard, 'boards' => $boards, 'token' => $security_token));
 }
 
 function mod_ban_post($board, $delete, $post, $token = false) {
@@ -2477,7 +2707,7 @@ function mod_report_dismiss($id, $all = false) {
 	header('Location: ?/reports', true, $config['redirect_http']);
 }
 
-function mod_recent_posts($lim,$json = false) {
+function mod_recent_posts($lim,$board_list = false,$json=false) {
 	global $config, $mod, $pdo;
 
 	if (!hasPermission($config['mod']['recent']))
@@ -2497,6 +2727,25 @@ function mod_recent_posts($lim,$json = false) {
 		}
 	} else {
 		$mod_boards = $boards;
+	}
+	if ($board_list != false){
+		$board_array = explode(",",$board_list);
+		$new_board_array = array();
+		foreach ($board_array as $board) {
+			if (array_key_exists($board,$config['boards_alias'])){
+				$newboard = $config['boards_alias'][$board];
+			}
+			else{
+				$newboard = $board;
+			}
+			$new_board_array[] = $newboard;
+		}
+		$mod_boards = array();
+		foreach ($boards as $board) {
+			if (in_array($board['uri'], $new_board_array)){
+				$mod_boards[] = $board;
+			}
+		}
 	}
 
 	// Manually build an SQL query

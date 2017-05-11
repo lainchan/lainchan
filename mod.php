@@ -73,7 +73,8 @@ $pages = array(
 	'/ban-appeals'				=> 'secure_POST ban_appeals',	// view ban appeals
 	
 	'/recent/(\d+)'				=> 'recent_posts',		// view recent posts
-	'/recent/(\d+)/(json)?'			=> 'recent_posts',		// view recent posts JSON 
+	'/recent/(\d+)/([\w,]+?)'				=> 'recent_posts',		// view recent posts
+	'/recent/(\d+)/([\w,]+?)/(json)?'			=> 'recent_posts',		// view recent posts JSON
 
 	'/search'				=> 'search_redirect',		// search
 	'/search/(posts|IP_notes|bans|log)/(.+)/(\d+)'	=> 'search',		// search
@@ -82,6 +83,7 @@ $pages = array(
 	'/(\%b)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', 	// ban poster
 	'/(\%b)/move/(\d+)'			=> 'secure_POST move',		// move thread
 	'/(\%b)/move_reply/(\d+)'			=> 'secure_POST move_reply',		// move reply
+	'/(\%b)/merge/(\d+)'			=> 'secure_POST merge',		// merge thread
 	'/(\%b)/edit(_raw)?/(\d+)'		=> 'secure_POST edit_post',	// edit post
 	'/(\%b)/delete/(\d+)'			=> 'secure delete',		// delete post
 	'/(\%b)/deletefile/(\d+)/(\d+)'		=> 'secure deletefile',		// delete file from post
