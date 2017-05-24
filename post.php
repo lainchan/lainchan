@@ -1022,6 +1022,31 @@ if (isset($_POST['delete'])) {
 				$file['width'] = $size[0];
 				$file['height'] = $size[1];
 			}
+			else if ($file['extension'] == "txt" && $config['txt_file_thumbnail']){
+				error_log("MADE IT!",0);
+				$path = $file['thumb'];
+			
+				$error = shell_exec_error( 'convert  -thumbnail x300 xc:white -font "FreeMono" -pointsize 12 -fill black -annotate +15+15 ' .
+				escapeshellarg('@'.$file['tmp_name']) . ' ' .
+				escapeshellarg($file['thumb']));
+
+				if ($error){
+					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['extension']] : $config['file_icons']['default']);	 
+				}
+
+				$file['thumb'] = basename($file['thumb']);
+				$size = @getimagesize($path);
+				$file['thumbwidth'] = $size[0];
+				$file['thumbheight'] = $size[1];
+				$file['width'] = $size[0];
+				$file['height'] = $size[1];
+			}
+			else if ($file['extension'] == "epub" && $config['epub_file_thumbnail']){
+				// PLACEHOLDER
+			}
+			else if ($file['extension'] == "djvu" && $config['djvu_file_thumbnail']){
+				// PLACEHOLDER
+			}
 			else {
 			// not an image
 			//copy($config['file_thumb'], $post['thumb']);
