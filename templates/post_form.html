@@ -9,7 +9,8 @@
 {% if current_page %}
 	<input type="hidden" name="page" value="{{ current_page }}">
 {% endif %}
-{% if mod %}<input type="hidden" name="mod" value="1">{% endif %}
+{% if mod %}<input type="hidden" name="mod" value="1">
+{% endif %}
 	<table>
 		{% if id %}<tr>
 			<td colspan="2"><div class="banner">{% trans %}Posting mode: Reply{% endtrans %} <a class="unimportant" href="{{ return }}">[{% trans %}Return{% endtrans %}]</a></div></td>
@@ -64,6 +65,7 @@
 		{% for myboard in boards %}
 		<option value="{{ myboard['uri']  }}">{{ myboard['uri'] }}  ( {{  myboard['title'] }} )</option>
 		{% endfor %}
+		{{ antibot.html() }}
 		</select></td></tr>
 		{% endif %}
 		{% if not config.field_disable_comment or (mod and post.mod|hasPermission(config.mod.bypass_field_disable, board.uri)) %}<tr>
