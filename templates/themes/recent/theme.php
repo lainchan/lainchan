@@ -81,7 +81,7 @@
 					else {
 						$post['src'] = $config['uri_thumb'] . $files[0]->thumb;
 						$post['thumbwidth'] = $files[0]->thumbwidth;
- +						$post['thumbheight'] = $files[0]->thumbheight;
+ 						$post['thumbheight'] = $files[0]->thumbheight;
 					}
 				}
 				
