@@ -66,3 +66,9 @@ random/
 # Banners
 banners/*
 !banners/lain-bottom.png
+
+#Fonts
+stylesheets/fonts
+
+#Images from twemoji
+js/twemoji/16x16/
