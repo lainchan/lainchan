@@ -26,7 +26,7 @@
 	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
 	<div id="pagewrap">
 	<header>
-		<h1>{{ board.url }} - {{ board.title|e }}</h1>
+		<h1 class="glitch" data-text="{{ board.url }} - {{ board.title|e }}">{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
 			{% if board.subtitle %}
 				{% if config.allow_subtitle_html %}
@@ -35,7 +35,8 @@
 					{{ board.subtitle|e }}
 				{% endif %}
 			{% endif %}
-			{% if mod %}<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
+			{% if mod %}
+			<p><a href="?/">{% trans %}Return to dashboard{% endtrans %}</a></p>{% endif %}
 		</div>
 	</header>
 
@@ -78,6 +79,8 @@
 	{{ config.ad.bottom }}
 
 	<footer>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
 		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
 			<a href='https://int.vichan.net/devel/'>vichan</a> + 
 			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
