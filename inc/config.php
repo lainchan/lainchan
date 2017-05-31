@@ -199,7 +199,7 @@
 	$config['dnsbl'][] = array('tor.dnsbl.sectoor.de', 1);
 
 	// Replacement for sectoor.de
- 	// $config['dnsbl'][] = 'torexit.dan.me.uk';
+	// $config['dnsbl'][] = 'torexit.dan.me.uk';
 
 	// http://www.sorbs.net/using.shtml
 	// $config['dnsbl'][] = array('dnsbl.sorbs.net', array(2, 3, 4, 5, 6, 7, 8, 9));
@@ -470,7 +470,7 @@
 	// Maximum post body length.
 	$config['max_body'] = 1800;
 	// Minimum post body length.
-	$config['min_body'] = 30;
+	$config['min_body'] = 0;
 	// Maximum number of post body lines to show on the index page.
 	$config['body_truncate'] = 15;
 	// Maximum number of characters to show on the index page.
@@ -1337,6 +1337,7 @@
 	$config['mod']['link_bumpunlock'] = '[-Sage]';
 	$config['mod']['link_editpost'] = '[Edit]';
 	$config['mod']['link_move'] = '[Move]';
+	$config['mod']['link_merge'] = '[Merge]';
 	$config['mod']['link_cycle'] = '[Cycle]';
 	$config['mod']['link_uncycle'] = '[-Cycle]';
 
@@ -1497,6 +1498,8 @@
 	$config['mod']['editpost'] = ADMIN;
 	// "Move" a thread to another board (EXPERIMENTAL; has some known bugs)
 	$config['mod']['move'] = DISABLED;
+	// "Merge" a thread to same board or another board
+	$config['mod']['merge'] = MOD;
 	// Bypass "field_disable_*" (forced anonymity, etc.)
 	$config['mod']['bypass_field_disable'] = MOD;
 	// Post bypass unoriginal content check on robot-enabled boards
@@ -1851,10 +1854,10 @@
 	// Allowed HTML tags in ?/edit_pages.
 	$config['allowed_html'] = 'a[href|title],p,br,li,ol,ul,strong,em,u,h2,b,i,tt,div,img[src|alt|title],hr';
 
-	// Enable posting in overboard
+	//Enable posting from overboards
 	$config['overboard_post_form'] = false;
 
-	// Enable auto IP note generation of deleted posts
+	// Enable auto IP note generation of moderator deleted posts
 	$config['autotagging'] = false;
 
 	// Enable PDF file thumbnail generation

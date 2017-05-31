@@ -48,6 +48,9 @@
 		<a title="{% trans %}Move reply to another board{% endtrans %}" href="?/{{ board.dir }}move_reply/{{ post.id }}">{{ config.mod.link_move }}</a>&nbsp;
 	{% endif %}
 {% endif %}
+{% if mod|hasPermission(config.mod.merge, board.uri) %}
+		<a title="{% trans %}Merge thread with another thread {% endtrans %}" href="?/{{ board.dir }}merge/{{ post.id }}">{{ config.mod.link_merge }}</a>&nbsp;
+{% endif %}
 {% if mod|hasPermission(config.mod.cycle, board.uri) %}
 	{% if post.cycle %}
 	<a title="{% trans %}Make thread not cycle{% endtrans %}" href="?/{{ secure_link(board.dir ~ 'uncycle/' ~ post.id) }}">{{ config.mod.link_uncycle }}</a>&nbsp;
