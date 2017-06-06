@@ -87,6 +87,15 @@ div.lain_banner{
     position: absolute;
 }
 
+img.lain_banner{
+  max-width: 100vw;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding-top: 50px;
+  }
+}
 
 /* === GENERAL TAG SETTINGS === */
 
