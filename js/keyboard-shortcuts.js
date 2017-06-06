@@ -2,11 +2,18 @@
 // keyboard navigation option
 // v1.1
 
+// todo change document.getElementsByClassName("file multifile"); to "post-image"
+// todo change to navigation replies > post-image e.g.
+// for reply in replies:
+//     for post-image in reply:
+//          scrollTo(post-image)
+
+
 // adding checkbox for turning on/off
 if (window.Options && Options.get_tab('general')) {
 	Options.extend_tab("general",
 	"<fieldset><legend> Keyboard Navigation </legend>" +
-	 ("<label class='keyboardnav' id='keyboardnav' style='padding:0px;'><input type='checkbox' /> Enable Keyboard Navigation</label>") +
+	 "<label class='keyboardnav' id='keyboardnav' style='padding:0px;'><input type='checkbox' /> Enable Keyboard Navigation</label>" +
 	 "<table><tr><td>Action</td><td>Key</td></tr>" +
      "<tr><td>Next Reply</td><td><input class='field' name='next-reply' spellcheck='false'></td></tr>" +
      "<tr><td>Previous Reply</td><td><input class='field' name='previous-reply' spellcheck='false'></td></tr>" +
