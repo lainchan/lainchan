@@ -538,6 +538,7 @@
 
 	$config['early_404_page'] = 3;
 	$config['early_404_replies'] = 5;
+	$config['early_404_staged'] = false;
 
 	// A wordfilter (sometimes referred to as just a "filter" or "censor") automatically scans users’ posts
 	// as they are submitted and changes or censors particular words or phrases.
@@ -678,7 +679,7 @@
  */
 	// Maximum number of images allowed. Increasing this number enabled multi image.
 	// If you make it more than 1, make sure to enable the below script for the post form to change.
-	// $config['additional_javascript'][] = 'js/multi_image.js';
+	// $config['additional_javascript'][] = 'js/multi-image.js';
 	$config['max_images'] = 1;
 
 	// Method to use for determing the max filesize. 
