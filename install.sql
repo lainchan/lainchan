@@ -305,8 +305,8 @@ CREATE TABLE IF NOT EXISTS `ban_appeals` (
 
 CREATE TABLE `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `board` varchar(125) DEFAULT NULL,
-  `name` varchar(125) NOT NULL,
+  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `content` text,
@@ -321,7 +321,7 @@ CREATE TABLE `pages` (
 --
 
 CREATE TABLE `nntp_references` (
-  `board` varchar(60) NOT NULL,
+  `board` varchar(30) NOT NULL,
   `id` int(11) unsigned NOT NULL,
   `message_id` varchar(255) CHARACTER SET ascii NOT NULL,
   `message_id_digest` varchar(40) CHARACTER SET ascii NOT NULL,
