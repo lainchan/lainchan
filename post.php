@@ -222,7 +222,7 @@ if (isset($_POST['delete'])) {
 		error($config['error']['nodelete']);
 		
 	foreach ($delete as &$id) {
-		$query = prepare(sprintf("SELECT `thread`, `time`,`password` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
+		$query = prepare(sprintf("SELECT `id`,`thread`, `time`,`password` FROM ``posts_%s`` WHERE `id` = :id", $board['uri']));
 		$query->bindValue(':id', $id, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
@@ -330,6 +330,12 @@ if (isset($_POST['delete'])) {
 		
 		$thread = $query->fetch(PDO::FETCH_ASSOC);
 		
+		$error = event('report', array('ip' => $_SERVER['REMOTE_ADDR'], 'board' => $board['uri'], 'post' => $post, 'reason' => $reason,'link' => link_for($post)));
+
+		if ($error) {
+			error($error);
+		}
+
 		if ($config['syslog'])
 			_syslog(LOG_INFO, 'Reported post: ' .
 				'/' . $board['dir'] . $config['dir']['res'] . link_for($post) . ($thread['thread'] ? '#' . $id : '') .
