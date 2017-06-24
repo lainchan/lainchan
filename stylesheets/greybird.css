@@ -5,6 +5,12 @@ html, body {
     font-size: 9pt;
 }
 
+@font-face {
+  font-family: 'lain';
+  src: url('./fonts/nrdyyh.woff') format('woff'),
+       url('./fonts/lain.TTF') format('truetype');
+}
+
 #pagewrap {
     margin-left: auto;
     margin-right: auto;
@@ -70,7 +76,7 @@ hr {
 }
 
 h1 {
-    font-family: tahoma, sans-serif;
+    font-family: 'lain', tahoma, sans-serif;
     padding: 15px 0 5px 0;
     font-size: 15pt;
     text-align: center;
@@ -268,7 +274,7 @@ div.module, div.ban {
 }
 
 div.ban h2 {
-    font-family: tahoma, sans-serif;
+    font-family: 'lain', tahoma, sans-serif;
     font-size: 13pt;
     color: #1e6aad;
     background: inherit;
