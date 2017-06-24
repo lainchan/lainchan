@@ -324,6 +324,10 @@ tr.tblhead > th {
     margin-top: 10px;
 }
 
+fieldset {
+    border: 1px solid gray;  
+}
+
 @media screen and (max-width: 700px) {
     img.banner, img.board_image {
         border: 1px solid #a9a9a9;
