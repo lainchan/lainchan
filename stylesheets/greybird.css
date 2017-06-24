@@ -153,7 +153,7 @@ textarea#body {
 }
 
 #quick-reply .format-text > a {
-    display: inline;
+    display: inline !important;
 }
 
 input[type="submit"] {
