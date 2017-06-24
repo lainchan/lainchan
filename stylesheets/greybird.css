@@ -143,6 +143,19 @@ input[type="text"], input[type="password"], input[type="file"], textarea, select
     margin-right: 5px;
 }
 
+textarea#body {
+    clear: both;
+    float: left;
+}
+
+#quick-reply .format-text {
+    float: none;
+}
+
+#quick-reply .format-text > a {
+    display: inline;
+}
+
 input[type="submit"] {
     color: #bcbcbc;
     font-size: 12px;
