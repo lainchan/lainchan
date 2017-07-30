@@ -2862,3 +2862,13 @@ function strategy_first($fun, $array) {
 		return array('defer');
 	}
 }
+
+function ids_from_postdata($post, $prefix='delete') {
+	$ids = array();
+	foreach ($_POST as $post => $value) {
+		if (preg_match('/^'.$prefix.'_(\d+)$/', $post, $m)) {
+			$ids[] = (int)$m[1];
+		}
+	}
+	return array_unique($ids);
+}

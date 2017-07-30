@@ -254,3 +254,9 @@ table.board-list-table .board-tags .board-cell:hover {
 table.board-list-table tr:nth-of-type( even ) .board-tags .board-cell {
 	background: #333333;
 }
+
+/* Post editing style */
+.edit_history {
+  color: #000;
+  padding: 5px;
+}

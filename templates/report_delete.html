@@ -5,8 +5,17 @@
 		 <label for="delete_file">{% trans %}File{% endtrans %}</label>] <label for="password">{% trans %}Password{% endtrans %}</label> 
 		<input id="password" type="password" name="password" size="12" maxlength="18" />
 		<input type="submit" name="delete" value="{% trans %}Delete{% endtrans %}" />
+		{% if config.allow_edit %}
+			<input type="submit" name="edit" value="{% trans %}Edit{% endtrans %}" />
+		{% endif %}
 	</div>
-	{% endif %}
+	{% elseif config.allow_edit %}
+	<div id="edit-fields">
+		<label for="password">{% trans %}Password{% endtrans %}</label> 
+		<input id="password" type="password" name="password" size="12" maxlength="18" />
+		<input type="submit" name="edit" value="{% trans %}Edit{% endtrans %}" />
+	</div>
+	{% endif %}	
 	
 	<div id="report-fields">
 		<label for="reason">{% trans %}Reason{% endtrans %}</label> 

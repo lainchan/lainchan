@@ -496,6 +496,8 @@
 	$config['allow_delete'] = true;
 	// How long after posting should you have to wait before being able to delete that post? (In seconds.)
 	$config['delete_time'] = 10;
+	// Allow users to delete their own posts?
+	$config['allow_edit'] = false;
 	// Reply limit (stops bumping thread when this is reached).
 	$config['reply_limit'] = 250;
 
@@ -1029,6 +1031,7 @@
 	// $config['additional_javascript'][] = 'js/auto-reload.js';
 	// $config['additional_javascript'][] = 'js/post-hover.js';
 	// $config['additional_javascript'][] = 'js/style-select.js';
+	// $config['additional_javascript'][] = 'js/history.js'; // Post editing JS, not required and needs jQuery 
 
 	// Where these script files are located on the web. Defaults to $config['root'].
 	// $config['additional_javascript_url'] = 'http://static.example.org/tinyboard-javascript-stuff/';

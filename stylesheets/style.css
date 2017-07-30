@@ -1923,3 +1923,19 @@ div.mix {
 footer {
  margin-bottom: 50px;
 }
+
+/* Post editing style */
+.edit_history {
+  color: #000;
+  padding: 5px;
+}
+
+.history_item {  
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.history_date {
+  font-weight: bold;
+  display: block;
+}

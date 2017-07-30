@@ -61,6 +61,9 @@
 		{% endfilter %}{% if index %}{{ post.body|truncate_body(post.link) }}{% else %}{{ post.body }}{% endif %}{% filter remove_whitespace %}
 		{% if post.modifiers['ban message'] %}
 			{{ config.mod.ban_message|sprintf(post.modifiers['ban message']) }}
+		{% endif %}		
+		{% if post.modifiers['history'] %}
+			{% include 'post/history.html' %}
 		{% endif %}
 	</div>
 	{% if post.omitted or post.omitted_images %}

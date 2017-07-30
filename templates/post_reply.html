@@ -24,6 +24,9 @@
 			{% if post.modifiers['ban message'] %}
 				{{ config.mod.ban_message|sprintf(post.modifiers['ban message']) }}
 			{% endif %}
+			{% if post.modifiers['history'] %}
+				{% include 'post/history.html' %}
+			{% endif %}
 		</div>
 	</div>
 </div>
