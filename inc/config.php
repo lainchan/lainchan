@@ -196,7 +196,7 @@
 
 	// Prevents most Tor exit nodes from making posts. Recommended, as a lot of abuse comes from Tor because
 	// of the strong anonymity associated with it.
-	$config['dnsbl'][] = array('tor.dnsbl.sectoor.de', 1);
+	$config['dnsbl'][] = array('rbl.efnet.org', 4);
 
 	// Replacement for sectoor.de
 	// $config['dnsbl'][] = 'torexit.dan.me.uk';
