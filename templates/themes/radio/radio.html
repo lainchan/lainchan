@@ -18,7 +18,7 @@ $.get("{{ settings.radiostatus }}", function(data){
 var el = $( '<div></div>' );   
 el.html(data.getElementsByTagName('html')[0].innerHTML);   
  var channel = $("#channel").val(); 
- var nowplaying = el.find(".roundbox").has("h3:contains("+channel+")").find('td:contains("Current")').first().next().text();
+ var nowplaying = el.find(".roundbox").has("h3:contains('mpd-"+channel+"')").find('td:contains("Current")').eq(0).next().text();
  var currentlisteners = 0;
  el.find(".roundbox").has("h3:contains("+channel+")").find('td:contains("current")').next().each(function() {
     currentlisteners += parseInt(this.firstChild.nodeValue, 10);
