@@ -305,8 +305,8 @@ CREATE TABLE IF NOT EXISTS `ban_appeals` (
 
 CREATE TABLE `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `board` varchar(58) CHARACTER SET utf8 DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `board` varchar(125) DEFAULT NULL,
+  `name` varchar(125) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `content` text,
@@ -321,7 +321,7 @@ CREATE TABLE `pages` (
 --
 
 CREATE TABLE `nntp_references` (
-  `board` varchar(30) NOT NULL,
+  `board` varchar(60) NOT NULL,
   `id` int(11) unsigned NOT NULL,
   `message_id` varchar(255) CHARACTER SET ascii NOT NULL,
   `message_id_digest` varchar(40) CHARACTER SET ascii NOT NULL,
@@ -332,6 +332,15 @@ CREATE TABLE `nntp_references` (
   UNIQUE KEY `u_board_id` (`board`, `id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+
+CREATE TABLE IF NOT EXISTS `calendar_events` (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `title` varchar(255) NOT NULL,
+	  `description` text NOT NULL,
+	  `start` datetime NOT NULL,
+	  `end` datetime NOT NULL,
+	  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

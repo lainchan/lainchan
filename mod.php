@@ -80,6 +80,7 @@ $pages = array(
 	'/search/(posts|IP_notes|bans|log)/(.+)/(\d+)'	=> 'search',		// search
 	'/search/(posts|IP_notes|bans|log)/(.+)'	=> 'search',		// search
 
+	'/(\%b)/warning/(\d+)'		        => 'secure_POST warning_post', 	// warn poster
 	'/(\%b)/ban(&delete)?/(\d+)'		=> 'secure_POST ban_post', 	// ban poster
 	'/(\%b)/move/(\d+)'			=> 'secure_POST move',		// move thread
 	'/(\%b)/move_reply/(\d+)'			=> 'secure_POST move_reply',		// move reply

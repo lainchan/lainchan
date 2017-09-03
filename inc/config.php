@@ -198,9 +198,6 @@
 	// of the strong anonymity associated with it.
 	$config['dnsbl'][] = array('tor.dnsbl.sectoor.de', 1);
 
-	// Replacement for sectoor.de
-	// $config['dnsbl'][] = 'torexit.dan.me.uk';
-
 	// http://www.sorbs.net/using.shtml
 	// $config['dnsbl'][] = array('dnsbl.sorbs.net', array(2, 3, 4, 5, 6, 7, 8, 9));
 
@@ -538,7 +535,6 @@
 
 	$config['early_404_page'] = 3;
 	$config['early_404_replies'] = 5;
-	$config['early_404_staged'] = false;
 
 	// A wordfilter (sometimes referred to as just a "filter" or "censor") automatically scans users’ posts
 	// as they are submitted and changes or censors particular words or phrases.
@@ -679,7 +675,7 @@
  */
 	// Maximum number of images allowed. Increasing this number enabled multi image.
 	// If you make it more than 1, make sure to enable the below script for the post form to change.
-	// $config['additional_javascript'][] = 'js/multi-image.js';
+	// $config['additional_javascript'][] = 'js/multi_image.js';
 	$config['max_images'] = 1;
 
 	// Method to use for determing the max filesize. 
@@ -1325,6 +1321,7 @@
 	// Mod links (full HTML).
 	$config['mod']['link_delete'] = '[D]';
 	$config['mod']['link_ban'] = '[B]';
+	$config['mod']['link_warning'] = '[W]';
 	$config['mod']['link_bandelete'] = '[B&amp;D]';
 	$config['mod']['link_deletefile'] = '[F]';
 	$config['mod']['link_spoilerimage'] = '[S]';
@@ -1394,9 +1391,11 @@
 	// Default public ban message. In public ban messages, %length% is replaced with "for x days" or
 	// "permanently" (with %LENGTH% being the uppercase equivalent).
 	$config['mod']['default_ban_message'] = _('USER WAS BANNED FOR THIS POST');
+	$config['mod']['default_warning_message'] = _('USER WAS WARNED FOR THIS POST');
 	// $config['mod']['default_ban_message'] = 'USER WAS BANNED %LENGTH% FOR THIS POST';
 	// HTML to append to post bodies for public bans messages (where "%s" is the message).
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
+	$config['mod']['warning_message'] = '<span class="public_warning">(%s)</span>';
 
 	// When moving a thread to another board and choosing to keep a "shadow thread", an automated post (with
 	// a capcode) will be made, linking to the new location for the thread. "%s" will be replaced with a
@@ -1448,7 +1447,7 @@
 
 	// Capcode permissions.
 	$config['mod']['capcode'] = array(
-	//	JANITOR		=> array('Janitor'),
+		JANITOR		=> array('Janitor'),
 		MOD		=> array('Mod'),
 		ADMIN		=> true
 	);
@@ -1468,6 +1467,8 @@
 	$config['mod']['show_ip'] = MOD;
 	// Delete a post
 	$config['mod']['delete'] = JANITOR;
+	// Publicly warn a user for a post
+	$config['mod']['warning'] = JANITOR;
 	// Ban a user for a post
 	$config['mod']['ban'] = MOD;
 	// Ban and delete (one click; instant)
@@ -1855,7 +1856,13 @@
 	// Allowed HTML tags in ?/edit_pages.
 	$config['allowed_html'] = 'a[href|title],p,br,li,ol,ul,strong,em,u,h2,b,i,tt,div,img[src|alt|title],hr';
 
-	//Enable posting from overboards
+	// Allow joke capcode
+	$config['joke_capcode'] = false;
+
+	// Show "Home" link in page navigation. Use with the Catalog theme. Set to false to disable.
+	$config['home_link'] = false;
+
+	// Enable posting from overboards
 	$config['overboard_post_form'] = false;
 
 	// Enable auto IP note generation of moderator deleted posts
@@ -1863,3 +1870,10 @@
 
 	// Enable PDF file thumbnail generation
 	$config['pdf_file_thumbnail'] = false;
+
+	// Enable SCeditor WYSIWIG and CSS
+	$config['sc_editor'] = false;
+	$config['sc_editor_theme'] = 'transparent.min';
+
+	// Show "Home" link in page navigation. Use with the Catalog theme. Set to false to disable.
+	$config['home_link'] = true;

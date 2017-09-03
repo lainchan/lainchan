@@ -74,6 +74,9 @@
                 		{% if config.catalog_link %}
 					<a id="thread-catalog" href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">[{% trans %}Catalog{% endtrans %}]</a>
 		                {% endif %}
+				{% if config.home_link %}
+				|  <a id="thread-home" href="{{ config.root }}">[{% trans %}Home{% endtrans %}]</a>
+				{% endif %}
 			</span>
 			
 			<span id="thread-quick-reply">

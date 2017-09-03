@@ -997,7 +997,7 @@ function insertFloodPost(array $post) {
 }
 
 function post(array $post) {
-	global $pdo, $board;
+	global $pdo, $board,$config;
 	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :files, :num_files, :filehash, :password, :ip, :sticky, :locked, :cycle, 0, :embed, :slug)", $board['uri']));
 
 	// Basic stuff
@@ -1047,7 +1047,12 @@ function post(array $post) {
 	if ($post['mod'] && isset($post['capcode']) && $post['capcode']) {
 		$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		if ($config['joke_capcode']  && isset($post['capcode']) && $post['capcode'] === 'joke') {
+			$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
+		}
+		else {
+			$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		}
 	}
 
 	if (!empty($post['embed'])) {
@@ -1279,27 +1284,10 @@ function clean($pid = false) {
 		$query->bindValue(':offset', $offset, PDO::PARAM_INT);
 		$query->execute() or error(db_error($query));
 		
-		if ($config['early_404_staged']) {
-			$page = $config['early_404_page'];
-			$iter = 0;
-		}
-		else {
-			$page = 1;
-		}
-
 		while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-			if ($post['reply_count'] < $page*$config['early_404_replies']) {
+			if ($post['reply_count'] < $config['early_404_replies']) {
 				deletePost($post['thread_id'], false, false);
 				if ($pid) modLog("Automatically deleting thread #{$post['thread_id']} due to new thread #{$pid} (early 404 is set, #{$post['thread_id']} had {$post['reply_count']} replies)");
-			}
-
-			if ($config['early_404_staged']) {
-				$iter++;
-
-				if ($iter == $config['threads_per_page']) {
-					$page++;
-					$iter = 0;
-				}
 			}
 		}
 	}
@@ -1326,7 +1314,6 @@ function index($page, $mod=false, $brief = false) {
 	$query->bindValue(':offset', $offset, PDO::PARAM_INT);
 	$query->bindValue(':threads_per_page', $config['threads_per_page'], PDO::PARAM_INT);
 	$query->execute() or error(db_error($query));
-
 
 	if ($page == 1 && $query->rowCount() < $config['threads_per_page'])
 		$board['thread_count'] = $query->rowCount();
@@ -2090,14 +2077,13 @@ function markup(&$body, $track_cites = false, $op = false) {
 			$clauses = array_unique($clauses);
 			
 			if ($board['uri'] != $_board) {
-				if (!openBoard($_board))
-				{
+				if (!openBoard($_board)){
 					if (in_array($_board,array_keys($config['boards_alias']))){
-						$_board = $config['boards_alias'][$_board];
-						openBoard($_board);
-					}
-
+                                               //$_board = $config['boards_alias'][$_board];
+                                               //openBoard($_board);
+                                        }
 					continue; // Unknown board
+						
 				}
 			}
 			

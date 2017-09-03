@@ -64,6 +64,10 @@
 		{% if config.catalog_link %}
 		 |  <a href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">Catalog</a>
 		{% endif %}
+
+		{% if config.home_link %}
+		 |  <a href="{{ config.root }}">Home</a>
+		{% endif %}
 	<hr />
 
 	<form name="postcontrols" action="{{ config.post_url }}" method="post">
@@ -99,6 +103,9 @@
 			{% endfor %} ] {{ btn.next }}
 			{% if config.catalog_link %}
 			 |  <a href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">Catalog</a>
+			{% endif %}
+			{% if config.home_link %}
+			 |  <a href="{{ config.root }}">Home</a>
 			{% endif %}
 		</div>
 	</div>

@@ -1,6 +1,9 @@
 {% if mod %}
 
 <span class="controls {% if not post.thread %}op{% endif %}">
+{% if mod|hasPermission(config.mod.warning, board.uri) %}
+	<a title="{% trans %}Warn{% endtrans %}" href="?/{{ board.dir }}warning/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_warning }}</a>&nbsp;
+{% endif %}
 {% if mod|hasPermission(config.mod.delete, board.uri) %}
     <a title="{% trans %}Delete{% endtrans %}" onclick="if (event.which==2) return true;if (confirm('{% trans %}Are you sure you want to delete this?{% endtrans %}')) document.location='?/{{ secure_link(board.dir ~ 'delete/' ~ post.id) }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}';return false;" href="?/{{ board.dir }}delete/{{ post.id }}{% if post.thread %}&amp;thread={{ post.thread }}{% endif %}">{{ config.mod.link_delete }}</a>&nbsp;
 {% endif %}
