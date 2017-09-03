@@ -38,10 +38,11 @@
 		        return Element('page.html', array(
 		                'config' => $config,
 		                'mod' => false,  
-        		        'hide_dashboard_link' => true,
+        		        #'hide_dashboard_link' => true,
         		        'title' => _("Ban list"),
         		        'subtitle' => "",
-		                'nojavascript' => true,
+				'boardlist' => createBoardlist(),
+		                #'nojavascript' => true,
 		                'body' => Element('mod/ban_list.html', array(
 			                'mod' => false,
 			                'boards' => "[]",
