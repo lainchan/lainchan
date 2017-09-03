@@ -73,7 +73,7 @@ $(document).ready(function(){
 
 			times[i].setAttribute('data-local', 'true');
 
-			if (localStorage.show_relative_time === 'false') {
+			if (!localStorage.show_relative_time || localStorage.show_relative_time === 'false') {
 				times[i].innerHTML = dateformat(iso8601(t));
 				times[i].setAttribute('title', timeDifference(currentTime, postTime.getTime()));
 			} else {
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		Options.extend_tab('general', '<label id="show-relative-time"><input type="checkbox">' + _('Show relative time') + '</label>');
 
 		$('#show-relative-time>input').on('change', function() {
-			if (localStorage.show_relative_time !== 'false') {
+			if (localStorage.show_relative_time === 'true') {
 				localStorage.show_relative_time = 'false';
 				clearInterval(interval_id);
 			} else {
@@ -100,7 +100,7 @@ $(document).ready(function(){
 			do_localtime(document);
 		});
 
-		if (localStorage.show_relative_time !== 'false') {
+		if (localStorage.show_relative_time === 'true') {
 			$('#show-relative-time>input').attr('checked','checked');
 			interval_id = setInterval(do_localtime, 30000, document);
 		}
