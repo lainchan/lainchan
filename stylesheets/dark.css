@@ -163,6 +163,7 @@ hr {
 div.boardlist {
 	text-align: center;
 	color: #999999;
+    	/*background-color: rgba(12%, 12%, 12%, 0.10);*/
 }
 
 div.ban {
