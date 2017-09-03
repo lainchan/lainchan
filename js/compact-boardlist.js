@@ -145,8 +145,32 @@ function initCompactBoardList() { //Pashe, influenced by tux, et al, WTFPL
 	      var board = this.item.boards[j];
             
 	      var tag;
+              var menuitemname = board.uri;
+	      var tinyalias = {"$$$" : "$", "rules" : "law" , "faq" : "?" , "news" : "n" , "diy" : "Δ", "sec" : "s", "tech" : "Ω", "inter" : 'i', "lit" : "l", "music" : "mu" , "vis" : "v" , "hum" : "h", "drg" : "d" , "zzz" : "z" , "layer" : "ddt" ,"cult" : "c" , "psy" : "p", "mega" : "me" , "random" : "ra", "radio" : "rad", "stream" : "mov", "cal" : "ca"};
+	      var legacyalias = {  "Δ" : "diy",  "Ω" : "tech", "drug" : "drg", "hum" : "feels"};
+	      var unicodealias = {"$$$": "&#x1F4B8", "rules" : "&#x2696&#xFE0F" , "faq" : "&#x2049&#xFE0F" , "news" : "&#x1F4F0" , "diy" : "&#x1F527" , "Δ" : "&#x1F527", "sec" : "&#x1F512", "tech" : "&#x1F4BB", "Ω" : "&#x1F4BB", "inter" : "&#x1F3AE", "lit" : "&#x270D&#xFE0F", "music" : "&#x1F3BC" , "vis" : "&#x1F3A8" , "hum" : "&#x1F465", "drg" : "&#x1F48A" , "drug" :  "&#x1F48A" , "zzz" : "&#x1F4A4" , "layer" : "&#x3299&#xFE0F" ,"cult" : "&#x1F3AD" , "psy" : "&#x1F386", "mega" : "&#x1F4E3" , "random" : "&#x1F3B2", "radio" : "&#x1F4FB", "stream" : "&#x1F4FA", "zine" : "&#x1F4D3", "irc" : "&#x1F4DD", "q" : "&#x2753", "r" : "&#x1F3B2", "cal" : "&#x1f4c5"};
+
+	      if (getSetting("compactboardlisttinyalias")) {
+	  	  menuitemname = tinyalias[board.uri];
+	      }
+	      else if (getSetting("compactboardlistshortalias")){
+	  	  menuitemname = shortalias[board.uri];
+	      }
+	      else if (getSetting("compactboardlistunicodealias")){
+	  	  menuitemname = unicodealias[board.uri];
+	      }
+	      if (typeof menuitemname === "undefined"){
+		  menuitemname = board.uri;
+	      }
+	      
+	      if (getSetting("boardlistmegaq")) {
+		  if (board === "mega"){
+			$(this).attr("href", "https://lainchan.org/megaq/index.html");
+		  }
+	      }
+
               if (board.name) {
-	        tag = $("<a href='"+board.href+"'><span>"+board.name+"</span><span class='cb-uri'>/"+board.uri+"/</span></a>")
+	        tag = $("<a href='"+board.href+"'><span>"+board.name+"</span><span class='cb-uri'>"+menuitemname+"</span></a>")
 	      }
 	      else {
 	        tag = $("<a href='"+board.href+"'><span>"+board.uri+"</span><span class='cb-uri'><i class='fa fa-globe'></i></span></a>")
