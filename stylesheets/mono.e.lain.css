@@ -285,6 +285,14 @@ margin-left: 10px;
         border: double #000 !important;
         position:static !important;
     }
+
+@-moz-document url-prefix() {
+
+div.boardlist {
+    word-spacing:-1px !important;
+}
+
+}
      
     /*favorites in a new line*/
     div.boardlist span.favorite-boards {
@@ -365,7 +373,7 @@ color: #ffffff;}
 #options_div {
 	background-color: #dddddd;
 }
-
+ 
 .options_tab_icon.active {
 	color: #bb3300;
 }
