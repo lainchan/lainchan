@@ -130,7 +130,7 @@
 					}
 					$.ajax({
 						url: 'calendarpost.php',
-						data: 'type=update&title='+ event.title+'&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id ,
+						data: 'type=update&title='+ event.title+'&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id +'&color=' + event.color +'&url=' + event.url  ,
 						type: "POST",
 						success: function(json) {
 							alert("Updated Successfully");
@@ -148,6 +148,7 @@
 								$('#calendar').fullCalendar('removeEvents', event.id);
 								alert("Updated Successfully");}
 						});
+						return false;
 
 					}
 				},
@@ -172,7 +173,7 @@
 					}
 					$.ajax({
 						url: 'calendarpost.php',
-						data: 'type=update&title='+ event.title+ '&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id ,
+						data: 'type=update&title='+ event.title+'&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id +'&color=' + event.color +'&url=' + event.url  ,
 						type: "POST",
 						success: function(json) {
 							alert("Updated Successfully");

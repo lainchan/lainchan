@@ -24,7 +24,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 			break;
 		case "delete":
 			$id = $_POST['id'];	
-			$query = query("DELETE from calendar_events  WHERE id = :id") or error(db_error());
+			$query = prepare("DELETE from calendar_events  WHERE id = :id");
+			$query->bindValue(':id', $id);
+			$query->execute() or error(db_error($query));
 			break;
 		case "update":
 			$id = $_POST['id'];	
@@ -32,6 +34,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 			$description = $_POST['description'];
 			$start = $_POST['start'];
 			$end = $_POST['end'];
+			$color = $_POST['color'];
+			$url = $_POST['url'];
 			$query = prepare(" UPDATE calendar_events SET title = :title, description = :description, start = :start, end = :end, url = :url, color =:color  WHERE id = :id");
 			$query->bindValue(':id', $id);
 			$query->bindValue(':title', $title);
