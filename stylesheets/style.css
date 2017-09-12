@@ -78,6 +78,7 @@ img.banner, img.board_image {
 .bar.bottom {
   bottom: 0px;
   border-top: 1px solid #333333;
+  /*background-color: #333333 ;*/
 }
 
 
@@ -295,7 +296,7 @@ input[type="text"],input[type="password"],textarea {
 
 
 #upload input[type="file"] {
-  max-width: 230px;
+  max-width: 270px;
 }
 
 form table tr td {
@@ -651,8 +652,13 @@ fieldset label {
 }
 
 div.pages {
+    /*! color: #89A; */
+    /*! background: #D6DAF0; */
     display: inline-block;
     padding: 8px;
+    /*! margin: 8px 0 4px 0; */
+    /*! border-right: 1px solid #B7C5D9; */
+    /*! border-bottom: 1px solid #B7C5D9; */
 }
 
 div.pages.top {
@@ -714,6 +720,13 @@ span.public_ban {
   margin-top: 15px;
 }
 
+span.public_warning {
+  display: block;
+  color: steelblue;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
 span.toolong {
   display: block;
   margin-top: 15px;
@@ -736,6 +749,10 @@ div.blotter {
   border-bottom: 1px solid;
   background-color: #D6DAF0;
 }
+
+/*.desktop-style body {
+  padding-top: 20px;
+}*/
 
 .desktop-style .sub {
   background: inherit;
@@ -889,6 +906,13 @@ pre {
 }
 
 @media (max-width: 420px) {
+   header, img.board_image {
+   margin-top: 5em;
+  }
+   div.boardlist {
+   word-spacing:-3px;
+  }
+
   .theme-catalog ul#Grid {
     padding-left: 18px;
   }
@@ -908,7 +932,7 @@ pre {
 }
 
 .compact-boardlist {
-  padding: 3px;
+  /*padding: 3px;*/
   padding-bottom: 0;
 }
 
@@ -922,13 +946,11 @@ pre {
 }
 
 .compact-boardlist .cb-fa {
-  font-size: 21px;
-  padding: 2px;
-  padding-top: 0;
+  font-size: 16px;
 }
 
 .compact-boardlist .cb-cat {
-  padding: 5px 6px 8px 6px;
+  padding: 0px 6px 0px 6px;
 }
 
 .cb-menuitem {
@@ -1266,6 +1288,7 @@ div.boardlist {
     
     color: #89A;
     font-size: 9pt;
+    word-spacing:-3px;
 }
 div.boardlist.bottom {
     margin-top: 12px;
@@ -1273,6 +1296,14 @@ div.boardlist.bottom {
 }
 div.boardlist a {
     text-decoration: none;
+}
+
+@-moz-document url-prefix() {
+
+div.boardlist {
+    word-spacing:-3px;
+}
+
 }
 
 /* Threads */

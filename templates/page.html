@@ -15,8 +15,8 @@
 
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr>{% endif %}
 	<div id="pagewrap">
- 	<header>
-		<h1>{{ title }}</h1>
+	<header>
+		<h1 class="glitch" data-text="{{ title }}">{{ title }}</h1>
 		<div class="subtitle">
 			{% if subtitle %}
 				{{ subtitle }}
@@ -35,6 +35,10 @@
 		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
 
 	</footer>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
 	</div>
 </body>
 </html>

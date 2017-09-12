@@ -254,7 +254,7 @@ if (isset($_POST['delete'])) {
 			}
 			
 			_syslog(LOG_INFO, 'Deleted post: ' .
-				'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '')
+			'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '')	
 			);
 		}
 	}
@@ -619,11 +619,14 @@ if (isset($_POST['delete'])) {
 				error($config['error']['locked']);
 		
 			$numposts = numPosts($post['thread']);
-		
-			if ($config['reply_hard_limit'] != 0 && $config['reply_hard_limit'] <= $numposts['replies'])
+			
+			$replythreshold = isset($thread['cycle']) && $thread['cycle'] ? $numposts['replies'] - 1 : $numposts['replies'];	
+			$imagethreshold = isset($thread['cycle']) && $thread['cycle'] ? $numposts['images'] - 1 : $numposts['images'];	
+
+			if ($config['reply_hard_limit'] != 0 && $config['reply_hard_limit'] <= $replythreshold)
 				error($config['error']['reply_hard_limit']);
 		
-			if ($post['has_file'] && $config['image_hard_limit'] != 0 && $config['image_hard_limit'] <= $numposts['images'])
+			if ($post['has_file'] && $config['image_hard_limit'] != 0 && $config['image_hard_limit'] <= $imagethreshold)
 				error($config['error']['image_hard_limit']);
 		}
 	}
@@ -684,6 +687,18 @@ if (isset($_POST['delete'])) {
 				$post['capcode'] = utf8tohtml($cap);
 				$post['name'] = $name;
 			}
+		}
+	}
+	else if ($config['joke_capcode']) {
+		if (strtolower($post['email']) == 'joke') {
+			if (isset($config['joke_capcode_default'])){
+				$cap = $config['joke_capcode_default'];
+			}
+			else {
+				$cap = "joke";
+			}
+			$post['capcode'] = utf8tohtml($cap);
+			$post['email'] = '';
 		}
 	}
 	
@@ -1005,7 +1020,8 @@ if (isset($_POST['delete'])) {
 			}
 			$image->destroy();
 		} else {
-			if ($file['extension'] == "pdf" && $config['pdf_file_thumbnail']){
+			if (($file['extension'] == "pdf" && $config['pdf_file_thumbnail']) || 
+			    ($file['extension'] == "djvu" && $config['djvu_file_thumbnail']) ){
 				$path = $file['thumb'];
 				$error = shell_exec_error( 'convert -thumbnail x300 -background white -alpha remove ' .
 				escapeshellarg($file['tmp_name']. '[0]') . ' ' .
@@ -1021,6 +1037,77 @@ if (isset($_POST['delete'])) {
 				$file['thumbheight'] = $size[1];
 				$file['width'] = $size[0];
 				$file['height'] = $size[1];
+			}
+			/*if (($file['extension'] == "epub" && $config['epub_file_thumbnail'])){ 
+				$path = $file['thumb'];
+				// Open epub
+				// Get file list
+				// Check if cover file exists according to regex if it does use it
+				// Otherwise check if metadata file exists, and if does get rootfile and search for manifest for cover file name 
+				// Otherwise Check if other image files exist and use them, based on criteria to pick the best one.
+				// Once we have filename extract said file from epub to file['thumb'] location. 
+				$zip = new ZipArchive();
+				if(@$zip->open($path)){
+					$filename = "";
+					// Go looking for a file name, current implementation just uses regex but should fallback to
+					// getting all images and then choosing one.
+					for( $i = 0; $i < $zip->numFiles; $i++ ){ 
+					    $stat = $zip->statIndex( $i ); 
+					    $matches = array();
+					    if (preg_match('/.*cover.*\.(jpg|jpeg|png)/', $stat['name'], $matches)) {
+						    $filename = $matches[0];
+					    	    break;	    
+					    }
+					} 
+					// We have a cover filename to extract.			
+					if (strlen($filename) > 0){
+						//$zip->extractTo(dirname($file['thumb']), array($filename));
+					}
+					else {
+					$error = 1;
+					}
+
+				}
+				else {
+					$error = 1;
+				}
+				
+				if ($error){
+					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['extension']] : $config['file_icons']['default']);	
+				}
+
+				$file['thumb'] = basename($file['thumb']);
+				$size = @getimagesize($path);
+				$file['thumbwidth'] = $size[0];
+				$file['thumbheight'] = $size[1];
+				$file['width'] = $size[0];
+				$file['height'] = $size[1];
+			}*/
+			else if ($file['extension'] == "txt" && $config['txt_file_thumbnail']){
+				$path = $file['thumb'];
+				$error = shell_exec_error( 'convert -thumbnail x300 xc:white -font "FreeMono" -pointsize 12 -fill black -annotate +15+15 ' .
+				escapeshellarg( '@' . $file['tmp_name']) . ' ' .
+				escapeshellarg($file['thumb']));
+
+				if ($error){
+					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['extension']] : $config['file_icons']['default']);	
+				}
+
+				$file['thumb'] = basename($file['thumb']);
+				$size = @getimagesize($path);
+				$file['thumbwidth'] = $size[0];
+				$file['thumbheight'] = $size[1];
+				$file['width'] = $size[0];
+				$file['height'] = $size[1];
+			}
+			else if ($file['extension'] == "svg"){
+				// Copy, because there's nothing to resize
+				$file['thumb'] = substr_replace($file['thumb'] , $file['extension'], strrpos($file['thumb'] , '.') +1);
+				copy($file['tmp_name'], $file['thumb']);
+				$file['thumbwidth'] = $config['thumb_width'];
+				$file['thumbheight'] = $config['thumb_height'];
+				$file['thumb'] = basename($file['thumb']);
+			
 			}
 			else {
 			// not an image

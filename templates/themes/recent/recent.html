@@ -11,6 +11,7 @@
 
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
+	{% include 'header.html' %}
 </head>
 <body>
 	<div class="bar top">

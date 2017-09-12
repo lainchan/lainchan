@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
+	<meta charset="utf-8">
+	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	<link rel='stylesheet' href='/stylesheets/fullcalendar.min.css' />
+	<script type='text/javascript'>
+		var active_page = "news";
+	</script>
+    <title>{{ settings.title }}</title>
+	{% include 'header.html' %}
+	<script src='/js/moment.min.js'></script>
+	<script src='/js/fullcalendar.min.js'></script>
+</head>
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
+	<div class="bar top">
+		{{ boardlist.top }}
+	</div>
+	<header>
+		<h1 class="glitch" data-text="{{ settings.title }}"> {{ settings.title }}</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
+	<div class="ban">
+		<div id='calendar'></div>
+	</div>
+	
+	<hr/>
+        <footer>
+		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
+			<a href='https://int.vichan.net/devel/'>vichan</a> + 
+			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
+		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
+        </footer>
+	<div class="pages"></div>
+	<script type='text/javascript'>
+		$(document).ready(function() {
+
+			var calendar = $('#calendar').fullCalendar({
+				editable: true,
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+
+				events: "calendarpost.php",
+
+				eventRender: function(event, element, view) {
+					if (event.allDay === 'true') {
+						event.allDay = true;
+					} else {
+						event.allDay = false;
+					}
+					element.find('.fc-title').append("<br/>" + event.description);
+				        element.css('background-color',event.color);	
+				},
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end, allDay) {
+					var title = prompt('Event Title:');
+					var description = prompt('Event Description:');
+					var url = prompt("Event URL");
+					var color = prompt("Event Color");
+					var starttime = prompt("Event Start Time");
+					var endtime = prompt("Event End Time");
+					if (title) {
+						var startmoment = moment(start);
+						var endmoment = moment(end);
+						var start = startmoment.format('YYYY-MM-DD HH:mm:ss');
+						var end = endmoment.format('YYYY-MM-DD HH:mm:ss');
+						if (starttime && endtime){
+							var starttimemoment = moment(starttime,'HH:mm');
+							var endtimemoment = moment(endtime,'HH:mm');
+							startmoment.hour(starttimemoment.hour());
+							startmoment.minute(starttimemoment.minute());
+							endmoment.hour(endtimemoment.hour());
+							endmoment.minute(endtimemoment.minute());
+							endmoment.subtract(1, "days");
+						        allday = false;
+							start = startmoment.format('YYYY-MM-DD HH:mm:ss');
+							end = endmoment.format('YYYY-MM-DD HH:mm:ss');
+						}
+						$.ajax({
+							url: 'calendarpost.php',
+							data: 'type=add&title='+ title+'&description='+ description +'&start='+ start +'&end='+ end + '&url='+url+'&color='+color,
+							type: "POST",
+							success: function(json) {
+								alert('Added Successfully');
+							}
+						});
+						calendar.fullCalendar('renderEvent',
+								{
+									title: title,
+									description: description,
+									start: start,
+									end: end,
+									allDay: allDay,
+									url: url,
+									color:color,
+								},
+								true 
+								);
+					}
+					calendar.fullCalendar('unselect');
+				},
+
+				editable: true,
+				eventDrop: function(event, delta) {
+					var startmoment = moment(start);
+					var endmoment = moment(end);
+					var start = startmoment.format('YYYY-MM-DD HH:mm:ss');
+					var end = endmoment.format('YYYY-MM-DD HH:mm:ss');
+					var starttime = prompt("Event Start Time");
+					var endtime = prompt("Event End Time");
+					if (starttime && endtime){
+						var starttimemoment = moment(starttime,'HH:mm');
+						var endtimemoment = moment(endtime,'HH:mm');
+						startmoment.hour(starttimemoment.hour());
+						startmoment.minute(starttimemoment.minute());
+						endmoment.hour(endtimemoment.hour());
+						endmoment.minute(endtimemoment.minute());
+						allday = false;
+						endmoment.subtract(1, "days");
+						start = startmoment.format('YYYY-MM-DD HH:mm:ss');
+						end = endmoment.format('YYYY-MM-DD HH:mm:ss');
+					}
+					$.ajax({
+						url: 'calendarpost.php',
+						data: 'type=update&title='+ event.title+'&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id +'&color=' + event.color +'&url=' + event.url  ,
+						type: "POST",
+						success: function(json) {
+							alert("Updated Successfully");
+						}
+					});
+				},
+				eventClick: function(event) {
+					var decision = confirm("Do you really want to do that?"); 
+					if (decision) {
+						$.ajax({
+							type: "POST",
+							url: 'calendarpost.php',
+							data: "type=delete&id=" + event.id,
+							success: function(json) {
+								$('#calendar').fullCalendar('removeEvents', event.id);
+								alert("Updated Successfully");}
+						});
+						return false;
+
+					}
+				},
+				eventResize: function(event) {
+					var startmoment = moment(start);
+					var endmoment = moment(end);
+					var start = moment(start).format('YYYY-MM-DD HH:mm:ss');
+					var end = moment(end).format('YYYY-MM-DD HH:mm:ss');
+					var starttime = prompt("Event Start Time");
+					var endtime = prompt("Event End Time");
+					if (starttime && endtime){
+						var starttimemoment = moment(starttime,'HH:mm');
+						var endtimemoment = moment(endtime,'HH:mm');
+						startmoment.hour(starttimemoment.hour());
+						startmoment.minute(starttimemoment.minute());
+						endmoment.hour(endtimemoment.hour());
+						endmoment.minute(endtimemoment.minute());
+						allday = false;
+						endmoment.subtract(1, "days");
+						start = startmoment.format('YYYY-MM-DD HH:mm:ss');
+						end = endmoment.format('YYYY-MM-DD HH:mm:ss');
+					}
+					$.ajax({
+						url: 'calendarpost.php',
+						data: 'type=update&title='+ event.title+'&description='+ event.description + '&start='+ start +'&end='+ end +'&id='+ event.id +'&color=' + event.color +'&url=' + event.url  ,
+						type: "POST",
+						success: function(json) {
+							alert("Updated Successfully");
+						}
+					});
+				}
+
+			});
+
+		});
+	</script>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
+</body>
+</html>

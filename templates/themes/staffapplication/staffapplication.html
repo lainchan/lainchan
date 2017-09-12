@@ -1,0 +1,80 @@
+{% filter remove_whitespace %}
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" media="screen" href="/stylesheets/style.css">
+	<meta charset="utf-8">
+	{% if config.meta_keywords %}<meta name="keywords" content="{{ config.meta_keywords }}">{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	<script type='text/javascript'>
+		var active_page = "news";
+	</script>
+    <title>{{ settings.title }}</title>
+	{% include 'header.html' %}
+</head>
+<body class="8chan vichan {% if mod %}is-moderator{% else %}is-not-moderator{% endif %}" data-stylesheet="{% if config.default_stylesheet.1 != '' %}{{ config.default_stylesheet.1 }}{% else %}default{% endif %}">
+	<div class="bar top">
+		{{ boardlist.top }}
+	</div>
+	<header>
+		<h1 class="glitch" data-text="{{ settings.title }}"> {{ settings.title }}</h1>
+		<div class="subtitle">{{ settings.subtitle }}</div>
+	</header>
+	<center>
+    <img src="static/lain_is_cute_datass_small_teal.png" alt="mascot"/>
+	</center>
+	<div class="ban">
+		<p>
+		Please use to the form below to apply to be staff.</br>
+		If you don't want to use this form you can also email admin@lainchan.org or ask in #questions on the Lainchan IRC channel.
+		In the rest of your application section, please specify the following information: </br>
+		Do you have to specify all the requested information below ? </br>
+		No of course not, but the more you specify the more likely your application will be approved, because applications
+		that demostrate that you can put effort in things, tell us that you can be bothered putting effort into things.</br>
+		What position you wanted to apply for ? E.g. Chan staff ? IRC staff ? Sysadmin ? Developer ? All of the above ?
+		None of the above ? Special snowflake role invented just for you ?</br>
+		Your reasons for applying ? </br>
+		Your existing qualifications for the position </br>
+		A summary of your strengths, weaknesses and interesting points / quirks </br>
+		If chan staff , then please specify which boards you are interested in and your experience with their subject matter.
+		</br>
+		Things to not include on your application. </br>
+		1. NSFW pictures </br>
+		2. Anything that is against the rules on the Rules page.</br>
+		3. Short stories about ducks and ribbons and that guy Jimmy and other off topic things.</br>
+		4. Your entire life story. </br>
+		5. Your passport number or SSN and  / or other identifying information. </br>
+		6. Your rant about XYZ and how much all ABC need to suffer DEF because of it. </br>
+		</p>
+		<form action="staffapplication.php" method="post">
+			<p><label for="name">Name: </label><input type="text" name="name" size="50"></p>
+			<p><label for="contactmethod">Preferred Contact Method: </label><select name="contactmethod">
+		        <option value="email" selected>Email</option>
+		        <option value="irc">IRC</option>
+		        <option value="chan">Lainchan</option>
+			</select></p>
+			<p><label for="email">Email: </label><input type="email" name="email" size="50"></p>
+			<p>
+			<label for="application">The rest of your application.</label><textarea name="application" rows="30" cols="50"></textarea>
+			</p>
+			<p><label for="anitspam">Antispam: (What is Cyberpunk , answer in all CAPS, single word, no spaces) </label><input type="text" name="antispam" size="50"></p>
+			<input type="submit" value="Send">
+		</form>	
+	</div>
+	
+	<hr/>
+        <footer>
+		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
+			<a href='https://int.vichan.net/devel/'>vichan</a> + 
+			<a href='https://github.com/lainchan/lainchan'>lainchan</a> {{ config.version }} -
+		<br><a href="http://tinyboard.org/">Tinyboard</a> Copyright &copy; 2010-2014 Tinyboard Development Group
+		<br><a href="https://engine.vichan.net/">vichan</a> Copyright &copy; 2012-2016 vichan-devel
+		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
+        </footer>
+	<div class="pages"></div>
+	<script type="text/javascript">{% raw %}
+		ready();
+	{% endraw %}</script>
+</body>
+</html>
+{% endfilter %}

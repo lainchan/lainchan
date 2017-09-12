@@ -235,6 +235,7 @@ background-color: #2b2b2b;
         display: block;
         clear: both;
         border: solid 1px #2e8b57;
+        /*background-color: #2b2b2b;*/
     }
 
     /*hovered links have underline*/
@@ -292,11 +293,19 @@ background-color: #1A1A1A;
         border-bottom: double 3px #989898 !important;
         position:fixed;
     }
-
+    
     /*favorites in a new line*/
     div.boardlist span.favorite-boards {
         display: ;
     }
+
+    @-moz-document url-prefix() {
+
+div.boardlist {
+    word-spacing:-1px !important;
+}
+
+}
 
     /*subject color*/
     p.intro span.subject {

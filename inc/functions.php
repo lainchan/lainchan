@@ -997,7 +997,7 @@ function insertFloodPost(array $post) {
 }
 
 function post(array $post) {
-	global $pdo, $board;
+	global $pdo, $board,$config;
 	$query = prepare(sprintf("INSERT INTO ``posts_%s`` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :body_nomarkup, :time, :time, :files, :num_files, :filehash, :password, :ip, :sticky, :locked, :cycle, 0, :embed, :slug)", $board['uri']));
 
 	// Basic stuff
@@ -1047,7 +1047,12 @@ function post(array $post) {
 	if ($post['mod'] && isset($post['capcode']) && $post['capcode']) {
 		$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
 	} else {
-		$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		if ($config['joke_capcode']  && isset($post['capcode']) && $post['capcode'] === 'joke') {
+			$query->bindValue(':capcode', $post['capcode'], PDO::PARAM_INT);
+		}
+		else {
+			$query->bindValue(':capcode', null, PDO::PARAM_NULL);
+		}
 	}
 
 	if (!empty($post['embed'])) {
@@ -2072,14 +2077,13 @@ function markup(&$body, $track_cites = false, $op = false) {
 			$clauses = array_unique($clauses);
 			
 			if ($board['uri'] != $_board) {
-				if (!openBoard($_board))
-				{
+				if (!openBoard($_board)){
 					if (in_array($_board,array_keys($config['boards_alias']))){
-						$_board = $config['boards_alias'][$_board];
-						openBoard($_board);
-					}
-
+                                               //$_board = $config['boards_alias'][$_board];
+                                               //openBoard($_board);
+                                        }
 					continue; // Unknown board
+						
 				}
 			}
 			

@@ -15,6 +15,24 @@ color change by kalyx
   src: url('./fonts/nrdyyh.woff') format('woff'),
        url('./fonts/tojcxo.TTF') format('truetype');
 }
+/**
+* volafile.css fuck you
+color change by kalyx
+*/
+@import url("/stylesheets/dark.css");
+@font-face 
+{
+  font-family: "DejaVuSansMono";
+  src: url("/stylesheets/fonts/DejaVuSansMono.ttf") format("truetype");
+}
+
+@font-face 
+{
+  font-family: 'lain';
+  src: url('./fonts/nrdyyh.woff') format('woff'),
+       url('./fonts/tojcxo.TTF') format('truetype');
+}
+
 
 @font-face {
 	font-family: "Normal";
@@ -438,6 +456,8 @@ div.pages {
 	display: inline-block;
 	padding: 8px;
 	margin: 8px 0 4px 0;
+	/*border-right: 1px solid #B7C5D9;
+	border-bottom: 1px solid #B7C5D9;*/
 }
 
 div.pages.top {
@@ -1431,6 +1451,7 @@ span.trip {
 div.pages {
 	color: #AAAAAA;
 	background: #666666;
+	/*border: #666666 1px solid;*/
 	font-family: Normal, sans-serif;
 	font-size: 16px;
 }

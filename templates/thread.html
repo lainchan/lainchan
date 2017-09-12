@@ -34,7 +34,7 @@
 	{% if config.url_banner %}<img class="board_image" src="{{ config.url_banner }}" {% if config.banner_width or config.banner_height %}style="{% if config.banner_width %}width:{{ config.banner_width }}px{% endif %};{% if config.banner_width %}height:{{ config.banner_height }}px{% endif %}" {% endif %}alt="" />{% endif %}
 	<div id="pagewrap">
 	<header>
-		<h1>{{ board.url }} - {{ board.title|e }}</h1>
+		<h1 class="glitch" data-text="{{ board.url }} - {{ board.title|e }}">{{ board.url }} - {{ board.title|e }}</h1>
 		<div class="subtitle">
 			{% if board.subtitle %}
 				{% if config.allow_subtitle_html %}
@@ -74,6 +74,9 @@
                 		{% if config.catalog_link %}
 					<a id="thread-catalog" href="{{ config.root }}{{ board.dir }}{{ config.catalog_link }}">[{% trans %}Catalog{% endtrans %}]</a>
 		                {% endif %}
+				{% if config.home_link %}
+				|  <a id="thread-home" href="{{ config.root }}">[{% trans %}Home{% endtrans %}]</a>
+				{% endif %}
 			</span>
 			
 			<span id="thread-quick-reply">
@@ -89,7 +92,7 @@
     {{ boardlist.bottom }}
 
 	{{ config.ad.bottom }}
-	<a name="bottom"></a>
+
 	<footer>
 		{% include 'badges.html' %}
 		<p class="unimportant" style="margin-top:20px;text-align:center;">- <a href="http://tinyboard.org/">Tinyboard</a> + 
@@ -100,7 +103,7 @@
 		<br><a href="https://github.com/lainchan/lainchan">lainchan</a> Copyright &copy; 2014-2017 lainchan Administration</p>
 		{% for footer in config.footer %}<p class="unimportant" style="text-align:center;">{{ footer }}</p>{% endfor %}
 	</footer>
-	</div>
+        </div>
 	<div class="bar bottom">
 		<div class="threadlinks">
 			<span class="threadlink">[ <a href="{{ return }}">{% trans %}Return{% endtrans %}</a> /</span>

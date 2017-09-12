@@ -62,6 +62,9 @@
 		{% if post.modifiers['ban message'] %}
 			{{ config.mod.ban_message|sprintf(post.modifiers['ban message']) }}
 		{% endif %}
+		{% if post.modifiers['warning message'] %}
+			{{ config.mod.warning_message|sprintf(post.modifiers['warning message']) }}
+		{% endif %}
 	</div>
 	{% if post.omitted or post.omitted_images %}
 		<span class="omitted">
@@ -96,7 +99,7 @@
 	{% include 'post_reply.html' %}
 {% endfor %}
 {% if mod and not index %}
-<p>Unique IPs: {{ iparray|length  }} </p>
+<div id="uniqueip"><span style="display: block; float: left;">Unique IPs: {{ iparray|length  }} </span></div>
 {% endif %}
 <br class="clear"/>{% if hr %}<hr/>{% endif %}
 </div>

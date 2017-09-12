@@ -61,6 +61,13 @@
 		'default' => false,
 		'comment' => 'Enable catalog for the Ukko theme. This requires the Ukko3 theme to be enabled.'
 	);
+	$theme['config'][] = Array(
+		'title' => 'Enable Ukko4 catalog',
+		'name' => 'enable_ukko4',
+		'type' => 'checkbox',
+		'default' => false,
+		'comment' => 'Enable catalog for the Ukko theme. This requires the Ukko4 theme to be enabled.'
+	);
 
 	$theme['config'][] = Array(
 		'title' => 'Enable Rand catalog',

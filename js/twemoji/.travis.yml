@@ -1,0 +1,9 @@
+sudo: false
+language: node_js
+node_js:
+  - "5"
+git:
+  depth: 1
+branches:
+  only:
+    - gh-pages

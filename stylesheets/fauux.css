@@ -184,6 +184,8 @@ span.trip {
 }
 div.pages {
 	color: #AAAAAA;
+	/*background: #333333;
+	border: #d2738a 1px solid;*/
 	font-family: sans-serif;
 	font-size: 10pt;
 }
@@ -214,11 +216,11 @@ table.modlog tr th {
 #options_div {
 	background-color: #000000;
 }
-
+ 
 .options_tab_icon {
 	color: #c1b492;
 }
-
+ 
 .options_tab_icon.active {
 	color: #d2738a;
 }

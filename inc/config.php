@@ -196,10 +196,9 @@
 
 	// Prevents most Tor exit nodes from making posts. Recommended, as a lot of abuse comes from Tor because
 	// of the strong anonymity associated with it.
-	$config['dnsbl'][] = array('tor.dnsbl.sectoor.de', 1);
+	$config['dnsbl'][] = 'rbl.efnetrbl.org';
+	$config['dnsbl'][] = 'tor.efnet.org';
 
-	// Replacement for sectoor.de
- 	// $config['dnsbl'][] = 'torexit.dan.me.uk';
 
 	// http://www.sorbs.net/using.shtml
 	// $config['dnsbl'][] = array('dnsbl.sorbs.net', array(2, 3, 4, 5, 6, 7, 8, 9));
@@ -470,7 +469,7 @@
 	// Maximum post body length.
 	$config['max_body'] = 1800;
 	// Minimum post body length.
-	$config['min_body'] = 30;
+	$config['min_body'] = 0;
 	// Maximum number of post body lines to show on the index page.
 	$config['body_truncate'] = 15;
 	// Maximum number of characters to show on the index page.
@@ -1324,6 +1323,7 @@
 	// Mod links (full HTML).
 	$config['mod']['link_delete'] = '[D]';
 	$config['mod']['link_ban'] = '[B]';
+	$config['mod']['link_warning'] = '[W]';
 	$config['mod']['link_bandelete'] = '[B&amp;D]';
 	$config['mod']['link_deletefile'] = '[F]';
 	$config['mod']['link_spoilerimage'] = '[S]';
@@ -1337,6 +1337,7 @@
 	$config['mod']['link_bumpunlock'] = '[-Sage]';
 	$config['mod']['link_editpost'] = '[Edit]';
 	$config['mod']['link_move'] = '[Move]';
+	$config['mod']['link_merge'] = '[Merge]';
 	$config['mod']['link_cycle'] = '[Cycle]';
 	$config['mod']['link_uncycle'] = '[-Cycle]';
 
@@ -1392,9 +1393,11 @@
 	// Default public ban message. In public ban messages, %length% is replaced with "for x days" or
 	// "permanently" (with %LENGTH% being the uppercase equivalent).
 	$config['mod']['default_ban_message'] = _('USER WAS BANNED FOR THIS POST');
+	$config['mod']['default_warning_message'] = _('USER WAS WARNED FOR THIS POST');
 	// $config['mod']['default_ban_message'] = 'USER WAS BANNED %LENGTH% FOR THIS POST';
 	// HTML to append to post bodies for public bans messages (where "%s" is the message).
 	$config['mod']['ban_message'] = '<span class="public_ban">(%s)</span>';
+	$config['mod']['warning_message'] = '<span class="public_warning">(%s)</span>';
 
 	// When moving a thread to another board and choosing to keep a "shadow thread", an automated post (with
 	// a capcode) will be made, linking to the new location for the thread. "%s" will be replaced with a
@@ -1446,7 +1449,7 @@
 
 	// Capcode permissions.
 	$config['mod']['capcode'] = array(
-	//	JANITOR		=> array('Janitor'),
+		JANITOR		=> array('Janitor'),
 		MOD		=> array('Mod'),
 		ADMIN		=> true
 	);
@@ -1466,6 +1469,8 @@
 	$config['mod']['show_ip'] = MOD;
 	// Delete a post
 	$config['mod']['delete'] = JANITOR;
+	// Publicly warn a user for a post
+	$config['mod']['warning'] = JANITOR;
 	// Ban a user for a post
 	$config['mod']['ban'] = MOD;
 	// Ban and delete (one click; instant)
@@ -1497,6 +1502,8 @@
 	$config['mod']['editpost'] = ADMIN;
 	// "Move" a thread to another board (EXPERIMENTAL; has some known bugs)
 	$config['mod']['move'] = DISABLED;
+	// "Merge" a thread to same board or another board
+	$config['mod']['merge'] = MOD;
 	// Bypass "field_disable_*" (forced anonymity, etc.)
 	$config['mod']['bypass_field_disable'] = MOD;
 	// Post bypass unoriginal content check on robot-enabled boards
@@ -1851,11 +1858,24 @@
 	// Allowed HTML tags in ?/edit_pages.
 	$config['allowed_html'] = 'a[href|title],p,br,li,ol,ul,strong,em,u,h2,b,i,tt,div,img[src|alt|title],hr';
 
-	// Enable posting in overboard
+	// Allow joke capcode
+	$config['joke_capcode'] = false;
+
+	// Show "Home" link in page navigation. Use with the Catalog theme. Set to false to disable.
+	$config['home_link'] = false;
+
+	// Enable posting from overboards
 	$config['overboard_post_form'] = false;
 
-	// Enable auto IP note generation of deleted posts
+	// Enable auto IP note generation of moderator deleted posts
 	$config['autotagging'] = false;
 
 	// Enable PDF file thumbnail generation
 	$config['pdf_file_thumbnail'] = false;
+
+	// Enable SCeditor WYSIWIG and CSS
+	$config['sc_editor'] = false;
+	$config['sc_editor_theme'] = 'transparent.min';
+
+	// Show "Home" link in page navigation. Use with the Catalog theme. Set to false to disable.
+	$config['home_link'] = true;

@@ -7,6 +7,7 @@
                 {% if config.default_code_stylesheet.1 != '' %}<link rel="stylesheet" type="text/css" id="code_stylesheet" href="{{ config.uri_stylesheets }}{{ config.default_code_stylesheet.1 }}">{% endif %}
 		{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
 		{% if config.country_flags_condensed %}<link rel="stylesheet" href="{{ config.root }}{{ config.country_flags_condensed_css }}">{% endif %}
+		{% if config.sc_editor %} <link rel="stylesheet" href="{{ config.uri_stylesheets }}sceditor/themes/{{ config.sc_editor_theme }}.css" media="all" /> {% endif %}
 		<script type="text/javascript">
 			var configRoot="{{ config.root }}";
 			var inMod = {% if mod %}true{% else %}false{% endif %};
