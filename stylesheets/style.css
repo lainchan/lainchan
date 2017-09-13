@@ -1358,7 +1358,7 @@ div.boardlist {
     width: 15%;
     position: fixed;
     right: 0pt;
-    bottom: 0pt;
+    top: 20pt;
     margin: 0pt;
     padding: 0pt;
 }
