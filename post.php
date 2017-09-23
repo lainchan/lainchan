@@ -332,7 +332,7 @@ if (isset($_POST['delete'])) {
 		
 		if ($config['syslog'])
 			_syslog(LOG_INFO, 'Reported post: ' .
-				'/' . $board['dir'] . $config['dir']['res'] . link_for($post) . ($thread['thread'] ? '#' . $id : '') .
+				'/' . $board['dir'] . $config['dir']['res'] . link_for($thread) . ($thread['thread'] ? '#' . $id : '') .
 				' for "' . $reason . '"'
 			);
 		$query = prepare("INSERT INTO ``reports`` VALUES (NULL, :time, :ip, :board, :post, :reason)");
