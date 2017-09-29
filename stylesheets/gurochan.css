@@ -31,12 +31,15 @@ form table tr th {
         border: 1px solid #CA927B;
         padding: 2px 5px 2px 5px;
 }
-div.banner {
+div.banner{
         background: #D9AF9E;
         border: 1px solid #CA927B;
         color: black;
         font-weight: bold;
         padding: 2px 5px 2px 5px;
+}
+div.banner a{
+        color: black;
 }
 div.post.reply{
         padding: 2px 5px 2px 5px;
