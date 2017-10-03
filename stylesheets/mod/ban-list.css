@@ -34,8 +34,6 @@
 }
 .banlist-opts .buttons * {
   display: inline-block;
-  width: 49%;
-  font-size: 18pt;
 }
 
 tr.tblhead {
