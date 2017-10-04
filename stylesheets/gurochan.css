@@ -127,4 +127,50 @@ div.ban h2 {
 
 NEW NEW NEW
 
+html, body, div.banner, div.post.reply, div.banner a, textarea {
+    color: #800;
+}
 
+div.post.reply {
+    color: #800;
+}
+
+
+.quote {
+    color: #866;
+}
+
+
+.intro span.subject {
+    color: #800;
+}
+
+
+a.selected:nth-child(1) {
+        color:#800;
+}
+
+.desktop-style div.boardlist:not(.bottom), .desktop-style div.boardlist:not(.bottom) a {
+    font-size: 10pt;
+    color:#800;
+ border-bottom: 1px solid #CA927B;
+}
+   
+
+
+div.pages input{
+    background:#D9AF9E;
+    color:#800;
+}
+
+div.pages a.selected{
+    color:#800;
+}
+
+div.post.reply.highlighted{
+        background:#D9AF9E
+}
+
+#quick-reply th {
+    border: 1px solid #D9AF9E;
+}
