@@ -25,7 +25,7 @@ a.quotelink {
         color:#DD0000;
 }
 div.post.reply.highlighted{
-        background:#CA927B
+        background:#D9AF9E
 }
 form table tr th {
         background: #D9AF9E;
@@ -35,17 +35,14 @@ form table tr th {
 div.banner{
         background: #D9AF9E;
         border: 1px solid #CA927B;
-        color: black;
+        color: #800;
         font-weight: bold;
         padding: 2px 5px 2px 5px;
-}
-div.banner a{
-        color: black;
 }
 div.post.reply{
         padding: 2px 5px 2px 5px;
 	background:#E6CBC0;
-	color:#000000;
+	color:#800;
 	border:1px solid #D9AF9E;
 }
 div.post.reply div.body a{
@@ -66,11 +63,13 @@ div.post.reply div.body a{
     border-top: 1px solid #CA927B;
 }
 
-.desktop-style div.boardlist:not(.bottom) {
-        font-size:10pt;
-        background:#D9AF9E;
-        color:#000000;
+.desktop-style div.boardlist:not(.bottom), .desktop-style div.boardlist:not(.bottom) a {
+    font-size: 10pt;
+    background:#D9AF9E;
+    color:#800;
+    border-bottom: 1px solid #CA927B;
 }
+
 h1.glitch a{
         font-size: 24pt;
         color: #AF0A0F;
@@ -118,44 +117,18 @@ div.ban h2 {
     color: #AF0A0F;
 }
 
+.intro span.subject {
+    color: #800;
+}
+
 .options_tab_icon{
     color: #AF0A0F;
 }
 
 
-
-
-NEW NEW NEW
-
-html, body, div.banner, div.post.reply, div.banner a, textarea {
-    color: #800;
+#quick-reply th {
+    border: 1px solid #D9AF9E;
 }
-
-div.post.reply {
-    color: #800;
-}
-
-
-.quote {
-    color: #866;
-}
-
-
-.intro span.subject {
-    color: #800;
-}
-
-
-a.selected:nth-child(1) {
-        color:#800;
-}
-
-.desktop-style div.boardlist:not(.bottom), .desktop-style div.boardlist:not(.bottom) a {
-    font-size: 10pt;
-    color:#800;
- border-bottom: 1px solid #CA927B;
-}
-   
 
 
 div.pages input{
@@ -167,10 +140,16 @@ div.pages a.selected{
     color:#800;
 }
 
-div.post.reply.highlighted{
-        background:#D9AF9E
+.quote {
+    color: #866;
 }
 
-#quick-reply th {
-    border: 1px solid #D9AF9E;
+
+div.banner a, textarea {
+    color: #800;
+}
+
+
+a.selected:nth-child(1) {
+        color:#800;
 }
