@@ -1,30 +1,31 @@
-body {
+html, body {
         font-size:10pt;
         background:#EDDAD2;
-        color:#000000;
+        color: #800;
 }
 * {
-        font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
         font-size: 10pt;
 }
 input, textarea {
         background-color: #E6CBC0;
         border: 1px solid #CA927B;
 }
-a {
-        color:#34345C;
+
+a, a:visited{
+	color: #AF0A0F;
 }
-a:visited {
-        color:#34345C;
-}
+
+
 a:hover {
-        color:#DD0000;
+	color: #D00;
 }
+
 a.quotelink {
         color:#DD0000;
 }
 div.post.reply.highlighted{
-        background:#CA927B
+        background:#D9AF9E
 }
 form table tr th {
         background: #D9AF9E;
@@ -34,29 +35,41 @@ form table tr th {
 div.banner{
         background: #D9AF9E;
         border: 1px solid #CA927B;
-        color: black;
+        color: #800;
         font-weight: bold;
         padding: 2px 5px 2px 5px;
 }
-div.banner a{
-        color: black;
-}
 div.post.reply{
         padding: 2px 5px 2px 5px;
-	background:#D9AF9E;
-	color:#000000;
-	border:1px solid #CA927B;
+	background:#E6CBC0;
+	color:#800;
+	border:1px solid #D9AF9E;
 }
+div.post.reply div.body a{
+       color: #AF0A0F;
+}
+
 .bar
 {
-        background:#D9AF9E;
-        color:#000000;
+       background:#D9AF9E;
+       color:#800;
 }
-.desktop-style div.boardlist:not(.bottom) {
-        font-size:10pt;
-        background:#D9AF9E;
-        color:#000000;
+
+.bar a {
+        color:#800;
 }
+
+.bar.bottom {
+    border-top: 1px solid #CA927B;
+}
+
+.desktop-style div.boardlist:not(.bottom), .desktop-style div.boardlist:not(.bottom) a {
+    font-size: 10pt;
+    background:#D9AF9E;
+    color:#800;
+    border-bottom: 1px solid #CA927B;
+}
+
 h1.glitch a{
         font-size: 24pt;
         color: #AF0A0F;
@@ -68,7 +81,7 @@ h1.glitch {
         font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
 }
 hr {
-	border-top: 1px solid #000000;;
+        border-top: 1px dotted #D9AF9E;
 }
 #options_div {
         background: #D9AF9E;
@@ -90,4 +103,53 @@ div.ban h2 {
 .hljs, .hljs-subst {
         background: #EDDAD2;
         border: 1px solid #CA927B;
+}
+
+.intro a.email:hover{
+    color: #D00;
+}
+
+.intro a.email span.name {
+    color: #AF0A0F;
+}
+
+.intro span.name {
+    color: #AF0A0F;
+}
+
+.intro span.subject {
+    color: #800;
+}
+
+.options_tab_icon{
+    color: #AF0A0F;
+}
+
+
+#quick-reply th {
+    border: 1px solid #D9AF9E;
+}
+
+
+div.pages input{
+    background:#D9AF9E;
+    color:#800;
+}
+
+div.pages a.selected{
+    color:#800;
+}
+
+.quote {
+    color: #866;
+}
+
+
+div.banner a, textarea {
+    color: #800;
+}
+
+
+a.selected:nth-child(1) {
+        color:#800;
 }
