@@ -1879,3 +1879,6 @@
 
 	// Show "Home" link in page navigation. Use with the Catalog theme. Set to false to disable.
 	$config['home_link'] = true;
+
+	//Empty board alias
+	$config['boards_alias'] = array();
