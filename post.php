@@ -377,7 +377,7 @@ if (isset($_POST['delete'])) {
 		
 	if ($config['discord'])
 	{
-		$postcontent = mb_substr($thread['body_nomarkup'], 0, 150) . '...  ***(POST TRIMMED)***';
+		$postcontent = mb_substr($thread['body_nomarkup'], 0, 200) . '...  ***(POST TRIMMED)***';
 		$discordmessage = '__**[New Report]**__ <'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . ">\n" . $reason . "\n" . $postcontent;
 
 		$data = json_encode(array("content" => $discordmessage));
