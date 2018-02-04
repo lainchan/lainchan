@@ -1837,6 +1837,11 @@
         $config['slack_channel'] = "";
         $config['slack_incoming_webhook_endpoint'] = "https://hooks.slack.com/services/";
 
+	// Discord Report Notification
+	// https://discordapp.com/developers/docs/resources/webhook#execute-webhook
+        $config['discord'] = false;
+        $config['discord_webhook_url'] = ""; // 'https://discordapp.com/api/webhooks/{webhook.id}/{webhook.token}'
+
 	// Password hashing function
 	//
 	// $5$ <- SHA256
