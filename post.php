@@ -374,6 +374,22 @@ if (isset($_POST['delete'])) {
 		$slackresult = slack($slackmessage, $config['slack_channel']); 
         
         }
+		
+	if ($config['discord'])
+	{
+		$postcontent = mb_substr($thread['body_nomarkup'], 0, 150) . '...  ***(POST TRIMMED)***';
+		$discordmessage = '__**[New Report]**__ <'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . ">\n" . $reason . "\n" . $postcontent;
+
+		$data = json_encode(array("content" => $discordmessage));
+
+		$ch = curl_init($config['discord_webhook_url']);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$discordresult = curl_exec($ch);
+		curl_close($ch);
+	}
 
 
 	}
