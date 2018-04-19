@@ -1,0 +1,40 @@
+{% if post and board %}
+	{% set action = '?/' ~ board ~ '/warning/' ~ post %}
+{% else %}
+	{% set action = '?/warning' %}
+{% endif %}
+
+<form action="{{ action }}" method="post">
+	<input type="hidden" name="token" value="{{ token }}">
+	{% if redirect %}
+		<input type="hidden" name="redirect" value="{{ redirect|e }}">
+	{% endif %}
+	{% if thread %}
+		<input type="hidden" name="thread" value="{{ thread }}">
+	{% endif %}
+	
+	<table>
+		
+			<tr>
+				<th>
+					<label for="reason">{% trans 'Message' %}</label>
+				</th>
+				<td>
+					<input type="checkbox" id="public_message" name="public_message" checked> 
+					<input type="text" name="message" id="message" size="35" maxlength="400" value="{{ config.mod.default_warning_message|e }}"> 
+					<span class="unimportant">({% trans 'public; attached to post' %})</span>
+					<script type="text/javascript">
+						document.getElementById('message').disabled = !document.getElementById('public_message').checked;
+						document.getElementById('public_message').onchange = function() {
+							document.getElementById('message').disabled = !this.checked;
+						}
+					</script>
+				</td>
+			</tr>
+		<tr>
+			<td></td>
+			<td><input name="new_warning" type="submit" value="{% trans 'New Warning' %}"></td>
+		</tr>
+	</table>
+</form>
+
