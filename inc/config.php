@@ -1749,6 +1749,15 @@
 	$config['nntpchan']['group'] = false; // eg. 'overchan.test'
 
 
+	//Securimage captcha
+	//TODO move a bunch of things here
+
+	$config['spam']['valid_inputs'][]='captcha';
+	$config['error']['securimage']=array(
+		'missing'=>'The captcha field was missing. Please try again',
+		'empty'=>'Please fill out the captcha',
+		'bad'=>'Incorrect captcha',
+	);
 
 /*
  * ====================
@@ -1882,3 +1891,6 @@
 
 	//Empty board alias
 	$config['boards_alias'] = array();
+	
+	
+	

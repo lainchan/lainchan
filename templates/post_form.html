@@ -96,6 +96,17 @@
 			</td>
 		</tr>
 		{% endif %}
+		{% if config.securimage %}
+		<tr>
+			<th>
+				Captcha
+			</th>
+			<td>
+				<img src="{{ config.root }}/captcha.php"><br />
+				<input type="text" name="captcha" size="25" maxlength="10" autocomplete="off">
+			</td>
+		</tr>
+		{% endif %}
 		{% if config.user_flag %}
 			<tr>
 				<th>{% trans %}Flag{% endtrans %}</th>
