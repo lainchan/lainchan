@@ -36,7 +36,7 @@ You can contribute to lainchan by:
 
 If you need help developing a patch, please join our IRC channel. 
 
-> irc.freenode.net @ #lainchan-dev
+> irc.lainchan.org:6697 @ #thecage
 
 Installation
 -------------
