@@ -384,7 +384,8 @@ if (isset($_POST['delete'])) {
 	if (!isset($_POST['json_response'])) {
 		$index = $root . $board['dir'] . $config['file_index'];
 		$reported_post = $root . $board['dir']  . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') ;
-		header('Location: ' . $reported_post);
+	       	header('Location: ' . $board['dir']);
+//		header('Location: ' . $reported_post);
   
         //echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
 	} else {
