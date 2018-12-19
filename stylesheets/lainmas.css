@@ -1,0 +1,83 @@
+body {
+	background: #000 url('img/christmas_lain.png') repeat-x 50% 0%;
+	color: #b2e0ae;
+}
+a:link, a:visited, .intro a.email span.name {
+	color: red;
+}
+a:link:hover {
+	color: #f3f298;
+}
+a.post_no {
+	color: #b2e0ae;
+}
+div.post.reply {
+	background: #222;
+	border-color: #d9bfb7;
+}
+div.post.reply.highlighted {
+	background: #aeee0c3;
+	border-color: #d9bfb7;
+}
+div.post.reply div.body a {
+	color: red;
+}
+div.post.reply div.body a:hover {
+	color: #f3f298;
+}
+.intro span.subject {
+	color: #f3f298;
+}
+form table tr th {
+	background: #000;
+	color: #b2e0ae;
+	border: 1px solid red;
+}
+textarea:focus, input:not([type="file"]):not([type="checkbox"]):focus, [type="submit"]:hover {
+	border: 1px solid #333;
+}
+div.ban h2 {
+	background: #f3f298;
+	color: inherit;
+}
+div.ban {
+	border-color: #b2e0ae;
+}
+div.ban p {
+	color: black;
+}
+.bar {
+	background-color: #b2e0ae;
+	border-color: #f5f5f5!important;
+	-moz-box-shadow: 0 0 100px #f3f298;
+	-webkit-box-shadow: 0 0 100px #f3f298;
+	box-shadow: 0 0 100px #f3f298;
+}
+div.pages {
+	background: #b2e0ae;
+	border-color: #b2e0ae;
+}
+div.pages a.selected {
+	color: red;
+}
+hr {
+	border-color: #b2e0ae;
+}
+div.boardlist {
+	color: red;
+}
+div.boardlist a {
+	color: red;
+}
+table.modlog tr th {
+	background: #ba666f;
+}
+
+/* options.js */
+#options_div, #alert_div {
+	background: #b2e0ae;
+}
+
+.desktop-style div.boardlist:nth-child(1) {
+	background-color: #b2e0ae;
+}
