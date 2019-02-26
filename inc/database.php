@@ -69,19 +69,23 @@ function sql_open() {
 	try {
 		$options = array(
 			PDO::ATTR_TIMEOUT => $config['db']['timeout'],
-			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 		);
+		
+		if ($config['db']['type'] == "mysql")
+			$options[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
+		
 		if ($config['db']['persistent'])
 			$options[PDO::ATTR_PERSISTENT] = true;
 		$pdo = new PDO($dsn, $config['db']['user'], $config['db']['password'], $options);
 		
 		if ($config['debug'])
 			$debug['time']['db_connect'] = '~' . round((microtime(true) - $start) * 1000, 2) . 'ms';
-		
-		if (mysql_version() >= 50503)
-			query('SET NAMES utf8mb4') or error(db_error());
-		else
-			query('SET NAMES utf8') or error(db_error());
+	        if ($config['db']['type'] == "mysql"){	
+			if (mysql_version() >= 50503)
+				query('SET NAMES utf8mb4') or error(db_error());
+			else
+				query('SET NAMES utf8') or error(db_error());
+		}
 		return $pdo;
 	} catch(PDOException $e) {
 		$message = $e->getMessage();
