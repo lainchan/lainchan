@@ -14,7 +14,6 @@
         {{ boardlist.top }}
 
 	{% if pm %}<div class="top_notice">You have <a href="?/PM/{{ pm.id }}">an unread PM</a>{% if pm.waiting > 0 %}, plus {{ pm.waiting }} more waiting{% endif %}.</div><hr>{% endif %}
-	<div id="pagewrap">
 	<header>
 		<h1 class="glitch" data-text="{{ title }}">{{ title }}</h1>
 		<div class="subtitle">
@@ -39,6 +38,5 @@
 	<script type="text/javascript">{% raw %}
 		ready();
 	{% endraw %}</script>
-	</div>
 </body>
 </html>
