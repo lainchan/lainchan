@@ -1,3 +1,5 @@
+<html>
+<head>
 <title>404</title>
 <style type="text/css">
 body {
@@ -7,7 +9,7 @@ body {
 		 background-size: cover !important;
 		 background-color: #222  !important;
 		 background-image:
-			 url(https://gs1.wac.edgecastcdn.net/8019B6/data.tumblr.com/tumblr_mc0xu6C22f1qbj9bko1_500.gif);
+			 url(./static/404_background.gif);
 		 background-repeat: no-repeat !important;
 		 background-position: 0!important;
 		 background-attachment: fixed !important;
