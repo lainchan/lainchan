@@ -53,7 +53,7 @@
 		),
 		array(
 			'title'   => 'Bumped threads',
-			'name'    => 'bumped_count',
+			'name'    => 'recent_count',
 			'comment' => '(number of consecutive recent threads)',
 			'type'    => 'text',
 			'default' => '1',
