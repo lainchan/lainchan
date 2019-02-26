@@ -17,16 +17,18 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
-if ((!isset($_POST['mod']) || !$_POST['mod'])
+$board_locked_check = (!isset($_POST['mod']) || !$_POST['mod'])
 	&& ($config['board_locked']===true
-		|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])))){
+	|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])));
+
+if ($board_locked_check){
     error("Board is locked");
 }
 
 $dropped_post = false;
 
-// Is it a post coming from NNTP? Let's extract it and pretend it's a normal post.
-if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
+function handle_nntpchan() {
+	global $config;
 	if ($_SERVER['REMOTE_ADDR'] != $config['nntpchan']['trusted_peer']) {
 		error("NNTPChan: Forbidden. $_SERVER[REMOTE_ADDR] is not a trusted peer");
 	}
@@ -66,8 +68,8 @@ if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
 		$ref = $refs[0];
 
 		$query = prepare("SELECT `board`,`id` FROM ``nntp_references`` WHERE `message_id` = :ref");
-                $query->bindValue(':ref', $ref);
-                $query->execute() or error(db_error($query));
+		$query->bindValue(':ref', $ref);
+		$query->execute() or error(db_error($query));
 
 		$ary = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -152,8 +154,8 @@ if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
 
 		$query = prepare("SELECT `board`,`id` FROM ``nntp_references`` WHERE `message_id_digest` LIKE :rule");
 		$idx = $id . "%";
-                $query->bindValue(':rule', $idx);
-                $query->execute() or error(db_error($query));
+		$query->bindValue(':rule', $idx);
+		$query->execute() or error(db_error($query));
 		
 		$ary = $query->fetchAll(PDO::FETCH_ASSOC);
 		if (count($ary) == 0) {
@@ -182,14 +184,13 @@ if (isset($_GET['Newsgroups']) && $config['nntpchan']['enabled']) {
 		'headers' => $headers,
 		'from_nntp' => true,
 	);
-}
-elseif (isset($_GET['Newsgroups'])) {
-	error("NNTPChan: NNTPChan support is disabled");
+	 
+
 }
 
-if (isset($_POST['delete'])) {
+function handle_delete(){
 	// Delete
-	
+	global $config,$board;
 	if (!isset($_POST['board'], $_POST['password']))
 		error($config['error']['bot']);
 	
@@ -277,7 +278,10 @@ if (isset($_POST['delete'])) {
 
 	rebuildThemes('post-delete', $board['uri']);
 
-} elseif (isset($_POST['report'])) {
+}
+
+function handle_report(){
+	global $config,$board;
 	if (!isset($_POST['board'], $_POST['reason']))
 		error($config['error']['bot']);
 	
@@ -329,7 +333,12 @@ if (isset($_POST['delete'])) {
 		$query->execute() or error(db_error($query));
 		
 		$thread = $query->fetch(PDO::FETCH_ASSOC);
-		
+
+		$error = event('report', array('ip' => $_SERVER['REMOTE_ADDR'], 'board' => $board['uri'], 'post' => $post, 'reason' => $reason, 'link' => link_for($post)));
+		if ($error) {
+			error($error);
+		}
+
 		if ($config['syslog'])
 			_syslog(LOG_INFO, 'Reported post: ' .
 				'/' . $board['dir'] . $config['dir']['res'] . link_for($thread) . ($thread['thread'] ? '#' . $id : '') .
@@ -338,7 +347,7 @@ if (isset($_POST['delete'])) {
 		$query = prepare("INSERT INTO ``reports`` VALUES (NULL, :time, :ip, :board, :post, :reason)");
 		$query->bindValue(':time', time(), PDO::PARAM_INT);
 		$query->bindValue(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
-		$query->bindValue(':board', $board['uri'], PDO::PARAM_INT);
+		$query->bindValue(':board', $board['uri'], PDO::PARAM_STR);
 		$query->bindValue(':post', $id, PDO::PARAM_INT);
 		$query->bindValue(':reason', $reason, PDO::PARAM_STR);
 		$query->execute() or error(db_error($query));
@@ -384,14 +393,18 @@ if (isset($_POST['delete'])) {
 	if (!isset($_POST['json_response'])) {
 		$index = $root . $board['dir'] . $config['file_index'];
 		$reported_post = $root . $board['dir']  . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') ;
-		header('Location: ' . $reported_post);
+		//header('Location: ' . $reported_post);
   
-        //echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
+        echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
 	} else {
 		header('Content-Type: text/json');
 		echo json_encode(array('success' => true));
 	}
-} elseif (isset($_POST['post']) || $dropped_post) {
+
+}
+
+function handle_post(){
+	global $config,$dropped_post,$board, $mod,$pdo;
 	if (!isset($_POST['body'], $_POST['board']) && !$dropped_post)
 		error($config['error']['bot']);
 
@@ -434,7 +447,22 @@ if (isset($_POST['delete'])) {
 				error($config['error']['captcha']);
 			}
 		}
-
+		if(isset($config['securimage']) && $config['secureimage']){
+			if(!isset($_POST['captcha'])){
+				error($config['error']['securimage']['missing']);
+			}
+			if(empty($_POST['captcha'])){
+				error($config['error']['securimage']['empty']);
+			}
+ 			$query=prepare('DELETE FROM captchas WHERE time<DATE_SUB(NOW(), INTERVAL 30 MINUTE)');
+ 			$query=prepare('DELETE FROM captchas WHERE ip=:ip AND code=:code LIMIT 1');
+			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
+			$query->bindValue(':code', $_POST['captcha']);
+			$query->execute();
+ 			if($query->rowCount()==0){
+				error($config['error']['securimage']['bad']);
+			}
+		}
 		if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
 			(!$post['op'] && $_POST['post'] == $config['button_reply'])))
 			error($config['error']['bot']);
@@ -570,7 +598,8 @@ if (isset($_POST['delete'])) {
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $fp);
 		curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
-		
+	        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );	
+
 		if (curl_exec($curl) === false)
 			error($config['error']['nomove'] . '<br/>Curl says: ' . curl_error($curl));
 		
@@ -1085,7 +1114,7 @@ if (isset($_POST['delete'])) {
 			}*/
 			else if ($file['extension'] == "txt" && $config['txt_file_thumbnail']){
 				$path = $file['thumb'];
-				$error = shell_exec_error( 'convert -thumbnail x300 xc:white -font "FreeMono" -pointsize 12 -fill black -annotate +15+15 ' .
+				$error = shell_exec_error( 'convert -thumbnail x300 xc:white -pointsize 12 -fill black -annotate +15+15 ' .
 				escapeshellarg( '@' . $file['tmp_name']) . ' ' .
 				escapeshellarg($file['thumb']));
 
@@ -1373,7 +1402,11 @@ if (isset($_POST['delete'])) {
 	else
 		rebuildThemes('post', $board['uri']);
 	
-} elseif (isset($_POST['appeal'])) {
+
+}
+
+function handle_appeal(){
+	global $config;
 	if (!isset($_POST['ban_id']))
 		error($config['error']['bot']);
 	
@@ -1414,6 +1447,28 @@ if (isset($_POST['delete'])) {
 	$query->execute() or error(db_error($query));
 	
 	displayBan($ban);
+
+}
+
+// Is it a post coming from NNTP? Let's extract it and pretend it's a normal post.
+if (isset($_GET['Newsgroups'])) {
+	 if($config['nntpchan']['enabled']){
+	 	handle_nntpchan();
+	 } 
+	 else {
+		error("NNTPChan: NNTPChan support is disabled");
+	 }
+
+}
+
+if (isset($_POST['delete'])) {
+	handle_delete();
+} elseif (isset($_POST['report'])) {
+	handle_report();
+} elseif (isset($_POST['post']) || $dropped_post) {
+	handle_post();
+} elseif (isset($_POST['appeal'])) {
+	handle_appeal();
 } else {
 	if (!file_exists($config['has_installed'])) {
 		header('Location: install.php', true, $config['redirect_http']);
