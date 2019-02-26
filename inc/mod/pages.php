@@ -1940,7 +1940,7 @@ function mod_warning_post($board,$post, $token = false) {
 		'token' => $security_token
 	);
 
-    if($_GET['thread']) {
+    if(isset($_GET['thread'])) {
         $args['thread'] = $_GET['thread'];
     }
 	
@@ -3200,7 +3200,7 @@ function mod_theme_uninstall($theme_name) {
 
 	// Clean cache
 	Cache::delete("themes");
-	Cache::delete("theme_settings_".$theme_name);
+	Cache::delete("theme_settings_".$theme);
 
 	header('Location: ?/themes', true, $config['redirect_http']);
 }
