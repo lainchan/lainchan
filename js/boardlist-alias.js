@@ -14,7 +14,7 @@ if (window.Options && Options.get_tab('general')) {
 $('.boardlist-tinyalias').on('change', function(){
 	var setting = $(this).attr('id');
 
-	localStorage[setting] = $(this).children('input').is(':checked');
+	localStorage[setting] = $(this).is(':checked');
 	location.reload();
 });
 $('.boardlist-legacyalias').on('change', function(){
@@ -72,7 +72,7 @@ function getSetting(key) {
 }
 
 if (getSetting('boardlisttinyalias')) $('#boardlisttinyalias>input').prop('checked', 'checked');
-if (getSetting('boardlistlegacyalias')) $('#boardlistslegacyalias>input').prop('checked', 'checked');
+if (getSetting('boardlistlegacyalias')) $('#boardlistlegacyalias>input').prop('checked', 'checked');
 if (getSetting('boardlistunicodealias')) $('#boardlistunicodealias>input').prop('checked', 'checked');
 if (getSetting('boardlisthideoverboards')) $('#boardlisthideoverboards>input').prop('checked', 'checked');
 if (getSetting('boardlisthideunderboards')) $('#boardlisthideunderboards>input').prop('checked', 'checked');
