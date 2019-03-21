@@ -17,13 +17,6 @@ if (get_magic_quotes_gpc()) {
 	$_POST = strip_array($_POST);
 }
 
-$board_locked_check = (!isset($_POST['mod']) || !$_POST['mod'])
-	&& ($config['board_locked']===true
-	|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])));
-
-if ($board_locked_check){
-    error("Board is locked");
-}
 
 $dropped_post = false;
 
@@ -414,6 +407,14 @@ function handle_post(){
 	if (!openBoard($post['board']))
 		error($config['error']['noboard']);
 	
+	$board_locked_check = (!isset($_POST['mod']) || !$_POST['mod'])
+		&& ($config['board_locked']===true
+		|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])));
+
+	if ($board_locked_check){
+	    error("Board is locked");
+	}
+
 	if (!isset($_POST['name']))
 		$_POST['name'] = $config['anonymous'];
 	
