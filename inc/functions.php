@@ -1959,7 +1959,7 @@ function markup(&$body, $track_cites = false, $op = false) {
 		$markup_urls = array();
 
 		$body = preg_replace_callback(
-				'/((?:https?:\/\/|ftp:\/\/|irc:\/\/)[^\s<>()"]+?(?:\([^\s<>()"]*?\)[^\s<>()"]*?)*)((?:\s|<|>|"|\.||\]|!|\?|,|&#44;|&quot;)*(?:[\s<>()"]|$))/',
+				'/((?:https?:\/\/|ftp:\/\/|irc:\/\/|gopher:\/\/)[^\s<>()"]+?(?:\([^\s<>()"]*?\)[^\s<>()"]*?)*)((?:\s|<|>|"|\.||\]|!|\?|,|&#44;|&quot;)*(?:[\s<>()"]|$))/',
 				'markup_url',
 				$body,
 				-1,
