@@ -65,7 +65,7 @@
 
 {%  endif %}
 
-{% if config.mod.dashboard_links|count %}
+{% if config.mod.dashboard_links|length %}
 
   {% for label,link in config.mod.dashboard_links %}
   <li><a href="{{ link }}">{{ label }}</a></li>
