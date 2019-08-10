@@ -437,14 +437,15 @@ function handle_post(){
 	if (!$dropped_post) {
 		// Check for CAPTCHA right after opening the board so the "return" link is in there
 		if ($config['recaptcha']) {
-			if (!isset($_POST['recaptcha_challenge_field']) || !isset($_POST['recaptcha_response_field']))
+			if (!isset($_POST['g-recaptcha-response']))
 				error($config['error']['bot']);	
-				// Check what reCAPTCHA has to say...
-				$resp = recaptcha_check_answer($config['recaptcha_private'],
-				$_SERVER['REMOTE_ADDR'],
-				$_POST['recaptcha_challenge_field'],
-				$_POST['recaptcha_response_field']);
-			if (!$resp->is_valid) {
+			// Check what reCAPTCHA has to say...
+			$resp = json_decode(file_get_contents(sprintf('https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s',
+				$config['recaptcha_private'],
+				urlencode($_POST['g-recaptcha-response']),
+				$_SERVER['REMOTE_ADDR'])), true);
+
+			if (!$resp['success']) {
 				error($config['error']['captcha']);
 			}
 		}
@@ -455,15 +456,16 @@ function handle_post(){
 			if(empty($_POST['captcha'])){
 				error($config['error']['securimage']['empty']);
 			}
- 			$query=prepare('DELETE FROM captchas WHERE time<DATE_SUB(NOW(), INTERVAL 30 MINUTE)');
- 			$query=prepare('DELETE FROM captchas WHERE ip=:ip AND code=:code LIMIT 1');
+			$query=prepare('DELETE FROM captchas WHERE time<DATE_SUB(NOW(), INTERVAL 30 MINUTE)');
+			$query=prepare('DELETE FROM captchas WHERE ip=:ip AND code=:code LIMIT 1');
 			$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 			$query->bindValue(':code', $_POST['captcha']);
 			$query->execute();
- 			if($query->rowCount()==0){
+			if($query->rowCount()==0){
 				error($config['error']['securimage']['bad']);
 			}
 		}
+
 		if (!(($post['op'] && $_POST['post'] == $config['button_newtopic']) ||
 			(!$post['op'] && $_POST['post'] == $config['button_reply'])))
 			error($config['error']['bot']);

@@ -284,8 +284,7 @@
 		'lock',
 		'raw',
 		'embed',
-		'recaptcha_challenge_field',
-		'recaptcha_response_field',
+		'g-recaptcha-response',
 		'spoiler',
 		'page',
 		'file_url',
@@ -1014,6 +1013,7 @@
  */
 
 	// Additional Javascript files to include on board index and thread pages. See js/ for available scripts.
+	$config['additional_javascript'][] = 'js/jquery.min.js';
 	$config['additional_javascript'][] = 'js/inline-expanding.js';
 	// $config['additional_javascript'][] = 'js/local-time.js';
 
