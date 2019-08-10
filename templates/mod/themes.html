@@ -1,4 +1,4 @@
-{% if themes|default([])|length == 0 %}
+{% if not themes %}
 	<p style="text-align:center" class="unimportant">({% trans 'There are no themes available.' %})</p>
 {% else %}
 	<table class="modlog">

@@ -36,7 +36,7 @@
     <br>
      <div class="ban" id="global3">   
 			<h2>Latest News</h2>
-		{% if recent_news|default([])|length == 0 %}
+		{% if not recent_news %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
 		{% else %}
 			{% for entry in recent_news %}

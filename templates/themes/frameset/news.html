@@ -13,7 +13,7 @@
 	</header>
 	
 	<div class="ban">
-		{% if news|default([])|length == 0 %}
+		{% if not news %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
 		{% else %}
 			{% for entry in news %}
