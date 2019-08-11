@@ -1233,6 +1233,9 @@
 	// Website favicon.
 	// $config['url_favicon'] = '/favicon.gif';
 	
+	// Website  Apple touch icon.
+	// $config['url_appletouchicon'] = '/favicon.gif';
+
 	// Try not to build pages when we shouldn't have to.
 	$config['try_smarter'] = true;
 
