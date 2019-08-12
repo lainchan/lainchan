@@ -1059,7 +1059,7 @@
 		),
 		array(
 			'/^https?:\/\/(\w+\.)?vimeo\.com\/(\d{2,10})(\?.+)?$/i',
-			<iframe src="https://player.vimeo.com/video/$2" style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
+			'<iframe src="https://player.vimeo.com/video/$2" style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
 		),
 		array(
 			'/^https?:\/\/(\w+\.)?dailymotion\.com\/video\/([a-zA-Z0-9]{2,10})(_.+)?$/i',
