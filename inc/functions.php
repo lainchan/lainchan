@@ -2076,10 +2076,17 @@ function markup(&$body, $track_cites = false, $op = false) {
 			if ($board['uri'] != $_board) {
 				if (!openBoard($_board)){
 					if (in_array($_board,array_keys($config['boards_alias']))){
-                                               //$_board = $config['boards_alias'][$_board];
-                                               //openBoard($_board);
+                                               $_board = $config['boards_alias'][$_board];
+                                               if (openBoard($_board)){
+
+					        }
+					        else {
+							continue; // Unknown board
+					        }
                                         }
-					continue; // Unknown board
+					else {
+						continue; // Unknown board
+					}
 						
 				}
 			}
@@ -2104,7 +2111,13 @@ function markup(&$body, $track_cites = false, $op = false) {
 			openBoard($tmp_board);
 
 		foreach ($cites as $matches) {
+			$original_board = NULL;
 			$_board = $matches[2][0];
+			if (in_array($_board,array_keys($config['boards_alias']))){
+				$original_board = $_board;
+				$_board = $config['boards_alias'][$_board];
+
+			}
 			$cite = @$matches[3][0];
 
 			// preg_match_all is not multibyte-safe
@@ -2115,13 +2128,24 @@ function markup(&$body, $track_cites = false, $op = false) {
 			if ($cite) {
 				if (isset($cited_posts[$_board][$cite])) {
 					$link = $cited_posts[$_board][$cite];
-					
-					$replacement = '<a ' .
+				        if (isset($original_board)){
+						$replacement = '<a ' .
+						($_board == $board['uri'] ?
+							'onclick="highlightReply(\''.$cite.'\', event);" '
+						: '') . 'href="' . $link . '">' .
+						'&gt;&gt;&gt;/' . $original_board . '/' . $cite .
+						'</a>';
+
+					}
+					else {
+						$replacement = '<a ' .
 						($_board == $board['uri'] ?
 							'onclick="highlightReply(\''.$cite.'\', event);" '
 						: '') . 'href="' . $link . '">' .
 						'&gt;&gt;&gt;/' . $_board . '/' . $cite .
 						'</a>';
+
+					}
 
 					$body = mb_substr_replace($body, $matches[1][0] . $replacement . $matches[4][0], $matches[0][1] + $skip_chars, mb_strlen($matches[0][0]));
 					$skip_chars += mb_strlen($matches[1][0] . $replacement . $matches[4][0]) - mb_strlen($matches[0][0]);
