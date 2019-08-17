@@ -18,7 +18,7 @@
 			<legend>{{ notes|count }} {% trans notes_on_record %}</legend>
 		</legend>
 		
-		{% if notes and noteslength > 0 %}
+		{% if notes and notes|length > 0 %}
 			<table class="modlog">
 				<tr>
 					<th>{% trans 'Staff' %}</th>
