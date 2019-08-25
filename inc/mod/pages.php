@@ -1099,6 +1099,8 @@ function mod_lock($board, $unlock, $post) {
 		modLog(($unlock ? 'Unlocked' : 'Locked') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
+		// trigger themes
+		rebuildThemes('lock', $board);
 	}
 	
 	if ($config['mod']['dismiss_reports_on_lock']) {
@@ -1133,6 +1135,8 @@ function mod_sticky($board, $unsticky, $post) {
 		modLog(($unsticky ? 'Unstickied' : 'Stickied') . " thread #{$post}");
 		buildThread($post);
 		buildIndex();
+		// trigger themes
+		rebuildThemes('sticky', $board);
 	}
 	
 	header('Location: ?/' . sprintf($config['board_path'], $board) . $config['file_index'], true, $config['redirect_http']);
