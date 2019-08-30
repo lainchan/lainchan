@@ -374,12 +374,12 @@ function mod_edit_board($boardName) {
 			
 			// Clear reports
 			$query = prepare('DELETE FROM ``reports`` WHERE `board` = :id');
-			$query->bindValue(':id', $board['uri'], PDO::PARAM_INT);
+			$query->bindValue(':id', $board['uri'], PDO::PARAM_STR);
 			$query->execute() or error(db_error($query));
 			
 			// Delete from table
 			$query = prepare('DELETE FROM ``boards`` WHERE `uri` = :uri');
-			$query->bindValue(':uri', $board['uri'], PDO::PARAM_INT);
+			$query->bindValue(':uri', $board['uri'], PDO::PARAM_STR);
 			$query->execute() or error(db_error($query));
 			
 			$query = prepare("SELECT `board`, `post` FROM ``cites`` WHERE `target_board` = :board ORDER BY `board`");
