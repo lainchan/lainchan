@@ -2869,3 +2869,74 @@ function strategy_first($fun, $array) {
 		return array('defer');
 	}
 }
+
+/**
+ * Attempts to make a HTTP request for the URL where the latest version of Lainchan is stored.
+ * If successful, the response body is returned; otherwise an empty string is.
+ *
+ * @return string
+ */
+function getLatestVersionResponse() {
+	$context = null;
+
+	if (function_exists('stream_context_create')) {
+		$context = stream_context_create(array(
+			'http' => array(
+				'timeout' => 5
+			)
+		));
+	}
+
+	$response = @file_get_contents(
+		'https://raw.githubusercontent.com/lainchan/lainchan/master/install.php',
+		false,
+		$context
+	);
+
+	if ($response === false) {
+		$response = '';
+	}
+
+	return $response;
+}
+
+/**
+ * Attempts to match the value of the `VERSION` constant from the given response body, and returns either the version
+ * number or `false` if it wasn't found
+ * 
+ * @param string $response
+ * @return bool|string
+ */
+function getVersionFromResponse($body) {
+	$matched = preg_match('/define\((?:\'|")VERSION(?:\'|"),\s*(?:\'|")([0-9.\-dev]+)(?:\'|")\);/m', $body, $matches);
+
+	if (! $matched || ! count($matches)) {
+		return false;
+	}
+
+	return $matches[1];
+}
+
+/**
+ * Returns an array of numbers and their corresponding labels from a version string
+ * 
+ * @param string $version
+ * @return array<string,int>
+ */
+function getNumbersFromVersion($version) {
+	$numbers = array(
+		'massive' => null,
+		'major'   => null,
+		'minor'   => null
+	);
+	
+	$matched = preg_match('/(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $version, $matches);
+
+	if ($matched) {
+		$numbers['massive'] = (int) $matches[1];
+		$numbers['major']   = (int) $matches[2];
+		$numbers['minor']   = (int) $matches[3];
+	}
+
+	return $numbers;
+}
