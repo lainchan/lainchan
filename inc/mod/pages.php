@@ -120,7 +120,7 @@ function mod_dashboard() {
 
 			if ($response) {
 				$currentVersion = $config['version'];
-				$latestVersion  = getVersionFromResponse($code);
+				$latestVersion  = getVersionFromResponse($response);
 
 				if ($latestVersion) {
 					$latest  = getNumbersFromVersion($latestVersion);
