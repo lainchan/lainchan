@@ -27,17 +27,18 @@ foreach ($boards as $board) {
 	}
 	
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-		$decoded = json_decode($post['files'], true);
-		$post = array_shift($decoded);
+		$images = json_decode($post['files'], true);
 
-		if (! $post) {
+		if (! $images) {
 			$error = json_last_error_msg() ?: 'Unknown error occurred';
 
 			exit("Failed to decode JSON: $error" . PHP_EOL);
 		}
 
-		$valid_src[] = $post['file'];
-		$valid_thumb[] = $post['thumb'];
+		foreach ($images as $image) {
+			$valid_src[] = $image['file'];
+			$valid_thumb[] = $image['thumb'];
+		}
 	}
 
 	$dir = $board['uri'] . DIRECTORY_SEPARATOR;
