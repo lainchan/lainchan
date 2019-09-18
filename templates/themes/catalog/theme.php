@@ -27,7 +27,7 @@
 				}
 			}
 		} elseif ($action == 'post-thread' || ($settings['update_on_posts'] && $action == 'post') || ($settings['update_on_posts'] && $action == 'post-delete')
-		|| $action == 'sticky' || $action == 'lock' && in_array($board, $boards)) {
+		|| $action == 'sticky' || ($action == 'lock' && in_array($board, $boards))) {
 			$b = new Catalog($settings);
 
 			$action = generation_strategy("sb_catalog", array($board));
