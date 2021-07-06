@@ -23,7 +23,7 @@
 			<th>{% trans 'Description' %}</th>
 		</tr>
 		{% for var in conf if var.type != 'array' %}
-			{% if  var.name and var.name|length == 1 %}
+			{% if var.name|count == 1 %}
 				{% set name = 'cf_' ~ var.name %}
 			{% else %}
 				{% set name = 'cf_' ~ var.name|join('/') %}
@@ -31,7 +31,7 @@
 			
 			<tr>
 				<th class="minimal">
-					{% if var.name and var.name|length == 1 %}
+					{% if var.name|count == 1 %}
 						{{ var.name }}
 					{% else %}
 						{{ var.name|join(' &rarr; ') }}

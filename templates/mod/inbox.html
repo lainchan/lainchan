@@ -1,4 +1,4 @@
-{% if not messages %}
+{% if messages|count == 0 %}
 	<p style="text-align:center" class="unimportant">({% trans 'No private messages for you.' %})</p>
 {% else %}
 	<table class="modlog">
