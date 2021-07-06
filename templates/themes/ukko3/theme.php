@@ -11,7 +11,7 @@
 			return;
 		}
 
-		$action = generation_strategy('sb_ukko3', array());
+		$action = generation_strategy('sb_ukko', array());
 
 		if ($action == 'delete') {
 			file_unlink($settings['uri'] . '/index.html');
