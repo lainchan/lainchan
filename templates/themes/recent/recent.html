@@ -11,7 +11,6 @@
 
 	{% if config.url_favicon %}<link rel="shortcut icon" href="{{ config.url_favicon }}" />{% endif %}
 	{% if config.font_awesome %}<link rel="stylesheet" href="{{ config.root }}{{ config.font_awesome_css }}">{% endif %}
-	{% include 'header.html' %}
 </head>
 <body>
 	<div class="bar top">
@@ -31,12 +30,12 @@
 
  <br>
 
-     <div class="ban" id="global2">      <h2>CYBERPUNK IS DUCK</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
-	<center>    <img alt="mascot" class="lain_banner" src="static/duck.png"></center>
+     <div class="ban" id="global2">      <h2>CYBERPUNK IS BUN</h2>  Pour out the Soykaf, lurk, and read the <a href="https://lainchan.org/rules">rules</a> before posting!    </div> 
+	<center>    <img alt="mascot" src="static/bun.png"></center>
     <br>
      <div class="ban" id="global3">   
 			<h2>Latest News</h2>
-		{% if not recent_news %}
+		{% if recent_news|count == 0 %}
 			<p style="text-align:center" class="unimportant">(No news to show.)</p>
 		{% else %}
 			{% for entry in recent_news %}
@@ -79,7 +78,8 @@
 			</ul>
 	</div>
 		</div>
-		<div class="box right">
+		<div class="ban" id="global4" >
+		<div class="box center">
 			<h2>Stats</h2>
 			<ul>
 				<li>Total posts: {{ stats.total_posts }}</li>
@@ -87,7 +87,8 @@
 				<li>Active content: {{ stats.active_content|filesize }}</li>
 			</ul>
 		</div>
-	</div>
+		</div>
+	     </div>
 	<div class="footer">
 	<footer>
         <center>

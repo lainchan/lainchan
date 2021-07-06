@@ -60,9 +60,13 @@ body
 }
 .box.left h2 {
 	background: #7fdd57;
-	color: #677965;
+	color: #0b000f;
 }
 .box.right h2 {
+	background: #7fdd57;
+	color: #0b000f;
+}
+.box.center h2 {
 	background: #7fdd57;
 	color: #0b000f;
 }
@@ -145,9 +149,8 @@ p.intro a.email, p.intro a.email span.name, p.intro a.email:hover, p.intro a.ema
 
 div.boardlist a
 {
-        font-size: 12px;
+	font-size: 12px;
 }
-
 div.boardlist
 {
 	color: #0b000f;
@@ -160,7 +163,7 @@ div.ban
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	text-align: left!important;
+	text-align: center;
 }
 div.ban h2
 {
@@ -178,4 +181,22 @@ div.ban h2:not(:nth-child(1))
 
 div.footer{
 clear:both;
+}
+
+.box.center {
+	background: #0b000f;
+	color: #7fdd57;
+	border: 0px solid #006;
+	float: left;
+	width: 100%;
+	text-align: center;
+}
+
+div.global4{
+clear:both;
+}
+
+.lain_banner {
+	width: 80%;
+
 }
