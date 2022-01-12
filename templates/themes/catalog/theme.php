@@ -399,6 +399,7 @@
 			)));
 
 			file_write($config['dir']['home'] . $board_name . '/index.rss', Element('themes/catalog/index.rss', Array(
+				'settings' => $this->settings,
 				'config' => $config,
 				'recent_posts' => $recent_posts,
 				'board' => $board

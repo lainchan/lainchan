@@ -84,6 +84,14 @@
 		'comment' => 'Check this if you wish to show a nice tooltip with info about the thread on mouse over.'
 	);
 
+	$theme['config'][] = Array(
+		'title' => 'Base URL',
+		'name' => 'base_url',
+		'type' => 'text',
+		'default' => 'http://test.com',
+		'comment' => '(eg. "http://test.com")'
+	);
+
 	// Unique function name for building everything
 	$theme['build_function'] = 'catalog_build';
 
