@@ -72,3 +72,11 @@ stylesheets/fonts
 
 #Images from twemoji
 js/twemoji/16x16/
+
+#Theme generated files
+calendarpost.php
+staffapplication.php
+
+#Other generated files
+*.json
+*.rss
