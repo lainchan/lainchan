@@ -62,7 +62,7 @@
 	</div>
 {% endfor %}
 
-{% if count > news|count %}
+{% if count > news|length %}
 	<p class="unimportant" style="text-align:center;word-wrap:break-word">
 		{% for i in range(0, (count - 1) / config.mod.news_page) %}
 			<a href="?/news/{{ i + 1 }}">[{{ i + 1 }}]</a> 

@@ -1,4 +1,5 @@
 <?php
+require 'inc/bootstrap.php';
 
 // Installation/upgrade file	
 define('VERSION', '5.1.3');
@@ -8,7 +9,6 @@ if (fopen('inc/instance-config.php' , 'a') === false) {
 	exit();
 }
 
-require 'inc/functions.php';
 
 loadConfig();
 

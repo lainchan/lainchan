@@ -1,0 +1,68 @@
+{
+    "name": "lainchan/lainchan",
+    "description": "Lainchan is a fork of vichan, a great imageboard package, actively building on it and adding a lot of features and other improvements.",
+    "type": "project",
+    "require": {
+	"ext-mbstring": ">=5.4",
+        "ext-pdo": "*",
+        "ext-gd": "*",
+        "gettext/gettext": "^4.4",
+        "twig/twig": "^2.9",
+        "twig/extensions": "^1.5",
+        "geoip/geoip": "^1.16",
+        "mrclay/minify": "^3.0",
+        "awsumchan/ip": "^1.1",
+        "erusev/parsedown": "^1.7"
+    },
+    "autoload": {
+        "classmap": ["inc/"],
+        "files": [
+            "inc/bootstrap.php",
+            "inc/display.php",
+            "inc/template.php",
+            "inc/database.php",
+            "inc/events.php",
+            "inc/api.php",
+            "inc/mod/auth.php",
+            "inc/lock.php",
+            "inc/queue.php",
+            "inc/polyfill.php",
+            "inc/functions.php"
+        ]
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "savetheinternet",
+            "homepage": "https://github.com/savetheinternet"
+        },
+        {
+            "name": "czaks",
+            "homepage": "https://github.com/czaks"
+        },
+        {
+            "name": "ctrlcctrlv",
+            "homepage": "https://github.com/ctrlcctrlv"
+        },
+        {
+            "name": "barrucadu",
+            "homepage": "https://github.com/barrucadu"
+        },
+        {
+            "name": "darkengine-io",
+            "homepage": "https://github.com/darkengine-io"
+        },
+        {
+            "name": "Appleman1234",
+            "homepage": "https://github.com/Appleman1234"
+        }
+    ],
+    "suggest": {
+        "ext-imagick": "Allows the use of ImageMagick for image handling",
+        "ext-openssl": "Allows for enhanced security features through OpenSSL",
+        "ext-apcu": "Allows the use of APCu for cache storage",
+        "ext-redis": "Allows the use of Redis for cache storage",
+        "ext-memcached": "Allows the use of Memcached for cache storage",
+        "ext-xcache": "Allows the use of XCache for cache storage"
+    }
+}

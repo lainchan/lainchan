@@ -1,6 +1,6 @@
 <?PHP
 
-function error_handler($errno,$errstr,$errfile, $errline, $errcontext){
+function error_handler($errno,$errstr,$errfile, $errline){
 	if(error_reporting() & $errno){
 		$config['debug']=true;
 		error($errstr . ' in ' . $errfile . ' at line ' . $errline);
@@ -9,10 +9,11 @@ function error_handler($errno,$errstr,$errfile, $errline, $errcontext){
 }
 
 function exception_handler($e){
-	error($e->getMessage());
+	error($e->getMessage() . " " . $e->getTraceAsString());
 }
 
-set_exception_handler('exception_handler');
+//set_error_handler('error_handler');
+//set_exception_handler('exception_handler');
 
 function fatal_error_handler(){
 	if (($error = error_get_last()) && $error['type'] == E_ERROR) {
@@ -24,7 +25,7 @@ register_shutdown_function('fatal_error_handler');
 
 $error_recursion=false;
 
-function error($message, $priority = true, $debug_stuff = false) {
+function error($message, $priority = true, $debug_stuff = true) {
 	global $board, $mod, $config, $db_error, $error_recursion;
 	
 	if($error_recursion!==false){
@@ -54,7 +55,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 			}
 			$debug_stuff['backtrace'] = debug_backtrace();
 			$pw = $config['db']['password'];
-			$debug_callback = function(&$item) use (&$debug_callback, $pw) {
+			$debug_callback = function(&$item) use ($debug_callback, $pw) {
 				if (is_array($item)) {
 					return array_map($debug_callback, $item);
 				}

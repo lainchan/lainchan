@@ -9,25 +9,12 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	exit;
 }
 
-define('TINYBOARD', null);
 
 $microtime_start = microtime(true);
-require_once 'inc/error.php';
-require_once 'inc/cache.php';
-require_once 'inc/display.php';
-require_once 'inc/template.php';
-require_once 'inc/database.php';
-require_once 'inc/events.php';
-require_once 'inc/api.php';
-require_once 'inc/mod/auth.php';
-require_once 'inc/lock.php';
-require_once 'inc/queue.php';
-require_once 'inc/polyfill.php';
+$current_locale = 'en';
+require_once 'inc/bootstrap.php';
 @include_once 'inc/lib/parsedown/Parsedown.php'; // fail silently, this isn't a critical piece of code
 
-if (!extension_loaded('gettext')) {
-	require_once 'inc/lib/gettext/gettext.inc';
-}
 
 // the user is not currently logged in as a moderator
 $mod = false;
@@ -58,7 +45,6 @@ function init_locale($locale) {
 		_textdomain('tinyboard');
 	}
 }
-$current_locale = 'en';
 
 
 function loadConfig() {
@@ -228,15 +214,17 @@ function loadConfig() {
 		if (!isset($config['image_deleted']))
 			$config['image_deleted'] = $config['dir']['static'] . 'deleted.png';
 
-		if (!isset($config['uri_thumb']))
-			$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
-		elseif (isset($board['dir']))
-			$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
+		if (isset($board)) {
+			if (!isset($config['uri_thumb']))
+				$config['uri_thumb'] = $config['root'] . $board['dir'] . $config['dir']['thumb'];
+			elseif (isset($board['dir']))
+				$config['uri_thumb'] = sprintf($config['uri_thumb'], $board['dir']);
 
-		if (!isset($config['uri_img']))
-			$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
-		elseif (isset($board['dir']))
-			$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
+			if (!isset($config['uri_img']))
+				$config['uri_img'] = $config['root'] . $board['dir'] . $config['dir']['img'];
+			elseif (isset($board['dir']))
+				$config['uri_img'] = sprintf($config['uri_img'], $board['dir']);
+		}
 
 		if (!isset($config['uri_stylesheets']))
 			$config['uri_stylesheets'] = $config['root'] . 'stylesheets/';
@@ -361,7 +349,7 @@ function define_groups() {
 	foreach ($config['mod']['groups'] as $group_value => $group_name) {
 		$group_name = strtoupper($group_name);
 		if(!defined($group_name)) {
-			define($group_name, $group_value, true);
+			define($group_name, $group_value);
 		}
 	}
 	
@@ -609,7 +597,6 @@ function purge($uri) {
 
 function file_write($path, $data, $simple = false, $skip_purge = false) {
 	global $config, $debug;
-
 	if (preg_match('/^remote:\/\/(.+)\:(.+)$/', $path, $m)) {
 		if (isset($config['remote'][$m[1]])) {
 			require_once 'inc/remote.php';
@@ -1393,7 +1380,6 @@ function index($page, $mod=false, $brief = false) {
 	if ($config['file_board']) {
 		$body = Element('fileboard.html', array('body' => $body, 'mod' => $mod));
 	}
-
 	return array(
 		'board' => $board,
 		'body' => $body,
@@ -1659,7 +1645,6 @@ function buildIndex($global_api = "yes") {
 			$content['pages'][$page-1]['selected'] = true;
 			$content['btn'] = getPageButtons($content['pages']);
 			$content['antibot'] = $antibot;
-
 			file_write($filename, Element('index.html', $content));
 		}
 		elseif ($action == 'delete' || $catalog_api_action == 'delete') {
@@ -1740,7 +1725,6 @@ function buildJavascript() {
 	}
 
 	if ($config['minify_js']) {
-		require_once 'inc/lib/minify/JSMin.php';		
 		$script = JSMin::minify($script);
 	}
 
@@ -2226,8 +2210,25 @@ function escape_markup_modifiers($string) {
 	return preg_replace('@<(tinyboard) ([\w\s]+)>@mi', '<$1 escape $2>', $string);
 }
 
+function defined_flags_accumulate($desired_flags) {
+	$output_flags = 0x0;
+	foreach ($desired_flags as $flagname) {
+		if (defined($flagname)) {
+			$flag = constant($flagname);
+			if (gettype($flag) != 'integer')
+				error(sprintf($config['error']['flag_wrongtype'], $flagname));
+			$output_flags |= $flag;
+		} else {
+			if ($config['deprecation_errors'])
+				error(sprintf($config['error']['flag_undefined'], $flagname));
+		}
+	}
+	return $output_flags;
+}
+
 function utf8tohtml($utf8) {
-	return htmlspecialchars($utf8, ENT_NOQUOTES, 'UTF-8');
+	$flags = defined_flags_accumulate(['ENT_QUOTES', 'ENT_SUBSTITUTE', 'ENT_DISALLOWED']);
+	return htmlspecialchars($utf8 ?? "", $flags, 'UTF-8');
 }
 
 function ordutf8($string, &$offset) {

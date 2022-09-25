@@ -1,5 +1,5 @@
 <script src="{{ config.additional_javascript_url }}js/mod/recent-posts.js"></script>
-{% if not posts|count %}
+{% if not posts|length %}
 	<p style="text-align:center" class="unimportant">({% trans 'There are no active posts.' %})</p>
 {% else %}
 	<h4>Viewing last {{ limit|e }} posts</h4>

@@ -2,7 +2,7 @@
 	<p>
 		Any changes you make here will simply be appended to <code>{{ file }}</code>. If you wish to make the most of Tinyboard's customizability, you can instead edit the file directly. This page is intended for making quick changes and for those who don't have a basic understanding of PHP code.
 	</p>
-	{% if boards|count %}
+	{% if boards|length %}
 		<ul>
 			{% if board %}
 				<li><a href="?/config">Edit site-wide config</a></li>

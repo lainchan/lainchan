@@ -50,7 +50,7 @@
 
 	// Directory where temporary files will be created.
 	$config['tmp'] = sys_get_temp_dir();
-
+	$config['overboards'] = array();
 	// The HTTP status code to use when redirecting. http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	// Can be either 303 "See Other" or 302 "Found". (303 is more correct but both should work.)
 	// There is really no reason for you to ever need to change this.
@@ -1136,7 +1136,8 @@
 	$config['error']['mime_exploit']	= _('MIME type detection XSS exploit (IE) detected; post discarded.');
 	$config['error']['invalid_embed']	= _('Couldn\'t make sense of the URL of the video you tried to embed.');
 	$config['error']['captcha']		= _('You seem to have mistyped the verification.');
-
+	$config['error']['flag_undefined']	= _('The flag %s is undefined, your PHP version is too old!');
+	$config['error']['flag_wrongtype']	= _('defined_flags_accumulate(): The flag %s is of the wrong type!');
 
 	// Moderator errors
 	$config['error']['toomanyunban']	= _('You are only allowed to unban %s users at a time. You tried to unban %u users.');

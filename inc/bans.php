@@ -1,10 +1,6 @@
 <?php
 
-require 'inc/lib/IP/Lifo/IP/IP.php';
-require 'inc/lib/IP/Lifo/IP/BC.php';
-require 'inc/lib/IP/Lifo/IP/CIDR.php';
-
-use Lifo\IP\CIDR;
+use AwsumChan\IP\CIDR;
 
 class Bans {
 	static public function range_to_string($mask) {

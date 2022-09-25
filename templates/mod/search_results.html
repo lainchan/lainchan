@@ -259,7 +259,7 @@
 	</table>
 {% endif %}
 
-{% if result_count > results|count %}
+{% if result_count > results|length %}
 	<p class="unimportant" style="text-align:center;word-wrap:break-word">
 		{% for i in range(0, (result_count - 1) / config.mod.search_page) %}
 			<a href="?/search/{{ search_type }}/{{ search_query_escaped }}/{{ i + 1 }}">[{{ i + 1 }}]</a> 

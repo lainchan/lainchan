@@ -1,5 +1,5 @@
 <?php
-include 'inc/functions.php';
+include 'inc/bootstrap.php';
 include 'inc/mod/pages.php';
 
 if (!isset($_GET['board']) || !preg_match("/{$config['board_regex']}/u", $_GET['board'])) {

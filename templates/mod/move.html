@@ -24,7 +24,7 @@
 				<ul style="list-style:none;padding:0">
 					{% for targetboard in boards if targetboard.uri != board %}
 						<li>
-							<input type="radio" name="board" value="{{ targetboard.uri }}" id="ban-board-{{ targetboard.uri }}" {% if boards|count == 2 %}checked{% endif %}> 
+							<input type="radio" name="board" value="{{ targetboard.uri }}" id="ban-board-{{ targetboard.uri }}" {% if boards|length == 2 %}checked{% endif %}> 
 							<label style="display:inline" for="ban-board-{{ targetboard.uri }}">
 								{{ config.board_abbreviation|sprintf(targetboard.uri) }} - {{ targetboard.title|e }}
 							</label>

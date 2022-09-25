@@ -367,8 +367,8 @@ class Thread {
 		if (isset($this->files))
 			$this->files = @json_decode($this->files);
 		
-		$this->subject = utf8tohtml($this->subject);
-		$this->name = utf8tohtml($this->name);
+		$this->subject = utf8tohtml($this->subject ?? "");
+		$this->name = utf8tohtml($this->name ?? "");
 		$this->mod = $mod;
 		$this->root = $root;
 		$this->hr = $hr;

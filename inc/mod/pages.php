@@ -154,7 +154,7 @@ function mod_dashboard() {
 				$latest = false;
 			}
 	
-			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', true);
+			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', $config["domain"], !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', true);
 		}
 		
 		if ($latest)
@@ -2647,6 +2647,29 @@ function mod_new_pm($username) {
 	));
 }
 
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+
+        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+        }
+
+    }
+
+    return rmdir($dir);
+}
+
 function mod_rebuild() {
 	global $config, $twig;
 	
@@ -2668,7 +2691,7 @@ function mod_rebuild() {
 			
 			$log[] = 'Clearing template cache';
 			load_twig();
-			$twig->clearCacheFiles();
+			deleteDirectory($twig->getCache());
 		}
 		
 		if (isset($_POST['rebuild_themes'])) {
@@ -2681,7 +2704,6 @@ function mod_rebuild() {
 			buildJavascript();
 			$rebuilt_scripts[] = $config['file_script'];
 		}
-		
 		foreach ($boards as $board) {
 			if (!(isset($_POST['boards_all']) || isset($_POST['board_' . $board['uri']])))
 				continue;
