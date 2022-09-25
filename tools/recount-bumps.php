@@ -2,7 +2,7 @@
 // A script to recount bumps to recover from a last-page-bump attack
 // or to be run after the KusabaX Migration.
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 if (!isset ($argv[1])) {
 	die("Usage: tools/recount-bumps.php board_uri\n");

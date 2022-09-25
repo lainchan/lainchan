@@ -5,7 +5,7 @@
 		global $config;
 
 		$b = new Catalog($settings);
-		$boards = explode(' ', $settings['boards']);
+		$boards = explode(' ', (string) $settings['boards']);
 
 		// Possible values for $action:
 		//	- all (rebuild everything, initialization)
@@ -17,7 +17,7 @@
 			foreach ($boards as $board) {
 				$b = new Catalog($settings);
 
-				$action = generation_strategy("sb_catalog", array($board));
+				$action = generation_strategy("sb_catalog", [$board]);
 				if ($action == 'delete') {
 					file_unlink($config['dir']['home'] . $board . '/catalog.html');
 					file_unlink($config['dir']['home'] . $board . '/index.rss');
@@ -30,7 +30,7 @@
 	       || $action == 'sticky' || ($action == 'lock' && in_array($board, $boards))) {
 			$b = new Catalog($settings);
 
-			$action = generation_strategy("sb_catalog", array($board));
+			$action = generation_strategy("sb_catalog", [$board]);
 			if ($action == 'delete') {
 				file_unlink($config['dir']['home'] . $board . '/catalog.html');
 				file_unlink($config['dir']['home'] . $board . '/index.rss');
@@ -82,13 +82,12 @@
 
 	// Wrap functions in a class so they don't interfere with normal Tinyboard operations
 	class Catalog {
-		private $settings;
 		// Cache for threads from boards that have already been processed
-		private $threadsCache = array();
+		private array $threadsCache = [];
 
-		public function __construct($settings) {
-			$this->settings = $settings;
-		}
+		public function __construct(private $settings)
+  {
+  }
 
 		/**
 		 * Build and save the HTML of the catalog for the Ukko theme
@@ -97,10 +96,10 @@
 			global $config;
 
 			$ukkoSettings = themeSettings('ukko');
- 			$queries = array();
-			$threads = array();
+ 			$queries = [];
+			$threads = [];
 
-			$exclusions = explode(' ', $ukkoSettings['exclude']);
+			$exclusions = explode(' ', (string) $ukkoSettings['exclude']);
 			$boards = array_diff(listBoards(true), $exclusions);
 
 			foreach ($boards as $b) {
@@ -119,9 +118,7 @@
 			}
 
 			// Sort in bump order
-			usort($threads, function($a, $b) {
-				return strcmp($b['bump'], $a['bump']);
-			});
+			usort($threads, fn($a, $b) => strcmp((string) $b['bump'], (string) $a['bump']));
 			// Generate data for the template
 			$recent_posts = $this->generateRecentPosts($threads);
 
@@ -134,10 +131,10 @@
 		public function buildUkko2() {
 			global $config;
 			$ukkoSettings = themeSettings('ukko2');
- 			$queries = array();
-			$threads = array();
+ 			$queries = [];
+			$threads = [];
 
-			$inclusions = explode(' ', $ukkoSettings['include']);
+			$inclusions = explode(' ', (string) $ukkoSettings['include']);
 			$boards = array_intersect(listBoards(true), $inclusions);
 
 			foreach ($boards as $b) {
@@ -156,9 +153,7 @@
 			}
 
 			// Sort in bump order
-			usort($threads, function($a, $b) {
-				return strcmp($b['bump'], $a['bump']);
-			});
+			usort($threads, fn($a, $b) => strcmp((string) $b['bump'], (string) $a['bump']));
 			// Generate data for the template
 			$recent_posts = $this->generateRecentPosts($threads);
 
@@ -173,10 +168,10 @@
 			global $config;
 
 			$ukkoSettings = themeSettings('ukko3');
- 			$queries = array();
-			$threads = array();
+ 			$queries = [];
+			$threads = [];
 
-			$inclusions = explode(' ', $ukkoSettings['include']);
+			$inclusions = explode(' ', (string) $ukkoSettings['include']);
 			$boards = array_intersect(listBoards(true), $inclusions);
 
 			foreach ($boards as $b) {
@@ -195,9 +190,7 @@
 			}
 
 			// Sort in bump order
-			usort($threads, function($a, $b) {
-				return strcmp($b['bump'], $a['bump']);
-			});
+			usort($threads, fn($a, $b) => strcmp((string) $b['bump'], (string) $a['bump']));
 			// Generate data for the template
 			$recent_posts = $this->generateRecentPosts($threads);
 
@@ -212,10 +205,10 @@
 			global $config;
 
 			$ukkoSettings = themeSettings('ukko4');
- 			$queries = array();
-			$threads = array();
+ 			$queries = [];
+			$threads = [];
 
-			$exclusions = explode(' ', $ukkoSettings['exclude']);
+			$exclusions = explode(' ', (string) $ukkoSettings['exclude']);
 			$boards = array_diff(listBoards(true), $exclusions);
 
 			foreach ($boards as $b) {
@@ -234,9 +227,7 @@
 			}
 
 			// Sort in bump order
-			usort($threads, function($a, $b) {
-				return strcmp($b['bump'], $a['bump']);
-			});
+			usort($threads, fn($a, $b) => strcmp((string) $b['bump'], (string) $a['bump']));
 			// Generate data for the template
 			$recent_posts = $this->generateRecentPosts($threads);
 
@@ -250,10 +241,10 @@
 			global $config;
 
 			$randSettings = themeSettings('rand');
- 			$queries = array();
-			$threads = array();
+ 			$queries = [];
+			$threads = [];
 
-			$exclusions = explode(' ', $randSettings['exclude']);
+			$exclusions = explode(' ', (string) $randSettings['exclude']);
 			$boards = array_diff(listBoards(true), $exclusions);
 
 			foreach ($boards as $b) {
@@ -272,9 +263,7 @@
 			}
 
 			// Sort in bump order
-			usort($threads, function($a, $b) {
-				return strcmp($b['bump'], $a['bump']);
-			});
+			usort($threads, fn($a, $b) => strcmp((string) $b['bump'], (string) $a['bump']));
 			// Generate data for the template
 			$recent_posts = $this->generateRecentPosts($threads);
 
@@ -321,7 +310,7 @@
 		private function generateRecentPosts($threads) {
 			global $config, $board;
 
-			$posts = array();
+			$posts = [];
 			foreach ($threads as $post) {
 				if ($board['uri'] !== $post['board']) {
 					openBoard($post['board']);
@@ -330,16 +319,16 @@
 				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . link_for($post);
 				$post['board_name'] = $board['name'];
 
-				if ($post['embed'] && preg_match('/^https?:\/\/(\w+\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9\-_]{10,11})(&.+)?$/i', $post['embed'], $matches)) {
+				if ($post['embed'] && preg_match('/^https?:\/\/(\w+\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9\-_]{10,11})(&.+)?$/i', (string) $post['embed'], $matches)) {
 					$post['youtube'] = $matches[2];
 				}
 
 				if (isset($post['files']) && $post['files']) {
-					$files = json_decode($post['files']);
+					$files = json_decode((string) $post['files'], null, 512, JSON_THROW_ON_ERROR);
 
 					if ($files[0]) {
 						if ($files[0]->file == 'deleted') {
-							if (count($files) > 1) {
+							if ((is_countable($files) ? count($files) : 0) > 1) {
 								foreach ($files as $file) {
 									if (($file == $files[0]) || ($file->file == 'deleted'))
 										continue;
@@ -378,8 +367,7 @@
 				$board_link = $config['root'] . $board['dir'];
 			}
 
-			$required_scripts = array('js/jquery.min.js', 'js/jquery.mixitup.min.js',
-				'js/catalog.js');
+			$required_scripts = ['js/jquery.min.js', 'js/jquery.mixitup.min.js', 'js/catalog.js'];
 
 			// Include scripts that haven't been yet included
 			foreach($required_scripts as $i => $s) {
@@ -387,22 +375,8 @@
 					$config['additional_javascript'][] = $s;
 			}
 
-			file_write($config['dir']['home'] . $board_name . '/catalog.html', Element('themes/catalog/catalog.html', Array(
-				'settings' => $this->settings,
-				'config' => $config,
-				'boardlist' => createBoardlist(),
-				'recent_images' => array(),
-				'recent_posts' => $recent_posts,
-				'stats' => array(),
-				'board' => $board_name,
-				'link' => $board_link
-			)));
+			file_write($config['dir']['home'] . $board_name . '/catalog.html', Element('themes/catalog/catalog.html', ['settings' => $this->settings, 'config' => $config, 'boardlist' => createBoardlist(), 'recent_images' => [], 'recent_posts' => $recent_posts, 'stats' => [], 'board' => $board_name, 'link' => $board_link]));
 
-			file_write($config['dir']['home'] . $board_name . '/index.rss', Element('themes/catalog/index.rss', Array(
-				'settings' => $this->settings,
-				'config' => $config,
-				'recent_posts' => $recent_posts,
-				'board' => $board
-			)));
+			file_write($config['dir']['home'] . $board_name . '/index.rss', Element('themes/catalog/index.rss', ['settings' => $this->settings, 'config' => $config, 'recent_posts' => $recent_posts, 'board' => $board]));
 		}
 	}

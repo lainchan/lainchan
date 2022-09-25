@@ -1,6 +1,6 @@
 <?php
 /* This file is dedicated to the public domain; you may do as you wish with it. */
-require dirname(__FILE__) . '/matroska.php';
+require __DIR__ . '/matroska.php';
 
 function matroskaSeekElement($name, $pos) {
     return ebmlEncodeElement('Seek',
@@ -46,11 +46,11 @@ function muxWebMFrame($videoTrack, $frame) {
             ebmlEncodeElement('CueTime', "\x00")
             . ebmlEncodeElement('CueTrackPositions',
                 ebmlEncodeElement('CueTrack', pack('N', $videoTrack->get('TrackNumber')))
-                . ebmlEncodeElement('CueClusterPosition', pack('N', $lenSeekHead + strlen($info) + strlen($tracks) + $lenCues))
+                . ebmlEncodeElement('CueClusterPosition', pack('N', $lenSeekHead + strlen((string) $info) + strlen((string) $tracks) + $lenCues))
             )
         )
     );
-    if (strlen($cues) != $lenCues) throw new Exception('length of Cues element wrong');
+    if (strlen((string) $cues) != $lenCues) throw new Exception('length of Cues element wrong');
     $cluster = ebmlEncodeElement('Cluster',
         ebmlEncodeElement('Timecode', "\x00")
         . ebmlEncodeElement($frame->name(), $frame->content()->readAll())
@@ -58,11 +58,11 @@ function muxWebMFrame($videoTrack, $frame) {
     );
     $seekHead = ebmlEncodeElement('SeekHead',
         matroskaSeekElement('Info', $lenSeekHead)
-        . matroskaSeekElement('Tracks', $lenSeekHead + strlen($info))
-        . matroskaSeekElement('Cues', $lenSeekHead + strlen($info) + strlen($tracks))
-        . matroskaSeekElement('Cluster', $lenSeekHead + strlen($info) + strlen($tracks) + $lenCues)
+        . matroskaSeekElement('Tracks', $lenSeekHead + strlen((string) $info))
+        . matroskaSeekElement('Cues', $lenSeekHead + strlen((string) $info) + strlen((string) $tracks))
+        . matroskaSeekElement('Cluster', $lenSeekHead + strlen((string) $info) + strlen((string) $tracks) + $lenCues)
     );
-    if (strlen($seekHead) != $lenSeekHead) throw new Exception('length of SeekHead element wrong');
+    if (strlen((string) $seekHead) != $lenSeekHead) throw new Exception('length of SeekHead element wrong');
     $segment = ebmlEncodeElement('Segment', $seekHead . $info . $tracks . $cues . $cluster);
 
     return $ebml . $segment;
@@ -93,11 +93,11 @@ function firstWebMFrame($segment, $trackNumber, $skip=0) {
             }
         }
     }
-    return isset($frame1) ? $frame1 : NULL;
+    return $frame1 ?? NULL;
 }
 
 function videoData($filename) {
-    $data = array();
+    $data = [];
 
     // Open file
     $fileHandle = fopen($filename, 'rb');

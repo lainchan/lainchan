@@ -25,7 +25,7 @@ class Cache {
 				self::$cache->select($config['cache']['redis'][3]) or die('cache select failure');
 				break;
 			case 'php':
-				self::$cache = array();
+				self::$cache = [];
 				break;
 		}
 	}
@@ -48,7 +48,7 @@ class Cache {
 				$data = xcache_get($key);
 				break;
 			case 'php':
-				$data = isset(self::$cache[$key]) ? self::$cache[$key] : false;
+				$data = self::$cache[$key] ?? false;
 				break;
 			case 'fs':
 				$key = str_replace('/', '::', $key);
@@ -58,13 +58,13 @@ class Cache {
 				}
 				else {
 					$data = file_get_contents('tmp/cache/'.$key);
-					$data = json_decode($data, true);
+					$data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
 				}
 				break;
 			case 'redis':
 				if (!self::$cache)
 					self::init();
-				$data = json_decode(self::$cache->get($key), true);
+				$data = json_decode((string) self::$cache->get($key), true, 512, JSON_THROW_ON_ERROR);
 				break;
 		}
 		
@@ -90,7 +90,7 @@ class Cache {
 			case 'redis':
 				if (!self::$cache)
 					self::init();
-				self::$cache->setex($key, $expires, json_encode($value));
+				self::$cache->setex($key, $expires, json_encode($value, JSON_THROW_ON_ERROR));
 				break;
 			case 'apc':
 				apc_store($key, $value, $expires);
@@ -101,7 +101,7 @@ class Cache {
 			case 'fs':
 				$key = str_replace('/', '::', $key);
 				$key = str_replace("\0", '', $key);
-				file_put_contents('tmp/cache/'.$key, json_encode($value));
+				file_put_contents('tmp/cache/'.$key, json_encode($value, JSON_THROW_ON_ERROR));
 				break;
 			case 'php':
 				self::$cache[$key] = $value;
@@ -153,7 +153,7 @@ class Cache {
 			case 'apc':
 				return apc_clear_cache('user');
 			case 'php':
-				self::$cache = array();
+				self::$cache = [];
 				break;
 			case 'fs':
 				$files = glob('tmp/cache/*');

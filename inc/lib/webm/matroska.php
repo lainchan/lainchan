@@ -16,12 +16,12 @@ class EBMLElementTypeList {
     public function __construct($filename) {
         $lines = file($filename);
         foreach($lines as $line) {
-            $fields = explode(' ', trim($line));
+            $fields = explode(' ', trim((string) $line));
             $t = new EBMLElementType;
             $id = hexdec($fields[0]);
             $t->datatype = $fields[1];
             $t->name = $fields[2];
-            $t->validParents = array();
+            $t->validParents = [];
             for ($i = 0; $i + 3 < count($fields); $i++) {
                 if ($fields[$i+3] == '*' || $fields[$i+3] == 'root') {
                     $t->validParents[$i] = $fields[$i+3];
@@ -44,7 +44,7 @@ class EBMLElementTypeList {
     }
 
     public function id($name) {
-        $name = strtoupper($name);
+        $name = strtoupper((string) $name);
         if (!isset($this->_ids[$name])) return NULL;
         return $this->_ids[$name];
     }
@@ -64,13 +64,13 @@ class EBMLElementTypeList {
 
 // Matroska element types
 global $EBML_ELEMENTS;
-$EBML_ELEMENTS = new EBMLElementTypeList(dirname(__FILE__) . '/matroska-elements.txt');
+$EBML_ELEMENTS = new EBMLElementTypeList(__DIR__ . '/matroska-elements.txt');
 
 // Decode big-endian integer
 function ebmlDecodeInt($data, $signed=FALSE, $carryIn=0) {
     $n = $carryIn;
-    if (strlen($data) > 8) throw new Exception('not supported: integer too long');
-    for ($i = 0; $i < strlen($data); $i++) {
+    if (strlen((string) $data) > 8) throw new Exception('not supported: integer too long');
+    for ($i = 0; $i < strlen((string) $data); $i++) {
         if ($n > (PHP_INT_MAX >> 8) || $n < ((-PHP_INT_MAX-1) >> 8)) {
             $n = floatval($n);
         }
@@ -84,16 +84,16 @@ function ebmlDecodeInt($data, $signed=FALSE, $carryIn=0) {
 
 // Decode big-endian IEEE float
 function ebmlDecodeFloat($data) {
-    switch (strlen($data)) {
+    switch (strlen((string) $data)) {
         case 0:
             return 0;
         case 4:
             switch(pack('f', 1e9)) {
                 case '(knN':
-                    $arr = unpack('f', strrev($data));
+                    $arr = unpack('f', strrev((string) $data));
                     return $arr[1];
                 case 'Nnk(':
-                    $arr = unpack('f', $data);
+                    $arr = unpack('f', (string) $data);
                     return $arr[1];
                 default:
                     error_log('cannot decode floats');
@@ -102,10 +102,10 @@ function ebmlDecodeFloat($data) {
         case 8:
             switch(pack('d', 1e9)) {
                 case "\x00\x00\x00\x00\x65\xcd\xcd\x41":
-                    $arr = unpack('d', strrev($data));
+                    $arr = unpack('d', strrev((string) $data));
                     return $arr[1];
                 case "\x41\xcd\xcd\x65\x00\x00\x00\x00":
-                    $arr = unpack('d', $data);
+                    $arr = unpack('d', (string) $data);
                     return $arr[1];
                 default:
                     error_log('cannot decode floats');
@@ -120,33 +120,27 @@ function ebmlDecodeFloat($data) {
 // Decode big-endian signed offset from Jan 01, 2000 in nanoseconds
 // Convert to offset from Jan 01, 1970 in seconds
 function ebmlDecodeDate($data) {
-    return ebmlDecodeInt($data, TRUE) * 1e-9 + 946684800;
+    return ebmlDecodeInt($data, TRUE) * 1e-9 + 946_684_800;
 }
 
 // Decode data of specified datatype
 function ebmlDecode($data, $datatype) {
-    switch ($datatype) {
-       case 'int':    return ebmlDecodeInt($data, TRUE);
-       case 'uint':   return ebmlDecodeInt($data, FALSE);
-       case 'float':  return ebmlDecodeFloat($data);
-       case 'string': return chop($data, "\0");
-       case 'date':   return ebmlDecodeDate($data);
-       case 'binary': return $data;
-       default: throw new Exception('unknown datatype');
-    }
+    return match ($datatype) {
+        'int' => ebmlDecodeInt($data, TRUE),
+        'uint' => ebmlDecodeInt($data, FALSE),
+        'float' => ebmlDecodeFloat($data),
+        'string' => chop((string) $data, "\0"),
+        'date' => ebmlDecodeDate($data),
+        'binary' => $data,
+        default => throw new Exception('unknown datatype'),
+    };
 }
 
 // Methods for reading data from section of EBML file
 class EBMLReader {
-    private $_fileHandle;
-    private $_offset;
-    private $_size;
     private $_position;
 
-    public function __construct($fileHandle, $offset=0, $size=NULL) {
-        $this->_fileHandle = $fileHandle;
-        $this->_offset = $offset;
-        $this->_size = $size;
+    public function __construct(private $_fileHandle, private $_offset=0, private $_size=NULL) {
         $this->_position = 0;
     }
 
@@ -269,19 +263,13 @@ class EBMLReader {
 
 // EBML element
 class EBMLElement {
-    private $_id;
     private $_name;
     private $_datatype;
-    private $_content;
-    private $_headSize;
 
-    public function __construct($id, $content, $headSize) {
+    public function __construct(private $_id, private $_content, private $_headSize) {
         global $EBML_ELEMENTS;
-        $this->_id = $id;
         $this->_name = $EBML_ELEMENTS->name($this->_id);
         $this->_datatype = $EBML_ELEMENTS->datatype($this->_id);
-        $this->_content = $content;
-        $this->_headSize = $headSize;
     }
 
     public function id()       {return $this->_id;}
@@ -309,11 +297,11 @@ class EBMLElement {
 class EBMLElementList extends EBMLElement implements Iterator {
     private $_cache;
     private $_position;
-    private static $MAX_ELEMENTS = 10000;
+    private static int $MAX_ELEMENTS = 10000;
 
     public function __construct($id, $content, $headSize) {
         parent::__construct($id, $content, $headSize);
-        $this->_cache = array();
+        $this->_cache = [];
         $this->_position = 0;
     }
 
@@ -389,7 +377,7 @@ class EBMLElementList extends EBMLElement implements Iterator {
         foreach ($this as $element) {
             $iElement++;
             if ($iElement > self::$MAX_ELEMENTS) throw new Exception('not supported: too many elements');
-            if (strtoupper($element->name()) == strtoupper($name)) {
+            if (strtoupper((string) $element->name()) == strtoupper((string) $name)) {
                 return $element->value();
             }
         }
@@ -399,10 +387,10 @@ class EBMLElementList extends EBMLElement implements Iterator {
 
 // Parse block
 class MatroskaBlock {
-    const LACING_NONE = 0;
-    const LACING_XIPH = 1;
-    const LACING_EBML = 3;
-    const LACING_FIXED = 2;
+    final const LACING_NONE = 0;
+    final const LACING_XIPH = 1;
+    final const LACING_EBML = 3;
+    final const LACING_FIXED = 2;
     public $trackNumber;
     public $timecode;
     public $keyframe;
@@ -430,7 +418,7 @@ class MatroskaBlock {
         } else {
             $nsizes = ord($reader->read(1));
         }
-        $sizes = array();
+        $sizes = [];
         switch ($this->lacing) {
             case self::LACING_XIPH:
                 for ($i = 0; $i < $nsizes; $i++) {
@@ -468,7 +456,7 @@ class MatroskaBlock {
         }
 
         # Frames
-        $this->frames = array();
+        $this->frames = [];
         for ($i = 0; $i < $nsizes; $i++) {
             $this->frames[$i] = $reader->nextSlice($sizes[$i]);
         }
@@ -520,5 +508,5 @@ function ebmlEncodeElementName($name) {
 }
 
 function ebmlEncodeElement($name, $content) {
-    return ebmlEncodeElementName($name) . ebmlEncodeVarInt(strlen($content)) . $content;
+    return ebmlEncodeElementName($name) . ebmlEncodeVarInt(strlen((string) $content)) . $content;
 }

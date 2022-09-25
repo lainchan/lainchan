@@ -9,15 +9,15 @@ function getFilesInDirectory($dir) {
         return null;
     }
 
-    return array_diff(scandir($dir), array('.', '..'));
+    return array_diff(scandir($dir), ['.', '..']);
 }
 
 // Serve a random banner and exit.
-function serveRandomBanner($dir, $files) {
+function serveRandomBanner($dir, $files): never {
     $name = $files[array_rand($files)];
 
     // snags the extension
-    $ext = pathinfo($name, PATHINFO_EXTENSION);
+    $ext = pathinfo((string) $name, PATHINFO_EXTENSION);
 
     // send the right headers
     header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1
@@ -39,7 +39,7 @@ $banners = getFilesInDirectory($bannerDir);
 $priority = getFilesInDirectory($priorityDir);
 
 // If there are priority banners, serve 1/3rd of the time.
-if($priority !== null && count($priority) !== 0 && rand(0,2) === 0) {
+if($priority !== null && (is_countable($priority) ? count($priority) : 0) !== 0 && random_int(0,2) === 0) {
     serveRandomBanner($priorityDir, $priority);
 }
 

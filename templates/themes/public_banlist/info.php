@@ -1,5 +1,5 @@
 <?php
-	$theme = Array();
+	$theme = [];
 	
 	// Theme name
 	$theme['name'] = 'Public Banlist';
@@ -10,23 +10,11 @@ copies the banlist interface from moderation panel.';
 	$theme['version'] = 'v0.1';
 	
 	// Theme configuration	
-	$theme['config'] = Array();
+	$theme['config'] = [];
 	
-	$theme['config'][] = Array(
-		'title' => 'JSON feed file',
-		'name' => 'file_json',
-		'type' => 'text',
-		'default' => 'bans.json',
-		'comment' => '(eg. "bans.json")'
-	);
+	$theme['config'][] = ['title' => 'JSON feed file', 'name' => 'file_json', 'type' => 'text', 'default' => 'bans.json', 'comment' => '(eg. "bans.json")'];
 	
-	$theme['config'][] = Array(
-		'title' => 'Main HTML file',
-		'name' => 'file_bans',
-		'type' => 'text',
-		'default' => 'bans.html',
-		'comment' => '(eg. "bans.html")'
-	);
+	$theme['config'][] = ['title' => 'Main HTML file', 'name' => 'file_bans', 'type' => 'text', 'default' => 'bans.html', 'comment' => '(eg. "bans.html")'];
 	
 	// Unique function name for building everything
 	$theme['build_function'] = 'pbanlist_build';

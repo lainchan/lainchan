@@ -4,7 +4,7 @@ class Queue {
   function __construct($key) { global $config;
     if ($config['queue']['enabled'] == 'fs') {
       $this->lock = new Lock($key);
-      $key = str_replace('/', '::', $key);
+      $key = str_replace('/', '::', (string) $key);
       $key = str_replace("\0", '', $key);
       $this->key = "tmp/queue/$key/";
     }
@@ -23,14 +23,14 @@ class Queue {
     if ($config['queue']['enabled'] == 'fs') {
       $this->lock->get_ex();
       $dir = opendir($this->key);
-      $paths = array();
+      $paths = [];
       while ($n > 0) {
         $path = readdir($dir);
         if ($path === FALSE) break;
         elseif ($path == '.' || $path == '..') continue;
         else { $paths[] = $path; $n--; }
       }
-      $out = array();
+      $out = [];
       foreach ($paths as $v) {
         $out []= file_get_contents($this->key.$v);
         unlink($this->key.$v);
@@ -42,8 +42,8 @@ class Queue {
 }
 
 // Don't use the constructor. Use the get_queue function.
-$queues = array();
+$queues = [];
 
 function get_queue($name) { global $queues;
-  return $queues[$name] = isset ($queues[$name]) ? $queues[$name] : new Queue($name);
+  return $queues[$name] ??= new Queue($name);
 }

@@ -11,7 +11,7 @@
 			return;
 		}
 
-		$action = generation_strategy('sb_ukko', array());
+		$action = generation_strategy('sb_ukko', []);
 
 		if ($action == 'delete') {
 			file_unlink($settings['uri'] . '/index.html');
@@ -32,23 +32,18 @@
 	class ukko4 {
 		public $settings;
 		public function build($mod = false) {
-			global $config;
+			$apithreads = null;
+   global $config;
 			$boards = listBoards();
 			
 			$body = '';
-			$overflow = array();
-			$board = array(
-				'dir' => $this->settings['uri'] . "/",
-				'url' => $this->settings['uri'],
-				'uri' => $this->settings['uri'],
-				'name' => $this->settings['title'],
-				'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])
-			);
+			$overflow = [];
+			$board = ['dir' => $this->settings['uri'] . "/", 'url' => $this->settings['uri'], 'uri' => $this->settings['uri'], 'name' => $this->settings['title'], 'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])];
 
-			$boardsforukko = array();
+			$boardsforukko = [];
 			$query = '';
 			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], explode(' ', $this->settings['exclude'])))
+				if(in_array($_board['uri'], explode(' ', (string) $this->settings['exclude'])))
 					continue;
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `thread` IS NULL UNION ALL ", $_board['uri'], $_board['uri']);
 				array_push($boardsforukko,$_board);
@@ -57,9 +52,9 @@
 			$query = query($query) or error(db_error());
 
 			$count = 0;
-			$threads = array();
+			$threads = [];
 	                if ($config['api']['enabled']) {
-				$apithreads = array(); 
+				$apithreads = []; 
 			}	
 			while($post = $query->fetch()) {
 
@@ -110,13 +105,13 @@
 					if(floor($threads[$post['board']] / $config['threads_per_page']) > 0) {
 						$page = floor($threads[$post['board']] / $config['threads_per_page']) + 1;
 					}
-					$overflow[] = array('id' => $post['id'], 'board' => $post['board'], 'page' => $page . '.html');
+					$overflow[] = ['id' => $post['id'], 'board' => $post['board'], 'page' => $page . '.html'];
 				}
 
 				$count += 1;
 			}
 
-			$body .= '<script> var overflow = ' . json_encode($overflow) . '</script>';
+			$body .= '<script> var overflow = ' . json_encode($overflow, JSON_THROW_ON_ERROR) . '</script>';
 			$body .= '<script type="text/javascript" src="/'.$this->settings['uri'].'/ukko.js"></script>';
 			
 			 // json api
@@ -124,18 +119,18 @@
 				require_once __DIR__. '/../../../inc/api.php';
 				$api = new Api();
 				$jsonFilename = $board['dir'] . '0.json';
-				$json = json_encode($api->translatePage($apithreads));
+				$json = json_encode($api->translatePage($apithreads), JSON_THROW_ON_ERROR);
 	                	file_write($jsonFilename, $json);
 				
 
-				$catalog = array();
+				$catalog = [];
 				$catalog[0] = $apithreads;
 
-				$json = json_encode($api->translateCatalog($catalog));
+				$json = json_encode($api->translateCatalog($catalog), JSON_THROW_ON_ERROR);
 				$jsonFilename = $board['dir'] . 'catalog.json';
 				file_write($jsonFilename, $json);
 
-				$json = json_encode($api->translateCatalog($catalog, true));
+				$json = json_encode($api->translateCatalog($catalog, true), JSON_THROW_ON_ERROR);
 				$jsonFilename = $board['dir'] . 'threads.json';
 				file_write($jsonFilename, $json);
 			 }
@@ -145,15 +140,7 @@
 			}
 			$antibot->reset();
 			
-			return Element('index.html', array(
-				'config' => $config,
-				'board' => $board,
-				'no_post_form' => $config['overboard_post_form'] ? false : true,
-				'body' => $body,
-				'mod' => $mod,
-				'boardlist' => createBoardlist($mod),
-				'boards' => $boardsforukko, 
-			        'antibot' => $antibot )
+			return Element('index.html', ['config' => $config, 'board' => $board, 'no_post_form' => $config['overboard_post_form'] ? false : true, 'body' => $body, 'mod' => $mod, 'boardlist' => createBoardlist($mod), 'boards' => $boardsforukko, 'antibot' => $antibot]
 			);
 		}
 		

@@ -28,12 +28,7 @@
 			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC" . ($settings['no_recent'] ? ' LIMIT ' . $settings['no_recent'] : '')) or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			return Element('themes/basic/index.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist(),
-				'news' => $news
-			));
+			return Element('themes/basic/index.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist(), 'news' => $news]);
 		}
 	};
 	

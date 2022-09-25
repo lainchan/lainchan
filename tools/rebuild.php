@@ -19,18 +19,18 @@
  *
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 require_once("inc/bans.php");
 
 $start = microtime(true);
 
 // parse command line
-$opts = getopt('qfb:', Array('board:', 'quick', 'full', 'quiet'));
-$options = Array();
+$opts = getopt('qfb:', ['board:', 'quick', 'full', 'quiet']);
+$options = [];
 $global_locale = $config['locale'];
 
-$options['board'] = isset($opts['board']) ? $opts['board'] : (isset($opts['b']) ? $opts['b'] : false);
+$options['board'] = $opts['board'] ?? $opts['b'] ?? false;
 $options['quiet'] = isset($opts['q']) || isset($opts['quiet']);
 $options['quick'] = isset($opts['quick']);
 $options['full'] = isset($opts['full']) || isset($opts['f']);

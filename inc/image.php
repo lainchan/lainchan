@@ -16,11 +16,11 @@ class Image {
 		$this->format = $format;
 
 		if ($config['thumb_method'] == 'imagick') {
-			$classname = 'ImageImagick';
-		} elseif (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
-			$classname = 'ImageConvert';
+			$classname = \ImageImagick::class;
+		} elseif (in_array($config['thumb_method'], ['convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'])) {
+			$classname = \ImageConvert::class;
 		} else {
-			$classname = 'Image' . strtoupper($this->format);
+			$classname = \Image::class . strtoupper((string) $this->format);
 			if (!class_exists($classname)) {
 				error(_('Unsupported file format: ') . $this->format);
 			}
@@ -33,7 +33,7 @@ class Image {
 			error($config['error']['invalidimg']);
 		}
 		
-		$this->size = (object)array('width' => $this->image->_width(), 'height' => $this->image->_height());
+		$this->size = (object)['width' => $this->image->_width(), 'height' => $this->image->_height()];
 		if ($this->size->width < 1 || $this->size->height < 1) {
 			$this->delete();
 			error($config['error']['invalidimg']);
@@ -44,21 +44,21 @@ class Image {
 		global $config;
 
 		if ($config['thumb_method'] == 'imagick') {
-			$classname = 'ImageImagick';
+			$classname = \ImageImagick::class;
 		} elseif ($config['thumb_method'] == 'convert') {
-			$classname = 'ImageConvert';
+			$classname = \ImageConvert::class;
 		} elseif ($config['thumb_method'] == 'convert+gifsicle') {
-			$classname = 'ImageConvert';
+			$classname = \ImageConvert::class;
 			$gifsicle = true;
 		} elseif ($config['thumb_method'] == 'gm') {
-			$classname = 'ImageConvert';
+			$classname = \ImageConvert::class;
 			$gm = true;
 		} elseif ($config['thumb_method'] == 'gm+gifsicle') {
-			$classname = 'ImageConvert';
+			$classname = \ImageConvert::class;
 			$gm = true;
 			$gifsicle = true;
 		} else {
-			$classname = 'Image' . strtoupper($extension);
+			$classname = \Image::class . strtoupper((string) $extension);
 			if (!class_exists($classname)) {
 				error(_('Unsupported file format: ') . $extension);
 			}
@@ -174,7 +174,7 @@ class ImageImagick extends ImageBase {
 	public function from() {
 		try {
 			$this->image->readImage($this->src);
-		} catch(ImagickException $e) {
+		} catch(ImagickException) {
 			// invalid image
 			$this->image = false;
 		}
@@ -184,7 +184,7 @@ class ImageImagick extends ImageBase {
 		if ($config['strip_exif']) {
 			$this->image->stripImage();
 		}
-		if (preg_match('/\.gif$/i', $src))
+		if (preg_match('/\.gif$/i', (string) $src))
 			$this->image->writeImages($src, true);
 		else
 			$this->image->writeImage($src);
@@ -205,7 +205,7 @@ class ImageImagick extends ImageBase {
 			$this->image = new Imagick();
 			$this->image->setFormat('gif');
 			
-			$keep_frames = array();
+			$keep_frames = [];
 			for ($i = 0; $i < $this->original->getNumberImages(); $i += floor($this->original->getNumberImages() / $config['thumb_keep_animation_frames']))
 				$keep_frames[] = $i;
 			
@@ -252,8 +252,8 @@ class ImageConvert extends ImageBase {
 				return $size;
 		}
 		$size = shell_exec_error(($this->gm ? 'gm ' : '') . 'identify -format "%w %h" ' . escapeshellarg($src . '[0]'));
-		if (preg_match('/^(\d+) (\d+)$/', $size, $m))
-			return array($m[1], $m[2]);
+		if (preg_match('/^(\d+) (\d+)$/', (string) $size, $m))
+			return [$m[1], $m[2]];
 		return false;
 	}
 	public function from() {
@@ -278,13 +278,13 @@ class ImageConvert extends ImageBase {
 		if (!$this->temp) {
 			if ($config['strip_exif']) {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
-						escapeshellarg($this->src) . ' -auto-orient -strip ' . escapeshellarg($src))) {
+						escapeshellarg((string) $this->src) . ' -auto-orient -strip ' . escapeshellarg((string) $src))) {
 					$this->destroy();
 					error(_('Failed to redraw image!'), null, $error);
 				}
 			} else {
 				if($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
-						escapeshellarg($this->src) . ' -auto-orient ' . escapeshellarg($src))) {
+						escapeshellarg((string) $this->src) . ' -auto-orient ' . escapeshellarg((string) $src))) {
 					$this->destroy();
 					error(_('Failed to redraw image!'), null, $error);
 				}
@@ -326,9 +326,9 @@ class ImageConvert extends ImageBase {
 				}
 			} else {
 				if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
-					$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+					$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), (string) $config['convert_args']);
 				elseif ($config['convert_manual_orient'])
-					$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
+					$convert_args = str_replace('-auto-orient', '', (string) $config['convert_args']);
 				else
 					$convert_args = &$config['convert_args'];
 
@@ -336,7 +336,7 @@ class ImageConvert extends ImageBase {
 					sprintf($convert_args,
 						$this->width,
 						$this->height,
-						escapeshellarg($this->src),
+						escapeshellarg((string) $this->src),
 						$this->width,
 						$this->height,
 						escapeshellarg($this->temp)))) || !file_exists($this->temp)) {
@@ -350,9 +350,9 @@ class ImageConvert extends ImageBase {
 			}
 		} else {
 			if ($config['convert_manual_orient'] && ($this->format == 'jpg' || $this->format == 'jpeg'))
-				$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), $config['convert_args']);
+				$convert_args = str_replace('-auto-orient', ImageConvert::jpeg_exif_orientation($this->src), (string) $config['convert_args']);
 			elseif ($config['convert_manual_orient'])
-				$convert_args = str_replace('-auto-orient', '', $config['convert_args']);
+				$convert_args = str_replace('-auto-orient', '', (string) $config['convert_args']);
 			else
 				$convert_args = &$config['convert_args'];
 			if (($error = shell_exec_error(($this->gm ? 'gm ' : '') . 'convert ' .
@@ -364,10 +364,10 @@ class ImageConvert extends ImageBase {
 					$this->height,
 					escapeshellarg($this->temp)))) || !file_exists($this->temp)) {
 
-					if (strpos($error, "known incorrect sRGB profile") === false &&
-                                            strpos($error, "iCCP: Not recognizing known sRGB profile that has been edited") === false) {
+					if (!str_contains((string) $error, "known incorrect sRGB profile") &&
+                                            !str_contains((string) $error, "iCCP: Not recognizing known sRGB profile that has been edited")) {
 						$this->destroy();
-						error(_('Failed to resize image!')." "._('Details: ').nl2br(htmlspecialchars($error)), null, array('convert_error' => $error));
+						error(_('Failed to resize image!')." "._('Details: ').nl2br(htmlspecialchars((string) $error)), null, ['convert_error' => $error]);
 					}
 					if (!file_exists($this->temp)) {
 						$this->destroy();

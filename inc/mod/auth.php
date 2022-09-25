@@ -12,7 +12,7 @@ function mkhash($username, $password, $salt = false) {
 	
 	if (!$salt) {
 		// create some sort of salt for the hash
-		$salt = substr(base64_encode(sha1(rand() . time(), true) . $config['cookies']['salt']), 0, 15);
+		$salt = substr(base64_encode(sha1(random_int(0, mt_getrandmax()) . time(), true) . $config['cookies']['salt']), 0, 15);
 		
 		$generated_salt = true;
 	}
@@ -25,31 +25,31 @@ function mkhash($username, $password, $salt = false) {
 					$username . $password . $salt . (
 						$config['mod']['lock_ip'] ? $_SERVER['REMOTE_ADDR'] : ''
 					), true
-				) . sha1($config['password_crypt_version']) // Log out users being logged in with older password encryption schema
+				) . sha1((string) $config['password_crypt_version']) // Log out users being logged in with older password encryption schema
 				, true
 			)
 		), 0, 20
 	);
 	
 	if (isset($generated_salt))
-		return array($hash, $salt);
+		return [$hash, $salt];
 	else
 		return $hash;
 }
 
 function crypt_password_old($password) {
 	$salt = generate_salt();
-	$password = hash('sha256', $salt . sha1($password));
-	return array($salt, $password);
+	$password = hash('sha256', $salt . sha1((string) $password));
+	return [$salt, $password];
 }
 
 function crypt_password($password) {
 	global $config;
 	// `salt` database field is reused as a version value. We don't want it to be 0.
-	$version = $config['password_crypt_version'] ? $config['password_crypt_version'] : 1;
+	$version = $config['password_crypt_version'] ?: 1;
 	$new_salt = generate_salt();
-	$password = crypt($password, $config['password_crypt'] . $new_salt . "$");
-	return array($version, $password);
+	$password = crypt((string) $password, $config['password_crypt'] . $new_salt . "$");
+	return [$version, $password];
 }
 
 function test_password($password, $salt, $test) {
@@ -57,22 +57,22 @@ function test_password($password, $salt, $test) {
 
 	// Version = 0 denotes an old password hashing schema. In the same column, the
 	// password hash was kept previously
-	$version = (strlen($salt) <= 8) ? (int) $salt : 0;
+	$version = (strlen((string) $salt) <= 8) ? (int) $salt : 0;
 
 	if ($version == 0) {
-		$comp = hash('sha256', $salt . sha1($test));
+		$comp = hash('sha256', $salt . sha1((string) $test));
 	}
 	else {
-		$comp = crypt($test, $password);
+		$comp = crypt((string) $test, (string) $password);
 	}
-	return array($version, hash_equals($password, $comp));
+	return [$version, hash_equals($password, $comp)];
 }
 
 function generate_salt() {
 	// mcrypt_create_iv() was deprecated in PHP 7.1.0, only use it if we're below that version number.
 	if (PHP_VERSION_ID < 70100) {
 		// 128 bits of entropy
-		return strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+		return strtr(base64_encode((string) mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 	}
 	// Otherwise, use random_bytes()
 	return strtr(base64_encode(random_bytes(16)), '+', '.');
@@ -86,12 +86,12 @@ function login($username, $password) {
 	$query->execute() or error(db_error($query));
 	
 	if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
-		list($version, $ok) = test_password($user['password'], $user['version'], $password);
+		[$version, $ok] = test_password($user['password'], $user['version'], $password);
 
 		if ($ok) {
 			if ($config['password_crypt_version'] > $version) {
 				// It's time to upgrade the password hashing method!
-				list ($user['version'], $user['password']) = crypt_password($password);
+				[$user['version'], $user['password']] = crypt_password($password);
 				$query = prepare("UPDATE ``mods`` SET `password` = :password, `version` = :version WHERE `id` = :id");
 				$query->bindValue(':password', $user['password']);
 				$query->bindValue(':version', $user['version']);
@@ -99,13 +99,7 @@ function login($username, $password) {
 				$query->execute() or error(db_error($query));
 			}
 
-			return $mod = array(
-				'id' => $user['id'],
-				'type' => $user['type'],
-				'username' => $username,
-				'hash' => mkhash($username, $user['password']),
-				'boards' => explode(',', $user['boards'])
-			);
+			return $mod = ['id' => $user['id'], 'type' => $user['type'], 'username' => $username, 'hash' => mkhash($username, $user['password']), 'boards' => explode(',', (string) $user['boards'])];
 		}
 	}
 	
@@ -122,20 +116,19 @@ function setCookies() {
 			':' . 
 			$mod['hash'][0] . // password
 			':' .
-			$mod['hash'][1], // salt
-		time() + $config['cookies']['expire'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', $config["domain"], !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', $config['cookies']['httponly']);
+			$mod['hash'][1], ['expires' => time() + $config['cookies']['expire'], 'path' => $config['cookies']['jail'] ? $config['cookies']['path'] : '/', 'domain' => $config["domain"], 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', 'httponly' => $config['cookies']['httponly']]);
 }
 
 function destroyCookies() {
 	global $config;
 	// Delete the cookies
-	setcookie($config['cookies']['mod'], 'deleted', time() - $config['cookies']['expire'], $config['cookies']['jail']?$config['cookies']['path'] : '/', $config["domain"], !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', true);
+	setcookie($config['cookies']['mod'], 'deleted', ['expires' => time() - $config['cookies']['expire'], 'path' => $config['cookies']['jail']?$config['cookies']['path'] : '/', 'domain' => $config["domain"], 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', 'httponly' => true]);
 }
 
 function modLog($action, $_board=null) {
 	global $mod, $board, $config;
 	$query = prepare("INSERT INTO ``modlogs`` VALUES (:id, :ip, :board, :time, :text)");
-	$query->bindValue(':id', (isset($mod['id']) ? $mod['id'] : -1), PDO::PARAM_INT);
+	$query->bindValue(':id', ($mod['id'] ?? -1), PDO::PARAM_INT);
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
 	$query->bindValue(':time', time(), PDO::PARAM_INT);
 	$query->bindValue(':text', $action);
@@ -166,7 +159,7 @@ function create_pm_header() {
 	$query->execute() or error(db_error($query));
 	
 	if ($pm = $query->fetch(PDO::FETCH_ASSOC))
-		$header = array('id' => $pm['id'], 'waiting' => $query->rowCount() - 1);
+		$header = ['id' => $pm['id'], 'waiting' => $query->rowCount() - 1];
 	else
 		$header = true;
 	
@@ -189,7 +182,7 @@ function check_login($prompt = false) {
 	// Validate session
 	if (isset($_COOKIE[$config['cookies']['mod']])) {
 		// Should be username:hash:salt
-		$cookie = explode(':', $_COOKIE[$config['cookies']['mod']]);
+		$cookie = explode(':', (string) $_COOKIE[$config['cookies']['mod']]);
 		if (count($cookie) != 3) {
 			// Malformed cookies
 			destroyCookies();
@@ -210,11 +203,6 @@ function check_login($prompt = false) {
 			exit;
 		}
 		
-		$mod = array(
-			'id' => (int)$user['id'],
-			'type' => (int)$user['type'],
-			'username' => $cookie[0],
-			'boards' => explode(',', $user['boards'])
-		);
+		$mod = ['id' => (int)$user['id'], 'type' => (int)$user['type'], 'username' => $cookie[0], 'boards' => explode(',', (string) $user['boards'])];
 	}
 }

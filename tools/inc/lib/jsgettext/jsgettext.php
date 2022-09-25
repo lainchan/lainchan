@@ -4,16 +4,12 @@
 	require_once 'PoeditParser.php';
 
 	function buildOptions($args) {
-		$options = array(
-			'files' => array(),
-			'-o'	=> null,
-			'-k'	=> '_'
-		);
-		$len = count($args);
+		$options = ['files' => [], '-o'	=> null, '-k'	=> '_'];
+		$len = is_countable($args) ? count($args) : 0;
 		$i = 1;
 		while ($i < $len) {
-			if (preg_match('#^-[a-z]$#i', $args[$i])) {
-				$options[$args[$i]] = isset($args[$i+1]) ? trim($args[$i+1]) : true;
+			if (preg_match('#^-[a-z]$#i', (string) $args[$i])) {
+				$options[$args[$i]] = isset($args[$i+1]) ? trim((string) $args[$i+1]) : true;
 				$i += 2;
 			}
 			else {
@@ -43,14 +39,14 @@
 	$poeditParser = new PoeditParser($options['-o']);
 	$poeditParser->parse();
 
-	$errors = array();
+	$errors = [];
 
 	foreach ($inputFiles as $f) {
-		if (!is_readable($f) || !preg_match('#\.js$#', $f)) {
+		if (!is_readable($f) || !preg_match('#\.js$#', (string) $f)) {
 			$errors[] = ("$f is not a valid javascript file.");
 			continue;
 		}
-		$jsparser = new JSParser($f, explode(' ', $options['-k']));
+		$jsparser = new JSParser($f, explode(' ', (string) $options['-k']));
 		$jsStrings = $jsparser->parse();
 		$poeditParser->merge($jsStrings);
 	}

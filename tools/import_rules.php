@@ -1,7 +1,7 @@
 <?php
 // This script imports rules.txt files from the old system into the new ``pages`` table.
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 $boards = listBoards(TRUE);
 

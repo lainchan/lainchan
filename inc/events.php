@@ -32,7 +32,7 @@ function event_handler($event, $callback) {
 	global $events;
 	
 	if (!isset($events[$event]))
-		$events[$event] = array();
+		$events[$event] = [];
 	
 	$events[$event][] = $callback;
 }
@@ -40,6 +40,6 @@ function event_handler($event, $callback) {
 function reset_events() {
 	global $events;
 	
-	$events = array();
+	$events = [];
 }
 

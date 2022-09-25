@@ -19,9 +19,7 @@ class rules {
     global $config;
 			
     return Element('themes/rules/rules.html',
-                   array('settings'  => $settings,
-                         'config'    => $config,
-                         'boardlist' => createBoardlist()));
+                   ['settings'  => $settings, 'config'    => $config, 'boardlist' => createBoardlist()]);
   }
 }
 	

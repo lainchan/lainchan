@@ -5,7 +5,7 @@ function postHandler($post) {
     global $board, $config;
     if ($post->has_file) foreach ($post->files as &$file) if ($file->extension == 'webm' || $file->extension == 'mp4') {
       if ($config['webm']['use_ffmpeg']) {
-        require_once dirname(__FILE__) . '/ffmpeg.php';
+        require_once __DIR__ . '/ffmpeg.php';
         $webminfo = get_webm_info($file->file_path);
         if (empty($webminfo['error'])) {
           $file->width = $webminfo['width'];
@@ -29,7 +29,7 @@ function postHandler($post) {
         }
       }
       else {
-        require_once dirname(__FILE__) . '/videodata.php';
+        require_once __DIR__ . '/videodata.php';
         $videoDetails = videoData($file->file_path);
         if (!isset($videoDetails['container']) || $videoDetails['container'] != 'webm') return "not a WebM file";
         // Set thumbnail
@@ -39,7 +39,7 @@ function postHandler($post) {
               $file = webm_set_spoiler($file);
         } elseif (isset($videoDetails['frame']) && $thumbFile = fopen($thumbName, 'wb')) {
             // Use single frame from video as pseudo-thumbnail
-            fwrite($thumbFile, $videoDetails['frame']);
+            fwrite($thumbFile, (string) $videoDetails['frame']);
             fclose($thumbFile);
             $file->thumb = $file->file_id . '.webm';
         } else {
@@ -60,7 +60,7 @@ function postHandler($post) {
 }
 function set_thumbnail_dimensions($post,$file) {
   global $board, $config;
-  $tn_dimensions = array();
+  $tn_dimensions = [];
   $tn_maxw = $post->op ? $config['thumb_op_width'] : $config['thumb_width'];
   $tn_maxh = $post->op ? $config['thumb_op_height'] : $config['thumb_height'];
   if ($file->width > $tn_maxw || $file->height > $tn_maxh) {

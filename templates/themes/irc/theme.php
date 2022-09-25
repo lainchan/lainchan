@@ -18,9 +18,7 @@ class irc {
     global $config;
 
     return Element('themes/irc/irc.html',
-                   array('settings'  => $settings,
-                         'config'    => $config,
-                         'boardlist' => createBoardlist()));
+                   ['settings'  => $settings, 'config'    => $config, 'boardlist' => createBoardlist()]);
   }
 }
 

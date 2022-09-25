@@ -11,7 +11,7 @@ function permission_to_edit_config_var($varname) {
 
 	if (isset($config['mod']['config'][DISABLED])) {
 		foreach ($config['mod']['config'][DISABLED] as $disabled_var_name) {
-			$disabled_var_name = explode('>', $disabled_var_name);
+			$disabled_var_name = explode('>', (string) $disabled_var_name);
 			if (count($disabled_var_name) == 1)
 				$disabled_var_name = $disabled_var_name[0];
 			if ($varname == $disabled_var_name)
@@ -30,7 +30,7 @@ function permission_to_edit_config_var($varname) {
 					$allow_only = true;
 					continue;
 				}
-				$perm_var_name = explode('>', $perm_var_name);
+				$perm_var_name = explode('>', (string) $perm_var_name);
 				if ((count($perm_var_name) == 1 && $varname == $perm_var_name[0]) ||
 						(is_array($varname) && array_slice($varname, 0, count($perm_var_name)) == $perm_var_name)) {
 					if ($allow_only)
@@ -49,14 +49,9 @@ function config_vars() {
 	global $config;
 	
 	$config_file = file('inc/config.php', FILE_IGNORE_NEW_LINES);
-	$conf = array();
+	$conf = [];
 	
-	$var = array(
-		'name' => false,
-		'comment' => array(),
-		'default' => false,
-		'default_temp' => false
-	);
+	$var = ['name' => false, 'comment' => [], 'default' => false, 'default_temp' => false];
 	$temp_comment = false;
 	$line_no = 0;
 	foreach ($config_file as $line) {
@@ -65,7 +60,7 @@ function config_vars() {
 			$temp_comment = false;
 		}
 		
-		if (preg_match('!^\s*// ([^$].*)$!', $line, $matches)) {
+		if (preg_match('!^\s*// ([^$].*)$!', (string) $line, $matches)) {
 			if ($var['default'] !== false) {
 				$line = '';
 				$temp_comment = $matches[1];
@@ -74,11 +69,11 @@ function config_vars() {
 			}
 		} else if ($var['default_temp'] !== false) {
 			$var['default_temp'] .= "\n" . $line;
-		} elseif (preg_match('!^[\s/]*\$config\[(.+?)\] = (.+?)(;( //.+)?)?$!', $line, $matches)) {
-			if (preg_match('!^\s*//\s*!', $line)) {
+		} elseif (preg_match('!^[\s/]*\$config\[(.+?)\] = (.+?)(;( //.+)?)?$!', (string) $line, $matches)) {
+			if (preg_match('!^\s*//\s*!', (string) $line)) {
 				$var['commented'] = true;
 			}
-			$var['name'] = explode('][', $matches[1]);
+			$var['name'] = explode('][', (string) $matches[1]);
 			if (count($var['name']) == 1) {
 				$var['name'] = preg_replace('/^\'(.*)\'$/', '$1', end($var['name']));
 			} else {
@@ -97,7 +92,7 @@ function config_vars() {
 				$var['default'] = $var['default_temp'];
 			if ($var['default'][0] == '&')
 				continue; // This is just an alias.
-			if (!preg_match('/^array|\[\]|function/', $var['default']) && !preg_match('/^Example: /', trim(implode(' ', $var['comment'])))) {
+			if (!preg_match('/^array|\[\]|function/', (string) $var['default']) && !preg_match('/^Example: /', trim(implode(' ', $var['comment'])))) {
 				$syntax_error = true;
 				$temp = eval('$syntax_error = false;return @' . $var['default'] . ';');
 				if ($syntax_error && $temp === false) {
@@ -109,13 +104,13 @@ function config_vars() {
 				}
 				
 				if ($var['type'] == 'integer' && $var['name'][0] == 'mod' &&
-					(in_array($var['default'], array('JANITOR', 'MOD', 'ADMIN', 'DISABLED')) || mb_strpos($var['default'], "\$config['mod']") === 0)) {
+					(in_array($var['default'], ['JANITOR', 'MOD', 'ADMIN', 'DISABLED']) || mb_strpos((string) $var['default'], "\$config['mod']") === 0)) {
 					// Permissions variable
 					$var['permissions'] = true;
 				}
 				
 				unset($var['default_temp']);
-				if (!is_array($var['name']) || (end($var['name']) != '' && !in_array(reset($var['name']), array('stylesheets')))) {
+				if (!is_array($var['name']) || (end($var['name']) != '' && !in_array(reset($var['name']), ['stylesheets']))) {
 					$already_exists = false;
 					foreach ($conf as $_var) {
 						if ($var['name'] == $_var['name'])
@@ -133,18 +128,11 @@ function config_vars() {
 				}
 			}
 			
-			$var = array(
-				'name' => false,
-				'comment' => array(),
-				'default' => false,
-				'default_temp' => false,
-				'commented' => false,
-				'permissions' => false,
-			);
+			$var = ['name' => false, 'comment' => [], 'default' => false, 'default_temp' => false, 'commented' => false, 'permissions' => false];
 		}
 		
-		if (trim($line) === '') {
-			$var['comment'] = array();
+		if (trim((string) $line) === '') {
+			$var['comment'] = [];
 		}
 		
 		$line_no++;

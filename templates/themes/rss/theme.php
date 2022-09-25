@@ -19,7 +19,7 @@
 			global $config, $_theme,$board;
 			
 			
-			$this->excluded = explode(' ', $settings['exclude']);
+			$this->excluded = explode(' ', (string) $settings['exclude']);
 			if ($settings['show_threads_only'] == 'true'){
 				if ($action == 'all' || $action == 'post-thread' || $action == 'post-delete')
 					file_write($config['dir']['home'] . $settings['xml'], $this->site_rsspage($settings));
@@ -68,7 +68,7 @@
 		public function site_rsspage($settings) {
 			global $config, $board;
 			
-			$recent_posts = Array();
+			$recent_posts = [];
 			
 			$boards = listBoards();
 			
@@ -89,7 +89,7 @@
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 				
-				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ?: $post['id'])) . '#' . $post['id'];
 				$post['snippet'] = pm_snippet($post['body'], 30);
 				$post['board_name'] = $board['name'];
 				
@@ -97,18 +97,14 @@
 			}
 			
 			
-			return Element('themes/rss/rss.xml', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'recent_posts' => $recent_posts,
-			));
+			return Element('themes/rss/rss.xml', ['settings' => $settings, 'config' => $config, 'recent_posts' => $recent_posts]);
 		}
 		
 		// Build news page
 		public function board_rsspage($settings,$_board) {
 			global $config, $board;
 			
-			$recent_posts = Array();
+			$recent_posts = [];
 			
 			$query = '';
 			if ($settings['show_threads_only'] == 'true'){
@@ -123,7 +119,7 @@
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 				
-				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+				$post['link'] = $config['root'] . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ?: $post['id'])) . '#' . $post['id'];
 				$post['snippet'] = pm_snippet($post['body'], 30);
 				$post['board_name'] = $board['name'];
 				
@@ -131,18 +127,14 @@
 			}
 			
 			
-			return Element('themes/rss/rss.xml', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'recent_posts' => $recent_posts,
-			));
+			return Element('themes/rss/rss.xml', ['settings' => $settings, 'config' => $config, 'recent_posts' => $recent_posts]);
 		}
 		
 		// Build news page
 		public function overboard_rsspage($settings,$overboard) {
 			global $config, $board;
 			
-			$recent_posts = Array();
+			$recent_posts = [];
 			
 			$boards = listBoards();
 			
@@ -178,7 +170,7 @@
 			while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 				openBoard($post['board']);
 				
-				$post['link'] = $config['root'] . $post['board'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ? $post['thread'] : $post['id'])) . '#' . $post['id'];
+				$post['link'] = $config['root'] . $post['board'] . $config['dir']['res'] . sprintf($config['file_page'], ($post['thread'] ?: $post['id'])) . '#' . $post['id'];
 				$post['snippet'] = pm_snippet($post['body'], 30);
 				$post['board_name'] = $post['board'];
 				
@@ -186,11 +178,7 @@
 			}
 			
 			
-			return Element('themes/rss/rss.xml', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'recent_posts' => $recent_posts,
-			));
+			return Element('themes/rss/rss.xml', ['settings' => $settings, 'config' => $config, 'recent_posts' => $recent_posts]);
 		}
 		
 	};

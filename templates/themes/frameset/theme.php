@@ -29,7 +29,7 @@
 		public static function homepage($settings) {
 			global $config;
 			
-			return Element('themes/frameset/frames.html', Array('config' => $config, 'settings' => $settings));
+			return Element('themes/frameset/frames.html', ['config' => $config, 'settings' => $settings]);
 		}
 		
 		// Build news page
@@ -39,22 +39,14 @@
 			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC") or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			return Element('themes/frameset/news.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'news' => $news
-			));
+			return Element('themes/frameset/news.html', ['settings' => $settings, 'config' => $config, 'news' => $news]);
 		}
 		
 		// Build sidebar
 		public static function sidebar($settings) {
 			global $config, $board;
 			
-			return Element('themes/frameset/sidebar.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boards' => listBoards()
-			));
+			return Element('themes/frameset/sidebar.html', ['settings' => $settings, 'config' => $config, 'boards' => listBoards()]);
 		}
 	};
 	

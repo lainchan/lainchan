@@ -25,7 +25,7 @@
 
 		public static function gen_json($settings) {
 			ob_start();
-			Bans::stream_json(false, true, true, array(), array("/\bcp\b/i", "/porn/i"));
+			Bans::stream_json(false, true, true, [], ["/\bcp\b/i", "/porn/i"]);
 			$out = ob_get_contents();
 			ob_end_clean();
 			return $out;
@@ -35,22 +35,16 @@
 		public static function homepage($settings) {
 			global $config;
 
-		        return Element('page.html', array(
-		                'config' => $config,
-		                'mod' => false,  
-        		        #'hide_dashboard_link' => true,
-        		        'title' => _("Ban list"),
-        		        'subtitle' => "",
-				'boardlist' => createBoardlist(),
-		                #'nojavascript' => true,
-		                'body' => Element('mod/ban_list.html', array(
-			                'mod' => false,
-			                'boards' => "[]",
-			                'token' => false,
-			                'token_json' => false,
-					'uri_json' => $config['dir']['home'] . $settings['file_json'],
-				))
-		        ));
+		        return Element('page.html', [
+              'config' => $config,
+              'mod' => false,
+              #'hide_dashboard_link' => true,
+              'title' => _("Ban list"),
+              'subtitle' => "",
+              'boardlist' => createBoardlist(),
+              #'nojavascript' => true,
+              'body' => Element('mod/ban_list.html', ['mod' => false, 'boards' => "[]", 'token' => false, 'token_json' => false, 'uri_json' => $config['dir']['home'] . $settings['file_json']]),
+          ]);
 		}
 	};
 	

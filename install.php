@@ -13,12 +13,7 @@ if (fopen('inc/instance-config.php' , 'a') === false) {
 loadConfig();
 
 $step = isset($_GET['step']) ? round($_GET['step']) : 0;
-$page = array(
-	'config' => $config,
-	'title' => 'Install',
-	'body' => '',
-	'nojavascript' => true
-);
+$page = ['config' => $config, 'title' => 'Install', 'body' => '', 'nojavascript' => true];
 
 // this breaks the display of licenses if enabled
 $config['minify_html'] = false;
@@ -36,7 +31,7 @@ if (file_exists($config['has_installed'])) {
 		if (mysql_version() >= 50503)
 			return query($sql);
 		else
-			return query(str_replace('utf8mb4', 'utf8', $sql));
+			return query(str_replace('utf8mb4', 'utf8', (string) $sql));
 	}
 	
 	$boards = listBoards();
@@ -108,9 +103,7 @@ if (file_exists($config['has_installed'])) {
 			}
 		case 'v0.9.3-dev-6':
 			// change to MyISAM
-			$tables = array(
-				'bans', 'boards', 'ip_notes', 'modlogs', 'mods', 'mutes', 'noticeboard', 'pms', 'reports', 'robot', 'theme_settings', 'news'
-			);
+			$tables = ['bans', 'boards', 'ip_notes', 'modlogs', 'mods', 'mutes', 'noticeboard', 'pms', 'reports', 'robot', 'theme_settings', 'news'];
 			foreach ($boards as &$board) {
 				$tables[] = "posts_{$board['uri']}";
 			}
@@ -253,9 +246,9 @@ if (file_exists($config['has_installed'])) {
 			query("ALTER TABLE  `mods` ADD  `salt` CHAR( 32 ) NOT NULL AFTER  `password`") or error(db_error());
 			$query = query("SELECT `id`,`password` FROM `mods`") or error(db_error());
 			while ($user = $query->fetch(PDO::FETCH_ASSOC)) {
-				if (strlen($user['password']) == 40) {
+				if (strlen((string) $user['password']) == 40) {
 					mt_srand(microtime(true) * 100000 + memory_get_usage(true));
-					$salt = md5(uniqid(mt_rand(), true));
+					$salt = md5(uniqid(random_int(0, mt_getrandmax()), true));
 			
 					$user['salt'] = $salt;
 					$user['password'] = hash('sha256', $user['salt'] . $user['password']);
@@ -620,15 +613,15 @@ function create_config_from_array(&$instance_config, &$array, $prefix = '') {
 	foreach ($array as $name => $value) {
 		if (is_array($value)) {
 			$instance_config .= "\n";
-			create_config_from_array($instance_config, $value, $prefix . '[\'' . addslashes($name) . '\']');
+			create_config_from_array($instance_config, $value, $prefix . '[\'' . addslashes((string) $name) . '\']');
 			$instance_config .= "\n";
 		} else {
-			$instance_config .= '	$config' . $prefix . '[\'' . addslashes($name) . '\'] = ';
+			$instance_config .= '	$config' . $prefix . '[\'' . addslashes((string) $name) . '\'] = ';
 
 			if (is_numeric($value))
 				$instance_config .= $value;
 			else
-				$instance_config .= "'" . addslashes($value) . "'";
+				$instance_config .= "'" . addslashes((string) $value) . "'";
 
 			$instance_config .= ";\n";
 		}
@@ -665,182 +658,15 @@ if ($step == 0) {
 	}
 	
 	// Required extensions
-	$extensions = array(
-		'PDO' => array(
-			'installed' => extension_loaded('pdo'),
-			'required' => true
-		),
-		'GD' => array(
-			'installed' => extension_loaded('gd'),
-			'required' => true
-		),
-		'Imagick' => array(
-			'installed' => extension_loaded('imagick'),
-			'required' => false
-		)
-	);
+	$extensions = [\PDO::class => ['installed' => extension_loaded('pdo'), 'required' => true], 'GD' => ['installed' => extension_loaded('gd'), 'required' => true], \Imagick::class => ['installed' => extension_loaded('imagick'), 'required' => false]];
 
-	$tests = array(
-		array(
-			'category' => 'PHP',
-			'name' => 'PHP &ge; 5.4',
-			'result' => PHP_VERSION_ID >= 50400,
-			'required' => true,
-			'message' => 'vichan requires PHP 5.4 or better.',
-		),
-		array(
-			'category' => 'PHP',
-			'name' => 'PHP &ge; 5.6',
-			'result' => PHP_VERSION_ID >= 50600,
-			'required' => false,
-			'message' => 'vichan works best on PHP 5.6 or better.',
-		),
-		array(
-			'category' => 'PHP',
-			'name' => 'mbstring extension installed',
-			'result' => extension_loaded('mbstring'),
-			'required' => true,
-			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/mbstring.installation.php">mbstring</a> extension.',
-		),
-		array(
-			'category' => 'Database',
-			'name' => 'PDO extension installed',
-			'result' => extension_loaded('pdo'),
-			'required' => true,
-			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.pdo.php">PDO</a> extension.',
-		),
-		array(
-			'category' => 'Database',
-			'name' => 'MySQL PDO driver installed',
-			'result' => extension_loaded('pdo') && in_array('mysql', PDO::getAvailableDrivers()),
-			'required' => true,
-			'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => 'GD extension installed',
-			'result' => extension_loaded('gd'),
-			'required' => true,
-			'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.image.php">GD</a> extension. GD is a requirement even if you have chosen another image processor for thumbnailing.',
-		),
-		array(
-		 	'category' => 'Image processing',
-		 	'name' => 'GD: JPEG',
-			'result' => function_exists('imagecreatefromjpeg'),
-			'required' => true,
-			'message' => 'imagecreatefromjpeg() does not exist. This is a problem.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => 'GD: PNG',
-			'result' => function_exists('imagecreatefrompng'),
-			'required' => true,
-			'message' => 'imagecreatefrompng() does not exist. This is a problem.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => 'GD: GIF',
-			'result' => function_exists('imagecreatefromgif'),
-			'required' => true,
-			'message' => 'imagecreatefromgif() does not exist. This is a problem.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`convert` (command-line ImageMagick)',
-			'result' => $can_exec && shell_exec('which convert'),
-			'required' => false,
-			'message' => '(Optional) `convert` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
-			'effect' => function (&$config) { $config['thumb_method'] = 'convert'; },
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`identify` (command-line ImageMagick)',
-			'result' => $can_exec && shell_exec('which identify'),
-			'required' => false,
-			'message' => '(Optional) `identify` was not found or executable; command-line ImageMagick image processing cannot be enabled.',
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`gm` (command-line GraphicsMagick)',
-			'result' => $can_exec && shell_exec('which gm'),
-			'required' => false,
-			'message' => '(Optional) `gm` was not found or executable; command-line GraphicsMagick (faster than ImageMagick) cannot be enabled.',
-			'effect' => function (&$config) { $config['thumb_method'] = 'gm'; },
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`gifsicle` (command-line animted GIF thumbnailing)',
-			'result' => $can_exec && shell_exec('which gifsicle'),
-			'required' => false,
-			'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.',
-			'effect' => function (&$config) { if ($config['thumb_method'] == 'gm')      $config['thumb_method'] = 'gm+gifsicle';
-							  if ($config['thumb_method'] == 'convert') $config['thumb_method'] = 'convert+gifsicle'; },
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`md5sum` (quick file hashing on GNU/Linux)',
-			'prereq' => '',
-			'result' => $can_exec && shell_exec('echo "vichan" | md5sum') == "141225c362da02b5c359c45b665168de  -\n",
-			'required' => false,
-			'message' => '(Optional) `md5sum` was not found or executable; file hashing for multiple images will be slower. Ignore if not using Linux.',
-			'effect' => function (&$config) { $config['gnu_md5'] = true; },
-		),
-		array(
-			'category' => 'Image processing',
-			'name' => '`/sbin/md5` (quick file hashing on BSDs)',
-			'result' => $can_exec && shell_exec('echo "vichan" | /sbin/md5 -r') == "141225c362da02b5c359c45b665168de\n",
-			'required' => false,
-			'message' => '(Optional) `/sbin/md5` was not found or executable; file hashing for multiple images will be slower. Ignore if not using BSD.',
-			'effect' => function (&$config) { $config['bsd_md5'] = true; },
-		),
-		array(
-			'category' => 'File permissions',
-			'name' => getcwd(),
-			'result' => is_writable('.'),
-			'required' => true,
-			'message' => 'vichan does not have permission to create directories (boards) here. You will need to <code>chmod</code> (or operating system equivalent) appropriately.'
-		),
-		array(
-			'category' => 'File permissions',
-			'name' => getcwd() . '/templates/cache',
-			'result' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')),
-			'required' => true,
-			'message' => 'You must give vichan permission to create (and write to) the <code>templates/cache</code> directory or performance will be drastically reduced.'
-		),
-		array(
-			'category' => 'File permissions',
-			'name' => getcwd() . '/tmp/cache',
-			'result' => is_dir('tmp/cache') && is_writable('tmp/cache'),
-			'required' => true,
-			'message' => 'You must give vichan permission to write to the <code>tmp/cache</code> directory.'
-		),
-		array(
-			'category' => 'File permissions',
-			'name' => getcwd() . '/inc/instance-config.php',
-			'result' => is_writable('inc/instance-config.php'),
-			'required' => false,
-			'message' => 'vichan does not have permission to make changes to <code>inc/instance-config.php</code>. To complete the installation, you will be asked to manually copy and paste code into the file instead.'
-		),
-		array(
-			'category' => 'Misc',
-			'name' => 'Caching available (APC, XCache, Memcached or Redis)',
-			'result' => extension_loaded('apc') || extension_loaded('xcache')
-				|| extension_loaded('memcached') || extension_loaded('redis'),
-			'required' => false,
-			'message' => 'You will not be able to enable the additional caching system, designed to minimize SQL queries and significantly improve performance. <a href="http://php.net/manual/en/book.apc.php">APC</a> is the recommended method of caching, but <a href="http://xcache.lighttpd.net/">XCache</a>, <a href="http://www.php.net/manual/en/intro.memcached.php">Memcached</a> and <a href="http://pecl.php.net/package/redis">Redis</a> are also supported.'
-		),
-		array(
-			'category' => 'Misc',
-			'name' => 'vichan installed using git',
-			'result' => is_dir('.git'),
-			'required' => false,
-			'message' => 'vichan is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your vichan installation. Using git makes upgrading much easier.'
-		)
-	);
+	$tests = [['category' => 'PHP', 'name' => 'PHP &ge; 5.4', 'result' => PHP_VERSION_ID >= 50400, 'required' => true, 'message' => 'vichan requires PHP 5.4 or better.'], ['category' => 'PHP', 'name' => 'PHP &ge; 5.6', 'result' => PHP_VERSION_ID >= 50600, 'required' => false, 'message' => 'vichan works best on PHP 5.6 or better.'], ['category' => 'PHP', 'name' => 'mbstring extension installed', 'result' => extension_loaded('mbstring'), 'required' => true, 'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/mbstring.installation.php">mbstring</a> extension.'], ['category' => 'Database', 'name' => 'PDO extension installed', 'result' => extension_loaded('pdo'), 'required' => true, 'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.pdo.php">PDO</a> extension.'], ['category' => 'Database', 'name' => 'MySQL PDO driver installed', 'result' => extension_loaded('pdo') && in_array('mysql', PDO::getAvailableDrivers()), 'required' => true, 'message' => 'The required <a href="http://www.php.net/manual/en/ref.pdo-mysql.php">PDO MySQL driver</a> is not installed.'], ['category' => 'Image processing', 'name' => 'GD extension installed', 'result' => extension_loaded('gd'), 'required' => true, 'message' => 'You must install the PHP <a href="http://www.php.net/manual/en/intro.image.php">GD</a> extension. GD is a requirement even if you have chosen another image processor for thumbnailing.'], ['category' => 'Image processing', 'name' => 'GD: JPEG', 'result' => function_exists('imagecreatefromjpeg'), 'required' => true, 'message' => 'imagecreatefromjpeg() does not exist. This is a problem.'], ['category' => 'Image processing', 'name' => 'GD: PNG', 'result' => function_exists('imagecreatefrompng'), 'required' => true, 'message' => 'imagecreatefrompng() does not exist. This is a problem.'], ['category' => 'Image processing', 'name' => 'GD: GIF', 'result' => function_exists('imagecreatefromgif'), 'required' => true, 'message' => 'imagecreatefromgif() does not exist. This is a problem.'], ['category' => 'Image processing', 'name' => '`convert` (command-line ImageMagick)', 'result' => $can_exec && shell_exec('which convert'), 'required' => false, 'message' => '(Optional) `convert` was not found or executable; command-line ImageMagick image processing cannot be enabled.', 'effect' => function (&$config) { $config['thumb_method'] = 'convert'; }], ['category' => 'Image processing', 'name' => '`identify` (command-line ImageMagick)', 'result' => $can_exec && shell_exec('which identify'), 'required' => false, 'message' => '(Optional) `identify` was not found or executable; command-line ImageMagick image processing cannot be enabled.'], ['category' => 'Image processing', 'name' => '`gm` (command-line GraphicsMagick)', 'result' => $can_exec && shell_exec('which gm'), 'required' => false, 'message' => '(Optional) `gm` was not found or executable; command-line GraphicsMagick (faster than ImageMagick) cannot be enabled.', 'effect' => function (&$config) { $config['thumb_method'] = 'gm'; }], ['category' => 'Image processing', 'name' => '`gifsicle` (command-line animted GIF thumbnailing)', 'result' => $can_exec && shell_exec('which gifsicle'), 'required' => false, 'message' => '(Optional) `gifsicle` was not found or executable; you may not use `convert+gifsicle` for better animated GIF thumbnailing.', 'effect' => function (&$config) { if ($config['thumb_method'] == 'gm')      $config['thumb_method'] = 'gm+gifsicle';
+							  if ($config['thumb_method'] == 'convert') $config['thumb_method'] = 'convert+gifsicle'; }], ['category' => 'Image processing', 'name' => '`md5sum` (quick file hashing on GNU/Linux)', 'prereq' => '', 'result' => $can_exec && shell_exec('echo "vichan" | md5sum') == "141225c362da02b5c359c45b665168de  -\n", 'required' => false, 'message' => '(Optional) `md5sum` was not found or executable; file hashing for multiple images will be slower. Ignore if not using Linux.', 'effect' => function (&$config) { $config['gnu_md5'] = true; }], ['category' => 'Image processing', 'name' => '`/sbin/md5` (quick file hashing on BSDs)', 'result' => $can_exec && shell_exec('echo "vichan" | /sbin/md5 -r') == "141225c362da02b5c359c45b665168de\n", 'required' => false, 'message' => '(Optional) `/sbin/md5` was not found or executable; file hashing for multiple images will be slower. Ignore if not using BSD.', 'effect' => function (&$config) { $config['bsd_md5'] = true; }], ['category' => 'File permissions', 'name' => getcwd(), 'result' => is_writable('.'), 'required' => true, 'message' => 'vichan does not have permission to create directories (boards) here. You will need to <code>chmod</code> (or operating system equivalent) appropriately.'], ['category' => 'File permissions', 'name' => getcwd() . '/templates/cache', 'result' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')), 'required' => true, 'message' => 'You must give vichan permission to create (and write to) the <code>templates/cache</code> directory or performance will be drastically reduced.'], ['category' => 'File permissions', 'name' => getcwd() . '/tmp/cache', 'result' => is_dir('tmp/cache') && is_writable('tmp/cache'), 'required' => true, 'message' => 'You must give vichan permission to write to the <code>tmp/cache</code> directory.'], ['category' => 'File permissions', 'name' => getcwd() . '/inc/instance-config.php', 'result' => is_writable('inc/instance-config.php'), 'required' => false, 'message' => 'vichan does not have permission to make changes to <code>inc/instance-config.php</code>. To complete the installation, you will be asked to manually copy and paste code into the file instead.'], ['category' => 'Misc', 'name' => 'Caching available (APC, XCache, Memcached or Redis)', 'result' => extension_loaded('apc') || extension_loaded('xcache')
+				|| extension_loaded('memcached') || extension_loaded('redis'), 'required' => false, 'message' => 'You will not be able to enable the additional caching system, designed to minimize SQL queries and significantly improve performance. <a href="http://php.net/manual/en/book.apc.php">APC</a> is the recommended method of caching, but <a href="http://xcache.lighttpd.net/">XCache</a>, <a href="http://www.php.net/manual/en/intro.memcached.php">Memcached</a> and <a href="http://pecl.php.net/package/redis">Redis</a> are also supported.'], ['category' => 'Misc', 'name' => 'vichan installed using git', 'result' => is_dir('.git'), 'required' => false, 'message' => 'vichan is still beta software and it\'s not going to come out of beta any time soon. As there are often many months between releases yet changes and bug fixes are very frequent, it\'s recommended to use the git repository to maintain your vichan installation. Using git makes upgrading much easier.']];
 
 	$config['font_awesome'] = true;
 	
-	$additional_config = array();
+	$additional_config = [];
 	foreach ($tests as $test) {
 		if ($test['result'] && isset($test['effect'])) {
 			$test['effect']($additional_config);
@@ -850,30 +676,15 @@ if ($step == 0) {
 	create_config_from_array($more, $additional_config);
 	$_SESSION['more'] = $more;
 
-	echo Element('page.html', array(
-		'body' => Element('installer/check-requirements.html', array(
-			'extensions' => $extensions,
-			'tests' => $tests,
-			'config' => $config,
-		)),
-		'title' => 'Checking environment',
-		'config' => $config,
-	));
+	echo Element('page.html', ['body' => Element('installer/check-requirements.html', ['extensions' => $extensions, 'tests' => $tests, 'config' => $config]), 'title' => 'Checking environment', 'config' => $config]);
 } elseif ($step == 2) {
 	// Basic config
 	$page['title'] = 'Configuration';
 	
-	$config['cookies']['salt'] = substr(base64_encode(sha1(rand())), 0, 30);
-	$config['secure_trip_salt'] = substr(base64_encode(sha1(rand())), 0, 30);	
+	$config['cookies']['salt'] = substr(base64_encode(sha1(random_int(0, mt_getrandmax()))), 0, 30);
+	$config['secure_trip_salt'] = substr(base64_encode(sha1(random_int(0, mt_getrandmax()))), 0, 30);	
 	
-	echo Element('page.html', array(
-		'body' => Element('installer/config.html', array(
-			'config' => $config,
-			'more' => $_SESSION['more'],
-		)),
-		'title' => 'Configuration',
-		'config' => $config
-	));
+	echo Element('page.html', ['body' => Element('installer/config.html', ['config' => $config, 'more' => $_SESSION['more']]), 'title' => 'Configuration', 'config' => $config]);
 } elseif ($step == 3) {
 	$more = $_POST['more'];
 	unset($_POST['more']);
@@ -927,7 +738,7 @@ if ($step == 0) {
 	preg_match_all("/(^|\n)((SET|CREATE|INSERT).+)\n\n/msU", $sql, $queries);
 	$queries = $queries[2];
 	
-	$queries[] = Element('posts.sql', array('board' => 'b'));
+	$queries[] = Element('posts.sql', ['board' => 'b']);
 	
 	$sql_errors = '';
 	foreach ($queries as $query) {
@@ -949,7 +760,7 @@ if ($step == 0) {
 			setupBoard($_board);
 			buildIndex();
 		}
-		
+
 		file_write($config['has_installed'], VERSION);
 		/*if (!file_unlink(__FILE__)) {
 			$page['body'] .= '<div class="ban"><h2>Delete install.php!</h2><p>I couldn\'t remove <strong>install.php</strong>. You will have to remove it manually.</p></div>';

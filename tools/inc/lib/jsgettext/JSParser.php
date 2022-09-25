@@ -4,9 +4,9 @@ class JSParser {
 
 	protected $content;
 	protected $keywords;
-	protected $regs = array();
+	protected $regs = [];
 	protected $regsCounter = 0;
-	protected $strings = array();
+	protected $strings = [];
 	protected $stringsCounter = 0;
 
 	protected function _extractRegs($match) {
@@ -23,16 +23,12 @@ class JSParser {
 	}
 	protected function importRegExps($input) {
 		$regs = $this->regs;
-		return preg_replace_callback("#<<reg(\d+)>>#", function ($match) use($regs) {
-			return $regs[$match[1]];
-		}, $input);
+		return preg_replace_callback("#<<reg(\d+)>>#", fn($match) => $regs[$match[1]], $input);
 	}
 
 	protected function importStrings($input) {
 		$strings = $this->strings;
-		return preg_replace_callback("#<<s(\d+)>>#", function ($match) use($strings) {
-			return $strings[$match[1]];
-		}, $input);
+		return preg_replace_callback("#<<s(\d+)>>#", fn($match) => $strings[$match[1]], $input);
 	}
 
 	public function __construct($file, $keywords = '_') {
@@ -46,15 +42,12 @@ class JSParser {
 		// extract reg exps
 		$output = preg_replace_callback(
 			'# ( / (?: (?>[^/\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\/ )+ (?<!\\\\)/ ) [a-z]* \b #ix',
-			array($this, '_extractRegs'), $output
+			$this->_extractRegs(...), $output
 		);
 
 		// extract strings
 		$output = preg_replace_callback(
-			array(
-				'# " ( (?: (?>[^"\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\" )* ) (?<!\\\\)" #ix',
-				"# ' ( (?: (?>[^'\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\' )* ) (?<!\\\\)' #ix"
-			), array($this, '_extractStrings'), $output
+			['# " ( (?: (?>[^"\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\" )* ) (?<!\\\\)" #ix', "# ' ( (?: (?>[^'\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\' )* ) (?<!\\\\)' #ix"], $this->_extractStrings(...), $output
 		);
 
 		// delete line comments
@@ -64,13 +57,11 @@ class JSParser {
 		$output = preg_replace('#/\*(.*?)\*/#is', '', $output);
 
 		$strings = $this->strings;
-		$output = preg_replace_callback("#<<s(\d+)>>#", function($match) use($strings) {
-			return $strings[$match[1]];
-		}, $output);
+		$output = preg_replace_callback("#<<s(\d+)>>#", fn($match) => $strings[$match[1]], $output);
 
 		$keywords = implode('|', $this->keywords);
 
-		$strings = array();
+		$strings = [];
 
 		// extract func calls
 		preg_match_all(
@@ -78,15 +69,15 @@ class JSParser {
 			$output, $matches, PREG_SET_ORDER
 		);
 
-		foreach ($matches as $m) $strings[] = stripslashes($m[1]);
+		foreach ($matches as $m) $strings[] = stripslashes((string) $m[1]);
 
-		$matches = array();
+		$matches = [];
 		preg_match_all(
 			"# (?:$keywords) \(\\ *' ( (?: (?>[^'\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\' )* ) (?<!\\\\)'\\ *\) #ix",
 			$output, $matches, PREG_SET_ORDER
 		);
 
-		foreach ($matches as $m) $strings[] = stripslashes($m[1]);
+		foreach ($matches as $m) $strings[] = stripslashes((string) $m[1]);
 
 		return $strings;
 	}

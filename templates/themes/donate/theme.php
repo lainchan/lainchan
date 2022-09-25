@@ -19,9 +19,7 @@ class donate {
     global $config;
 			
     return Element('themes/donate/donate.html',
-                   array('settings'  => $settings,
-                         'config'    => $config,
-                         'boardlist' => createBoardlist()));
+                   ['settings'  => $settings, 'config'    => $config, 'boardlist' => createBoardlist()]);
   }
 }
 	

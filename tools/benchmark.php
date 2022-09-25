@@ -5,17 +5,17 @@
  *
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 require 'inc/image.php';
 
 // move back to this directory
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
-if(count($argv) != 2)
+if((is_countable($argv) ? count($argv) : 0) != 2)
 	die("Usage: {$argv[0]} [file]\n");
 
 $file = $argv[1];
-$extension = strtolower(substr($file, strrpos($file, '.') + 1));
+$extension = strtolower(substr((string) $file, strrpos((string) $file, '.') + 1));
 $out = tempnam($config['tmp'], 'thumb');
 $count = 300;
 
@@ -30,7 +30,7 @@ function benchmark($method) {
 	for($i = 0; $i < $count; $i++) {
 		$image = new Image($file, $extension);
 		$thumb = $image->resize(
-			$config['thumb_ext'] ? $config['thumb_ext'] : $extension,
+			$config['thumb_ext'] ?: $extension,
 			$config['thumb_width'],
 			$config['thumb_height']
 		);

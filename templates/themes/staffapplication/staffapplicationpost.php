@@ -43,12 +43,6 @@ $displaymessage = "<p style=\"text-align:center;\">ANTISPAM NOT SET</p>\r\n";
 }
 $displaymessage .= '<span style="text-align:center; display: block;" >[ <a href="https://lainchan.org/"> Return Home </a> ]</span>';
 
-echo Element('page.html', array(
-		'index' => $config['root'],
-		'title' => _('Staff Application'),
-		'config' => $config,
-		'boardlist' => createBoardlist(isset($mod) ? $mod : false),
-		'body' => $displaymessage,
-		)
+echo Element('page.html', ['index' => $config['root'], 'title' => _('Staff Application'), 'config' => $config, 'boardlist' => createBoardlist($mod ?? false), 'body' => $displaymessage]
 	);
 ?>

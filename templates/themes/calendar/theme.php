@@ -24,11 +24,7 @@
 		public static function htmlpage($settings) {
 			global $config;
 			
-			return Element('themes/calendar/calendar.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist()
-			));
+			return Element('themes/calendar/calendar.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist()]);
 		}
 		public static function phppage($settings) {
 			global $config;

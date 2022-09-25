@@ -105,7 +105,7 @@
 					openBoard($post['board']);
 					
 					$body .= '<strong>' . $board['name'] . '</strong>: <a href="' . 
-						$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread']?$post['thread']:$post['id']) . '.html#' . $post['id'] .
+						$config['root'] . $board['dir'] . $config['dir']['res'] . ($post['thread'] ?: $post['id']) . '.html#' . $post['id'] .
 					'">';
 					$snip = pm_snippet($post['body'], 95);
 					if($snip === "<em></em>")
@@ -136,10 +136,7 @@
 						:
 							''
 						) .
-						($news['subject'] ?
-							$news['subject']
-						:
-							'<em>no subject</em>'
+						($news['subject'] ?: '<em>no subject</em>'
 						) .
 					' &mdash; by ' .
 						$news['name'] .
@@ -190,7 +187,7 @@
 				'<li><a href="javascript:changeStyleForAll(\'YB\');">[YB]</a> <a href="javascript:changeStyleForAll(\'Y\');">[Y]</a> <a href="javascript:changeStyleForAll(\'U\');">[U]</a> <a href="javascript:changeStyleForAll(\'UG\');">[UG]</a> <a href="javascript:changeStyleForAll(\'RZ\');">[RZ]</a></li>'.
 			'</ul></fieldset>';
 			
-			for($cat = 0; $cat < count($config['categories']); $cat++) {
+			for($cat = 0; $cat < (is_countable($config['categories']) ? count($config['categories']) : 0); $cat++) {
 				$body .= '<fieldset><legend class="category">' . $config['categories'][$cat] . '</legend><ul>';
 				
 				foreach($config['boards'][$cat] as &$board) {

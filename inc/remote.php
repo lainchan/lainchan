@@ -12,13 +12,13 @@ class Remote {
 			$this->{$name} = $value;
 		}
 		
-		$methods = array();
+		$methods = [];
 		
 		if (!isset($this->auth['method']))
 			error('Unspecified authentication method.');
 		
 		// Connect
-		$this->connection = ssh2_connect($this->host, isset($this->port) ? $this->port : 22, $methods);
+		$this->connection = ssh2_connect($this->host, $this->port ?? 22, $methods);
 		
 		switch ($this->auth['method']) {
 			case 'pubkey':
@@ -28,7 +28,7 @@ class Remote {
 				if (!isset($this->auth['private']))
 					error('Private key filename not specified.');
 				
-				if (!ssh2_auth_pubkey_file($this->connection, $this->auth['username'], $this->auth['public'], $this->auth['private'], isset($this->auth['passphrase']) ? $this->auth['passphrase']: null))
+				if (!ssh2_auth_pubkey_file($this->connection, $this->auth['username'], $this->auth['public'], $this->auth['private'], $this->auth['passphrase'] ?? null))
 					error('Public key authentication failed.');
 				break;
 			case 'plain':

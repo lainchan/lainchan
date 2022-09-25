@@ -23,11 +23,7 @@
 			global $config;
 			
 			
-			return Element('themes/stream/stream.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist(),
-			));
+			return Element('themes/stream/stream.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist()]);
 		}
 	};
 	

@@ -1,10 +1,10 @@
 <?php
 include 'inc/functions.php';
 $global = isset($_GET['global']);
-$post = (isset($_GET['post']) ? $_GET['post'] : false);
-$board = (isset($_GET['board']) ? $_GET['board'] : false);
+$post = ($_GET['post'] ?? false);
+$board = ($_GET['board'] ?? false);
 
-if (!$post || !preg_match('/^delete_\d+$/', $post) || !$board || !openBoard($board)) {
+if (!$post || !preg_match('/^delete_\d+$/', (string) $post) || !$board || !openBoard($board)) {
 	header('HTTP/1.1 400 Bad Request');
 	error(_('Bad request.'));
 }

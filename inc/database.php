@@ -18,7 +18,8 @@ class PreparedQueryDebug {
 			$this->explain_query = $pdo->prepare("EXPLAIN $query");
 	}
 	public function __call($function, $args) {
-		global $config, $debug;
+		$start = null;
+  global $config, $debug;
 		
 		if ($config['debug'] && $function == 'execute') {
 			if ($this->explain_query) {
@@ -28,18 +29,13 @@ class PreparedQueryDebug {
 		}
 		
 		if ($this->explain_query && $function == 'bindValue')
-			call_user_func_array(array($this->explain_query, $function), $args);
+			call_user_func_array([$this->explain_query, $function], $args);
 		
-		$return = call_user_func_array(array($this->query, $function), $args);
+		$return = call_user_func_array([$this->query, $function], $args);
 		
 		if ($config['debug'] && $function == 'execute') {
 			$time = microtime(true) - $start;
-			$debug['sql'][] = array(
-				'query' => $this->query->queryString,
-				'rows' => $this->query->rowCount(),
-				'explain' => $this->explain_query ? $this->explain_query->fetchAll(PDO::FETCH_ASSOC) : null,
-				'time' => '~' . round($time * 1000, 2) . 'ms'
-			);
+			$debug['sql'][] = ['query' => $this->query->queryString, 'rows' => $this->query->rowCount(), 'explain' => $this->explain_query ? $this->explain_query->fetchAll(PDO::FETCH_ASSOC) : null, 'time' => '~' . round($time * 1000, 2) . 'ms'];
 			$debug['time']['db_queries'] += $time;
 		}
 		
@@ -48,7 +44,8 @@ class PreparedQueryDebug {
 }
 
 function sql_open() {
-	global $pdo, $config, $debug;
+	$start = null;
+ global $pdo, $config, $debug;
 	if ($pdo)
 		return true;
 	
@@ -57,7 +54,7 @@ function sql_open() {
 		$start = microtime(true);
 	
 	if (isset($config['db']['server'][0]) && $config['db']['server'][0] == ':')
-		$unix_socket = substr($config['db']['server'], 1);
+		$unix_socket = substr((string) $config['db']['server'], 1);
 	else
 		$unix_socket = false;
 	
@@ -67,9 +64,7 @@ function sql_open() {
 	if (!empty($config['db']['dsn']))
 		$dsn .= ';' . $config['db']['dsn'];
 	try {
-		$options = array(
-			PDO::ATTR_TIMEOUT => $config['db']['timeout'],
-		);
+		$options = [PDO::ATTR_TIMEOUT => $config['db']['timeout']];
 		
 		if ($config['db']['type'] == "mysql")
 			$options[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
@@ -104,7 +99,7 @@ function mysql_version() {
 	global $pdo;
 	
 	$version = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
-	$v = explode('.', $version);
+	$v = explode('.', (string) $version);
 	if (count($v) != 3)
 		return false;
 	return (int) sprintf("%02d%02d%02d", $v[0], $v[1], $v[2]);
@@ -139,12 +134,7 @@ function query($query) {
 		if (!$query)
 			return false;
 		$time = microtime(true) - $start;
-		$debug['sql'][] = array(
-			'query' => $query->queryString,
-			'rows' => $query->rowCount(),
-			'explain' => isset($explain) ? $explain->fetchAll(PDO::FETCH_ASSOC) : null,
-			'time' => '~' . round($time * 1000, 2) . 'ms'
-		);
+		$debug['sql'][] = ['query' => $query->queryString, 'rows' => $query->rowCount(), 'explain' => isset($explain) ? $explain->fetchAll(PDO::FETCH_ASSOC) : null, 'time' => '~' . round($time * 1000, 2) . 'ms'];
 		$debug['time']['db_queries'] += $time;
 		return $query;
 	}

@@ -12,7 +12,7 @@ function sb_board($b, $page = 1) { global $config, $build_pages; $page = (int)$p
   if (!openBoard($b)) return false;
   if ($page > $config['max_pages']) return false;
   $config['try_smarter'] = true;
-  $build_pages = array($page);
+  $build_pages = [$page];
   buildIndex("skip");
   return true;
 }
@@ -24,7 +24,7 @@ function sb_api_board($b, $page = 0) { $page = (int)$page;
 function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = (int)$thread;
   if ($thread < 1) return false;
 
-  if (!preg_match('/^'.$config['board_regex'].'$/u', $b)) return false;
+  if (!preg_match('/^'.$config['board_regex'].'$/u', (string) $b)) return false;
 
   if (Cache::get("thread_exists_".$b."_".$thread) == "no") return false;
 
@@ -47,7 +47,7 @@ function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = 
   if ($slugcheck && $config['slugify']) {
     global $request;
 
-    $link = link_for(array("id" => $thread), $slugcheck === 50, array("uri" => $b));
+    $link = link_for(["id" => $thread], $slugcheck === 50, ["uri" => $b]);
     $link = "/".$b."/".$config['dir']['res'].$link;
 
     if ($link != $request) {
@@ -58,7 +58,7 @@ function sb_thread($b, $thread, $slugcheck = false) { global $config; $thread = 
 
   if ($slugcheck == 50) { // Should we really generate +50 page? Maybe there are not enough posts anyway
     global $request;
-    $r = str_replace("+50", "", $request);
+    $r = str_replace("+50", "", (string) $request);
     $r = substr($r, 1); // Cut the slash
 
     if (file_exists($r)) return false;
@@ -79,7 +79,7 @@ function sb_thread_slugcheck50($b, $thread) {
 function sb_api($b) { global $config, $build_pages;
   if (!openBoard($b)) return false;
   $config['try_smarter'] = true;
-  $build_pages = array(-1);
+  $build_pages = [-1];
   buildIndex();
   return true;
 }

@@ -8,7 +8,7 @@
 defined('TINYBOARD') or exit;
 
 function route($path) { global $config;
-  $entrypoints = array();
+  $entrypoints = [];
 
   $entrypoints['/%b/']                       = 'sb_board';
   $entrypoints['/%b/'.$config['file_index']] = 'sb_board';
@@ -40,7 +40,7 @@ function route($path) { global $config;
 
   $reached = false;
 
-  list($request) = explode('?', $path);
+  [$request] = explode('?', (string) $path);
 
   foreach ($entrypoints as $id => $fun) {
     $id = '@^' . preg_quote($id, '@') . '$@u'; 
@@ -54,7 +54,7 @@ function route($path) { global $config;
     if (preg_match ($id, $request, $matches)) {
       array_shift($matches);
 
-      $reached = array($fun, $matches);
+      $reached = [$fun, $matches];
 
       break;
     }

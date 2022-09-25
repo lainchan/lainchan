@@ -1,14 +1,13 @@
 #!/usr/bin/php
 <?php
 mb_internal_encoding('utf-8');
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
                 
-$variants = array(array("hour", 3600), array("day", 3600*24), array("3 days", 3600*24*3),
-                  array("week", 3600*24*7), array("month", 3600*24*7*30));
+$variants = [["hour", 3600], ["day", 3600*24], ["3 days", 3600*24*3], ["week", 3600*24*7], ["month", 3600*24*7*30]];
 
 printf("           || ");
 foreach ($variants as $iter) {
-	list($term, $time) = $iter;
+	[$term, $time] = $iter;
 	printf("%8s | ", $term);
 }
 print("\n");
@@ -18,12 +17,12 @@ print("\n");
 
 function mb_str_pad ($input, $pad_length, $pad_string, $pad_type, $encoding="UTF-8") { 
     if (!$encoding) {
-        $diff = strlen($input) - mb_strlen($input);
+        $diff = strlen((string) $input) - mb_strlen((string) $input);
     }
     else {
-        $diff = strlen($input) - mb_strlen($input, $encoding);
+        $diff = strlen((string) $input) - mb_strlen((string) $input, $encoding);
     }
-    return str_pad($input, $pad_length + $diff, $pad_string, $pad_type);
+    return str_pad((string) $input, $pad_length + $diff, $pad_string, $pad_type);
 } 
 
 
@@ -33,7 +32,7 @@ while ($f = $q->fetch()) {
         $str = mb_str_pad($str,10," ", STR_PAD_LEFT, "UTF-8");
         printf("%s || ", $str);
 	foreach ($variants as $iter) {
-		list($term, $time) = $iter;
+		[$term, $time] = $iter;
 		$qq = query(sprintf("SELECT COUNT(*) as count FROM ``posts_%s`` WHERE time > %d", $f['uri'], time()-$time));
 		$c = $qq->fetch()['count'];
 

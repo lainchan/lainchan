@@ -14,7 +14,7 @@ if (realpath($_SERVER['SCRIPT_FILENAME']) == str_replace('\\', '/', __FILE__)) {
 	http://www.php.net/manual/en/function.filesize.php#100097
 */
 function format_bytes($size) {
-	$units = array(' B', ' KB', ' MB', ' GB', ' TB');
+	$units = [' B', ' KB', ' MB', ' GB', ' TB'];
 	for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024;
 	return round($size, 2).$units[$i];
 }
@@ -58,46 +58,33 @@ function doBoardListPart($list, $root, &$boards) {
 function createBoardlist($mod=false) {
 	global $config;
 	
-	if (!isset($config['boards'])) return array('top'=>'','bottom'=>'');
+	if (!isset($config['boards'])) return ['top'=>'', 'bottom'=>''];
 	
 	$xboards = listBoards();
-	$boards = array();
+	$boards = [];
 	foreach ($xboards as $val) {
 		$boards[$val['uri']] = $val['title'];
 	}
 
 	$body = doBoardListPart($config['boards'], $mod?'?/':$config['root'], $boards);
 
-	if ($config['boardlist_wrap_bracket'] && !preg_match('/\] $/', $body))
+	if ($config['boardlist_wrap_bracket'] && !preg_match('/\] $/', (string) $body))
 		$body = '[' . $body . ']';
 	
-	$body = trim($body);
+	$body = trim((string) $body);
 
 	// Message compact-boardlist.js faster, so that page looks less ugly during loading
 	$top = "<script type='text/javascript'>if (typeof do_boardlist != 'undefined') do_boardlist();</script>";
 	
-	return array(
-		'top' => '<div class="boardlist">' . $body . '</div>' . $top,
-		'bottom' => '<div class="boardlist bottom">' . $body . '</div>'
-	);
+	return ['top' => '<div class="boardlist">' . $body . '</div>' . $top, 'bottom' => '<div class="boardlist bottom">' . $body . '</div>'];
 }
 
 
-function loginForm($error=false, $username=false, $redirect=false) {
+function loginForm($error=false, $username=false, $redirect=false): never {
 	global $config;
 	
-	die(Element('page.html', array(
-		'index' => $config['root'],
-		'title' => _('Login'),
-		'config' => $config,
-		'body' => Element('login.html', array(
-			'config'=>$config,
-			'error'=>$error,
-			'username'=>utf8tohtml($username),
-			'redirect'=>$redirect
-			)
-		)
-	)));
+	die(Element('page.html', ['index' => $config['root'], 'title' => _('Login'), 'config' => $config, 'body' => Element('login.html', ['config'=>$config, 'error'=>$error, 'username'=>utf8tohtml($username), 'redirect'=>$redirect]
+		)]));
 }
 
 function pm_snippet($body, $len=null) {
@@ -143,7 +130,7 @@ function capcode($cap) {
 	if (!$cap)
 		return false;
 	
-	$capcode = array();
+	$capcode = [];
 	if (isset($config['custom_capcode'][$cap])) {
 		if (is_array($config['custom_capcode'][$cap])) {
 			$capcode['cap'] = sprintf($config['custom_capcode'][$cap][0], $cap);
@@ -183,7 +170,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			$body = $m[0];
 	}
 	
-	$body = mb_substr($body, 0, $max_chars);
+	$body = mb_substr((string) $body, 0, $max_chars);
 	
 	if ($body != $original_body) {
 		// Remove any corrupt tags at the end
@@ -192,15 +179,15 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 		// Open tags
 		if (preg_match_all('/<([\w]+)[^>]*>/', $body, $open_tags)) {
 			
-			$tags = array();
-			for ($x=0;$x<count($open_tags[0]);$x++) {
-				if (!preg_match('/\/(\s+)?>$/', $open_tags[0][$x]))
+			$tags = [];
+			for ($x=0;$x<(is_countable($open_tags[0]) ? count($open_tags[0]) : 0);$x++) {
+				if (!preg_match('/\/(\s+)?>$/', (string) $open_tags[0][$x]))
 					$tags[] = $open_tags[1][$x];
 			}
 			
 			// List successfully closed tags
 			if (preg_match_all('/(<\/([\w]+))>/', $body, $closed_tags)) {
-				for ($x=0;$x<count($closed_tags[0]);$x++) {
+				for ($x=0;$x<(is_countable($closed_tags[0]) ? count($closed_tags[0]) : 0);$x++) {
 					unset($tags[array_search($closed_tags[2][$x], $tags)]);
 				}
 			}
@@ -208,7 +195,7 @@ function truncate($body, $url, $max_lines = false, $max_chars = false) {
 			// remove broken HTML entity at the end (if existent)
 			$body = preg_replace('/&[^;]+$/', '', $body);
 			
-			$tags_no_close_needed = array("colgroup", "dd", "dt", "li", "optgroup", "option", "p", "tbody", "td", "tfoot", "th", "thead", "tr", "br", "img");
+			$tags_no_close_needed = ["colgroup", "dd", "dt", "li", "optgroup", "option", "p", "tbody", "td", "tfoot", "th", "thead", "tr", "br", "img"];
 			
 			// Close any open tags
 			foreach ($tags as &$tag) {
@@ -233,12 +220,12 @@ function bidi_cleanup($data) {
 	$explicits	= '\xE2\x80\xAA|\xE2\x80\xAB|\xE2\x80\xAD|\xE2\x80\xAE';
 	$pdf		= '\xE2\x80\xAC';
 	
-	preg_match_all("!$explicits!",	$data, $m1, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
-	preg_match_all("!$pdf!", 	$data, $m2, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+	preg_match_all("!$explicits!",	(string) $data, $m1, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+	preg_match_all("!$pdf!", 	(string) $data, $m2, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
 	
 	if (count($m1) || count($m2)){
 	
-		$p = array();
+		$p = [];
 		foreach ($m1 as $m){ $p[$m[0][1]] = 'push'; }
 		foreach ($m2 as $m){ $p[$m[0][1]] = 'pop'; }
 		ksort($p);
@@ -254,8 +241,8 @@ function bidi_cleanup($data) {
 					$stack--;
 				}else{
 					# we have a pop without a push - remove it
-					$data = substr($data, 0, $pos-$offset)
-						.substr($data, $pos+3-$offset);
+					$data = substr((string) $data, 0, $pos-$offset)
+						.substr((string) $data, $pos+3-$offset);
 					$offset += 3;
 				}
 			}
@@ -275,7 +262,7 @@ function bidi_cleanup($data) {
 function secure_link_confirm($text, $title, $confirm_message, $href) {
 	global $config;
 
-	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes((string) $confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities((string) $title) . '" href="?/' . $href . '">' . $text . '</a>';
 }
 function secure_link($href) {
 	return $href . '/' . make_secure_link_token($href);
@@ -315,7 +302,7 @@ class Post {
 		}
 
 		if (isset($this->files) && $this->files)
-			$this->files = @json_decode($this->files);
+			$this->files = @json_decode((string) $this->files, null, 512, JSON_THROW_ON_ERROR);
 		
 		$this->subject = utf8tohtml($this->subject);
 		$this->name = utf8tohtml($this->name);
@@ -336,7 +323,7 @@ class Post {
 			// Fix internal links
 			// Very complicated regex
 			$this->body = preg_replace(
-				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), $config['board_regex']) . ')/u',
+				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote((string) $config['root'], '/') . '(' . sprintf(preg_quote((string) $config['board_path'], '/'), $config['board_regex']) . ')/u',
 				'<a $1href="?/$4',
 				$this->body
 			);
@@ -350,7 +337,7 @@ class Post {
 	public function build($index=false) {
 		global $board, $config;
 		
-		return Element('post_reply.html', array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'mod' => $this->mod));
+		return Element('post_reply.html', ['config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'mod' => $this->mod]);
 	}
 };
 
@@ -365,7 +352,7 @@ class Thread {
 		}
 		
 		if (isset($this->files))
-			$this->files = @json_decode($this->files);
+			$this->files = @json_decode((string) $this->files, null, 512, JSON_THROW_ON_ERROR);
 		
 		$this->subject = utf8tohtml($this->subject ?? "");
 		$this->name = utf8tohtml($this->name ?? "");
@@ -373,7 +360,7 @@ class Thread {
 		$this->root = $root;
 		$this->hr = $hr;
 
-		$this->posts = array();
+		$this->posts = [];
 		$this->omitted = 0;
 		$this->omitted_images = 0;
 		
@@ -391,7 +378,7 @@ class Thread {
 			// Fix internal links
 			// Very complicated regex
 			$this->body = preg_replace(
-				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote($config['root'], '/') . '(' . sprintf(preg_quote($config['board_path'], '/'), $config['board_regex']) . ')/u',
+				'/<a((([a-zA-Z]+="[^"]+")|[a-zA-Z]+=[a-zA-Z]+|\s)*)href="' . preg_quote((string) $config['root'], '/') . '(' . sprintf(preg_quote((string) $config['board_path'], '/'), $config['board_regex']) . ')/u',
 				'<a $1href="?/$4',
 				$this->body
 			);
@@ -405,7 +392,7 @@ class Thread {
 		$this->posts[] = $post;
 	}
 	public function postCount() {
-		   return count($this->posts) + $this->omitted;
+		   return (is_countable($this->posts) ? count($this->posts) : 0) + $this->omitted;
 	}
 	public function build($index=false, $isnoko50=false) {
 		global $board, $config, $debug;
@@ -415,7 +402,7 @@ class Thread {
 		event('show-thread', $this);
 
 		$file = ($index && $config['file_board']) ? 'post_thread_fileboard.html' : 'post_thread.html';
-		$built = Element($file, array('config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'hasnoko50' => $hasnoko50, 'isnoko50' => $isnoko50, 'mod' => $this->mod));
+		$built = Element($file, ['config' => $config, 'board' => $board, 'post' => &$this, 'index' => $index, 'hasnoko50' => $hasnoko50, 'isnoko50' => $isnoko50, 'mod' => $this->mod]);
 		
 		return $built;
 	}

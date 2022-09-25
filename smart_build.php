@@ -8,11 +8,11 @@ if (!$config["smart_build_helper"]) {
 }
 
 $config['smart_build'] = false; // Let's disable it, so we can build the page for real
-$config['generation_strategies'] = array('strategy_immediate');
+$config['generation_strategies'] = ['strategy_immediate'];
 
 function after_open_board() { global $config;
   $config['smart_build'] = false;
-  $config['generation_strategies'] = array('strategy_immediate');
+  $config['generation_strategies'] = ['strategy_immediate'];
 };
 
 $request = $_SERVER['REQUEST_URI'];
@@ -23,7 +23,7 @@ if (!$route) {
   $reached = false;
 }
 else {
-  list ($fun, $args) = $route;
+  [$fun, $args] = $route;
   $reached = call_user_func_array($fun, $args);
 }
 
@@ -41,7 +41,7 @@ function die_404() { global $config;
 }
 
 if ($reached) {
-  if ($request[strlen($request)-1] == '/') {
+  if ($request[strlen((string) $request)-1] == '/') {
     $request .= 'index.html';
   }
   $request = '.'.$request;

@@ -4,17 +4,16 @@ require_once 'PoeditString.php';
 
 class PoeditParser {
 
-	protected $file;
 	protected $header = '';
-	protected $strings = array();
+	protected $strings = [];
 
 	protected function _fixQuotes($str) {
-		return stripslashes($str);
+		return stripslashes((string) $str);
 	}
 
-	public function __construct($file) {
-		$this->file = $file;
-	}
+	public function __construct(protected $file)
+ {
+ }
 
 	public function parse() {
 		$contents = file_get_contents($this->file);
@@ -26,13 +25,13 @@ class PoeditParser {
 		foreach ($parts as $part) {
 
 			// parse comments
-			$comments = array();
-			preg_match_all('#^\\#: (.*?)$#m', $part, $matches, PREG_SET_ORDER);
+			$comments = [];
+			preg_match_all('#^\\#: (.*?)$#m', (string) $part, $matches, PREG_SET_ORDER);
 			foreach ($matches as $m) $comments[] = $m[1];
 
-			$isFuzzy = preg_match('#^\\#, fuzzy$#im', $part) ? true : false;
+			$isFuzzy = preg_match('#^\\#, fuzzy$#im', (string) $part) ? true : false;
 
-			preg_match_all('# ^ (msgid|msgstr)\ " ( (?: (?>[^"\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\" )* ) (?<!\\\\)" $ #ixm', $part, $matches2, PREG_SET_ORDER);
+			preg_match_all('# ^ (msgid|msgstr)\ " ( (?: (?>[^"\\\\]++) | \\\\\\\\ | (?<!\\\\)\\\\(?!\\\\) | \\\\" )* ) (?<!\\\\)" $ #ixm', (string) $part, $matches2, PREG_SET_ORDER);
 
 			$k = $this->_fixQuotes($matches2[0][2]);
 			$v = !empty($matches2[1][2]) ? $this->_fixQuotes($matches2[1][2]) : '';
@@ -58,11 +57,11 @@ class PoeditParser {
 	}
 
 	public function getJSON() {
-		$str = array();
+		$str = [];
 		foreach ($this->strings as $s) {
 			if ($s->value) $str[$s->key] = $s->value;
 		}
-		return json_encode($str);
+		return json_encode($str, JSON_THROW_ON_ERROR);
 	}
 
 	public function toJSON($outputFilename, $varName = 'l10n') {
@@ -75,7 +74,7 @@ class PoeditParser {
 		foreach ($this->strings as $str) {
 			$data .= $str;
 		}
-		return file_put_contents($filename ? $filename : $this->file, $data) !== false;
+		return file_put_contents($filename ?: $this->file, $data) !== false;
 	}
 }
 

@@ -1,5 +1,5 @@
 <?php
-	$theme = array();
+	$theme = [];
 	
 	// Theme name
 	$theme['name'] = 'Random Overboard';
@@ -8,39 +8,13 @@
 	$theme['version'] = 'v0.2';
 	
 	// Theme configuration	
-	$theme['config'] = array();
+	$theme['config'] = [];
 	
-	$theme['config'][] = array(
-		'title' => 'Board name',
-		'name' => 'title',
-		'type' => 'text',
-		'default' => 'Random'
-	);
-	$theme['config'][] = array(
-		'title' => 'Board URI',
-		'name' => 'uri',
-		'type' => 'text',
-		'default' => '.',
-		'comment' => '(rand for example)'
-	);	
-	$theme['config'][] = array(
-		'title' => 'Subtitle',
-		'name' => 'subtitle',
-		'type' => 'text',
-		'comment' => '(%s = thread limit. for example "%s freshly bumped threads")'
-	);		
-	$theme['config'][] = array(
-		'title' => 'Excluded boards',
-		'name' => 'exclude',
-		'type' => 'text',
-		'comment' => '(space seperated)'
-	);
-	$theme['config'][] = array(
-		'title' => 'Number of threads',
-		'name' => 'thread_limit',
-		'type' => 'text',
-		'default' => '15',
-	);	
+	$theme['config'][] = ['title' => 'Board name', 'name' => 'title', 'type' => 'text', 'default' => 'Random'];
+	$theme['config'][] = ['title' => 'Board URI', 'name' => 'uri', 'type' => 'text', 'default' => '.', 'comment' => '(rand for example)'];	
+	$theme['config'][] = ['title' => 'Subtitle', 'name' => 'subtitle', 'type' => 'text', 'comment' => '(%s = thread limit. for example "%s freshly bumped threads")'];		
+	$theme['config'][] = ['title' => 'Excluded boards', 'name' => 'exclude', 'type' => 'text', 'comment' => '(space seperated)'];
+	$theme['config'][] = ['title' => 'Number of threads', 'name' => 'thread_limit', 'type' => 'text', 'default' => '15'];	
 	// Unique function name for building everything
 	$theme['build_function'] = 'rand_build';
 	$theme['install_callback'] = 'rand_install';

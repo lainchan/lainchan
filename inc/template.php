@@ -14,12 +14,8 @@ function load_twig() {
 	
 	$loader = new Twig_Loader_Filesystem($config['dir']['template']);
 	$loader->setPaths($config['dir']['template']);
-	$twig = new Twig_Environment($loader, array(
-		'autoescape' => false,
-		'cache' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')) ?
-			"{$config['dir']['template']}/cache" : false,
-			'debug' => $config['debug'],
-	));
+	$twig = new Twig_Environment($loader, ['autoescape' => false, 'cache' => is_writable('templates') || (is_dir('templates/cache') && is_writable('templates/cache')) ?
+			"{$config['dir']['template']}/cache" : false, 'debug' => $config['debug']]);
 	$twig->addExtension(new Twig_Extensions_Extension_Tinyboard());
 	$twig->addExtension(new Twig_Extensions_Extension_I18n());
 }
@@ -31,7 +27,7 @@ function Element($templateFile, array $options) {
 	if (!$twig)
 		load_twig();
 	
-	if (function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod'])) && !preg_match('!^mod/!', $templateFile)) {
+	if (function_exists('create_pm_header') && ((isset($options['mod']) && $options['mod']) || isset($options['__mod'])) && !preg_match('!^mod/!', (string) $templateFile)) {
 		$options['pm'] = create_pm_header();
 	}
 	
@@ -52,13 +48,13 @@ function Element($templateFile, array $options) {
 		$_debug['time']['exec'] = '~' . round($_debug['time']['exec'] * 1000, 2) . 'ms';
 		$options['body'] .=
 			'<h3>Debug</h3><pre style="white-space: pre-wrap;font-size: 10px;">' .
-				str_replace("\n", '<br/>', utf8tohtml(print_r($_debug, true))) .
+				str_replace("\n", '<br/>', (string) utf8tohtml(print_r($_debug, true))) .
 			'</pre>';
 	}
 	// Read the template file
 	if (@file_get_contents("{$config['dir']['template']}/${templateFile}")) {
 		$body = $twig->render($templateFile, $options);
-		if ($config['minify_html'] && preg_match('/\.html$/', $templateFile)) {
+		if ($config['minify_html'] && preg_match('/\.html$/', (string) $templateFile)) {
 			$body = trim(preg_replace("/[\t\r\n]/", '', $body));
 		}
 		return $body;
@@ -207,13 +203,9 @@ function custom_strftime(string $format, $timestamp = null, ?string $locale = nu
                 '%a' => $intl_formatter,
                 '%A' => $intl_formatter,
                 '%d' => 'd',
-                '%e' => function ($timestamp) {
-                        return sprintf('% 2u', $timestamp->format('j'));
-                },
-                '%j' => function ($timestamp) {
-                        // Day number in year, 001 to 366
-                        return sprintf('%03d', $timestamp->format('z')+1);
-                },
+                '%e' => fn($timestamp) => sprintf('% 2u', $timestamp->format('j')),
+                '%j' => fn($timestamp) => // Day number in year, 001 to 366
+sprintf('%03d', $timestamp->format('z')+1),
                 '%u' => 'N',
                 '%w' => 'w',
 
@@ -237,26 +229,18 @@ function custom_strftime(string $format, $timestamp = null, ?string $locale = nu
                 '%m' => 'm',
 
                 // Year
-                '%C' => function ($timestamp) {
-                        // Century (-1): 19 for 20th century
-                        return floor($timestamp->format('Y') / 100);
-                },
-                '%g' => function ($timestamp) {
-                        return substr($timestamp->format('o'), -2);
-                },
+                '%C' => fn($timestamp) => // Century (-1): 19 for 20th century
+floor($timestamp->format('Y') / 100),
+                '%g' => fn($timestamp) => substr((string) $timestamp->format('o'), -2),
                 '%G' => 'o',
                 '%y' => 'y',
                 '%Y' => 'Y',
 
                 // Time
                 '%H' => 'H',
-                '%k' => function ($timestamp) {
-                        return sprintf('% 2u', $timestamp->format('G'));
-                },
+                '%k' => fn($timestamp) => sprintf('% 2u', $timestamp->format('G')),
                 '%I' => 'h',
-                '%l' => function ($timestamp) {
-                        return sprintf('% 2u', $timestamp->format('g'));
-                },
+                '%l' => fn($timestamp) => sprintf('% 2u', $timestamp->format('g')),
                 '%M' => 'i',
                 '%p' => 'A', // AM PM (this is reversed on purpose!)
                 '%P' => 'a', // am pm
@@ -313,7 +297,7 @@ function twig_hasPermission_filter($mod, $permission, $board = null) {
 }
 
 function twig_extension_filter($value, $case_insensitive = true) {
-	$ext = mb_substr($value, mb_strrpos($value, '.') + 1);
+	$ext = mb_substr((string) $value, mb_strrpos((string) $value, '.') + 1);
 	if($case_insensitive)
 		$ext = mb_strtolower($ext);
 	return $ext;
@@ -324,25 +308,25 @@ function twig_sprintf_filter( $value, $var) {
 }
 
 function twig_truncate_filter($value, $length = 30, $preserve = false, $separator = '…') {
-	if (mb_strlen($value) > $length) {
+	if (mb_strlen((string) $value) > $length) {
 		if ($preserve) {
-			if (false !== ($breakpoint = mb_strpos($value, ' ', $length))) {
+			if (false !== ($breakpoint = mb_strpos((string) $value, ' ', $length))) {
 				$length = $breakpoint;
 			}
 		}
-		return mb_substr($value, 0, $length) . $separator;
+		return mb_substr((string) $value, 0, $length) . $separator;
 	}
 	return $value;
 }
 
 function twig_filename_truncate_filter($value, $length = 30, $separator = '…') {
-	if (mb_strlen($value) > $length) {
-		$value = strrev($value);
+	if (mb_strlen((string) $value) > $length) {
+		$value = strrev((string) $value);
 		$array = array_reverse(explode(".", $value, 2));
 		$array = array_map("strrev", $array);
 
 		$filename = &$array[0];
-		$extension = isset($array[1]) ? $array[1] : false;
+		$extension = $array[1] ?? false;
 
 		$filename = mb_substr($filename, 0, $length - ($extension ? mb_strlen($extension) + 1 : 0)) . $separator;
 
@@ -357,7 +341,7 @@ function twig_ratio_function($w, $h) {
 function twig_secure_link_confirm($text, $title, $confirm_message, $href) {
 	global $config;
 
-	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes($confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities($title) . '" href="?/' . $href . '">' . $text . '</a>';
+	return '<a onclick="if (event.which==2) return true;if (confirm(\'' . htmlentities(addslashes((string) $confirm_message)) . '\')) document.location=\'?/' . htmlspecialchars(addslashes($href . '/' . make_secure_link_token($href))) . '\';return false;" title="' . htmlentities((string) $title) . '" href="?/' . $href . '">' . $text . '</a>';
 }
 function twig_secure_link($href) {
 	return $href . '/' . make_secure_link_token($href);

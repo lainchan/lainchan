@@ -7,7 +7,6 @@
 <p style="color: blue;background:black">this isn't for you</p>
 <p style="color: red;background:black">it's a 403</p>
 <br /> <br />
-<param name="movie" value="/static/congrats.swf">
 </center>
 <audio autoplay loop>
 <source src="/static/cyberia.ogg" />

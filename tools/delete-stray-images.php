@@ -9,7 +9,7 @@
  *
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 $boards = listBoards();
 
@@ -19,8 +19,8 @@ foreach ($boards as $board) {
 	openBoard($board['uri']);
 	
 	$query = query(sprintf("SELECT `file`, `thumb` FROM ``posts_%s`` WHERE `file` IS NOT NULL", $board['uri']));
-	$valid_src = array();
-	$valid_thumb = array();
+	$valid_src = [];
+	$valid_thumb = [];
 	
 	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
 		$valid_src[] = $post['file'];
@@ -33,10 +33,7 @@ foreach ($boards as $board) {
 	$stray_src = array_diff($files_src, $valid_src);
 	$stray_thumb = array_diff($files_thumb, $valid_thumb);
 	
-	$stats = array(
-		'deleted' => 0,
-		'size' => 0
-	);
+	$stats = ['deleted' => 0, 'size' => 0];
 	
 	foreach ($stray_src as $src) {
 		$stats['deleted']++;

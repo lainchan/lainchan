@@ -2,7 +2,7 @@
 class Lock {
   function __construct($key) { global $config;
     if ($config['lock']['enabled'] == 'fs') {
-      $key = str_replace('/', '::', $key);
+      $key = str_replace('/', '::', (string) $key);
       $key = str_replace("\0", '', $key);
 
       $this->f = fopen("tmp/locks/$key", "w");

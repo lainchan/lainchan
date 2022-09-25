@@ -22,10 +22,10 @@
 				copy('templates/themes/recent/' . $settings['basecss'], $config['dir']['home'] . "stylesheets/" . $settings['css']);
 			}
 			
-			$this->excluded = explode(' ', $settings['exclude']);
+			$this->excluded = explode(' ', (string) $settings['exclude']);
 			
 			if ($action == 'all' || $action == 'post' || $action == 'post-thread' || $action == 'post-delete') {
-				$action = generation_strategy('sb_recent', array());
+				$action = generation_strategy('sb_recent', []);
 				if ($action == 'delete') {
 					file_unlink($config['dir']['home'] . $settings['html']);
 				}
@@ -37,11 +37,12 @@
 		
 		// Build news page
 		public function homepage($settings) {
-			global $config, $board;
+			$files = [];
+   global $config, $board;
 			
-			$recent_images = Array();
-			$recent_posts = Array();
-			$stats = Array();
+			$recent_images = [];
+			$recent_posts = [];
+			$stats = [];
 			
 			$boards = listBoards();
 			
@@ -63,7 +64,7 @@
 				openBoard($post['board']);
 
 				if (isset($post['files']))
-					$files = json_decode($post['files']);
+					$files = json_decode((string) $post['files'], null, 512, JSON_THROW_ON_ERROR);
 
                 if ($files[0]->file == 'deleted' || $files[0]->thumb == 'file') continue;
 				
@@ -145,22 +146,14 @@
 			$files = $query->fetchAll();
 			$stats['active_content'] = 0;
 			foreach ($files as &$file) {
-				preg_match_all('/"size":([0-9]*)/', $file[0], $matches);
+				preg_match_all('/"size":([0-9]*)/', (string) $file[0], $matches);
 				$stats['active_content'] += array_sum($matches[1]);
 			}
 			
 			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC" . ($settings['limit_news'] ? ' LIMIT ' . $settings['limit_news'] : '')) or error(db_error());
 			$recent_news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			return Element('themes/recent/recent.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist(),
-				'recent_images' => $recent_images,
-				'recent_posts' => $recent_posts,
-				'stats' => $stats,
-				'recent_news' => $recent_news,
-			));
+			return Element('themes/recent/recent.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist(), 'recent_images' => $recent_images, 'recent_posts' => $recent_posts, 'stats' => $stats, 'recent_news' => $recent_news]);
 		}
 	};
 	

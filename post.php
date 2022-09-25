@@ -9,15 +9,16 @@ require_once 'inc/bans.php';
 $dropped_post = false;
 
 function handle_nntpchan() {
-	global $config;
+	$msgid = null;
+ global $config;
 	if ($_SERVER['REMOTE_ADDR'] != $config['nntpchan']['trusted_peer']) {
 		error("NNTPChan: Forbidden. $_SERVER[REMOTE_ADDR] is not a trusted peer");
 	}
 
-	$_POST = array();
+	$_POST = [];
 	$_POST['json_response'] = true;
 
-	$headers = json_encode($_GET);
+	$headers = json_encode($_GET, JSON_THROW_ON_ERROR);
 
 	if (!isset ($_GET['Message-Id'])) {
 		if (!isset ($_GET['Message-ID'])) {
@@ -27,8 +28,8 @@ function handle_nntpchan() {
 	}
 	else $msgid = $_GET['Message-Id'];
 
-	$groups = preg_split("/,\s*/", $_GET['Newsgroups']);
-	if (count($groups) != 1) {
+	$groups = preg_split("/,\s*/", (string) $_GET['Newsgroups']);
+	if ((is_countable($groups) ? count($groups) : 0) != 1) {
 		error("NNTPChan: Messages can go to only one newsgroup");
 	}
 	$group = $groups[0];
@@ -40,9 +41,9 @@ function handle_nntpchan() {
 
 	$ref = null;
 	if (isset ($_GET['References'])) {
-		$refs = preg_split("/,\s*/", $_GET['References']);
+		$refs = preg_split("/,\s*/", (string) $_GET['References']);
 
-		if (count($refs) > 1) {
+		if ((is_countable($refs) ? count($refs) : 0) > 1) {
 			error("NNTPChan: We don't support multiple references");
 		}
 
@@ -54,7 +55,7 @@ function handle_nntpchan() {
 
 		$ary = $query->fetchAll(PDO::FETCH_ASSOC);
 
-		if (count($ary) == 0) {
+		if ((is_countable($ary) ? count($ary) : 0) == 0) {
 			error("NNTPChan: We don't have $ref that $msgid references");
 		}
 
@@ -68,9 +69,9 @@ function handle_nntpchan() {
 		$_POST['thread'] = $p_id;
 	}
 
-	$date = isset($_GET['Date']) ? strtotime($_GET['Date']) : time();
+	$date = isset($_GET['Date']) ? strtotime((string) $_GET['Date']) : time();
 
-	list($ct) = explode('; ', $_GET['Content-Type']);
+	[$ct] = explode('; ', (string) $_GET['Content-Type']);
 
 	$query = prepare("SELECT COUNT(*) AS `c` FROM ``nntp_references`` WHERE `message_id` = :msgid");
 	$query->bindValue(":msgid", $msgid);
@@ -89,7 +90,7 @@ function handle_nntpchan() {
 
 		$content = '';
 
-		$newfiles = array();
+		$newfiles = [];
 		foreach ($_FILES['attachment']['error'] as $id => $error) {
 			if ($_FILES['attachment']['type'][$id] == 'text/plain') {
 				$content .= file_get_contents($_FILES['attachment']['tmp_name'][$id]);
@@ -97,7 +98,7 @@ function handle_nntpchan() {
 			elseif ($_FILES['attachment']['type'][$id] == 'message/rfc822') { // Signed message, ignore for now
 			}
 			else { // A real attachment :^)
-				$file = array();
+				$file = [];
 				$file['name']     = $_FILES['attachment']['name'][$id];
 				$file['type']     = $_FILES['attachment']['type'][$id];
 				$file['size']     = $_FILES['attachment']['size'][$id];
@@ -118,7 +119,7 @@ function handle_nntpchan() {
 	$_POST['board'] = $xboard;
 
 	if (isset ($_GET['From'])) {
-		list($name, $mail) = explode(" <", $_GET['From'], 2);
+		[$name, $mail] = explode(" <", (string) $_GET['From'], 2);
 		$mail = preg_replace('/>\s+$/', '', $mail);
 
 		$_POST['name'] = $name;
@@ -139,11 +140,11 @@ function handle_nntpchan() {
 		$query->execute() or error(db_error($query));
 		
 		$ary = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (count($ary) == 0) {
+		if ((is_countable($ary) ? count($ary) : 0) == 0) {
 			return ">>>>$id";
 		}
 		else {
-			$ret = array();
+			$ret = [];
 			foreach ($ary as $v) {
 				if ($v['board'] != $xboard) {
 					$ret[] = ">>>/".$v['board']."/".$v['id'];
@@ -158,13 +159,7 @@ function handle_nntpchan() {
 
 	$_POST['body'] = $content;
 
-	$dropped_post = array(
-		'date' => $date,
-		'board' => $xboard,
-		'msgid' => $msgid,
-		'headers' => $headers,
-		'from_nntp' => true,
-	);
+	$dropped_post = ['date' => $date, 'board' => $xboard, 'msgid' => $msgid, 'headers' => $headers, 'from_nntp' => true];
 	 
 
 }
@@ -180,7 +175,7 @@ function handle_delete(){
 	if ($password == '')
 		error($config['error']['invalidpassword']);
 	
-	$delete = array();
+	$delete = [];
 	foreach ($_POST as $post => $value) {
 		if (preg_match('/^delete_(\d+)$/', $post, $m)) {
 			$delete[] = (int)$m[1];
@@ -236,7 +231,7 @@ function handle_delete(){
 			}
 			
 			_syslog(LOG_INFO, 'Deleted post: ' .
-			'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ? $post['thread'] : $id) . ($post['thread'] ? '#' . $id : '')	
+			'/' . $board['dir'] . $config['dir']['res'] . sprintf($config['file_page'], $post['thread'] ?: $id) . ($post['thread'] ? '#' . $id : '')	
 			);
 		}
 	}
@@ -250,7 +245,7 @@ function handle_delete(){
 		header('Location: ' . $root . $board['dir'] . $config['file_index'], true, $config['redirect_http']);
 	} else {
 		header('Content-Type: text/json');
-		echo json_encode(array('success' => true));
+		echo json_encode(['success' => true]);
 	}
 
         // We are already done, let's continue our heavy-lifting work in the background (if we run off FastCGI)
@@ -262,11 +257,13 @@ function handle_delete(){
 }
 
 function handle_report(){
-	global $config,$board;
+	$thread = [];
+ $id = null;
+ global $config,$board;
 	if (!isset($_POST['board'], $_POST['reason']))
 		error($config['error']['bot']);
 	
-	$report = array();
+	$report = [];
 	foreach ($_POST as $post => $value) {
 		if (preg_match('/^delete_(\d+)$/', $post, $m)) {
 			$report[] = (int)$m[1];
@@ -315,7 +312,7 @@ function handle_report(){
 		
 		$thread = $query->fetch(PDO::FETCH_ASSOC);
 
-		$error = event('report', array('ip' => $_SERVER['REMOTE_ADDR'], 'board' => $board['uri'], 'post' => $post, 'reason' => $reason, 'link' => link_for($post)));
+		$error = event('report', ['ip' => $_SERVER['REMOTE_ADDR'], 'board' => $board['uri'], 'post' => $post, 'reason' => $reason, 'link' => link_for($post)]);
 		if ($error) {
 			error($error);
 		}
@@ -338,12 +335,9 @@ function handle_report(){
             
         function slack($message, $room = "reports", $icon = ":no_entry_sign:") 
         {
-        $room = ($room) ? $room : "reports";
-        $data = "payload=" . json_encode(array(
-        "channel"       =>  "#{$room}",
-        "text"          =>  urlencode($message),
-        "icon_emoji"    =>  $icon
-        ));
+        $config = [];
+        $room = $room ?: "reports";
+        $data = "payload=" . json_encode(["channel"       =>  "#{$room}", "text"          =>  urlencode((string) $message), "icon_emoji"    =>  $icon], JSON_THROW_ON_ERROR);
 
         // You can get your webhook endpoint from your Slack settings
         // For some reason using the configuration key doesn't work 
@@ -358,8 +352,8 @@ function handle_report(){
         return $result;
         }
 		
-		$postcontent = mb_substr($thread['body_nomarkup'], 0, 120) . '...  _*(POST TRIMMED)*_';
-		$slackmessage = '<'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . '> \n ' . $reason . '\n ' . $postcontent . '\n';
+		$postcontent = mb_substr((string) $thread['body_nomarkup'], 0, 120) . '...  _*(POST TRIMMED)*_';
+		$slackmessage = '<'  .$config['domain']  . "/mod.php?/" . $board['dir'] . $config['dir']['res'] .  ( $thread['thread'] ?: $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') . '> \n ' . $reason . '\n ' . $postcontent . '\n';
 
 		$slackresult = slack($slackmessage, $config['slack_channel']); 
         
@@ -373,13 +367,13 @@ function handle_report(){
 	
 	if (!isset($_POST['json_response'])) {
 		$index = $root . $board['dir'] . $config['file_index'];
-		$reported_post = $root . $board['dir']  . $config['dir']['res'] .  ( $thread['thread'] ? $thread['thread'] : $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') ;
+		$reported_post = $root . $board['dir']  . $config['dir']['res'] .  ( $thread['thread'] ?: $id ) . ".html"  .  ($thread['thread'] ? '#' . $id : '') ;
 		//header('Location: ' . $reported_post);
   
-        echo Element('page.html', array('config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')));
+        echo Element('page.html', ['config' => $config, 'body' => '<div style="text-align:center"><a href="javascript:window.close()">[ ' . _('Close window') ." ]</a> <a href='$index'>[ " . _('Return') . ' ]</a></div>', 'title' => _('Report submitted!')]);
 	} else {
 		header('Content-Type: text/json');
-		echo json_encode(array('success' => true));
+		echo json_encode(['success' => true]);
 	}
 
 }
@@ -389,7 +383,7 @@ function handle_post(){
 	if (!isset($_POST['body'], $_POST['board']) && !$dropped_post)
 		error($config['error']['bot']);
 
-	$post = array('board' => $_POST['board'], 'files' => array());
+	$post = ['board' => $_POST['board'], 'files' => []];
 
 	// Check if board exists
 	if (!openBoard($post['board']))
@@ -397,7 +391,7 @@ function handle_post(){
 	
 	$board_locked_check = (!isset($_POST['mod']) || !$_POST['mod'])
 		&& ($config['board_locked']===true
-		|| (is_array($config['board_locked']) && in_array(strtolower($_POST['board']), $config['board_locked'])));
+		|| (is_array($config['board_locked']) && in_array(strtolower((string) $_POST['board']), $config['board_locked'])));
 
 	if ($board_locked_check){
 	    error("Board is locked");
@@ -430,8 +424,8 @@ function handle_post(){
 			// Check what reCAPTCHA has to say...
 			$resp = json_decode(file_get_contents(sprintf('https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s',
 				$config['recaptcha_private'],
-				urlencode($_POST['g-recaptcha-response']),
-				$_SERVER['REMOTE_ADDR'])), true);
+				urlencode((string) $_POST['g-recaptcha-response']),
+				$_SERVER['REMOTE_ADDR'])), true, 512, JSON_THROW_ON_ERROR);
 
 			if (!$resp['success']) {
 				error($config['error']['captcha']);
@@ -460,7 +454,7 @@ function handle_post(){
 	
 		// Check the referrer
 		if ($config['referer_match'] !== false &&
-			(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode($_SERVER['HTTP_REFERER']))))
+			(!isset($_SERVER['HTTP_REFERER']) || !preg_match($config['referer_match'], rawurldecode((string) $_SERVER['HTTP_REFERER']))))
 			error($config['error']['referer']);
 	
 		checkDNSBL();
@@ -488,7 +482,7 @@ function handle_post(){
 		}
 		
 		if (!$post['mod']) {
-			$post['antispam_hash'] = checkSpam(array($board['uri'], isset($post['thread']) ? $post['thread'] : ($config['try_smarter'] && isset($_POST['page']) ? 0 - (int)$_POST['page'] : null)));
+			$post['antispam_hash'] = checkSpam([$board['uri'], $post['thread'] ?? ($config['try_smarter'] && isset($_POST['page']) ? 0 - (int)$_POST['page'] : null)]);
 			if ($post['antispam_hash'] === true)
 				error($config['error']['spam']);
 		}
@@ -522,7 +516,7 @@ function handle_post(){
 		// yep; validate it
 		$value = $_POST['embed'];
 		foreach ($config['embedding'] as &$embed) {
-			if (preg_match($embed[0], $value)) {
+			if (preg_match($embed[0], (string) $value)) {
 				// Valid link
 				$post['embed'] = $value;
 				// This is bad, lol.
@@ -557,15 +551,15 @@ function handle_post(){
 
 		function upload_by_url($config,$post,$url) {
 		$post['file_url'] = $url;
-		if (!preg_match('@^https?://@', $post['file_url']))
+		if (!preg_match('@^https?://@', (string) $post['file_url']))
 			error($config['error']['invalidimg']);
 		
-		if (mb_strpos($post['file_url'], '?') !== false)
-			$url_without_params = mb_substr($post['file_url'], 0, mb_strpos($post['file_url'], '?'));
+		if (mb_strpos((string) $post['file_url'], '?') !== false)
+			$url_without_params = mb_substr((string) $post['file_url'], 0, mb_strpos((string) $post['file_url'], '?'));
 		else
 			$url_without_params = $post['file_url'];
 
-		$post['extension'] = strtolower(mb_substr($url_without_params, mb_strrpos($url_without_params, '.') + 1));
+		$post['extension'] = strtolower(mb_substr((string) $url_without_params, mb_strrpos((string) $url_without_params, '.') + 1));
 
 		if ($post['op'] && $config['allowed_ext_op']) {
 			if (!in_array($post['extension'], $config['allowed_ext_op']))
@@ -598,13 +592,7 @@ function handle_post(){
 		
 		fclose($fp);
 
-		$_FILES[$post['file_tmp']] = array(
-			'name' => basename($url_without_params),
-			'tmp_name' => $post['file_tmp'],
-			'file_tmp' => true,
-			'error' => 0,
-			'size' => filesize($post['file_tmp'])
-		);
+		$_FILES[$post['file_tmp']] = ['name' => basename((string) $url_without_params), 'tmp_name' => $post['file_tmp'], 'file_tmp' => true, 'error' => 0, 'size' => filesize($post['file_tmp'])];
 		}
 	        
 		for( $counter = 1; $counter <= $config['max_images']; $counter++ ) { 
@@ -618,7 +606,7 @@ function handle_post(){
 	
 	$post['name'] = $_POST['name'] != '' ? $_POST['name'] : $config['anonymous'];
 	$post['subject'] = $_POST['subject'];
-	$post['email'] = str_replace(' ', '%20', htmlspecialchars($_POST['email']));
+	$post['email'] = str_replace(' ', '%20', htmlspecialchars((string) $_POST['email']));
 	$post['body'] = $_POST['body'];
 	$post['password'] = $_POST['password'];
 	$post['has_file'] = (!isset($post['embed']) && (($post['op'] && !isset($post['no_longer_require_an_image_for_op']) && $config['force_image_op']) || count($_FILES) > 0));
@@ -683,18 +671,14 @@ function handle_post(){
 		}
 
 		if ($size > $max_size)
-			error(sprintf3($config['error']['filesize'], array(
-				'sz' => number_format($size),
-				'filesz' => number_format($size),
-				'maxsz' => number_format($config['max_filesize'])
-			)));
+			error(sprintf3($config['error']['filesize'], ['sz' => number_format($size), 'filesz' => number_format($size), 'maxsz' => number_format($config['max_filesize'])]));
 		$post['filesize'] = $size;
 	}
 	
 	
 	$post['capcode'] = false;
 	
-	if ($mod && preg_match('/^((.+) )?## (.+)$/', $post['name'], $matches)) {
+	if ($mod && preg_match('/^((.+) )?## (.+)$/', (string) $post['name'], $matches)) {
 		$name = $matches[2] != '' ? $matches[2] : $config['anonymous'];
 		$cap = $matches[3];
 		
@@ -724,7 +708,7 @@ function handle_post(){
 	
 	$trip = generate_tripcode($post['name']);
 	$post['name'] = $trip[0];
-	$post['trip'] = isset($trip[1]) ? $trip[1] : ''; // XX: Dropped posts and tripcodes
+	$post['trip'] = $trip[1] ?? ''; // XX: Dropped posts and tripcodes
 	
 	$noko = false;
 	if (strtolower($post['email']) == 'noko') {
@@ -739,7 +723,7 @@ function handle_post(){
 		$i = 0;
 		foreach ($_FILES as $key => $file) {
 			if ($file['size'] && $file['tmp_name']) {
-				$file['filename'] = urldecode($file['name']);
+				$file['filename'] = urldecode((string) $file['name']);
 				$file['extension'] = strtolower(mb_substr($file['filename'], mb_strrpos($file['filename'], '.') + 1));
 				if (isset($config['filename_func']))
 					$file['file_id'] = $config['filename_func']($file);
@@ -750,7 +734,7 @@ function handle_post(){
 					$file['file_id'] .= "-$i";
 				
 				$file['file'] = $board['dir'] . $config['dir']['img'] . $file['file_id'] . '.' . $file['extension'];
-				$file['thumb'] = $board['dir'] . $config['dir']['thumb'] . $file['file_id'] . '.' . ($config['thumb_ext'] ? $config['thumb_ext'] : $file['extension']);
+				$file['thumb'] = $board['dir'] . $config['dir']['thumb'] . $file['file_id'] . '.' . ($config['thumb_ext'] ?: $file['extension']);
 				$post['files'][] = $file;
 				$i++;
 			}
@@ -780,17 +764,17 @@ function handle_post(){
 	
 	if (!$dropped_post) {
 		// Check string lengths
-		if (mb_strlen($post['name']) > 35)
+		if (mb_strlen((string) $post['name']) > 35)
 			error(sprintf($config['error']['toolong'], 'name'));	
-		if (mb_strlen($post['email']) > 40)
+		if (mb_strlen((string) $post['email']) > 40)
 			error(sprintf($config['error']['toolong'], 'email'));
-		if (mb_strlen($post['subject']) > 100)
+		if (mb_strlen((string) $post['subject']) > 100)
 			error(sprintf($config['error']['toolong'], 'subject'));
-		if (!$mod && mb_strlen($post['body']) > $config['max_body'])
+		if (!$mod && mb_strlen((string) $post['body']) > $config['max_body'])
 			error($config['error']['toolong_body']);
-		if (!$mod && mb_strlen($post['body']) > 0 && (mb_strlen($post['body']) < $config['min_body']))
+		if (!$mod && mb_strlen((string) $post['body']) > 0 && (mb_strlen((string) $post['body']) < $config['min_body']))
 			error($config['error']['tooshort_body']);
-		if (mb_strlen($post['password']) > 20)
+		if (mb_strlen((string) $post['password']) > 20)
 			error(sprintf($config['error']['toolong'], 'password'));
 	}
 	wordfilters($post['body']);
@@ -806,20 +790,20 @@ function handle_post(){
 		$gi=geoip_open('inc/lib/geoip/GeoIPv6.dat', GEOIP_STANDARD);
 	
 		function ipv4to6($ip) {
-			if (strpos($ip, ':') !== false) {
-				if (strpos($ip, '.') > 0)
-					$ip = substr($ip, strrpos($ip, ':')+1);
+			if (str_contains((string) $ip, ':')) {
+				if (strpos((string) $ip, '.') > 0)
+					$ip = substr((string) $ip, strrpos((string) $ip, ':')+1);
 				else return $ip;  //native ipv6
 			}
-			$iparr = array_pad(explode('.', $ip), 4, 0);
+			$iparr = array_pad(explode('.', (string) $ip), 4, 0);
 			$part7 = base_convert(($iparr[0] * 256) + $iparr[1], 10, 16);
 			$part8 = base_convert(($iparr[2] * 256) + $iparr[3], 10, 16);
 			return '::ffff:'.$part7.':'.$part8;
 		}
 	
 		if ($country_code = geoip_country_code_by_addr_v6($gi, ipv4to6($_SERVER['REMOTE_ADDR']))) {
-			if (!in_array(strtolower($country_code), array('eu', 'ap', 'o1', 'a1', 'a2')))
-				$post['body'] .= "\n<tinyboard flag>".strtolower($country_code)."</tinyboard>".
+			if (!in_array(strtolower((string) $country_code), ['eu', 'ap', 'o1', 'a1', 'a2']))
+				$post['body'] .= "\n<tinyboard flag>".strtolower((string) $country_code)."</tinyboard>".
 				"\n<tinyboard flag alt>".geoip\geoip_country_name_by_addr_v6($gi, ipv4to6($_SERVER['REMOTE_ADDR']))."</tinyboard>";
 		}
 	}
@@ -832,9 +816,9 @@ function handle_post(){
 		if (!isset($config['user_flags'][$user_flag]))
 			error(_('Invalid flag selection!'));
 
-		$flag_alt = isset($user_flag_alt) ? $user_flag_alt : $config['user_flags'][$user_flag];
+		$flag_alt = $user_flag_alt ?? $config['user_flags'][$user_flag];
 
-		$post['body'] .= "\n<tinyboard flag>" . strtolower($user_flag) . "</tinyboard>" .
+		$post['body'] .= "\n<tinyboard flag>" . strtolower((string) $user_flag) . "</tinyboard>" .
 		"\n<tinyboard flag alt>" . $flag_alt . "</tinyboard>";
 	}
 
@@ -854,7 +838,7 @@ function handle_post(){
 		// MySQL's `utf8` charset only supports up to 3-byte symbols
 		// Remove anything >= 0x010000
 		
-		$chars = preg_split('//u', $post['body'], -1, PREG_SPLIT_NO_EMPTY);
+		$chars = preg_split('//u', (string) $post['body'], -1, PREG_SPLIT_NO_EMPTY);
 		$post['body_nomarkup'] = '';
 		foreach ($chars as $char) {
 			$o = 0;
@@ -887,7 +871,7 @@ function handle_post(){
 			$file['is_an_image'] = !in_array($file['extension'], $config['allowed_ext_files']);
 			
 			// Truncate filename if it is too long
-			$file['filename'] = mb_substr($file['filename'], 0, $config['max_filename_len']);
+			$file['filename'] = mb_substr((string) $file['filename'], 0, $config['max_filename_len']);
 			
 			$upload = $file['tmp_name'];
 			
@@ -895,8 +879,8 @@ function handle_post(){
 				error($config['error']['nomove']);
 
 			if ($md5cmd) {
-				$output = shell_exec_error($md5cmd . " " . escapeshellarg($upload));
-				$output = explode(' ', $output);
+				$output = shell_exec_error($md5cmd . " " . escapeshellarg((string) $upload));
+				$output = explode(' ', (string) $output);
 				$hash = $output[0];
 			}
 			else {
@@ -939,7 +923,7 @@ function handle_post(){
 			if (!$size = @getimagesize($file['tmp_name'])) {
 				error($config['error']['invalidimg']);
 			}
-			if (!in_array($size[2], array(IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_BMP))) {
+			if (!in_array($size[2], [IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_BMP])) {
 				error($config['error']['invalidimg']);
 			}
 			if ($size[0] > $config['max_width'] || $size[1] > $config['max_height']) {
@@ -951,22 +935,22 @@ function handle_post(){
 				// The following code corrects the image orientation.
 				// Currently only works with the 'convert' option selected but it could easily be expanded to work with the rest if you can be bothered.
 				if (!($config['redraw_image'] || (($config['strip_exif'] && !$config['use_exiftool']) && ($file['extension'] == 'jpg' || $file['extension'] == 'jpeg')))) {
-					if (in_array($config['thumb_method'], array('convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'))) {
+					if (in_array($config['thumb_method'], ['convert', 'convert+gifsicle', 'gm', 'gm+gifsicle'])) {
 						$exif = @exif_read_data($file['tmp_name']);
-						$gm = in_array($config['thumb_method'], array('gm', 'gm+gifsicle'));
+						$gm = in_array($config['thumb_method'], ['gm', 'gm+gifsicle']);
 						if (isset($exif['Orientation']) && $exif['Orientation'] != 1) {
 							if ($config['convert_manual_orient']) {
 								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
-									escapeshellarg($file['tmp_name']) . ' ' .
+									escapeshellarg((string) $file['tmp_name']) . ' ' .
 									ImageConvert::jpeg_exif_orientation(false, $exif) . ' ' .
 									($config['strip_exif'] ? '+profile "*"' :
 										($config['use_exiftool'] ? '' : '+profile "*"')
 									) . ' ' .
-									escapeshellarg($file['tmp_name']));
+									escapeshellarg((string) $file['tmp_name']));
 								if ($config['use_exiftool'] && !$config['strip_exif']) {
 									if ($exiftool_error = shell_exec_error(
 										'exiftool -overwrite_original -q -q -orientation=1 -n ' .
-											escapeshellarg($file['tmp_name'])))
+											escapeshellarg((string) $file['tmp_name'])))
 										error(_('exiftool failed!'), null, $exiftool_error);
 								} else {
 									// TODO: Find another way to remove the Orientation tag from the EXIF profile
@@ -974,7 +958,7 @@ function handle_post(){
 								}
 							} else {
 								$error = shell_exec_error(($gm ? 'gm ' : '') . 'convert ' .
-										escapeshellarg($file['tmp_name']) . ' -auto-orient ' . escapeshellarg($upload));
+										escapeshellarg((string) $file['tmp_name']) . ' -auto-orient ' . escapeshellarg((string) $upload));
 							}
 							if ($error)
 								error(_('Could not auto-orient image!'), null, $error);
@@ -1005,7 +989,7 @@ function handle_post(){
 			} elseif ($config['minimum_copy_resize'] &&
 				$image->size->width <= $config['thumb_width'] &&
 				$image->size->height <= $config['thumb_height'] &&
-				$file['extension'] == ($config['thumb_ext'] ? $config['thumb_ext'] : $file['extension'])) {
+				$file['extension'] == ($config['thumb_ext'] ?: $file['extension'])) {
 			
 				// Copy, because there's nothing to resize
 				copy($file['tmp_name'], $file['thumb']);
@@ -1014,7 +998,7 @@ function handle_post(){
 				$file['thumbheight'] = $image->size->height;
 			} else {
 				$thumb = $image->resize(
-					$config['thumb_ext'] ? $config['thumb_ext'] : $file['extension'],
+					$config['thumb_ext'] ?: $file['extension'],
 					$post['op'] ? $config['thumb_op_width'] : $config['thumb_width'],
 					$post['op'] ? $config['thumb_op_height'] : $config['thumb_height']
 				);
@@ -1030,7 +1014,7 @@ function handle_post(){
 			if ($config['redraw_image'] || (!@$file['exif_stripped'] && $config['strip_exif'] && ($file['extension'] == 'jpg' || $file['extension'] == 'jpeg'))) {
 				if (!$config['redraw_image'] && $config['use_exiftool']) {
 					if($error = shell_exec_error('exiftool -overwrite_original -ignoreMinorErrors -q -q -all= ' .
-						escapeshellarg($file['tmp_name'])))
+						escapeshellarg((string) $file['tmp_name'])))
 						error(_('Could not strip EXIF metadata!'), null, $error);
 				} else {
 					$image->to($file['file']);
@@ -1044,13 +1028,13 @@ function handle_post(){
 				$path = $file['thumb'];
 				$error = shell_exec_error( 'convert -thumbnail x300 -background white -alpha remove ' .
 				escapeshellarg($file['tmp_name']. '[0]') . ' ' .
-				escapeshellarg($file['thumb']));
+				escapeshellarg((string) $file['thumb']));
 
 				if ($error){
-					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['extension']] : $config['file_icons']['default']);	
+					$path = sprintf($config['file_thumb'],$config['file_icons'][$file['extension']] ?? $config['file_icons']['default']);	
 				}
 
-				$file['thumb'] = basename($file['thumb']);
+				$file['thumb'] = basename((string) $file['thumb']);
 				$size = @getimagesize($path);
 				$file['thumbwidth'] = $size[0];
 				$file['thumbheight'] = $size[1];
@@ -1106,13 +1090,13 @@ function handle_post(){
 				$path = $file['thumb'];
 				$error = shell_exec_error( 'convert -thumbnail x300 xc:white -pointsize 12 -fill black -annotate +15+15 ' .
 				escapeshellarg( '@' . $file['tmp_name']) . ' ' .
-				escapeshellarg($file['thumb']));
+				escapeshellarg((string) $file['thumb']));
 
 				if ($error){
-					$path = sprintf($config['file_thumb'],isset($config['file_icons'][$file['extension']]) ? $config['file_icons'][$file['extension']] : $config['file_icons']['default']);	
+					$path = sprintf($config['file_thumb'],$config['file_icons'][$file['extension']] ?? $config['file_icons']['default']);	
 				}
 
-				$file['thumb'] = basename($file['thumb']);
+				$file['thumb'] = basename((string) $file['thumb']);
 				$size = @getimagesize($path);
 				$file['thumbwidth'] = $size[0];
 				$file['thumbheight'] = $size[1];
@@ -1121,11 +1105,11 @@ function handle_post(){
 			}
 			else if ($file['extension'] == "svg"){
 				// Copy, because there's nothing to resize
-				$file['thumb'] = substr_replace($file['thumb'] , $file['extension'], strrpos($file['thumb'] , '.') +1);
+				$file['thumb'] = substr_replace($file['thumb'] , $file['extension'], strrpos((string) $file['thumb'] , '.') +1);
 				copy($file['tmp_name'], $file['thumb']);
 				$file['thumbwidth'] = $config['thumb_width'];
 				$file['thumbheight'] = $config['thumb_height'];
-				$file['thumb'] = basename($file['thumb']);
+				$file['thumb'] = basename((string) $file['thumb']);
 			
 			}
 			else {
@@ -1134,8 +1118,7 @@ function handle_post(){
 			$file['thumb'] = 'file';
 
 			$size = @getimagesize(sprintf($config['file_thumb'],
-				isset($config['file_icons'][$file['extension']]) ?
-					$config['file_icons'][$file['extension']] : $config['file_icons']['default']));
+				$config['file_icons'][$file['extension']] ?? $config['file_icons']['default']));
 			$file['thumbwidth'] = $size[0];
 			$file['thumbheight'] = $size[1];
 			}
@@ -1151,10 +1134,10 @@ function handle_post(){
 			if ($fname == 'spoiler') { // We don't have that much CPU time, do we?
 			}
 			else {
-				$tmpname = __DIR__ . "/tmp/tesseract/".rand(0,10000000);
+				$tmpname = __DIR__ . "/tmp/tesseract/".random_int(0,10_000_000);
 
 				// Preprocess command is an ImageMagick b/w quantization
-				$error = shell_exec_error(sprintf($config['tesseract_preprocess_command'], escapeshellarg($fname)) . " | " .
+				$error = shell_exec_error(sprintf($config['tesseract_preprocess_command'], escapeshellarg((string) $fname)) . " | " .
                                                           'tesseract stdin '.escapeshellarg($tmpname).' '.$config['tesseract_params']);
 				$tmpname .= ".txt";
 
@@ -1227,17 +1210,17 @@ function handle_post(){
 		foreach ($post['files'] as $key => &$file) {
 			$file['file_path'] = $file['file'];
 			$file['thumb_path'] = $file['thumb'];
-			$file['file'] = mb_substr($file['file'], mb_strlen($board['dir'] . $config['dir']['img']));
+			$file['file'] = mb_substr((string) $file['file'], mb_strlen($board['dir'] . $config['dir']['img']));
 			if ($file['is_an_image'] && $file['thumb'] != 'spoiler')
-				$file['thumb'] = mb_substr($file['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));
+				$file['thumb'] = mb_substr((string) $file['thumb'], mb_strlen($board['dir'] . $config['dir']['thumb']));
 		}
 	}
 	
 	$post = (object)$post;
-	$post->files = array_map(function($a) { return (object)$a; }, $post->files);
+	$post->files = array_map(fn($a) => (object)$a, $post->files);
 
 	$error = event('post', $post);
-	$post->files = array_map(function($a) { return (array)$a; }, $post->files);
+	$post->files = array_map(fn($a) => (array)$a, $post->files);
 
 	if ($error) {
 		undoImage((array)$post);
@@ -1260,7 +1243,7 @@ function handle_post(){
 		$query->bindValue(':board', $dropped_post['board']);
 		$query->bindValue(':id', $id);
 		$query->bindValue(':message_id', $dropped_post['msgid']);
-		$query->bindValue(':message_id_digest', sha1($dropped_post['msgid']));
+		$query->bindValue(':message_id_digest', sha1((string) $dropped_post['msgid']));
 		$query->bindValue(':headers', $dropped_post['headers']);
 		$query->execute() or error(db_error($query));
 	}	// ^^^^^ For inbound posts  ^^^^^
@@ -1270,7 +1253,7 @@ function handle_post(){
 		require_once('inc/nntpchan/nntpchan.php');
 		$msgid = gen_msgid($post['board'], $post['id']);
 
-		list($headers, $files) = post2nntp($post, $msgid);
+		[$headers, $files] = post2nntp($post, $msgid);
 
 		$message = gen_nntp($headers, $files);
 
@@ -1280,8 +1263,8 @@ function handle_post(){
 		$query->bindValue(':board', $post['board']);
                 $query->bindValue(':id', $post['id']);
                 $query->bindValue(':message_id', $msgid);
-                $query->bindValue(':message_id_digest', sha1($msgid));
-                $query->bindValue(':headers', json_encode($headers));
+                $query->bindValue(':message_id_digest', sha1((string) $msgid));
+                $query->bindValue(':headers', json_encode($headers, JSON_THROW_ON_ERROR));
                 $query->execute() or error(db_error($query));
 
 		// Let's broadcast it!
@@ -1304,7 +1287,7 @@ function handle_post(){
 	}
 	
 	if (isset($post['tracked_cites']) && !empty($post['tracked_cites'])) {
-		$insert_rows = array();
+		$insert_rows = [];
 		foreach ($post['tracked_cites'] as $cite) {
 			$insert_rows[] = '(' .
 				$pdo->quote($board['uri']) . ', ' . (int)$id . ', ' .
@@ -1313,20 +1296,20 @@ function handle_post(){
 		query('INSERT INTO ``cites`` VALUES ' . implode(', ', $insert_rows)) or error(db_error());
 	}
 	
-	if (!$post['op'] && strtolower($post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
+	if (!$post['op'] && strtolower((string) $post['email']) != 'sage' && !$thread['sage'] && ($config['reply_limit'] == 0 || $numposts['replies']+1 < $config['reply_limit'])) {
 		bumpThread($post['thread']);
 	}
 	
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		// Tell Javascript that we posted successfully
 		if (isset($_COOKIE[$config['cookies']['js']]))
-			$js = json_decode($_COOKIE[$config['cookies']['js']]);
+			$js = json_decode((string) $_COOKIE[$config['cookies']['js']], null, 512, JSON_THROW_ON_ERROR);
 		else
-			$js = (object) array();
+			$js = (object) [];
 		// Tell it to delete the cached post for referer
 		$js->{$_SERVER['HTTP_REFERER']} = true;
 		// Encode and set cookie
-		setcookie($config['cookies']['js'], json_encode($js), 0, $config['cookies']['jail'] ? $config['cookies']['path'] : '/', $config['domain'], false, false);
+		setcookie($config['cookies']['js'], json_encode($js, JSON_THROW_ON_ERROR), ['expires' => 0, 'path' => $config['cookies']['jail'] ? $config['cookies']['path'] : '/', 'domain' => $config['domain'], 'secure' => false, 'httponly' => false]);
 	}
 	
 	$root = $post['mod'] ? $config['root'] . $config['file_mod'] . '?/' : $config['root'];
@@ -1336,15 +1319,10 @@ function handle_post(){
 			link_for($post, false, false, $thread) . (!$post['op'] ? '#' . $id : '');
 	   	
 		if (!$post['op'] && isset($_SERVER['HTTP_REFERER'])) {
-			$regex = array(
-				'board' => str_replace('%s', '(\w{1,8})', preg_quote($config['board_path'], '/')),
-				'page' => str_replace('%d', '(\d+)', preg_quote($config['file_page'], '/')),
-				'page50' => '(' . str_replace('%d', '(\d+)', preg_quote($config['file_page50'], '/')) . '|' .
-						  str_replace(array('%d', '%s'), array('(\d+)', '[a-z0-9-]+'), preg_quote($config['file_page50_slug'], '/')) . ')',
-				'res' => preg_quote($config['dir']['res'], '/'),
-			);
+			$regex = ['board' => str_replace('%s', '(\w{1,8})', preg_quote((string) $config['board_path'], '/')), 'page' => str_replace('%d', '(\d+)', preg_quote((string) $config['file_page'], '/')), 'page50' => '(' . str_replace('%d', '(\d+)', preg_quote((string) $config['file_page50'], '/')) . '|' .
+						  str_replace(['%d', '%s'], ['(\d+)', '[a-z0-9-]+'], preg_quote((string) $config['file_page50_slug'], '/')) . ')', 'res' => preg_quote((string) $config['dir']['res'], '/')];
 
-			if (preg_match('/\/' . $regex['board'] . $regex['res'] . $regex['page50'] . '([?&].*)?$/', $_SERVER['HTTP_REFERER'])) {
+			if (preg_match('/\/' . $regex['board'] . $regex['res'] . $regex['page50'] . '([?&].*)?$/', (string) $_SERVER['HTTP_REFERER'])) {
 				$redirect = $root . $board['dir'] . $config['dir']['res'] .
 					link_for($post, true, false, $thread) . (!$post['op'] ? '#' . $id : '');
 			}
@@ -1366,11 +1344,7 @@ function handle_post(){
 		header('Location: ' . $redirect, true, $config['redirect_http']);
 	} else {
 		header('Content-Type: text/json; charset=utf-8');
-		echo json_encode(array(
-			'redirect' => $redirect,
-			'noko' => $noko,
-			'id' => $id
-		));
+		echo json_encode(['redirect' => $redirect, 'noko' => $noko, 'id' => $id], JSON_THROW_ON_ERROR);
 	}
 	
 	if ($config['try_smarter'] && $post['op'])
@@ -1421,7 +1395,7 @@ function handle_appeal(){
 	$query = query("SELECT `denied` FROM ``ban_appeals`` WHERE `ban_id` = $ban_id") or error(db_error());
 	$ban_appeals = $query->fetchAll(PDO::FETCH_COLUMN);
 	
-	if (count($ban_appeals) >= $config['ban_appeals_max']) {
+	if ((is_countable($ban_appeals) ? count($ban_appeals) : 0) >= $config['ban_appeals_max']) {
 		error(_("You cannot appeal this ban again."));
 	}
 	

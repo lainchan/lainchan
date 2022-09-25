@@ -18,9 +18,7 @@ class radio {
     global $config;
 
     return Element('themes/radio/radio.html',
-                   array('settings'  => $settings,
-                         'config'    => $config,
-                         'boardlist' => createBoardlist()));
+                   ['settings'  => $settings, 'config'    => $config, 'boardlist' => createBoardlist()]);
   }
 }
 

@@ -1,26 +1,20 @@
 <?php
 
-class PoeditString {
-	public $key;
-	public $value;
-	public $fuzzy;
+class PoeditString implements \Stringable {
 	public $comments;
 
-	function __construct($key, $value = '', $fuzzy = false, $comments = array()) {
-		$this->key = $key;
-		$this->value = $value;
-		$this->fuzzy = $fuzzy;
+	function __construct(public $key, public $value = '', public $fuzzy = false, $comments = []) {
 		$this->comments = (array)$comments;
 	}
 
-	public function __toString() {
+	public function __toString(): string {
 		$str ='';
 		foreach ($this->comments as $c) {
 			$str .= "#: $c\n";
 		}
 		if ($this->fuzzy) $str .= "#, fuzzy\n";
-		$str .= 'msgid "'.str_replace('"', '\\"', $this->key).'"' . "\n";
-		$str .= 'msgstr "'.str_replace('"', '\\"', $this->value).'"' . "\n";
+		$str .= 'msgid "'.str_replace('"', '\\"', (string) $this->key).'"' . "\n";
+		$str .= 'msgstr "'.str_replace('"', '\\"', (string) $this->value).'"' . "\n";
 		$str .= "\n";
 		return $str;
 	}

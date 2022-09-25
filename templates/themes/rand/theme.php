@@ -6,7 +6,7 @@
 		$rand->settings = $settings;
 		
 		file_write($settings['uri'] . '/index.html', $rand->build());
-		file_write($settings['uri'] . '/rand.js', Element('themes/rand/rand.js', array()));
+		file_write($settings['uri'] . '/rand.js', Element('themes/rand/rand.js', []));
 	}
 	
 	class rand {
@@ -16,17 +16,12 @@
 			$boards = listBoards();
 			
 			$body = '';
-			$overflow = array();
-			$board = array(
-				'dir' => $this->settings['uri'] . "/",
-				'url' => $this->settings['uri'],
-				'name' => $this->settings['title'],
-				'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])
-			);
+			$overflow = [];
+			$board = ['dir' => $this->settings['uri'] . "/", 'url' => $this->settings['uri'], 'name' => $this->settings['title'], 'title' => sprintf($this->settings['subtitle'], $this->settings['thread_limit'])];
 
 			$query = '';
 			foreach($boards as &$_board) {
-				if(in_array($_board['uri'], explode(' ', $this->settings['exclude'])))
+				if(in_array($_board['uri'], explode(' ', (string) $this->settings['exclude'])))
 					continue;
 				$query .= sprintf("SELECT *, '%s' AS `board` FROM ``posts_%s`` WHERE `thread` IS NULL UNION ALL ", $_board['uri'], $_board['uri']);
 			}
@@ -34,7 +29,7 @@
 			$query = query($query) or error(db_error());
 
 			$count = 0;
-			$threads = array();
+			$threads = [];
 			while($post = $query->fetch()) {
 
 				if(!isset($threads[$post['board']])) {
@@ -81,23 +76,16 @@
 					if(floor($threads[$post['board']] / $config['threads_per_page']) > 0) {
 						$page = floor($threads[$post['board']] / $config['threads_per_page']) + 1;
 					}
-					$overflow[] = array('id' => $post['id'], 'board' => $post['board'], 'page' => $page . '.html');
+					$overflow[] = ['id' => $post['id'], 'board' => $post['board'], 'page' => $page . '.html'];
 				}
 
 				$count += 1;
 			}
 
-			$body .= '<script> var overflow = ' . json_encode($overflow) . '</script>';
+			$body .= '<script> var overflow = ' . json_encode($overflow, JSON_THROW_ON_ERROR) . '</script>';
 			$body .= '<script type="text/javascript" src="/'.$this->settings['uri'].'/rand.js"></script>';
 
-			return Element('index.html', array(
-				'config' => $config,
-				'board' => $board,
-				'no_post_form' => true,
-				'body' => $body,
-				'mod' => $mod,
-				'boardlist' => createBoardlist($mod),
-			));
+			return Element('index.html', ['config' => $config, 'board' => $board, 'no_post_form' => true, 'body' => $body, 'mod' => $mod, 'boardlist' => createBoardlist($mod)]);
 		}
 		
 	};

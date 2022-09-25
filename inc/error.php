@@ -1,7 +1,8 @@
 <?PHP
 
 function error_handler($errno,$errstr,$errfile, $errline){
-	if(error_reporting() & $errno){
+	$config = [];
+ if(error_reporting() & $errno){
 		$config['debug']=true;
 		error($errstr . ' in ' . $errfile . ' at line ' . $errline);
 	}
@@ -49,9 +50,9 @@ function error($message, $priority = true, $debug_stuff = true) {
 		}
 
 		if ($config['debug']) {
-			$debug_stuff=array();
+			$debug_stuff=[];
 			if(isset($db_error)){
-				$debug_stuff = array_combine(array('SQLSTATE', 'Error code', 'Error message'), $db_error);
+				$debug_stuff = array_combine(['SQLSTATE', 'Error code', 'Error message'], $db_error);
 			}
 			$debug_stuff['backtrace'] = debug_backtrace();
 			$pw = $config['db']['password'];
@@ -67,26 +68,15 @@ function error($message, $priority = true, $debug_stuff = true) {
 
 	if (isset($_POST['json_response'])) {
 		header('Content-Type: text/json; charset=utf-8');
-		$data=array('error'=>$message);
+		$data=['error'=>$message];
 		if(!empty($config) && $config['debug']){
 			$data['debug']=$debug_stuff;
 		}
-		print json_encode($data);
+		print json_encode($data, JSON_THROW_ON_ERROR);
 		exit();
 	}
 
 	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
 	
-	die(Element('page.html', array(
-		'config' => $config,
-		'title' => _('Error'),
-		'subtitle' => _('An error has occured.'),
-		'body' => Element('error.html', array(
-			'config' => $config,
-			'message' => $message,
-			'mod' => $mod,
-			'board' => isset($board) ? $board : false,
-			'debug' => str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true)))
-		))
-	)));
+	die(Element('page.html', ['config' => $config, 'title' => _('Error'), 'subtitle' => _('An error has occured.'), 'body' => Element('error.html', ['config' => $config, 'message' => $message, 'mod' => $mod, 'board' => $board ?? false, 'debug' => str_replace("\n", '&#10;', (string) utf8tohtml(print_r($debug_stuff, true)))])]));
 }

@@ -29,7 +29,7 @@
 		public static function homepage($settings) {
 			global $config;
 			
-			return Element('themes/categories/frames.html', Array('config' => $config, 'settings' => $settings));
+			return Element('themes/categories/frames.html', ['config' => $config, 'settings' => $settings]);
 		}
 		
 		// Build news page
@@ -39,12 +39,7 @@
 			$query = query("SELECT * FROM ``news`` ORDER BY `time` DESC") or error(db_error());
 			$news = $query->fetchAll(PDO::FETCH_ASSOC);
 			
-			return Element('themes/categories/news.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'news' => $news,
-		                'boardlist' => createBoardlist(false)
-			));
+			return Element('themes/categories/news.html', ['settings' => $settings, 'config' => $config, 'news' => $news, 'boardlist' => createBoardlist(false)]);
 		}
 		
 		// Build sidebar
@@ -58,15 +53,11 @@
 					$title = boardTitle($board);
 					if (!$title)
 						$title = $board; // board doesn't exist, but for some reason you want to display it anyway
-					$board = Array('title' => $title, 'uri' => sprintf($config['board_path'], $board));
+					$board = ['title' => $title, 'uri' => sprintf($config['board_path'], $board)];
 				}
 			}
 			
-			return Element('themes/categories/sidebar.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'categories' => $categories
-			));
+			return Element('themes/categories/sidebar.html', ['settings' => $settings, 'config' => $config, 'categories' => $categories]);
 		}
 	};
 	

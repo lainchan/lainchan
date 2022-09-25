@@ -4,11 +4,7 @@
 
   //If the user is not banned, show the "not banned" page.
   die(
-    Element('page.html', array(
-      'title' => _('Not banned!'),
-      'config' => $config,
-      'nojavascript' => true,
-      'body' => Element('notbanned.html', array()
-    ))
+    Element('page.html', ['title' => _('Not banned!'), 'config' => $config, 'nojavascript' => true, 'body' => Element('notbanned.html', []
+  )]
   )); 
 ?>

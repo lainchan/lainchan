@@ -11,17 +11,17 @@
  *  I removed the quiet option, it's useless. Just use output redirection.
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 $start = microtime(true);
 
 // parse command line
-$opts = getopt('', Array('board:', 'themes', 'js', 'indexes', 'threads', 'processes:', 'cache', 'postmarkup', 'api'));
-$options = Array();
+$opts = getopt('', ['board:', 'themes', 'js', 'indexes', 'threads', 'processes:', 'cache', 'postmarkup', 'api']);
+$options = [];
 $global_locale = $config['locale'];
 
 // Do only one board?
-$options['board'] = isset($opts['board']) ? $opts['board'] : (isset($opts['b']) ? $opts['b'] : false);
+$options['board'] = $opts['board'] ?? $opts['b'] ?? false;
 // Clear the cache?
 $options['cache'] = isset($opts['cache']);
 // Rebuild themes (catalogs)?
@@ -37,7 +37,7 @@ $options['postmarkup'] = isset($opts['postmarkup']);
 // Rebuild API pages? (e.g. /b/res/1.json')
 $options['api'] = isset($opts['api']);
 // How many processes?
-$options['processes'] = isset($opts['processes']) ? $opts['processes'] : 1;
+$options['processes'] = $opts['processes'] ?? 1;
 
 echo "== Tinyboard + vichan {$config['version']} ==\n";	
 
@@ -71,22 +71,22 @@ function doboard($board) {
 	echo "Opening board /{$board['uri']}/...\n";
 	// Reset locale to global locale
 	$config['locale'] = $global_locale;
-	init_locale($config['locale'], 'error');
+	init_locale($config['locale']);
 	openBoard($board['uri']);
 	$config['try_smarter'] = false;
-	
+
 	if($config['file_script'] != $main_js && $options['js']) {
 		// different javascript file
 		echo "(/{$board['uri']}/) Generating Javascript file...\n";
 		buildJavascript();
 	}
-	
-	
+
+
 	if ($options['indexes']) {
 		echo "(/{$board['uri']}/) Creating index pages...\n";
 		buildIndex();
 	}
-	
+
 	if($options['postmarkup']) {
 		$query = query(sprintf("SELECT `id` FROM ``posts_%s``", $board['uri'])) or error(db_error());
 		while($post = $query->fetch()) {
@@ -94,7 +94,7 @@ function doboard($board) {
 			rebuildPost($post['id']);
 		}
 	}
-	
+
 	if ($options['threads']) {
 		$query = query(sprintf("SELECT `id` FROM ``posts_%s`` WHERE `thread` IS NULL", $board['uri'])) or error(db_error());
 		while($post = $query->fetch()) {
@@ -104,7 +104,7 @@ function doboard($board) {
 	}
 }
 
-$children = array();
+$children = [];
 foreach ($boards_m as $i => $bb) {
 	$pid = pcntl_fork();
 

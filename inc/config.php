@@ -50,7 +50,7 @@
 
 	// Directory where temporary files will be created.
 	$config['tmp'] = sys_get_temp_dir();
-	$config['overboards'] = array();
+	$config['overboards'] = [];
 	// The HTTP status code to use when redirecting. http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	// Can be either 303 "See Other" or 302 "Found". (303 is more correct but both should work.)
 	// There is really no reason for you to ever need to change this.
@@ -129,14 +129,12 @@
 	$config['cache']['prefix'] = '';
 
 	// Memcached servers to use. Read more: http://www.php.net/manual/en/memcached.addservers.php
-	$config['cache']['memcached'] = array(
-		array('localhost', 11211)
-	);
+	$config['cache']['memcached'] = [['localhost', 11211]];
 
 	// Redis server to use. Location, port, password, database id.
 	// Note that Tinyboard may clear the database at times, so you may want to pick a database id just for
 	// Tinyboard to use.
-	$config['cache']['redis'] = array('localhost', 6379, '', 1);
+	$config['cache']['redis'] = ['localhost', 6379, '', 1];
 
 	// EXPERIMENTAL: Should we cache configs? Warning: this changes board behaviour, i'd say, a lot.
 	// If you have any lambdas/includes present in your config, you should move them to instance-functions.php
@@ -258,53 +256,10 @@
 	$config['spam']['unicode'] = true;
 
 	// These are fields used to confuse the bots. Make sure they aren't actually used by Tinyboard, or it won't work.
-	$config['spam']['hidden_input_names'] = array(
-		'user',
-		'username',
-		'login',
-		'search',
-		'q',
-		'url',
-		'firstname',
-		'lastname',
-		'text',
-		'message'
-	);
+	$config['spam']['hidden_input_names'] = ['user', 'username', 'login', 'search', 'q', 'url', 'firstname', 'lastname', 'text', 'message'];
 
 	// Always update this when adding new valid fields to the post form, or EVERYTHING WILL BE DETECTED AS SPAM!
-	$config['spam']['valid_inputs'] = array(
-		'hash',
-		'board',
-		'thread',
-		'mod',
-		'name',
-		'email',
-		'subject',
-		'post',
-		'body',
-		'password',
-		'sticky',
-		'lock',
-		'raw',
-		'embed',
-		'g-recaptcha-response',
-		'spoiler',
-		'page',
-		'file_url',
-		'file_url1',
-		'file_url2',
-		'file_url3',
-		'file_url4',
-		'file_url5',
-		'file_url6',
-		'file_url7',
-		'file_url8',
-		'file_url9',
-		'json_response',
-		'user_flag',
-		'no_country',
-		'tag'
-	);
+	$config['spam']['valid_inputs'] = ['hash', 'board', 'thread', 'mod', 'name', 'email', 'subject', 'post', 'body', 'password', 'sticky', 'lock', 'raw', 'embed', 'g-recaptcha-response', 'spoiler', 'page', 'file_url', 'file_url1', 'file_url2', 'file_url3', 'file_url4', 'file_url5', 'file_url6', 'file_url7', 'file_url8', 'file_url9', 'json_response', 'user_flag', 'no_country', 'tag'];
 
 	// Enable reCaptcha to make spam even harder. Rarely necessary.
 	$config['recaptcha'] = false;
@@ -346,35 +301,26 @@
 	$config['flood_time_same'] = 30;
 
 	// Minimum time between posts by the same IP address (all boards).
-	$config['filters'][] = array(
-		'condition' => array(
-			'flood-match' => array('ip'), // Only match IP address
-			'flood-time' => &$config['flood_time']
-		),
-		'action' => 'reject',
-		'message' => &$config['error']['flood']
-	);
+	$config['filters'][] = ['condition' => [
+     'flood-match' => ['ip'],
+     // Only match IP address
+     'flood-time' => &$config['flood_time'],
+ ], 'action' => 'reject', 'message' => &$config['error']['flood']];
 
 	// Minimum time between posts by the same IP address with the same text.
-	$config['filters'][] = array(
-		'condition' => array(
-			'flood-match' => array('ip', 'body'), // Match IP address and post body
-			'flood-time' => &$config['flood_time_ip'],
-			'!body' => '/^$/', // Post body is NOT empty
-		),
-		'action' => 'reject',
-		'message' => &$config['error']['flood']
-	);
+	$config['filters'][] = ['condition' => [
+     'flood-match' => ['ip', 'body'],
+     // Match IP address and post body
+     'flood-time' => &$config['flood_time_ip'],
+     '!body' => '/^$/',
+ ], 'action' => 'reject', 'message' => &$config['error']['flood']];
 
 	// Minimum time between posts with the same text. (Same content, but not always the same IP address.)
-	$config['filters'][] = array(
-		'condition' => array(
-			'flood-match' => array('body'), // Match only post body
-			'flood-time' => &$config['flood_time_same']
-		),
-		'action' => 'reject',
-		'message' => &$config['error']['flood']
-	);
+	$config['filters'][] = ['condition' => [
+     'flood-match' => ['body'],
+     // Match only post body
+     'flood-time' => &$config['flood_time_same'],
+ ], 'action' => 'reject', 'message' => &$config['error']['flood']];
 
 	// Example: Minimum time between posts with the same file hash.
 	// $config['filters'][] = array(
@@ -598,7 +544,7 @@
 	$config['user_flag'] = false;
 	
 	// List of user_flag the user can choose. Flags must be placed in the directory set by $config['uri_flags']
-	$config['user_flags'] = array();
+	$config['user_flags'] = [];
 	/* example: 
 	$config['user_flags'] = array (
 		'nz' => 'Nazi',
@@ -652,10 +598,10 @@
  */
 
 	// "Wiki" markup syntax ($config['wiki_markup'] in pervious versions):
-	$config['markup'][] = array("/'''(.+?)'''/", "<strong>\$1</strong>");
-	$config['markup'][] = array("/''(.+?)''/", "<em>\$1</em>");
-	$config['markup'][] = array("/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>");
-	$config['markup'][] = array("/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>");
+	$config['markup'][] = ["/'''(.+?)'''/", "<strong>\$1</strong>"];
+	$config['markup'][] = ["/''(.+?)''/", "<em>\$1</em>"];
+	$config['markup'][] = ["/\*\*(.+?)\*\*/", "<span class=\"spoiler\">\$1</span>"];
+	$config['markup'][] = ["/^[ |\t]*==(.+?)==[ |\t]*$/m", "<span class=\"heading\">\$1</span>"];
 
 	// Code markup. This should be set to a regular expression, using tags you want to use. Examples:
 	// "/\[code\](.*?)\[\/code\]/is"
@@ -935,7 +881,7 @@
 	// $config['uri_stylesheets'] = 'http://static.example.org/stylesheets/';
 
 	// The default stylesheet to use.
-	$config['default_stylesheet'] = array('Yotsuba B', $config['stylesheets']['Yotsuba B']);
+	$config['default_stylesheet'] = ['Yotsuba B', $config['stylesheets']['Yotsuba B']];
 
 	// Make stylesheet selections board-specific.
 	$config['stylesheets_board'] = false;
@@ -1055,32 +1001,7 @@
 
 	// Custom embedding (YouTube, vimeo, etc.)
 	// It's very important that you match the entire input (with ^ and $) or things will not work correctly.
-	$config['embedding'] = array(
-		array(
-			'/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9\-_]{10,11})(&.+)?$/i',
-			'<iframe style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" id="ytplayer" src="http://www.youtube.com/embed/$2"></iframe>'
-		),
-		array(
-			'/^https?:\/\/(\w+\.)?vimeo\.com\/(\d{2,10})(\?.+)?$/i',
-			'<iframe src="https://player.vimeo.com/video/$2" style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
-		),
-		array(
-			'/^https?:\/\/(\w+\.)?dailymotion\.com\/video\/([a-zA-Z0-9]{2,10})(_.+)?$/i',
-			'<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.dailymotion.com/swf/video/$2"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><param name="wmode" value="transparent"><embed type="application/x-shockwave-flash" src="http://www.dailymotion.com/swf/video/$2" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></object>'
-		),
-		array(
-			'/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?[^\'"<>]+)?$/i',
-			'<div style="float:left;margin:10px 20px;width:%%tb_width%%px;height:%%tb_height%%px"><embed flashVars="playerVars=showStats=no|autoPlay=no" src="http://www.metacafe.com/fplayer/$2/$3.swf" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowFullScreen="true" allowScriptAccess="always" name="Metacafe_$2" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></div>'
-		),
-		array(
-			'/^https?:\/\/video\.google\.com\/videoplay\?docid=(\d+)([&#](.+)?)?$/i',
-			'<embed src="http://video.google.com/googleplayer.swf?docid=$1&hl=en&fs=true" style="width:%%tb_width%%px;height:%%tb_height%%px;float:left;margin:10px 20px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
-		),
-		array(
-			'/^https?:\/\/(\w+\.)?vocaroo\.com\/i\/([a-zA-Z0-9]{2,15})$/i',
-			'<object style="float: left;margin: 10px 20px;" width="148" height="44"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$2&autoplay=0"><param name="wmode" value="transparent"><embed src="http://vocaroo.com/player.swf?playMediaID=$2&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></object>'
-		)
-	);
+	$config['embedding'] = [['/^https?:\/\/(\w+\.)?youtube\.com\/watch\?v=([a-zA-Z0-9\-_]{10,11})(&.+)?$/i', '<iframe style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" id="ytplayer" src="http://www.youtube.com/embed/$2"></iframe>'], ['/^https?:\/\/(\w+\.)?vimeo\.com\/(\d{2,10})(\?.+)?$/i', '<iframe src="https://player.vimeo.com/video/$2" style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'], ['/^https?:\/\/(\w+\.)?dailymotion\.com\/video\/([a-zA-Z0-9]{2,10})(_.+)?$/i', '<object style="float: left;margin: 10px 20px;" width="%%tb_width%%" height="%%tb_height%%"><param name="movie" value="http://www.dailymotion.com/swf/video/$2"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><param name="wmode" value="transparent"><embed type="application/x-shockwave-flash" src="http://www.dailymotion.com/swf/video/$2" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></object>'], ['/^https?:\/\/(\w+\.)?metacafe\.com\/watch\/(\d+)\/([a-zA-Z0-9_\-.]+)\/(\?[^\'"<>]+)?$/i', '<div style="float:left;margin:10px 20px;width:%%tb_width%%px;height:%%tb_height%%px"><embed flashVars="playerVars=showStats=no|autoPlay=no" src="http://www.metacafe.com/fplayer/$2/$3.swf" width="%%tb_width%%" height="%%tb_height%%" wmode="transparent" allowFullScreen="true" allowScriptAccess="always" name="Metacafe_$2" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></div>'], ['/^https?:\/\/video\.google\.com\/videoplay\?docid=(\d+)([&#](.+)?)?$/i', '<embed src="http://video.google.com/googleplayer.swf?docid=$1&hl=en&fs=true" style="width:%%tb_width%%px;height:%%tb_height%%px;float:left;margin:10px 20px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'], ['/^https?:\/\/(\w+\.)?vocaroo\.com\/i\/([a-zA-Z0-9]{2,15})$/i', '<object style="float: left;margin: 10px 20px;" width="148" height="44"><param name="movie" value="http://vocaroo.com/player.swf?playMediaID=$2&autoplay=0"><param name="wmode" value="transparent"><embed src="http://vocaroo.com/player.swf?playMediaID=$2&autoplay=0" width="148" height="44" wmode="transparent" type="application/x-shockwave-flash"></object>']];
 
 	// Embedding width and height.
 	$config['embed_width'] = 300;
@@ -1168,9 +1089,9 @@
 	if (isset($_SERVER['REQUEST_URI'])) {
 		$request_uri = $_SERVER['REQUEST_URI'];
 		if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '')
-			$request_uri = substr($request_uri, 0, - 1 - strlen($_SERVER['QUERY_STRING']));
-		$config['root']	 = str_replace('\\', '/', dirname($request_uri)) == '/'
-			? '/' : str_replace('\\', '/', dirname($request_uri)) . '/';
+			$request_uri = substr((string) $request_uri, 0, - 1 - strlen((string) $_SERVER['QUERY_STRING']));
+		$config['root']	 = str_replace('\\', '/', dirname((string) $request_uri)) == '/'
+			? '/' : str_replace('\\', '/', dirname((string) $request_uri)) . '/';
 		unset($request_uri);
 	} else
 		$config['root'] = '/'; // CLI mode
@@ -1178,7 +1099,7 @@
 	// The scheme and domain. This is used to get the site's absolute URL (eg. for image identification links).
 	// If you use the CLI tools, it would be wise to override this setting.
 	$config['domain'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https://' : 'http://';
-	$config['domain'] .= isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+	$config['domain'] .= $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 	// If for some reason the folders and static HTML index files aren't in the current working direcotry,
 	// enter the directory path here. Otherwise, keep it false.
@@ -1287,7 +1208,7 @@
 	// 5. enable smart_build_helper (see below)
 	// 6. edit the strategies (see inc/functions.php for the builtin ones). You can use lambdas. I will test
 	//    various ones and include one that works best for me.
-	$config['generation_strategies'] = array();
+	$config['generation_strategies'] = [];
 	// Add a sane strategy. It forces to immediately generate a page user is about to land on. Otherwise,
 	// it has no opinion, so it needs a fallback strategy.
 	$config['generation_strategies'][] = 'strategy_sane';
@@ -1310,7 +1231,7 @@
 	$config['page_404'] = '/404.html';
 
 	// Extra controller entrypoints. Controller is used only by smart_build and advanced build.
-	$config['controller_entrypoints'] = array();
+	$config['controller_entrypoints'] = [];
 
 /*
  * ====================
@@ -1439,13 +1360,13 @@
 	// Probably best not to change this unless you are smart enough to figure out what you're doing. If you
 	// decide to change it, remember that it is impossible to redefinite/overwrite groups; you may only add
 	// new ones.
-	$config['mod']['groups'] = array(
-		10	=> 'Janitor',
-		20	=> 'Mod',
-		30	=> 'Admin',
-		// 98	=> 'God',
-		99	=> 'Disabled'
-	);
+	$config['mod']['groups'] = [
+     10	=> 'Janitor',
+     20	=> 'Mod',
+     30	=> 'Admin',
+     // 98	=> 'God',
+     99	=> 'Disabled',
+ ];
 
 	// If you add stuff to the above, you'll need to call this function immediately after.
 	define_groups();
@@ -1455,11 +1376,7 @@
 	// define_groups();
 
 	// Capcode permissions.
-	$config['mod']['capcode'] = array(
-		JANITOR		=> array('Janitor'),
-		MOD		=> array('Mod'),
-		ADMIN		=> true
-	);
+	$config['mod']['capcode'] = [JANITOR		=> ['Janitor'], MOD		=> ['Mod'], ADMIN		=> true];
 
 	// Example: Allow mods to post with "## Moderator" as well
 	// $config['mod']['capcode'][MOD][] = 'Moderator';
@@ -1615,26 +1532,19 @@
 	$config['pages_max'] = 10;
 
 	// Config editor permissions
-	$config['mod']['config'] = array();
+	$config['mod']['config'] = [];
 
 	// Disable the following configuration variables from being changed via ?/config. The following default
 	// banned variables are considered somewhat dangerous.
-	$config['mod']['config'][DISABLED] = array(
-		'mod>config',
-		'mod>config_editor_php',
-		'mod>groups',
-		'convert_args',
-		'db>password',
-	);
+	$config['mod']['config'][DISABLED] = ['mod>config', 'mod>config_editor_php', 'mod>groups', 'convert_args', 'db>password'];
 	
-	$config['mod']['config'][JANITOR] = array(
-		'!', // Allow editing ONLY the variables listed (in this case, nothing).
-	);
+	$config['mod']['config'][JANITOR] = ['!'];
 	
-	$config['mod']['config'][MOD] = array(
-		'!', // Allow editing ONLY the variables listed (plus that in $config['mod']['config'][JANITOR]).
-		'global_message',
-	);
+	$config['mod']['config'][MOD] = [
+     '!',
+     // Allow editing ONLY the variables listed (plus that in $config['mod']['config'][JANITOR]).
+     'global_message',
+ ];
 	
 	// Example: Disallow ADMIN from editing (and viewing) $config['db']['password'].
 	// $config['mod']['config'][ADMIN] = array(
@@ -1664,16 +1574,16 @@
  */
 
 	// Public post search settings
-	$config['search'] = array();
+	$config['search'] = [];
 
 	// Enable the search form
 	$config['search']['enable'] = false;
 
 	// Maximal number of queries per IP address per minutes
-	$config['search']['queries_per_minutes'] = Array(15, 2);
+	$config['search']['queries_per_minutes'] = [15, 2];
 
 	// Global maximal number of queries per minutes
-	$config['search']['queries_per_minutes_all'] = Array(50, 2);
+	$config['search']['queries_per_minutes_all'] = [50, 2];
 
 	// Limit of search results
 	$config['search']['search_limit'] = 100;
@@ -1729,7 +1639,7 @@
  * state. Please join #nntpchan on Rizon in order to peer with someone.
  */
 
-	$config['nntpchan'] = array();
+	$config['nntpchan'] = [];
 
 	// Enable NNTPChan integration
 	$config['nntpchan']['enabled'] = false;
@@ -1739,7 +1649,7 @@
 
 	// Global dispatch array. Add your boards to it to enable them. Please make
 	// sure that this setting is set in a global context.
-	$config['nntpchan']['dispatch'] = array(); // 'overchan.test' => 'test'
+	$config['nntpchan']['dispatch'] = []; // 'overchan.test' => 'test'
 
 	// Trusted peer - an IP address of your NNTPChan instance. This peer will have
 	// increased capabilities, eg.: will evade spamfilter.
@@ -1888,4 +1798,4 @@
 	$config['home_link'] = true;
 
 	//Empty board alias
-	$config['boards_alias'] = array();
+	$config['boards_alias'] = [];

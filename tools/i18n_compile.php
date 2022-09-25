@@ -10,15 +10,15 @@
  *      
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 // parse command line
-$opts = getopt('l:', Array('locale:'));
-$options = Array();
+$opts = getopt('l:', ['locale:']);
+$options = [];
 
-$options['locale'] = isset($opts['l']) ? $opts['l'] : (isset($opts['locale']) ? $opts['locale'] : false);
+$options['locale'] = $opts['l'] ?? $opts['locale'] ?? false;
 
-if ($options['locale'])	$locales = array($options['locale']);
+if ($options['locale'])	$locales = [$options['locale']];
 else			die("Error: no locales specified; use -l switch, eg. -l pl_PL\n");
 
 foreach ($locales as $loc) {

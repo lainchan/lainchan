@@ -22,11 +22,7 @@
 		// Build FAQ page
 		public static function homepage($settings) {
 			global $config;
-			return Element('themes/faq/index.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist(),
-			));
+			return Element('themes/faq/index.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist()]);
 		}
 	};
 	

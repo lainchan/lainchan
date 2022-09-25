@@ -64,5 +64,9 @@
         "ext-redis": "Allows the use of Redis for cache storage",
         "ext-memcached": "Allows the use of Memcached for cache storage",
         "ext-xcache": "Allows the use of XCache for cache storage"
+    },
+    "require-dev": {
+        "rector/rector": "^0.14.3",
+        "giorgiosironi/eris": "^0.13.0"
     }
 }

@@ -1,5 +1,5 @@
 <?php
-	$theme = Array();
+	$theme = [];
 	
 	// Theme name
 	$theme['name'] = 'Categories-Uboachan';
@@ -11,19 +11,11 @@ Requires $config[\'boards\'] and $config[\'categories\'].';
 	$theme['version'] = 'v0.2.1';
 	
 	// Theme configuration	
-	$theme['config'] = Array();
+	$theme['config'] = [];
 	
-	$theme['config'][] = Array(
-		'title' => 'Title',
-		'name' => 'title',
-		'type' => 'text'
-	);
+	$theme['config'][] = ['title' => 'Title', 'name' => 'title', 'type' => 'text'];
 	
-	$theme['config'][] = Array(
-		'title' => 'Slogan',
-		'name' => 'subtitle',
-		'type' => 'text'
-	);
+	$theme['config'][] = ['title' => 'Slogan', 'name' => 'subtitle', 'type' => 'text'];
 	
 	// Unique function name for building everything
 	$theme['build_function'] = 'categories_build';
@@ -34,8 +26,8 @@ Requires $config[\'boards\'] and $config[\'categories\'].';
 			global $config;
 			
 			if(!isset($config['boards']) || !isset($config['categories'])) {
-				return Array(false, '<h2>Prerequisites not met!</h2>' . 
-					'This theme requires $config[\'boards\'] and $config[\'categories\'] to be set.');
+				return [false, '<h2>Prerequisites not met!</h2>' . 
+					'This theme requires $config[\'boards\'] and $config[\'categories\'] to be set.'];
 			}
 		}
 	}

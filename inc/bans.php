@@ -4,7 +4,7 @@ use AwsumChan\IP\CIDR;
 
 class Bans {
 	static public function range_to_string($mask) {
-		list($ipstart, $ipend) = $mask;
+		[$ipstart, $ipend] = $mask;
 		
 		if (!isset($ipend) || $ipend === false) {
 			// Not a range. Single IP address.
@@ -12,7 +12,7 @@ class Bans {
 			return $ipstr;
 		}
 		
-		if (strlen($ipstart) != strlen($ipend))
+		if (strlen((string) $ipstart) != strlen((string) $ipend))
 			return '???'; // What the fuck are you doing, son?
 		
 		$range = CIDR::range_to_cidr(inet_ntop($ipstart), inet_ntop($ipend));
@@ -26,17 +26,17 @@ class Bans {
 		$cidr = new CIDR($mask);
 		$range = $cidr->getRange();
 		
-		return array(inet_pton($range[0]), inet_pton($range[1]));
+		return [inet_pton($range[0]), inet_pton($range[1])];
 	}
 	
 	public static function parse_time($str) {
 		if (empty($str))
 			return false;
 	
-		if (($time = @strtotime($str)) !== false)
+		if (($time = @strtotime((string) $str)) !== false)
 			return $time;
 	
-		if (!preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?mon?t?h?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', $str, $matches))
+		if (!preg_match('/^((\d+)\s?ye?a?r?s?)?\s?+((\d+)\s?mon?t?h?s?)?\s?+((\d+)\s?we?e?k?s?)?\s?+((\d+)\s?da?y?s?)?((\d+)\s?ho?u?r?s?)?\s?+((\d+)\s?mi?n?u?t?e?s?)?\s?+((\d+)\s?se?c?o?n?d?s?)?$/', (string) $str, $matches))
 			return false;
 	
 		$expire = 0;
@@ -77,9 +77,9 @@ class Bans {
 		$ipstart = false;
 		$ipend = false;
 		
-		if (preg_match('@^(\d{1,3}\.){1,3}([\d*]{1,3})?$@', $mask) && substr_count($mask, '*') == 1) {
+		if (preg_match('@^(\d{1,3}\.){1,3}([\d*]{1,3})?$@', (string) $mask) && substr_count((string) $mask, '*') == 1) {
 			// IPv4 wildcard mask
-			$parts = explode('.', $mask);
+			$parts = explode('.', (string) $mask);
 			$ipv4 = '';
 			foreach ($parts as $part) {
 				if ($part == '*') {
@@ -93,24 +93,24 @@ class Bans {
 				}
 				$ipv4 .= "$part.";
 			}
-		} elseif (preg_match('@^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/\d+$@', $mask)) {
-			list($ipv4, $bits) = explode('/', $mask);
+		} elseif (preg_match('@^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/\d+$@', (string) $mask)) {
+			[$ipv4, $bits] = explode('/', (string) $mask);
 			if ($bits > 32)
 				return false;
 			
-			list($ipstart, $ipend) = self::calc_cidr($mask);
-		} elseif (preg_match('@^[:a-z\d]+/\d+$@i', $mask)) {
-			list($ipv6, $bits) = explode('/', $mask);
+			[$ipstart, $ipend] = self::calc_cidr($mask);
+		} elseif (preg_match('@^[:a-z\d]+/\d+$@i', (string) $mask)) {
+			[$ipv6, $bits] = explode('/', (string) $mask);
 			if ($bits > 128)
 				return false;
 			
-			list($ipstart, $ipend) = self::calc_cidr($mask);
+			[$ipstart, $ipend] = self::calc_cidr($mask);
 		} else {
 			if (($ipstart = @inet_pton($mask)) === false)
 				return false;
 		}
 		
-		return array($ipstart, $ipend);
+		return [$ipstart, $ipend];
 	}
 	
 	static public function find($ip, $board = false, $get_mod_info = false) {
@@ -129,15 +129,15 @@ class Bans {
 		$query->bindValue(':ip', inet_pton($ip));
 		$query->execute() or error(db_error($query));
 		
-		$ban_list = array();
+		$ban_list = [];
 		
 		while ($ban = $query->fetch(PDO::FETCH_ASSOC)) {
 			if ($ban['expires'] && ($ban['seen'] || !$config['require_ban_view']) && $ban['expires'] < time()) {
 				self::delete($ban['id']);
 			} else {
 				if ($ban['post'])
-					$ban['post'] = json_decode($ban['post'], true);
-				$ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
+					$ban['post'] = json_decode((string) $ban['post'], true, 512, JSON_THROW_ON_ERROR);
+				$ban['mask'] = self::range_to_string([$ban['ipstart'], $ban['ipend']]);
 				$ban_list[] = $ban;
 			}
 		}
@@ -158,19 +158,19 @@ class Bans {
 		$end = end($bans);
 
                 foreach ($bans as &$ban) {
-                        $ban['mask'] = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
+                        $ban['mask'] = self::range_to_string([$ban['ipstart'], $ban['ipend']]);
 
 			$hide_message = false;
 			foreach ($hide_regexes as $regex) {
-				if(preg_match($regex, $ban['reason'])) {
+				if(preg_match($regex, (string) $ban['reason'])) {
 					$hide_message = true;
 					break;
 				}
 			}
 
 			if ($ban['post'] && !$hide_message) {
-				$post = json_decode($ban['post']);
-				$ban['message'] = isset($post->body) ? $post->body : 0;
+				$post = json_decode((string) $ban['post'], null, 512, JSON_THROW_ON_ERROR);
+				$ban['message'] = $post->body ?? 0;
 			}
 			unset($ban['ipstart'], $ban['ipend'], $ban['post'], $ban['creator']);
 
@@ -185,7 +185,7 @@ class Bans {
 				$ban['username'] = '?';				
 			}
 			if ($filter_ips || ($board_access !== false && !in_array($ban['board'], $board_access))) {
-				@list($ban['mask'], $subnet) = explode("/", $ban['mask']);
+				@[$ban['mask'], $subnet] = explode("/", (string) $ban['mask']);
 				$ban['mask'] = preg_split("/[\.:]/", $ban['mask']);
 				$ban['mask'] = array_slice($ban['mask'], 0, 2);
 				$ban['mask'] = implode(".", $ban['mask']);
@@ -196,7 +196,7 @@ class Bans {
 				$ban['masked'] = true;
 			}
 
-			$json = json_encode($ban);
+			$json = json_encode($ban, JSON_THROW_ON_ERROR);
 			$out ? fputs($out, $json) : print($json);
 
 			if ($ban['id'] != $end['id']) {
@@ -233,7 +233,7 @@ class Bans {
 			if ($boards !== false && !in_array($ban['board'], $boards))
 		                error($config['error']['noaccess']);
 			
-			$mask = self::range_to_string(array($ban['ipstart'], $ban['ipend']));
+			$mask = self::range_to_string([$ban['ipstart'], $ban['ipend']]);
 			
 			modLog("Removed ban #{$ban_id} for " .
 				(filter_var($mask, FILTER_VALIDATE_IP) !== false ? "<a href=\"?/IP/$mask\">$mask</a>" : $mask));
@@ -250,7 +250,7 @@ class Bans {
 		global $mod, $pdo, $board;
 		
 		if ($mod_id === false) {
-			$mod_id = isset($mod['id']) ? $mod['id'] : -1;
+			$mod_id = $mod['id'] ?? -1;
 		}
 				
 		$range = self::parse_range($mask);
@@ -292,7 +292,7 @@ class Bans {
 		
 		if ($post) {
 			$post['board'] = $board['uri'];
-			$query->bindValue(':post', json_encode($post));
+			$query->bindValue(':post', json_encode($post, JSON_THROW_ON_ERROR));
 		} else
 			$query->bindValue(':post', null, PDO::PARAM_NULL);
 		

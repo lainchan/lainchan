@@ -1,7 +1,7 @@
 <?php
 $dir = "banners/";
 $files = scandir($dir);
-$images = array_diff($files, array('.', '..'));
+$images = array_diff($files, ['.', '..']);
 $name = $images[array_rand($images)];
 $fp = fopen($dir . $name, 'rb');
 

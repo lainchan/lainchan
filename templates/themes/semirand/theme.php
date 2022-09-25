@@ -23,7 +23,7 @@
 			// Copy the generated board HTML to its place
 			file_write($settings['uri'] . '/index.html', $semirand->build());
 			file_write($settings['uri'] . '/semirand.js',
-				Element('themes/semirand/semirand.js', array()));
+				Element('themes/semirand/semirand.js', []));
 		}
 	}
 
@@ -48,7 +48,7 @@
 				error('Invalid configuration parameters.', true);
 			}
 
-			$settings['exclude']      = explode(' ', $settings['exclude']);
+			$settings['exclude']      = explode(' ', (string) $settings['exclude']);
 			$settings['thread_limit'] = intval($settings['thread_limit']);
 			$settings['random_count'] = intval($settings['random_count']);
 			$settings['recent_count'] = intval($settings['recent_count']);
@@ -101,10 +101,10 @@
 		private function shuffleThreads($threads) {
 			$random_count = $this->settings['random_count'];
 			$recent_count = $this->settings['recent_count'];
-			$total        = count($threads);
+			$total        = is_countable($threads) ? count($threads) : 0;
 
 			// Storage for threads that will be randomly interspersed
-			$shuffled = array();
+			$shuffled = [];
 
 			// Ratio of bumped / all threads
 			$topRatio = $recent_count / ($recent_count + $random_count);
@@ -148,9 +148,7 @@
 			}
 
 			// Count the number of omitted image replies
-			$omitted_img_count = count(array_filter($replies, function($p) {
-				return $p['files'] !== '';
-			}));
+			$omitted_img_count = count(array_filter($replies, fn($p) => $p['files'] !== ''));
 
 			// Set the corresponding omitted numbers on the thread
 			if (!empty($replies)) {
@@ -178,16 +176,16 @@
 			global $config;
 
 			$html     = '';
-			$overflow = array();
+			$overflow = [];
 
 			// Fetch threads from all boards and chomp the first 'n' posts, depending
 			// on the setting
 			$threads     = $this->shuffleThreads($this->fetchThreads());
-			$total_count = count($threads);
+			$total_count = is_countable($threads) ? count($threads) : 0;
 			// Top threads displayed on load
 			$top_threads = array_splice($threads, 0, $this->settings['thread_limit']);
 			// Number of processed threads by board
-			$counts      = array();
+			$counts      = [];
 
 			// Output threads up to the specified limit
 			foreach ($top_threads as $post) {
@@ -212,30 +210,14 @@
 				if ($board_page > 0) {
 					$page = $board_page + 1;
 				}
-				$overflow[] = array(
-					'id'    => $post['id'],
-					'board' => $post['board'],
-					'page'  => $page . '.html'
-				);
+				$overflow[] = ['id'    => $post['id'], 'board' => $post['board'], 'page'  => $page . '.html'];
 			}
 
-			$html .= '<script>var ukko_overflow = ' . json_encode($overflow) . '</script>';
+			$html .= '<script>var ukko_overflow = ' . json_encode($overflow, JSON_THROW_ON_ERROR) . '</script>';
 			$html .= '<script type="text/javascript" src="/'.$this->settings['uri'].'/semirand.js"></script>';
 
-			return Element('index.html', array(
-				'config'       => $config,
-				'board'        => array(
-					'dir' => $this->settings['uri'] . "/",
-					'url'      => $this->settings['uri'],
-					'title'    => $this->settings['title'],
-					'subtitle' => str_replace('%s', $this->settings['thread_limit'],
-						strval(min($this->settings['subtitle'], $total_count))),
-				),
-				'no_post_form' => true,
-				'body'         => $html,
-				'mod'          => $mod,
-				'boardlist'    => createBoardlist($mod),
-			));
+			return Element('index.html', ['config'       => $config, 'board'        => ['dir' => $this->settings['uri'] . "/", 'url'      => $this->settings['uri'], 'title'    => $this->settings['title'], 'subtitle' => str_replace('%s', $this->settings['thread_limit'],
+						strval(min($this->settings['subtitle'], $total_count)))], 'no_post_form' => true, 'body'         => $html, 'mod'          => $mod, 'boardlist'    => createBoardlist($mod)]);
 		}
 
 	};

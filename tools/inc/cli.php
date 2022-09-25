@@ -40,11 +40,6 @@ putenv('TINYBOARD_PATH=' . getcwd());
 
 require 'inc/bootstrap.php';
 
-$mod = Array(
-	'id' => -1,
-	'type' => ADMIN,
-	'username' => '?',
-	'boards' => Array('*')
-);
+$mod = ['id' => -1, 'type' => ADMIN, 'username' => '?', 'boards' => ['*']];
 
 

@@ -10,18 +10,18 @@
  *      
  */
 
-require dirname(__FILE__) . '/inc/cli.php';
+require __DIR__ . '/inc/cli.php';
 
 // parse command line
-$opts = getopt('l:', Array('locale:'));
-$options = Array();
+$opts = getopt('l:', ['locale:']);
+$options = [];
 
-$options['locale'] = isset($opts['l']) ? $opts['l'] : (isset($opts['locale']) ? $opts['locale'] : false);
+$options['locale'] = $opts['l'] ?? $opts['locale'] ?? false;
 
 $locales = glob("inc/locale/*");
 $locales = array_map("basename", $locales);
 
-if ($options['locale']) $locales = array($options['locale']);
+if ($options['locale']) $locales = [$options['locale']];
 
 
 foreach ($locales as $loc) {

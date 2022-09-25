@@ -17,7 +17,7 @@ class Filter {
 	}
 	
 	public function match($condition, $match) {
-		$condition = strtolower($condition);
+		$condition = strtolower((string) $condition);
 
 		$post = &$this->post;
 		
@@ -32,7 +32,7 @@ class Filter {
 								
 				// Filter out "flood" table entries which do not match this filter.
 				
-				$flood_check_matched = array();
+				$flood_check_matched = [];
 				
 				foreach ($this->flood_check as $flood_post) {
 					foreach ($match as $flood_match_arg) {
@@ -85,15 +85,15 @@ class Filter {
 				}
 				return $count >= $match;
 			case 'name':
-				return preg_match($match, $post['name']);
+				return preg_match($match, (string) $post['name']);
 			case 'trip':
 				return $match === $post['trip'];
 			case 'email':
-				return preg_match($match, $post['email']);
+				return preg_match($match, (string) $post['email']);
 			case 'subject':
-				return preg_match($match, $post['subject']);
+				return preg_match($match, (string) $post['subject']);
 			case 'body':
-				return preg_match($match, $post['body_nomarkup']);
+				return preg_match($match, (string) $post['body_nomarkup']);
 			case 'filehash':
 				return $match === $post['filehash'];
 			case 'filename':
@@ -101,7 +101,7 @@ class Filter {
 					return false;
 
 				foreach ($post['files'] as $file) {
-					if (preg_match($match, $file['filename'])) {
+					if (preg_match($match, (string) $file['filename'])) {
 						return true;
 					}
 				}
@@ -111,13 +111,13 @@ class Filter {
 					return false;
 
 				foreach ($post['files'] as $file) {
-					if (preg_match($match, $file['extension'])) {
+					if (preg_match($match, (string) $file['extension'])) {
 						return true;
 					}
 				}
 				return false;
 			case 'ip':
-				return preg_match($match, $_SERVER['REMOTE_ADDR']);
+				return preg_match($match, (string) $_SERVER['REMOTE_ADDR']);
 			case 'op':
 				return $post['op'] == $match;
 			case 'has_file':
@@ -132,9 +132,10 @@ class Filter {
 	}
 	
 	public function action() {
-		global $board;
+		$message = null;
+  global $board;
 
-		$this->add_note = isset($this->add_note) ? $this->add_note : false;
+		$this->add_note ??= false;
 		if ($this->add_note) {
 			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
 	                $query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
@@ -145,14 +146,14 @@ class Filter {
 		}				
 		if (isset ($this->action)) switch($this->action) {
 			case 'reject':
-				error(isset($this->message) ? $this->message : 'Posting blocked by filter.');
+				error($this->message ?? 'Posting blocked by filter.');
 			case 'ban':
 				if (!isset($this->reason))
 					error('The ban action requires a reason.');
 				
-				$this->expires = isset($this->expires) ? $this->expires : false;
-				$this->reject = isset($this->reject) ? $this->reject : true;
-				$this->all_boards = isset($this->all_boards) ? $this->all_boards : false;
+				$this->expires ??= false;
+				$this->reject ??= true;
+				$this->all_boards ??= false;
 				
 				Bans::new_ban($_SERVER['REMOTE_ADDR'], $this->reason, $this->expires, $this->all_boards ? false : $board['uri'], -1);
 
@@ -175,7 +176,7 @@ class Filter {
 		foreach ($this->condition as $condition => $value) {
 			if ($condition[0] == '!') {
 				$NOT = true;
-				$condition = substr($condition, 1);
+				$condition = substr((string) $condition, 1);
 			} else $NOT = false;
 			
 			if ($this->match($condition, $value) == $NOT)

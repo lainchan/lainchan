@@ -24,11 +24,7 @@
 		public static function htmlpage($settings) {
 			global $config;
 			
-			return Element('themes/staffapplication/staffapplication.html', Array(
-				'settings' => $settings,
-				'config' => $config,
-				'boardlist' => createBoardlist()
-			));
+			return Element('themes/staffapplication/staffapplication.html', ['settings' => $settings, 'config' => $config, 'boardlist' => createBoardlist()]);
 		}
 		public static function phppage($settings) {
 			global $config;
