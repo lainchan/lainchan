@@ -183,7 +183,7 @@ foreach ($pages as $key => $callback) {
 	if (is_string($callback) && preg_match('/^secure /', $callback))
 		$key .= '(/(?P<token>[a-f0-9]{8}))?';
 	$key = str_replace('\%b', '?P<board>' . sprintf(substr((string) $config['board_path'], 0, -1), $config['board_regex']), $key);
-	$new_pages[@$key[0] == '!' ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!u'] = $callback;
+	$new_pages[(!empty($key) and $key[0] == '!') ? $key : '!^' . $key . '(?:&[^&=]+=[^&]*)*$!u'] = $callback;
 }
 $pages = $new_pages;
 
@@ -228,6 +228,11 @@ foreach ($pages as $uri => $handler) {
 			$debug['time']['parse_mod_req'] = '~' . round((microtime(true) - $parse_start_time) * 1000, 2) . 'ms';
 		}
 		
+		if (is_array($matches)) {
+                        // we don't want to call named parameters (PHP 8)
+                        $matches = array_values($matches);
+                }
+
 		if (is_string($handler)) {
 			if ($handler[0] == ':') {
 				header('Location: ' . substr($handler, 1),  true, $config['redirect_http']);
