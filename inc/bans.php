@@ -136,7 +136,7 @@ class Bans {
 				self::delete($ban['id']);
 			} else {
 				if ($ban['post'])
-					$ban['post'] = json_decode((string) $ban['post'], true, 512, JSON_THROW_ON_ERROR);
+					$ban['post'] = json_decode((string) $ban['post'], true, 512);
 				$ban['mask'] = self::range_to_string([$ban['ipstart'], $ban['ipend']]);
 				$ban_list[] = $ban;
 			}
