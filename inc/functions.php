@@ -1774,7 +1774,7 @@ function checkDNSBL() {
 		if (!$ip = DNS($lookup))
 			continue; // not in list
 
-		$blacklist_name = isset($blacklist[2]) ? $blacklist[2] : $blacklist[0];
+		$blacklist_name = $blacklist[2] ?? $blacklist[0];
 
 		if (!isset($blacklist[1])) {
 			// If you're listed at all, you're blocked.
@@ -1916,7 +1916,7 @@ function extract_modifiers($body) {
 	
 	if (preg_match_all('@<tinyboard ([\w\s]+)>(.*?)</tinyboard>@us', $body, $matches, PREG_SET_ORDER)) {
 		foreach ($matches as $match) {
-			if (preg_match('/^escape /', $match[1]))
+			if (str_starts_with($match[1], 'escape '))
 				continue;
 			$modifiers[$match[1]] = html_entity_decode($match[2]);
 		}
@@ -2644,7 +2644,7 @@ function shell_exec_error($command, $suppress_stdout = false) {
  */
 function diceRoller($post) {
 	global $config;
-	if(strpos(strtolower($post->email), 'dice%20') === 0) {
+	if(str_starts_with(strtolower($post->email), 'dice%20')) {
 		$dicestr = str_split(substr($post->email, strlen('dice%20')));
 
 		// Get params

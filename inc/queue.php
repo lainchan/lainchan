@@ -10,7 +10,8 @@ class Queue {
     }
   }
 
-  function push($str) { global $config;
+  function push($str): static
+  { global $config;
     if ($config['queue']['enabled'] == 'fs') {
       $this->lock->get_ex();
       file_put_contents($this->key.microtime(true), $str);
@@ -45,5 +46,5 @@ class Queue {
 $queues = array();
 
 function get_queue($name) { global $queues;
-  return $queues[$name] = isset ($queues[$name]) ? $queues[$name] : new Queue($name);
+  return $queues[$name] = $queues[$name] ?? new Queue($name);
 }

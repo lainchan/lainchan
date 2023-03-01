@@ -134,7 +134,7 @@ class Filter {
 	public function action() {
 		global $board;
 
-		$this->add_note = isset($this->add_note) ? $this->add_note : false;
+		$this->add_note = $this->add_note ?? false;
 		if ($this->add_note) {
 			$query = prepare('INSERT INTO ``ip_notes`` VALUES (NULL, :ip, :mod, :time, :body)');
 	                $query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
@@ -145,14 +145,14 @@ class Filter {
 		}				
 		if (isset ($this->action)) switch($this->action) {
 			case 'reject':
-				error(isset($this->message) ? $this->message : 'Posting blocked by filter.');
+				error($this->message ?? 'Posting blocked by filter.');
 			case 'ban':
 				if (!isset($this->reason))
 					error('The ban action requires a reason.');
 				
-				$this->expires = isset($this->expires) ? $this->expires : false;
-				$this->reject = isset($this->reject) ? $this->reject : true;
-				$this->all_boards = isset($this->all_boards) ? $this->all_boards : false;
+				$this->expires = $this->expires ?? false;
+				$this->reject = $this->reject ?? true;
+				$this->all_boards = $this->all_boards ?? false;
 				
 				Bans::new_ban($_SERVER['REMOTE_ADDR'], $this->reason, $this->expires, $this->all_boards ? false : $board['uri'], -1);
 
@@ -210,7 +210,7 @@ function purge_flood_table() {
 function do_filters(array $post) {
 	global $config;
 	
-	if (!isset($config['filters']) || empty($config['filters']))
+	if (empty($config['filters']))
 		return;
 	
 	foreach ($config['filters'] as $filter) {

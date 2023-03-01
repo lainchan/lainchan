@@ -364,8 +364,8 @@ class ImageConvert extends ImageBase {
 					$this->height,
 					escapeshellarg($this->temp)))) || !file_exists($this->temp)) {
 
-					if (strpos($error, "known incorrect sRGB profile") === false &&
-                                            strpos($error, "iCCP: Not recognizing known sRGB profile that has been edited") === false) {
+					if (!str_contains($error, "known incorrect sRGB profile") &&
+                        !str_contains($error, "iCCP: Not recognizing known sRGB profile that has been edited")) {
 						$this->destroy();
 						error(_('Failed to resize image!')." "._('Details: ').nl2br(htmlspecialchars($error)), null, array('convert_error' => $error));
 					}

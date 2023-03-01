@@ -113,7 +113,7 @@ function pm_snippet($body, $len=null) {
     	$body_with_spoiler_tags = strip_tags($body,'<span>');
 
 	// Check for spoiler tags 
-	$spoiler = preg_match("/spoiler/", $body_with_spoiler_tags);
+	$spoiler = str_contains($body_with_spoiler_tags, "spoiler");
 	
 	// Strip tags
 	$body = strip_tags($body);
@@ -262,9 +262,7 @@ function bidi_cleanup($data) {
 		}
 	
 		# now add some pops if your stack is bigger than 0
-		for ($i=0; $i<$stack; $i++){
-			$data .= "\xE2\x80\xAC";
-		}
+		$data .= str_repeat("\xE2\x80\xAC", $stack);
 	
 		return $data;
 	}
@@ -419,5 +417,5 @@ class Thread {
 		
 		return $built;
 	}
-};
+}
 
