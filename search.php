@@ -8,14 +8,10 @@
 	$queries_per_minutes = $config['search']['queries_per_minutes'];
 	$queries_per_minutes_all = $config['search']['queries_per_minutes_all'];
 	$search_limit = $config['search']['search_limit'];
+
+	$boards = $config['search']['boards'] ?? listBoards(TRUE);
 	
-	if (isset($config['search']['boards'])) {
-		$boards = $config['search']['boards'];
-	} else {
-		$boards = listBoards(TRUE);
-	}
-	
-	$body = Element('search_form.html', Array('boards' => $boards, 'board' => isset($_GET['board']) ? $_GET['board'] : false, 'search' => isset($_GET['search']) ? str_replace('"', '&quot;', utf8tohtml($_GET['search'])) : false));
+	$body = Element('search_form.html', Array('boards' => $boards, 'board' => $_GET['board'] ?? false, 'search' => isset($_GET['search']) ? str_replace('"', '&quot;', utf8tohtml($_GET['search'])) : false));
 	
 	if(isset($_GET['search']) && !empty($_GET['search']) && isset($_GET['board']) && in_array($_GET['board'], $boards)) {		
 		$phrase = $_GET['search'];
@@ -55,7 +51,7 @@
 		function search_filters($m) {
 			global $filters;
 			$name = $m[2];
-			$value = isset($m[4]) ? $m[4] : $m[3];
+			$value = $m[4] ?? $m[3];
 			
 			if(!in_array($name, array('id', 'thread', 'subject', 'name'))) {
 				// unknown filter
