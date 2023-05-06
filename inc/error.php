@@ -84,7 +84,7 @@ function error($message, $priority = true, $debug_stuff = false) {
 			'config' => $config,
 			'message' => $message,
 			'mod' => $mod,
-			'board' => isset($board) ? $board : false,
+			'board' => $board ?? false,
 			'debug' => str_replace("\n", '&#10;', utf8tohtml(print_r($debug_stuff, true)))
 		))
 	)));
