@@ -1,12 +1,12 @@
 html, body
 {
-	height: 90%!important;
+	height: 100%!important;
 }
 div.ban 
 {
 	width: 80%!important;
 	max-width: 80%!important;
-	height: 100%!important;
+	height: 80%!important;
 }
 iframe
 {
