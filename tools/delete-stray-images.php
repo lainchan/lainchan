@@ -18,17 +18,33 @@ foreach ($boards as $board) {
 	
 	openBoard($board['uri']);
 	
-	$query = query(sprintf("SELECT `file`, `thumb` FROM ``posts_%s`` WHERE `file` IS NOT NULL", $board['uri']));
+	$query = query(sprintf("SELECT `files` FROM ``posts_%s`` WHERE `files` IS NOT NULL", $board['uri']));
 	$valid_src = array();
 	$valid_thumb = array();
-	
-	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
-		$valid_src[] = $post['file'];
-		$valid_thumb[] = $post['thumb'];
+
+	if (! $query) {
+		exit('Could not get results from the database' . PHP_EOL);
 	}
 	
-	$files_src = array_map('basename', glob($board['dir'] . $config['dir']['img'] . '*'));
-	$files_thumb = array_map('basename', glob($board['dir'] . $config['dir']['thumb'] . '*'));
+	while ($post = $query->fetch(PDO::FETCH_ASSOC)) {
+		$images = json_decode($post['files'], true);
+
+		if (! $images) {
+			$error = json_last_error_msg() ?: 'Unknown error occurred';
+
+			exit("Failed to decode JSON: $error" . PHP_EOL);
+		}
+
+		foreach ($images as $image) {
+			$valid_src[] = $image['file'];
+			$valid_thumb[] = $image['thumb'];
+		}
+	}
+
+	$dir = $board['uri'] . DIRECTORY_SEPARATOR;
+	
+	$files_src = array_map('basename', glob($dir . $config['dir']['img'] . '*'));
+	$files_thumb = array_map('basename', glob($dir . $config['dir']['thumb'] . '*'));
 	
 	$stray_src = array_diff($files_src, $valid_src);
 	$stray_thumb = array_diff($files_thumb, $valid_thumb);
@@ -40,8 +56,8 @@ foreach ($boards as $board) {
 	
 	foreach ($stray_src as $src) {
 		$stats['deleted']++;
-		$stats['size'] = filesize($board['dir'] . $config['dir']['img'] . $src);
-		if (!file_unlink($board['dir'] . $config['dir']['img'] . $src)) {
+		$stats['size'] = filesize($dir . $config['dir']['img'] . $src);
+		if (!file_unlink($dir . $config['dir']['img'] . $src)) {
 			$er = error_get_last();
 			die("error: " . $er['message'] . "\n");
 		}
@@ -49,8 +65,8 @@ foreach ($boards as $board) {
 		
 	foreach ($stray_thumb as $thumb) {
 		$stats['deleted']++;
-		$stats['size'] = filesize($board['dir'] . $config['dir']['thumb'] . $thumb);
-		if (!file_unlink($board['dir'] . $config['dir']['thumb'] . $thumb)) {
+		$stats['size'] = filesize($dir . $config['dir']['thumb'] . $thumb);
+		if (!file_unlink($dir . $config['dir']['thumb'] . $thumb)) {
 			$er = error_get_last();
 			die("error: " . $er['message'] . "\n");
 		}
