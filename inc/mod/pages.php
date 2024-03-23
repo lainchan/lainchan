@@ -111,47 +111,29 @@ function mod_dashboard() {
 		if (!$config['version'])
 			error(_('Could not find current version! (Check .installed)'));
 		
+		$latest = false;
+
 		if (isset($_COOKIE['update'])) {
 			$latest = unserialize($_COOKIE['update']);
 		} else {
-			$ctx = stream_context_create(array('http' => array('timeout' => 5)));
-			if ($code = @file_get_contents('http://engine.vichan.net/version.txt', 0, $ctx)) {
-				$ver = strtok($code, "\n");
-				
-				if (preg_match('@^// v(\d+)\.(\d+)\.(\d+)\s*?$@', $ver, $matches)) {
-					$latest = array(
-						'massive' => $matches[1],
-						'major' => $matches[2],
-						'minor' => $matches[3]
-					);
-					if (preg_match('/(\d+)\.(\d)\.(\d+)(-dev.+)?$/', $config['version'], $matches)) {
-						$current = array(
-							'massive' => (int) $matches[1],
-							'major' => (int) $matches[2],
-							'minor' => (int) $matches[3]
-						);
-						if (isset($m[4])) { 
-							// Development versions are always ahead in the versioning numbers
-							$current['minor'] --;
-						}
-						// Check if it's newer
-						if (!(	$latest['massive'] > $current['massive'] ||
-							$latest['major'] > $current['major'] ||
-								($latest['massive'] == $current['massive'] &&
-									$latest['major'] == $current['major'] &&
-									$latest['minor'] > $current['minor']
-								)))
-							$latest = false;
-					} else {
+			$response = getLatestVersionResponse();
+
+			if ($response) {
+				$currentVersion = $config['version'];
+				$latestVersion  = getVersionFromResponse($response);
+
+				if ($latestVersion) {
+					$latest  = getNumbersFromVersion($latestVersion);
+					$current = getNumbersFromVersion($currentVersion);
+
+					if (stripos($latestVersion, 'dev') !== false) {
+						$current['minor']--;
+					}
+
+					if (! version_compare($latestVersion, $currentVersion, '>')) {
 						$latest = false;
 					}
-				} else {
-					// Couldn't get latest version
-					$latest = false;
 				}
-			} else {
-				// Couldn't get latest version
-				$latest = false;
 			}
 	
 			setcookie('update', serialize($latest), time() + $config['check_updates_time'], $config['cookies']['jail'] ? $config['cookies']['path'] : '/', null, !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off', true);
