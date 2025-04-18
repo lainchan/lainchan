@@ -54,4 +54,4 @@ if (extension_loaded('imagick')) {
 }
 benchmark('convert');
 benchmark('gm');
-becnhmark('convert+gifsicle');
+benchmark('convert+gifsicle');
