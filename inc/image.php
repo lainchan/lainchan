@@ -451,7 +451,7 @@ class ImagePNG extends ImageBase {
 	}
 	public function to($src) {
 		global $config;
-		imagepng($this->image, $src);
+		imagepng($this->image, $src, 6); // Save PNG w/ compression level 6
 	}
 	public function resize() {
 		$this->GD_create();
@@ -482,7 +482,7 @@ class ImageJPG extends ImageBase {
 		$this->image = @imagecreatefromjpeg($this->src);
 	}
 	public function to($src) {
-		imagejpeg($this->image, $src);
+		imagejpeg($this->image, $src, 80); // Save JPEG compression to 80
 	}
 }
 class ImageJPEG extends ImageJPG {
