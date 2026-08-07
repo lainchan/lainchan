@@ -55,6 +55,20 @@
 					} else {
 						event.allDay = false;
 					}
+
+					var _url = new URL(event.url, window.location.href);
+					var _scheme = _url.protocol.toLowerCase();
+
+					// Replace stored javascript/data URI attempts
+					if(_scheme === 'javascript:' || _scheme === 'data:') {
+						event.url = "#removed";
+					}
+
+					// Only accept #a-zA-Z to avoid CSS injection.
+					if (/^[#a-zA-Z]+$/.test(event.color) == false) {
+						event.color = "#removed";
+					}
+
 					element.find('.fc-title').append("<br/>" + event.description);
 				        element.css('background-color',event.color);	
 				},

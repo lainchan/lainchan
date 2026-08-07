@@ -51,7 +51,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 	} elseif ($method == 'GET') {
 		// Method is GET
 		$query = query("SELECT * FROM calendar_events ORDER BY id") or error(db_error());
-		 echo json_encode($query->fetchAll(PDO::FETCH_ASSOC), JSON_THROW_ON_ERROR);
+
+		header('Content-Type: application/json; charset=utf-8');
+		header('X-Content-Type-Options: nosniff');
+
+		echo json_encode($query->fetchAll(PDO::FETCH_ASSOC), JSON_THROW_ON_ERROR);
 	}
 
 ?>
