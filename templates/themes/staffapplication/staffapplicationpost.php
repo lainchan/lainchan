@@ -23,13 +23,19 @@ if (isset ($_POST["antispam"])){
 		$message = wordwrap($message, 70, "\r\n");
 		
 		$source = $emailcheck ? $email : $to;
-		$headers = 'From: ' . $source . "\r\n" .
-			    'Reply-To: ' . $source . "\r\n" .
+
+		if(filter_var($source, FILTER_VALIDATE_EMAIL) && !preg_match('/[\r\n]/', $source)) {
+			$headers = 'From: ' . $source . "\r\n" .
+				'Reply-To: ' . $source . "\r\n" .
 				'X-Mailer: PHP/' . phpversion();
-		$sent = mail($to, $subject, $message, $headers);
-		$sentmessage = $sent ? "was submitted successfully.</p>\r\n" : "was unable to be submitted.</p>\r\n";
-		$displaymessage = "<p style=\"text-align:center;\"> Your staff application " . $sentmessage; 
-		}	
+			$sent = mail($to, $subject, $message, $headers);
+			$sentmessage = $sent ? "was submitted successfully.</p>\r\n" : "was unable to be submitted.</p>\r\n";
+			$displaymessage = "<p style=\"text-align:center;\"> Your staff application " . $sentmessage; 
+		}
+		else {
+			$displaymessage = "<p style=\"text-align: center;\">INVALID EMAIL ADDRESS</p>";
+		}
+	}	
 
 	}
 	else
